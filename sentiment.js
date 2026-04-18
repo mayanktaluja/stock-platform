@@ -23,8 +23,9 @@
  */
 
 import crypto from "crypto";
-import { readFileSync, writeFileSync, existsSync } from "fs";
-import path from "path";
+import { readFileSync, writeFileSync, existsSync, renameSync } from "fs";
+import { tmpdir } from "os";
+import path, { join } from "path";
 import { fileURLToPath } from "url";
 import OpenAI from "openai";
 import { withOpenAIRetry } from "./macroRegime.js";
@@ -110,7 +111,9 @@ function flushCacheToDisk() {
       obj[k] = v;
       alive++;
     }
-    writeFileSync(SENTIMENT_CACHE_PATH, JSON.stringify(obj), "utf-8");
+    const tmp = join(tmpdir(), `.sentiment-cache-${process.pid}.json`);
+    writeFileSync(tmp, JSON.stringify(obj), "utf-8");
+    renameSync(tmp, SENTIMENT_CACHE_PATH);
     // Don't log every write — too noisy. Only log on first persist after restart.
   } catch (err) {
     console.warn(`[SENTIMENT] Failed to flush disk cache: ${err.message}`);
