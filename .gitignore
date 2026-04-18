@@ -1,0 +1,28 @@
+# Secrets / environment
+.env
+.env.local
+.env.*.local
+.vercel
+
+# Dependencies
+node_modules/
+
+# Local runtime state (rebuilt on restart / ephemeral on Vercel)
+.sentiment-cache.json
+.paper-trades.json
+.watchlist.json
+
+# User data — contains real portfolio holdings
+portfolio.json
+
+# OS / editor cruft
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Logs + temp output
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log

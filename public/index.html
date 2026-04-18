@@ -1,0 +1,2361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StarBhai · Indian Stock Intelligence</title>
+  <meta name="description" content="Professional Indian stock analysis platform — technical signals, fundamentals, macro regime awareness, and forward-return tracking.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fbbf24' d='M12 2L14.6 9H22L16 13.5L18.5 21L12 16.5L5.5 21L8 13.5L2 9H9.4z'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* StarBhai design tokens — softened from the previous "neon trading
+       * terminal" look toward a more analyst-grade Bloomberg/Refinitiv feel.
+       * Borders are rgba so they sit gently on top of card backgrounds, radii
+       * are bigger, and the green/red palette is slightly desaturated. */
+      --bg-primary: #0a0e17;
+      --bg-secondary: #111827;
+      --bg-card: #161c2a;
+      --bg-card-hover: #1c2333;
+      --bg-input: #151a28;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-soft: rgba(255, 255, 255, 0.05);
+      --border-focus: rgba(251, 191, 36, 0.5);
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --text-faint: #64748b;
+      --green: #34d399;
+      --green-soft: #6ee7b7;
+      --green-bg: rgba(52, 211, 153, 0.1);
+      --green-border: rgba(52, 211, 153, 0.28);
+      --red: #f87171;
+      --red-soft: #fca5a5;
+      --red-bg: rgba(248, 113, 113, 0.1);
+      --red-border: rgba(248, 113, 113, 0.28);
+      --blue: #60a5fa;
+      --blue-bg: rgba(96, 165, 250, 0.1);
+      --yellow: #fbbf24;
+      --yellow-bg: rgba(251, 191, 36, 0.1);
+      --gold: #fbbf24;
+      --gold-deep: #f59e0b;
+      --purple: #a78bfa;
+      --orange: #fb923c;
+      --cyan: #22d3ee;
+      --gradient-green: linear-gradient(135deg, #34d399, #059669);
+      --gradient-red: linear-gradient(135deg, #f87171, #dc2626);
+      --gradient-blue: linear-gradient(135deg, #60a5fa, #2563eb);
+      --gradient-gold: linear-gradient(135deg, #fbbf24, #f59e0b);
+      --card-radius: 14px;
+      --chip-radius: 8px;
+      --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.04);
+      --card-gradient: linear-gradient(180deg, rgba(255,255,255,0.025) 0%, transparent 100%);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+    /* Header */
+    .header {
+      background: #0d1117;
+      border-bottom: 1px solid #1e2736;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0 28px;
+    }
+
+    .header-inner {
+      max-width: 1600px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 58px;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 19px;
+      letter-spacing: -0.3px;
+      white-space: nowrap;
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      font-weight: 900;
+      color: #1a1207;
+      box-shadow: 0 4px 14px rgba(251, 191, 36, 0.25);
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-center {
+      flex: 1;
+      max-width: 600px;
+    }
+
+    .header-search {
+      width: 100%;
+      padding: 9px 16px 9px 40px;
+      background: #151c2a;
+      border: 1px solid #2a3548;
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .header-search:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+    }
+
+    .header-search::placeholder { color: #3d5068; }
+
+    .header-search-wrap {
+      position: relative;
+    }
+
+    .header-search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: #3d5068;
+      pointer-events: none;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      white-space: nowrap;
+    }
+
+    .market-status-pill {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .market-status-pill.open {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: var(--green);
+    }
+
+    .market-status-pill.closed {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: #f87171;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .status-dot.open { background: var(--green); animation: pulse 2s infinite; }
+    .status-dot.closed { background: #f87171; }
+
+    .header-clock {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .header-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .header-date {
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+      margin-top: 1px;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Search */
+    .search-section {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .search-container {
+      position: relative;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 16px 20px 16px 52px;
+      background: var(--bg-input);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      color: var(--text-primary);
+      font-size: 16px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+    }
+
+    .search-input::placeholder { color: var(--text-muted); }
+
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: var(--text-muted);
+    }
+
+    .search-results {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+      z-index: 50;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    .search-results.active { display: block; }
+
+    .search-result-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.15s;
+      border-bottom: 1px solid rgba(42, 48, 64, 0.5);
+    }
+
+    .search-result-item:hover { background: var(--bg-card-hover); }
+    .search-result-item:last-child { border-bottom: none; }
+
+    .search-result-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .search-result-symbol {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-secondary);
+      background: var(--bg-input);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .search-result-sector {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Market Ticker */
+    .market-ticker {
+      background: #0d1117;
+      border-bottom: 1px solid #1a2233;
+      padding: 0 28px;
+      overflow: hidden;
+    }
+
+    .ticker-inner {
+      max-width: 1600px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0;
+      align-items: stretch;
+      height: 40px;
+    }
+
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+      padding: 0 24px 0 0;
+      margin-right: 24px;
+      border-right: 1px solid #1e2736;
+    }
+
+    .ticker-item:last-child { border-right: none; }
+
+    .ticker-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .ticker-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .ticker-change {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .ticker-sep {
+      color: #1e2736;
+      margin: 0 8px;
+    }
+
+    .positive { color: var(--green); }
+    .negative { color: var(--red); }
+    .positive-bg { background: var(--green-bg); color: var(--green); }
+    .negative-bg { background: var(--red-bg); color: var(--red); }
+
+    /* Main Content */
+    .main-content {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 24px 40px;
+    }
+
+    /* Stock Detail View */
+    .stock-detail {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .stock-detail.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .stock-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 24px 0;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .stock-title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stock-name {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .stock-symbol-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .stock-price-block {
+      text-align: right;
+    }
+
+    .stock-current-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .stock-price-change {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* Recommendation Banner */
+    .recommendation-banner {
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .rec-strong-buy { background: linear-gradient(135deg, rgba(16,185,129,0.15) 0%, rgba(5,150,105,0.08) 100%); border: 1px solid var(--green-border); }
+    .rec-buy { background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(5,150,105,0.05) 100%); border: 1px solid rgba(16,185,129,0.2); }
+    .rec-weak-buy { background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(16,185,129,0.05) 100%); border: 1px solid rgba(59,130,246,0.2); }
+    .rec-hold { background: linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(217,119,6,0.05) 100%); border: 1px solid rgba(245,158,11,0.2); }
+    .rec-weak-sell { background: linear-gradient(135deg, rgba(249,115,22,0.1) 0%, rgba(239,68,68,0.05) 100%); border: 1px solid rgba(249,115,22,0.2); }
+    .rec-sell { background: linear-gradient(135deg, rgba(239,68,68,0.1) 0%, rgba(220,38,38,0.05) 100%); border: 1px solid rgba(239,68,68,0.2); }
+    .rec-strong-sell { background: linear-gradient(135deg, rgba(239,68,68,0.15) 0%, rgba(220,38,38,0.08) 100%); border: 1px solid var(--red-border); }
+
+    .rec-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .rec-badge {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .rec-score {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .rec-action {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .rec-urgency {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .rec-reasoning {
+      margin-top: 16px;
+      padding: 16px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    .rec-reasoning-title {
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Score Gauge */
+    .score-gauge {
+      width: 100%;
+      height: 8px;
+      background: var(--bg-input);
+      border-radius: 4px;
+      margin-top: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .score-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s ease;
+    }
+
+    .score-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Grid layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 1024px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .stock-header { flex-direction: column; }
+      .stock-price-block { text-align: left; }
+    }
+
+    /* ──────────────────────────────────────────────────────────────
+     * MOBILE RESPONSIVE — fixes for screens ≤ 480px (phones)
+     *
+     * Problems reported by users:
+     *   • SENSEX and BANK NIFTY numbers are invisible (ticker overflow)
+     *   • Tabs are cut off (can't reach Small-Cap, Fundamental, Track Record)
+     *   • Clock/date area disappears
+     *   • Track Record table columns overflow
+     *   • Portfolio cards overflow their min-width
+     * ──────────────────────────────────────────────────────────── */
+
+    @media (max-width: 480px) {
+      /* ─── Header ─── */
+      .header { padding: 0 12px; }
+      .header-inner { height: 48px; gap: 10px; }
+      .logo { font-size: 16px; gap: 8px; }
+      .logo-icon { width: 28px; height: 28px; font-size: 14px; }
+      /* Hide clock on mobile — the ticker already shows market status */
+      .header-clock { display: none; }
+      .market-status-pill { padding: 4px 8px; font-size: 10px; }
+      .header-search { font-size: 13px; padding: 7px 14px 7px 34px; }
+      .header-search-wrap { max-width: 120px; }
+
+      /* ─── Market Ticker: horizontal scroll so SENSEX/BANK NIFTY are reachable ─── */
+      .market-ticker {
+        overflow-x: auto !important;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 12px;
+      }
+      .ticker-inner {
+        min-width: max-content;
+      }
+      .ticker-item {
+        padding: 0 14px 0 0;
+        margin-right: 14px;
+        gap: 6px;
+      }
+      .ticker-name { font-size: 10px; }
+      .ticker-price { font-size: 12px; }
+      .ticker-change { font-size: 10px; padding: 2px 6px; }
+
+      /* ─── Tab bar: horizontal scroll so all 6 tabs are accessible ─── */
+      .tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+        scrollbar-width: none; /* Firefox */
+        flex-wrap: nowrap;
+      }
+      .tabs::-webkit-scrollbar { display: none; }
+      .tab {
+        padding: 8px 14px;
+        font-size: 12px;
+        flex-shrink: 0;
+        min-width: max-content;
+      }
+
+      /* ─── Main content padding ─── */
+      .main-content { padding: 0 12px; }
+
+      /* ─── Macro regime banner ─── */
+      .macro-banner {
+        margin-left: -12px;
+        margin-right: -12px;
+        border-radius: 0;
+        padding: 12px 14px;
+      }
+      .macro-banner-header { flex-direction: column; gap: 6px; }
+      .macro-banner-title { font-size: 14px; }
+      .macro-banner-meta { font-size: 11px; }
+      .macro-sector-chips { gap: 4px; }
+      .macro-sector-chip { font-size: 10px; padding: 3px 7px; }
+      .macro-banner-footer { font-size: 10px; line-height: 1.5; }
+
+      /* ─── Scanner cards: single column, full width ─── */
+      .stock-cards {
+        grid-template-columns: 1fr !important;
+      }
+      .stock-card {
+        padding: 16px;
+      }
+      .stock-card-name { max-width: 180px; font-size: 14px; }
+      .stock-card-price { font-size: 16px; }
+      .stock-card-metrics { gap: 8px; }
+      .metric-label { font-size: 10px; }
+      .metric-value { font-size: 12px; }
+
+      /* ─── Section headers ─── */
+      .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .section-name { font-size: 15px; }
+      .section-desc { font-size: 11px; }
+
+      /* ─── Portfolio cards: single column ─── */
+      .portfolio-cards {
+        grid-template-columns: 1fr !important;
+      }
+
+      /* ─── Stock Detail page ─── */
+      .stock-detail .grid-3 { grid-template-columns: 1fr !important; }
+      .stock-detail .grid-4 { grid-template-columns: repeat(2, 1fr) !important; }
+      .rec-header { flex-direction: column; gap: 8px; }
+      .rec-badge { font-size: 26px; }
+      .rec-score { font-size: 12px; padding: 6px 12px; }
+      .indicator-row { gap: 6px; }
+      .indicator-name { font-size: 11px; min-width: 70px; }
+      .indicator-bar-container { min-width: 40px; }
+
+      /* Intraday / Mid-Term info cards stack */
+      .info-card { padding: 14px; }
+      .info-card-title { font-size: 14px; }
+      .info-card-detail { font-size: 11px; }
+
+      /* ─── Track Record ─── */
+      /* The 7-column grid is unreadable on mobile. Switch to a vertical
+         card layout where each trade is a stacked block, not a table row. */
+      #trackHistoryTable > div:first-child {
+        /* Hide the column header row on mobile */
+        display: none !important;
+      }
+      #trackHistoryTable > div:nth-child(2) > div {
+        /* Override the 7-column grid on each trade row */
+        grid-template-columns: 1fr 1fr !important;
+        gap: 6px 12px !important;
+        padding: 12px !important;
+      }
+
+      /* ─── Refresh controls ─── */
+      .refresh-controls { flex-wrap: wrap; gap: 8px; }
+      .refresh-select { font-size: 11px; padding: 5px 8px; }
+      .refresh-btn { font-size: 11px; padding: 6px 12px; }
+
+      /* ─── Tooltip: full-width on mobile ─── */
+      #starbhaiTooltip {
+        max-width: calc(100vw - 24px) !important;
+        left: 12px !important;
+        right: 12px !important;
+      }
+
+      /* ─── Disclaimer ─── */
+      .disclaimer { font-size: 10px; padding: 14px 12px; }
+    }
+
+    /* Tablet: slightly wider but still constrained */
+    @media (max-width: 768px) and (min-width: 481px) {
+      .header-clock { display: none; }
+      .market-ticker { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .ticker-inner { min-width: max-content; }
+      .tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; }
+      .tabs::-webkit-scrollbar { display: none; }
+      .tab { flex-shrink: 0; min-width: max-content; }
+      .stock-cards { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+      .portfolio-cards { grid-template-columns: 1fr; }
+      .main-content { padding: 0 16px; }
+      .macro-banner-header { flex-direction: column; gap: 6px; }
+      #starbhaiTooltip { max-width: calc(100vw - 32px) !important; }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      background-image: var(--card-gradient);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      padding: 22px 24px;
+      transition: all 0.2s ease;
+      box-shadow: var(--card-shadow);
+    }
+
+    .card:hover {
+      border-color: rgba(251, 191, 36, 0.22);
+      transform: translateY(-1px);
+    }
+
+    .card-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+
+    .card-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .card-sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* Signals Table */
+    .signals-section {
+      margin-top: 24px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .signals-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .signals-table th {
+      text-align: left;
+      padding: 10px 16px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      font-weight: 600;
+    }
+
+    .signals-table td {
+      padding: 12px 16px;
+      font-size: 14px;
+      border-bottom: 1px solid rgba(42,48,64,0.4);
+    }
+
+    .signals-table tr:hover { background: rgba(59,130,246,0.03); }
+
+    .signal-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .signal-buy { background: var(--green-bg); color: var(--green); }
+    .signal-sell { background: var(--red-bg); color: var(--red); }
+    .signal-neutral { background: rgba(100,116,139,0.1); color: var(--text-secondary); }
+    .signal-strong-buy { background: rgba(16,185,129,0.2); color: #34d399; border: 1px solid var(--green-border); }
+    .signal-strong-sell { background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid var(--red-border); }
+
+    /* News Section */
+    .news-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .news-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      gap: 16px;
+      transition: all 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .news-item:hover {
+      border-color: var(--blue);
+      background: var(--bg-card-hover);
+    }
+
+    .news-thumb {
+      width: 80px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .news-title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+
+    .news-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Dashboard Sections */
+    .dashboard { margin-top: 24px; }
+
+    .dashboard-section {
+      margin-bottom: 40px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-soft);
+      cursor: pointer;
+      user-select: none;
+      transition: opacity 0.15s ease;
+    }
+    .section-header:hover { opacity: 0.85; }
+
+    /* Chevron indicator on section headers */
+    .section-chevron {
+      display: inline-block;
+      margin-left: 8px;
+      font-size: 12px;
+      transition: transform 0.25s ease;
+      color: var(--text-muted);
+    }
+    .dashboard-section.collapsed .section-chevron {
+      transform: rotate(-90deg);
+    }
+
+    /* Accordion content toggle */
+    .section-body {
+      transition: max-height 0.3s ease, opacity 0.25s ease;
+      overflow: hidden;
+    }
+    .dashboard-section.collapsed .section-body {
+      max-height: 0 !important;
+      opacity: 0;
+      margin: 0;
+      padding: 0;
+    }
+    .dashboard-section:not(.collapsed) .section-body {
+      max-height: 4000px;
+      opacity: 1;
+    }
+    /* When collapsed, reduce section margin so they stack tighter */
+    .dashboard-section.collapsed {
+      margin-bottom: 16px;
+    }
+    .dashboard-section.collapsed .section-header {
+      margin-bottom: 0;
+      border-bottom-color: transparent;
+    }
+
+    .section-header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .section-accent {
+      width: 4px;
+      height: 36px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .section-accent.buynow   { background: #22c55e; }
+    .section-accent.intraday { background: var(--blue); }
+    .section-accent.midterm  { background: var(--green); }
+    .section-accent.volume   { background: var(--yellow); }
+    .section-accent.sell     { background: var(--red); }
+
+    .section-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .section-icon.buynow   { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .section-icon.intraday { background: rgba(59,130,246,0.12); }
+    .section-icon.midterm  { background: rgba(16,185,129,0.12); }
+    .section-icon.sell     { background: rgba(239,68,68,0.12); }
+    .section-icon.volume   { background: rgba(245,158,11,0.12); }
+
+    .section-name {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .section-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .section-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.3px;
+    }
+
+    .section-badge.buynow   { background: rgba(34,197,94,0.15);  color: #4ade80; }
+    .section-badge.intraday { background: rgba(59,130,246,0.12); color: #60a5fa; }
+    .section-badge.midterm  { background: rgba(16,185,129,0.12); color: #34d399; }
+    .section-badge.volume   { background: rgba(245,158,11,0.12); color: #fbbf24; }
+    .section-badge.sell     { background: rgba(239,68,68,0.12);  color: #f87171; }
+
+    /* ========== Macro Regime Banner ========== */
+    .macro-banner {
+      border: 1px solid #1a2233;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      background: linear-gradient(90deg, rgba(30,41,59,0.6), rgba(15,23,42,0.3));
+      position: relative;
+      overflow: hidden;
+    }
+    .macro-banner.severity-risk-off {
+      background: linear-gradient(90deg, rgba(239,68,68,0.10), rgba(15,23,42,0.3));
+      border-color: rgba(239,68,68,0.35);
+    }
+    .macro-banner.severity-stimulus {
+      background: linear-gradient(90deg, rgba(34,197,94,0.10), rgba(15,23,42,0.3));
+      border-color: rgba(34,197,94,0.35);
+    }
+    .macro-banner.severity-neutral {
+      background: linear-gradient(90deg, rgba(245,158,11,0.08), rgba(15,23,42,0.3));
+      border-color: rgba(245,158,11,0.30);
+    }
+    .macro-banner-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .macro-banner-title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.1px;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .macro-banner-regime-name {
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+    }
+    .macro-banner-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .macro-banner-reasoning {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .macro-sector-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .macro-sector-chip {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.2px;
+      cursor: default;
+    }
+    .macro-sector-chip.pos {
+      background: rgba(34,197,94,0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34,197,94,0.3);
+    }
+    .macro-sector-chip.neg {
+      background: rgba(239,68,68,0.15);
+      color: #f87171;
+      border: 1px solid rgba(239,68,68,0.3);
+    }
+    .macro-banner-footer {
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.2px;
+    }
+
+    /* Buy Now card macro badge */
+    .macro-boost-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+      margin-left: 6px;
+      letter-spacing: 0.3px;
+      vertical-align: middle;
+      cursor: help;
+    }
+    .macro-boost-badge.pos { background: rgba(34,197,94,0.18); color: #4ade80; }
+    .macro-boost-badge.neg { background: rgba(239,68,68,0.18); color: #f87171; }
+
+    /* Stock detail macro pill */
+    .macro-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    .macro-pill.pos { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.25); }
+    .macro-pill.neg { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
+
+    /* Small-cap headwind warning strip (on the scanner card) */
+    .macro-headwind-strip {
+      font-size: 11px;
+      font-weight: 600;
+      color: #fca5a5;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.28);
+      padding: 6px 10px;
+      border-radius: 6px;
+      margin: 8px 0;
+      line-height: 1.4;
+    }
+
+    /* Banner fallback-source indicator */
+    .macro-fallback-indicator {
+      color: #fbbf24;
+      font-weight: 700;
+      cursor: help;
+    }
+
+    /* ──────────────────── Glossary tooltip system ──────────────────── */
+    /*
+     * Info icon: a small circular ⓘ next to any technical term. Hover or
+     * tap to show a popover with the definition. The popover uses a single
+     * shared element (#starbhaiTooltip) positioned dynamically.
+     */
+    .info-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(251, 191, 36, 0.12);
+      color: #fbbf24;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      font-style: italic;
+      cursor: help;
+      margin-left: 4px;
+      vertical-align: middle;
+      transition: all 0.15s ease;
+      border: 1px solid rgba(251, 191, 36, 0.2);
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .info-icon:hover {
+      background: rgba(251, 191, 36, 0.22);
+      border-color: rgba(251, 191, 36, 0.4);
+      transform: scale(1.1);
+    }
+
+    /* Wrapped term — pill-style underline so it's visually marked */
+    .glossary-term {
+      border-bottom: 1px dashed rgba(251, 191, 36, 0.35);
+      cursor: help;
+    }
+
+    /* Floating tooltip popover */
+    #starbhaiTooltip {
+      position: fixed;
+      z-index: 10000;
+      max-width: 360px;
+      min-width: 240px;
+      padding: 14px 16px;
+      background: linear-gradient(180deg, #1f2937 0%, #161b27 100%);
+      border: 1px solid rgba(251, 191, 36, 0.28);
+      border-radius: 12px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.04);
+      font-family: 'Inter', sans-serif;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+    #starbhaiTooltip.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    #starbhaiTooltip .tip-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #fbbf24;
+      margin-bottom: 8px;
+      letter-spacing: -0.1px;
+    }
+    #starbhaiTooltip .tip-category {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(251, 191, 36, 0.12);
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.2);
+    }
+    #starbhaiTooltip .tip-short {
+      font-size: 12px;
+      font-weight: 600;
+      color: #f1f5f9;
+      margin-bottom: 8px;
+      line-height: 1.45;
+    }
+    #starbhaiTooltip .tip-full {
+      font-size: 12px;
+      color: #cbd5e1;
+      line-height: 1.55;
+    }
+    #starbhaiTooltip::before {
+      content: '';
+      position: absolute;
+      top: -7px;
+      left: 14px;
+      width: 12px;
+      height: 12px;
+      background: #1f2937;
+      border-left: 1px solid rgba(251, 191, 36, 0.28);
+      border-top: 1px solid rgba(251, 191, 36, 0.28);
+      transform: rotate(45deg);
+    }
+    #starbhaiTooltip.below-flip::before {
+      top: auto;
+      bottom: -7px;
+      left: 14px;
+      border-left: none;
+      border-top: none;
+      border-right: 1px solid rgba(251, 191, 36, 0.28);
+      border-bottom: 1px solid rgba(251, 191, 36, 0.28);
+    }
+
+    .refresh-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .refresh-select {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .refresh-btn {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .refresh-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+    .refresh-btn.spinning .spin-icon { animation: spin 1s linear infinite; }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .last-updated {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Stock Cards in Dashboard */
+    .stock-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    /* Portfolio holding cards — wider min-width to fit the P&L + scores layout */
+    .portfolio-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 14px;
+    }
+
+    .stock-card {
+      background: var(--bg-card);
+      background-image: var(--card-gradient);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      padding: 22px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--card-shadow);
+    }
+
+    .stock-card:hover {
+      border-color: rgba(251, 191, 36, 0.28);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 0 1px rgba(251, 191, 36, 0.1);
+    }
+
+    .stock-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .stock-card-name {
+      font-weight: 700;
+      font-size: 15px;
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .stock-card-symbol {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .stock-card-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .stock-card-change {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      text-align: right;
+    }
+
+    .stock-card-rec {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .stock-card-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .stock-card-metric {
+      text-align: center;
+    }
+
+    .metric-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .metric-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .stock-card-reasoning {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .stock-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .stock-card-direction {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    .direction-long { background: var(--green-bg); color: var(--green); }
+    .direction-short { background: var(--red-bg); color: var(--red); }
+    .direction-neutral { background: var(--yellow-bg); color: var(--yellow); }
+
+    /* Volume bar */
+    .volume-bar-wrap {
+      background: var(--bg-input);
+      border-radius: 4px;
+      height: 6px;
+      margin: 10px 0 4px;
+      overflow: hidden;
+    }
+    .volume-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.8s ease;
+    }
+    .volume-ratio-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .signal-explosive { background: rgba(245,158,11,0.2); color: #fbbf24; border: 1px solid rgba(245,158,11,0.4); }
+    .signal-very-high { background: rgba(249,115,22,0.15); color: #fb923c; border: 1px solid rgba(249,115,22,0.3); }
+    .signal-high { background: rgba(59,130,246,0.15); color: #60a5fa; }
+    .signal-moderate { background: rgba(100,116,139,0.15); color: #94a3b8; }
+
+    .stock-card-targets {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .loading-spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid var(--border);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    .loading-text {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    /* Skeleton cards — shown while API is loading (especially during cold-start).
+       Replaces the generic spinner so users see the actual card layout
+       filling in, which reads as progress rather than "something is broken". */
+    .skeleton-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      padding: 16px;
+    }
+    .skeleton-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      min-height: 160px;
+    }
+    .skeleton-bar {
+      background: linear-gradient(90deg, var(--border) 0%, rgba(255,255,255,0.08) 50%, var(--border) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s ease-in-out infinite;
+      border-radius: 4px;
+      height: 12px;
+      margin-bottom: 10px;
+    }
+    .skeleton-bar.tall { height: 18px; width: 60%; }
+    .skeleton-bar.med  { width: 80%; }
+    .skeleton-bar.short { width: 45%; }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .warming-banner {
+      background: var(--bg-card);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin: 12px 16px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      display: none;
+    }
+    .warming-banner.visible { display: block; }
+
+    /* SEBI compliance banner — persistent, sits above the tab bar.
+       Muted styling on purpose: visible without being alarmist. */
+    .sebi-banner {
+      background: rgba(248, 191, 68, 0.08);
+      border: 1px solid rgba(248, 191, 68, 0.30);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+    .sebi-banner strong {
+      color: #F8BF44;
+      font-weight: 700;
+    }
+
+    /* "Educational only" chip — sits beside the signal badges on stock cards
+       to balance the loud green BUY signal visually (SEBI RA 15(2)). */
+    .edu-chip {
+      display: inline-block;
+      padding: 3px 8px;
+      background: rgba(248, 191, 68, 0.12);
+      border: 1px solid rgba(248, 191, 68, 0.35);
+      color: #F8BF44;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-radius: 3px;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
+
+    /* Accessibility: visible focus ring on keyboard navigation.
+       Uses :focus-visible so mouse users don't see the ring. */
+    .tab:focus-visible,
+    .refresh-btn:focus-visible,
+    .stock-card:focus-visible,
+    button:focus-visible,
+    a:focus-visible,
+    [role="button"]:focus-visible {
+      outline: 2px solid var(--blue, #60a5fa);
+      outline-offset: 2px;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-text { font-size: 14px; }
+
+    /* Indicator Cards */
+    .indicator-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .indicator-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .indicator-name {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      font-weight: 600;
+    }
+
+    .indicator-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+
+    .indicator-detail {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 24px;
+      background: rgba(255, 255, 255, 0.025);
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid var(--border-soft);
+      width: fit-content;
+    }
+
+    .tab {
+      padding: 9px 22px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      background: none;
+      font-family: inherit;
+      letter-spacing: -0.1px;
+    }
+
+    .tab:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .tab.active {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.18) 0%, rgba(251, 191, 36, 0.08) 100%);
+      color: var(--gold);
+      box-shadow: inset 0 0 0 1px rgba(251, 191, 36, 0.3), 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    /* Back button */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 16px;
+    }
+
+    .back-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+    /* Disclaimer */
+    .disclaimer {
+      text-align: center;
+      padding: 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
+      line-height: 1.6;
+    }
+
+    /* Intraday/Midterm info cards */
+    .info-row {
+      display: flex;
+      gap: 16px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .info-card {
+      flex: 1;
+      min-width: 250px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .info-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-card-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .info-card-detail {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+    }
+
+    .targets-row {
+      display: flex;
+      gap: 24px;
+      margin-top: 10px;
+    }
+
+    .target-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .target-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+    }
+
+    .target-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .auto-refresh-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--cyan);
+    }
+
+    .auto-refresh-indicator .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--cyan);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    /* Quick stats bar */
+    .quick-stats {
+      display: flex;
+      gap: 16px;
+      padding: 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .quick-stat {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .quick-stat-label {
+      color: var(--text-muted);
+    }
+
+    .quick-stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">&#9733;</div>
+        Star<span>Bhai</span>
+      </div>
+
+      <div class="header-center">
+        <div class="header-search-wrap">
+          <span class="header-search-icon">&#128269;</span>
+          <input type="text" class="header-search" id="searchInput"
+                 placeholder="Search any NSE / BSE stock..."
+                 autocomplete="off">
+          <div class="search-results" id="searchResults"></div>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="market-status-pill closed" id="marketStatusPill">
+          <span class="status-dot closed" id="statusDot"></span>
+          <span id="statusText">Loading...</span>
+        </div>
+        <div class="header-clock">
+          <div class="header-time" id="currentTime">--:--:-- --</div>
+          <div class="header-date" id="currentDate">IST</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Market Ticker -->
+  <div class="market-ticker">
+    <div class="ticker-inner" id="marketTicker">
+      <div style="color: var(--text-muted); font-size: 12px; padding: 0;">Loading indices...</div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Stock Detail View -->
+    <div class="stock-detail" id="stockDetail"></div>
+
+    <!-- SEBI compliance: persistent disclaimer banner visible above every tab.
+         Addresses RA Regulation 15(2): "fair, balanced, not misleading".
+         Short-form here with a link to the full disclaimer section below. -->
+    <div class="sebi-banner" role="note">
+      <strong>Educational content only.</strong> StarBhai is not a SEBI-registered investment adviser. All scores and picks are algorithmic signals for research &mdash; not buy/sell recommendations. Past performance does not guarantee future returns.
+    </div>
+
+    <!-- Global macro regime banner — visible on every tab. Populated by renderMacroBanner(). Hidden when CALM. -->
+    <div id="macroRegimeBanner" class="macro-banner" style="display:none; margin-bottom: 16px;"></div>
+
+    <!-- Tab Bar -->
+    <div class="tabs" id="mainTabs" role="tablist" style="margin-bottom:0;">
+      <button class="tab active" role="tab" aria-selected="true" onclick="switchTab('scanner')">Market Scanner</button>
+      <button class="tab" role="tab" aria-selected="false" onclick="switchTab('fundamentals')">Fundamental Scanner</button>
+      <button class="tab" role="tab" aria-selected="false" onclick="switchTab('news')">Market Intelligence</button>
+      <button class="tab" role="tab" aria-selected="false" onclick="switchTab('sme')">Small-Cap Scanner</button>
+      <button class="tab" role="tab" aria-selected="false" onclick="switchTab('track')">Track Record</button>
+    </div>
+
+    <!-- Dashboard (Scanner Tab) -->
+    <div class="dashboard" id="dashboard">
+      <!-- Dashboard Header -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-wrap:wrap; gap:12px; padding-bottom:20px; border-bottom:1px solid #1a2233;">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <h2 style="font-size:20px; font-weight:800; letter-spacing:-0.3px;">Market Scanner</h2>
+            <div class="auto-refresh-indicator" id="autoRefreshIndicator" style="display:none;">
+              <span class="dot"></span>
+              <span style="font-size:11px;">Live</span>
+            </div>
+          </div>
+          <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Technical analysis across Nifty 50 — updated in real time</p>
+        </div>
+        <div class="refresh-controls">
+          <select class="refresh-select" id="refreshInterval" onchange="setRefreshInterval()">
+            <option value="0">Manual only</option>
+            <option value="30">Every 30 sec</option>
+            <option value="60" selected>Every 1 min</option>
+            <option value="120">Every 2 min</option>
+            <option value="300">Every 5 min</option>
+          </select>
+          <button class="refresh-btn" id="refreshBtn" onclick="refreshAll()">
+            <span class="spin-icon">&#8635;</span> Refresh
+          </button>
+          <span class="last-updated" id="lastUpdated"></span>
+        </div>
+      </div>
+
+      <!-- Vercel-truncation banner + failure-tracker banner (populated by JS) -->
+      <div id="scanNotices" style="margin-bottom: 20px;"></div>
+
+      <!-- Sector Heatmap + FII/DII: compact row above the scanner sections -->
+      <div id="sectorHeatmapRow" style="margin-bottom: 24px;">
+        <div class="dashboard-section collapsed">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-header-left">
+              <div class="section-accent volume"></div>
+              <div class="section-icon volume">&#127777;</div>
+              <div>
+                <div class="section-name">Sector Heatmap &amp; Market Breadth <span class="section-chevron">&#9660;</span></div>
+                <div class="section-desc">Which sectors are leading / lagging today + FII/DII activity</div>
+              </div>
+            </div>
+            <span class="section-badge volume" id="marketBreadthBadge">LOADING</span>
+          </div>
+          <div class="section-body">
+            <div id="sectorHeatmapContent" style="padding: 4px 0;">
+              <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading sector data...</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buy Now Section (auto-expanded on desktop for fastest time-to-content) -->
+      <div class="dashboard-section" id="buynowSection">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <div class="section-accent buynow"></div>
+            <div class="section-icon buynow">&#9650;</div>
+            <div>
+              <div class="section-name">Best Stocks to Buy Now <span class="section-chevron">&#9660;</span></div>
+              <div class="section-desc">Quality-adjusted value with technical confirmation — 40% technicals + 60% fundamentals (sector-filtered, QG-overweighted). Only Deep Value &amp; Quality Growth pass, and every pick must clear a ROE + leverage guardrail.
+                <a href="#" onclick="event.preventDefault();event.stopPropagation();switchTab('fundamentals')" style="color:var(--green);text-decoration:underline;font-weight:600;">View Deep Value Picks →</a>
+              </div>
+            </div>
+          </div>
+          <span class="section-badge buynow">HIGH CONVICTION</span>
+        </div>
+        <div class="section-body">
+          <div class="warming-banner" id="buynowWarmingBanner">
+            First load takes ~45s on a cold server — we're analyzing 100 stocks now. Subsequent refreshes return in under 2 seconds.
+          </div>
+          <div id="buynowCards" class="stock-cards">
+            <div class="skeleton-cards" id="buynowSkeleton">
+              <div class="skeleton-card">
+                <div class="skeleton-bar tall"></div>
+                <div class="skeleton-bar med"></div>
+                <div class="skeleton-bar"></div>
+                <div class="skeleton-bar short"></div>
+              </div>
+              <div class="skeleton-card">
+                <div class="skeleton-bar tall"></div>
+                <div class="skeleton-bar med"></div>
+                <div class="skeleton-bar"></div>
+                <div class="skeleton-bar short"></div>
+              </div>
+              <div class="skeleton-card">
+                <div class="skeleton-bar tall"></div>
+                <div class="skeleton-bar med"></div>
+                <div class="skeleton-bar"></div>
+                <div class="skeleton-bar short"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Mid-Term Section -->
+      <div class="dashboard-section collapsed" id="midtermSection">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <div class="section-accent midterm"></div>
+            <div class="section-icon midterm">&#128200;</div>
+            <div>
+              <div class="section-name">Mid-Term Investment Picks <span class="section-chevron">&#9660;</span></div>
+              <div class="section-desc">Stocks in strong uptrends suitable for 1–4 week holding</div>
+            </div>
+          </div>
+          <span class="section-badge midterm">1-4 WEEKS</span>
+        </div>
+        <div class="section-body">
+          <div id="midtermCards" class="stock-cards">
+            <div class="skeleton-cards">
+              <div class="skeleton-card"><div class="skeleton-bar tall"></div><div class="skeleton-bar med"></div><div class="skeleton-bar"></div><div class="skeleton-bar short"></div></div>
+              <div class="skeleton-card"><div class="skeleton-bar tall"></div><div class="skeleton-bar med"></div><div class="skeleton-bar"></div><div class="skeleton-bar short"></div></div>
+              <div class="skeleton-card"><div class="skeleton-bar tall"></div><div class="skeleton-bar med"></div><div class="skeleton-bar"></div><div class="skeleton-bar short"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Volume Breakout Section -->
+      <div class="dashboard-section collapsed" id="volumeSection">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <div class="section-accent volume"></div>
+            <div class="section-icon volume">&#128202;</div>
+            <div>
+              <div class="section-name">Volume Breakout Stocks <span class="section-chevron">&#9660;</span></div>
+              <div class="section-desc">Stocks where today's volume is spiking far above average — institutional activity detected</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="section-badge volume">VOLUME SPIKE</span>
+            <span style="font-size:11px;color:var(--text-muted);" id="volumeElapsed"></span>
+          </div>
+        </div>
+        <div class="section-body">
+          <div id="volumeCards" class="stock-cards">
+            <div class="loading">
+              <div class="loading-spinner"></div>
+              <div class="loading-text">Scanning for volume breakouts...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sell Section -->
+      <div class="dashboard-section collapsed" id="sellSection">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <div class="section-accent sell"></div>
+            <div class="section-icon sell">&#9888;</div>
+            <div>
+              <div class="section-name">Sell / Exit Alerts <span class="section-chevron">&#9660;</span></div>
+              <div class="section-desc">Stocks with multiple bearish signals — consider exiting positions or avoiding entry</div>
+            </div>
+          </div>
+          <span class="section-badge sell">EXIT SIGNAL</span>
+        </div>
+        <div class="section-body">
+          <div id="sellCards" class="stock-cards">
+            <div class="loading">
+              <div class="loading-spinner"></div>
+              <div class="loading-text">Scanning for bearish signals...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- SME Scanner Tab -->
+    <div id="smeTab" style="display:none; padding-top:20px;">
+      <!-- SME Header -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-wrap:wrap; gap:12px; padding-bottom:20px; border-bottom:1px solid #1a2233;">
+        <div>
+          <h2 style="font-size:20px; font-weight:800; letter-spacing:-0.3px;">Small-Cap &amp; SME Scanner</h2>
+          <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">NSE Smallcap 250 + Microcap 250 — <span id="smeScannedCount">0</span> stocks scanned</p>
+        </div>
+        <div class="refresh-controls">
+          <button class="refresh-btn" id="smeRefreshBtn" onclick="refreshSme()">
+            <span class="spin-icon">&#8635;</span> Refresh
+          </button>
+          <span class="last-updated" id="smeLastUpdated"></span>
+        </div>
+      </div>
+
+      <!-- 1. Best Small-Caps to Buy Now -->
+      <div class="dashboard-section collapsed" id="smeBuynowSection">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <div class="section-accent buynow"></div>
+            <div class="section-icon buynow">&#9650;</div>
+            <div>
+              <div class="section-name">Best Small-Caps to Buy Now <span class="section-chevron">&#9660;</span></div>
+              <div class="section-desc">Strongest bullish momentum + high volume small-cap stocks</div>
+            </div>
+          </div>
+          <span class="section-badge buynow">BUY SIGNAL</span>
+        </div>
+        <div class="section-body">
+          <div id="smeBuynowCards" class="stock-cards">
+            <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Scanning...</div></div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- 3. Volume Breakout Stocks -->
+      <div class="dashboard-section collapsed">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <div class="section-accent volume"></div>
+            <div class="section-icon volume">&#128202;</div>
+            <div>
+              <div class="section-name">Small-Cap Volume Breakouts <span class="section-chevron">&#9660;</span></div>
+              <div class="section-desc">Small-caps with unusual volume + high volatility — institutional activity</div>
+            </div>
+          </div>
+          <span class="section-badge volume">VOLUME SPIKE</span>
+        </div>
+        <div class="section-body">
+          <div id="smeVolumeCards" class="stock-cards">
+            <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Scanning...</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Mid-Term Investment Picks -->
+      <div class="dashboard-section collapsed">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <div class="section-accent midterm"></div>
+            <div class="section-icon midterm">&#128200;</div>
+            <div>
+              <div class="section-name">Small-Cap Mid-Term Picks <span class="section-chevron">&#9660;</span></div>
+              <div class="section-desc">Small-caps with positive 30-day &amp; 1-year momentum for swing trading</div>
+            </div>
+          </div>
+          <span class="section-badge midterm">SWING TRADE</span>
+        </div>
+        <div class="section-body">
+          <div id="smeMidtermCards" class="stock-cards">
+            <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Scanning...</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Sell / Exit Alerts -->
+      <div class="dashboard-section collapsed">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <div class="section-accent sell"></div>
+            <div class="section-icon sell">&#9888;</div>
+            <div>
+              <div class="section-name">Small-Cap Sell / Exit Alerts <span class="section-chevron">&#9660;</span></div>
+              <div class="section-desc">Small-caps with bearish momentum — consider exiting or avoiding</div>
+            </div>
+          </div>
+          <span class="section-badge sell">EXIT SIGNAL</span>
+        </div>
+        <div class="section-body">
+          <div id="smeSellCards" class="stock-cards">
+            <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Scanning...</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fundamental Scanner Tab -->
+    <div id="fundamentalsTab" style="display:none; padding-top:20px;">
+      <!-- Fundamentals Header -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-wrap:wrap; gap:12px; padding-bottom:20px; border-bottom:1px solid #1a2233;">
+        <div>
+          <h2 style="font-size:20px; font-weight:800; letter-spacing:-0.3px;">Fundamental Value Scanner</h2>
+          <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">
+            Quality-adjusted value — 9-dimension score blending valuation, profitability, leverage &amp; growth ·
+            <span id="fundSnapshotAge" style="color:var(--yellow);"></span>
+          </p>
+        </div>
+        <div class="refresh-controls">
+          <button class="refresh-btn" onclick="loadFundamentalsScanner()">
+            <span class="spin-icon">&#8635;</span> Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Scanner methodology disclosure -->
+      <div style="background:rgba(52,211,153,0.06); border:1px solid rgba(52,211,153,0.25); border-radius:8px; padding:12px 16px; margin-bottom:20px; font-size:12px; color:var(--text-secondary); line-height:1.6;">
+        <strong style="color:#34d399;">ⓘ About this scanner:</strong>
+        Each stock is scored 0–100 across <strong>nine dimensions</strong> organised into five pillars:
+        <strong>Valuation</strong> (P/E vs sector median, absolute P/E, 52-week position),
+        <strong>Profitability</strong> (ROE, net profit margin),
+        <strong>Financial Health</strong> (debt-to-equity),
+        <strong>Growth</strong> (YoY revenue growth), and
+        <strong>Trend context</strong> (price vs 200-DMA, market-cap tier).
+        A stock cannot be labelled <em>Deep Value</em> or <em>Quality Growth</em> unless its ROE and leverage both clear the quality guardrail — this prevents value-trap picks where a cheap P/E masks a deteriorating business.
+        The Buy Now scanner uses a <strong>dual-lane system</strong>: 6 slots reserved for Quality Growth (55-64% win rate) and 4 for Deep Value, with <strong>sector momentum overlay</strong> (outperforming sectors get priority) and <strong>earnings calendar filter</strong> (stocks with results within 7 days are flagged). Banking, Tourism, Cement, and Chemicals sectors are excluded based on 8-year backtesting (consistently negative returns).
+        All picks include a <strong>2-close SL confirmation</strong> rule and a <strong>dynamic trailing stop</strong> to lock in gains.
+        ROE, debt, margin, and growth data are sourced from Yahoo Finance; prices and sector P/E from NSE India.
+      </div>
+
+      <!-- 1. Deep Value Picks -->
+      <div class="dashboard-section collapsed" id="fundDeepValueSection">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <div class="section-accent buynow"></div>
+            <div class="section-icon buynow">&#128176;</div>
+            <div>
+              <div class="section-name">Deep Value Picks <span style="font-size:9px;padding:2px 8px;border-radius:4px;background:rgba(52,211,153,0.15);color:#34d399;font-weight:700;vertical-align:middle;">ALPHA SIGNAL</span> <span class="section-chevron">&#9660;</span></div>
+              <div class="section-desc">Trading at a deep discount to sector P/E — classic value opportunities</div>
+            </div>
+          </div>
+          <span class="section-badge buynow">SCORE 75+</span>
+        </div>
+        <div class="section-body">
+          <div id="fundDeepValueCards" class="stock-cards">
+            <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading...</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Quality Growth Picks -->
+      <div class="dashboard-section collapsed">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <div class="section-accent intraday"></div>
+            <div class="section-icon intraday">&#127942;</div>
+            <div>
+              <div class="section-name">Quality Growth Picks <span class="section-chevron">&#9660;</span></div>
+              <div class="section-desc">Fairly valued with strong trends — good long-term holds</div>
+            </div>
+          </div>
+          <span class="section-badge intraday">SCORE 60-74</span>
+        </div>
+        <div class="section-body">
+          <div id="fundQualityGrowthCards" class="stock-cards">
+            <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading...</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Overvalued / Avoid -->
+      <div class="dashboard-section collapsed">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <div class="section-accent sell"></div>
+            <div class="section-icon sell">&#9888;</div>
+            <div>
+              <div class="section-name">Overvalued / Avoid <span class="section-chevron">&#9660;</span></div>
+              <div class="section-desc">Trading at a premium to sector — avoid chasing these at current prices</div>
+            </div>
+          </div>
+          <span class="section-badge sell">FULLY VALUED</span>
+        </div>
+        <div class="section-body">
+          <div id="fundOvervaluedCards" class="stock-cards">
+            <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading...</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Track Record Tab -->
+    <div id="trackTab" style="display:none; padding-top:20px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
+        <div>
+          <h2 style="font-size:20px; font-weight:800; letter-spacing:-0.3px;">Track Record</h2>
+          <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">
+            Forward returns on every Buy Now / Small-Cap / Fundamental pick — measured against the Nifty 50 benchmark.
+            <span id="trackOldestSnapshot" style="color:var(--yellow);"></span>
+          </p>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <select id="trackFilter" class="refresh-select" onchange="loadTrackRecord()">
+            <option value="all">All categories</option>
+            <option value="buynow_nifty100">Buy Now (Nifty 100)</option>
+            <option value="smallcap_buynow">Small-Cap Buy Now</option>
+            <option value="fundamental_deep_value">Fundamental Deep Value</option>
+          </select>
+          <button class="refresh-btn" onclick="loadTrackRecord(true)">
+            <span class="spin-icon">&#8635;</span> Refresh
+          </button>
+          <span class="last-updated" id="trackLastUpdated"></span>
+        </div>
+      </div>
+
+      <!-- About this tab -->
+      <div style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.22); border-radius:8px; padding:10px 14px; margin-bottom:24px; font-size:12px; color:var(--text-secondary); line-height:1.6;">
+        <strong style="color:#60a5fa;">ⓘ How this works:</strong>
+        Every time you open the scanners, the platform records the top picks with the price + macro regime at that moment.
+        The forward return shown here is the % change from snapshot price to current price, compared against how the Nifty 50 moved over the same period.
+        <strong style="color:#86efac;">Beats Nifty</strong> means the pick generated <em>alpha</em> — outperformed the index. Aim for ≥55% beats-Nifty rate over 30+ days to validate the platform's signals.
+      </div>
+
+      <!-- Aggregate metric cards -->
+      <!-- Signal maturity warning — hidden when sample size is sufficient -->
+      <div id="trackMaturityWarning" style="display:none;"></div>
+
+      <div id="trackHeadlineMetrics" class="grid-4" style="margin-bottom:24px;">
+        <div class="card">
+          <div class="card-title">Total Picks</div>
+          <div class="card-value" id="trackTotalPicks">—</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Win Rate <span class="info-icon" data-term-id="win_rate" tabindex="0">i</span></div>
+          <div class="card-value" id="trackWinRate">—</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Avg Return <span class="info-icon" data-term-id="forward_return" tabindex="0">i</span></div>
+          <div class="card-value" id="trackAvgReturn">—</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Beats Nifty <span class="info-icon" data-term-id="beats_nifty" tabindex="0">i</span></div>
+          <div class="card-value" id="trackBeatsNifty">—</div>
+        </div>
+      </div>
+
+      <!-- Per-type breakdown -->
+      <div id="trackByTypeSection" style="margin-bottom:24px;"></div>
+
+      <!-- Per-regime breakdown -->
+      <div id="trackByRegimeSection" style="margin-bottom:24px;"></div>
+
+      <!-- Trade history table -->
+      <div class="dashboard-section">
+        <div class="section-header">
+          <div class="section-header-left">
+            <div class="section-accent buynow"></div>
+            <div class="section-icon buynow">&#128202;</div>
+            <div>
+              <div class="section-name">All Picks</div>
+              <div class="section-desc">Newest first · click any row to open the stock detail</div>
+            </div>
+          </div>
+          <span class="section-badge buynow" id="trackHistoryCount">—</span>
+        </div>
+        <div id="trackHistoryTable">
+          <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading paper-trade history...</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Portfolio Tab -->
+    <div id="portfolioTab" style="display:none; padding-top:20px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
+        <div>
+          <h2 style="font-size:20px; font-weight:800; letter-spacing:-0.3px;">My Portfolio</h2>
+          <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Your Groww holdings with live prices and P&amp;L</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="refresh-btn" onclick="loadPortfolio(true)" style="background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.3);color:#60a5fa;">
+            <span class="spin-icon">&#8635;</span> Refresh Prices
+          </button>
+          <span class="last-updated" id="portfolioLastUpdated"></span>
+        </div>
+      </div>
+
+      <!-- Portfolio Summary Cards -->
+      <div id="portfolioSummary" style="margin-bottom:24px;"></div>
+
+      <!-- Stocks -->
+      <div id="portfolioStocks">
+        <div class="empty-state">
+          <div class="empty-icon">&#128188;</div>
+          <div class="empty-text">No portfolio data yet. Ask Claude to import your Groww holdings.</div>
+        </div>
+      </div>
+
+      <!-- Mutual Funds -->
+      <div id="portfolioMF" style="margin-top:28px;"></div>
+    </div>
+
+    <!-- News Tab -->
+    <div id="newsTab" style="display:none; padding-top:20px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
+        <div>
+          <h2 style="font-size:20px; font-weight:800; letter-spacing:-0.3px;">Market Intelligence</h2>
+          <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">AI-generated market digest from Economic Times, LiveMint &amp; Google News India</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="auto-refresh-indicator" id="newsRefreshIndicator" style="display:flex;">
+            <span class="dot" style="background:var(--cyan);"></span>
+            <span style="font-size:11px;color:var(--cyan);">Auto-refresh every 10 min</span>
+          </div>
+          <button class="refresh-btn" onclick="loadMarketNews()">
+            <span class="spin-icon">&#8635;</span> Refresh
+          </button>
+          <span class="last-updated" id="newsLastUpdated"></span>
+        </div>
+      </div>
+
+      <div id="newsContainer">
+        <div class="loading">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">Fetching latest market news...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="disclaimer">
+    <strong>Disclaimer:</strong> StarBhai is for educational and informational purposes only. This is NOT financial advice and StarBhai is NOT a SEBI-registered investment advisor. Always do your own research and consult a SEBI-registered financial advisor before making investment decisions. Past performance does not indicate future results. Trading in stocks involves significant risk of loss.
+    <br><br>
+    <strong>Data &amp; Methodology:</strong>
+    Quote data sourced from NSE India (primary) and Yahoo Finance (fallback) — may be delayed up to 15 minutes.
+    Recommendations blend technical indicators (RSI, MACD, Bollinger Bands, Stochastic, trend alignment, OBV, volume, ROC, candlestick patterns) with a nine-dimension fundamental model spanning valuation (P/E vs sector median, absolute P/E, 52-week position), profitability (return on equity, net profit margin), financial health (debt-to-equity), growth (YoY revenue growth), and trend context (price vs 200-DMA, market-cap tier), and AI-classified news sentiment. The Buy Now scanner weights technicals and fundamentals equally at 50% each.
+    Macro regime classification uses an AI language model (GPT-5.4) applied to trusted news headlines — this is machine-inferred interpretation, not official RBI/SEBI policy determination.
+    Track Record shows forward returns from snapshot date and may differ from actual trading results due to slippage, timing, and market impact.
+    The "beats Nifty" metric compares individual pick returns against the Nifty 50 index over the same holding period — it is not a guarantee of outperformance.
+  </div>
+
+  <!-- Shared glossary tooltip element — positioned dynamically by JS -->
+  <div id="starbhaiTooltip" role="tooltip" aria-hidden="true"></div>
+
+  <script src="glossary.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

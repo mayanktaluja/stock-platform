@@ -1,0 +1,8 @@
+# Local-only state files — must NOT be uploaded to Vercel deployments.
+# Vercel's serverless filesystem is ephemeral so writing to these would be
+# pointless on production anyway, but bundling stale local copies into the
+# deploy is worse: it ships outdated data to every cold start.
+.sentiment-cache.json
+.paper-trades.json
+.env
+.env.local

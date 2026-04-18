@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/index.js" }
+  ],
+  "functions": {
+    "api/index.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/scan-precompute",
+      "schedule": "50 3 * * 1-5"
+    },
+    {
+      "path": "/api/cron/enrich-fundamentals",
+      "schedule": "0 4 * * 0"
+    },
+    {
+      "path": "/api/cron/warm-caches",
+      "schedule": "0 * * * *"
+    }
+  ]
+}
