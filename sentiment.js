@@ -24,7 +24,6 @@
 
 import crypto from "crypto";
 import { readFileSync, writeFileSync, existsSync, renameSync } from "fs";
-import { tmpdir } from "os";
 import path, { join } from "path";
 import { fileURLToPath } from "url";
 import OpenAI from "openai";
@@ -111,7 +110,7 @@ function flushCacheToDisk() {
       obj[k] = v;
       alive++;
     }
-    const tmp = join(tmpdir(), `.sentiment-cache-${process.pid}.json`);
+    const tmp = join(path.dirname(SENTIMENT_CACHE_PATH), `.sentiment-cache-${process.pid}.tmp`);
     writeFileSync(tmp, JSON.stringify(obj), "utf-8");
     renameSync(tmp, SENTIMENT_CACHE_PATH);
     // Don't log every write — too noisy. Only log on first persist after restart.

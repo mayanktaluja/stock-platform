@@ -146,7 +146,7 @@ class TechnicalAnalysis {
 
     // Calculate %D (SMA of %K)
     const kValues = [];
-    for (let i = kPeriod; i < closes.length; i++) {
+    for (let i = kPeriod; i <= closes.length; i++) {
       const h = highs.slice(i - kPeriod, i);
       const l = lows.slice(i - kPeriod, i);
       const hh = Math.max(...h);
