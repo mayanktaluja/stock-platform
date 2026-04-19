@@ -30,7 +30,8 @@ import { writeFileSync, mkdirSync, existsSync } from "fs";
 import YahooFinance from "yahoo-finance2";
 import { analyzeStock, midTermAnalysis } from "../analysis.js";
 import { scoreFundamentals, loadFundamentalsFromDisk, getFundamentals } from "../fundamentals.js";
-import { getNifty100 } from "../stockList.js";
+import { getNifty100, getNifty500 } from "../stockList.js";
+import { regimeSizeMultiplier } from "../positionSizing.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -96,6 +97,25 @@ const APPLY_SECTOR_EXCLUSIONS = CLI["no-sector-exclude"] ? false : true;
 // and the prior 8-horizon concentration tests. Production buynow scanner
 // already drops these; the backtest now matches that behavior.
 const EXCLUDED_SECTORS = new Set(["Banking", "Tourism", "Cement", "Chemicals"]);
+
+// Phase 2: universe selection via CLI
+const UNIVERSE = CLI.universe || "nifty100"; // nifty100 | nifty500
+const USE_KELLY_SIZING = CLI["kelly"] ? true : false;
+
+// Phase 2: mock macro regime for backtest sizing. In production, the live
+// regime is fetched per scan. In backtest we approximate by applying a
+// ±10 delta drawn from a deterministic hash of the scan date + sector,
+// so we can measure the Sharpe/drawdown effect of regime-scaled sizing
+// without needing historical macro data (which doesn't exist).
+// If --real-macro=true is set, future work can plug in a regime history.
+function mockMacroDelta(scanDate, sector) {
+  if (!USE_KELLY_SIZING) return 0;
+  let h = 0;
+  const s = scanDate + "|" + (sector || "");
+  for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+  // Map to ±6 range (moderate regime tilt — not extreme for a mock)
+  return ((h % 13) - 6);
+}
 
 const NIFTY_INDEX_SYMBOL = "^NSEI";
 const CONCURRENCY = 6;
@@ -591,6 +611,13 @@ function simulate(stocks, histories, exitMode, frictionPct) {
       }
       result = applyFriction(result, frictionPct);
 
+      // Phase 2: regime-scaled position size (applied to portfolio-weighted
+      // return, not per-trade returnPct — sizing matters for Sharpe/XIRR
+      // aggregation, not individual win/loss classification).
+      const macroDelta = mockMacroDelta(scan.date, pick.sector);
+      const sizeMult = regimeSizeMultiplier(macroDelta);
+      const sizedReturnPct = result.returnPct * sizeMult;
+
       allTrades.push({
         symbol: pick.symbol, name: pick.name, sector: pick.sector,
         category: pick.category, scanDate: scan.date, scanLabel: scan.label,
@@ -598,6 +625,7 @@ function simulate(stocks, histories, exitMode, frictionPct) {
         combinedScore: pick.combinedScore, midTermScore: pick.midTermScore,
         fundVerdict: pick.fundVerdict, stopLoss: pick.stopLoss, target: pick.target,
         trailDist: pick.trailDist, trailActivation: pick.trailActivation,
+        macroDelta, sizeMult, sizedReturnPct,
         maxExitDate: pick.maxExitDate, ...result,
       });
       if (result.exitDate <= scan.date) activePositions.delete(pick.symbol);
@@ -613,7 +641,9 @@ function simulate(stocks, histories, exitMode, frictionPct) {
         const res = exitMode === "trailing" && t.trailDist
           ? trackTradeTrailing(fwdBars, t.entryPrice, t.target, t.stopLoss, t.trailDist, t.trailActivation, t.maxExitDate)
           : trackTradeFixed(fwdBars, t.entryPrice, t.target, t.stopLoss, t.maxExitDate);
-        Object.assign(t, applyFriction(res, frictionPct));
+        const sized = applyFriction(res, frictionPct);
+        t.sizedReturnPct = sized.returnPct * (t.sizeMult || 1);
+        Object.assign(t, sized);
       }
     }
   }
@@ -839,8 +869,9 @@ async function main() {
 
   loadFundamentalsFromDisk();
 
-  const stocks = getNifty100();
-  console.log(`Stock universe: ${stocks.length} Nifty 100 stocks`);
+  const stocks = UNIVERSE === "nifty500" ? getNifty500() : getNifty100();
+  console.log(`Stock universe: ${stocks.length} stocks (${UNIVERSE})`);
+  if (USE_KELLY_SIZING) console.log(`Kelly-lite regime sizing: ENABLED (mock delta)`);
 
   const histories = await fetchAllHistories(stocks);
 

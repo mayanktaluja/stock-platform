@@ -28,6 +28,7 @@ import path, { join } from "path";
 import { fileURLToPath } from "url";
 import OpenAI from "openai";
 import { withOpenAIRetry } from "./macroRegime.js";
+import { checkBudget, recordUsage } from "./openaiBudget.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -154,6 +155,14 @@ async function classifyBatchWithLLM(titles, stockName, ticker) {
   const client = getOpenAI();
   if (!client) throw new Error("No OPENAI_API_KEY");
 
+  // Phase 2: monthly budget circuit-breaker. If we've hit the cap, throw
+  // so the caller falls through to keyword-classifier fallback (which is
+  // already wired in analyzeNewsSentiment). Cap resets at month rollover.
+  const budget = checkBudget();
+  if (!budget.allowed) {
+    throw new Error(`OpenAI monthly cap hit ($${budget.spent.toFixed(2)} / $${budget.cap}). Falling back to keyword scorer until ${budget.month}+1.`);
+  }
+
   const numbered = titles.map((t, i) => `${i + 1}. ${t}`).join("\n");
 
   // The key change here vs v1 of the LLM prompt: be MUCH more aggressive about
@@ -209,6 +218,14 @@ async function classifyBatchWithLLM(titles, stockName, ticker) {
 
   const text = (response.choices?.[0]?.message?.content || "").trim();
   if (!text) throw new Error("Empty LLM response");
+
+  // Record token usage for the budget tracker (best-effort)
+  const usage = response.usage || {};
+  recordUsage({
+    inputTokens: usage.prompt_tokens || 0,
+    outputTokens: usage.completion_tokens || 0,
+    label: "sentiment",
+  });
 
   // Parse JSON array of labels
   const match = text.match(/\[[\s\S]*?\]/);
