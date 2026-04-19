@@ -1636,6 +1636,7 @@ function switchTab(tab) {
   const smeEl = document.getElementById("smeTab");
   const fundEl = document.getElementById("fundamentalsTab");
   const trackEl = document.getElementById("trackTab");
+  const analyzerEl = document.getElementById("analyzerTab");
 
   dashEl.style.display = "none";
   newsEl.style.display = "none";
@@ -1643,6 +1644,7 @@ function switchTab(tab) {
   smeEl.style.display = "none";
   if (fundEl) fundEl.style.display = "none";
   if (trackEl) trackEl.style.display = "none";
+  if (analyzerEl) analyzerEl.style.display = "none";
   if (newsRefreshTimer) { clearInterval(newsRefreshTimer); newsRefreshTimer = null; }
 
   // Refresh the global macro banner on every tab switch. This is a cheap
@@ -1675,6 +1677,9 @@ function switchTab(tab) {
   } else if (tab === "track") {
     if (trackEl) trackEl.style.display = "block";
     loadTrackRecord();
+  } else if (tab === "analyzer") {
+    if (analyzerEl) analyzerEl.style.display = "block";
+    initPortfolioAnalyzer();
   } else {
     // Default: scanner tab
     const scanBtn = Array.from(tabs).find((t) => t.getAttribute("onclick")?.includes("scanner"));
@@ -3429,4 +3434,385 @@ function renderPriceChart(historical, quote) {
         <span>Today</span>
       </div>
     </div>`;
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Portfolio Analyzer (Phase 5) — upload + analyze + render
+// ═══════════════════════════════════════════════════════════════════════════
+
+let _analyzerWired = false;
+
+function initPortfolioAnalyzer() {
+  if (_analyzerWired) return;
+  _analyzerWired = true;
+
+  const input = document.getElementById("analyzerFileInput");
+  const browseBtn = document.getElementById("analyzerBrowseBtn");
+  const dropArea = document.getElementById("analyzerDropArea");
+
+  browseBtn.addEventListener("click", () => input.click());
+  input.addEventListener("change", (e) => {
+    const f = e.target.files?.[0];
+    if (f) analyzePortfolioFile(f);
+  });
+
+  // Drag & drop
+  ["dragenter", "dragover"].forEach((ev) =>
+    dropArea.addEventListener(ev, (e) => {
+      e.preventDefault(); e.stopPropagation();
+      dropArea.style.borderColor = "var(--accent)";
+      dropArea.style.background = "rgba(59,130,246,0.05)";
+    }),
+  );
+  ["dragleave", "drop"].forEach((ev) =>
+    dropArea.addEventListener(ev, (e) => {
+      e.preventDefault(); e.stopPropagation();
+      dropArea.style.borderColor = "#2a3349";
+      dropArea.style.background = "var(--panel)";
+    }),
+  );
+  dropArea.addEventListener("drop", (e) => {
+    const f = e.dataTransfer.files?.[0];
+    if (f) analyzePortfolioFile(f);
+  });
+}
+
+function setAnalyzerState(state) {
+  const upload = document.getElementById("analyzerUploadZone");
+  const analyzing = document.getElementById("analyzerAnalyzing");
+  const report = document.getElementById("analyzerReport");
+  upload.style.display = state === "upload" ? "block" : "none";
+  analyzing.style.display = state === "analyzing" ? "block" : "none";
+  report.style.display = state === "report" ? "block" : "none";
+}
+
+function resetAnalyzer() {
+  setAnalyzerState("upload");
+  const errEl = document.getElementById("analyzerUploadError");
+  if (errEl) errEl.style.display = "none";
+  const input = document.getElementById("analyzerFileInput");
+  if (input) input.value = "";
+}
+
+async function analyzePortfolioFile(file) {
+  const errEl = document.getElementById("analyzerUploadError");
+  errEl.style.display = "none";
+
+  if (file.size > 2 * 1024 * 1024) {
+    errEl.textContent = "File is larger than 2 MB. Groww/Zerodha exports are usually <100 KB — please check this is the right file.";
+    errEl.style.display = "block";
+    return;
+  }
+
+  setAnalyzerState("analyzing");
+  document.getElementById("analyzerProgressText").textContent =
+    `Analyzing ${file.name}…`;
+
+  try {
+    const fd = new FormData();
+    fd.append("file", file);
+    const res = await fetch("/api/portfolio/analyze", { method: "POST", body: fd });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error + (data.hint ? `\n\nHint: ${data.hint}` : ""));
+    }
+    renderAnalyzerReport(data.report, data.elapsedMs);
+    setAnalyzerState("report");
+  } catch (err) {
+    setAnalyzerState("upload");
+    errEl.textContent = err.message;
+    errEl.style.display = "block";
+  }
+}
+
+// ──────────────────── Rendering ────────────────────
+
+function inr(n) {
+  if (n == null || !isFinite(n)) return "—";
+  const abs = Math.abs(n);
+  if (abs >= 1e7) return "₹" + (n / 1e7).toFixed(2) + " Cr";
+  if (abs >= 1e5) return "₹" + (n / 1e5).toFixed(2) + " L";
+  return "₹" + Math.round(n).toLocaleString("en-IN");
+}
+
+function pctColor(n) {
+  if (n == null) return "var(--text-muted)";
+  return n >= 0 ? "var(--green, #22c55e)" : "var(--red, #ef4444)";
+}
+
+const ANALYZER_ACTION_COLORS = {
+  CUT_LOSS:     { bg: "rgba(220,38,38,0.15)",  border: "rgba(220,38,38,0.5)",  text: "#fca5a5" },
+  SELL:         { bg: "rgba(239,68,68,0.12)",  border: "rgba(239,68,68,0.4)",  text: "#f87171" },
+  BOOK_PROFIT:  { bg: "rgba(250,204,21,0.12)", border: "rgba(250,204,21,0.4)", text: "#fde047" },
+  TRIM:         { bg: "rgba(250,204,21,0.12)", border: "rgba(250,204,21,0.4)", text: "#fde047" },
+  HOLD:         { bg: "rgba(59,130,246,0.10)", border: "rgba(59,130,246,0.3)", text: "#93c5fd" },
+  ADD:          { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.4)",  text: "#86efac" },
+  STRONG_ADD:   { bg: "rgba(34,197,94,0.18)",  border: "rgba(34,197,94,0.6)",  text: "#bbf7d0" },
+  AVERAGE_DOWN: { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.4)",  text: "#86efac" },
+  NO_DATA:      { bg: "rgba(107,114,128,0.12)", border: "rgba(107,114,128,0.4)", text: "#9ca3af" },
+};
+
+function actionBadge(action, displayAction) {
+  const c = ANALYZER_ACTION_COLORS[action] || ANALYZER_ACTION_COLORS.HOLD;
+  return `<span style="display:inline-block; padding:3px 10px; border-radius:4px; background:${c.bg}; border:1px solid ${c.border}; color:${c.text}; font-size:11px; font-weight:700; letter-spacing:0.3px;">${displayAction || action}</span>`;
+}
+
+function renderAnalyzerReport(report, elapsedMs) {
+  renderAnalyzerSummary(report, elapsedMs);
+  renderAnalyzerPortfolioActions(report);
+  renderAnalyzerUrgent(report);
+  renderAnalyzerHoldings(report);
+  renderAnalyzerUnmatched(report);
+  renderAnalyzerDisclaimer(report);
+}
+
+function renderAnalyzerSummary(report, elapsedMs) {
+  const el = document.getElementById("analyzerSummary");
+  const s = report.summary;
+  const h = report.health;
+  const sectors = report.sectorAllocation.slice(0, 6);
+
+  const pnlColor = pctColor(s.totalPnLPct);
+  const healthColor = h.score >= 70 ? "var(--green, #22c55e)" : h.score >= 50 ? "#fde047" : "#fca5a5";
+
+  const sectorBars = sectors.map((s) =>
+    `<div style="display:flex; justify-content:space-between; align-items:center; gap:8px; padding:4px 0; font-size:12px;">
+      <span style="color:var(--text-muted);">${s.sector}</span>
+      <span style="font-weight:600;">${s.pct.toFixed(1)}%</span>
+    </div>
+    <div style="height:6px; background:#1a2233; border-radius:3px; overflow:hidden; margin-bottom:6px;">
+      <div style="width:${Math.min(100, s.pct)}%; height:100%; background:var(--accent);"></div>
+    </div>`,
+  ).join("");
+
+  el.innerHTML = `
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:16px; margin-bottom:16px;">
+      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Invested</div>
+        <div style="font-size:22px; font-weight:700;">${inr(s.totalInvested)}</div>
+      </div>
+      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Current Value</div>
+        <div style="font-size:22px; font-weight:700;">${inr(s.totalCurrent)}</div>
+      </div>
+      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">P&amp;L</div>
+        <div style="font-size:22px; font-weight:700; color:${pnlColor};">
+          ${s.totalPnL >= 0 ? "+" : ""}${inr(s.totalPnL)}
+          <span style="font-size:14px; font-weight:500; margin-left:6px;">(${s.totalPnLPct >= 0 ? "+" : ""}${s.totalPnLPct.toFixed(2)}%)</span>
+        </div>
+      </div>
+      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Portfolio Health</div>
+        <div style="font-size:22px; font-weight:700; color:${healthColor};">${h.score}<span style="font-size:14px; color:var(--text-muted);">/100</span></div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+          Avg score ${h.components.avgScore} · Diversity ${h.components.diversity}pts
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+        <div style="font-size:13px; font-weight:700; margin-bottom:12px;">Sector allocation</div>
+        ${sectorBars || '<div style="font-size:12px; color:var(--text-muted);">No sector data.</div>'}
+      </div>
+      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+        <div style="font-size:13px; font-weight:700; margin-bottom:12px;">Quality mix (by value)</div>
+        ${Object.entries(report.verdictMix.value)
+          .filter(([, v]) => v > 0)
+          .sort(([, a], [, b]) => b - a)
+          .map(([k, v]) => {
+            const pct = s.totalCurrent > 0 ? (v / s.totalCurrent) * 100 : 0;
+            const color = { DEEP_VALUE: "#22c55e", QUALITY_GROWTH: "#86efac", FAIR_VALUE: "#93c5fd", FULLY_VALUED: "#fde047", OVERVALUED: "#fca5a5", UNRATED: "#9ca3af" }[k] || "#9ca3af";
+            return `<div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; padding:4px 0;">
+              <span style="color:${color};">${k.replace("_", " ")}</span>
+              <span style="font-weight:600;">${pct.toFixed(1)}%</span>
+            </div>`;
+          }).join("")}
+      </div>
+    </div>
+
+    <div style="margin-top:12px; font-size:11px; color:var(--text-muted); text-align:right;">
+      Analyzed ${s.holdingsCount} holdings${s.unmatchedCount > 0 ? ` · ${s.unmatchedCount} unmatched` : ""} · ${elapsedMs}ms
+    </div>
+  `;
+}
+
+function renderAnalyzerPortfolioActions(report) {
+  const el = document.getElementById("analyzerPortfolioActions");
+  if (!report.portfolioLevelActions || report.portfolioLevelActions.length === 0) {
+    el.innerHTML = "";
+    return;
+  }
+  const sevColor = { high: "#fca5a5", medium: "#fde047", low: "#93c5fd" };
+  const items = report.portfolioLevelActions.map((a) => `
+    <div style="padding:10px 14px; margin-bottom:8px; background:rgba(${a.severity === 'high' ? '239,68,68' : a.severity === 'medium' ? '250,204,21' : '59,130,246'},0.08); border-left:3px solid ${sevColor[a.severity]}; border-radius:4px;">
+      <div style="font-size:12px; color:${sevColor[a.severity]}; font-weight:600; margin-bottom:2px; text-transform:uppercase; letter-spacing:0.4px;">${a.type.replace(/-/g, " ")}</div>
+      <div style="font-size:13px;">${a.message}</div>
+    </div>
+  `).join("");
+  el.innerHTML = `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="font-size:14px; font-weight:700; margin-bottom:14px;">Portfolio-level recommendations</div>
+      ${items}
+    </div>
+  `;
+}
+
+function renderAnalyzerUrgent(report) {
+  const el = document.getElementById("analyzerUrgent");
+  if (!report.urgentActions || report.urgentActions.length === 0) {
+    el.innerHTML = `<div style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2); border-radius:8px; padding:14px 18px; font-size:13px; color:#86efac;">
+      No urgent per-stock actions flagged. Every holding is in HOLD range.
+    </div>`;
+    return;
+  }
+  const rows = report.urgentActions.slice(0, 10).map((h) => `
+    <div style="display:grid; grid-template-columns: 120px 1fr 160px 100px 120px; gap:12px; align-items:center; padding:10px 14px; border-bottom:1px solid #1a2233; font-size:13px;">
+      <div style="font-weight:700;">${h.symbol.replace(".NS", "")}</div>
+      <div style="color:var(--text-muted); font-size:12px;">${h.name}</div>
+      <div>${actionBadge(h.action, h.displayAction)}</div>
+      <div style="color:${pctColor(h.pnlPercent)}; font-weight:600;">${h.pnlPercent >= 0 ? "+" : ""}${(h.pnlPercent || 0).toFixed(1)}%</div>
+      <div style="font-size:11px; color:var(--text-muted);">${h.actionUrgency} urgency</div>
+    </div>
+  `).join("");
+  el.innerHTML = `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="font-size:14px; font-weight:700; margin-bottom:12px;">Urgent actions (top ${Math.min(10, report.urgentActions.length)})</div>
+      <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px; padding:0 14px 8px; display:grid; grid-template-columns: 120px 1fr 160px 100px 120px; gap:12px;">
+        <div>Symbol</div><div>Name</div><div>Action</div><div>P&amp;L %</div><div>Urgency</div>
+      </div>
+      ${rows}
+    </div>
+  `;
+}
+
+function renderAnalyzerHoldings(report) {
+  const el = document.getElementById("analyzerHoldings");
+  const cards = report.holdings.map((h, idx) => renderHoldingCard(h, idx === 0)).join("");
+  el.innerHTML = `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <div style="font-size:14px; font-weight:700;">Per-holding deep dive (${report.holdings.length})</div>
+        <div style="font-size:11px; color:var(--text-muted);">Click any row to expand</div>
+      </div>
+      ${cards}
+    </div>
+  `;
+}
+
+function renderHoldingCard(h, defaultOpen) {
+  const openAttr = defaultOpen ? " open" : "";
+  const pnlC = pctColor(h.pnlPercent);
+  const pnlStr = `${h.pnlPercent >= 0 ? "+" : ""}${(h.pnlPercent || 0).toFixed(1)}%`;
+  const flagsSection = h.redFlags && h.redFlags.length
+    ? `<div style="margin:14px 0;">
+        <div style="font-size:12px; font-weight:700; color:#fca5a5; margin-bottom:6px;">&#9888; Red flags</div>
+        ${h.redFlags.map((f) => `<div style="font-size:12px; padding:6px 10px; margin-bottom:4px; background:rgba(${f.severity === 'high' ? '239,68,68' : '250,204,21'},0.08); border-left:2px solid ${f.severity === 'high' ? '#fca5a5' : '#fde047'}; border-radius:3px;">${f.message}</div>`).join("")}
+      </div>` : "";
+  const ep = h.exitPlan || {};
+  const exitSection = (ep.stopLoss || ep.target || ep.trailingStop)
+    ? `<div style="margin:14px 0; padding:12px 14px; background:#111827; border-radius:6px;">
+        <div style="font-size:12px; font-weight:700; margin-bottom:8px; color:#93c5fd;">Exit plan</div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; font-size:12px;">
+          ${ep.stopLoss != null ? `<div><span style="color:var(--text-muted);">Stop-loss:</span> <strong>₹${ep.stopLoss}</strong></div>` : ""}
+          ${ep.target != null ? `<div><span style="color:var(--text-muted);">Target:</span> <strong>₹${ep.target}</strong></div>` : ""}
+          ${ep.trailingStop ? `<div><span style="color:var(--text-muted);">Trail:</span> ${ep.trailingStop.activated ? `<strong style="color:#86efac;">ACTIVE @ ₹${ep.trailingStop.currentLevel}</strong>` : `<span>engages above ₹${ep.trailingStop.activationLevel}</span>`}</div>` : ""}
+          ${h.longTermTarget ? `<div><span style="color:var(--text-muted);">Long-term target:</span> <strong>₹${h.longTermTarget}</strong></div>` : ""}
+        </div>
+        ${ep.slConfirmationRule ? `<div style="font-size:11px; color:var(--text-muted); margin-top:6px;">${ep.slConfirmationRule}</div>` : ""}
+        ${ep.rationale && ep.rationale.length ? `<div style="font-size:11px; color:var(--text-muted); margin-top:8px; line-height:1.5;">${ep.rationale.map((r) => "• " + r).join("<br>")}</div>` : ""}
+      </div>` : "";
+
+  const outlookSection = h.outlook
+    ? `<div style="margin:14px 0; padding:12px 14px; background:#111827; border-radius:6px;">
+        <div style="font-size:12px; font-weight:700; margin-bottom:8px;">Outlook</div>
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; font-size:12px;">
+          ${["shortTerm", "midTerm", "longTerm"].map((k) => {
+            const o = h.outlook[k];
+            const arrow = o.direction === "up" ? "↑" : o.direction === "down" ? "↓" : "→";
+            const color = o.direction === "up" ? "#86efac" : o.direction === "down" ? "#fca5a5" : "#9ca3af";
+            return `<div>
+              <div style="color:var(--text-muted); font-size:10px; text-transform:uppercase;">${o.horizon}</div>
+              <div style="color:${color}; font-weight:700; font-size:13px;">${arrow} ${o.direction.toUpperCase()}</div>
+              <div style="font-size:10px; color:var(--text-muted);">${o.confidence} confidence</div>
+            </div>`;
+          }).join("")}
+        </div>
+      </div>` : "";
+
+  const taxSection = h.taxNote
+    ? `<div style="margin:14px 0; padding:10px 14px; background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.2); border-radius:6px; font-size:12px;">
+        <div style="font-weight:700; color:#fde047; margin-bottom:4px;">Tax note</div>
+        <div>${h.taxNote.summary}</div>
+        <div style="color:var(--text-muted); font-size:11px; margin-top:4px;">${h.taxNote.detail}</div>
+      </div>` : "";
+
+  return `<details${openAttr} style="border:1px solid #1a2233; border-radius:8px; margin-bottom:8px; background:#0b1220;">
+    <summary style="cursor:pointer; padding:12px 16px; list-style:none; display:grid; grid-template-columns: 140px 1fr 130px 120px 110px 60px; gap:12px; align-items:center; font-size:13px;">
+      <div style="font-weight:700;">${h.symbol.replace(".NS", "")}</div>
+      <div style="color:var(--text-muted); font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${h.name}</div>
+      <div>${actionBadge(h.action, h.displayAction)}</div>
+      <div style="color:${pnlC}; font-weight:600;">${pnlStr}</div>
+      <div style="font-size:11px; color:var(--text-muted);">${(h.positionWeight || 0).toFixed(1)}% wt</div>
+      <div style="font-size:11px; text-align:right;">${h.combinedScore != null ? h.combinedScore + "/100" : "—"}</div>
+    </summary>
+    <div style="padding:4px 16px 16px; border-top:1px solid #1a2233;">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px; padding:10px 0; font-size:12px;">
+        <div><span style="color:var(--text-muted);">Qty:</span> ${h.quantity}</div>
+        <div><span style="color:var(--text-muted);">Avg:</span> ₹${h.avgPrice}</div>
+        <div><span style="color:var(--text-muted);">Current:</span> ${h.currentPrice != null ? "₹" + h.currentPrice : "—"}</div>
+        <div><span style="color:var(--text-muted);">Invested:</span> ${inr(h.invested)}</div>
+        <div><span style="color:var(--text-muted);">Value:</span> ${inr(h.currentValue)}</div>
+        <div><span style="color:var(--text-muted);">P&amp;L:</span> <span style="color:${pnlC};">${h.pnlAmount >= 0 ? "+" : ""}${inr(h.pnlAmount)}</span></div>
+      </div>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px; padding:4px 0 10px; font-size:12px; border-top:1px solid #1a2233;">
+        <div><span style="color:var(--text-muted);">Tech:</span> ${h.technicalScore ?? "—"}</div>
+        <div><span style="color:var(--text-muted);">Fund:</span> ${h.fundamentalScore ?? "—"}</div>
+        <div><span style="color:var(--text-muted);">Verdict:</span> ${h.fundamentalVerdict ? h.fundamentalVerdict.replace("_", " ") : "—"}</div>
+        <div><span style="color:var(--text-muted);">Recommendation:</span> ${h.recommendation || "—"}</div>
+        <div><span style="color:var(--text-muted);">Sector:</span> ${h.sector}</div>
+      </div>
+      <div style="margin:12px 0; padding:12px 14px; background:#111827; border-radius:6px; font-size:13px;">
+        <div style="font-weight:700; margin-bottom:6px;">Why ${h.displayAction || h.action}</div>
+        <div style="line-height:1.6; color:var(--text);">${h.actionReasoning || ""}</div>
+      </div>
+      ${flagsSection}
+      ${outlookSection}
+      ${exitSection}
+      ${taxSection}
+      ${h.earningsNearby ? `<div style="font-size:12px; padding:8px 12px; background:rgba(59,130,246,0.08); border-radius:4px; margin-top:8px;">&#128197; <strong>Upcoming earnings:</strong> ${h.earningsNearby.date}</div>` : ""}
+    </div>
+  </details>`;
+}
+
+function renderAnalyzerUnmatched(report) {
+  const el = document.getElementById("analyzerUnmatched");
+  if (!report.unmatched || report.unmatched.length === 0) {
+    el.innerHTML = "";
+    return;
+  }
+  const rows = report.unmatched.map((u) => `
+    <div style="display:grid; grid-template-columns: 1fr 180px; gap:12px; padding:8px 14px; border-bottom:1px solid #1a2233; font-size:12px;">
+      <div>${u.rawName}</div>
+      <div style="color:var(--text-muted); font-family:monospace;">${u.isin || "no ISIN"}</div>
+    </div>
+  `).join("");
+  el.innerHTML = `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="font-size:14px; font-weight:700; margin-bottom:6px;">Unmatched holdings (${report.unmatched.length})</div>
+      <div style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">
+        These are in your portfolio but not in our scored universe (typically BSE-only, SME, or non-Nifty-500 stocks). They count toward totals but aren't individually analyzed.
+      </div>
+      ${rows}
+    </div>
+  `;
+}
+
+function renderAnalyzerDisclaimer(report) {
+  const el = document.getElementById("analyzerDisclaimer");
+  el.innerHTML = `<div style="font-size:11px; color:var(--text-muted); padding:14px 16px; background:rgba(239,68,68,0.03); border:1px solid rgba(239,68,68,0.15); border-radius:6px; line-height:1.6;">
+    <strong style="color:#fca5a5;">Disclaimer:</strong> ${report.disclaimer}
+  </div>`;
 }
