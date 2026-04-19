@@ -474,6 +474,34 @@ function runScan(stocks, histories, scanDateStr, activePositions, params = {}) {
     const trailDist = atr ? atr * trailMultiplier : null;
     const trailActivation = atr ? entryPrice + atr * trailActivationMult : null;
 
+    // Phase 3: capture signal fingerprint at entry for attribution analysis.
+    // Each flag is a binary indicator — did this signal fire at entry time?
+    // Aggregating these over all closed trades tells us which signals actually
+    // predict forward returns vs which ones we've been weighting without
+    // evidence. Feeds back into the next round of signal tuning.
+    const rsi = analysis.indicators?.rsi ? parseFloat(analysis.indicators.rsi) : null;
+    const macd = analysis.indicators?.macd || null;
+    const bol = analysis.indicators?.bollinger || null;
+    const stoch = analysis.indicators?.stochastic || null;
+    const trendStr = analysis.indicators?.trend?.strength || null;
+    const vol = analysis.indicators?.volume || null;
+    const signalFlags = {
+      rsiOversold: rsi != null && rsi < 30,
+      rsiOverbought: rsi != null && rsi > 70,
+      macdBullCross: macd?.crossover === true,
+      macdBearCross: macd?.crossunder === true,
+      bolNearLower: bol?.percentB != null && parseFloat(bol.percentB) < 20,
+      bolNearUpper: bol?.percentB != null && parseFloat(bol.percentB) > 80,
+      stochOversold: stoch?.k != null && stoch?.d != null && parseFloat(stoch.k) < 20 && parseFloat(stoch.d) < 20,
+      stochOverbought: stoch?.k != null && stoch?.d != null && parseFloat(stoch.k) > 80 && parseFloat(stoch.d) > 80,
+      trendStrongBull: trendStr === "strong_bullish",
+      trendStrongBear: trendStr === "strong_bearish",
+      volumeSpike: vol?.isSpike === true,
+      volumeMajorSpike: vol?.isMajorSpike === true,
+      fundDeepValue: fundVerdict === "DEEP_VALUE",
+      fundQualityGrowth: fundVerdict === "QUALITY_GROWTH",
+    };
+
     // Phase 1: sector exclusion (applies to BUY_NOW + FUNDAMENTAL — these
     // are the value-oriented buckets where losing sectors drag alpha).
     if (applySectorExclusions && EXCLUDED_SECTORS.has(stock.sector || "")) {
@@ -492,7 +520,7 @@ function runScan(stocks, histories, scanDateStr, activePositions, params = {}) {
           symbol: stock.symbol, name: stock.name, sector: stock.sector,
           category: "BUY_NOW", entryPrice, techScore, fundScore,
           combinedScore: combined, fundVerdict, recommendation: analysis.recommendation,
-          stopLoss: customSL, target: customTarget, trailDist, trailActivation,
+          stopLoss: customSL, target: customTarget, trailDist, trailActivation, signalFlags,
           maxExitDate: addCalendarMonths(scanDateStr, 3),
           forwardBars, dma200, snap,
         });
@@ -626,6 +654,7 @@ function simulate(stocks, histories, exitMode, frictionPct) {
         fundVerdict: pick.fundVerdict, stopLoss: pick.stopLoss, target: pick.target,
         trailDist: pick.trailDist, trailActivation: pick.trailActivation,
         macroDelta, sizeMult, sizedReturnPct,
+        signalFlags: pick.signalFlags,
         maxExitDate: pick.maxExitDate, ...result,
       });
       if (result.exitDate <= scan.date) activePositions.delete(pick.symbol);
@@ -737,6 +766,38 @@ function categoryBreakdown(trades) {
   });
 }
 
+/**
+ * Phase 3: per-signal attribution. For each binary signal flag, compute
+ * hit rate / avg return of trades where the flag was hot vs quiet. The
+ * EDGE column (hot − quiet) is the money metric — a signal with +3% edge
+ * genuinely discriminates; a signal with ±0.5% edge is noise being
+ * dressed up in the recommendation.
+ */
+function signalAttribution(trades) {
+  if (trades.length === 0) return [];
+  const signals = [
+    "rsiOversold", "rsiOverbought", "macdBullCross", "macdBearCross",
+    "bolNearLower", "bolNearUpper", "stochOversold", "stochOverbought",
+    "trendStrongBull", "trendStrongBear", "volumeSpike", "volumeMajorSpike",
+    "fundDeepValue", "fundQualityGrowth",
+  ];
+  const results = [];
+  for (const sig of signals) {
+    const hot = trades.filter((t) => t.signalFlags?.[sig] === true);
+    const quiet = trades.filter((t) => t.signalFlags?.[sig] === false);
+    if (hot.length === 0) {
+      results.push({ signal: sig, hotCount: 0, hotWR: 0, hotAvg: 0, quietAvg: 0, edge: 0 });
+      continue;
+    }
+    const hotWR = (hot.filter((t) => t.returnPct > 0).length / hot.length) * 100;
+    const hotAvg = hot.reduce((s, t) => s + t.returnPct, 0) / hot.length;
+    const quietAvg = quiet.length > 0 ? quiet.reduce((s, t) => s + t.returnPct, 0) / quiet.length : 0;
+    const edge = hotAvg - quietAvg;
+    results.push({ signal: sig, hotCount: hot.length, hotWR, hotAvg, quietAvg, edge });
+  }
+  return results.sort((a, b) => b.edge - a.edge);
+}
+
 function sectorBreakdown(trades) {
   const map = new Map();
   for (const t of trades) {
@@ -827,6 +888,17 @@ function generateReport(scenarios, niftyBars) {
     md += "| Sector | Trades | Win rate | Avg return |\n|---|---|---|---|\n";
     for (const s of sectors.slice(0, 10)) {
       md += `| ${s.sector} | ${s.count} | ${s.winRate.toFixed(1)}% | ${s.avgReturn.toFixed(2)}% |\n`;
+    }
+    md += "\n";
+
+    // Phase 3 — per-signal attribution
+    const attribution = signalAttribution(sc.trades);
+    md += "### Per-signal attribution (Phase 3)\n\n";
+    md += "*Edge = avg return when signal was hot at entry minus avg return when it was quiet. Positive edge = genuine discriminator. Near-zero edge = weight currently being spent on noise.*\n\n";
+    md += "| Signal | Hot trades | WR when hot | Avg (hot) | Avg (quiet) | **Edge** |\n|---|---|---|---|---|---|\n";
+    for (const a of attribution) {
+      const edgeCell = a.edge >= 0.5 ? `**+${a.edge.toFixed(2)}%**` : a.edge <= -0.5 ? `**${a.edge.toFixed(2)}%**` : `${a.edge >= 0 ? "+" : ""}${a.edge.toFixed(2)}%`;
+      md += `| ${a.signal} | ${a.hotCount} | ${a.hotWR.toFixed(1)}% | ${a.hotAvg.toFixed(2)}% | ${a.quietAvg.toFixed(2)}% | ${edgeCell} |\n`;
     }
     md += "\n";
   }
