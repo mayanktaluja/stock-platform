@@ -779,11 +779,25 @@ app.get("/api/stock/:symbol", async (req, res) => {
     // are skipped entirely instead of being faked as 50/100 — this was
     // inflating scores and causing spurious BUY recommendations.
     //
-    // Base weights: technical 0.45 / news 0.25 / fundamentals 0.30.
-    // When a dimension is missing, its weight is redistributed proportionally
-    // to the others via the `sumWeights` denominator below.
+    // Phase 1 (Apr 2026): news weight 0.25 → 0.12 + confidence gate.
+    //
+    // Rationale: Yahoo/Google News return a lot of off-topic noise for
+    // Indian tickers (the sentiment.js system prompt explicitly compensates
+    // for this), and even with a good classifier a 25% weight amplifies
+    // that noise into the recommendation. The honest-backtest exit
+    // breakdown showed trades clustering around earnings cycles where
+    // news sentiment was rich but unreliable. Cut to 12% and require
+    // headline_count ≥ 5 before the dimension is even counted — below
+    // that threshold, sentiment is ignored and weight is redistributed
+    // to tech + fundamentals.
+    //
+    // Base weights (when news qualifies): technical 0.50 / news 0.12 /
+    // fundamentals 0.38. Missing dimensions redistribute via sumWeights.
+    const MIN_HEADLINES_FOR_SENTIMENT = 5;
     const techScore = analysis.score;
-    const newsScore = sentiment.available ? sentiment.score : null;
+    const newsScore = (sentiment.available && (sentiment.headline_count ?? 0) >= MIN_HEADLINES_FOR_SENTIMENT)
+      ? sentiment.score
+      : null;
 
     // Guard: if technical analysis somehow returned no score, we still want a
     // usable response — previously this could propagate NaN through the
@@ -800,9 +814,9 @@ app.get("/api/stock/:symbol", async (req, res) => {
     }
 
     const contributions = [];
-    contributions.push({ key: "tech", score: techScore, weight: 0.45 });
-    if (newsScore != null)           contributions.push({ key: "news",  score: newsScore,        weight: 0.25 });
-    if (fundamentalScore != null)    contributions.push({ key: "fund",  score: fundamentalScore, weight: 0.30 });
+    contributions.push({ key: "tech", score: techScore, weight: 0.50 });
+    if (newsScore != null)           contributions.push({ key: "news",  score: newsScore,        weight: 0.12 });
+    if (fundamentalScore != null)    contributions.push({ key: "fund",  score: fundamentalScore, weight: 0.38 });
 
     const sumWeights = contributions.reduce((s, c) => s + c.weight, 0);
     const combinedScore = Math.round(
@@ -1333,15 +1347,16 @@ app.get("/api/scan/:type", async (req, res, next) => {
         r.adjustedScore = Math.max(0, Math.min(100, combinedBase + (applyMacro ? delta : 0) + sectorMomentumBonus));
 
         // 5. Stop-loss and target from ATR — MID-TERM multipliers
-        // P1+P2 (Apr 2026): SL widened from 3× to 4× ATR (44% SL rate was
-        // too tight across all 5 backtested horizons). Target tightened from
-        // 6× to 5× ATR (only 13% target hits — more achievable targets lock
-        // in gains). Combined effect: R:R = 5/4 = 1.25× (still positive
-        // expectancy with 46% win rate).
+        // Phase 1 (Apr 2026): SL 3× / target 7× ATR. The honest 24-month
+        // backtest with the old 4×/5× setting produced 40% SL hits and 13%
+        // target hits — the SL was too tight and the target wasn't
+        // aspirational enough to justify carrying losers. Asymmetric 3×/7×
+        // gives theoretical R:R = 2.33 and pairs with the activation-gated
+        // trailing stop that engages only after +2×ATR of gain.
         const atr = r.atr ?? null;
         if (atr && r.price) {
-          r.stopLoss = parseFloat((r.price - atr * 4).toFixed(2));
-          r.target = parseFloat((r.price + atr * 5).toFixed(2));
+          r.stopLoss = parseFloat((r.price - atr * 3).toFixed(2));
+          r.target = parseFloat((r.price + atr * 7).toFixed(2));
           r.riskReward = parseFloat(((r.target - r.price) / (r.price - r.stopLoss)).toFixed(2));
         }
       }
@@ -1614,17 +1629,20 @@ app.get("/api/cron/scan-precompute", async (req, res) => {
       r.baseScore = Math.round(combinedBase);
       r.adjustedScore = Math.max(0, Math.min(100, combinedBase + delta));
 
-      // P1+P2: SL 4× ATR, Target 5× ATR — matches live scanner handler
+      // Phase 1: SL 3× ATR, Target 7× ATR — matches live scanner handler
       const atr = r.atr ?? null;
       if (atr && r.price) {
-        r.stopLoss = parseFloat((r.price - atr * 4).toFixed(2));
-        r.target = parseFloat((r.price + atr * 5).toFixed(2));
+        r.stopLoss = parseFloat((r.price - atr * 3).toFixed(2));
+        r.target = parseFloat((r.price + atr * 7).toFixed(2));
         r.riskReward = parseFloat(((r.target - r.price) / (r.price - r.stopLoss)).toFixed(2));
       }
     }
 
-    // Apply filters + sector diversification (same as regular handler)
-    const MAX_PER_SECTOR = 3;
+    // Apply filters + sector diversification — Phase 1: MAX_PER_SECTOR 3 → 2
+    // to match the live handler. Prevents a single sector dominating the
+    // scan output (which currently punishes us when the leading sector
+    // happens to be Cement or Tourism — 0%/6% WR in the honest backtest).
+    const MAX_PER_SECTOR = 2;
     const sectorCounts = {};
     const candidates = results
       .filter((r) => {

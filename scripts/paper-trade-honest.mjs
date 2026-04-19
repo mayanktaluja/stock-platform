@@ -83,10 +83,24 @@ const HISTORY_END = (() => {
 
 const FRICTION_PCT = CLI.friction !== undefined ? parseFloat(CLI.friction) : 0.5;
 const EXIT_MODE = CLI.mode || "both"; // fixed | trailing | both
+
+// Phase 1 (Apr 2026) defaults. Overridable via CLI for before/after comparison.
+const SL_MULTIPLIER = CLI["sl-mult"] !== undefined ? parseFloat(CLI["sl-mult"]) : 3;
+const TARGET_MULTIPLIER = CLI["target-mult"] !== undefined ? parseFloat(CLI["target-mult"]) : 7;
+const TRAIL_MULTIPLIER = CLI["trail-mult"] !== undefined ? parseFloat(CLI["trail-mult"]) : 3;
+const TRAIL_ACTIVATION_MULT = CLI["trail-activation"] !== undefined ? parseFloat(CLI["trail-activation"]) : 2;
+const MAX_PER_SECTOR = CLI["max-sector"] !== undefined ? parseInt(CLI["max-sector"]) : 2;
+const APPLY_SECTOR_EXCLUSIONS = CLI["no-sector-exclude"] ? false : true;
+
+// Sectors that consistently underperformed across the honest 24-month baseline
+// and the prior 8-horizon concentration tests. Production buynow scanner
+// already drops these; the backtest now matches that behavior.
+const EXCLUDED_SECTORS = new Set(["Banking", "Tourism", "Cement", "Chemicals"]);
+
 const NIFTY_INDEX_SYMBOL = "^NSEI";
 const CONCURRENCY = 6;
 
-const REPORT_TAG = `${CLI.window || "24mo"}${FRICTION_PCT === 0 ? "-nofriction" : ""}`;
+const REPORT_TAG = `${CLI.window || "24mo"}${FRICTION_PCT === 0 ? "-nofriction" : ""}${CLI.label ? "-" + CLI.label : ""}`;
 const REPORT_PATH = path.join(REPORT_DIR, `paper-trading-honest-${REPORT_TAG}-report.md`);
 
 // ==================== HELPERS ====================
@@ -310,44 +324,50 @@ function trackTradeFixed(forwardBars, entryPrice, target, stopLoss, maxExitDateS
 }
 
 /**
- * Trailing-stop exit — the rule the UI has been advertising for months
- * but nothing actually executed. Trailing stop = max(highestCloseSinceEntry
- * − trailDistance, initialSL). Target still wins if hit on the way up.
- * Only evaluates on daily close (no intraday peek — prevents look-ahead).
+ * Trailing-stop exit — Phase 1 activation-gated version. The trail
+ * doesn't engage until the highest close since entry clears
+ * activationLevel (entry + activationMult × ATR). Pre-activation, the
+ * fixed initial SL is in force. Post-activation, trailStop = max(
+ * highestCloseSinceActivation − trailDist, initialSL). Target wins if
+ * hit on the way up. Close-only trail evaluation (no intraday peek).
  */
-function trackTradeTrailing(forwardBars, entryPrice, target, stopLoss, trailDist, maxExitDateStr) {
+function trackTradeTrailing(forwardBars, entryPrice, target, stopLoss, trailDist, activationLevel, maxExitDateStr) {
   const maxExitDate = new Date(maxExitDateStr);
   maxExitDate.setHours(23, 59, 59, 999);
 
   let highestClose = entryPrice;
   let currentStop = stopLoss;
+  let activated = false;
 
   for (const bar of forwardBars) {
     if (bar.date > maxExitDate) break;
 
-    // Initial hard-SL intraday check (preserves safety net)
+    // Hard-SL intraday — safety net that persists even after trail engages
     if (stopLoss && bar.low <= stopLoss) {
       return { exitPrice: stopLoss, exitDate: toDateStr(bar.date), exitReason: "SL_HIT",
         returnPct: ((stopLoss - entryPrice) / entryPrice) * 100 };
     }
 
-    // Target (intraday high is fine — a real market order would fill)
+    // Target — intraday high fills (real market order would too)
     if (target && bar.high >= target) {
       return { exitPrice: target, exitDate: toDateStr(bar.date), exitReason: "TARGET_HIT",
         returnPct: ((target - entryPrice) / entryPrice) * 100 };
     }
 
-    // Update trailing stop on daily close (no intraday peek)
-    if (bar.close > highestClose) {
-      highestClose = bar.close;
-      const newStop = highestClose - trailDist;
-      if (newStop > currentStop) currentStop = newStop;
+    // Track highest close. Activation gate: trail only engages once we
+    // clear the activation level on a daily close.
+    if (bar.close > highestClose) highestClose = bar.close;
+    if (!activated && activationLevel != null && highestClose >= activationLevel) {
+      activated = true;
     }
 
-    // Trailing-stop exit only triggers on close below the trailing level
-    if (currentStop != null && bar.close <= currentStop && currentStop > stopLoss) {
-      return { exitPrice: bar.close, exitDate: toDateStr(bar.date), exitReason: "TRAIL_HIT",
-        returnPct: ((bar.close - entryPrice) / entryPrice) * 100 };
+    if (activated) {
+      const newStop = highestClose - trailDist;
+      if (newStop > currentStop) currentStop = newStop;
+      if (bar.close <= currentStop && currentStop > stopLoss) {
+        return { exitPrice: bar.close, exitDate: toDateStr(bar.date), exitReason: "TRAIL_HIT",
+          returnPct: ((bar.close - entryPrice) / entryPrice) * 100 };
+      }
     }
   }
 
@@ -392,9 +412,12 @@ function runScan(stocks, histories, scanDateStr, activePositions, params = {}) {
   const fundWeight = params.fundWeight ?? 0.60;
   const buyNowThreshold = params.buyNowThreshold ?? 60;
   const midTermThreshold = params.midTermThreshold ?? 58;
-  const slMultiplier = params.slMultiplier ?? 4;
-  const targetMultiplier = params.targetMultiplier ?? 5;
-  const trailMultiplier = params.trailMultiplier ?? 3;
+  const slMultiplier = params.slMultiplier ?? SL_MULTIPLIER;
+  const targetMultiplier = params.targetMultiplier ?? TARGET_MULTIPLIER;
+  const trailMultiplier = params.trailMultiplier ?? TRAIL_MULTIPLIER;
+  const trailActivationMult = params.trailActivationMult ?? TRAIL_ACTIVATION_MULT;
+  const maxPerSector = params.maxPerSector ?? MAX_PER_SECTOR;
+  const applySectorExclusions = params.applySectorExclusions ?? APPLY_SECTOR_EXCLUSIONS;
 
   const buyNowCandidates = [];
   const midTermCandidates = [];
@@ -429,6 +452,13 @@ function runScan(stocks, histories, scanDateStr, activePositions, params = {}) {
     const customSL = atr ? entryPrice - atr * slMultiplier : midTerm.stopLoss;
     const customTarget = atr ? entryPrice + atr * targetMultiplier : midTerm.target;
     const trailDist = atr ? atr * trailMultiplier : null;
+    const trailActivation = atr ? entryPrice + atr * trailActivationMult : null;
+
+    // Phase 1: sector exclusion (applies to BUY_NOW + FUNDAMENTAL — these
+    // are the value-oriented buckets where losing sectors drag alpha).
+    if (applySectorExclusions && EXCLUDED_SECTORS.has(stock.sector || "")) {
+      continue;
+    }
 
     // --- Buy Now ---
     if (fundScore != null) {
@@ -442,7 +472,7 @@ function runScan(stocks, histories, scanDateStr, activePositions, params = {}) {
           symbol: stock.symbol, name: stock.name, sector: stock.sector,
           category: "BUY_NOW", entryPrice, techScore, fundScore,
           combinedScore: combined, fundVerdict, recommendation: analysis.recommendation,
-          stopLoss: customSL, target: customTarget, trailDist,
+          stopLoss: customSL, target: customTarget, trailDist, trailActivation,
           maxExitDate: addCalendarMonths(scanDateStr, 3),
           forwardBars, dma200, snap,
         });
@@ -501,11 +531,17 @@ function runScan(stocks, histories, scanDateStr, activePositions, params = {}) {
   midTermCandidates.sort((a, b) => b.midTermScore - a.midTermScore);
   fundamentalCandidates.sort((a, b) => b.fundScore - a.fundScore);
 
+  // Phase 1: sector cap within each category (max N per sector in the top-K).
+  // Prevents the scanner from returning 6 Banking picks on a regime day.
   function pickTop(candidates, limit) {
     const picked = [];
+    const sectorCount = new Map();
     for (const c of candidates) {
       if (picked.length >= limit) break;
       if (activePositions.has(c.symbol)) continue;
+      const sec = c.sector || "Unknown";
+      if ((sectorCount.get(sec) || 0) >= maxPerSector) continue;
+      sectorCount.set(sec, (sectorCount.get(sec) || 0) + 1);
       picked.push(c);
     }
     return picked;
@@ -548,7 +584,7 @@ function simulate(stocks, histories, exitMode, frictionPct) {
       let result;
       if (exitMode === "trailing" && pick.trailDist) {
         result = trackTradeTrailing(pick.forwardBars, pick.entryPrice, pick.target,
-          pick.stopLoss, pick.trailDist, pick.maxExitDate);
+          pick.stopLoss, pick.trailDist, pick.trailActivation, pick.maxExitDate);
       } else {
         result = trackTradeFixed(pick.forwardBars, pick.entryPrice, pick.target,
           pick.stopLoss, pick.maxExitDate);
@@ -561,7 +597,8 @@ function simulate(stocks, histories, exitMode, frictionPct) {
         entryPrice: pick.entryPrice, techScore: pick.techScore, fundScore: pick.fundScore,
         combinedScore: pick.combinedScore, midTermScore: pick.midTermScore,
         fundVerdict: pick.fundVerdict, stopLoss: pick.stopLoss, target: pick.target,
-        trailDist: pick.trailDist, maxExitDate: pick.maxExitDate, ...result,
+        trailDist: pick.trailDist, trailActivation: pick.trailActivation,
+        maxExitDate: pick.maxExitDate, ...result,
       });
       if (result.exitDate <= scan.date) activePositions.delete(pick.symbol);
     }
@@ -574,7 +611,7 @@ function simulate(stocks, histories, exitMode, frictionPct) {
       if (fullBars) {
         const fwdBars = sliceHistoryAfter(fullBars, t.scanDate);
         const res = exitMode === "trailing" && t.trailDist
-          ? trackTradeTrailing(fwdBars, t.entryPrice, t.target, t.stopLoss, t.trailDist, t.maxExitDate)
+          ? trackTradeTrailing(fwdBars, t.entryPrice, t.target, t.stopLoss, t.trailDist, t.trailActivation, t.maxExitDate)
           : trackTradeFixed(fwdBars, t.entryPrice, t.target, t.stopLoss, t.maxExitDate);
         Object.assign(t, applyFriction(res, frictionPct));
       }
