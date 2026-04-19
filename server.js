@@ -37,6 +37,9 @@ import {
 // and hoisted by ES module semantics.
 const FUNDAMENTALS_PATH_SERVER = path.join(__dirnameForEnv, "fundamentals.json");
 import { buildPortfolioIntelligence, computePortfolioCombinedScore } from "./portfolioIntelligence.js";
+import { parsePortfolioFile } from "./portfolioParser.js";
+import { analyzeHolding, buildReport } from "./portfolioAnalyzer.js";
+import multer from "multer";
 import { classifyRegime, computeMacroDelta, defaultCalmRegime, normalizeSector, REGIMES, SECTORS, withOpenAIRetry } from "./macroRegime.js";
 import OpenAI from "openai";
 
@@ -4451,6 +4454,183 @@ app.post("/api/portfolio", async (req, res) => {
   } catch (err) {
     console.error("Portfolio save error:", err.message);
     res.status(500).json({ error: "Failed to save portfolio" });
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Phase 5: Portfolio Analyzer — stateless upload + deep analysis.
+//
+// This endpoint accepts a multipart file upload (Groww xlsx, Groww CSV,
+// Zerodha CSV, or generic CSV) and returns a full report WITHOUT touching
+// the user's saved portfolio. Stateless on purpose: the analyzer tab is
+// for analysis, not persistence.
+// ═══════════════════════════════════════════════════════════════════════════
+
+const portfolioUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 2 * 1024 * 1024 }, // 2 MB is plenty for a holdings statement
+});
+
+app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, res) => {
+  const t0 = Date.now();
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "Missing file upload (field name: file)" });
+    }
+
+    // 1. Parse the upload and resolve symbols
+    let parsed;
+    try {
+      parsed = parsePortfolioFile(req.file.buffer, req.file.originalname || "");
+    } catch (e) {
+      return res.status(400).json({
+        error: `Failed to parse portfolio file: ${e.message}`,
+        hint: "Supported: Groww XLSX export, Groww CSV, Zerodha Console CSV. File should contain Stock Name/ISIN/Quantity/Average buy price columns.",
+      });
+    }
+
+    if (parsed.holdings.length === 0) {
+      return res.status(400).json({
+        error: "No matchable holdings found in the uploaded file.",
+        unmatched: parsed.unmatched,
+        warnings: parsed.warnings,
+      });
+    }
+
+    // 2. Fetch live macro regime once for the whole portfolio
+    let macroRegime = null;
+    try { macroRegime = await getMacroRegime(); }
+    catch { macroRegime = defaultCalmRegime(); }
+
+    // 3. Earnings calendar for catalyst-nearby flagging
+    const earningsMap = new Map();
+    try {
+      let events = catalystCache.get("nse_events");
+      if (!events) {
+        events = await fetchNseEventCalendar();
+        if (events && events.length > 0) catalystCache.set("nse_events", events);
+      }
+      if (events) {
+        const now = Date.now();
+        const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+        for (const e of events) {
+          if (!/financial result/i.test(e.purpose)) continue;
+          const d = new Date(e.date).getTime();
+          if (isNaN(d)) continue;
+          if (d - now >= 0 && d - now <= sevenDaysMs) {
+            earningsMap.set(e.symbol + ".NS", { date: e.date, purpose: e.purpose });
+          }
+        }
+      }
+    } catch { /* silent */ }
+
+    // 4. Enrich each holding — batches of 8 with 250ms spacing (same pattern
+    //    as the scanner endpoint to respect upstream rate limits and the 60s
+    //    Vercel timeout).
+    const BATCH_SIZE = 8;
+    const enriched = [];
+    for (let i = 0; i < parsed.holdings.length; i += BATCH_SIZE) {
+      if (Date.now() - t0 > 50_000) {
+        // Vercel 60s guard — stop enriching and report what we have
+        parsed.warnings.push("Analysis aborted early due to timeout; report covers first " +
+          enriched.length + " of " + parsed.holdings.length + " holdings.");
+        break;
+      }
+      const batch = parsed.holdings.slice(i, i + BATCH_SIZE);
+      const results = await Promise.all(batch.map(async (h) => {
+        try {
+          const [quote, historical] = await Promise.all([
+            fetchQuote(h.symbol),
+            fetchHistorical(h.symbol),
+          ]);
+          if (!quote || !historical || historical.length < 30) {
+            return { holding: h, quote, analysis: null, fundamentals: null, midTerm: null, longTerm: null };
+          }
+          const analysis = analyzeStock(historical, quote);
+          const closes = historical.map((d) => d.close);
+          const midTerm = midTermAnalysis(analysis, quote, closes);
+          const dma200 = historical.length >= 200
+            ? closes.slice(-200).reduce((s, v) => s + v, 0) / 200 : null;
+          const fundSnap = getFundamentals(h.symbol);
+          const fundamentalResult = fundSnap ? scoreFundamentals(fundSnap, dma200) : null;
+          const longTerm = longTermOutlook(analysis, quote, fundamentalResult, dma200);
+          return {
+            holding: h,
+            quote,
+            analysis,
+            fundamentals: fundamentalResult
+              ? { ...fundamentalResult, snapshot: fundSnap }
+              : null,
+            midTerm,
+            longTerm,
+          };
+        } catch (err) {
+          return { holding: h, error: err.message };
+        }
+      }));
+      enriched.push(...results);
+    }
+
+    // 5. Compute total invested for positionWeight calculation
+    const totalInvested = enriched.reduce((s, e) => s + e.holding.avgPrice * e.holding.quantity, 0);
+
+    // 6. Sector weights (as % of current portfolio value, fallback to invested)
+    const sectorValues = new Map();
+    for (const e of enriched) {
+      const v = (e.quote?.regularMarketPrice ?? e.holding.avgPrice) * e.holding.quantity;
+      sectorValues.set(e.holding.sector, (sectorValues.get(e.holding.sector) || 0) + v);
+    }
+    const portfolioValue = [...sectorValues.values()].reduce((s, v) => s + v, 0);
+
+    // 7. Run the per-holding analyzer
+    const reportEntries = enriched.map((e) => {
+      const invested = e.holding.avgPrice * e.holding.quantity;
+      const positionWeight = totalInvested > 0 ? (invested / totalInvested) * 100 : 0;
+      const sectorWeight = portfolioValue > 0
+        ? ((sectorValues.get(e.holding.sector) || 0) / portfolioValue) * 100
+        : 0;
+      const macroInfo = computeMacroDelta(macroRegime, e.holding.sector);
+
+      return analyzeHolding({
+        symbol: e.holding.symbol,
+        name: e.holding.name,
+        sector: e.holding.sector,
+        isin: e.holding.isin,
+        rawName: e.holding.rawName,
+        matchType: e.holding.matchType,
+        quantity: e.holding.quantity,
+        avgPrice: e.holding.avgPrice,
+        quote: e.quote,
+        analysis: e.analysis,
+        fundamentals: e.fundamentals,
+        midTerm: e.midTerm,
+        longTerm: e.longTerm,
+        macroInfo,
+        earningsNearby: earningsMap.get(e.holding.symbol) || null,
+        positionWeight,
+        sectorWeight,
+      });
+    });
+
+    // 8. Aggregate
+    const report = buildReport(reportEntries, parsed.unmatched, {
+      source: parsed.source,
+      parseSummary: parsed.summary,
+      regime: macroRegime
+        ? { id: macroRegime.regimeId || macroRegime.label, label: macroRegime.label, severity: macroRegime.severity }
+        : null,
+      warnings: parsed.warnings,
+      asOfDate: parsed.summary?.asOfDate ?? null,
+    });
+
+    res.json({
+      ok: true,
+      elapsedMs: Date.now() - t0,
+      report,
+    });
+  } catch (err) {
+    console.error("Portfolio analyze error:", err.message, err.stack);
+    res.status(500).json({ error: "Failed to analyze portfolio", details: err.message });
   }
 });
 
