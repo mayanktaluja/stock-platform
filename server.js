@@ -1405,9 +1405,20 @@ app.get("/api/scan/:type", async (req, res, next) => {
       //   • QG lane: 2 slots (tightened guardrail should filter out the losers)
       //   • DV lane: 3 slots (the consistent alpha generator)
       // Overflow still cross-fills so we always return 5 when candidates exist.
+      // Phase 4 (Apr 2026): slot allocation flipped based on attribution.
+      // 24-month per-signal attribution showed fundDeepValue had NEGATIVE
+      // −1.97% edge across 193 trades, while fundQualityGrowth had +1.97%
+      // edge across 47 trades. Previous allocation (DV=3, QG=2) was
+      // spending 60% of scanner slots on the worse signal.
+      //
+      // New: QG=4, DV=1. DV survives in the lane because occasionally a
+      // deep-value pick with very high quality (ROE ≥ 15%, not just the
+      // ≥ 10% guardrail floor) genuinely delivers — but it now has to
+      // clear a tighter bar (adjustedScore ≥ 70 vs the 65 floor for QG).
       const MAX_PER_SECTOR = 2;
-      const QG_SLOTS = 2;
-      const DV_SLOTS = 3;
+      const QG_SLOTS = 4;
+      const DV_SLOTS = 1;
+      const DV_MIN_SCORE = 70; // stricter than QG's 65 floor
 
       const baseFilter = (r) => {
         if (r.adjustedScore < 65) return false;
@@ -1426,19 +1437,28 @@ app.get("/api/scan/:type", async (req, res, next) => {
         .filter((r) => baseFilter(r) && r.fundamentalVerdict === "QUALITY_GROWTH")
         .sort((a, b) => b.adjustedScore - a.adjustedScore);
 
+      // Phase 4: DV candidates must clear DV_MIN_SCORE (tighter than QG's
+      // 65 floor), AND have ROE ≥ 15% (tighter than the 10% guardrail).
+      // Both gates required because attribution showed DV = value trap.
       const dvCandidates = results
         .filter((r) => baseFilter(r) && r.fundamentalVerdict === "DEEP_VALUE")
+        .filter((r) => r.adjustedScore >= DV_MIN_SCORE)
+        .filter((r) => {
+          const roe = getFundamentals(r.symbol)?.roe;
+          return roe != null && roe >= 0.15;
+        })
         .sort((a, b) => b.adjustedScore - a.adjustedScore);
 
-      // Fill lanes — overflow goes to the other lane
+      // Fill lanes — overflow goes to the other lane, but overflow FROM DV
+      // is allowed (DV limit is tight because attribution-negative), while
+      // overflow INTO DV is NOT allowed (Phase 4 intentionally biases toward
+      // the positive-edge QG lane).
       const qgPicked = qgCandidates.slice(0, QG_SLOTS);
       const dvPicked = dvCandidates.slice(0, DV_SLOTS);
       const qgShortfall = QG_SLOTS - qgPicked.length;
-      const dvShortfall = DV_SLOTS - dvPicked.length;
-      // If QG has spare slots, give them to DV (and vice versa)
+      // If QG is short, pull from DV only if DV has cleared the high bar
       const dvExtra = dvCandidates.slice(DV_SLOTS, DV_SLOTS + qgShortfall);
-      const qgExtra = qgCandidates.slice(QG_SLOTS, QG_SLOTS + dvShortfall);
-      const merged = [...qgPicked, ...qgExtra, ...dvPicked, ...dvExtra];
+      const merged = [...qgPicked, ...dvPicked, ...dvExtra];
 
       // Diversification pass: MAX_PER_SECTOR across both lanes combined
       const sectorCounts = {};
