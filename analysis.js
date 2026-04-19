@@ -61,23 +61,7 @@ class TechnicalAnalysis {
     let avgGain = gains / period;
     let avgLoss = losses / period;
 
-    // Smooth using Wilder's method
-    for (let i = period + 1; i < closes.length; i++) {
-      const change = closes[i] - closes[i - 1];
-      if (change >= 0) {
-        avgGain = (avgGain * (period - 1) + change) / period;
-        avgLoss = (avgGain * (period - 1)) / period;
-        // Fix: recalculate properly
-      } else {
-        avgGain = (avgGain * (period - 1)) / period;
-        avgLoss = (avgLoss * (period - 1) + Math.abs(change)) / period;
-      }
-    }
-
-    // Recalculate properly with Wilder's smoothing
-    avgGain = gains / period;
-    avgLoss = losses / period;
-
+    // Wilder's smoothing
     for (let i = period + 1; i < closes.length; i++) {
       const change = closes[i] - closes[i - 1];
       const currentGain = change >= 0 ? change : 0;
