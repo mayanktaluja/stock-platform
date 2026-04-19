@@ -15,7 +15,7 @@ import rateLimit from "express-rate-limit";
 import NodeCache from "node-cache";
 
 import { analyzeStock, intradayScan, midTermAnalysis, longTermOutlook } from "./analysis.js";
-import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, getNifty100, getStocksByIndex, validateStockList } from "./stockList.js";
+import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, getNifty100, getNifty500, getStocksByIndex, validateStockList } from "./stockList.js";
 import { analyzeNewsSentiment, quickSentiment } from "./sentiment.js";
 import { fetchNifty50, fetchNseQuote, fetchNseIndices, fetchNseIndex, fetchNseEventCalendar, nseGet, warmup as nseWarmup } from "./nse.js";
 import {
@@ -1070,7 +1070,7 @@ app.get("/api/stock/:symbol", async (req, res) => {
 // instead of silently defaulting (which used to mask user typos like
 // `?universe=nifty50000` returning the full Nifty 100 with no warning).
 const VALID_SCAN_TYPES = ["all", "midterm", "buynow", "sell"];
-const VALID_SCAN_UNIVERSES = ["nifty50", "niftyNext50", "nifty100", "all"];
+const VALID_SCAN_UNIVERSES = ["nifty50", "niftyNext50", "nifty100", "nifty500", "all"];
 
 app.get("/api/scan/:type", async (req, res, next) => {
   // Delegate specific named scans to their own handlers
@@ -1131,6 +1131,7 @@ app.get("/api/scan/:type", async (req, res, next) => {
     let stocksToScan;
     if (universe === "nifty50") stocksToScan = getStocksByIndex("NIFTY50");
     else if (universe === "niftyNext50") stocksToScan = getStocksByIndex("NIFTY_NEXT_50");
+    else if (universe === "nifty500") stocksToScan = getNifty500();
     else if (universe === "all") stocksToScan = ALL_STOCKS;
     else stocksToScan = getNifty100(); // nifty100
 
@@ -1230,9 +1231,15 @@ app.get("/api/scan/:type", async (req, res, next) => {
       // ── Fix 5: Earnings Calendar Filter ──
       // Build a set of symbols with "Financial Results" (= earnings) within 7
       // days of today. These stocks get flagged with earningsNearby so the UI
-      // can show a warning badge. We do NOT auto-exclude — transparency per
-      // SEBI §16 means the user decides whether to avoid earnings risk.
+      // can show a warning badge. Phase 2 adds a hard-blackout map for the
+      // 3-trading-day window immediately before earnings — these picks get
+      // EXCLUDED, not just warned. The previous "warn only" policy left
+      // users exposed to earnings-gap losses the ATR-based SL can't contain.
+      //
+      // The 7-day map continues to drive the UI badge; the 3-day blackout
+      // map drives scanner filtering.
       const earningsNearbyMap = new Map();
+      const earningsBlackoutSet = new Set();
       try {
         let events = catalystCache.get("nse_events");
         if (!events) {
@@ -1242,6 +1249,7 @@ app.get("/api/scan/:type", async (req, res, next) => {
         if (events) {
           const now = new Date();
           const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+          const blackoutMs = 3 * 24 * 60 * 60 * 1000; // 3 calendar days ≈ 3 trading days
           for (const e of events) {
             if (!/financial result/i.test(e.purpose)) continue;
             const eventDate = new Date(e.date);
@@ -1250,6 +1258,7 @@ app.get("/api/scan/:type", async (req, res, next) => {
             if (diffMs >= 0 && diffMs <= sevenDaysMs) {
               const sym = e.symbol + ".NS";
               earningsNearbyMap.set(sym, { date: e.date, purpose: e.purpose, company: e.company });
+              if (diffMs <= blackoutMs) earningsBlackoutSet.add(sym);
             }
           }
         }
@@ -1403,6 +1412,10 @@ app.get("/api/scan/:type", async (req, res, next) => {
       const baseFilter = (r) => {
         if (r.adjustedScore < 65) return false;
         if (r.recommendation === "HOLD") return false;
+        // Phase 2: earnings blackout — excludes picks within 3 trading days
+        // of their earnings announcement. ATR-based SL can't defend against
+        // earnings-gap losses. UI still shows the 7-day warning badge.
+        if (earningsBlackoutSet.has(r.symbol)) return false;
         if (r.fundamentalVerdict === "OVERVALUED" || r.fundamentalVerdict === "FULLY_VALUED" || r.fundamentalVerdict === "FAIR_VALUE") return false;
         const sector = normalizeSector(r.sector) || r.sector || "";
         if (EXCLUDED_SECTORS.has(sector)) return false;

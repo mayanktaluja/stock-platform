@@ -16,6 +16,7 @@
  */
 
 import OpenAI from "openai";
+import { checkBudget, recordUsage } from "./openaiBudget.js";
 
 // Model used for regime classification. Matches the Poker Hand Reviewer
 // tool so a single OPENAI_API_KEY works for both projects. Override via the
@@ -310,6 +311,15 @@ export async function classifyRegime(headlines) {
   const system = buildSystemPrompt();
   const userMessage = buildUserMessage(capped);
 
+  // Phase 2: monthly budget circuit-breaker — if we've hit the cap, skip
+  // the LLM call and return CALM. Scanner will continue to work just
+  // without regime tilt until next month.
+  const budget = checkBudget();
+  if (!budget.allowed) {
+    console.warn(`[MACRO] Monthly OpenAI cap hit ($${budget.spent.toFixed(2)} / $${budget.cap}). Falling back to CALM regime.`);
+    return { ...defaultCalmRegime(), reasoning: "OpenAI monthly cap hit — using CALM fallback." };
+  }
+
   try {
     const response = await withOpenAIRetry(
       () => client.chat.completions.create({
@@ -326,6 +336,13 @@ export async function classifyRegime(headlines) {
 
     const text = (response.choices?.[0]?.message?.content || "").trim();
     if (!text) throw new Error("Empty LLM response");
+
+    const usage = response.usage || {};
+    recordUsage({
+      inputTokens: usage.prompt_tokens || 0,
+      outputTokens: usage.completion_tokens || 0,
+      label: "macro",
+    });
 
     // Extract the JSON object (LLM may wrap in code fence or prose)
     const jsonMatch = text.match(/\{[\s\S]*\}/);
