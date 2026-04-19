@@ -754,9 +754,16 @@ function midTermAnalysis(analysis, quote, historicalCloses = null) {
   let volatilityPct = null;
   let riskReward = null;
 
+  // Phase 1 (Apr 2026): rebalance from SL 4×ATR / target 5×ATR → SL 3×ATR /
+  // target 7×ATR. The honest 24-month backtest showed 40% SL hits and only
+  // 13% target hits with the old ratio — SL was wicking out recoverable
+  // positions while the target was simultaneously unreachable. The new
+  // asymmetry gives a theoretical R:R of 7/3 ≈ 2.33, and pairs with an
+  // activation-gated trailing stop (see below) so the trailing engine
+  // doesn't chop out positions still in the red.
   if (atr && price) {
-    stopLoss = parseFloat((price - atr * 4).toFixed(2));
-    target = parseFloat((price + atr * 5).toFixed(2));
+    stopLoss = parseFloat((price - atr * 3).toFixed(2));
+    target = parseFloat((price + atr * 7).toFixed(2));
     volatilityPct = parseFloat(((atr / price) * 100).toFixed(2));
     riskReward = parseFloat(((target - price) / (price - stopLoss)).toFixed(2));
   }
@@ -797,39 +804,57 @@ function midTermAnalysis(analysis, quote, historicalCloses = null) {
     }
   }
 
-  // ── Fix 4: Dynamic Trailing Stop ──
-  // Instead of only showing the initial trailing stop level, we compute
-  // the CURRENT trailing stop based on the highest close in the last 20
-  // trading days. This makes the trailing stop actionable — the user can
-  // see exactly where their stop should be right now.
+  // ── Phase 1 (Apr 2026): Activation-gated trailing stop ──
+  //
+  // Previous behavior trailed from entry, which chopped out recoverable
+  // positions that drew down below entry before recovering. The 24-month
+  // honest backtest showed trailing was WORSE than fixed (−17% alpha vs
+  // −15%) because of this.
+  //
+  // New behavior: trailing stop only ACTIVATES once the stock has moved
+  // +2×ATR above entry. Until then, the fixed initial SL (−3×ATR) is in
+  // force. Once activated, the trail distance is ATR × 3 below the
+  // highest close seen post-activation. Locks in gains, ignores
+  // pre-activation drawdown.
   let trailingStop = null;
   if (atr && price) {
     const trailDist = parseFloat((atr * 3).toFixed(2));
+    const activationThreshold = parseFloat((price + atr * 2).toFixed(2));
     const initialLevel = parseFloat((price - trailDist).toFixed(2));
 
-    // Dynamic: compute from highest recent close (20-day lookback)
+    // Dynamic: compute from highest recent close (20-day lookback). Only
+    // engage the trail if highest close ≥ activation threshold.
     let currentLevel = initialLevel;
     let highestClose = price;
+    let activated = false;
     let trailingStopTriggered = false;
     if (historicalCloses && historicalCloses.length >= 2) {
       const recent = historicalCloses.slice(-20);
       highestClose = Math.max(...recent);
-      currentLevel = parseFloat((highestClose - trailDist).toFixed(2));
-      // Don't let trailing stop be BELOW the initial level
-      currentLevel = Math.max(currentLevel, initialLevel);
-      trailingStopTriggered = price < currentLevel;
+      activated = highestClose >= activationThreshold;
+      if (activated) {
+        currentLevel = parseFloat((highestClose - trailDist).toFixed(2));
+        currentLevel = Math.max(currentLevel, initialLevel);
+        trailingStopTriggered = price < currentLevel;
+      }
     }
 
     trailingStop = {
       initialLevel,
       currentLevel,
+      activated,
+      activationThreshold,
       highestClose: parseFloat(highestClose.toFixed(2)),
       trailDistance: trailDist,
       triggered: trailingStopTriggered,
-      rule: `Highest close (₹${highestClose.toFixed(0)}) minus ₹${trailDist.toFixed(0)} (ATR × 3)`,
-      explanation: trailingStopTriggered
-        ? "Price is BELOW trailing stop — consider exiting to lock in gains."
-        : "Move this stop up as the stock rises. Never lower it. Exit if price closes below.",
+      rule: activated
+        ? `Highest close (₹${highestClose.toFixed(0)}) minus ₹${trailDist.toFixed(0)} (ATR × 3). Activated after +2×ATR gain.`
+        : `Inactive — trailing stop engages only after price closes above ₹${activationThreshold.toFixed(0)} (entry + 2×ATR).`,
+      explanation: !activated
+        ? "Fixed SL still in force. The trailing engine waits until the trade is in decent profit before locking gains."
+        : trailingStopTriggered
+          ? "Price is BELOW trailing stop — consider exiting to lock in gains."
+          : "Move this stop up as the stock rises. Never lower it. Exit if price closes below.",
     };
   }
 
