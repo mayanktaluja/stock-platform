@@ -59,28 +59,73 @@ function parseGrowwXlsx(buffer) {
   const ws = wb.Sheets[wb.SheetNames[0]];
   const rows = xlsx.utils.sheet_to_json(ws, { header: 1, raw: false, blankrows: false });
 
-  // Find the header row by looking for "Stock Name" + "ISIN" + "Quantity"
+  // Find the header row — more permissive than before. Scan every row and
+  // try to detect the header by multiple criteria so small Groww format
+  // changes don't break the parser.
+  //
+  //   Strategy 1: look for "stock name" + "isin" + ("qty" or "quantity")
+  //   Strategy 2: look for "stock" + "isin" (most Groww exports have both)
+  //   Strategy 3: look for just "isin" + "qty" or "quantity"
+  //
+  // Whichever matches first wins.
   let headerIdx = -1;
-  for (let i = 0; i < Math.min(rows.length, 30); i++) {
-    const joined = (rows[i] || []).map((x) => String(x || "").toLowerCase()).join("|");
-    if (joined.includes("stock name") && joined.includes("isin") && joined.includes("quantity")) {
-      headerIdx = i;
-      break;
+  for (let i = 0; i < rows.length; i++) {
+    const joined = (rows[i] || []).map((x) => String(x || "").toLowerCase().trim()).join("|");
+    if (!joined) continue;
+    const hasStock = joined.includes("stock") || joined.includes("instrument") || joined.includes("tradingsymbol") || joined.includes("security");
+    const hasIsin = joined.includes("isin");
+    const hasQty = joined.includes("qty") || joined.includes("quantity") || joined.includes("holdings");
+    const hasAvg = joined.includes("average") || joined.includes("avg") || joined.includes("buy price") || joined.includes("cost");
+    // Strongest match: all four signals
+    if (hasStock && hasIsin && hasQty && hasAvg) { headerIdx = i; break; }
+  }
+  // Fallback: relax one criterion
+  if (headerIdx === -1) {
+    for (let i = 0; i < rows.length; i++) {
+      const joined = (rows[i] || []).map((x) => String(x || "").toLowerCase().trim()).join("|");
+      if (!joined) continue;
+      const hasIsin = joined.includes("isin");
+      const hasQty = joined.includes("qty") || joined.includes("quantity");
+      if (hasIsin && hasQty) { headerIdx = i; break; }
     }
   }
-  if (headerIdx === -1) throw new Error("Could not find Groww header row (Stock Name / ISIN / Quantity)");
+  if (headerIdx === -1) {
+    // Give the user a useful debug message — show what rows we did see
+    const sampleRows = rows.slice(0, 12).map((r, i) => `row ${i}: [${(r || []).slice(0, 8).join(" | ")}]`).join("\n");
+    throw new Error(
+      "Could not locate a recognizable holdings header row in the Groww xlsx. " +
+      "Expected a row containing Stock Name / ISIN / Quantity / Average buy price. " +
+      `First 12 rows seen:\n${sampleRows}`,
+    );
+  }
 
   const headers = rows[headerIdx].map(normHeader);
-  const col = (key) => headers.indexOf(key);
+  // Column locators — use substring matching over normalized headers, so
+  // "Stock Name" / "STOCK NAME" / "Stock Name " all match.
+  const findHeader = (...candidates) => {
+    for (const c of candidates) {
+      const idx = headers.findIndex((h) => h === c);
+      if (idx >= 0) return idx;
+    }
+    // Substring fallback
+    for (const c of candidates) {
+      const idx = headers.findIndex((h) => h.includes(c));
+      if (idx >= 0) return idx;
+    }
+    return -1;
+  };
 
-  const iName = col("stockname");
-  const iIsin = col("isin");
-  const iQty = col("quantity");
-  const iAvg = col("averagebuyprice");
-  const iClose = col("closingprice");
+  const iName = findHeader("stockname", "instrument", "tradingsymbol", "security", "name");
+  const iIsin = findHeader("isin", "isincode");
+  const iQty = findHeader("quantity", "qty", "holdings");
+  const iAvg = findHeader("averagebuyprice", "avgcost", "averageprice", "avgprice", "buyprice", "cost");
+  const iClose = findHeader("closingprice", "ltp", "lastprice", "currentprice");
 
-  if (iName < 0 || iIsin < 0 || iQty < 0 || iAvg < 0) {
-    throw new Error("Groww columns missing — expected Stock Name, ISIN, Quantity, Average buy price");
+  if (iName < 0 || iQty < 0 || iAvg < 0) {
+    throw new Error(
+      `Could not locate required columns. Found headers: [${headers.join(", ")}]. ` +
+      "Need at least Stock Name / Quantity / Average buy price.",
+    );
   }
 
   // Pull out the summary block above the header for useful metadata
@@ -109,10 +154,10 @@ function parseGrowwXlsx(buffer) {
     if (!qty || qty <= 0 || !avg || avg <= 0) continue;
     holdings.push({
       rawName: String(rawName).trim(),
-      isin: String(row[iIsin] || "").trim() || null,
+      isin: iIsin >= 0 ? (String(row[iIsin] || "").trim() || null) : null,
       quantity: qty,
       avgPrice: avg,
-      closePrice: toNumber(row[iClose]),
+      closePrice: iClose >= 0 ? toNumber(row[iClose]) : null,
       sourceRow: r + 1,
     });
   }
