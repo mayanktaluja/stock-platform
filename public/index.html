@@ -485,31 +485,41 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* Phase 8C: Editorial stock detail hero — magazine cover feel */
     .stock-header {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      padding: 24px 0;
+      align-items: flex-end;
+      padding: 28px 0 32px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 24px;
     }
 
     .stock-title {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
     }
 
     .stock-name {
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
+      font-family: var(--font-serif);
+      font-size: 44px;
+      font-weight: 500;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
     }
 
     .stock-symbol-badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 11.5px;
       color: var(--text-muted);
+      letter-spacing: 0.04em;
+      margin-top: 4px;
     }
 
     .stock-price-block {
@@ -517,17 +527,28 @@
     }
 
     .stock-current-price {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 36px;
-      font-weight: 800;
-      letter-spacing: -1px;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 44px;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1;
     }
 
     .stock-price-change {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 16px;
-      font-weight: 600;
-      margin-top: 4px;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 6px;
+    }
+
+    /* Responsive: stack on narrow */
+    @media (max-width: 640px) {
+      .stock-name { font-size: 32px; }
+      .stock-current-price { font-size: 32px; }
+      .stock-header { align-items: flex-start; }
+      .stock-price-block { text-align: left; }
     }
 
     /* Recommendation Banner */
@@ -1441,22 +1462,28 @@
       cursor: pointer;
     }
 
+    /* Phase 8C: editorial refresh button — ghost style */
     .refresh-btn {
-      background: var(--bg-input);
+      background: transparent;
       border: 1px solid var(--border);
       color: var(--text-secondary);
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 13px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 12.5px;
+      font-weight: 500;
       font-family: inherit;
+      letter-spacing: 0.01em;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
-
-    .refresh-btn:hover { border-color: var(--blue); color: var(--blue); }
+    .refresh-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(224, 176, 96, 0.04);
+    }
 
     .refresh-btn.spinning .spin-icon { animation: spin 1s linear infinite; }
 
@@ -1484,56 +1511,73 @@
       gap: 14px;
     }
 
+    /* Phase 8C: Editorial stock cards — hairline border, lighter bg,
+       left-border accent on hover (no transform pop), serif name. */
     .stock-card {
-      background: var(--bg-card);
-      background-image: var(--card-gradient);
+      background: rgba(255, 255, 255, 0.015);
+      background-image: none;
       border: 1px solid var(--border);
+      border-left: 2px solid transparent;
       border-radius: var(--card-radius);
-      padding: 22px;
+      padding: 20px 22px;
       cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: var(--card-shadow);
+      transition: background 180ms ease, border-color 180ms ease;
+      box-shadow: none;
+      position: relative;
     }
 
     .stock-card:hover {
-      border-color: rgba(251, 191, 36, 0.28);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 0 1px rgba(251, 191, 36, 0.1);
+      background: rgba(255, 255, 255, 0.025);
+      border-color: var(--border);
+      border-left-color: var(--gold);
+      transform: none;
+      box-shadow: none;
     }
 
     .stock-card-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+      gap: 14px;
     }
 
     .stock-card-name {
-      font-weight: 700;
-      font-size: 15px;
-      max-width: 200px;
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      max-width: 240px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
     .stock-card-symbol {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 10.5px;
       color: var(--text-muted);
+      letter-spacing: 0.04em;
+      margin-top: 2px;
     }
 
     .stock-card-price {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 18px;
-      font-weight: 700;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 19px;
+      font-weight: 500;
       text-align: right;
+      letter-spacing: -0.01em;
     }
 
     .stock-card-change {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 11.5px;
       text-align: right;
+      margin-top: 2px;
     }
 
     .stock-card-rec {
@@ -1548,33 +1592,41 @@
     .stock-card-metrics {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-top: 12px;
+      gap: 0;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
     }
 
     .stock-card-metric {
-      text-align: center;
+      text-align: left;
+      padding: 0 10px;
+      border-right: 1px solid var(--border);
     }
+    .stock-card-metric:first-child { padding-left: 0; }
+    .stock-card-metric:last-child { border-right: 0; padding-right: 0; }
 
     .metric-label {
-      font-size: 10px;
+      font-size: 9.5px;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
+      font-weight: 500;
     }
 
     .metric-value {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      font-weight: 600;
-      margin-top: 2px;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 13.5px;
+      font-weight: 500;
+      margin-top: 3px;
     }
 
     .stock-card-reasoning {
-      margin-top: 12px;
-      font-size: 12px;
+      margin-top: 14px;
+      font-size: 12.5px;
       color: var(--text-secondary);
-      line-height: 1.5;
+      line-height: 1.55;
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
@@ -1859,22 +1911,25 @@
       border-bottom-color: var(--gold);
     }
 
-    /* Back button */
+    /* Phase 8C: editorial back button — minimal text link */
     .back-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 8px 16px;
-      border-radius: 8px;
-      background: var(--bg-input);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-      font-size: 13px;
+      gap: 8px;
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      border: 0;
+      color: var(--text-muted);
+      font-size: 12.5px;
+      font-weight: 500;
       font-family: inherit;
+      letter-spacing: 0.01em;
       cursor: pointer;
-      transition: all 0.2s;
-      margin-bottom: 16px;
+      transition: color 150ms ease;
+      margin-bottom: 24px;
     }
+    .back-btn:hover { color: var(--gold); }
 
     .back-btn:hover { border-color: var(--blue); color: var(--blue); }
 
@@ -2141,8 +2196,8 @@
             <div class="section-icon buynow">&#9650;</div>
             <div>
               <div class="section-name">Best Stocks to Buy Now <span class="section-chevron">&#9660;</span></div>
-              <div class="section-desc">Quality-adjusted value with technical confirmation — 40% technicals + 60% fundamentals (sector-filtered, QG-overweighted). Only Deep Value &amp; Quality Growth pass, and every pick must clear a ROE + leverage guardrail.
-                <a href="#" onclick="event.preventDefault();event.stopPropagation();switchTab('fundamentals')" style="color:var(--green);text-decoration:underline;font-weight:600;">View Deep Value Picks →</a>
+              <div class="section-desc">High-conviction value picks where strong fundamentals meet a technical entry point.
+                <a href="#" onclick="event.preventDefault();event.stopPropagation();switchTab('fundamentals')" style="color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold);font-weight:500;">View deep value →</a>
               </div>
             </div>
           </div>
@@ -2212,7 +2267,7 @@
             <div class="section-icon volume">&#128202;</div>
             <div>
               <div class="section-name">Volume Breakout Stocks <span class="section-chevron">&#9660;</span></div>
-              <div class="section-desc">Stocks where today's volume is spiking far above average — institutional activity detected</div>
+              <div class="section-desc">Stocks trading at above-average volume — institutional footprints.</div>
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:12px;">
@@ -2238,7 +2293,7 @@
             <div class="section-icon sell">&#9888;</div>
             <div>
               <div class="section-name">Sell / Exit Alerts <span class="section-chevron">&#9660;</span></div>
-              <div class="section-desc">Stocks with multiple bearish signals — consider exiting positions or avoiding entry</div>
+              <div class="section-desc">Multiple bearish signals — consider exiting or avoiding entry.</div>
             </div>
           </div>
           <span class="section-badge sell">EXIT SIGNAL</span>
