@@ -987,6 +987,97 @@
     .section-badge.volume   { background: rgba(245,158,11,0.12); color: #fbbf24; }
     .section-badge.sell     { background: rgba(239,68,68,0.12);  color: #f87171; }
 
+    /* Phase 8A: inline tag next to section-name to mark secondary signal */
+    .section-name-tag {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 2px 8px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: rgba(234,179,8,0.9);
+      background: rgba(234,179,8,0.08);
+      border: 1px solid rgba(234,179,8,0.2);
+      border-radius: 4px;
+      vertical-align: middle;
+    }
+
+    /* ========== Phase 8A: Pick-depth toggle ==========
+       Lets user switch between Balanced (default) and Concentrated modes.
+       Concentrated shows only top-3 per category and hides MID_TERM. */
+    .pick-depth-toggle {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid #1a2233;
+      border-radius: 10px;
+      flex-wrap: wrap;
+    }
+    .pick-depth-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+    .pick-depth-control {
+      display: inline-flex;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .pick-depth-btn {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      transition: background 150ms ease, color 150ms ease;
+    }
+    .pick-depth-btn:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.04);
+    }
+    .pick-depth-btn.active {
+      background: rgba(251,191,36,0.12);
+      color: #fbbf24;
+      box-shadow: inset 0 0 0 1px rgba(251,191,36,0.25);
+    }
+    .pick-depth-btn-title {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    .pick-depth-btn-sub {
+      font-size: 10px;
+      opacity: 0.75;
+      line-height: 1.2;
+    }
+    .pick-depth-help {
+      font-size: 13px;
+      color: var(--text-muted);
+      cursor: help;
+      margin-left: auto;
+      opacity: 0.6;
+    }
+
+    /* Concentrated mode — hide Mid-Term entirely. Buy Now and Fundamental
+       sections stay visible but are sliced to top-3 client-side. */
+    body[data-concentration="concentrated"] #midtermSection { display: none; }
+
     /* ========== Macro Regime Banner ========== */
     .macro-banner {
       border: 1px solid #1a2233;
@@ -1891,6 +1982,28 @@
         </div>
       </div>
 
+      <!-- Phase 8A: Pick-depth toggle. Balanced (default) shows up to 10 picks
+           per category; Concentrated shows only top-3 and hides Mid-Term.
+           Rationale: 4-year backtest showed Concentrated (top-3 fixed, no
+           MID_TERM) delivers +126% over 3 years vs Balanced top-5 +128%,
+           with fewer picks to act on (~6/mo vs 15/mo). Users who want a
+           sharper, higher-conviction feel pick Concentrated. State is
+           persisted in localStorage. -->
+      <div class="pick-depth-toggle">
+        <div class="pick-depth-label">Pick Depth</div>
+        <div class="pick-depth-control" role="radiogroup" aria-label="Pick depth">
+          <button type="button" class="pick-depth-btn" data-mode="balanced" role="radio" aria-checked="true" onclick="setConcentrationMode('balanced')">
+            <span class="pick-depth-btn-title">Balanced</span>
+            <span class="pick-depth-btn-sub">~15/mo · diversified</span>
+          </button>
+          <button type="button" class="pick-depth-btn" data-mode="concentrated" role="radio" aria-checked="false" onclick="setConcentrationMode('concentrated')">
+            <span class="pick-depth-btn-title">Concentrated</span>
+            <span class="pick-depth-btn-sub">~6/mo · high conviction</span>
+          </button>
+        </div>
+        <div class="pick-depth-help" title="Concentrated mode shows only the top-3 picks per category and hides Mid-Term. 4yr backtest: +126% cumulative vs Nifty +43%. Balanced mode shows up to 10 picks including Mid-Term: +128% cumulative.">ⓘ</div>
+      </div>
+
       <!-- Buy Now Section (auto-expanded on desktop for fastest time-to-content) -->
       <div class="dashboard-section" id="buynowSection">
         <div class="section-header" onclick="toggleSection(this)">
@@ -1936,15 +2049,17 @@
       </div>
 
 
-      <!-- Mid-Term Section -->
+      <!-- Mid-Term Section (Secondary signal — recommended only for diversified portfolios) -->
       <div class="dashboard-section collapsed" id="midtermSection">
         <div class="section-header" onclick="toggleSection(this)">
           <div class="section-header-left">
             <div class="section-accent midterm"></div>
             <div class="section-icon midterm">&#128200;</div>
             <div>
-              <div class="section-name">Mid-Term Investment Picks <span class="section-chevron">&#9660;</span></div>
-              <div class="section-desc">Stocks in strong uptrends suitable for 1–4 week holding</div>
+              <div class="section-name">Mid-Term Investment Picks <span class="section-chevron">&#9660;</span>
+                <span class="section-name-tag">Secondary signal</span>
+              </div>
+              <div class="section-desc">Stocks in strong uptrends suitable for 1–4 week holding. <em style="color:var(--text-muted);">Lower per-trade edge than Buy Now / Deep Value — best used as diversifier in a top-5+ portfolio.</em></div>
             </div>
           </div>
           <span class="section-badge midterm">1-4 WEEKS</span>
