@@ -37,6 +37,105 @@ function normHeader(s) {
   return String(s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
+/**
+ * Best-effort date parser. Accepts DD-MM-YYYY, DD/MM/YYYY, YYYY-MM-DD,
+ * and Excel-serial dates. Returns ISO YYYY-MM-DD string or null.
+ *
+ * Dates in broker exports are almost always DD-MM (India). We prefer
+ * that interpretation over US MM-DD when the format is ambiguous.
+ */
+function toIsoDate(v) {
+  if (v == null) return null;
+  if (typeof v === "number") {
+    // Excel serial: days since 1899-12-30
+    if (v > 0 && v < 100000) {
+      const ms = Math.round((v - 25569) * 86400 * 1000);
+      const d = new Date(ms);
+      if (!Number.isNaN(d.getTime())) return d.toISOString().slice(0, 10);
+    }
+    return null;
+  }
+  const s = String(v).trim();
+  if (!s) return null;
+
+  // ISO-ish YYYY-MM-DD or YYYY/MM/DD
+  const iso = /^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/.exec(s);
+  if (iso) {
+    const [, y, m, d] = iso;
+    return `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+  }
+  // DD-MM-YYYY or DD/MM/YYYY (India default)
+  const dmy = /^(\d{1,2})[-\/](\d{1,2})[-\/](\d{2,4})$/.exec(s);
+  if (dmy) {
+    let [, d, m, y] = dmy;
+    if (y.length === 2) y = (parseInt(y, 10) > 70 ? "19" : "20") + y;
+    return `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+  }
+  // Last resort — let Date.parse try (handles "21 Apr 2024" etc.)
+  const d = new Date(s);
+  if (!Number.isNaN(d.getTime())) return d.toISOString().slice(0, 10);
+  return null;
+}
+
+// ──────────────────── Instrument classification ────────────────────
+
+/**
+ * Classify a row by ISIN prefix + name heuristics. Returns one of:
+ *   "equity"  — standard listed equity (goes to the scored universe)
+ *   "mf"      — mutual fund units (not analysed)
+ *   "etf"     — exchange-traded fund (not analysed, but may be priced)
+ *   "bond"    — debt / G-sec
+ *   "fno"     — futures / options contract
+ *   "unknown" — can't tell
+ *
+ * India ISIN prefixes (RBI / NSDL convention):
+ *   INE…  Equity shares
+ *   INF…  Mutual fund units
+ *   IN9…  Reissued capital (typically debt)
+ *   INY…  Bonds (non-corporate)
+ *   INR…  Sovereign gold bonds, state development loans
+ */
+export function classifyInstrument({ isin, rawName, symbol }) {
+  const name = String(rawName || symbol || "").toUpperCase();
+  const iso = String(isin || "").toUpperCase();
+
+  // Name-based first — ETFs legally carry INF- ISINs in India (because they're
+  // MF schemes structurally), but we want to classify them as ETFs so the user
+  // sees the right "why we skipped" message. Name patterns beat ISIN here.
+
+  // F&O: contracts contain FUT/CE/PE tokens or expiry-then-strike patterns
+  if (/\b(FUT|CE|PE)\b/.test(name)) return "fno";
+  if (/\d{2}[A-Z]{3}\d{2}.*\d+(CE|PE)$/.test(name.replace(/\s+/g, ""))) return "fno";
+
+  // ETFs: either the token "ETF" in the name, or a known ETF symbol family
+  if (/\bETF\b/.test(name)) return "etf";
+  if (/(NIFTYBEES|BANKBEES|GOLDBEES|LIQUIDBEES|JUNIORBEES|CPSEETF|PSUBNKBEES|SILVRBEES|MON100|MAFANG|HDFCNIFTY|ICICINIFTY|ITBEES|INFRABEES|SETFNIF|MIDCAPIETF|KOTAKGOLD|KOTAKBKETF)/.test(name)) return "etf";
+
+  // Explicit MF scheme naming ("Direct Growth", "Regular Plan" etc.)
+  if (/MUTUAL\s*FUND|DIRECT\s*GROWTH|DIRECT\s*PLAN|REGULAR\s*PLAN/.test(name)) return "mf";
+
+  // ISIN-based fallback (authoritative for things without telltale names)
+  if (/^INF/.test(iso)) return "mf";
+  if (/^IN9/.test(iso) || /^INY/.test(iso) || /^INR/.test(iso)) return "bond";
+
+  if (/^INE/.test(iso) || iso === "") return "equity";
+  return "unknown";
+}
+
+/**
+ * Build a short explanation for a row we decided not to analyse, so the
+ * UI can render "not scored because …".
+ */
+function whyNotAnalysed(instrumentType) {
+  switch (instrumentType) {
+    case "mf":   return "Mutual fund units — StarBhai's scoring engine is calibrated for listed equities. MF analysis requires NAV history and expense-ratio data we don't ingest.";
+    case "etf":  return "ETF — tracks a basket, not a single company. Our fundamentals model (ROE, D/E, valuation vs. sector) doesn't apply.";
+    case "bond": return "Debt instrument — yield-to-maturity + credit rating are the right lens, not equity scoring.";
+    case "fno":  return "Futures or options contract — out of scope for a long-only holdings analyser.";
+    default:     return "Could not classify this instrument as a listed equity.";
+  }
+}
+
 // ──────────────────── Groww XLSX ────────────────────
 
 /**
@@ -120,6 +219,12 @@ function parseGrowwXlsx(buffer) {
   const iQty = findHeader("quantity", "qty", "holdings");
   const iAvg = findHeader("averagebuyprice", "avgcost", "averageprice", "avgprice", "buyprice", "cost");
   const iClose = findHeader("closingprice", "ltp", "lastprice", "currentprice");
+  // Purchase date — Groww "Transactions" exports sometimes include a
+  // "First Purchase Date" column; Zerodha tradebook has "Trade Date".
+  const iDate = findHeader(
+    "firstpurchasedate", "firstpurchaseon", "purchasedate", "purchasedon",
+    "buydate", "tradedate", "datepurchased", "investedon", "firstbuydate",
+  );
 
   if (iName < 0 || iQty < 0 || iAvg < 0) {
     throw new Error(
@@ -158,6 +263,7 @@ function parseGrowwXlsx(buffer) {
       quantity: qty,
       avgPrice: avg,
       closePrice: iClose >= 0 ? toNumber(row[iClose]) : null,
+      purchaseDate: iDate >= 0 ? toIsoDate(row[iDate]) : null,
       sourceRow: r + 1,
     });
   }
@@ -213,6 +319,10 @@ function parseCsv(text) {
   const iQty = findCol("quantity", "qty", "holdingquantity");
   const iAvg = findCol("averagebuyprice", "avgcost", "averageprice", "avgprice", "buyprice");
   const iClose = findCol("closingprice", "ltp", "lastprice", "currentprice");
+  const iDate = findCol(
+    "firstpurchasedate", "firstpurchaseon", "purchasedate", "purchasedon",
+    "buydate", "tradedate", "datepurchased", "investedon", "firstbuydate",
+  );
 
   if (iName < 0 || iQty < 0 || iAvg < 0) {
     throw new Error(
@@ -234,6 +344,7 @@ function parseCsv(text) {
       quantity: qty,
       avgPrice: avg,
       closePrice: iClose >= 0 ? toNumber(row[iClose]) : null,
+      purchaseDate: iDate >= 0 ? toIsoDate(row[iDate]) : null,
       sourceRow: r + 1,
     });
   }
@@ -276,8 +387,25 @@ export function parsePortfolioFile(buffer, filename = "") {
   const warnings = [];
   const unmatched = [];
   const holdings = [];
+  const counts = { equity: 0, mf: 0, etf: 0, bond: 0, fno: 0, unknown: 0 };
 
   for (const h of parsed.holdings) {
+    const instrumentType = classifyInstrument(h);
+    counts[instrumentType] = (counts[instrumentType] || 0) + 1;
+
+    // Non-equity instruments are surfaced as unmatched with an explicit
+    // reason — they still show up in the report so the user understands
+    // their full book, but they don't get scored.
+    if (instrumentType !== "equity" && instrumentType !== "unknown") {
+      unmatched.push({
+        ...h,
+        matchType: "not-equity",
+        instrumentType,
+        reason: whyNotAnalysed(instrumentType),
+      });
+      continue;
+    }
+
     let resolved = h.isin ? findByIsin(h.isin) : null;
     let matchType = "isin";
     if (!resolved) {
@@ -286,7 +414,12 @@ export function parsePortfolioFile(buffer, filename = "") {
     }
 
     if (!resolved) {
-      unmatched.push({ ...h, matchType: "none" });
+      unmatched.push({
+        ...h,
+        matchType: "none",
+        instrumentType,
+        reason: "Not in our scored universe (typically BSE-only, SME, or non-Nifty-500).",
+      });
       continue;
     }
 
@@ -298,17 +431,33 @@ export function parsePortfolioFile(buffer, filename = "") {
       quantity: h.quantity,
       avgPrice: h.avgPrice,
       closePrice: h.closePrice,
+      purchaseDate: h.purchaseDate || null,
       rawName: h.rawName,
       matchType,
+      instrumentType: "equity",
       sourceRow: h.sourceRow,
     });
   }
 
-  if (unmatched.length > 0) {
+  // Compose a precise warning sentence per instrument-type bucket
+  const skippedNonEquity = counts.mf + counts.etf + counts.bond + counts.fno;
+  if (skippedNonEquity > 0) {
+    const parts = [];
+    if (counts.mf)   parts.push(`${counts.mf} mutual fund unit${counts.mf > 1 ? "s" : ""}`);
+    if (counts.etf)  parts.push(`${counts.etf} ETF${counts.etf > 1 ? "s" : ""}`);
+    if (counts.bond) parts.push(`${counts.bond} debt/bond instrument${counts.bond > 1 ? "s" : ""}`);
+    if (counts.fno)  parts.push(`${counts.fno} F&O contract${counts.fno > 1 ? "s" : ""}`);
     warnings.push(
-      `${unmatched.length} holding(s) couldn't be matched to the platform's stock universe ` +
-      `(typically BSE-only, SME, or non-Nifty-500 stocks). They'll still appear in the report ` +
-      "with basic info but without platform scoring.",
+      `Skipped ${parts.join(", ")} — the analyser only scores listed equities. ` +
+      "They're listed under 'Not analysed' with a per-row reason.",
+    );
+  }
+
+  const unresolvedEquities = unmatched.filter((u) => u.matchType === "none").length;
+  if (unresolvedEquities > 0) {
+    warnings.push(
+      `${unresolvedEquities} equity row(s) couldn't be matched to the platform's stock universe ` +
+      "(typically BSE-only, SME, or non-Nifty-500). They're in the report with raw info only.",
     );
   }
 
@@ -318,5 +467,6 @@ export function parsePortfolioFile(buffer, filename = "") {
     warnings,
     source: parsed.source,
     summary: parsed.summary || {},
+    instrumentCounts: counts,
   };
 }

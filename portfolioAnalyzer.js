@@ -16,6 +16,18 @@
  */
 
 import { computeAction, computePortfolioCombinedScore } from "./portfolioIntelligence.js";
+import {
+  dailyReturns,
+  computeBeta,
+  maxDrawdown,
+  historicalVaR,
+  annualizedVolatility,
+  sharpeRatio,
+  portfolioReturnSeries,
+  correlationMatrix,
+  averagePairwiseCorrelation,
+  stressScenario,
+} from "./riskMetrics.js";
 
 // ──────────────────── Red flags (structured) ────────────────────
 
@@ -235,19 +247,57 @@ function buildExitPlan({ midTerm, longTerm, quote, analysis, avgPrice }) {
 
 // ──────────────────── Tax note (heuristic) ────────────────────
 
-function buildTaxNote({ pnlAmount }) {
-  // We don't have exact purchase dates from the CSV, so we offer a
-  // conditional note rather than advice.
+function buildTaxNote({ pnlAmount, purchaseDate }) {
+  // Two modes:
+  //   (a) purchaseDate present → we can tell LT vs ST precisely and
+  //       even estimate how many days until the LTCG switchover
+  //   (b) purchaseDate missing → conditional reminder (upload statements
+  //       from Groww don't carry purchase dates)
   if (pnlAmount == null) return null;
+
+  let daysHeld = null;
+  let daysToLT = null;
+  if (purchaseDate) {
+    const pd = new Date(purchaseDate);
+    if (!Number.isNaN(pd.getTime())) {
+      const ms = Date.now() - pd.getTime();
+      daysHeld = Math.floor(ms / (24 * 60 * 60 * 1000));
+      daysToLT = daysHeld >= 365 ? 0 : 365 - daysHeld;
+    }
+  }
+
   if (pnlAmount <= 0) {
-    return {
+    const base = {
       summary: "Position is in loss — selling now realises a capital loss (short-term or long-term depending on holding period).",
       detail: "STCG losses can offset STCG gains only. LTCG losses can offset LTCG gains only. Unabsorbed losses carry forward 8 years.",
     };
+    if (daysHeld != null) {
+      base.holdingPeriod = `${daysHeld} days held — ${daysHeld >= 365 ? "long-term" : "short-term"} as of today.`;
+    }
+    return base;
   }
+
+  // Gains path
+  if (daysHeld != null) {
+    if (daysHeld < 365) {
+      return {
+        summary: `Short-term holding (${daysHeld}/365 days) — exit today = 20% STCG on the full gain (Budget 2024 rate). LTCG ≥12 months would be 12.5% over ₹1.25L/year exempt.`,
+        detail: daysToLT <= 45
+          ? `Only ${daysToLT} days to LTCG — waiting could save ~7.5 percentage points of tax on the gain. Weigh that against market risk over the next ${daysToLT} days.`
+          : `${daysToLT} more days until the position qualifies for LTCG. Unless there's a thesis-breaking signal, the tax-efficient exit is after day 365.`,
+        holdingPeriod: `${daysHeld} days held — short-term.`,
+      };
+    }
+    return {
+      summary: `Long-term holding (${daysHeld} days, ${(daysHeld / 365).toFixed(1)} years) — gains taxed at 12.5% LTCG over ₹1.25L/year exempt.`,
+      detail: "You're past the 12-month gate — no short-term tax penalty from exiting now. The ₹1.25L LTCG exemption resets each financial year, so splitting a large exit across 31-Mar can double the exemption.",
+      holdingPeriod: `${daysHeld} days held — long-term.`,
+    };
+  }
+
   return {
-    summary: "Position is in gain — tax treatment depends on how long you've held. Short-term (held <12 months): 15% STCG. Long-term (>12 months): 10% LTCG on gains beyond ₹1L/year exempt limit.",
-    detail: "If you're close to the 12-month mark, waiting may save significant tax. Upload date isn't in the holdings statement, so this is a reminder, not advice.",
+    summary: "Position is in gain — tax treatment depends on holding period. Short-term (<12 months): 20% STCG (Budget 2024 rate). Long-term (≥12 months): 12.5% LTCG on gains over ₹1.25L/year exempt.",
+    detail: "Your upload didn't include purchase dates — if you've held over 12 months, LTCG is significantly cheaper. A Zerodha 'Tradebook' or a Groww 'Transactions' export would let us compute this exactly.",
   };
 }
 
@@ -263,6 +313,7 @@ export function analyzeHolding(input) {
     symbol, name, sector, isin, quantity, avgPrice,
     quote, analysis, fundamentals, midTerm, longTerm,
     macroInfo, earningsNearby, positionWeight, sectorWeight, rawName, matchType,
+    historical, benchReturns, purchaseDate,
   } = input;
 
   const price = quote?.regularMarketPrice ?? null;
@@ -302,7 +353,30 @@ export function analyzeHolding(input) {
 
   const exitPlan = buildExitPlan({ midTerm, longTerm, quote, analysis, avgPrice });
 
-  const taxNote = buildTaxNote({ pnlAmount });
+  const taxNote = buildTaxNote({ pnlAmount, purchaseDate });
+
+  // ── Risk metrics at the holding level ──
+  // Compute stock's own daily returns once — feeds beta + vol + VaR + max-DD.
+  // Stash on the return object so the portfolio aggregator can reuse them
+  // without re-fetching historical data.
+  const closes = Array.isArray(historical) && historical.length > 0
+    ? historical.map((d) => d.close).filter((c) => Number.isFinite(c))
+    : [];
+  const stockReturns = closes.length >= 2 ? dailyReturns(closes) : [];
+  const beta = (stockReturns.length > 0 && Array.isArray(benchReturns) && benchReturns.length > 0)
+    ? computeBeta(stockReturns, benchReturns)
+    : null;
+  const annVol = stockReturns.length >= 30 ? annualizedVolatility(stockReturns) : null;
+  const oneYearDD = closes.length >= 30 ? maxDrawdown(closes.slice(-252)) : null;
+  const var95 = stockReturns.length >= 30 ? historicalVaR(stockReturns, 0.05) : null;
+
+  const holdingRisk = {
+    beta: beta != null ? +beta.toFixed(2) : null,
+    annualizedVolatility: annVol != null ? +(annVol * 100).toFixed(1) : null, // as %
+    maxDrawdown1y: oneYearDD != null ? +(oneYearDD * 100).toFixed(1) : null,   // as % (negative)
+    var95Daily: var95 != null ? +(var95 * 100).toFixed(2) : null,              // as % (negative)
+    sampleSize: stockReturns.length,
+  };
 
   return {
     // Identity
@@ -337,6 +411,12 @@ export function analyzeHolding(input) {
     exitPlan,
     taxNote,
     earningsNearby,
+    // Risk
+    risk: holdingRisk,
+    purchaseDate: purchaseDate ?? null,
+    // Internal — used by buildReport() for portfolio-level aggregation,
+    // not shown in UI
+    _stockReturns: stockReturns,
     // Debug
     macroDelta,
   };
@@ -372,6 +452,11 @@ function verdictMix(holdings) {
 }
 
 function portfolioHealthScore(holdings, totalValue, sectors) {
+  // Empty-portfolio guard — scoring a zero-holding book gives misleading
+  // "good" results from the diversification bonus alone.
+  if (!holdings || holdings.length === 0 || totalValue <= 0) {
+    return { score: null, components: null };
+  }
   // Weighted avg combined score (0-40 pts)
   let scoreSum = 0;
   let scoreWeight = 0;
@@ -481,11 +566,163 @@ function portfolioLevelActions(holdings, sectors, totalValue, verdictSummary) {
   return actions;
 }
 
+// ──────────────────── Portfolio-level risk block ────────────────────
+
+/**
+ * Build a portfolio-level risk block from per-holding returns + weights.
+ * Produces the numbers every SEBI-grade review expects: weighted beta,
+ * annualised portfolio volatility, Sharpe, max-DD over the covered
+ * period, 95% daily VaR, and average pairwise correlation.
+ *
+ * Uses per-holding `_stockReturns` stashed by `analyzeHolding()` so we
+ * don't re-process price history here.
+ */
+function buildRiskBlock(holdings, benchReturns) {
+  const totalValue = holdings.reduce((s, h) => s + (h.currentValue || 0), 0);
+  if (totalValue <= 0) return null;
+
+  // Weighted beta (set missing betas to 1 so risk isn't understated)
+  let weightedBeta = 0;
+  let coveredWeightForBeta = 0;
+  let rawBetaCount = 0;
+  for (const h of holdings) {
+    const w = (h.currentValue || 0) / totalValue;
+    const b = Number.isFinite(h.risk?.beta) ? h.risk.beta : null;
+    if (b != null) rawBetaCount++;
+    weightedBeta += (b != null ? b : 1) * w;
+    coveredWeightForBeta += w;
+  }
+
+  // Portfolio daily return series
+  const returnsList = holdings.map((h) => h._stockReturns || []);
+  const weights = holdings.map((h) => (h.currentValue || 0) / totalValue);
+  const portReturns = portfolioReturnSeries(returnsList, weights);
+
+  // Portfolio-level stats
+  const portVol = portReturns.length >= 30 ? annualizedVolatility(portReturns) : null;
+  const portSharpe = portReturns.length >= 30 ? sharpeRatio(portReturns) : null;
+  const portVar95 = portReturns.length >= 30 ? historicalVaR(portReturns, 0.05) : null;
+  const portVar99 = portReturns.length >= 30 ? historicalVaR(portReturns, 0.01) : null;
+
+  // Reconstruct a pseudo portfolio price series to get max drawdown —
+  // compound the daily returns starting from 100.
+  let maxDD = null;
+  if (portReturns.length >= 30) {
+    const synthClose = [100];
+    for (const r of portReturns) synthClose.push(synthClose[synthClose.length - 1] * (1 + r));
+    maxDD = maxDrawdown(synthClose);
+  }
+
+  // Benchmark comparison (the same stats on the benchmark itself, for
+  // context — "is the portfolio riskier than the index?")
+  const benchVol = Array.isArray(benchReturns) && benchReturns.length >= 30
+    ? annualizedVolatility(benchReturns)
+    : null;
+  const benchSharpe = Array.isArray(benchReturns) && benchReturns.length >= 30
+    ? sharpeRatio(benchReturns)
+    : null;
+  const benchVar95 = Array.isArray(benchReturns) && benchReturns.length >= 30
+    ? historicalVaR(benchReturns, 0.05)
+    : null;
+
+  // Average pairwise correlation — "how diversified, really?"
+  let avgCorr = null;
+  const seriesWithData = returnsList.filter((r) => r && r.length >= 30);
+  if (seriesWithData.length >= 2) {
+    const matrix = correlationMatrix(seriesWithData);
+    avgCorr = averagePairwiseCorrelation(matrix);
+  }
+
+  return {
+    weightedBeta: +weightedBeta.toFixed(2),
+    betaCoverage: rawBetaCount,
+    betaTotal: holdings.length,
+    portfolioVolatilityPct: portVol != null ? +(portVol * 100).toFixed(1) : null,
+    portfolioSharpe: portSharpe != null ? +portSharpe.toFixed(2) : null,
+    maxDrawdownPct: maxDD != null ? +(maxDD * 100).toFixed(1) : null,
+    var95DailyPct: portVar95 != null ? +(portVar95 * 100).toFixed(2) : null,
+    var99DailyPct: portVar99 != null ? +(portVar99 * 100).toFixed(2) : null,
+    avgCorrelation: avgCorr != null ? +avgCorr.toFixed(2) : null,
+    benchVolatilityPct: benchVol != null ? +(benchVol * 100).toFixed(1) : null,
+    benchSharpe: benchSharpe != null ? +benchSharpe.toFixed(2) : null,
+    benchVar95DailyPct: benchVar95 != null ? +(benchVar95 * 100).toFixed(2) : null,
+    sampleDays: portReturns.length,
+    interpretation: interpretRisk({ weightedBeta, portVol, benchVol, avgCorr, maxDD }),
+  };
+}
+
+/**
+ * Short human-readable interpretation of the risk block. Single
+ * paragraph, plain English, deterministic.
+ */
+function interpretRisk({ weightedBeta, portVol, benchVol, avgCorr, maxDD }) {
+  const parts = [];
+  if (Number.isFinite(weightedBeta)) {
+    if (weightedBeta > 1.25) {
+      parts.push(`Beta ${weightedBeta.toFixed(2)} — portfolio amplifies the Nifty. A 10% index fall implies ~${(weightedBeta * 10).toFixed(0)}% drop here.`);
+    } else if (weightedBeta > 1.05) {
+      parts.push(`Beta ${weightedBeta.toFixed(2)} — slightly more volatile than the Nifty.`);
+    } else if (weightedBeta > 0.9) {
+      parts.push(`Beta ${weightedBeta.toFixed(2)} — roughly index-like sensitivity.`);
+    } else if (Number.isFinite(weightedBeta)) {
+      parts.push(`Beta ${weightedBeta.toFixed(2)} — defensive, moves less than the index.`);
+    }
+  }
+  if (Number.isFinite(portVol) && Number.isFinite(benchVol)) {
+    const ratio = portVol / benchVol;
+    if (ratio > 1.2) parts.push(`Annualised vol is ${((ratio - 1) * 100).toFixed(0)}% higher than Nifty.`);
+    else if (ratio < 0.8) parts.push(`Annualised vol is ${((1 - ratio) * 100).toFixed(0)}% lower than Nifty.`);
+  }
+  if (Number.isFinite(avgCorr)) {
+    if (avgCorr > 0.7) parts.push(`Average pairwise correlation is ${avgCorr.toFixed(2)} — holdings move together; diversification is thin.`);
+    else if (avgCorr < 0.3) parts.push(`Average pairwise correlation is ${avgCorr.toFixed(2)} — holdings are genuinely diversified.`);
+  }
+  if (Number.isFinite(maxDD) && maxDD < -0.2) {
+    parts.push(`Back-tested max drawdown over the period was ${(maxDD * 100).toFixed(1)}% — plan for at least this much peak-to-trough pain again.`);
+  }
+  return parts.join(" ");
+}
+
+/**
+ * Stress-test block: project portfolio value under 3 Nifty scenarios
+ * using per-holding beta. Intentionally simple (linear CAPM) — not a
+ * full factor model — but enough to surface tail risk to the user.
+ */
+function buildStressTests(holdings) {
+  // Nothing to stress if there are no equity holdings — caller uses the
+  // empty array to skip rendering the card entirely.
+  if (!holdings || holdings.length === 0) return [];
+  const totalValue = holdings.reduce((s, h) => s + (h.currentValue || 0), 0);
+  if (totalValue <= 0) return [];
+  const scenarios = [
+    { name: "Mild correction", shock: -0.10, tag: "nifty_minus_10" },
+    { name: "Standard crash (2020/2008 magnitude)", shock: -0.20, tag: "nifty_minus_20" },
+    { name: "Severe crisis", shock: -0.30, tag: "nifty_minus_30" },
+  ];
+  const input = holdings.map((h) => ({
+    beta: h.risk?.beta ?? null,
+    currentValue: h.currentValue || 0,
+  }));
+  const tests = [];
+  for (const s of scenarios) {
+    const res = stressScenario(input, s.shock);
+    tests.push({
+      name: s.name,
+      tag: s.tag,
+      marketShockPct: s.shock * 100,
+      projectedLossPct: +res.projectedLossPct.toFixed(1),
+      projectedLossAmount: res.projectedLossAmount,
+      coveredValue: res.coveredValue,
+    });
+  }
+  return tests;
+}
+
 /**
  * Build the complete portfolio report.
  * @param {object[]} enrichedHoldings - results of analyzeHolding() per stock
  * @param {object[]} unmatched - rows the parser couldn't resolve
- * @param {object} meta - { source, parseSummary, regime, warnings, asOfDate }
+ * @param {object} meta - { source, parseSummary, regime, warnings, asOfDate, benchReturns, benchSymbol }
  */
 export function buildReport(enrichedHoldings, unmatched, meta) {
   const totalInvested = enrichedHoldings.reduce((s, h) => s + h.invested, 0);
@@ -518,11 +755,24 @@ export function buildReport(enrichedHoldings, unmatched, meta) {
   const topWinners = [...withPnL].sort((a, b) => b.pnlAmount - a.pnlAmount).slice(0, 5);
   const topLosers = [...withPnL].sort((a, b) => a.pnlAmount - b.pnlAmount).slice(0, 5);
 
+  // Risk + stress tests
+  const riskBlock = buildRiskBlock(enrichedHoldings, meta?.benchReturns);
+  const stressTests = buildStressTests(enrichedHoldings);
+
+  // Strip the internal `_stockReturns` from per-holding objects so the
+  // wire payload stays small (returns ×20 holdings × 120 days = ~2400
+  // floats we don't need on the client).
+  const stripInternal = (h) => {
+    const { _stockReturns, ...rest } = h;
+    return rest;
+  };
+
   return {
     generatedAt: new Date().toISOString(),
     asOfDate: meta?.asOfDate ?? null,
     source: meta?.source ?? null,
     macroRegime: meta?.regime ?? null,
+    benchmark: meta?.benchSymbol ?? null,
     summary: {
       holdingsCount: enrichedHoldings.length,
       unmatchedCount: unmatched.length,
@@ -532,13 +782,15 @@ export function buildReport(enrichedHoldings, unmatched, meta) {
       totalPnLPct,
     },
     health,
+    risk: riskBlock,
+    stressTests,
     sectorAllocation: sectors,
     verdictMix: verdictSummary,
-    urgentActions: urgent,
+    urgentActions: urgent.map(stripInternal),
     portfolioLevelActions: portfolioActions,
-    topWinners,
-    topLosers,
-    holdings: sorted,
+    topWinners: topWinners.map(stripInternal),
+    topLosers: topLosers.map(stripInternal),
+    holdings: sorted.map(stripInternal),
     unmatched,
     warnings: meta?.warnings ?? [],
     disclaimer:

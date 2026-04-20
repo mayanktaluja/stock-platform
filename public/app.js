@@ -3824,10 +3824,39 @@ function actionBadge(action, displayAction) {
 function renderAnalyzerReport(report, elapsedMs) {
   renderAnalyzerSummary(report, elapsedMs);
   renderAnalyzerPortfolioActions(report);
+  renderAnalyzerRiskBlock(report);
   renderAnalyzerUrgent(report);
   renderAnalyzerHoldings(report);
   renderAnalyzerUnmatched(report);
   renderAnalyzerDisclaimer(report);
+}
+
+// Small reusable "Not SEBI advice" chip for every decision surface. Keeps
+// the compliance reminder visible at the point of recommendation rather
+// than only in the footer.
+function notAdviceChip(mode = "default") {
+  const style = mode === "inline"
+    ? "display:inline-block; font-size:9px; font-weight:700; padding:2px 6px; margin-left:8px; border-radius:3px; background:rgba(239,68,68,0.10); color:#fca5a5; letter-spacing:0.4px; border:1px solid rgba(239,68,68,0.25); text-transform:uppercase; vertical-align:middle;"
+    : "display:inline-block; font-size:10px; font-weight:700; padding:3px 8px; border-radius:4px; background:rgba(239,68,68,0.08); color:#fca5a5; letter-spacing:0.4px; border:1px solid rgba(239,68,68,0.2); text-transform:uppercase;";
+  return `<span style="${style}" title="StarBhai is not a SEBI-registered investment adviser. This is educational analysis, not personalised advice.">Not advice</span>`;
+}
+
+// Data-freshness badge. `ageSec` is how old the quote cache might be;
+// we show a human-readable string.
+function freshnessBadge(report) {
+  const now = new Date();
+  const gen = report.generatedAt ? new Date(report.generatedAt) : now;
+  const ageMs = now - gen;
+  const ageMin = Math.floor(ageMs / 60000);
+  const label = ageMin < 1 ? "just now"
+    : ageMin < 60 ? `${ageMin}m ago`
+    : `${Math.floor(ageMin / 60)}h ago`;
+  const asOf = report.asOfDate ? ` · statement as of ${report.asOfDate}` : "";
+  const bench = report.benchmark ? ` · benchmark ${report.benchmark.replace("^NSEI", "Nifty 50")}` : "";
+  return `<span style="display:inline-flex; gap:6px; align-items:center; font-size:11px; color:var(--text-muted); padding:3px 8px; border-radius:4px; background:#111827; border:1px solid #1a2233;">
+    <span style="width:6px; height:6px; background:#86efac; border-radius:50%; box-shadow:0 0 6px #86efac;"></span>
+    Quotes ${label}${asOf}${bench}
+  </span>`;
 }
 
 function renderAnalyzerSummary(report, elapsedMs) {
@@ -3837,7 +3866,10 @@ function renderAnalyzerSummary(report, elapsedMs) {
   const sectors = report.sectorAllocation.slice(0, 6);
 
   const pnlColor = pctColor(s.totalPnLPct);
-  const healthColor = h.score >= 70 ? "var(--green, #22c55e)" : h.score >= 50 ? "#fde047" : "#fca5a5";
+  const hasHealth = h && h.score != null;
+  const healthColor = !hasHealth ? "var(--text-muted)"
+    : h.score >= 70 ? "var(--green, #22c55e)"
+    : h.score >= 50 ? "#fde047" : "#fca5a5";
 
   const sectorBars = sectors.map((s) =>
     `<div style="display:flex; justify-content:space-between; align-items:center; gap:8px; padding:4px 0; font-size:12px;">
@@ -3868,9 +3900,9 @@ function renderAnalyzerSummary(report, elapsedMs) {
       </div>
       <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
         <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Portfolio Health</div>
-        <div style="font-size:22px; font-weight:700; color:${healthColor};">${h.score}<span style="font-size:14px; color:var(--text-muted);">/100</span></div>
+        <div style="font-size:22px; font-weight:700; color:${healthColor};">${hasHealth ? h.score : "—"}<span style="font-size:14px; color:var(--text-muted);">/100</span></div>
         <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
-          Avg score ${h.components.avgScore} · Diversity ${h.components.diversity}pts
+          ${hasHealth ? `Avg score ${h.components.avgScore} · Diversity ${h.components.diversity}pts` : "No equity holdings to score"}
         </div>
       </div>
     </div>
@@ -3896,10 +3928,124 @@ function renderAnalyzerSummary(report, elapsedMs) {
       </div>
     </div>
 
-    <div style="margin-top:12px; font-size:11px; color:var(--text-muted); text-align:right;">
-      Analyzed ${s.holdingsCount} holdings${s.unmatchedCount > 0 ? ` · ${s.unmatchedCount} unmatched` : ""} · ${elapsedMs}ms
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-size:11px; color:var(--text-muted); gap:10px; flex-wrap:wrap;">
+      <div>${freshnessBadge(report)}</div>
+      <div>Analyzed ${s.holdingsCount} holdings${s.unmatchedCount > 0 ? ` · ${s.unmatchedCount} not analysed` : ""} · ${elapsedMs}ms</div>
     </div>
   `;
+}
+
+function renderAnalyzerRiskBlock(report) {
+  const el = document.getElementById("analyzerRisk");
+  if (!el) return;
+  const r = report.risk;
+  const tests = report.stressTests || [];
+
+  // If neither risk nor stress could be computed, render nothing
+  if (!r && tests.length === 0) { el.innerHTML = ""; return; }
+
+  const beta = r?.weightedBeta;
+  const vol = r?.portfolioVolatilityPct;
+  const benchVol = r?.benchVolatilityPct;
+  const sharpe = r?.portfolioSharpe;
+  const benchSharpe = r?.benchSharpe;
+  const maxDD = r?.maxDrawdownPct;
+  const var95 = r?.var95DailyPct;
+  const benchVar95 = r?.benchVar95DailyPct;
+  const avgCorr = r?.avgCorrelation;
+
+  // Color helpers
+  const betaColor = beta == null ? "var(--text-muted)"
+    : beta > 1.25 ? "#fca5a5"
+    : beta > 1.0  ? "#fde047"
+    : "#86efac";
+  const volColor = (vol == null || benchVol == null) ? "var(--text-muted)"
+    : vol > benchVol * 1.2 ? "#fca5a5"
+    : vol < benchVol * 0.8 ? "#86efac"
+    : "#fde047";
+  const sharpeColor = sharpe == null ? "var(--text-muted)"
+    : sharpe > 1 ? "#86efac"
+    : sharpe > 0 ? "#fde047"
+    : "#fca5a5";
+
+  const fmtPct = (v, withSign = false) => v == null ? "—" : `${withSign && v >= 0 ? "+" : ""}${v.toFixed(v >= 10 || v <= -10 ? 0 : 1)}%`;
+  const fmtNum = (v) => v == null ? "—" : v.toFixed(2);
+
+  // Risk card
+  const riskCard = r ? `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-bottom:12px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
+        <div style="font-size:14px; font-weight:700;">Risk profile (vs. Nifty 50, last ${r.sampleDays} trading days)</div>
+        ${notAdviceChip()}
+      </div>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Weighted beta</div>
+          <div style="font-size:20px; font-weight:700; color:${betaColor};">${fmtNum(beta)}</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${r.betaCoverage}/${r.betaTotal} holdings priced</div>
+        </div>
+        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Annualised volatility</div>
+          <div style="font-size:20px; font-weight:700; color:${volColor};">${fmtPct(vol)}</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Nifty: ${fmtPct(benchVol)}</div>
+        </div>
+        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Sharpe (rf=6.5%)</div>
+          <div style="font-size:20px; font-weight:700; color:${sharpeColor};">${fmtNum(sharpe)}</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Nifty: ${fmtNum(benchSharpe)}</div>
+        </div>
+        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Max drawdown (1y)</div>
+          <div style="font-size:20px; font-weight:700; color:#fca5a5;">${fmtPct(maxDD)}</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Peak-to-trough</div>
+        </div>
+        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">95% daily VaR</div>
+          <div style="font-size:20px; font-weight:700; color:#fca5a5;">${fmtPct(var95)}</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Nifty: ${fmtPct(benchVar95)}</div>
+        </div>
+        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Avg pairwise corr.</div>
+          <div style="font-size:20px; font-weight:700;">${fmtNum(avgCorr)}</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">1 = all move together</div>
+        </div>
+      </div>
+      ${r.interpretation ? `
+        <div style="margin-top:12px; padding:10px 12px; background:rgba(147,197,253,0.05); border-left:2px solid #60a5fa; border-radius:3px; font-size:12px; line-height:1.55;">
+          ${r.interpretation}
+        </div>` : ""}
+    </div>` : "";
+
+  // Stress-test card
+  const rows = tests.map((t) => {
+    const pct = t.projectedLossPct;
+    const amt = t.projectedLossAmount;
+    const color = pct < -25 ? "#fca5a5" : pct < -15 ? "#fde047" : "#93c5fd";
+    return `
+      <div style="display:grid; grid-template-columns: 1fr 120px 140px 140px; gap:12px; align-items:center; padding:10px 0; border-bottom:1px solid #1a2233; font-size:13px;">
+        <div>${t.name}</div>
+        <div style="color:var(--text-muted); font-size:12px;">Nifty ${fmtPct(t.marketShockPct, true)}</div>
+        <div style="color:${color}; font-weight:700;">${fmtPct(pct, true)}</div>
+        <div style="color:${color}; font-weight:600; text-align:right;">${amt >= 0 ? "+" : ""}${inr(amt)}</div>
+      </div>`;
+  }).join("");
+
+  const stressCard = tests.length ? `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
+        <div style="font-size:14px; font-weight:700;">Stress tests (CAPM-style, using per-stock beta)</div>
+        ${notAdviceChip()}
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 120px 140px 140px; gap:12px; font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; padding-bottom:4px;">
+        <div>Scenario</div><div>Market shock</div><div>Projected Δ</div><div style="text-align:right;">Δ in ₹</div>
+      </div>
+      ${rows}
+      <div style="margin-top:10px; font-size:11px; color:var(--text-muted); line-height:1.55;">
+        Simple CAPM projection: for each holding, expected return = β × market return. Real shocks aren't linear, and sector factors matter — these numbers are a floor on tail-risk thinking, not a forecast.
+      </div>
+    </div>` : "";
+
+  el.innerHTML = riskCard + stressCard;
 }
 
 function renderAnalyzerPortfolioActions(report) {
@@ -3917,7 +4063,10 @@ function renderAnalyzerPortfolioActions(report) {
   `).join("");
   el.innerHTML = `
     <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
-      <div style="font-size:14px; font-weight:700; margin-bottom:14px;">Portfolio-level recommendations</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:10px; flex-wrap:wrap;">
+        <div style="font-size:14px; font-weight:700;">Portfolio-level recommendations</div>
+        ${notAdviceChip()}
+      </div>
       ${items}
     </div>
   `;
@@ -3942,7 +4091,10 @@ function renderAnalyzerUrgent(report) {
   `).join("");
   el.innerHTML = `
     <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
-      <div style="font-size:14px; font-weight:700; margin-bottom:12px;">Urgent actions (top ${Math.min(10, report.urgentActions.length)})</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
+        <div style="font-size:14px; font-weight:700;">Urgent actions (top ${Math.min(10, report.urgentActions.length)})</div>
+        ${notAdviceChip()}
+      </div>
       <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px; padding:0 14px 8px; display:grid; grid-template-columns: 120px 1fr 160px 100px 120px; gap:12px;">
         <div>Symbol</div><div>Name</div><div>Action</div><div>P&amp;L %</div><div>Urgency</div>
       </div>
@@ -3956,8 +4108,11 @@ function renderAnalyzerHoldings(report) {
   const cards = report.holdings.map((h, idx) => renderHoldingCard(h, idx === 0)).join("");
   el.innerHTML = `
     <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-        <div style="font-size:14px; font-weight:700;">Per-holding deep dive (${report.holdings.length})</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:10px; flex-wrap:wrap;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="font-size:14px; font-weight:700;">Per-holding deep dive (${report.holdings.length})</div>
+          ${notAdviceChip()}
+        </div>
         <div style="font-size:11px; color:var(--text-muted);">Click any row to expand</div>
       </div>
       ${cards}
@@ -4007,9 +4162,21 @@ function renderHoldingCard(h, defaultOpen) {
 
   const taxSection = h.taxNote
     ? `<div style="margin:14px 0; padding:10px 14px; background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.2); border-radius:6px; font-size:12px;">
-        <div style="font-weight:700; color:#fde047; margin-bottom:4px;">Tax note</div>
+        <div style="font-weight:700; color:#fde047; margin-bottom:4px;">Tax note${h.purchaseDate ? ` <span style="font-weight:500; color:var(--text-muted);">· purchased ${h.purchaseDate}</span>` : ""}</div>
         <div>${h.taxNote.summary}</div>
+        ${h.taxNote.holdingPeriod ? `<div style="color:var(--text-muted); font-size:11px; margin-top:4px;">${h.taxNote.holdingPeriod}</div>` : ""}
         <div style="color:var(--text-muted); font-size:11px; margin-top:4px;">${h.taxNote.detail}</div>
+      </div>` : "";
+
+  const riskSection = h.risk && (h.risk.beta != null || h.risk.annualizedVolatility != null || h.risk.maxDrawdown1y != null)
+    ? `<div style="margin:14px 0; padding:12px 14px; background:#111827; border-radius:6px;">
+        <div style="font-size:12px; font-weight:700; margin-bottom:8px;">Risk profile</div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:10px; font-size:12px;">
+          ${h.risk.beta != null ? `<div><span style="color:var(--text-muted);">Beta:</span> <strong>${h.risk.beta.toFixed(2)}</strong></div>` : ""}
+          ${h.risk.annualizedVolatility != null ? `<div><span style="color:var(--text-muted);">Vol (ann.):</span> <strong>${h.risk.annualizedVolatility.toFixed(1)}%</strong></div>` : ""}
+          ${h.risk.maxDrawdown1y != null ? `<div><span style="color:var(--text-muted);">Max DD (1y):</span> <strong style="color:#fca5a5;">${h.risk.maxDrawdown1y.toFixed(1)}%</strong></div>` : ""}
+          ${h.risk.var95Daily != null ? `<div><span style="color:var(--text-muted);">95% daily VaR:</span> <strong style="color:#fca5a5;">${h.risk.var95Daily.toFixed(2)}%</strong></div>` : ""}
+        </div>
       </div>` : "";
 
   return `<details${openAttr} style="border:1px solid #1a2233; border-radius:8px; margin-bottom:8px; background:#0b1220;">
@@ -4038,11 +4205,15 @@ function renderHoldingCard(h, defaultOpen) {
         <div><span style="color:var(--text-muted);">Sector:</span> ${h.sector}</div>
       </div>
       <div style="margin:12px 0; padding:12px 14px; background:#111827; border-radius:6px; font-size:13px;">
-        <div style="font-weight:700; margin-bottom:6px;">Why ${h.displayAction || h.action}</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap;">
+          <div style="font-weight:700;">Why ${h.displayAction || h.action}</div>
+          ${notAdviceChip("inline")}
+        </div>
         <div style="line-height:1.6; color:var(--text);">${h.actionReasoning || ""}</div>
       </div>
       ${flagsSection}
       ${outlookSection}
+      ${riskSection}
       ${exitSection}
       ${taxSection}
       ${h.earningsNearby ? `<div style="font-size:12px; padding:8px 12px; background:rgba(59,130,246,0.08); border-radius:4px; margin-top:8px;">&#128197; <strong>Upcoming earnings:</strong> ${h.earningsNearby.date}</div>` : ""}
@@ -4056,17 +4227,47 @@ function renderAnalyzerUnmatched(report) {
     el.innerHTML = "";
     return;
   }
-  const rows = report.unmatched.map((u) => `
-    <div style="display:grid; grid-template-columns: 1fr 180px; gap:12px; padding:8px 14px; border-bottom:1px solid #1a2233; font-size:12px;">
-      <div>${u.rawName}</div>
-      <div style="color:var(--text-muted); font-family:monospace;">${u.isin || "no ISIN"}</div>
-    </div>
-  `).join("");
+  // Bucket by instrument type so MF / ETF / F&O / unresolved are each
+  // listed with the reason we didn't score them.
+  const typePill = (t) => {
+    const map = {
+      mf:      { label: "MF",     bg: "rgba(168,85,247,0.10)", border: "rgba(168,85,247,0.3)", color: "#d8b4fe" },
+      etf:     { label: "ETF",    bg: "rgba(59,130,246,0.10)", border: "rgba(59,130,246,0.3)", color: "#93c5fd" },
+      bond:    { label: "BOND",   bg: "rgba(250,204,21,0.10)", border: "rgba(250,204,21,0.3)", color: "#fde047" },
+      fno:     { label: "F&O",    bg: "rgba(239,68,68,0.10)",  border: "rgba(239,68,68,0.3)",  color: "#fca5a5" },
+      unknown: { label: "UNKNOWN",bg: "rgba(107,114,128,0.10)",border: "rgba(107,114,128,0.3)",color: "#9ca3af" },
+      equity:  { label: "EQUITY", bg: "rgba(34,197,94,0.10)",  border: "rgba(34,197,94,0.3)",  color: "#86efac" },
+    };
+    const s = map[t] || map.unknown;
+    return `<span style="display:inline-block; font-size:9px; font-weight:700; padding:2px 6px; border-radius:3px; background:${s.bg}; color:${s.color}; border:1px solid ${s.border}; letter-spacing:0.4px;">${s.label}</span>`;
+  };
+
+  const rows = report.unmatched.map((u) => {
+    const qty = Number.isFinite(u.quantity) ? u.quantity : "—";
+    const avg = Number.isFinite(u.avgPrice) ? `₹${u.avgPrice}` : "—";
+    const val = Number.isFinite(u.quantity) && Number.isFinite(u.avgPrice) ? inr(u.quantity * u.avgPrice) : "—";
+    return `
+      <div style="display:grid; grid-template-columns: 80px 1fr 140px 100px 100px 100px; gap:12px; padding:10px 14px; border-bottom:1px solid #1a2233; font-size:12px; align-items:center;">
+        <div>${typePill(u.instrumentType || "unknown")}</div>
+        <div>
+          <div>${u.rawName}</div>
+          ${u.reason ? `<div style="color:var(--text-muted); font-size:11px; margin-top:2px; line-height:1.4;">${u.reason}</div>` : ""}
+        </div>
+        <div style="color:var(--text-muted); font-family:monospace; font-size:11px;">${u.isin || "no ISIN"}</div>
+        <div style="text-align:right; color:var(--text-muted);">${qty}</div>
+        <div style="text-align:right; color:var(--text-muted);">${avg}</div>
+        <div style="text-align:right; color:var(--text-muted);">${val}</div>
+      </div>`;
+  }).join("");
+
   el.innerHTML = `
     <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
-      <div style="font-size:14px; font-weight:700; margin-bottom:6px;">Unmatched holdings (${report.unmatched.length})</div>
-      <div style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">
-        These are in your portfolio but not in our scored universe (typically BSE-only, SME, or non-Nifty-500 stocks). They count toward totals but aren't individually analyzed.
+      <div style="font-size:14px; font-weight:700; margin-bottom:6px;">Not analysed (${report.unmatched.length})</div>
+      <div style="font-size:12px; color:var(--text-muted); margin-bottom:10px; line-height:1.5;">
+        These rows are in your book but out of scope for the equity scoring engine. Each one shows why — mutual funds and ETFs need a different model, F&O is a trading vehicle, and some equities fall outside the Nifty 500 universe we track.
+      </div>
+      <div style="display:grid; grid-template-columns: 80px 1fr 140px 100px 100px 100px; gap:12px; font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; padding:0 14px 6px;">
+        <div>Type</div><div>Name / reason</div><div>ISIN</div><div style="text-align:right;">Qty</div><div style="text-align:right;">Avg</div><div style="text-align:right;">Value</div>
       </div>
       ${rows}
     </div>
@@ -4075,7 +4276,18 @@ function renderAnalyzerUnmatched(report) {
 
 function renderAnalyzerDisclaimer(report) {
   const el = document.getElementById("analyzerDisclaimer");
-  el.innerHTML = `<div style="font-size:11px; color:var(--text-muted); padding:14px 16px; background:rgba(239,68,68,0.03); border:1px solid rgba(239,68,68,0.15); border-radius:6px; line-height:1.6;">
-    <strong style="color:#fca5a5;">Disclaimer:</strong> ${report.disclaimer}
-  </div>`;
+  const generated = report.generatedAt ? new Date(report.generatedAt).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "—";
+  el.innerHTML = `
+    <div style="font-size:11px; color:var(--text-muted); padding:14px 16px; background:rgba(239,68,68,0.03); border:1px solid rgba(239,68,68,0.15); border-radius:6px; line-height:1.6;">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:6px;">
+        <strong style="color:#fca5a5; font-size:12px;">Disclaimer &amp; data limitations</strong>
+        <span style="font-size:10px; color:var(--text-muted);">Generated ${generated}</span>
+      </div>
+      <div style="margin-bottom:8px;">${report.disclaimer}</div>
+      <div style="font-size:11px; color:var(--text-muted); line-height:1.6;">
+        <strong>Data sources:</strong> Prices from Yahoo Finance (delayed up to 15 min during market hours; previous-day close when market is closed). Fundamentals from pre-cached Nifty 500 snapshots — verify current values on the issuer's exchange filings before acting.
+        &nbsp;&nbsp;<strong>Risk metrics</strong> use 1y daily history and a CAPM-style beta projection — real tail events are non-linear and sector-specific.
+        &nbsp;&nbsp;<strong>Tax note</strong> reflects Budget 2024 rates (20% STCG / 12.5% LTCG with ₹1.25L exemption) and assumes equity-oriented listed securities; consult a CA for your specific slab, set-off, and carry-forward situation.
+      </div>
+    </div>`;
 }

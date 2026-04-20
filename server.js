@@ -39,6 +39,7 @@ const FUNDAMENTALS_PATH_SERVER = path.join(__dirnameForEnv, "fundamentals.json")
 import { buildPortfolioIntelligence, computePortfolioCombinedScore } from "./portfolioIntelligence.js";
 import { parsePortfolioFile } from "./portfolioParser.js";
 import { analyzeHolding, buildReport } from "./portfolioAnalyzer.js";
+import { dailyReturns as computeDailyReturns } from "./riskMetrics.js";
 import multer from "multer";
 import { classifyRegime, computeMacroDelta, defaultCalmRegime, normalizeSector, REGIMES, SECTORS, withOpenAIRetry } from "./macroRegime.js";
 import OpenAI from "openai";
@@ -4503,11 +4504,37 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       });
     }
 
-    if (parsed.holdings.length === 0) {
+    // Only hard-fail when the parser found literally nothing — not when
+    // it found rows but classified them all as non-equity (MF/ETF/F&O).
+    // In the latter case, return a minimal report so the UI can still
+    // show the "Not analysed" list and explain why.
+    if (parsed.holdings.length === 0 && parsed.unmatched.length === 0) {
       return res.status(400).json({
-        error: "No matchable holdings found in the uploaded file.",
-        unmatched: parsed.unmatched,
+        error: "No holdings found in the uploaded file.",
+        hint: "The file parsed OK but contained no rows with a stock name, quantity, and average price. Make sure you uploaded a holdings statement (not a transactions/ledger report).",
         warnings: parsed.warnings,
+      });
+    }
+
+    // All rows were classified as non-equity → return a minimal report
+    // directly (skip the expensive enrichment loop, nothing to enrich).
+    if (parsed.holdings.length === 0) {
+      const report = buildReport([], parsed.unmatched, {
+        source: parsed.source,
+        parseSummary: parsed.summary,
+        regime: null,
+        warnings: [
+          ...parsed.warnings,
+          "No listed equities detected in this file — the analyser only scores individual stocks. To use the full report, upload a file that contains at least one equity row.",
+        ],
+        asOfDate: parsed.summary?.asOfDate ?? null,
+        benchReturns: [],
+        benchSymbol: "^NSEI",
+      });
+      return res.json({
+        ok: true,
+        elapsedMs: Date.now() - t0,
+        report,
       });
     }
 
@@ -4515,6 +4542,21 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
     let macroRegime = null;
     try { macroRegime = await getMacroRegime(); }
     catch { macroRegime = defaultCalmRegime(); }
+
+    // 2b. Fetch Nifty 50 historical once — feeds beta + stress-test
+    //     computations in portfolioAnalyzer. Failure here is non-fatal;
+    //     we just skip the risk block.
+    let benchReturns = [];
+    let benchSymbol = "^NSEI";
+    try {
+      const benchHist = await fetchHistorical(benchSymbol, "1y");
+      if (benchHist && benchHist.length >= 30) {
+        const benchCloses = benchHist.map((d) => d.close).filter((c) => Number.isFinite(c));
+        benchReturns = computeDailyReturns(benchCloses);
+      }
+    } catch (e) {
+      console.warn(`Benchmark history fetch failed (${benchSymbol}):`, e.message);
+    }
 
     // 3. Earnings calendar for catalyst-nearby flagging
     const earningsMap = new Map();
@@ -4555,10 +4597,13 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
         try {
           const [quote, historical] = await Promise.all([
             fetchQuote(h.symbol),
-            fetchHistorical(h.symbol),
+            // Pull 1y of history (vs the default 6mo) so beta/vol/VaR
+            // have a meaningful sample. Still cached, so no extra cost
+            // after the first portfolio of the day.
+            fetchHistorical(h.symbol, "1y"),
           ]);
           if (!quote || !historical || historical.length < 30) {
-            return { holding: h, quote, analysis: null, fundamentals: null, midTerm: null, longTerm: null };
+            return { holding: h, quote, historical: null, analysis: null, fundamentals: null, midTerm: null, longTerm: null };
           }
           const analysis = analyzeStock(historical, quote);
           const closes = historical.map((d) => d.close);
@@ -4571,6 +4616,7 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
           return {
             holding: h,
             quote,
+            historical,
             analysis,
             fundamentals: fundamentalResult
               ? { ...fundamentalResult, snapshot: fundSnap }
@@ -4614,6 +4660,7 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
         matchType: e.holding.matchType,
         quantity: e.holding.quantity,
         avgPrice: e.holding.avgPrice,
+        purchaseDate: e.holding.purchaseDate || null,
         quote: e.quote,
         analysis: e.analysis,
         fundamentals: e.fundamentals,
@@ -4623,6 +4670,8 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
         earningsNearby: earningsMap.get(e.holding.symbol) || null,
         positionWeight,
         sectorWeight,
+        historical: e.historical || null,
+        benchReturns,
       });
     });
 
@@ -4635,6 +4684,8 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
         : null,
       warnings: parsed.warnings,
       asOfDate: parsed.summary?.asOfDate ?? null,
+      benchReturns,
+      benchSymbol,
     });
 
     res.json({
