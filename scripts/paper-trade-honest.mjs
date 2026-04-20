@@ -85,9 +85,11 @@ const HISTORY_END = (() => {
 const FRICTION_PCT = CLI.friction !== undefined ? parseFloat(CLI.friction) : 0.5;
 const EXIT_MODE = CLI.mode || "both"; // fixed | trailing | both
 
-// Phase 1 (Apr 2026) defaults. Overridable via CLI for before/after comparison.
-const SL_MULTIPLIER = CLI["sl-mult"] !== undefined ? parseFloat(CLI["sl-mult"]) : 3;
-const TARGET_MULTIPLIER = CLI["target-mult"] !== undefined ? parseFloat(CLI["target-mult"]) : 7;
+// Phase 6 (Apr 2026) defaults — reverted from Phase 1's 3/7 after per-year
+// diagnostic showed 4/6 is strictly better in 2023/2024/2025. Overridable
+// via CLI for before/after comparison.
+const SL_MULTIPLIER = CLI["sl-mult"] !== undefined ? parseFloat(CLI["sl-mult"]) : 4;
+const TARGET_MULTIPLIER = CLI["target-mult"] !== undefined ? parseFloat(CLI["target-mult"]) : 6;
 const TRAIL_MULTIPLIER = CLI["trail-mult"] !== undefined ? parseFloat(CLI["trail-mult"]) : 3;
 const TRAIL_ACTIVATION_MULT = CLI["trail-activation"] !== undefined ? parseFloat(CLI["trail-activation"]) : 2;
 const MAX_PER_SECTOR = CLI["max-sector"] !== undefined ? parseInt(CLI["max-sector"]) : 2;
@@ -96,7 +98,10 @@ const APPLY_SECTOR_EXCLUSIONS = CLI["no-sector-exclude"] ? false : true;
 // Sectors that consistently underperformed across the honest 24-month baseline
 // and the prior 8-horizon concentration tests. Production buynow scanner
 // already drops these; the backtest now matches that behavior.
-const EXCLUDED_SECTORS = new Set(["Banking", "Tourism", "Cement", "Chemicals"]);
+// Phase 6: Banking REMOVED from exclusions (was over-fitted; 2025 rate-cut
+// cycle made Banking a top-performing sector we were skipping). Tourism,
+// Cement, Chemicals confirmed as net drags across 2023-2025.
+const EXCLUDED_SECTORS = new Set(["Tourism", "Cement", "Chemicals"]);
 
 // Phase 2: universe selection via CLI
 const UNIVERSE = CLI.universe || "nifty100"; // nifty100 | nifty500

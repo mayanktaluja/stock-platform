@@ -69,12 +69,18 @@ const UNIVERSE = CLI.universe || (PIT ? "nifty100" : "nifty500");
 const YEARS = (CLI.years || "2023,2024,2025,2026").split(",").map((y) => parseInt(y.trim(), 10));
 const CONCENTRATIONS = (CLI.concentrations || "1,3,5,10").split(",").map((n) => parseInt(n.trim(), 10));
 const FRICTION_PCT = CLI.friction !== undefined ? parseFloat(CLI.friction) : 0.5;
-const SL_MULT = CLI["sl-mult"] !== undefined ? parseFloat(CLI["sl-mult"]) : 3;
-const TARGET_MULT = CLI["target-mult"] !== undefined ? parseFloat(CLI["target-mult"]) : 7;
+// Phase 6 defaults: 4× SL / 6× target (reverted Phase 1's 3/7).
+const SL_MULT = CLI["sl-mult"] !== undefined ? parseFloat(CLI["sl-mult"]) : 4;
+const TARGET_MULT = CLI["target-mult"] !== undefined ? parseFloat(CLI["target-mult"]) : 6;
 const TRAIL_MULT = CLI["trail-mult"] !== undefined ? parseFloat(CLI["trail-mult"]) : 3;
 const TRAIL_ACTIVATION_MULT = 2;
 const MAX_PER_SECTOR = 2;
-const EXCLUDED_SECTORS = new Set(["Banking", "Tourism", "Cement", "Chemicals"]);
+// Phase 6: Banking removed from exclusions after 2025 diagnostic showed it
+// was a top-performing sector (55% WR, +5% avg — rate-cut cycle). Keep the
+// other three (0% WR in 2025).
+const EXCLUDED_SECTORS = new Set(["Tourism", "Cement", "Chemicals"]);
+// Phase 6: cross-category dedup flag.
+const CROSS_CATEGORY_DEDUP = CLI["no-cross-dedup"] ? false : true;
 
 const NIFTY_INDEX_SYMBOL = "^NSEI";
 const CONCURRENCY = 6;
@@ -429,23 +435,34 @@ function runScan(stocks, histories, scanDateStr, activePositions, topN, pitCtx =
   midTerm.sort((a, b) => b.midTermScore - a.midTermScore);
   fundamental.sort((a, b) => b.fundScore - a.fundScore);
 
+  // Phase 6: cross-category dedup. Priority: BUY_NOW > FUNDAMENTAL > MID_TERM.
+  // Once a stock is claimed by a higher-priority lane it won't be picked by
+  // a lower one — prevents triple-weighting a single bad idea.
+  const claimedBySymbol = CROSS_CATEGORY_DEDUP ? new Set() : null;
+
   function pickTopN(candidates, limit) {
     const picked = [];
     const sectorCount = new Map();
     for (const c of candidates) {
       if (picked.length >= limit) break;
       if (activePositions.has(c.symbol)) continue;
+      if (claimedBySymbol && claimedBySymbol.has(c.symbol)) continue;
       const sec = c.sector || "Unknown";
       if ((sectorCount.get(sec) || 0) >= MAX_PER_SECTOR) continue;
       sectorCount.set(sec, (sectorCount.get(sec) || 0) + 1);
       picked.push(c);
+      if (claimedBySymbol) claimedBySymbol.add(c.symbol);
     }
     return picked;
   }
+  // Pick in priority order so dedup takes effect
+  const buyNowPicks = pickTopN(buyNow, topN);
+  const fundamentalPicks = pickTopN(fundamental, topN);
+  const midTermPicks = pickTopN(midTerm, topN);
   return {
-    buyNowPicks: pickTopN(buyNow, topN),
-    midTermPicks: pickTopN(midTerm, topN),
-    fundamentalPicks: pickTopN(fundamental, topN),
+    buyNowPicks,
+    midTermPicks,
+    fundamentalPicks,
   };
 }
 
