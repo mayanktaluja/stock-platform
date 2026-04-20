@@ -1359,16 +1359,15 @@ app.get("/api/scan/:type", async (req, res, next) => {
         r.adjustedScore = Math.max(0, Math.min(100, combinedBase + (applyMacro ? delta : 0) + sectorMomentumBonus));
 
         // 5. Stop-loss and target from ATR — MID-TERM multipliers
-        // Phase 1 (Apr 2026): SL 3× / target 7× ATR. The honest 24-month
-        // backtest with the old 4×/5× setting produced 40% SL hits and 13%
-        // target hits — the SL was too tight and the target wasn't
-        // aspirational enough to justify carrying losers. Asymmetric 3×/7×
-        // gives theoretical R:R = 2.33 and pairs with the activation-gated
-        // trailing stop that engages only after +2×ATR of gain.
+        // Phase 6 (Apr 2026): 4× / 6× ATR. Reverted Phase 1's 3×/7× setting
+        // after per-year diagnostic on 2023/2024/2025 showed 4×/6× is
+        // strictly equal-or-better in every year. Phase 1's tighter SL was
+        // overfit to 2024 low-vol conditions — in 2025's higher-vol regime,
+        // 3× ATR SL wicked out too easily (38% SL-hit rate → 28% with 4×).
         const atr = r.atr ?? null;
         if (atr && r.price) {
-          r.stopLoss = parseFloat((r.price - atr * 3).toFixed(2));
-          r.target = parseFloat((r.price + atr * 7).toFixed(2));
+          r.stopLoss = parseFloat((r.price - atr * 4).toFixed(2));
+          r.target = parseFloat((r.price + atr * 6).toFixed(2));
           r.riskReward = parseFloat(((r.target - r.price) / (r.price - r.stopLoss)).toFixed(2));
         }
       }
@@ -1388,11 +1387,18 @@ app.get("/api/scan/:type", async (req, res, next) => {
       //   6. MAX 3 per sector — prevents all-banking or all-IT top 10
       //
       // P4 (Apr 2026): Sector exclusion based on 8-horizon backtesting.
-      // Banking (31% WR, -1.74%), Tourism/IRCTC (31%, -1.79%), Cement (28%,
-      // -1.47%), Chemicals (28%, -2.91%) consistently destroy alpha across
-      // ALL tested horizons. Excluding them removes ~30% of losing trades.
+      // Tourism, Cement, Chemicals consistently destroy alpha across all
+      // tested horizons (<31% WR in honest backtest).
+      //
+      // Phase 6 (Apr 2026): REMOVED Banking from the exclusion list. The
+      // 2025 diagnostic showed Banking would have had 29 trades at 55% WR
+      // and +5.07% avg return — making it one of the best-performing
+      // sectors of 2025. The original Banking exclusion was overfit to an
+      // older sample and cost us meaningful alpha during the 2025 rate-cut
+      // cycle. Tourism/Cement/Chemicals exclusions remain correct (0% WR
+      // in 2025 diagnostic).
       const EXCLUDED_SECTORS = new Set([
-        "Banking", "Tourism", "Cement", "Chemicals",
+        "Tourism", "Cement", "Chemicals",
       ]);
 
       // ── Fix 2: QG/DV Dual-Lane Scanner ──
@@ -1665,11 +1671,11 @@ app.get("/api/cron/scan-precompute", async (req, res) => {
       r.baseScore = Math.round(combinedBase);
       r.adjustedScore = Math.max(0, Math.min(100, combinedBase + delta));
 
-      // Phase 1: SL 3× ATR, Target 7× ATR — matches live scanner handler
+      // Phase 6: SL 4× ATR, Target 6× ATR — matches live scanner handler
       const atr = r.atr ?? null;
       if (atr && r.price) {
-        r.stopLoss = parseFloat((r.price - atr * 3).toFixed(2));
-        r.target = parseFloat((r.price + atr * 7).toFixed(2));
+        r.stopLoss = parseFloat((r.price - atr * 4).toFixed(2));
+        r.target = parseFloat((r.price + atr * 6).toFixed(2));
         r.riskReward = parseFloat(((r.target - r.price) / (r.price - r.stopLoss)).toFixed(2));
       }
     }

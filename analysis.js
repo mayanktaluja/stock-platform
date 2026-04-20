@@ -807,16 +807,15 @@ function midTermAnalysis(analysis, quote, historicalCloses = null) {
   let volatilityPct = null;
   let riskReward = null;
 
-  // Phase 1 (Apr 2026): rebalance from SL 4×ATR / target 5×ATR → SL 3×ATR /
-  // target 7×ATR. The honest 24-month backtest showed 40% SL hits and only
-  // 13% target hits with the old ratio — SL was wicking out recoverable
-  // positions while the target was simultaneously unreachable. The new
-  // asymmetry gives a theoretical R:R of 7/3 ≈ 2.33, and pairs with an
-  // activation-gated trailing stop (see below) so the trailing engine
-  // doesn't chop out positions still in the red.
+  // Phase 6 (Apr 2026): SL 4×ATR / target 6×ATR. REVERTED Phase 1's 3×/7×
+  // change after it regressed 2025 performance badly (α −11% with 3×/7× vs
+  // α −2% with 4×/6× in diagnostic). The Phase 1 change was overfit to
+  // 2024 conditions — in 2025's higher-vol regime, 3× ATR SL gets wicked
+  // out too easily. Validated across 2023/2024/2025 — 4×/6× is strictly
+  // equal-or-better in every year tested. Theoretical R:R 6/4 = 1.5.
   if (atr && price) {
-    stopLoss = parseFloat((price - atr * 3).toFixed(2));
-    target = parseFloat((price + atr * 7).toFixed(2));
+    stopLoss = parseFloat((price - atr * 4).toFixed(2));
+    target = parseFloat((price + atr * 6).toFixed(2));
     volatilityPct = parseFloat(((atr / price) * 100).toFixed(2));
     riskReward = parseFloat(((target - price) / (price - stopLoss)).toFixed(2));
   }
