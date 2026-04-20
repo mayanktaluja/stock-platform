@@ -41,6 +41,7 @@ import { analyzeStock, midTermAnalysis } from "../analysis.js";
 import { scoreFundamentals, loadFundamentalsFromDisk, getFundamentals } from "../fundamentals.js";
 import { getNifty100, getNifty500 } from "../stockList.js";
 import { getPointInTimeFundamentals, computePitSectorPeMedians } from "../pointInTimeFundamentals.js";
+import { classifyRegime, regimeSizeFromLabel, shouldSkipScan } from "../historicalRegime.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -63,9 +64,9 @@ const CLI = parseArgs();
 // Without it, every scan uses the current fundamentals.json snapshot
 // (look-ahead contaminated for older years).
 const PIT = !!CLI.pit;
-// Default universe is nifty500 normally, nifty100 with --pit (where PIT
-// data coverage is 99%, vs only 23% for nifty500).
-const UNIVERSE = CLI.universe || (PIT ? "nifty100" : "nifty500");
+// Phase 7: PIT coverage expanded to 494/500 Nifty 500 stocks, so both
+// modes can default to nifty500 now.
+const UNIVERSE = CLI.universe || "nifty500";
 const YEARS = (CLI.years || "2023,2024,2025,2026").split(",").map((y) => parseInt(y.trim(), 10));
 const CONCENTRATIONS = (CLI.concentrations || "1,3,5,10").split(",").map((n) => parseInt(n.trim(), 10));
 const FRICTION_PCT = CLI.friction !== undefined ? parseFloat(CLI.friction) : 0.5;
@@ -81,6 +82,13 @@ const MAX_PER_SECTOR = 2;
 const EXCLUDED_SECTORS = new Set(["Tourism", "Cement", "Chemicals"]);
 // Phase 6: cross-category dedup flag.
 const CROSS_CATEGORY_DEDUP = CLI["no-cross-dedup"] ? false : true;
+// Phase 7: real regime overlay on/off. When enabled, position sizes and
+// skip-scan decisions come from the historicalRegime classifier operating
+// on live Nifty history.
+const USE_REGIME = CLI.regime !== undefined ? (CLI.regime !== "false" && CLI.regime !== "0") : true;
+// Phase 7: top-1 conviction gate. Only take the #1 pick if its score is at
+// least CONVICTION_GAP points above #2. Tunable. 0 disables.
+const CONVICTION_GAP = CLI["conviction-gap"] !== undefined ? parseFloat(CLI["conviction-gap"]) : 3;
 
 const NIFTY_INDEX_SYMBOL = "^NSEI";
 const CONCURRENCY = 6;
@@ -440,9 +448,17 @@ function runScan(stocks, histories, scanDateStr, activePositions, topN, pitCtx =
   // a lower one — prevents triple-weighting a single bad idea.
   const claimedBySymbol = CROSS_CATEGORY_DEDUP ? new Set() : null;
 
-  function pickTopN(candidates, limit) {
+  function pickTopN(candidates, limit, scoreKey) {
     const picked = [];
     const sectorCount = new Map();
+    // Phase 7: top-1 conviction gate. If the caller is asking for top-1
+    // and CONVICTION_GAP > 0, skip when #1 score doesn't clear #2 by the
+    // threshold — reduces picks where #1 was barely ahead of noise.
+    // Applied per-category since scores aren't comparable across categories.
+    if (limit === 1 && CONVICTION_GAP > 0 && candidates.length >= 2 && scoreKey) {
+      const gap = (candidates[0][scoreKey] || 0) - (candidates[1][scoreKey] || 0);
+      if (gap < CONVICTION_GAP) return []; // skip the top-1 altogether
+    }
     for (const c of candidates) {
       if (picked.length >= limit) break;
       if (activePositions.has(c.symbol)) continue;
@@ -456,9 +472,9 @@ function runScan(stocks, histories, scanDateStr, activePositions, topN, pitCtx =
     return picked;
   }
   // Pick in priority order so dedup takes effect
-  const buyNowPicks = pickTopN(buyNow, topN);
-  const fundamentalPicks = pickTopN(fundamental, topN);
-  const midTermPicks = pickTopN(midTerm, topN);
+  const buyNowPicks = pickTopN(buyNow, topN, "combinedScore");
+  const fundamentalPicks = pickTopN(fundamental, topN, "fundScore");
+  const midTermPicks = pickTopN(midTerm, topN, "midTermScore");
   return {
     buyNowPicks,
     midTermPicks,
@@ -479,10 +495,28 @@ function sharedPickFields(stock, entry, sl, tgt, trail, activation, forwardBars)
 function simulate(stocks, histories, scanDates, topN, exitMode, frictionPct, usePit = false) {
   const trades = [];
   const active = new Set();
+  const niftyBars = histories.get(NIFTY_INDEX_SYMBOL);
+
+  const regimeStats = { RISK_OFF: 0, NEUTRAL: 0, RISK_ON: 0, skipped: 0 };
 
   for (const scan of scanDates) {
     for (const t of trades) {
       if (t.exitDate && t.exitDate <= scan.date && active.has(t.symbol)) active.delete(t.symbol);
+    }
+
+    // Phase 7: real regime classification at scan date (no look-ahead —
+    // only uses niftyBars ≤ scan.date).
+    let regime = "NEUTRAL", regimeMetrics = null, sizeMult = 1.0;
+    if (USE_REGIME && niftyBars) {
+      const r = classifyRegime(niftyBars, new Date(scan.date));
+      regime = r.regime; regimeMetrics = r.metrics;
+      sizeMult = regimeSizeFromLabel(regime);
+      regimeStats[regime] = (regimeStats[regime] || 0) + 1;
+      // Skip scans during catastrophic risk-off (−12% in 20 days)
+      if (shouldSkipScan(regime, regimeMetrics)) {
+        regimeStats.skipped++;
+        continue;
+      }
     }
 
     // Build point-in-time sector-P/E medians once per scan (if --pit enabled)
@@ -510,11 +544,16 @@ function simulate(stocks, histories, scanDates, topN, exitMode, frictionPct, use
         res = trackTradeFixed(pick.forwardBars, pick.entryPrice, pick.target, pick.stopLoss, pick.maxExitDate);
       }
       res = applyFriction(res, frictionPct);
+      // Phase 7: size-scale the return by regime multiplier. This represents
+      // taking a smaller position in risky regimes (vs taking full size always).
+      const sizedRet = res.returnPct * sizeMult;
       trades.push({
         symbol: pick.symbol, sector: pick.sector, category: pick.category,
         scanDate: scan.date, entryPrice: pick.entryPrice,
         stopLoss: pick.stopLoss, target: pick.target, maxExitDate: pick.maxExitDate,
+        regime, sizeMult, unsizedReturnPct: res.returnPct,
         ...res,
+        returnPct: sizedRet, // overwrite — downstream uses .returnPct
       });
       if (res.exitDate <= scan.date) active.delete(pick.symbol);
     }
