@@ -7,60 +7,122 @@
   <meta name="description" content="Professional Indian stock analysis platform — technical signals, fundamentals, macro regime awareness, and forward-return tracking.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fbbf24' d='M12 2L14.6 9H22L16 13.5L18.5 21L12 16.5L5.5 21L8 13.5L2 9H9.4z'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Phase 8B: Editorial Terminal typography — Fraunces (serif, headlines),
+       Geist (sans, UI), JetBrains Mono (tabular numbers). Replaces Inter. -->
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Geist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* StarBhai design tokens — softened from the previous "neon trading
-       * terminal" look toward a more analyst-grade Bloomberg/Refinitiv feel.
-       * Borders are rgba so they sit gently on top of card backgrounds, radii
-       * are bigger, and the green/red palette is slightly desaturated. */
-      --bg-primary: #0a0e17;
-      --bg-secondary: #111827;
-      --bg-card: #161c2a;
-      --bg-card-hover: #1c2333;
-      --bg-input: #151a28;
-      --border: rgba(255, 255, 255, 0.08);
-      --border-soft: rgba(255, 255, 255, 0.05);
-      --border-focus: rgba(251, 191, 36, 0.5);
-      --text-primary: #f1f5f9;
-      --text-secondary: #cbd5e1;
-      --text-muted: #94a3b8;
-      --text-faint: #64748b;
-      --green: #34d399;
-      --green-soft: #6ee7b7;
-      --green-bg: rgba(52, 211, 153, 0.1);
-      --green-border: rgba(52, 211, 153, 0.28);
-      --red: #f87171;
-      --red-soft: #fca5a5;
-      --red-bg: rgba(248, 113, 113, 0.1);
-      --red-border: rgba(248, 113, 113, 0.28);
-      --blue: #60a5fa;
-      --blue-bg: rgba(96, 165, 250, 0.1);
-      --yellow: #fbbf24;
-      --yellow-bg: rgba(251, 191, 36, 0.1);
-      --gold: #fbbf24;
-      --gold-deep: #f59e0b;
-      --purple: #a78bfa;
-      --orange: #fb923c;
-      --cyan: #22d3ee;
-      --gradient-green: linear-gradient(135deg, #34d399, #059669);
-      --gradient-red: linear-gradient(135deg, #f87171, #dc2626);
-      --gradient-blue: linear-gradient(135deg, #60a5fa, #2563eb);
-      --gradient-gold: linear-gradient(135deg, #fbbf24, #f59e0b);
-      --card-radius: 14px;
-      --chip-radius: 8px;
-      --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.04);
-      --card-gradient: linear-gradient(180deg, rgba(255,255,255,0.025) 0%, transparent 100%);
+      /* Phase 8B: Editorial Terminal palette.
+       * Warmer graphite background, hairline borders, single amber accent,
+       * muted semantic colors. Variables preserved for backward compat so
+       * the 2000+ existing CSS rules automatically inherit the new look. */
+
+      /* Background: warm near-black with subtle tint */
+      --bg-primary: #0B0C10;
+      --bg-secondary: #0F1116;
+      --bg-card: #13151C;
+      --bg-card-hover: #181B24;
+      --bg-input: #11131A;
+
+      /* Hairline borders — thinner, less shouty */
+      --border: rgba(255, 255, 255, 0.06);
+      --border-soft: rgba(255, 255, 255, 0.04);
+      --border-focus: rgba(224, 176, 96, 0.4);
+
+      /* Text: warm off-white hierarchy */
+      --text-primary: #EDEDED;
+      --text-secondary: rgba(237, 237, 237, 0.75);
+      --text-muted: rgba(237, 237, 237, 0.55);
+      --text-faint: rgba(237, 237, 237, 0.35);
+
+      /* Semantic colors: muted emerald + muted crimson */
+      --green: #2ECC71;
+      --green-soft: #58D68D;
+      --green-bg: rgba(46, 204, 113, 0.08);
+      --green-border: rgba(46, 204, 113, 0.24);
+      --red: #D64545;
+      --red-soft: #E57373;
+      --red-bg: rgba(214, 69, 69, 0.08);
+      --red-border: rgba(214, 69, 69, 0.24);
+
+      /* Accents: warm amber (richer, less candy) + tasteful blue */
+      --blue: #7FA1E8;
+      --blue-bg: rgba(127, 161, 232, 0.08);
+      --yellow: #E0B060;
+      --yellow-bg: rgba(224, 176, 96, 0.08);
+      --gold: #E0B060;
+      --gold-deep: #C99853;
+      --purple: #9B8BD8;
+      --orange: #D88E62;
+      --cyan: #6FC3D8;
+
+      /* Gradients: subtle, not full-bore */
+      --gradient-green: linear-gradient(135deg, #2ECC71, #27AE60);
+      --gradient-red: linear-gradient(135deg, #D64545, #A83232);
+      --gradient-blue: linear-gradient(135deg, #7FA1E8, #4A7DCC);
+      --gradient-gold: linear-gradient(135deg, #E0B060, #C99853);
+
+      /* Geometry: tighter radii, crisper shadows */
+      --card-radius: 6px;
+      --chip-radius: 4px;
+      --card-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
+      --card-gradient: linear-gradient(180deg, rgba(255,255,255,0.015) 0%, transparent 100%);
+
+      /* Font stacks */
+      --font-serif: 'Fraunces', 'Iowan Old Style', 'Palatino', serif;
+      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', 'Menlo', monospace;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
+      font-family: var(--font-sans);
+      font-feature-settings: 'ss01' 1, 'cv11' 1;
       background: var(--bg-primary);
       color: var(--text-primary);
       min-height: 100vh;
       overflow-x: hidden;
+      /* Subtle radial warmth from top, decays to flat background */
+      background-image:
+        radial-gradient(ellipse 90% 60% at 50% 0%, rgba(224, 176, 96, 0.04) 0%, transparent 60%),
+        linear-gradient(180deg, var(--bg-primary), var(--bg-primary));
+      background-attachment: fixed;
+    }
+
+    /* Phase 8B utility classes — selective upgrade */
+    .editorial-headline {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .mono-num, .stat-value, .mono {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: 'tnum' 1, 'zero' 1;
+    }
+
+    /* Phase 8B: subtle scroll-reveal. Applied to .dashboard-section blocks
+       via IntersectionObserver in app.js. Respects prefers-reduced-motion. */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 600ms cubic-bezier(0.22, 0.8, 0.3, 1),
+                  transform 600ms cubic-bezier(0.22, 0.8, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal.revealed {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
     }
 
     /* Scrollbar */
@@ -69,10 +131,12 @@
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
-    /* Header */
+    /* Phase 8B: Editorial Terminal header */
     .header {
-      background: #0d1117;
-      border-bottom: 1px solid #1e2736;
+      background: rgba(11, 12, 16, 0.85);
+      backdrop-filter: blur(12px) saturate(1.2);
+      -webkit-backdrop-filter: blur(12px) saturate(1.2);
+      border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -85,39 +149,44 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 58px;
+      height: 64px;
       gap: 20px;
     }
 
     .logo {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      font-size: 19px;
-      letter-spacing: -0.3px;
+      gap: 10px;
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: 22px;
+      letter-spacing: -0.01em;
       white-space: nowrap;
     }
 
     .logo-icon {
-      width: 34px;
-      height: 34px;
-      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-      border-radius: 10px;
+      width: 30px;
+      height: 30px;
+      background: transparent;
+      border: 1px solid var(--gold);
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 17px;
-      font-weight: 900;
-      color: #1a1207;
-      box-shadow: 0 4px 14px rgba(251, 191, 36, 0.25);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gold);
+      box-shadow: none;
+      font-family: var(--font-serif);
     }
 
     .logo span {
-      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      background: none;
+      -webkit-background-clip: initial;
+      -webkit-text-fill-color: var(--gold);
+      background-clip: initial;
+      color: var(--gold);
+      font-style: italic;
     }
 
     .header-center {
@@ -315,12 +384,27 @@
       margin-top: 2px;
     }
 
-    /* Market Ticker */
+    /* Phase 8B: Editorial ticker — tighter, monospace-dominant */
     .market-ticker {
-      background: #0d1117;
-      border-bottom: 1px solid #1a2233;
+      background: transparent;
+      border-bottom: 1px solid var(--border);
       padding: 0 28px;
-      overflow: hidden;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+      position: relative;
+    }
+    .market-ticker::-webkit-scrollbar { display: none; }
+    /* Right-edge fade so users see there's more to scroll to */
+    .market-ticker::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 28px;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, var(--bg-primary));
+      pointer-events: none;
     }
 
     .ticker-inner {
@@ -329,7 +413,8 @@
       display: flex;
       gap: 0;
       align-items: stretch;
-      height: 40px;
+      height: 36px;
+      min-width: max-content;
     }
 
     .ticker-item {
@@ -339,31 +424,35 @@
       white-space: nowrap;
       padding: 0 24px 0 0;
       margin-right: 24px;
-      border-right: 1px solid #1e2736;
+      border-right: 1px solid var(--border);
     }
 
     .ticker-item:last-child { border-right: none; }
 
     .ticker-name {
-      font-size: 11px;
-      font-weight: 700;
+      font-size: 10px;
+      font-weight: 500;
       color: var(--text-muted);
-      letter-spacing: 0.6px;
+      letter-spacing: 0.8px;
       text-transform: uppercase;
     }
 
     .ticker-price {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 500;
+      color: var(--text-primary);
     }
 
     .ticker-change {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      padding: 2px 7px;
-      border-radius: 4px;
-      font-weight: 600;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-weight: 500;
+      background: transparent !important;
     }
 
     .ticker-sep {
@@ -961,16 +1050,21 @@
     .section-icon.sell     { background: rgba(239,68,68,0.12); }
     .section-icon.volume   { background: rgba(245,158,11,0.12); }
 
+    /* Phase 8B: editorial serif for section headlines */
     .section-name {
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: -0.2px;
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
     }
 
     .section-desc {
-      font-size: 12px;
+      font-size: 12.5px;
       color: var(--text-muted);
-      margin-top: 2px;
+      margin-top: 4px;
+      max-width: 720px;
+      line-height: 1.55;
     }
 
     .section-badge {
@@ -1052,9 +1146,9 @@
       background: rgba(255,255,255,0.04);
     }
     .pick-depth-btn.active {
-      background: rgba(251,191,36,0.12);
-      color: #fbbf24;
-      box-shadow: inset 0 0 0 1px rgba(251,191,36,0.25);
+      background: rgba(224, 176, 96, 0.10);
+      color: var(--gold);
+      box-shadow: inset 0 0 0 1px rgba(224, 176, 96, 0.3);
     }
     .pick-depth-btn-title {
       font-size: 13px;
@@ -1604,19 +1698,46 @@
 
     /* SEBI compliance banner — persistent, sits above the tab bar.
        Muted styling on purpose: visible without being alarmist. */
+    /* Phase 8B: compact one-line disclaimer strip. Full language kept via
+       the expand chevron — keeps SEBI RA 15(2) compliance without the
+       visual dominance of the old yellow block. */
     .sebi-banner {
-      background: rgba(248, 191, 68, 0.08);
-      border: 1px solid rgba(248, 191, 68, 0.30);
-      border-radius: 8px;
-      padding: 10px 14px;
-      margin-bottom: 14px;
-      font-size: 12px;
+      background: transparent;
+      border: 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+      padding: 8px 14px;
+      margin: 0 0 18px;
+      font-size: 11.5px;
       line-height: 1.5;
-      color: var(--text-secondary);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: 0.01em;
     }
     .sebi-banner strong {
-      color: #F8BF44;
-      font-weight: 700;
+      color: var(--gold);
+      font-weight: 500;
+      font-family: var(--font-serif);
+      font-style: italic;
+      letter-spacing: 0;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .sebi-banner::before {
+      content: "";
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0.6;
+      flex-shrink: 0;
+    }
+    @media (max-width: 680px) {
+      .sebi-banner { flex-wrap: wrap; }
+      .sebi-banner strong { white-space: normal; }
     }
 
     /* "Educational only" chip — sits beside the signal badges on stock cards
@@ -1694,40 +1815,48 @@
       margin-top: 4px;
     }
 
-    /* Tabs */
+    /* Phase 8B: Editorial tab bar — flush underlined, no pill-container */
     .tabs {
       display: flex;
-      gap: 6px;
-      margin-bottom: 24px;
-      background: rgba(255, 255, 255, 0.025);
-      padding: 6px;
-      border-radius: 12px;
-      border: 1px solid var(--border-soft);
-      width: fit-content;
+      gap: 0;
+      margin-bottom: 28px;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      border: 0;
+      border-bottom: 1px solid var(--border);
+      width: 100%;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
+    .tabs::-webkit-scrollbar { display: none; }
 
     .tab {
-      padding: 9px 22px;
-      border-radius: 9px;
+      padding: 14px 20px;
+      border-radius: 0;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--text-muted);
       cursor: pointer;
-      transition: all 0.2s ease;
-      border: none;
-      background: none;
+      transition: color 150ms ease, border-color 150ms ease;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      background: transparent;
       font-family: inherit;
-      letter-spacing: -0.1px;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
     }
 
     .tab:hover {
       color: var(--text-primary);
-      background: rgba(255, 255, 255, 0.04);
+      background: transparent;
     }
     .tab.active {
-      background: linear-gradient(135deg, rgba(251, 191, 36, 0.18) 0%, rgba(251, 191, 36, 0.08) 100%);
+      background: transparent;
       color: var(--gold);
-      box-shadow: inset 0 0 0 1px rgba(251, 191, 36, 0.3), 0 1px 3px rgba(0,0,0,0.3);
+      box-shadow: none;
+      border-bottom-color: var(--gold);
     }
 
     /* Back button */
@@ -1934,7 +2063,7 @@
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-wrap:wrap; gap:12px; padding-bottom:20px; border-bottom:1px solid #1a2233;">
         <div>
           <div style="display:flex;align-items:center;gap:10px;">
-            <h2 style="font-size:20px; font-weight:800; letter-spacing:-0.3px;">Market Scanner</h2>
+            <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Market Scanner</h2>
             <div class="auto-refresh-indicator" id="autoRefreshIndicator" style="display:none;">
               <span class="dot"></span>
               <span style="font-size:11px;">Live</span>
@@ -2131,7 +2260,7 @@
       <!-- SME Header -->
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-wrap:wrap; gap:12px; padding-bottom:20px; border-bottom:1px solid #1a2233;">
         <div>
-          <h2 style="font-size:20px; font-weight:800; letter-spacing:-0.3px;">Small-Cap &amp; SME Scanner</h2>
+          <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Small-Cap &amp; SME Scanner</h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">NSE Smallcap 250 + Microcap 250 — <span id="smeScannedCount">0</span> stocks scanned</p>
         </div>
         <div class="refresh-controls">
@@ -2229,7 +2358,7 @@
       <!-- Fundamentals Header -->
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-wrap:wrap; gap:12px; padding-bottom:20px; border-bottom:1px solid #1a2233;">
         <div>
-          <h2 style="font-size:20px; font-weight:800; letter-spacing:-0.3px;">Fundamental Value Scanner</h2>
+          <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Fundamental Value Scanner</h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">
             Quality-adjusted value — 9-dimension score blending valuation, profitability, leverage &amp; growth ·
             <span id="fundSnapshotAge" style="color:var(--yellow);"></span>
@@ -2322,7 +2451,7 @@
     <div id="trackTab" style="display:none; padding-top:20px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
         <div>
-          <h2 style="font-size:20px; font-weight:800; letter-spacing:-0.3px;">Track Record</h2>
+          <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Track Record</h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">
             Forward returns on every Buy Now / Small-Cap / Fundamental pick — measured against the Nifty 50 benchmark.
             <span id="trackOldestSnapshot" style="color:var(--yellow);"></span>
@@ -2408,7 +2537,7 @@
     <div id="analyzerTab" style="display:none; padding-top:20px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
         <div>
-          <h2 style="font-size:20px; font-weight:800; letter-spacing:-0.3px;">Portfolio Analyzer</h2>
+          <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Portfolio Analyzer</h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Upload your holdings statement — we'll run a deep analysis of every stock.</p>
         </div>
         <div id="analyzerStatus" style="font-size:12px; color:var(--text-muted);"></div>
@@ -2474,7 +2603,7 @@
     <div id="portfolioTab" style="display:none; padding-top:20px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
         <div>
-          <h2 style="font-size:20px; font-weight:800; letter-spacing:-0.3px;">My Portfolio</h2>
+          <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">My Portfolio</h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Your Groww holdings with live prices and P&amp;L</p>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
@@ -2504,7 +2633,7 @@
     <div id="newsTab" style="display:none; padding-top:20px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
         <div>
-          <h2 style="font-size:20px; font-weight:800; letter-spacing:-0.3px;">Market Intelligence</h2>
+          <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Market Intelligence</h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">AI-generated market digest from Economic Times, LiveMint &amp; Google News India</p>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
