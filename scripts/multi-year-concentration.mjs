@@ -40,6 +40,7 @@ import YahooFinance from "yahoo-finance2";
 import { analyzeStock, midTermAnalysis } from "../analysis.js";
 import { scoreFundamentals, loadFundamentalsFromDisk, getFundamentals } from "../fundamentals.js";
 import { getNifty100, getNifty500 } from "../stockList.js";
+import { getPointInTimeFundamentals, computePitSectorPeMedians } from "../pointInTimeFundamentals.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -58,7 +59,13 @@ function parseArgs() {
 }
 const CLI = parseArgs();
 
-const UNIVERSE = CLI.universe || "nifty500";
+// --pit flag enables point-in-time fundamentals (honest, look-ahead-free).
+// Without it, every scan uses the current fundamentals.json snapshot
+// (look-ahead contaminated for older years).
+const PIT = !!CLI.pit;
+// Default universe is nifty500 normally, nifty100 with --pit (where PIT
+// data coverage is 99%, vs only 23% for nifty500).
+const UNIVERSE = CLI.universe || (PIT ? "nifty100" : "nifty500");
 const YEARS = (CLI.years || "2023,2024,2025,2026").split(",").map((y) => parseInt(y.trim(), 10));
 const CONCENTRATIONS = (CLI.concentrations || "1,3,5,10").split(",").map((n) => parseInt(n.trim(), 10));
 const FRICTION_PCT = CLI.friction !== undefined ? parseFloat(CLI.friction) : 0.5;
@@ -340,8 +347,9 @@ function applyFriction(result, frictionPct) {
 
 // ──────────────────── Scan + pick ────────────────────
 
-function runScan(stocks, histories, scanDateStr, activePositions, topN) {
+function runScan(stocks, histories, scanDateStr, activePositions, topN, pitCtx = null) {
   const buyNow = [], midTerm = [], fundamental = [];
+  const scanDate = new Date(scanDateStr);
 
   for (const stock of stocks) {
     const fullBars = histories.get(stock.symbol);
@@ -358,7 +366,24 @@ function runScan(stocks, histories, scanDateStr, activePositions, topN) {
 
     const mt = midTermAnalysis(analysis, quote);
     const dma200 = computeDMA200(barsUpTo);
-    const snap = getFundamentals(stock.symbol);
+
+    // Point-in-time fundamentals if enabled, else current snapshot.
+    let snap = null;
+    if (pitCtx) {
+      const pit = getPointInTimeFundamentals(stock.symbol, scanDate, {
+        price: quote.regularMarketPrice,
+        week52High: quote.fiftyTwoWeekHigh,
+        week52Low: quote.fiftyTwoWeekLow,
+      });
+      if (pit) {
+        pit.name = stock.name;
+        // Inject PIT sector P/E computed at this scan date
+        pit.sectorPe = pitCtx.sectorPeMedians.get(stock.sector) ?? null;
+        snap = pit;
+      }
+    } else {
+      snap = getFundamentals(stock.symbol);
+    }
     const fund = snap ? scoreFundamentals(snap, dma200) : null;
 
     const entry = quote.regularMarketPrice;
@@ -434,7 +459,7 @@ function sharedPickFields(stock, entry, sl, tgt, trail, activation, forwardBars)
 
 // ──────────────────── Simulate one (year, concentration, exitMode) cell ────────────────────
 
-function simulate(stocks, histories, scanDates, topN, exitMode, frictionPct) {
+function simulate(stocks, histories, scanDates, topN, exitMode, frictionPct, usePit = false) {
   const trades = [];
   const active = new Set();
 
@@ -442,7 +467,22 @@ function simulate(stocks, histories, scanDates, topN, exitMode, frictionPct) {
     for (const t of trades) {
       if (t.exitDate && t.exitDate <= scan.date && active.has(t.symbol)) active.delete(t.symbol);
     }
-    const { buyNowPicks, midTermPicks, fundamentalPicks } = runScan(stocks, histories, scan.date, active, topN);
+
+    // Build point-in-time sector-P/E medians once per scan (if --pit enabled)
+    let pitCtx = null;
+    if (usePit) {
+      const priceBySymbol = new Map();
+      for (const s of stocks) {
+        const bars = histories.get(s.symbol);
+        if (!bars) continue;
+        const bu = sliceHistoryUpTo(bars, scan.date);
+        if (bu.length > 0) priceBySymbol.set(s.symbol, bu[bu.length - 1].close);
+      }
+      const medians = computePitSectorPeMedians(stocks, new Date(scan.date), priceBySymbol);
+      pitCtx = { sectorPeMedians: medians };
+    }
+
+    const { buyNowPicks, midTermPicks, fundamentalPicks } = runScan(stocks, histories, scan.date, active, topN, pitCtx);
     const all = [...buyNowPicks, ...midTermPicks, ...fundamentalPicks];
     for (const pick of all) {
       active.add(pick.symbol);
@@ -557,6 +597,7 @@ async function main() {
   console.log("=== Multi-Year Concentration Study ===");
   console.log(`Years: ${YEARS.join(", ")} | Concentrations: ${CONCENTRATIONS.join(", ")}`);
   console.log(`Universe: ${UNIVERSE} | History: ${HISTORY_START_STR} → ${HISTORY_END_STR}`);
+  console.log(`Fundamentals: ${PIT ? "POINT-IN-TIME (honest)" : "current snapshot (look-ahead contaminated for older years)"}`);
 
   loadFundamentalsFromDisk();
   const stocks = UNIVERSE === "nifty500" ? getNifty500() : getNifty100();
@@ -581,7 +622,7 @@ async function main() {
 
     for (const concentration of CONCENTRATIONS) {
       for (const exitMode of ["fixed", "trailing"]) {
-        const trades = simulate(stocks, histories, scanDates, concentration, exitMode, FRICTION_PCT);
+        const trades = simulate(stocks, histories, scanDates, concentration, exitMode, FRICTION_PCT, PIT);
         const metrics = computeCellMetrics(trades, niftyBars, yw);
         const cats = byCategory(trades);
         results.push({ year, yearWindow: yw, concentration, exitMode, trades: trades.length,
@@ -599,12 +640,14 @@ async function main() {
 function generateReport(results) {
   if (!existsSync(REPORT_DIR)) mkdirSync(REPORT_DIR, { recursive: true });
   const stamp = new Date().toISOString().slice(0, 10);
-  const reportPath = path.join(REPORT_DIR, `multi-year-concentration-${stamp}.md`);
+  const suffix = PIT ? "-pit" : "";
+  const reportPath = path.join(REPORT_DIR, `multi-year-concentration-${stamp}${suffix}.md`);
 
   let md = "";
-  md += "# Multi-Year Concentration Study — Honest Paper Trading\n\n";
+  md += `# Multi-Year Concentration Study — ${PIT ? "Point-in-Time (Honest)" : "Honest Paper Trading"}\n\n`;
   md += `**Generated:** ${new Date().toISOString()}  \n`;
   md += `**Universe:** ${UNIVERSE}  \n`;
+  md += `**Fundamentals:** ${PIT ? "**point-in-time** (90-day reporting lag, no look-ahead)" : "current snapshot (look-ahead bias for older years)"}  \n`;
   md += `**Years analyzed:** ${YEARS.join(", ")}  \n`;
   md += `**Concentrations tested:** top-${CONCENTRATIONS.join(", top-")}  \n`;
   md += `**Exit modes:** fixed + trailing  \n`;
