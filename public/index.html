@@ -836,7 +836,7 @@
       .stock-card {
         padding: 16px;
       }
-      .stock-card-name { max-width: 180px; font-size: 14px; }
+      .stock-card-name { font-size: 14px; }
       .stock-card-price { font-size: 16px; }
       .stock-card-metrics { gap: 8px; }
       .metric-label { font-size: 10px; }
@@ -1615,6 +1615,7 @@
       transition: background 180ms ease, border-color 180ms ease;
       box-shadow: none;
       position: relative;
+      min-width: 0;
     }
 
     .stock-card:hover {
@@ -1632,6 +1633,14 @@
       margin-bottom: 14px;
       gap: 14px;
     }
+    .stock-card-header > div:first-child {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .stock-card-header > div:last-child {
+      flex: 0 0 auto;
+      text-align: right;
+    }
 
     .stock-card-name {
       font-family: var(--font-serif);
@@ -1639,7 +1648,7 @@
       font-size: 18px;
       letter-spacing: -0.01em;
       line-height: 1.2;
-      max-width: 240px;
+      max-width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

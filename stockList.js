@@ -516,6 +516,13 @@ const ALL_STOCKS = [
   { symbol: "ZENSARTECH.NS", isin: "INE520A01027", name: "Zensar Technolgies", sector: "IT", indices: ["NIFTY500"] },
   { symbol: "ZYDUSWELL.NS", isin: "INE768C01028", name: "Zydus Wellness", sector: "FMCG", indices: ["NIFTY500"] },
   { symbol: "ECLERX.NS", isin: "INE738I01010", name: "eClerx Services", sector: "Services", indices: ["NIFTY500"] },
+
+  // ========== PORTFOLIO EXTENSIONS ==========
+  // Off-Nifty-500 NSE-listed stocks added so portfolio uploads can resolve them by ISIN.
+  // `indices: []` keeps them out of scanner universes (no live scores available) while
+  // still making them matchable in findByIsin().
+  { symbol: "BALUFORGE.NS", isin: "INE011E01029", name: "Balu Forge Industries", sector: "Auto Components", indices: [] },
+  { symbol: "WALCHANNAG.NS", isin: "INE711A01022", name: "Walchandnagar Industries", sector: "Capital Goods", indices: [] },
 ];
 
 // Deduplicate defensively (in case of accidental duplicates)
