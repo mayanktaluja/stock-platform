@@ -1040,6 +1040,40 @@ function applyConcentration(stocks) {
 // Wire the toggle state on first load.
 document.addEventListener("DOMContentLoaded", applyConcentrationMode);
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Phase 8B: Editorial Terminal — subtle scroll-reveal motion.
+// Fades + rises .dashboard-section blocks (and any .reveal-on-scroll element)
+// as they enter the viewport. Respects prefers-reduced-motion.
+// ═══════════════════════════════════════════════════════════════════════════
+(function setupScrollReveal() {
+  if (typeof IntersectionObserver === "undefined") return;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("revealed");
+        observer.unobserve(entry.target);
+      }
+    }
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+
+  function attach() {
+    // Dashboard sections + any explicitly marked .reveal-on-scroll element
+    const targets = document.querySelectorAll(".dashboard-section, .reveal-on-scroll");
+    targets.forEach((el) => {
+      if (el.classList.contains("reveal") || el.classList.contains("revealed")) return;
+      el.classList.add("reveal");
+      observer.observe(el);
+    });
+  }
+
+  // Run on initial load + whenever tabs switch (new content may appear).
+  document.addEventListener("DOMContentLoaded", attach);
+  // Also expose a helper in case other code wants to trigger a re-scan.
+  window.reinitScrollReveal = attach;
+})();
+
 async function loadDashboard() {
   loadBuyNow();
   loadScan("midterm", "midtermCards");
