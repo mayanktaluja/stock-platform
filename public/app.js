@@ -982,6 +982,64 @@ function showDashboard() {
   dashboard.style.display = "block";
 }
 
+/**
+ * Phase 8A: Pick-depth toggle (Balanced ↔ Concentrated).
+ *
+ * Balanced (default): render all picks returned by the scanner (up to 10).
+ * Concentrated: slice to top-3 per category, hide Mid-Term via CSS.
+ *
+ * Backtest rationale: 4-year PIT Nifty 500 showed Concentrated (top-3
+ * fixed, no MID_TERM) = +126% cumulative vs Balanced (top-5 with
+ * MID_TERM) = +128%. Concentrated trades ~6 picks/month; Balanced ~15.
+ * Users who want sharper, higher-conviction picks use Concentrated.
+ *
+ * State persists in localStorage under CONCENTRATION_KEY. Default is
+ * "balanced" so existing users see no change on first load.
+ */
+const CONCENTRATION_KEY = "concentrationMode";
+const CONCENTRATION_LIMIT = 3;
+
+function getConcentrationMode() {
+  try { return localStorage.getItem(CONCENTRATION_KEY) || "balanced"; }
+  catch { return "balanced"; }
+}
+function setConcentrationMode(mode) {
+  try { localStorage.setItem(CONCENTRATION_KEY, mode); }
+  catch { /* ignore storage failures (incognito etc.) */ }
+  applyConcentrationMode();
+  // Re-render the scanners if we're on the dashboard so the new depth
+  // takes effect immediately without a manual refresh.
+  if (document.getElementById("dashboard")?.style.display !== "none") {
+    loadDashboard();
+  }
+  // Fundamentals tab also honors concentration — re-run if that's active.
+  const fundEl = document.getElementById("fundamentalsTab");
+  if (fundEl && fundEl.style.display === "block" && typeof loadFundamentalsScanner === "function") {
+    loadFundamentalsScanner();
+  }
+}
+function applyConcentrationMode() {
+  const mode = getConcentrationMode();
+  document.body.dataset.concentration = mode;
+  document.querySelectorAll(".pick-depth-btn").forEach((b) => {
+    const isActive = b.dataset.mode === mode;
+    b.classList.toggle("active", isActive);
+    b.setAttribute("aria-checked", String(isActive));
+  });
+}
+/**
+ * Slice a picks array to the concentration limit (top-3) when the mode
+ * is Concentrated. In Balanced mode, returns the array unchanged.
+ */
+function applyConcentration(stocks) {
+  if (!Array.isArray(stocks)) return stocks;
+  return getConcentrationMode() === "concentrated"
+    ? stocks.slice(0, CONCENTRATION_LIMIT)
+    : stocks;
+}
+// Wire the toggle state on first load.
+document.addEventListener("DOMContentLoaded", applyConcentrationMode);
+
 async function loadDashboard() {
   loadBuyNow();
   loadScan("midterm", "midtermCards");
@@ -1064,7 +1122,10 @@ async function loadScan(type, containerId) {
       return;
     }
 
-    container.innerHTML = data.stocks.map((s) => renderStockCard(s, type)).join("");
+    // Phase 8A: apply Concentrated filter to midterm only. Volume/sell are
+    // category-agnostic signals — we keep the full list for those.
+    const stocksToRender = type === "midterm" ? applyConcentration(data.stocks) : data.stocks;
+    container.innerHTML = stocksToRender.map((s) => renderStockCard(s, type)).join("");
 
     // Update last updated
     document.getElementById("lastUpdated").textContent = `Updated: ${new Date(data.lastUpdated).toLocaleTimeString("en-IN")}`;
@@ -1210,7 +1271,9 @@ async function loadBuyNow() {
     // HERO PICK — the #1 highest-scoring Buy Now stock gets a distinct card.
     // Backtest shows the Top-1 Buy Now pick produces the largest alpha
     // (+34pp at 4yr horizon), so visually it deserves hero treatment.
-    const [hero, ...rest] = data.stocks;
+    // Phase 8A: when Concentrated mode is on, slice to top-3 picks.
+    const displayedStocks = applyConcentration(data.stocks);
+    const [hero, ...rest] = displayedStocks;
     const heroHtml = hero ? renderBuyNowHero(hero) : "";
     const restHtml = rest.map(renderBuyNowCard).join("");
     container.innerHTML = hcBanner + heroHtml + restHtml;
@@ -2324,7 +2387,9 @@ async function loadFundCategory(category, containerId) {
       return;
     }
 
-    container.innerHTML = data.stocks.map((s) => renderFundamentalCard(s, category)).join("");
+    // Phase 8A: apply Concentrated filter (slice to top-3) when that mode is on.
+    const displayed = applyConcentration(data.stocks);
+    container.innerHTML = displayed.map((s) => renderFundamentalCard(s, category)).join("");
     // Auto-expand the first section (Deep Value) on the Fundamental tab
     if (category === "deepValue") autoExpandSection("fundDeepValueSection");
   } catch (err) {

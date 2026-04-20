@@ -1202,6 +1202,15 @@ app.get("/api/scan/:type", async (req, res, next) => {
     // types are unaffected). On Vercel this uses the lazy stale-while-revalidate
     // cache; locally it uses the 15-min background refresh.
     let macroRegime = null;
+
+    // Phase 8A bugfix: hoist earnings-blackout state to outer scope. Previously
+    // `earningsBlackoutSet` was declared inside the first `if (type === "buynow")`
+    // enrichment block but referenced inside `baseFilter` in the SECOND
+    // `else if (type === "buynow")` filter block further down — different
+    // block scopes, causing "earningsBlackoutSet is not defined" at runtime.
+    const earningsNearbyMap = new Map();
+    const earningsBlackoutSet = new Set();
+
     if (type === "buynow") {
       try {
         macroRegime = await getMacroRegime();
@@ -1240,9 +1249,8 @@ app.get("/api/scan/:type", async (req, res, next) => {
       // users exposed to earnings-gap losses the ATR-based SL can't contain.
       //
       // The 7-day map continues to drive the UI badge; the 3-day blackout
-      // map drives scanner filtering.
-      const earningsNearbyMap = new Map();
-      const earningsBlackoutSet = new Set();
+      // map drives scanner filtering. Maps are hoisted to the outer scope
+      // above — this block just populates them.
       try {
         let events = catalystCache.get("nse_events");
         if (!events) {
