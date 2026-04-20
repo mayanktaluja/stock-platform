@@ -3110,6 +3110,9 @@ async function loadTrackRecord(forceBust = false) {
     // Trade history table
     tableEl.innerHTML = renderTrackHistoryTable(data.trades);
 
+    // Phase 8D: Portfolio vs Nifty line chart
+    renderTrackChart(data.trades);
+
     if (updatedEl && data.lastComputedAt) {
       updatedEl.textContent = `Updated: ${new Date(data.lastComputedAt).toLocaleTimeString("en-IN")}`;
     }
@@ -3126,6 +3129,167 @@ async function loadTrackRecord(forceBust = false) {
   } catch (err) {
     tableEl.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">Failed to load track record: ${escapeHtml(err.message)}</div></div>`;
   }
+}
+
+/**
+ * Phase 8D: Render Portfolio vs Nifty forward-return line chart.
+ *
+ * Each trade has a forward return (snapshot price → today's price) and
+ * a reference Nifty return over the same window. We bucket trades by
+ * their snapshot month and plot the monthly average for each series.
+ *
+ * This gives a clear read of "picks from month X beat Nifty by Y pp"
+ * across the deployment history — the single most persuasive visual
+ * of whether the engine is earning its keep.
+ *
+ * Requires ≥ 2 distinct snapshot months to render — single-month data
+ * shows as an empty-state message.
+ */
+function renderTrackChart(trades) {
+  const section = document.getElementById("trackChartSection");
+  const container = document.getElementById("trackChartContainer");
+  if (!section || !container) return;
+
+  if (!Array.isArray(trades) || trades.length === 0) {
+    section.style.display = "none";
+    return;
+  }
+
+  // Bucket by YYYY-MM of snapshotAt
+  const buckets = new Map();
+  for (const t of trades) {
+    if (!t.snapshotAt || !t.returns) continue;
+    // Backend uses returnPct / niftyReturnPct (from server's computeReturns)
+    const pr = t.returns.returnPct;
+    const nr = t.returns.niftyReturnPct;
+    if (pr == null) continue;
+    const key = new Date(t.snapshotAt).toISOString().slice(0, 7);
+    if (!buckets.has(key)) buckets.set(key, { picks: [], nifty: [], count: 0 });
+    const b = buckets.get(key);
+    b.picks.push(pr);
+    if (nr != null) b.nifty.push(nr);
+    b.count++;
+  }
+
+  const months = [...buckets.keys()].sort();
+  if (months.length < 2) {
+    section.style.display = "block";
+    container.innerHTML = `
+      <div class="track-chart-empty">
+        Chart appears once picks span two or more months. Currently have data for
+        ${months.length} month${months.length === 1 ? "" : "s"}.
+      </div>`;
+    return;
+  }
+
+  const avg = (arr) => arr.length ? arr.reduce((s, v) => s + v, 0) / arr.length : 0;
+  const pickSeries = months.map((m) => avg(buckets.get(m).picks));
+  const niftySeries = months.map((m) => avg(buckets.get(m).nifty));
+  const countSeries = months.map((m) => buckets.get(m).count);
+
+  // SVG layout
+  const W = 980, H = 320;
+  const PAD = { top: 24, right: 24, bottom: 48, left: 56 };
+  const plotW = W - PAD.left - PAD.right;
+  const plotH = H - PAD.top - PAD.bottom;
+
+  // Y-axis range
+  const allVals = [...pickSeries, ...niftySeries];
+  const rawMin = Math.min(...allVals);
+  const rawMax = Math.max(...allVals);
+  const pad = Math.max(Math.abs(rawMax - rawMin) * 0.12, 2);
+  const yMin = Math.floor((rawMin - pad) / 5) * 5;
+  const yMax = Math.ceil((rawMax + pad) / 5) * 5;
+  const yRange = yMax - yMin || 10;
+
+  // Scales
+  const xAt = (i) => PAD.left + (months.length === 1 ? plotW / 2 : (i / (months.length - 1)) * plotW);
+  const yAt = (v) => PAD.top + plotH - ((v - yMin) / yRange) * plotH;
+  const zeroY = yAt(0);
+
+  // Tick values — 5 gridlines
+  const tickCount = 5;
+  const ticks = [];
+  for (let i = 0; i <= tickCount; i++) {
+    const v = yMin + (yRange * i) / tickCount;
+    ticks.push(v);
+  }
+
+  // Path strings
+  const pickPath = pickSeries.map((v, i) => `${i === 0 ? "M" : "L"} ${xAt(i).toFixed(1)} ${yAt(v).toFixed(1)}`).join(" ");
+  const niftyPath = niftySeries.map((v, i) => `${i === 0 ? "M" : "L"} ${xAt(i).toFixed(1)} ${yAt(v).toFixed(1)}`).join(" ");
+
+  // Gold (picks) vs Muted gray (Nifty)
+  const colorPicks = "#E0B060";
+  const colorNifty = "rgba(237, 237, 237, 0.45)";
+
+  // Month labels — show every Nth to avoid overlap
+  const labelEvery = Math.max(1, Math.ceil(months.length / 8));
+  const monthLabels = months.map((m, i) => {
+    if (i !== 0 && i !== months.length - 1 && i % labelEvery !== 0) return "";
+    const d = new Date(m + "-01");
+    return d.toLocaleDateString("en-IN", { month: "short", year: "2-digit" });
+  });
+
+  // Headline: is the engine beating Nifty?
+  const cumPick = pickSeries.reduce((s, v) => s + v, 0) / pickSeries.length;
+  const cumNifty = niftySeries.reduce((s, v) => s + v, 0) / Math.max(niftySeries.length, 1);
+  const edge = cumPick - cumNifty;
+  const edgeLabel = `${edge >= 0 ? "+" : ""}${edge.toFixed(1)} pp avg edge vs Nifty`;
+  const edgeColor = edge >= 0 ? "var(--green)" : "var(--red)";
+
+  // Build SVG
+  const gridLines = ticks.map((v) => {
+    const y = yAt(v);
+    const isZero = Math.abs(v) < 0.001;
+    return `
+      <line x1="${PAD.left}" y1="${y}" x2="${W - PAD.right}" y2="${y}"
+        stroke="${isZero ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.05)'}"
+        stroke-width="${isZero ? 1 : 1}" stroke-dasharray="${isZero ? '0' : '2 3'}" />
+      <text x="${PAD.left - 10}" y="${y + 4}" text-anchor="end">${v >= 0 ? "+" : ""}${v.toFixed(0)}%</text>`;
+  }).join("");
+
+  const xTicks = monthLabels.map((label, i) => {
+    if (!label) return "";
+    const x = xAt(i);
+    return `<text x="${x}" y="${H - PAD.bottom + 18}" text-anchor="middle">${label}</text>`;
+  }).join("");
+
+  // Data points
+  const pickDots = pickSeries.map((v, i) => `<circle cx="${xAt(i)}" cy="${yAt(v)}" r="3.5" fill="${colorPicks}" />`).join("");
+  const niftyDots = niftySeries.map((v, i) => `<circle cx="${xAt(i)}" cy="${yAt(v)}" r="2.5" fill="${colorNifty}" />`).join("");
+
+  section.style.display = "block";
+  container.innerHTML = `
+    <div class="track-chart-wrap">
+      <div class="track-chart-legend">
+        <span class="track-chart-legend-item">
+          <span class="track-chart-legend-swatch" style="background:${colorPicks};"></span>
+          Portfolio (avg forward return)
+        </span>
+        <span class="track-chart-legend-item">
+          <span class="track-chart-legend-swatch" style="background:${colorNifty};"></span>
+          Nifty 50 (same window)
+        </span>
+        <span class="track-chart-legend-item" style="margin-left:auto;color:${edgeColor};font-weight:500;">
+          ${edgeLabel}
+        </span>
+      </div>
+      <svg class="track-chart" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Portfolio vs Nifty forward returns by pick month">
+        ${gridLines}
+        ${xTicks}
+        <path d="${niftyPath}" fill="none" stroke="${colorNifty}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" />
+        <path d="${pickPath}" fill="none" stroke="${colorPicks}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+        ${niftyDots}
+        ${pickDots}
+      </svg>
+      <div class="track-chart-note">
+        Each dot = one month of snapshots. The gold line is the average forward return of all picks from that month;
+        the faint line is Nifty 50 over the identical window. ${months.length} month${months.length === 1 ? "" : "s"} of data ·
+        ${trades.length} pick${trades.length === 1 ? "" : "s"} · oldest ${months[0]}.
+      </div>
+    </div>
+  `;
 }
 
 function renderTrackBreakdown(groupMap, title, subtitle, labelMap = null) {

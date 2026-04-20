@@ -104,6 +104,67 @@
       font-feature-settings: 'tnum' 1, 'zero' 1;
     }
 
+    /* Phase 8D: Track Record chart (portfolio vs Nifty forward return) */
+    .track-chart {
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto;
+      display: block;
+      font-family: var(--font-sans);
+    }
+    .track-chart-wrap {
+      padding: 18px 0;
+    }
+    .track-chart-legend {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+      font-size: 12.5px;
+      letter-spacing: 0.01em;
+      align-items: center;
+    }
+    @media (max-width: 720px) {
+      .track-chart-legend { gap: 12px; font-size: 11.5px; }
+      .track-chart-legend-item:last-child { margin-left: 0 !important; width: 100%; }
+    }
+    .track-chart-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+    }
+    .track-chart-legend-swatch {
+      width: 24px;
+      height: 2px;
+      border-radius: 1px;
+    }
+    .track-chart-note {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 10px;
+      font-style: italic;
+      line-height: 1.5;
+    }
+    .track-chart text {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 10px;
+      fill: var(--text-muted);
+    }
+    .track-chart .chart-title {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      fill: var(--text-primary);
+      font-weight: 500;
+    }
+    .track-chart-empty {
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
     /* Phase 8B: subtle scroll-reveal. Applied to .dashboard-section blocks
        via IntersectionObserver in app.js. Respects prefers-reduced-motion. */
     .reveal {
@@ -2562,6 +2623,21 @@
 
       <!-- Per-regime breakdown -->
       <div id="trackByRegimeSection" style="margin-bottom:24px;"></div>
+
+      <!-- Phase 8D: Portfolio vs Nifty chart (empty until data exists) -->
+      <div class="dashboard-section" id="trackChartSection" style="display:none;">
+        <div class="section-header">
+          <div class="section-header-left">
+            <div class="section-accent buynow"></div>
+            <div class="section-icon buynow">&#128200;</div>
+            <div>
+              <div class="section-name">Portfolio vs Nifty 50</div>
+              <div class="section-desc">Forward return of picks grouped by the month they were picked, compared to Nifty 50 over the same holding window.</div>
+            </div>
+          </div>
+        </div>
+        <div id="trackChartContainer"></div>
+      </div>
 
       <!-- Trade history table -->
       <div class="dashboard-section">
