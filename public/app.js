@@ -2644,6 +2644,18 @@ function renderSmeCard(stock, category) {
   // midterm score, consistent with the midterm/sell categories below, which
   // means the number here has the same meaning across every tab:
   //     "Higher = higher conviction, out of 100."
+  // Footer labels softened to observational language per SEBI review:
+  //   "STRONG SIGNAL" → "Momentum cluster" (buynow)
+  //   "EXIT"          → "Review — bearish"  (sell)
+  //   "SWING"         → "Swing setup"       (midterm)
+  // Score methodology differs by category; labels reflect that so the
+  // user knows buynow TA-Score (full 15-indicator analyzeStock) is more
+  // rigorous than midterm Momentum-Score (3-factor heuristic):
+  //   buynow:  TA Score        (full technical analysis)
+  //   midterm: Momentum Score  (3-factor momentum heuristic)
+  //   sell:    Momentum Score  (same — NOT full TA, explicitly labelled)
+  //   volume:  Activity %      (volatility × volume)
+  // Every card carries the "Educational · not advice" chip, not just buynow.
   let footer = "";
   if (category === "buynow") {
     const buyNowScore = Math.round(
@@ -2651,27 +2663,30 @@ function renderSmeCard(stock, category) {
     );
     footer = `
       <div class="stock-card-footer">
-        <span class="stock-card-direction direction-long">&#9650; STRONG SIGNAL</span>
-        <span class="edu-chip" aria-label="Educational only">Educational only</span>
-        <span style="font-size:12px;color:var(--text-muted);">Score: ${buyNowScore}/100</span>
+        <span class="stock-card-direction direction-long">&#9650; MOMENTUM CLUSTER</span>
+        <span class="edu-chip" aria-label="Educational only">Educational &middot; not advice</span>
+        <span style="font-size:12px;color:var(--text-muted);" title="Full technical analysis score (15+ indicators) adjusted for macro regime.">TA Score: ${buyNowScore}/100</span>
       </div>`;
   } else if (category === "volume") {
     footer = `
       <div class="stock-card-footer">
         <span class="stock-card-direction ${dirClass}">${stock.direction}</span>
-        <span style="font-size:12px;color:var(--yellow);font-family:'JetBrains Mono',monospace;">Volatility: ${stock.volatility}%</span>
+        <span class="edu-chip" aria-label="Educational only">Educational &middot; not advice</span>
+        <span style="font-size:12px;color:var(--yellow);font-family:'JetBrains Mono',monospace;">Activity: ${stock.volatility}%</span>
       </div>`;
   } else if (category === "midterm") {
     footer = `
       <div class="stock-card-footer">
-        <span class="stock-card-direction direction-long">SWING</span>
-        <span style="font-size:12px;color:var(--text-muted);">Score: ${stock.midtermScore}/100</span>
+        <span class="stock-card-direction direction-long">SWING SETUP</span>
+        <span class="edu-chip" aria-label="Educational only">Educational &middot; not advice</span>
+        <span style="font-size:12px;color:var(--text-muted);" title="3-factor momentum heuristic (30d / 1y / today). Lower rigour than the Momentum Cluster scanner which runs full technical analysis.">Momentum Score: ${stock.midtermScore}/100</span>
       </div>`;
   } else if (category === "sell") {
     footer = `
       <div class="stock-card-footer">
-        <span class="stock-card-direction direction-short">&#9888; EXIT</span>
-        <span style="font-size:12px;color:var(--text-muted);">Score: ${stock.midtermScore}/100</span>
+        <span class="stock-card-direction direction-short">&#9888; REVIEW &mdash; BEARISH</span>
+        <span class="edu-chip" aria-label="Educational only">Educational &middot; not advice</span>
+        <span style="font-size:12px;color:var(--text-muted);" title="Bearish momentum heuristic — NOT a sell instruction. Oversold stocks sometimes bounce; distinguishing 'weak' from 'falling knife' requires additional analysis.">Momentum Score: ${stock.midtermScore}/100</span>
       </div>`;
   }
 
