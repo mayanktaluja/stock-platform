@@ -17,7 +17,7 @@ import NodeCache from "node-cache";
 import { analyzeStock, intradayScan, midTermAnalysis, longTermOutlook } from "./analysis.js";
 import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, getNifty100, getNifty500, getStocksByIndex, validateStockList } from "./stockList.js";
 import { analyzeNewsSentiment, quickSentiment } from "./sentiment.js";
-import { fetchNifty50, fetchNseQuote, fetchNseIndices, fetchNseIndex, fetchNseEventCalendar, nseGet, warmup as nseWarmup } from "./nse.js";
+import { fetchNifty50, fetchNseQuote, fetchNseIndices, fetchNseIndex, fetchNseEventCalendar, fetchGiftNifty, nseGet, warmup as nseWarmup } from "./nse.js";
 import {
   getFundamentals,
   getAllFundamentals,
@@ -3059,9 +3059,16 @@ app.get("/api/market", async (req, res) => {
       return res.json(cached);
     }
 
-    // Try NSE India first (official source), Yahoo as fallback
+    // Try NSE India first (official source), Yahoo as fallback.
+    // GIFT Nifty runs in parallel since it has its own upstream (NSE IX)
+    // and shouldn't delay the core indices if it's slow.
     let indices = [];
     let source = "yahoo";
+
+    const giftPromise = fetchGiftNifty().catch((e) => {
+      console.error("GIFT Nifty fetch error:", e.message);
+      return null;
+    });
 
     try {
       const nseIndices = await fetchNseIndices();
@@ -3106,11 +3113,25 @@ app.get("/api/market", async (req, res) => {
       } catch (e) { /* sensex optional */ }
     }
 
+    // GIFT Nifty — append after core indices. It's always last in the
+    // ticker so the familiar Nifty/Sensex/Bank Nifty ordering never shifts.
+    // When unavailable (outside session, NSE IX down) we just omit it;
+    // the rest of the page renders normally.
+    const gift = await giftPromise;
+    if (gift) {
+      indices.push(gift);
+    }
+
     const response = {
       indices,
       source,
       lastUpdated: new Date().toISOString(),
       marketStatus: isMarketOpen() ? "OPEN" : "CLOSED",
+      // Top-level reference for the UI. NSE IX publishes IST strings like
+      // "21-Apr-2026 02:18:17" — we surface it as-is so the frontend can
+      // show "Last traded 02:18 IST" next to the GIFT Nifty pill. Null
+      // when GIFT Nifty isn't in this response.
+      giftNiftyLastTradedAt: gift?.lastTradedAt ?? null,
     };
     marketCache.set("market", response);
     res.set("X-Cache", "MISS");

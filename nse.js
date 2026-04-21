@@ -264,6 +264,120 @@ export async function fetchNseQuote(symbol) {
 }
 
 /**
+ * Fetch GIFT Nifty (front-month Nifty futures on NSE International Exchange).
+ *
+ * GIFT Nifty replaced SGX Nifty on 3 July 2023 after NSE and SGX unwound
+ * their licensing arrangement. It trades in GIFT City (Gujarat) on NSE IX
+ * across two sessions (06:30–15:40 IST morning, 16:35–02:45 IST overnight)
+ * and is the single most-watched Indian pre-open indicator for traders.
+ *
+ * Yahoo Finance has no reliable symbol for GIFT Nifty, so we pull it
+ * directly from NSE IX's public streamer. The endpoint is unauthenticated;
+ * a browser User-Agent and Referer are enough. We pick the NEAREST
+ * non-expired futures contract — that's what financial dashboards quote
+ * when they say "GIFT Nifty".
+ *
+ * Returns null on any failure so the caller can gracefully degrade —
+ * GIFT Nifty is a nice-to-have, never a hard dependency.
+ *
+ * LTT (last trade time) in the response is IST and comes back like
+ * "21-Apr-2026 02:18:17" — we surface it raw so the UI can show a
+ * "Last traded 02:18 IST" reference, important because GIFT Nifty can be
+ * stale for hours between sessions.
+ */
+export async function fetchGiftNifty() {
+  try {
+    const res = await fetchNseWithTimeout(
+      "https://www.nseix.com/api/streamer-market-watch/",
+      {
+        headers: {
+          "User-Agent": NSE_UA,
+          Accept: "application/json, text/plain, */*",
+          "Accept-Language": "en-US,en;q=0.9",
+          Referer: "https://www.nseix.com/market-watch",
+        },
+      },
+      10000,
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    const blocks = data?.MBP_data_Market_Watch;
+    if (!Array.isArray(blocks)) return null;
+
+    // Flatten all contract rows across blocks, keep only NIFTY futures
+    const rows = [];
+    for (const b of blocks) {
+      const arr = Array.isArray(b?.token_data) ? b.token_data : [];
+      for (const r of arr) {
+        if (r && r.SYMBOL === "NIFTY" && r.INSTRUMENTTYPE === "FUTIDX") {
+          rows.push(r);
+        }
+      }
+    }
+    if (rows.length === 0) return null;
+
+    // Pick the nearest non-expired contract. Expiry format is DD-Mon-YYYY.
+    const MONTHS = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+    const parseExpiry = (s) => {
+      const m = String(s || "").match(/^(\d{1,2})-([A-Za-z]{3})-(\d{4})$/);
+      if (!m) return null;
+      const mo = MONTHS[m[2]];
+      if (mo === undefined) return null;
+      return new Date(+m[3], mo, +m[1]).getTime();
+    };
+    const now = Date.now();
+    let nearest = null;
+    for (const r of rows) {
+      const t = parseExpiry(r.EXPIRYDATE);
+      if (t == null || t < now) continue;
+      if (!nearest || t < nearest._ts) {
+        nearest = { ...r, _ts: t };
+      }
+    }
+    // If all contracts appear expired (e.g. on a rollover day), fall back
+    // to the earliest by date so we still surface a number rather than nothing
+    if (!nearest) {
+      for (const r of rows) {
+        const t = parseExpiry(r.EXPIRYDATE);
+        if (t == null) continue;
+        if (!nearest || t < nearest._ts) nearest = { ...r, _ts: t };
+      }
+    }
+    if (!nearest) return null;
+
+    const toNumber = (v) => {
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    };
+
+    const price = toNumber(nearest.LASTPRICE);
+    if (price == null) return null;
+
+    return {
+      symbol: "GIFTNIFTY",
+      name: "GIFT NIFTY",
+      price,
+      change: toNumber(nearest.CHANGE),
+      changePercent: toNumber(nearest.PERCHANGE),
+      open: toNumber(nearest.OPEN),
+      dayHigh: toNumber(nearest.HIGH),
+      dayLow: toNumber(nearest.LOW),
+      // CLOSE on NSE IX is the previous-session close — the reference
+      // for today's % change calculation.
+      previousClose: toNumber(nearest.CLOSE),
+      volume: toNumber(nearest.VOLUME),
+      expiry: nearest.EXPIRYDATE,
+      // "Last traded at" — raw IST string from NSE IX, surfaced for the UI
+      lastTradedAt: nearest.LTT || null,
+      source: "nseix",
+    };
+  } catch (err) {
+    console.error("GIFT Nifty fetch failed:", err.message);
+    return null;
+  }
+}
+
+/**
  * Fetch live data for market indices (NIFTY 50, SENSEX proxy, BANK NIFTY).
  */
 export async function fetchNseIndices() {

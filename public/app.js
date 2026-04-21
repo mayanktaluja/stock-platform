@@ -296,16 +296,26 @@ async function loadMarketData() {
         .map((idx) => {
           const isPos = idx.change >= 0;
           const name =
-            idx.symbol === "^NSEI"   ? "NIFTY 50"   :
-            idx.symbol === "^BSESN"  ? "SENSEX"     :
-            idx.symbol === "^NSEBANK"? "BANK NIFTY" : idx.name;
+            idx.symbol === "^NSEI"     ? "NIFTY 50"    :
+            idx.symbol === "^BSESN"    ? "SENSEX"      :
+            idx.symbol === "^NSEBANK"  ? "BANK NIFTY"  :
+            idx.symbol === "GIFTNIFTY" ? "GIFT NIFTY"  : idx.name;
+          // GIFT Nifty trades on NSE IX in two sessions and can sit stale
+          // for hours between them — so we pin a "Last traded HH:MM IST"
+          // reference to the pill. This is the single most important
+          // piece of context for reading the number: a 0.4% move from
+          // four hours ago is very different from one from thirty
+          // seconds ago.
+          const isGift = idx.symbol === "GIFTNIFTY";
+          const lttLabel = isGift ? formatGiftNiftyLtt(idx.lastTradedAt) : "";
           return `
-            <div class="ticker-item">
+            <div class="ticker-item${isGift ? " ticker-gift" : ""}">
               <span class="ticker-name">${name}</span>
               <span class="ticker-price ${isPos ? "positive" : "negative"}">${formatNumber(idx.price)}</span>
               <span class="ticker-change ${isPos ? "positive-bg" : "negative-bg"}">
                 ${isPos ? "+" : ""}${formatNumber(idx.change)}&nbsp;(${isPos ? "+" : ""}${idx.changePercent?.toFixed(2)}%)
               </span>
+              ${lttLabel ? `<span class="ticker-ltt" title="GIFT Nifty last traded time on NSE IX">${lttLabel}</span>` : ""}
             </div>`;
         })
         .join("");
@@ -2910,6 +2920,37 @@ function formatNumber(num) {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+}
+
+/**
+ * Format the NSE IX GIFT Nifty last-traded-time string.
+ *
+ * NSE IX returns IST strings like "21-Apr-2026 02:18:17". We shorten them
+ * to "Last 02:18 IST" for today, and include the date for anything older
+ * (e.g. "Last Apr 19 22:47 IST" on a Monday morning after a weekend gap).
+ * GIFT Nifty runs two sessions with a 55-minute gap; outside those windows
+ * the timestamp can legitimately be several hours old, and the user needs
+ * to see that at a glance before reading the price move.
+ *
+ * Returns an empty string on any parse failure — the pill just renders
+ * without the timestamp rather than breaking.
+ */
+function formatGiftNiftyLtt(raw) {
+  if (!raw || typeof raw !== "string") return "";
+  const m = raw.match(/^(\d{1,2})-([A-Za-z]{3})-(\d{4})\s+(\d{1,2}):(\d{2})(?::\d{2})?$/);
+  if (!m) return "";
+  const [, dd, mon, yyyy, hh, mm] = m;
+  const now = new Date();
+  const today = `${String(now.getDate()).padStart(2, "0")}`;
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const isToday =
+    Number(yyyy) === now.getFullYear() &&
+    mon === months[now.getMonth()] &&
+    dd.padStart(2, "0") === today;
+  const timePart = `${hh.padStart(2, "0")}:${mm}`;
+  return isToday
+    ? `Last ${timePart} IST`
+    : `Last ${mon} ${Number(dd)} ${timePart} IST`;
 }
 
 function formatVolume(vol) {

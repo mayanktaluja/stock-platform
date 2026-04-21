@@ -521,6 +521,23 @@
       margin: 0 8px;
     }
 
+    /* GIFT Nifty — mark it subtly so the off-exchange pill is visually
+       distinct from the three NSE cash indices. The dashed border hints
+       "this is a reference quote, not a live Indian cash market." */
+    .ticker-item.ticker-gift .ticker-name::before {
+      content: "\2022";
+      color: var(--text-muted);
+      margin-right: 6px;
+    }
+    .ticker-ltt {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 400;
+      letter-spacing: 0.3px;
+    }
+
     .positive { color: var(--green); }
     .negative { color: var(--red); }
     .positive-bg { background: var(--green-bg); color: var(--green); }
