@@ -4196,16 +4196,26 @@ function renderAnalyzerRiskBlock(report) {
         </div>` : ""}
     </div>` : "";
 
-  // Stress-test card
+  // Stress-test card — shows BOTH sector-adjusted (default) and pure-β
+  // numbers so the investor sees how much sector dispersion adds to the
+  // tail estimate. Real crises (2008, 2020) punished NBFC + Metals far
+  // more than β alone would predict; cushioned IT + Pharma more.
   const rows = tests.map((t) => {
     const pct = t.projectedLossPct;
     const amt = t.projectedLossAmount;
+    const purePct = t.projectedLossPctPureBeta;
     const color = pct < -25 ? "#fca5a5" : pct < -15 ? "#fde047" : "#93c5fd";
+    const dispersionDelta = purePct != null && pct != null
+      ? `<div style="color:var(--text-muted); font-size:10px;">Pure-β: ${fmtPct(purePct, true)} (sector adds ${(pct - purePct).toFixed(1)}pp)</div>`
+      : "";
     return `
       <div style="display:grid; grid-template-columns: 1fr 120px 140px 140px; gap:12px; align-items:center; padding:10px 0; border-bottom:1px solid #1a2233; font-size:13px;">
         <div>${t.name}</div>
         <div style="color:var(--text-muted); font-size:12px;">Nifty ${fmtPct(t.marketShockPct, true)}</div>
-        <div style="color:${color}; font-weight:700;">${fmtPct(pct, true)}</div>
+        <div>
+          <div style="color:${color}; font-weight:700;">${fmtPct(pct, true)}</div>
+          ${dispersionDelta}
+        </div>
         <div style="color:${color}; font-weight:600; text-align:right;">${amt >= 0 ? "+" : ""}${inr(amt)}</div>
       </div>`;
   }).join("");
@@ -4213,7 +4223,7 @@ function renderAnalyzerRiskBlock(report) {
   const stressCard = tests.length ? `
     <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
-        <div style="font-size:14px; font-weight:700;">Stress tests (CAPM-style, using per-stock beta)</div>
+        <div style="font-size:14px; font-weight:700;">Stress tests (β × sector-dispersion multiplier)</div>
         ${notAdviceChip()}
       </div>
       <div style="display:grid; grid-template-columns: 1fr 120px 140px 140px; gap:12px; font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; padding-bottom:4px;">
@@ -4221,11 +4231,35 @@ function renderAnalyzerRiskBlock(report) {
       </div>
       ${rows}
       <div style="margin-top:10px; font-size:11px; color:var(--text-muted); line-height:1.55;">
-        Simple CAPM projection: for each holding, expected return = β × market return. Real shocks aren't linear, and sector factors matter — these numbers are a floor on tail-risk thinking, not a forecast.
+        Two models side-by-side: (1) pure β × market shock, (2) β × sector-dispersion multiplier. Multipliers calibrated from 2008 GFC + 2020 COVID drawdowns on NSE sectorals: NBFC 1.6×, Metals 1.5×, Banking 1.4×, Auto 1.3×, IT 0.8×, Pharma 0.7×, FMCG 0.7×. Sector-adjusted model matches historical drawdowns more closely; pure-β typically underestimates tail risk for small/mid-caps.
       </div>
     </div>` : "";
 
-  el.innerHTML = riskCard + stressCard;
+  // Currency exposure card
+  const cx = report.currencyExposure;
+  const currencyCard = cx ? `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-top:12px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
+        <div style="font-size:14px; font-weight:700;">Currency exposure</div>
+        ${notAdviceChip()}
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:12px;">
+        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">INR-exposed</div>
+          <div style="font-size:20px; font-weight:700;">${cx.inrExposurePct.toFixed(1)}%</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Full INR-denominated earnings</div>
+        </div>
+        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">USD-earning hedge</div>
+          <div style="font-size:20px; font-weight:700; color:#86efac;">${cx.usdEarningPct.toFixed(1)}%</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">IT Services + Pharma (${inr(cx.usdEarningValue)})</div>
+        </div>
+      </div>
+      <div style="font-size:12px; color:var(--text-secondary); line-height:1.6; margin-bottom:8px;">${cx.narrative}</div>
+      <div style="font-size:10px; color:var(--text-muted); font-style:italic;">Methodology: ${cx.methodology}</div>
+    </div>` : "";
+
+  el.innerHTML = riskCard + stressCard + currencyCard;
 }
 
 function renderAnalyzerPortfolioActions(report) {
