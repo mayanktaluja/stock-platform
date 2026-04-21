@@ -606,43 +606,47 @@ function analyzeStock(historicalData, quote) {
   // Clamp score
   score = Math.max(0, Math.min(100, score));
 
-  // Generate recommendation
+  // Generate signal + observational action text.
+  // `action` is the user-facing text shown on the stock detail page. We use
+  // observational language ("Scorecard reads …", "Signals converging …")
+  // rather than imperative ("Buy", "Sell") so the output lives firmly in
+  // the educational-research lane permitted for non-SEBI-registered entities.
   let recommendation, action, confidence, urgency;
   if (score >= 80) {
     recommendation = "STRONG BUY";
-    action = "Buy aggressively - Multiple strong bullish signals detected";
+    action = "Scorecard strongly bullish — multiple technical signals converging on the positive side";
     confidence = "High";
-    urgency = "Act now - Strong buying opportunity";
+    urgency = "High-conviction signal";
   } else if (score >= 65) {
     recommendation = "BUY";
-    action = "Consider buying - Bullish signals outweigh bearish ones";
+    action = "Scorecard bullish — bullish signals outweigh bearish ones";
     confidence = "Medium-High";
-    urgency = "Good entry point";
+    urgency = "Positive signal";
   } else if (score >= 55) {
     recommendation = "WEAK BUY";
-    action = "Consider a small position - Slightly bullish outlook";
+    action = "Scorecard mildly bullish — slightly positive tilt";
     confidence = "Medium";
-    urgency = "No rush - Watch for confirmation";
+    urgency = "Mild positive signal — confirmation useful";
   } else if (score >= 45) {
     recommendation = "HOLD";
-    action = "Hold current position - No clear directional signal";
+    action = "Scorecard neutral — no clear directional signal";
     confidence = "Low";
-    urgency = "Wait for clearer signals";
+    urgency = "No directional signal";
   } else if (score >= 35) {
     recommendation = "WEAK SELL";
-    action = "Consider reducing position - Slightly bearish outlook";
+    action = "Scorecard mildly bearish — slightly negative tilt";
     confidence = "Medium";
-    urgency = "Set stop-loss if holding";
+    urgency = "Mild negative signal — technical support worth monitoring";
   } else if (score >= 20) {
     recommendation = "SELL";
-    action = "Sell or short - Bearish signals dominate";
+    action = "Scorecard bearish — bearish signals dominate";
     confidence = "Medium-High";
-    urgency = "Exit soon";
+    urgency = "Negative signal";
   } else {
     recommendation = "STRONG SELL";
-    action = "Sell immediately - Multiple strong bearish signals detected";
+    action = "Scorecard strongly bearish — multiple technical signals converging on the negative side";
     confidence = "High";
-    urgency = "Exit immediately - Significant downside risk";
+    urgency = "High-conviction negative signal";
   }
 
   // Generate reasoning narrative

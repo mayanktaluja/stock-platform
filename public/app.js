@@ -3918,10 +3918,16 @@ function renderAnalyzerReport(report, elapsedMs) {
 // the compliance reminder visible at the point of recommendation rather
 // than only in the footer.
 function notAdviceChip(mode = "default") {
+  // "Educational research — not advice" chip. Rendered inline next to any
+  // analytical label, action, or signal. SEBI IA Regulations 2013 require
+  // that non-registered entities clearly distinguish research/education
+  // from investment advice; this chip is the per-card enforcement of that
+  // distinction so the disclaimer isn't just footer-only.
+  const text = "Educational · not advice";
   const style = mode === "inline"
-    ? "display:inline-block; font-size:9px; font-weight:700; padding:2px 6px; margin-left:8px; border-radius:3px; background:rgba(239,68,68,0.10); color:#fca5a5; letter-spacing:0.4px; border:1px solid rgba(239,68,68,0.25); text-transform:uppercase; vertical-align:middle;"
-    : "display:inline-block; font-size:10px; font-weight:700; padding:3px 8px; border-radius:4px; background:rgba(239,68,68,0.08); color:#fca5a5; letter-spacing:0.4px; border:1px solid rgba(239,68,68,0.2); text-transform:uppercase;";
-  return `<span style="${style}" title="StarBhai is not a SEBI-registered investment adviser. This is educational analysis, not personalised advice.">Not advice</span>`;
+    ? "display:inline-block; font-size:9px; font-weight:700; padding:2px 6px; margin-left:8px; border-radius:3px; background:rgba(250,204,21,0.10); color:#fde047; letter-spacing:0.4px; border:1px solid rgba(250,204,21,0.25); text-transform:uppercase; vertical-align:middle;"
+    : "display:inline-block; font-size:10px; font-weight:700; padding:3px 8px; border-radius:4px; background:rgba(250,204,21,0.08); color:#fde047; letter-spacing:0.4px; border:1px solid rgba(250,204,21,0.2); text-transform:uppercase;";
+  return `<span style="${style}" title="StarBhai is not a SEBI-registered investment adviser. This is educational research — signals and observations, not personalised investment advice.">${text}</span>`;
 }
 
 // Data-freshness badge. `ageSec` is how old the quote cache might be;
@@ -4213,14 +4219,21 @@ function renderHoldingCard(h, defaultOpen) {
         ${h.redFlags.map((f) => `<div style="font-size:12px; padding:6px 10px; margin-bottom:4px; background:rgba(${f.severity === 'high' ? '239,68,68' : '250,204,21'},0.08); border-left:2px solid ${f.severity === 'high' ? '#fca5a5' : '#fde047'}; border-radius:3px;">${f.message}</div>`).join("")}
       </div>` : "";
   const ep = h.exitPlan || {};
-  const exitSection = (ep.stopLoss || ep.target || ep.trailingStop)
+  // Renamed section from "Exit plan" → "Technical levels" with an explicit
+  // "analytical reference — not trade instructions" sub-label. This keeps
+  // the level numbers visible (useful for the investor's own analysis) but
+  // frames them as market-structure observations, not commands.
+  const exitSection = (ep.supportLevel || ep.stopLoss || ep.target || ep.upsideBand || ep.trailingStop)
     ? `<div style="margin:14px 0; padding:12px 14px; background:#111827; border-radius:6px;">
-        <div style="font-size:12px; font-weight:700; margin-bottom:8px; color:#93c5fd;">Exit plan</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:8px; flex-wrap:wrap;">
+          <div style="font-size:12px; font-weight:700; color:#93c5fd;">Technical levels</div>
+          <div style="font-size:10px; color:var(--text-muted); font-style:italic;">analytical reference — not trade instructions</div>
+        </div>
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; font-size:12px;">
-          ${ep.stopLoss != null ? `<div><span style="color:var(--text-muted);">Stop-loss:</span> <strong>₹${ep.stopLoss}</strong></div>` : ""}
-          ${ep.target != null ? `<div><span style="color:var(--text-muted);">Target:</span> <strong>₹${ep.target}</strong></div>` : ""}
-          ${ep.trailingStop ? `<div><span style="color:var(--text-muted);">Trail:</span> ${ep.trailingStop.activated ? `<strong style="color:#86efac;">ACTIVE @ ₹${ep.trailingStop.currentLevel}</strong>` : `<span>engages above ₹${ep.trailingStop.activationLevel}</span>`}</div>` : ""}
-          ${h.longTermTarget ? `<div><span style="color:var(--text-muted);">Long-term target:</span> <strong>₹${h.longTermTarget}</strong></div>` : ""}
+          ${(ep.supportLevel ?? ep.stopLoss) != null ? `<div><span style="color:var(--text-muted);">Support:</span> <strong>₹${ep.supportLevel ?? ep.stopLoss}</strong></div>` : ""}
+          ${(ep.upsideBand ?? ep.target) != null ? `<div><span style="color:var(--text-muted);">Upside band:</span> <strong>₹${ep.upsideBand ?? ep.target}</strong></div>` : ""}
+          ${ep.trailingStop ? `<div><span style="color:var(--text-muted);">Trailing support:</span> ${ep.trailingStop.activated ? `<strong style="color:#86efac;">active @ ₹${ep.trailingStop.currentLevel}</strong>` : `<span>engages above ₹${ep.trailingStop.activationLevel}</span>`}</div>` : ""}
+          ${(h.longTermReference ?? h.longTermTarget) ? `<div><span style="color:var(--text-muted);">52W high reference:</span> <strong>₹${h.longTermReference ?? h.longTermTarget}</strong></div>` : ""}
         </div>
         ${ep.slConfirmationRule ? `<div style="font-size:11px; color:var(--text-muted); margin-top:6px;">${ep.slConfirmationRule}</div>` : ""}
         ${ep.rationale && ep.rationale.length ? `<div style="font-size:11px; color:var(--text-muted); margin-top:8px; line-height:1.5;">${ep.rationale.map((r) => "• " + r).join("<br>")}</div>` : ""}
@@ -4284,7 +4297,7 @@ function renderHoldingCard(h, defaultOpen) {
         <div><span style="color:var(--text-muted);">Tech:</span> ${h.technicalScore ?? "—"}</div>
         <div><span style="color:var(--text-muted);">Fund:</span> ${h.fundamentalScore ?? "—"}</div>
         <div><span style="color:var(--text-muted);">Verdict:</span> ${h.fundamentalVerdict ? h.fundamentalVerdict.replace("_", " ") : "—"}</div>
-        <div><span style="color:var(--text-muted);">Recommendation:</span> ${h.recommendation || "—"}</div>
+        <div><span style="color:var(--text-muted);">Signal:</span> ${h.recommendation || "—"}</div>
         <div><span style="color:var(--text-muted);">Sector:</span> ${h.sector}</div>
       </div>
       <div style="margin:12px 0; padding:12px 14px; background:#111827; border-radius:6px; font-size:13px;">
