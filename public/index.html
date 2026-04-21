@@ -2432,10 +2432,10 @@
     <!-- SME Scanner Tab -->
     <div id="smeTab" style="display:none; padding-top:20px;">
       <!-- SME Header -->
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-wrap:wrap; gap:12px; padding-bottom:20px; border-bottom:1px solid #1a2233;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:20px; border-bottom:1px solid #1a2233;">
         <div>
-          <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Small-Cap &amp; SME Scanner</h2>
-          <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">NSE Smallcap 250 + Microcap 250 — <span id="smeScannedCount">0</span> stocks scanned</p>
+          <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Small-Cap Scanner</h2>
+          <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">NSE Smallcap 250 + Microcap 250 — <span id="smeScannedCount">0</span> stocks scanned · Educational research · Not investment advice</p>
         </div>
         <div class="refresh-controls">
           <button class="refresh-btn" id="smeRefreshBtn" onclick="refreshSme()">
@@ -2445,18 +2445,39 @@
         </div>
       </div>
 
-      <!-- 1. Best Small-Caps to Buy Now -->
+      <!-- Small-cap-specific risk disclosure. SEBI + AMFI issued directives
+           in March 2024 (froth warning) and Oct 2024 (stress-test disclosure)
+           on small/mid-cap funds. Any platform surfacing small-cap analysis
+           to retail users should acknowledge these upfront. This is separate
+           from the SEBI-registration disclaimer in the footer because small-
+           cap risk has specific, material characteristics — liquidity gaps,
+           circuit filters, pump-and-dump susceptibility — that the general
+           disclaimer doesn't capture. -->
+      <div style="background:rgba(250,204,21,0.06); border:1px solid rgba(250,204,21,0.2); border-radius:8px; padding:14px 16px; margin-bottom:28px; font-size:12px; line-height:1.6;">
+        <div style="display:flex; gap:10px; align-items:flex-start;">
+          <div style="font-size:16px; line-height:1; padding-top:2px;">&#9888;</div>
+          <div>
+            <div style="font-weight:700; color:#fde047; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.4px; font-size:11px;">Small-cap risk disclosure</div>
+            <div style="color:var(--text-secondary);">
+              Small-caps carry materially higher <strong>liquidity risk</strong> (wider bid-ask spreads, circuit filters, sharp gap moves) and <strong>pump-risk</strong> than large-caps.
+              SEBI and AMFI issued froth-warning guidance on small/mid-caps in March 2024. Signals below are <strong>educational momentum/technical observations</strong> — not recommendations. Position sizing is personal, not algorithmic. Consult a SEBI-registered investment adviser before acting.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1. Bullish Momentum Cluster -->
       <div class="dashboard-section collapsed" id="smeBuynowSection">
         <div class="section-header" onclick="toggleSection(this)">
           <div class="section-header-left">
             <div class="section-accent buynow"></div>
             <div class="section-icon buynow"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
             <div>
-              <div class="section-name">Best Small-Caps to Buy Now <span class="section-chevron">&#9660;</span></div>
-              <div class="section-desc">Strongest bullish momentum + high volume small-cap stocks</div>
+              <div class="section-name">Bullish Momentum &mdash; High Conviction <span class="section-chevron">&#9660;</span></div>
+              <div class="section-desc">Small-caps where technical scorecard, 30-day momentum and volume converge bullish. Educational signal cluster &mdash; not a recommendation.</div>
             </div>
           </div>
-          <span class="section-badge buynow">BUY SIGNAL</span>
+          <span class="section-badge buynow">MOMENTUM SIGNAL</span>
         </div>
         <div class="section-body">
           <div id="smeBuynowCards" class="stock-cards">
@@ -2474,7 +2495,7 @@
             <div class="section-icon volume"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 17V9"/><path d="M13 17V5"/><path d="M18 17v-3"/></svg></div>
             <div>
               <div class="section-name">Small-Cap Volume Breakouts <span class="section-chevron">&#9660;</span></div>
-              <div class="section-desc">Small-caps with unusual volume + high volatility — institutional activity</div>
+              <div class="section-desc">Small-caps showing unusual volume + high intraday volatility. May reflect institutional activity, earnings-related flow, or retail-driven pump &mdash; observational only.</div>
             </div>
           </div>
           <span class="section-badge volume">VOLUME SPIKE</span>
@@ -2493,11 +2514,11 @@
             <div class="section-accent midterm"></div>
             <div class="section-icon midterm"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>
             <div>
-              <div class="section-name">Small-Cap Mid-Term Picks <span class="section-chevron">&#9660;</span></div>
-              <div class="section-desc">Small-caps with positive 30-day &amp; 1-year momentum for swing trading</div>
+              <div class="section-name">Mid-Term Momentum <span class="section-chevron">&#9660;</span></div>
+              <div class="section-desc">Small-caps with positive 30-day AND 1-year momentum. Heuristic score (3-factor momentum arithmetic) &mdash; not full technical analysis. Observational.</div>
             </div>
           </div>
-          <span class="section-badge midterm">SWING TRADE</span>
+          <span class="section-badge midterm">SWING SETUP</span>
         </div>
         <div class="section-body">
           <div id="smeMidtermCards" class="stock-cards">
@@ -2513,11 +2534,11 @@
             <div class="section-accent sell"></div>
             <div class="section-icon sell"><svg viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg></div>
             <div>
-              <div class="section-name">Small-Cap Sell / Exit Alerts <span class="section-chevron">&#9660;</span></div>
-              <div class="section-desc">Small-caps with bearish momentum — consider exiting or avoiding</div>
+              <div class="section-name">Weakening Momentum &mdash; Review <span class="section-chevron">&#9660;</span></div>
+              <div class="section-desc">Small-caps with bearish momentum and softening scorecard. Observational only &mdash; oversold stocks sometimes bounce; distinguishing "weak" from "falling knife" requires further analysis.</div>
             </div>
           </div>
-          <span class="section-badge sell">EXIT SIGNAL</span>
+          <span class="section-badge sell">REVIEW &mdash; BEARISH</span>
         </div>
         <div class="section-body">
           <div id="smeSellCards" class="stock-cards">
