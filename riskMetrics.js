@@ -251,3 +251,171 @@ export function stressScenario(holdings, marketShock) {
   const projectedLossPct = baseValue > 0 ? (projectedLossAmount / baseValue) * 100 : 0;
   return { projectedLossPct, projectedLossAmount, coveredValue: baseValue };
 }
+
+// ──────────────────── XIRR (Extended Internal Rate of Return) ────────────────────
+
+/**
+ * XIRR for irregular cash flows. Standard Excel/Google Sheets formula.
+ * Solves f(r) = Σ cf_i / (1+r)^((d_i - d_0) / 365) = 0 via Newton-Raphson,
+ * falling back to bisection if Newton diverges.
+ *
+ * @param {Array<{date: string|Date, amount: number}>} flows
+ *   Convention: negative amounts = outflows (buys, invested capital),
+ *   positive = inflows (sells, dividends, current-value redemption).
+ *   Must contain at least one outflow AND one inflow or the IRR is
+ *   undefined.
+ * @returns {number|null} Annualised return as decimal (0.15 = 15%/yr), null on failure.
+ *
+ * Why it's here: unrealised P&L % is time-agnostic. "+31% since purchase"
+ * with no date means nothing compared to Nifty's annualised return.
+ * XIRR converts irregular cash flows to a single annualised number the
+ * user can compare apples-to-apples with index benchmarks.
+ */
+export function xirr(flows, guess = 0.1) {
+  if (!Array.isArray(flows) || flows.length < 2) return null;
+
+  // Normalise dates to timestamps; filter out invalid entries.
+  const cleaned = flows
+    .map((f) => {
+      const t = f.date instanceof Date ? f.date.getTime() : new Date(f.date).getTime();
+      const a = Number(f.amount);
+      return Number.isFinite(t) && Number.isFinite(a) ? { t, a } : null;
+    })
+    .filter(Boolean);
+  if (cleaned.length < 2) return null;
+
+  // Need at least one negative and one positive cash flow
+  const hasNeg = cleaned.some((f) => f.a < 0);
+  const hasPos = cleaned.some((f) => f.a > 0);
+  if (!hasNeg || !hasPos) return null;
+
+  // Reference date = earliest cash flow
+  const t0 = Math.min(...cleaned.map((f) => f.t));
+  const YEAR_MS = 365 * 24 * 60 * 60 * 1000;
+  const years = cleaned.map((f) => (f.t - t0) / YEAR_MS);
+
+  const npv = (r) => {
+    let sum = 0;
+    for (let i = 0; i < cleaned.length; i++) {
+      sum += cleaned[i].a / Math.pow(1 + r, years[i]);
+    }
+    return sum;
+  };
+  const dnpv = (r) => {
+    let sum = 0;
+    for (let i = 0; i < cleaned.length; i++) {
+      sum -= (cleaned[i].a * years[i]) / Math.pow(1 + r, years[i] + 1);
+    }
+    return sum;
+  };
+
+  // Newton-Raphson — usually converges in <10 iterations
+  let r = guess;
+  for (let iter = 0; iter < 50; iter++) {
+    const f = npv(r);
+    const fprime = dnpv(r);
+    if (!Number.isFinite(f) || !Number.isFinite(fprime) || fprime === 0) break;
+    const step = f / fprime;
+    r -= step;
+    if (r <= -0.999) r = -0.99; // prevent divergence into r < -1
+    if (Math.abs(step) < 1e-7) return r;
+  }
+
+  // Bisection fallback across a wide range of plausible returns
+  let lo = -0.99;
+  let hi = 10.0;
+  let flo = npv(lo);
+  let fhi = npv(hi);
+  if (!Number.isFinite(flo) || !Number.isFinite(fhi) || flo * fhi > 0) return null;
+  for (let iter = 0; iter < 100; iter++) {
+    const mid = (lo + hi) / 2;
+    const fmid = npv(mid);
+    if (Math.abs(fmid) < 1e-6) return mid;
+    if (flo * fmid < 0) { hi = mid; fhi = fmid; }
+    else { lo = mid; flo = fmid; }
+  }
+  return (lo + hi) / 2;
+}
+
+// ──────────────────── Target weights (equal-risk budget) ────────────────────
+
+/**
+ * Compute target weights using an "equal risk contribution" heuristic.
+ * For each holding, target weight ∝ 1/volatility. A 50%-vol smallcap
+ * gets half the weight of a 25%-vol largecap, so each contributes
+ * roughly the same dollar-variance. This is the textbook risk-parity
+ * idea, simplified (no covariance — just diagonal variances).
+ *
+ * Also applies a 12% per-stock ceiling (above which single-stock risk
+ * becomes the dominant portfolio risk factor per standard
+ * diversification math).
+ *
+ * @param {Array<{symbol, currentValue, risk:{annualizedVolatility}}>} holdings
+ * @returns {Array<{symbol, currentWeight, targetWeight, deltaPct, deltaValue}>}
+ */
+export function computeTargetWeights(holdings) {
+  const valid = holdings.filter(
+    (h) => Number.isFinite(h.currentValue) && h.currentValue > 0,
+  );
+  if (valid.length === 0) return [];
+
+  const totalValue = valid.reduce((s, h) => s + h.currentValue, 0);
+  if (totalValue <= 0) return [];
+
+  // Compute 1/vol weights. Holdings with no vol use the median vol of
+  // the rest so we don't discount them to zero.
+  const vols = valid
+    .map((h) => h.risk?.annualizedVolatility)
+    .filter((v) => Number.isFinite(v) && v > 0);
+  const medianVol = vols.length > 0
+    ? [...vols].sort((a, b) => a - b)[Math.floor(vols.length / 2)]
+    : 25;
+
+  const inverseVols = valid.map((h) => {
+    const v = Number.isFinite(h.risk?.annualizedVolatility) && h.risk.annualizedVolatility > 0
+      ? h.risk.annualizedVolatility
+      : medianVol;
+    return 1 / v;
+  });
+  const sumInverse = inverseVols.reduce((s, v) => s + v, 0);
+
+  // Raw risk-parity weights
+  let rawWeights = inverseVols.map((iv) => iv / sumInverse);
+
+  // Apply 12% ceiling + renormalise. Iterate a couple of times because
+  // capping one stock pushes weight to others which may then hit the cap.
+  const CEILING = 0.12;
+  for (let iter = 0; iter < 3; iter++) {
+    const cappedIdx = [];
+    let cappedSum = 0;
+    for (let i = 0; i < rawWeights.length; i++) {
+      if (rawWeights[i] > CEILING) {
+        cappedIdx.push(i);
+        cappedSum += CEILING;
+      }
+    }
+    if (cappedIdx.length === 0) break;
+    const remainingWeight = 1 - cappedSum;
+    const uncappedSum = rawWeights
+      .map((w, i) => (cappedIdx.includes(i) ? 0 : w))
+      .reduce((s, w) => s + w, 0);
+    if (uncappedSum <= 0) break;
+    rawWeights = rawWeights.map((w, i) =>
+      cappedIdx.includes(i) ? CEILING : (w / uncappedSum) * remainingWeight,
+    );
+  }
+
+  return valid.map((h, i) => {
+    const currentWeight = (h.currentValue / totalValue) * 100;
+    const targetWeight = rawWeights[i] * 100;
+    const deltaPct = targetWeight - currentWeight;
+    const deltaValue = (deltaPct / 100) * totalValue;
+    return {
+      symbol: h.symbol,
+      currentWeight: +currentWeight.toFixed(2),
+      targetWeight: +targetWeight.toFixed(2),
+      deltaPct: +deltaPct.toFixed(2),
+      deltaValue: Math.round(deltaValue),
+    };
+  });
+}

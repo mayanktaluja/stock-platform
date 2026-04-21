@@ -27,6 +27,8 @@ import {
   correlationMatrix,
   averagePairwiseCorrelation,
   stressScenario,
+  xirr,
+  computeTargetWeights,
 } from "./riskMetrics.js";
 import { normalizeSector } from "./macroRegime.js";
 
@@ -893,6 +895,45 @@ export function buildReport(enrichedHoldings, unmatched, meta) {
   const riskBlock = buildRiskBlock(enrichedHoldings, meta?.benchReturns);
   const stressTests = buildStressTests(enrichedHoldings);
 
+  // ── XIRR (only when at least one purchase date is available) ──
+  //
+  // Build the cash-flow stream: each purchase with a known date becomes
+  // a negative flow at that date; today's current value is one big
+  // positive flow. If any holding lacks a purchase date we fall back to
+  // the portfolio-weighted simple P&L — XIRR on partial data would be
+  // misleading.
+  let portfolioXirr = null;
+  let xirrBasis = null;
+  const allHavePurchaseDates = enrichedHoldings.length > 0
+    && enrichedHoldings.every((h) => h.purchaseDate);
+  if (allHavePurchaseDates && totalCurrent > 0) {
+    const flows = [];
+    for (const h of enrichedHoldings) {
+      if (h.invested > 0) {
+        flows.push({ date: h.purchaseDate, amount: -h.invested });
+      }
+    }
+    flows.push({ date: new Date().toISOString().slice(0, 10), amount: totalCurrent });
+    try {
+      const rate = xirr(flows);
+      if (Number.isFinite(rate)) {
+        portfolioXirr = +(rate * 100).toFixed(2);
+        xirrBasis = `Computed on ${flows.length - 1} purchase dates + current value as of today.`;
+      }
+    } catch {
+      /* silent */
+    }
+  }
+
+  // ── Rebalance suggestions ──
+  //
+  // Risk-parity target weights (equal-risk-contribution, capped at 12%
+  // per stock). Not a trade instruction — it's the "mathematically
+  // diversified" distribution the user can compare against their actual
+  // weights. Delta is in ₹ as well as percentage so the user can
+  // directly size any rebalance they choose to make.
+  const rebalanceTargets = computeTargetWeights(enrichedHoldings);
+
   // Strip the internal `_stockReturns` from per-holding objects so the
   // wire payload stays small (returns ×20 holdings × 120 days = ~2400
   // floats we don't need on the client).
@@ -914,10 +955,16 @@ export function buildReport(enrichedHoldings, unmatched, meta) {
       totalCurrent,
       totalPnL,
       totalPnLPct,
+      // Annualised return via XIRR — null when purchase dates are missing.
+      // Compare against Nifty CAGR to judge whether the book is adding
+      // alpha vs. passively holding the index.
+      xirrAnnualPct: portfolioXirr,
+      xirrBasis,
     },
     health,
     risk: riskBlock,
     stressTests,
+    rebalanceTargets,
     sectorAllocation: sectors,
     verdictMix: verdictSummary,
     urgentActions: urgent.map(stripInternal),

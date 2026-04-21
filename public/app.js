@@ -3981,11 +3981,14 @@ function renderAnalyzerSummary(report, elapsedMs) {
         <div style="font-size:22px; font-weight:700;">${inr(s.totalCurrent)}</div>
       </div>
       <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
-        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">P&amp;L</div>
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">P&amp;L${s.xirrAnnualPct != null ? ` · XIRR ${s.xirrAnnualPct >= 0 ? "+" : ""}${s.xirrAnnualPct.toFixed(1)}%/yr` : ""}</div>
         <div style="font-size:22px; font-weight:700; color:${pnlColor};">
           ${s.totalPnL >= 0 ? "+" : ""}${inr(s.totalPnL)}
           <span style="font-size:14px; font-weight:500; margin-left:6px;">(${s.totalPnLPct >= 0 ? "+" : ""}${s.totalPnLPct.toFixed(2)}%)</span>
         </div>
+        ${s.xirrAnnualPct != null
+          ? `<div style="font-size:10px; color:var(--text-muted); margin-top:4px;" title="${s.xirrBasis || ''}">Annualised via XIRR over actual purchase dates</div>`
+          : `<div style="font-size:10px; color:var(--text-muted); margin-top:4px;">Upload includes purchase dates → XIRR annualised return</div>`}
       </div>
       <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
         <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Portfolio Health</div>
@@ -4017,9 +4020,84 @@ function renderAnalyzerSummary(report, elapsedMs) {
       </div>
     </div>
 
+    ${renderRebalanceTable(report)}
+
     <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-size:11px; color:var(--text-muted); gap:10px; flex-wrap:wrap;">
       <div>${freshnessBadge(report)}</div>
       <div>Analyzed ${s.holdingsCount} holdings${s.unmatchedCount > 0 ? ` · ${s.unmatchedCount} not analysed` : ""} · ${elapsedMs}ms</div>
+    </div>
+  `;
+}
+
+/**
+ * Rebalance-suggestion table.
+ *
+ * Shows the user's actual portfolio weights side-by-side with an
+ * equal-risk-contribution target (risk-parity, ∝ 1/vol, capped at 12%
+ * per stock). Delta in both percentage points and ₹ so the user sees
+ * exactly how much of each name would need to move to arrive at a
+ * mathematically diversified book.
+ *
+ * We framework this as a DIAGNOSTIC VIEW — "here's what equal-risk-
+ * contribution would look like" — not an instruction. Per-row deltas
+ * make it clear WHERE the imbalance sits, without ever saying "sell".
+ */
+function renderRebalanceTable(report) {
+  const targets = report.rebalanceTargets;
+  if (!Array.isArray(targets) || targets.length === 0) return "";
+
+  // Sort by absolute delta (biggest mismatches first)
+  const sorted = [...targets].sort(
+    (a, b) => Math.abs(b.deltaPct) - Math.abs(a.deltaPct),
+  );
+  const maxAbsDelta = Math.max(...sorted.map((t) => Math.abs(t.deltaPct)));
+
+  return `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-top:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:10px; flex-wrap:wrap;">
+        <div>
+          <div style="font-size:14px; font-weight:700;">Rebalance diagnostic — equal-risk-contribution target</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Target weight ∝ 1/volatility, capped at 12%/stock. This is the "mathematically diversified" distribution — not a trade instruction.</div>
+        </div>
+        ${notAdviceChip()}
+      </div>
+      <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:12px;">
+          <thead>
+            <tr style="color:var(--text-muted); font-size:10px; text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid #1a2233;">
+              <th style="text-align:left; padding:8px 4px;">Symbol</th>
+              <th style="text-align:right; padding:8px 4px;">Current %</th>
+              <th style="text-align:right; padding:8px 4px;">Target %</th>
+              <th style="text-align:right; padding:8px 4px;">Δ %pts</th>
+              <th style="text-align:right; padding:8px 4px;">Δ ₹</th>
+              <th style="padding:8px 4px; width:35%;">Deviation</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sorted.map((t) => {
+              const isOver = t.deltaPct < 0; // over-weight → negative delta
+              const color = Math.abs(t.deltaPct) < 2 ? "var(--text-muted)"
+                : isOver ? "#fca5a5" : "#86efac";
+              const barPct = maxAbsDelta > 0 ? (Math.abs(t.deltaPct) / maxAbsDelta) * 100 : 0;
+              return `<tr style="border-bottom:1px solid #111827;">
+                <td style="padding:8px 4px; font-family:'JetBrains Mono',monospace; font-weight:600;">${t.symbol.replace(".NS", "")}</td>
+                <td style="padding:8px 4px; text-align:right; font-family:'JetBrains Mono',monospace;">${t.currentWeight.toFixed(1)}%</td>
+                <td style="padding:8px 4px; text-align:right; font-family:'JetBrains Mono',monospace; color:var(--text-muted);">${t.targetWeight.toFixed(1)}%</td>
+                <td style="padding:8px 4px; text-align:right; font-family:'JetBrains Mono',monospace; color:${color}; font-weight:600;">${isOver ? "" : "+"}${t.deltaPct.toFixed(1)}</td>
+                <td style="padding:8px 4px; text-align:right; font-family:'JetBrains Mono',monospace; color:${color};">${isOver ? "" : "+"}${inr(t.deltaValue)}</td>
+                <td style="padding:8px 4px;">
+                  <div style="display:flex; align-items:center; gap:4px;">
+                    <div style="flex:1; background:#0b1220; height:6px; border-radius:3px; overflow:hidden; position:relative;">
+                      <div style="position:absolute; left:${isOver ? `${50 - barPct / 2}%` : "50%"}; width:${barPct / 2}%; height:100%; background:${color}; border-radius:3px;"></div>
+                      <div style="position:absolute; left:50%; top:0; bottom:0; width:1px; background:#1a2233;"></div>
+                    </div>
+                  </div>
+                </td>
+              </tr>`;
+            }).join("")}
+          </tbody>
+        </table>
+      </div>
     </div>
   `;
 }
