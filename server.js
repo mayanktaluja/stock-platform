@@ -3005,8 +3005,15 @@ app.get("/api/sme/scan", async (req, res) => {
         ? (price + atrEstimate * 2).toFixed(2)
         : (price - atrEstimate * 2).toFixed(2);
 
-      // Resolve sector + compute macro tilt (with small-cap amplifier)
-      const sector = resolveSmallcapSector(s);
+      // Resolve sector + compute macro tilt (with small-cap amplifier).
+      // Run the resolved sector through normalizeSector so every small-cap
+      // row surfaces a canonical label (NBFC / Banking / IT Services /
+      // Automobile / ...). Without this, NSE's raw industry strings like
+      // "Financial Services" / "Automobile and Auto Components" leak into
+      // the UI and downstream sector-concentration checks mis-bucket them.
+      // rawSector preserved for audit + low-level debugging.
+      const rawSector = resolveSmallcapSector(s);
+      const sector = normalizeSector(rawSector) || rawSector || null;
       const { delta: rawMacroDelta, reason: macroReason, sector: canonicalSector } =
         computeMacroDelta(macroRegime, sector);
       // Amplify small-cap macro sensitivity
@@ -3021,9 +3028,67 @@ app.get("/api/sme/scan", async (req, res) => {
       // Headwind flag: -5 or worse triggers a UI warning strip.
       const macroHeadwind = macroBoost <= -5;
 
+      // ── Safety flags (P1 — SEBI small-cap review) ──
+      //
+      // Small-caps are where pump-and-dump and parabolic-reversal risk is
+      // highest. Historical data (2024 SEBI froth warnings, 2021-22 retail
+      // frenzy corrections) shows stocks with these patterns mean-revert
+      // sharply. We compute flags that the UI surfaces as warning chips
+      // so a "MOMENTUM CLUSTER" signal doesn't get read as a pure buy
+      // without context.
+      //
+      //   parabolicMove  — 30d return > 50% AND today's change > 3%
+      //                    (a name already up 50%+ that's still rallying is
+      //                     textbook late-cycle chase territory)
+      //   extendedRun    — 30d return > 30% (any material extension)
+      //   nearYearHigh   — within 3% of 52-week high (low upside room)
+      //   nearYearLow    — within 5% of 52-week low (falling knife risk)
+      //   lowLiquidity   — today's ₹ value < ₹1 Cr (slippage risk)
+      //
+      // RSI overbought/oversold is NOT computed here because RSI requires
+      // historical data that we only fetch for buynow candidates — it's
+      // added in the later buynow-specific enrichment block.
+      const safetyFlags = [];
+      if ((s.perChange30d || 0) > 50 && (s.pChange || 0) > 3) {
+        safetyFlags.push({
+          kind: "parabolic",
+          severity: "high",
+          message: `Up ${s.perChange30d.toFixed(0)}% in 30 days and still rallying +${(s.pChange || 0).toFixed(1)}% today. Historical patterns on Indian small-caps show parabolic moves mean-revert sharply; late-entry risk is material.`,
+        });
+      } else if ((s.perChange30d || 0) > 30) {
+        safetyFlags.push({
+          kind: "extended",
+          severity: "medium",
+          message: `Up ${s.perChange30d.toFixed(0)}% in 30 days — material extension. Entry at these levels historically carries elevated short-term drawdown risk vs. earlier-stage signals.`,
+        });
+      }
+      if (s.yearHigh && s.lastPrice && (s.yearHigh - s.lastPrice) / s.yearHigh < 0.03) {
+        safetyFlags.push({
+          kind: "at-52w-high",
+          severity: "medium",
+          message: `Price within 3% of 52-week high (₹${s.yearHigh.toFixed(2)}). Upside room limited; technical supply often emerges at round-number 52W levels.`,
+        });
+      }
+      if (s.yearLow && s.lastPrice && (s.lastPrice - s.yearLow) / s.yearLow < 0.05) {
+        safetyFlags.push({
+          kind: "at-52w-low",
+          severity: "medium",
+          message: `Price within 5% of 52-week low (₹${s.yearLow.toFixed(2)}). Could be bottom-fishing opportunity OR continued downtrend — reversal confirmation recommended.`,
+        });
+      }
+      const todayValueCr = (s.totalTradedValue || 0) / 1e7;
+      if (todayValueCr > 0 && todayValueCr < 1.0) {
+        safetyFlags.push({
+          kind: "low-liquidity",
+          severity: "medium",
+          message: `Today's traded value ₹${todayValueCr.toFixed(2)} Cr — thin liquidity. Bid-ask spreads widen and a modest-sized order can move the print.`,
+        });
+      }
+
       return {
         ...s,
         sector,
+        rawSector,
         volatility: volatility.toFixed(2),
         intradayScore,
         midtermScore: Math.max(0, Math.min(100, midtermScore)),
@@ -3036,6 +3101,10 @@ app.get("/api/sme/scan", async (req, res) => {
         direction,
         stopLoss: volatility > 1 ? stopLoss : null,
         target: volatility > 1 ? target : null,
+        safetyFlags,
+        // Highest-severity safety flag, for at-a-glance badging in the UI
+        safetyLevel: safetyFlags.some((f) => f.severity === "high") ? "high"
+                   : safetyFlags.length > 0 ? "medium" : "none",
       };
     });
 
@@ -3080,6 +3149,40 @@ app.get("/api/sme/scan", async (req, res) => {
                   s.stopLoss = parseFloat((s.lastPrice - atr * 1.5).toFixed(2));
                   s.target = parseFloat((s.lastPrice + atr * 2).toFixed(2));
                   s.riskReward = parseFloat(((s.target - s.lastPrice) / (s.lastPrice - s.stopLoss)).toFixed(2));
+                }
+
+                // ── Safety flags from the technical analysis ──
+                //
+                // RSI ≥ 70 is the classical overbought threshold (Wilder 1978).
+                // For small-caps chasing momentum, surfacing this alongside
+                // the "MOMENTUM CLUSTER" signal prevents users from reading
+                // it as an unconditional entry.
+                const rsiNum = typeof s.rsi === "number" ? s.rsi : parseFloat(s.rsi);
+                if (Number.isFinite(rsiNum) && rsiNum >= 70) {
+                  s.safetyFlags = s.safetyFlags || [];
+                  s.safetyFlags.push({
+                    kind: "overbought",
+                    severity: "medium",
+                    message: `RSI ${rsiNum.toFixed(1)} — above the 70 overbought threshold. RSI-based entries above 70 historically show lower forward-week win-rates on Indian small-caps vs. entries in the 50-65 band.`,
+                  });
+                  s.safetyLevel = s.safetyFlags.some((f) => f.severity === "high") ? "high" : "medium";
+                }
+
+                // Risk/reward flag. The default 1.5× ATR SL / 2× ATR target
+                // gives a structural R/R of 1.33 for every buynow pick, so
+                // flagging anything below 1.5 would light up on every card.
+                // The INFORMATIVE signal is when R/R drops below 1.2 — that
+                // means the stock is near a target level, near a support
+                // break, or SL/target computation ran on partial data. Those
+                // are the edge cases worth a warning chip.
+                if (Number.isFinite(s.riskReward) && s.riskReward > 0 && s.riskReward < 1.2) {
+                  s.safetyFlags = s.safetyFlags || [];
+                  s.safetyFlags.push({
+                    kind: "low-rr",
+                    severity: "medium",
+                    message: `Risk/Reward ratio ${s.riskReward.toFixed(2)} is unusually low (the scanner's structural R/R is ~1.33). Suggests price is near a target level or technical structure is asymmetric — a tighter entry or wait-for-pullback is often preferable.`,
+                  });
+                  s.safetyLevel = s.safetyFlags.some((f) => f.severity === "high") ? "high" : "medium";
                 }
               }
             }
