@@ -17,7 +17,7 @@ import NodeCache from "node-cache";
 import { analyzeStock, intradayScan, midTermAnalysis, longTermOutlook } from "./analysis.js";
 import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, getNifty100, getNifty500, getStocksByIndex, validateStockList } from "./stockList.js";
 import { analyzeNewsSentiment, quickSentiment } from "./sentiment.js";
-import { fetchNifty50, fetchNseQuote, fetchNseIndices, fetchNseIndex, fetchNseEventCalendar, fetchGiftNifty, nseGet, nseGetUnauthed, warmup as nseWarmup } from "./nse.js";
+import { fetchNifty50, fetchNseQuote, fetchNseQuoteRaw, fetchNseIndices, fetchNseIndex, fetchNseEventCalendar, fetchGiftNifty, nseGet, nseGetUnauthed, warmup as nseWarmup } from "./nse.js";
 import {
   getFundamentals,
   getAllFundamentals,
@@ -1860,12 +1860,11 @@ app.get("/api/cron/enrich-fundamentals", async (req, res) => {
 
   try {
     const startTime = Date.now();
-    console.log("[CRON] Starting weekly fundamentals enrichment...");
+    console.log("[CRON] Starting fundamentals refresh + enrichment...");
 
-    // Seed the enrichment from the current cached snapshot. In production
-    // (KV-primed) this is whatever last week's cron wrote. In local dev it's
-    // the committed fundamentals.json. Either way we preserve the existing
-    // symbol list + NSE price data and overlay fresh Yahoo quality metrics.
+    // Seed from the current cached snapshot. In production (KV-primed) this
+    // is whatever yesterday's cron wrote. In local dev it's the committed
+    // fundamentals.json.
     const current = loadFundamentalsFromDisk();
     if (!current || !current.snapshots) {
       return res.status(500).json({
@@ -1879,6 +1878,81 @@ app.get("/api/cron/enrich-fundamentals", async (req, res) => {
     // half-enriched rows to the scanner.
     const data = JSON.parse(JSON.stringify(current));
 
+    // ─── PHASE 1: Refresh NSE price snapshot (updates `generatedAt`) ───
+    //
+    // This step used to only run via scripts/refresh-fundamentals.mjs on a
+    // developer's laptop, which meant the `generatedAt` field only moved
+    // when someone manually re-ran that script and committed a new
+    // fundamentals.json. On Vercel the page would stamp "Updated 12 days
+    // ago" because the price snapshot was frozen since the last commit.
+    //
+    // Now that nseGet tries unauth first (and /api/quote-equity works
+    // cookie-less), we can do this on Vercel every weekday. Re-scrape P/E,
+    // price, 52W range, market cap — the fields that actually move daily.
+    //
+    // Concurrency 5, 300ms delay = ~7s for 112 stocks. Well inside the 60s
+    // function limit even with the enrichment phase after.
+    const symbols = Object.keys(data.snapshots);
+    const snapBatchSize = 5;
+    let priceRefreshed = 0;
+    let priceFailed = 0;
+    for (let i = 0; i < symbols.length; i += snapBatchSize) {
+      const batch = symbols.slice(i, i + snapBatchSize);
+      const results = await Promise.all(
+        batch.map(async (sym) => {
+          try {
+            const raw = await fetchNseQuoteRaw(sym);
+            if (!raw || !raw.priceInfo) return { sym, ok: false };
+            const p = raw.priceInfo || {};
+            const meta = raw.metadata || {};
+            const sec = raw.securityInfo || {};
+            const info = raw.info || {};
+            const ind = raw.industryInfo || {};
+            const existing = data.snapshots[sym] || {};
+            // Overlay — keep all existing enriched Yahoo fields (roe, d/e,
+            // profitMargin, revenueGrowth, etc.) and only bump the NSE-sourced
+            // numbers.
+            data.snapshots[sym] = {
+              ...existing,
+              symbol: sym,
+              name: info.companyName || existing.name,
+              sector: ind.sector || meta.industry || existing.sector || null,
+              industry: ind.industry || meta.industry || existing.industry || null,
+              pe: meta.pdSymbolPe ?? existing.pe,
+              sectorPe: meta.pdSectorPe ?? existing.sectorPe,
+              price: p.lastPrice ?? existing.price,
+              previousClose: p.previousClose ?? existing.previousClose,
+              faceValue: sec.faceValue ?? existing.faceValue,
+              issuedSize: sec.issuedSize ?? existing.issuedSize,
+              marketCap:
+                p.lastPrice && sec.issuedSize
+                  ? p.lastPrice * sec.issuedSize
+                  : existing.marketCap,
+              week52High: p.weekHighLow?.max ?? existing.week52High,
+              week52Low: p.weekHighLow?.min ?? existing.week52Low,
+              week52HighDate: p.weekHighLow?.maxDate ?? existing.week52HighDate,
+              week52LowDate: p.weekHighLow?.minDate ?? existing.week52LowDate,
+              vwap: p.vwap ?? existing.vwap,
+              upperCircuit: p.upperCP ?? existing.upperCircuit,
+              lowerCircuit: p.lowerCP ?? existing.lowerCircuit,
+              isin: info.isin ?? existing.isin,
+            };
+            return { sym, ok: true };
+          } catch {
+            return { sym, ok: false };
+          }
+        }),
+      );
+      priceRefreshed += results.filter((r) => r.ok).length;
+      priceFailed += results.filter((r) => !r.ok).length;
+      if (i + snapBatchSize < symbols.length) await new Promise((r) => setTimeout(r, 300));
+    }
+    data.generatedAt = new Date().toISOString();
+    data.source = "nse";
+    console.log(`[CRON] NSE price refresh: ${priceRefreshed} ok, ${priceFailed} failed`);
+
+    // ─── PHASE 2: Yahoo quality enrichment (updates `enrichedAt`) ───
+    //
     // Dynamic import so the enrichFundamentals module (which pulls in
     // yahoo-finance2, ~400KB) only loads when the cron actually fires — not
     // on every cold start.
@@ -1902,24 +1976,36 @@ app.get("/api/cron/enrich-fundamentals", async (req, res) => {
       }
     }
 
+    // Bust the scanner response cache. fundamentalsCache caches per-category
+    // scan responses for 10 minutes; without this flush, users hitting the
+    // scanner right after the cron run would still see the stale report for
+    // up to 10 minutes. The underlying snapshot cache was already refreshed
+    // by saveFundamentalsToKV (KV path) or by the disk mtime check on the
+    // next loadFundamentalsFromDisk() call (disk path).
+    fundamentalsCache.flushAll();
+
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
     console.log(
-      `[CRON] Enrichment complete in ${elapsed}s. ` +
+      `[CRON] Full refresh complete in ${elapsed}s. ` +
+      `Price: ${priceRefreshed} ok / ${priceFailed} failed. ` +
       `Enriched: ${result.enriched}, Skipped: ${result.skipped}, Failed: ${result.failed}. ` +
       `Sink: ${savedToKV ? "KV" : (savedToDisk ? "disk" : "none")}`
     );
 
     res.json({
       ok: true,
+      priceRefreshed,
+      priceFailed,
       enriched: result.enriched,
       skipped: result.skipped,
       failed: result.failed,
       elapsedSec: Number(elapsed),
       sink: savedToKV ? "kv" : (savedToDisk ? "disk" : "none"),
+      generatedAt: data.generatedAt,
       enrichedAt: data.enrichedAt,
     });
   } catch (err) {
-    console.error("[CRON] Fundamentals enrichment failed:", err);
+    console.error("[CRON] Fundamentals refresh failed:", err);
     res.status(500).json({ error: err.message });
   }
 });
@@ -2598,7 +2684,13 @@ app.get("/api/scan/fundamentals", async (req, res) => {
       stocks,
       scannedCount: scored.length,
       source: "nse_snapshot",
+      // Two separate freshness stamps:
+      //   generatedAt — last NSE price/P/E refresh (daily via cron now).
+      //   enrichedAt  — last Yahoo quality metrics (ROE, D/E, margin, growth) refresh.
+      // UI picks the more recent one to show "Updated X days ago" so a stale
+      // NSE snapshot doesn't make daily-enriched data look old.
       snapshotGeneratedAt: getSnapshotGeneratedAt(),
+      snapshotEnrichedAt: getSnapshotEnrichedAt(),
       regime: macroRegime,
       lastUpdated: new Date().toISOString(),
     };

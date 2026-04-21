@@ -70,37 +70,64 @@ async function getCookies() {
 }
 
 /**
- * Make an authenticated GET to the NSE API.
- * Retries once with fresh cookies on auth failure.
+ * GET an NSE API path. Tries the unauthenticated request FIRST, falls
+ * back to a cookie-gated request only when NSE returns 401/403/412.
+ *
+ * Why unauth-first: NSE's homepage (the source of our cookies) rejects
+ * Vercel datacenter IPs. That makes the cookie dance fail on production,
+ * and the old "cookies-required" approach short-circuited with null even
+ * for endpoints that don't actually require cookies — /api/equity-
+ * stockIndices, /api/quote-equity, /api/fiidiiTradeReact, etc. all serve
+ * JSON perfectly fine without any cookie. Reversing the order restores
+ * full NSE coverage on Vercel while preserving the cookie fallback for
+ * the paths that do need it.
  */
 async function nseGet(path, referer) {
-  const cookies = await getCookies();
-  if (!cookies) return null;
-
   const url = `${NSE_BASE}${path}`;
-  const headers = {
+  const baseHeaders = {
     "User-Agent": NSE_UA,
     Accept: "application/json, text/plain, */*",
     "Accept-Language": "en-US,en;q=0.9",
-    Cookie: cookies,
     Referer: referer || `${NSE_BASE}/market-data/live-equity-market`,
   };
 
+  // Attempt 1: no cookies. Fast path for Vercel.
   try {
-    let res = await fetchNseWithTimeout(url, { headers }, 12000);
+    const res = await fetchNseWithTimeout(url, { headers: baseHeaders }, 10000);
+    if (res.ok) return res.json();
+    // Only fall back to the cookie dance for auth-style rejections. A 404
+    // or 500 is a real upstream error, retrying with cookies won't help.
+    if (![401, 403, 412].includes(res.status)) return null;
+  } catch (err) {
+    // Network failure — let the cookie path try, maybe the TLS/DNS
+    // negotiation just glitched once.
+    console.warn(`NSE unauth attempt failed for ${path}:`, err.message);
+  }
 
-    // Retry once with fresh cookies on 401/403
+  // Attempt 2: cookie-gated. Restores access for the few endpoints that
+  // do enforce a session check (e.g. some report downloads).
+  const cookies = await getCookies();
+  if (!cookies) return null;
+  try {
+    let res = await fetchNseWithTimeout(
+      url,
+      { headers: { ...baseHeaders, Cookie: cookies } },
+      12000,
+    );
     if (res.status === 401 || res.status === 403) {
       await refreshCookies();
-      const newCookies = await getCookies();
-      headers.Cookie = newCookies;
-      res = await fetchNseWithTimeout(url, { headers }, 12000);
+      const refreshed = await getCookies();
+      if (!refreshed) return null;
+      res = await fetchNseWithTimeout(
+        url,
+        { headers: { ...baseHeaders, Cookie: refreshed } },
+        12000,
+      );
     }
-
     if (!res.ok) return null;
     return res.json();
   } catch (err) {
-    console.error(`NSE fetch failed for ${path}:`, err.message);
+    console.error(`NSE cookie fetch failed for ${path}:`, err.message);
     return null;
   }
 }

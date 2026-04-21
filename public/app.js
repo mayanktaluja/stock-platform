@@ -2408,12 +2408,21 @@ async function loadFundCategory(category, containerId) {
     const res = await fetch(`/api/scan/fundamentals?category=${category}`);
     const data = await res.json();
 
-    // Show snapshot age in header
+    // Show snapshot age in header. Use the MORE RECENT of generatedAt
+    // (NSE price/P/E) and enrichedAt (Yahoo quality metrics). Previously
+    // only generatedAt was read, so the banner stamped "Updated 12 days
+    // ago" even when enrichedAt had moved a week ago. With the daily
+    // cron both should track closely, but robust UX = pick the newer one.
     const ageEl = document.getElementById("fundSnapshotAge");
-    if (ageEl && data.snapshotGeneratedAt) {
-      const genDate = new Date(data.snapshotGeneratedAt);
+    const freshestTs = (() => {
+      const candidates = [data.snapshotGeneratedAt, data.snapshotEnrichedAt]
+        .map((s) => (s ? new Date(s).getTime() : null))
+        .filter((n) => n && !Number.isNaN(n));
+      return candidates.length ? new Date(Math.max(...candidates)) : null;
+    })();
+    if (ageEl && freshestTs) {
       const now = new Date();
-      const diffDays = Math.floor((now - genDate) / (1000 * 60 * 60 * 24));
+      const diffDays = Math.floor((now - freshestTs) / (1000 * 60 * 60 * 24));
       const label = diffDays === 0
         ? "Updated today"
         : diffDays === 1 ? "Updated 1 day ago"
