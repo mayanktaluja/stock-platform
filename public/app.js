@@ -2657,13 +2657,15 @@ async function loadSmeScan(category, containerId, label) {
       return;
     }
 
-    // Concentration banner appears ONLY when clustering is mild or worse.
-    // Diversified scans don't need a banner — they're the default expected
-    // state. Materially clustered results deserve a "this is effectively a
-    // sector bet" callout above the cards so users see it before deciding
-    // which picks to act on.
+    // Filter-activity banner: shows what was excluded from this scan
+    // (quality fails, illiquid names, parabolic names). Transparency about
+    // the scanner's filters so users aren't wondering why a name they
+    // expected to see isn't on the list.
+    //
+    // Concentration banner: flags material sector clustering when present.
+    const filterBanner = renderSmeFilterBanner(data.filterStats, category);
     const concentrationBanner = renderSmeConcentrationBanner(data.concentration);
-    container.innerHTML = concentrationBanner + data.stocks.map((s) => renderSmeCard(s, category)).join("");
+    container.innerHTML = filterBanner + concentrationBanner + data.stocks.map((s) => renderSmeCard(s, category)).join("");
     // Auto-expand the first section (Buy Now) on the Small-Cap tab
     if (category === "buynow") autoExpandSection("smeBuynowSection");
   } catch (err) {
@@ -2785,6 +2787,40 @@ function renderSmeCard(stock, category) {
       </div>
       ${headwindStrip}
       ${footer}
+    </div>`;
+}
+
+/**
+ * Render a filter-activity banner showing which screens excluded names
+ * from the pick list. Example: "Screened out: 12 illiquid · 8 quality
+ * fail · 4 parabolic". Lets users see what the scanner is filtering
+ * before they scroll the (filtered) results.
+ *
+ * Also surfaces the macro-gating notice — when we're in a severity-4+
+ * bearish regime, pick count drops to conservative size (3-5 instead
+ * of 10) to avoid building leverage into an active headwind.
+ */
+function renderSmeFilterBanner(filterStats, category) {
+  if (!filterStats) return "";
+  const parts = [];
+  if (filterStats.qualityFailExcluded > 0) parts.push(`${filterStats.qualityFailExcluded} quality-fail`);
+  if (filterStats.lowLiquidityExcluded > 0) parts.push(`${filterStats.lowLiquidityExcluded} illiquid (<₹1 Cr/day)`);
+  if (filterStats.parabolicExcluded > 0) parts.push(`${filterStats.parabolicExcluded} parabolic`);
+
+  const macroGated = filterStats.macroGated;
+  if (parts.length === 0 && !macroGated) return "";
+
+  const filterText = parts.length > 0 ? `Screened out: ${parts.join(" · ")}.` : "";
+  const macroText = macroGated
+    ? `<strong style="color:#fca5a5;">Macro gate active</strong> — pick count reduced to ${filterStats.macroGatedLimit} (from 10) due to severity-4+ bearish regime.`
+    : "";
+
+  return `
+    <div style="grid-column:1/-1; background:rgba(96,165,250,0.04); border:1px solid rgba(96,165,250,0.15); border-radius:8px; padding:10px 14px; margin-bottom:10px; font-size:11px; color:var(--text-muted); line-height:1.55;">
+      <span style="color:#93c5fd; font-weight:700; letter-spacing:0.3px;">Scanner filters:</span>
+      ${filterText}
+      ${macroText ? " &nbsp;·&nbsp; " + macroText : ""}
+      <span style="margin-left:8px; font-style:italic;">(quality + liquidity + parabolic-chase screens applied to ${category === "volume" ? "this screen" : "pick list"})</span>
     </div>`;
 }
 
