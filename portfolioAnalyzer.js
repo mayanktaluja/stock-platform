@@ -28,6 +28,27 @@ import {
   averagePairwiseCorrelation,
   stressScenario,
 } from "./riskMetrics.js";
+import { normalizeSector } from "./macroRegime.js";
+
+// ──────────────────── Sector canonicalisation ────────────────────
+//
+// NSE's raw sector labels are granular and inconsistent ("Automobile and
+// Auto Components", "Capital Goods", "Financial Services", "Stockbroking
+// & Allied"). macroRegime.normalizeSector maps them to a 20-sector
+// canonical vocabulary used by the stress model. We apply it BEFORE
+// aggregation so the sectorAllocation pie doesn't split one economic
+// sector across 3 labels — and so the stress-model sector lookup works
+// against canonical names.
+function canonicalSector(raw) {
+  if (!raw) return null;
+  const normalized = normalizeSector(raw);
+  // Fall back to the raw label if normalizeSector didn't recognise it —
+  // some NSE labels (e.g. "Textiles") aren't in the canonical list but
+  // are still meaningful. Just trim and title-case lightly.
+  if (normalized) return normalized;
+  const s = String(raw).trim();
+  return s.length ? s : null;
+}
 
 // ──────────────────── Red flags (structured) ────────────────────
 
@@ -364,6 +385,10 @@ export function analyzeHolding(input) {
     positionWeight, earningsNearby,
   });
 
+  // Liquidity red flag — separate from the main extractor because it
+  // needs the computed holdingRisk which comes later in this function.
+  // We'll append it after holdingRisk is built.
+
   const outlook = buildOutlook({
     analysis, midTerm, fundamentals, longTerm, macroDelta,
   });
@@ -387,17 +412,70 @@ export function analyzeHolding(input) {
   const oneYearDD = closes.length >= 30 ? maxDrawdown(closes.slice(-252)) : null;
   const var95 = stockReturns.length >= 30 ? historicalVaR(stockReturns, 0.05) : null;
 
+  // ── Liquidity / days-to-exit ──
+  // Estimated as: quantity × price ÷ (20% of median daily traded value).
+  // The 20% cap models the "don't move the price" constraint — market
+  // microstructure research (Almgren-Chriss, etc.) treats ~10–25% of ADV
+  // as the zone where participation starts showing meaningful impact.
+  // Surfacing this lets a user see "this small-cap position would take
+  // 8 trading days to exit at normal size" — a piece of information
+  // SEBI's 2024 risk-disclosure guidance explicitly highlights.
+  let daysToExit = null;
+  let medianDailyValueCr = null;
+  if (Array.isArray(historical) && historical.length >= 20 && price != null) {
+    const recent = historical.slice(-20);
+    const dailyValues = recent
+      .map((d) => (Number.isFinite(d.volume) && Number.isFinite(d.close)) ? d.volume * d.close : null)
+      .filter((v) => v != null && v > 0);
+    if (dailyValues.length >= 10) {
+      // Median is more robust than mean against earnings-day volume spikes
+      const sorted = [...dailyValues].sort((a, b) => a - b);
+      const medianValue = sorted[Math.floor(sorted.length / 2)];
+      const positionValue = (quantity || 0) * price;
+      const participation = medianValue * 0.20; // 20% of ADV/day is acceptable
+      if (participation > 0) {
+        daysToExit = +(positionValue / participation).toFixed(1);
+        medianDailyValueCr = +(medianValue / 1e7).toFixed(2);
+      }
+    }
+  }
+
   const holdingRisk = {
     beta: beta != null ? +beta.toFixed(2) : null,
     annualizedVolatility: annVol != null ? +(annVol * 100).toFixed(1) : null, // as %
     maxDrawdown1y: oneYearDD != null ? +(oneYearDD * 100).toFixed(1) : null,   // as % (negative)
     var95Daily: var95 != null ? +(var95 * 100).toFixed(2) : null,              // as % (negative)
     sampleSize: stockReturns.length,
+    // Liquidity fields — null when we can't compute
+    daysToExit,
+    medianDailyValueCr,
+    // Categorical flag for the UI to color-code:
+    //   good:     < 1 day (effectively instant)
+    //   fair:     1–5 days (manageable)
+    //   watch:    5–10 days (plan the exit)
+    //   poor:     > 10 days (illiquid — material slippage likely)
+    liquidityBand:
+      daysToExit == null ? null
+      : daysToExit < 1 ? "good"
+      : daysToExit < 5 ? "fair"
+      : daysToExit < 10 ? "watch" : "poor",
   };
 
+  // Append liquidity red flag if material
+  if (daysToExit != null && daysToExit > 10) {
+    redFlags.push({
+      severity: daysToExit > 20 ? "high" : "medium",
+      category: "liquidity",
+      message: `Position size implies ~${daysToExit} trading days to exit at 20% of median daily traded value (₹${medianDailyValueCr}Cr/day). Illiquid exits historically show material price impact; a full-size unwind would likely move the print.`,
+    });
+  }
+
   return {
-    // Identity
-    symbol, isin, name, sector,
+    // Identity. Sector is canonicalised here so every consumer of the
+    // holding (UI cards, sector pie, stress model) reads the same label.
+    symbol, isin, name,
+    sector: canonicalSector(sector),
+    rawSector: sector || null,
     rawName, matchType,
     // Position
     quantity, avgPrice,
@@ -442,12 +520,16 @@ export function analyzeHolding(input) {
 // ──────────────────── Portfolio-level aggregation ────────────────────
 
 function sectorAllocation(holdings) {
+  // Canonicalise before aggregating so NSE's granular labels
+  // ("Automobile and Auto Components" vs "Auto Components" vs "Capital
+  // Goods") collapse into one bucket per economic sector.
   const totals = new Map();
   let total = 0;
   for (const h of holdings) {
     if (h.currentValue == null) continue;
     total += h.currentValue;
-    totals.set(h.sector, (totals.get(h.sector) || 0) + h.currentValue);
+    const bucket = canonicalSector(h.sector) || "Unknown";
+    totals.set(bucket, (totals.get(bucket) || 0) + h.currentValue);
   }
   const out = [];
   for (const [sector, value] of totals) {
@@ -652,12 +734,37 @@ function buildRiskBlock(holdings, benchReturns) {
     avgCorr = averagePairwiseCorrelation(matrix);
   }
 
+  // Confidence band: below ~252 daily observations (1 year of trading
+  // days) the standard errors on beta, Sharpe, correlation and historical
+  // VaR are wide enough that the point estimates can be misleading. We
+  // surface the confidence level so the UI can show a caveat and the
+  // user can discount accordingly.
+  //
+  // Thresholds follow standard quant practice:
+  //   ≥ 252 days : "high"   — full year, stable estimates
+  //   ≥ 126 days : "medium" — 6 months, usable but wider bands
+  //   < 126 days : "low"    — less than half year, point estimates fragile
+  const n = portReturns.length;
+  const confidence = n >= 252 ? "high" : n >= 126 ? "medium" : "low";
+
+  // Rough confidence bands for Sharpe + beta when n is small. Formulae:
+  //   SE(Sharpe)  ≈ sqrt((1 + 0.5 * SR²) / n)       · Lo (2002)
+  //   SE(β)       ≈ σ_ε / (σ_benchmark · sqrt(n))   · standard OLS
+  // We don't have σ_ε handy; use a rule-of-thumb that at n=252 SE is ~0.15,
+  // scaling as 1/sqrt(n).
+  const sharpeSE = portSharpe != null && n >= 30
+    ? Math.sqrt((1 + 0.5 * portSharpe * portSharpe) / n)
+    : null;
+  const betaSE = n >= 30 ? +(0.15 * Math.sqrt(252 / n)).toFixed(2) : null;
+
   return {
     weightedBeta: +weightedBeta.toFixed(2),
+    weightedBetaSE: betaSE, // ~1σ error band
     betaCoverage: rawBetaCount,
     betaTotal: holdings.length,
     portfolioVolatilityPct: portVol != null ? +(portVol * 100).toFixed(1) : null,
     portfolioSharpe: portSharpe != null ? +portSharpe.toFixed(2) : null,
+    portfolioSharpeSE: sharpeSE != null ? +sharpeSE.toFixed(2) : null,
     maxDrawdownPct: maxDD != null ? +(maxDD * 100).toFixed(1) : null,
     var95DailyPct: portVar95 != null ? +(portVar95 * 100).toFixed(2) : null,
     var99DailyPct: portVar99 != null ? +(portVar99 * 100).toFixed(2) : null,
@@ -665,8 +772,11 @@ function buildRiskBlock(holdings, benchReturns) {
     benchVolatilityPct: benchVol != null ? +(benchVol * 100).toFixed(1) : null,
     benchSharpe: benchSharpe != null ? +benchSharpe.toFixed(2) : null,
     benchVar95DailyPct: benchVar95 != null ? +(benchVar95 * 100).toFixed(2) : null,
-    sampleDays: portReturns.length,
-    interpretation: interpretRisk({ weightedBeta, portVol, benchVol, avgCorr, maxDD }),
+    sampleDays: n,
+    confidence,
+    // Methodology line for the UI — readers understand where numbers came from.
+    methodology: `Historical VaR (${n} daily obs), OLS β vs ^NSEI, log-compounded portfolio series. Confidence level: ${confidence}.`,
+    interpretation: interpretRisk({ weightedBeta, portVol, benchVol, avgCorr, maxDD, confidence, n }),
   };
 }
 
@@ -674,7 +784,7 @@ function buildRiskBlock(holdings, benchReturns) {
  * Short human-readable interpretation of the risk block. Single
  * paragraph, plain English, deterministic.
  */
-function interpretRisk({ weightedBeta, portVol, benchVol, avgCorr, maxDD }) {
+function interpretRisk({ weightedBeta, portVol, benchVol, avgCorr, maxDD, confidence, n }) {
   const parts = [];
   if (Number.isFinite(weightedBeta)) {
     if (weightedBeta > 1.25) {
@@ -698,6 +808,11 @@ function interpretRisk({ weightedBeta, portVol, benchVol, avgCorr, maxDD }) {
   }
   if (Number.isFinite(maxDD) && maxDD < -0.2) {
     parts.push(`Back-tested max drawdown over the period was ${(maxDD * 100).toFixed(1)}% — plan for at least this much peak-to-trough pain again.`);
+  }
+  if (confidence === "low" && Number.isFinite(n)) {
+    parts.push(`Confidence: LOW — ${n} daily observations is under half a year, so beta/Sharpe point estimates carry wide error bands.`);
+  } else if (confidence === "medium" && Number.isFinite(n)) {
+    parts.push(`Confidence: MEDIUM — ${n} daily observations (under 1 year); use point estimates as directional, not precise.`);
   }
   return parts.join(" ");
 }

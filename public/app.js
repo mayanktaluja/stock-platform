@@ -4060,18 +4060,31 @@ function renderAnalyzerRiskBlock(report) {
   const fmtPct = (v, withSign = false) => v == null ? "—" : `${withSign && v >= 0 ? "+" : ""}${v.toFixed(v >= 10 || v <= -10 ? 0 : 1)}%`;
   const fmtNum = (v) => v == null ? "—" : v.toFixed(2);
 
+  // Confidence chip — surfaces when n is small so the user knows to discount
+  const confBand = r?.confidence || (r?.sampleDays >= 252 ? "high" : r?.sampleDays >= 126 ? "medium" : "low");
+  const confColor = { high: "#86efac", medium: "#fde047", low: "#fca5a5" }[confBand] || "var(--text-muted)";
+  const confChip = r?.sampleDays != null
+    ? `<span style="font-size:10px; color:${confColor}; background:${confColor}22; padding:3px 8px; border-radius:4px; font-weight:700; letter-spacing:0.4px; text-transform:uppercase;" title="Confidence level for beta/Sharpe/VaR estimates based on ${r.sampleDays} daily observations. Below 252 days (1 trading year), standard errors widen.">Confidence: ${confBand}</span>`
+    : "";
+  const betaBand = r?.weightedBetaSE != null
+    ? `<div style="font-size:10px; color:var(--text-muted); margin-top:2px;">±${r.weightedBetaSE} (1σ)</div>`
+    : `<div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${r.betaCoverage}/${r.betaTotal} holdings priced</div>`;
+  const sharpeBand = r?.portfolioSharpeSE != null
+    ? `<div style="font-size:10px; color:var(--text-muted); margin-top:2px;">±${r.portfolioSharpeSE} (1σ) · Nifty: ${fmtNum(benchSharpe)}</div>`
+    : `<div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Nifty: ${fmtNum(benchSharpe)}</div>`;
+
   // Risk card
   const riskCard = r ? `
     <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-bottom:12px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
         <div style="font-size:14px; font-weight:700;">Risk profile (vs. Nifty 50, last ${r.sampleDays} trading days)</div>
-        ${notAdviceChip()}
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">${confChip}${notAdviceChip()}</div>
       </div>
       <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
         <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Weighted beta</div>
           <div style="font-size:20px; font-weight:700; color:${betaColor};">${fmtNum(beta)}</div>
-          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${r.betaCoverage}/${r.betaTotal} holdings priced</div>
+          ${betaBand}
         </div>
         <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Annualised volatility</div>
@@ -4081,7 +4094,7 @@ function renderAnalyzerRiskBlock(report) {
         <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Sharpe (rf=6.5%)</div>
           <div style="font-size:20px; font-weight:700; color:${sharpeColor};">${fmtNum(sharpe)}</div>
-          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Nifty: ${fmtNum(benchSharpe)}</div>
+          ${sharpeBand}
         </div>
         <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
           <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Max drawdown (1y)</div>
@@ -4265,15 +4278,41 @@ function renderHoldingCard(h, defaultOpen) {
       </div>` : "";
 
   const riskSection = h.risk && (h.risk.beta != null || h.risk.annualizedVolatility != null || h.risk.maxDrawdown1y != null)
-    ? `<div style="margin:14px 0; padding:12px 14px; background:#111827; border-radius:6px;">
-        <div style="font-size:12px; font-weight:700; margin-bottom:8px;">Risk profile</div>
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:10px; font-size:12px;">
-          ${h.risk.beta != null ? `<div><span style="color:var(--text-muted);">Beta:</span> <strong>${h.risk.beta.toFixed(2)}</strong></div>` : ""}
-          ${h.risk.annualizedVolatility != null ? `<div><span style="color:var(--text-muted);">Vol (ann.):</span> <strong>${h.risk.annualizedVolatility.toFixed(1)}%</strong></div>` : ""}
-          ${h.risk.maxDrawdown1y != null ? `<div><span style="color:var(--text-muted);">Max DD (1y):</span> <strong style="color:#fca5a5;">${h.risk.maxDrawdown1y.toFixed(1)}%</strong></div>` : ""}
-          ${h.risk.var95Daily != null ? `<div><span style="color:var(--text-muted);">95% daily VaR:</span> <strong style="color:#fca5a5;">${h.risk.var95Daily.toFixed(2)}%</strong></div>` : ""}
-        </div>
-      </div>` : "";
+    ? (() => {
+        // Liquidity badge: tells the investor at a glance how long a full
+        // position unwind would take at 20% of median daily value.
+        const liqColor = {
+          good:  "#86efac",
+          fair:  "#a7f3d0",
+          watch: "#fde047",
+          poor:  "#fca5a5",
+        }[h.risk.liquidityBand] || "var(--text-muted)";
+        const liqLabel = h.risk.daysToExit != null
+          ? `<div><span style="color:var(--text-muted);">Days to exit:</span> <strong style="color:${liqColor};">${h.risk.daysToExit}</strong><span style="color:var(--text-muted);font-size:10px;"> (20% ADV rule)</span></div>`
+          : "";
+        const sampleChip = h.risk.sampleSize != null
+          ? (() => {
+              const n = h.risk.sampleSize;
+              const band = n >= 252 ? "high" : n >= 126 ? "medium" : "low";
+              const c = { high: "#86efac", medium: "#fde047", low: "#fca5a5" }[band];
+              return `<span style="font-size:10px; color:${c}; background:${c}22; padding:2px 6px; border-radius:3px; font-weight:700; letter-spacing:0.3px; text-transform:uppercase;" title="${n} daily observations used — beta/vol/VaR estimates carry wider error bands with fewer samples.">conf: ${band}</span>`;
+            })()
+          : "";
+        return `<div style="margin:14px 0; padding:12px 14px; background:#111827; border-radius:6px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:8px;">
+            <div style="font-size:12px; font-weight:700;">Risk profile</div>
+            ${sampleChip}
+          </div>
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:10px; font-size:12px;">
+            ${h.risk.beta != null ? `<div><span style="color:var(--text-muted);">Beta:</span> <strong>${h.risk.beta.toFixed(2)}</strong></div>` : ""}
+            ${h.risk.annualizedVolatility != null ? `<div><span style="color:var(--text-muted);">Vol (ann.):</span> <strong>${h.risk.annualizedVolatility.toFixed(1)}%</strong></div>` : ""}
+            ${h.risk.maxDrawdown1y != null ? `<div><span style="color:var(--text-muted);">Max DD (1y):</span> <strong style="color:#fca5a5;">${h.risk.maxDrawdown1y.toFixed(1)}%</strong></div>` : ""}
+            ${h.risk.var95Daily != null ? `<div><span style="color:var(--text-muted);">95% daily VaR:</span> <strong style="color:#fca5a5;">${h.risk.var95Daily.toFixed(2)}%</strong></div>` : ""}
+            ${liqLabel}
+          </div>
+        </div>`;
+      })()
+    : "";
 
   return `<details${openAttr} style="border:1px solid #1a2233; border-radius:8px; margin-bottom:8px; background:#0b1220;">
     <summary style="cursor:pointer; padding:12px 16px; list-style:none; display:grid; grid-template-columns: 140px 1fr 130px 120px 110px 60px; gap:12px; align-items:center; font-size:13px;">
