@@ -17,7 +17,7 @@ import NodeCache from "node-cache";
 import { analyzeStock, intradayScan, midTermAnalysis, longTermOutlook } from "./analysis.js";
 import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, getNifty100, getNifty500, getStocksByIndex, validateStockList } from "./stockList.js";
 import { analyzeNewsSentiment, quickSentiment } from "./sentiment.js";
-import { fetchNifty50, fetchNseQuote, fetchNseIndices, fetchNseIndex, fetchNseEventCalendar, fetchGiftNifty, nseGet, warmup as nseWarmup } from "./nse.js";
+import { fetchNifty50, fetchNseQuote, fetchNseIndices, fetchNseIndex, fetchNseEventCalendar, fetchGiftNifty, nseGet, nseGetUnauthed, warmup as nseWarmup } from "./nse.js";
 import {
   getFundamentals,
   getAllFundamentals,
@@ -2398,15 +2398,30 @@ app.get("/api/fii-dii", async (req, res) => {
     if (cached) return res.json(cached);
 
     let fiiDiiData = null;
+    // The endpoint works cookie-less — skip the full nseGet cookie dance,
+    // which short-circuits on datacenter IPs (NSE blocks the homepage
+    // which the cookie refresh relies on, even when the API path itself
+    // is wide open). Fall back to cookie-gated nseGet only if unauth'd
+    // returns nothing, since some NSE paths do eventually require cookies.
     try {
-      // The correct public endpoint. Works without cookies as of Apr 2026.
-      const data = await nseGet(
+      const data = await nseGetUnauthed(
         "/api/fiidiiTradeReact",
         "https://www.nseindia.com/reports/fii-dii",
       );
       if (Array.isArray(data) && data.length > 0) fiiDiiData = data;
     } catch (e) {
-      console.warn("NSE FII/DII fetch failed:", e.message);
+      console.warn("NSE FII/DII unauth fetch failed:", e.message);
+    }
+    if (!fiiDiiData) {
+      try {
+        const data = await nseGet(
+          "/api/fiidiiTradeReact",
+          "https://www.nseindia.com/reports/fii-dii",
+        );
+        if (Array.isArray(data) && data.length > 0) fiiDiiData = data;
+      } catch (e) {
+        console.warn("NSE FII/DII authed fetch also failed:", e.message);
+      }
     }
 
     if (!fiiDiiData) {
