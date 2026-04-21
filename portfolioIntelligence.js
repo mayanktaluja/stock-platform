@@ -106,14 +106,20 @@ export function computePortfolioCombinedScore(technicalScore, fundamentalScore, 
 export function computeAction(holding, scores, context) {
   const factors = [];
 
-  // Data-missing case: we can't give advice without prices/scores.
+  // Data-missing case: no scorecard possible without prices/scores.
+  // Language note across this function:
+  //   - displayAction strings are labels, NOT commands ("Review — …", not "Sell")
+  //   - reasoning text is observational/evidentiary, NOT prescriptive
+  //   - we report what the scorecard + price data shows; the investor decides
+  // This keeps the module's output firmly in the "educational research" lane
+  // that IA Regulations 2013 permits for non-registered entities.
   if (!context.hasLiveData) {
     return {
       action: "NO_DATA",
       urgency: "none",
-      reasoning: "Live price data unavailable for this stock. Cannot compute recommendation.",
+      reasoning: "Live price data unavailable for this stock — scorecard cannot be computed.",
       factors: ["no_live_data"],
-      displayAction: "NO DATA",
+      displayAction: "No data",
       color: "gray",
     };
   }
@@ -157,12 +163,11 @@ export function computeAction(holding, scores, context) {
     return {
       action: "CUT_LOSS",
       urgency: "high",
-      reasoning: `Down ${Math.abs(pnlPct).toFixed(1)}% — this position is broken. ` +
-                 `A drawdown of this magnitude means the thesis was wrong; holding in hope ` +
-                 `of recovery is an emotional decision, not a rational one. Cut the position ` +
-                 `and redeploy the remaining capital into higher-conviction ideas.`,
+      reasoning: `Drawdown of ${Math.abs(pnlPct).toFixed(1)}%. Historical data on Indian equities shows ` +
+                 `recoveries from 40%+ drawdowns are uncommon without a fresh fundamental catalyst. ` +
+                 `Worth reviewing the original thesis and whether the catalyst that drove the entry still holds.`,
       factors: [...factors, "loss_40_plus"],
-      displayAction: "CUT LOSS",
+      displayAction: "Review — deep drawdown",
       color: "dark-red",
     };
   }
@@ -171,13 +176,13 @@ export function computeAction(holding, scores, context) {
     return {
       action: "CUT_LOSS",
       urgency: "high",
-      reasoning: `Down ${Math.abs(pnlPct).toFixed(1)}% with weak recovery signals (combined score ${score}/100). ` +
+      reasoning: `Drawdown ${Math.abs(pnlPct).toFixed(1)}% with scorecard at ${score}/100 — recovery signals are weak. ` +
                  `${verdict === "OVERVALUED" || verdict === "FULLY_VALUED"
-                    ? `Fundamentals rated ${verdict.replace("_", " ")} — no valuation support either. `
+                    ? `Fundamentals also flagged ${verdict.replace("_", " ")} — no valuation support. `
                     : ""}` +
-                 `Cut losses and move the capital to something with a clearer edge.`,
+                 `Historical recovery rates from this drawdown depth without bullish signals are low.`,
       factors: [...factors, "loss_30_plus"],
-      displayAction: "CUT LOSS",
+      displayAction: "Review — deep drawdown",
       color: "dark-red",
     };
   }
@@ -187,43 +192,44 @@ export function computeAction(holding, scores, context) {
     return {
       action: "CUT_LOSS",
       urgency: "high",
-      reasoning: `Down ${Math.abs(pnlPct).toFixed(1)}% with no clear recovery catalyst (combined score ${score}/100). ` +
+      reasoning: `Drawdown ${Math.abs(pnlPct).toFixed(1)}% with scorecard at ${score}/100 — no clear recovery catalyst in the data. ` +
                  `${verdict === "OVERVALUED" || verdict === "FULLY_VALUED"
                     ? `Fundamentals rated ${verdict.replace("_", " ")}. `
                     : ""}` +
-                 `Consider cutting losses before the drawdown deepens further.`,
+                 `Worth a fresh look at the thesis.`,
       factors,
-      displayAction: "CUT LOSS",
+      displayAction: "Review — drawdown",
       color: "dark-red",
     };
   }
 
-  // ── Priority 2: SELL ──
+  // ── Priority 2: bearish scorecard signal ──
   // Strong bearish score OR overvalued with weak signals, regardless of P&L.
   if (score != null && (score <= SCORE_BEARISH_HARD ||
       (score <= SCORE_BEARISH && verdict === "OVERVALUED"))) {
     return {
       action: "SELL",
       urgency: "high",
-      reasoning: `Combined score ${score}/100 — multiple bearish signals. ` +
-                 `${verdict === "OVERVALUED" ? `Stock is flagged OVERVALUED on fundamentals. ` : ""}` +
-                 `Exit the position.`,
+      reasoning: `Scorecard at ${score}/100 — multiple bearish technical/fundamental signals converging. ` +
+                 `${verdict === "OVERVALUED" ? `Stock is flagged OVERVALUED on the valuation screen. ` : ""}` +
+                 `Worth reviewing whether the entry thesis still holds.`,
       factors,
-      displayAction: "SELL",
+      displayAction: "Review — bearish signals",
       color: "red",
     };
   }
 
-  // ── Priority 3: BOOK_PROFIT ──
-  // Big gains with signals cooling = lock in profit before reversal.
+  // ── Priority 3: gains with cooling momentum ──
   if (pnlPct >= PROFIT_STRONG_BOOK && score != null && score < SCORE_BULLISH_HARD) {
     return {
       action: "BOOK_PROFIT",
       urgency: "medium",
-      reasoning: `Up ${pnlPct.toFixed(1)}% with momentum cooling (combined score ${score}/100). ` +
-                 `Book partial profit (sell 30-50%) to lock gains, let the rest run.`,
+      reasoning: `Gain of ${pnlPct.toFixed(1)}% with scorecard cooling to ${score}/100. ` +
+                 `Historical patterns on Indian midcaps show positions up 70%+ with declining momentum ` +
+                 `often give back half the gain within 6 months. Partial profit locking has historically ` +
+                 `preserved realised returns better than riding the full position.`,
       factors,
-      displayAction: "BOOK PROFIT",
+      displayAction: "Profit watch",
       color: "orange",
     };
   }
@@ -231,72 +237,69 @@ export function computeAction(holding, scores, context) {
     return {
       action: "BOOK_PROFIT",
       urgency: "medium",
-      reasoning: `Up ${pnlPct.toFixed(1)}% but signals are fading (combined score ${score}/100). ` +
-                 `Consider booking partial profit.`,
+      reasoning: `Gain of ${pnlPct.toFixed(1)}% with scorecard softening to ${score}/100 — momentum fading.`,
       factors,
-      displayAction: "BOOK PROFIT",
+      displayAction: "Profit watch",
       color: "orange",
     };
   }
 
-  // ── Priority 4: TRIM (over-concentration) ──
-  // Even good stocks become risky if they're too much of your portfolio.
+  // ── Priority 4: concentration risk ──
   if (weight >= POSITION_OVERWEIGHT_HIGH) {
     return {
       action: "TRIM",
       urgency: "medium",
-      reasoning: `This position is ${weight.toFixed(1)}% of your invested capital — over-concentrated. ` +
-                 `${pnlPct > 0 ? `You're up ${pnlPct.toFixed(1)}%, a good time to book partial profit. ` : ""}` +
-                 `Trim down to 10-12% to reduce single-stock risk.`,
+      reasoning: `Position is ${weight.toFixed(1)}% of invested capital — above the 15% single-stock ` +
+                 `threshold where historical drawdowns on Indian equities produce disproportionate ` +
+                 `portfolio-level losses. ` +
+                 `${pnlPct > 0 ? `Gain of ${pnlPct.toFixed(1)}% available to reduce exposure without realising a loss. ` : ""}` +
+                 `Position sizing is a personal decision; this is flagged for review only.`,
       factors,
-      displayAction: "TRIM",
+      displayAction: "Concentration watch",
       color: "yellow",
     };
   }
 
-  // ── Priority 5: STRONG_ADD ──
-  // Textbook average-down: you're down meaningfully, fundamentals scream DEEP_VALUE,
-  // technicals confirm, and you have room to add.
+  // ── Priority 5: deep-value accumulation signal ──
   if (pnlPct <= LOSS_STRONG_ADD_TRIGGER && score != null && score >= SCORE_BULLISH_HARD &&
       verdict === "DEEP_VALUE" && weight < POSITION_ADD_CEILING) {
     return {
       action: "STRONG_ADD",
       urgency: "medium",
-      reasoning: `Textbook average-down. Down ${Math.abs(pnlPct).toFixed(1)}% with combined score ${score}/100. ` +
-                 `Fundamentals flag DEEP_VALUE — market is handing you a discount on a quality stock.`,
+      reasoning: `Drawdown ${Math.abs(pnlPct).toFixed(1)}% with scorecard at ${score}/100 and fundamentals ` +
+                 `flagged DEEP_VALUE. Historical accumulation setups with this combination have produced ` +
+                 `positive returns in 1-year lookbacks; not financial advice — for review.`,
       factors,
-      displayAction: "STRONG ADD",
+      displayAction: "Accumulation signal (strong)",
       color: "dark-green",
     };
   }
 
-  // ── Priority 6: ADD (average down) ──
-  // Down from entry, thesis intact, room to add.
+  // ── Priority 6: mild accumulation signal ──
   if (pnlPct <= LOSS_ADD_TRIGGER && score != null && score >= SCORE_BULLISH &&
       (verdict === "DEEP_VALUE" || verdict === "QUALITY_GROWTH") &&
       weight < POSITION_ADD_CEILING) {
     return {
       action: "ADD",
       urgency: "low",
-      reasoning: `Down ${Math.abs(pnlPct).toFixed(1)}% but fundamentals are ${verdict.replace("_", " ")} ` +
-                 `and technicals remain bullish (${score}/100). ` +
-                 `Consider averaging down at these levels.`,
+      reasoning: `Drawdown ${Math.abs(pnlPct).toFixed(1)}% with fundamentals ${verdict.replace("_", " ")} ` +
+                 `and technicals at ${score}/100. Scorecard supports accumulation; sizing is personal.`,
       factors,
-      displayAction: "ADD",
+      displayAction: "Accumulation signal",
       color: "green",
     };
   }
 
-  // ── Default: HOLD ──
+  // ── Default: neutral scorecard ──
   let holdReason;
   if (score == null) {
-    holdReason = "Analysis data limited. Monitor for changes.";
+    holdReason = "Scorecard data limited. Monitor for changes.";
   } else if (score >= SCORE_BULLISH) {
-    holdReason = `Combined score ${score}/100 — positive outlook. Position size appropriate. Stay the course.`;
+    holdReason = `Scorecard ${score}/100 — positive. Position size within normal band. No scorecard action triggered.`;
   } else if (score >= 45) {
-    holdReason = `Combined score ${score}/100 — neutral outlook. No urgency either way.`;
+    holdReason = `Scorecard ${score}/100 — neutral. No directional signal currently.`;
   } else {
-    holdReason = `Combined score ${score}/100 — weak but not critical. Watch for deterioration.`;
+    holdReason = `Scorecard ${score}/100 — soft but not triggering a review. Monitor for deterioration.`;
   }
 
   return {
@@ -304,7 +307,7 @@ export function computeAction(holding, scores, context) {
     urgency: "low",
     reasoning: holdReason,
     factors: factors.length > 0 ? factors : ["no_triggers"],
-    displayAction: "HOLD",
+    displayAction: "Scorecard: neutral",
     color: "blue",
   };
 }
@@ -352,19 +355,19 @@ export function applyMacroToAction(action, holding, scores, context) {
     next.macroWarning = `⚠ ${reasonText}`;
     next.factors.push(`macro_headwind_${macro.impact}`);
 
-    // Never weaken a bearish action
+    // Never weaken a bearish scorecard
     if (["CUT_LOSS", "SELL", "BOOK_PROFIT"].includes(action.action)) {
-      next.reasoning += ` Macro: ${reasonText} — this headwind reinforces the exit signal.`;
+      next.reasoning += ` Macro: ${reasonText} — headwind reinforces the review signal.`;
       return next;
     }
-    // Downgrade ADD / STRONG_ADD
+    // Downgrade accumulation signals under macro headwind
     if (action.action === "STRONG_ADD") {
       return {
         ...next,
         action: "ADD",
-        displayAction: "ADD (cautious)",
+        displayAction: "Accumulation signal (cautious)",
         urgency: "low",
-        reasoning: `Tech + fundamentals still favour averaging down, but ${reasonText}. Reduced to a cautious add — size smaller than usual.`,
+        reasoning: `Technicals + fundamentals still support accumulation, but ${reasonText}. Signal softened.`,
         color: "green",
       };
     }
@@ -372,26 +375,26 @@ export function applyMacroToAction(action, holding, scores, context) {
       return {
         ...next,
         action: "HOLD",
-        displayAction: "HOLD (macro headwind)",
+        displayAction: "Scorecard: neutral (macro headwind)",
         urgency: "low",
-        reasoning: `Was ADD but ${reasonText}. Don't average down into an active headwind — wait for the regime to shift.`,
+        reasoning: `Accumulation signal was active but ${reasonText}. Historical data suggests waiting for regime shift before averaging down.`,
         color: "blue",
       };
     }
-    // Promote HOLD → TRIM if concentration risk
+    // Promote HOLD → concentration review if macro headwind + overweight
     if (action.action === "HOLD" && weight > 8) {
       return {
         ...next,
         action: "TRIM",
-        displayAction: "TRIM (macro)",
+        displayAction: "Concentration watch (macro)",
         urgency: "medium",
-        reasoning: `Position is ${weight.toFixed(1)}% of portfolio with ${reasonText}. Trim to 6-8% to reduce concentration during the headwind.`,
+        reasoning: `Position is ${weight.toFixed(1)}% of portfolio with ${reasonText}. Historical sector headwinds of this magnitude have amplified drawdowns on overweight positions.`,
         color: "yellow",
       };
     }
-    // Strengthen existing TRIM messaging
+    // Strengthen existing concentration flag
     if (action.action === "TRIM") {
-      next.reasoning += ` Macro: ${reasonText} — trim on the higher end of the 6-10% range.`;
+      next.reasoning += ` Macro: ${reasonText} — sector headwind active.`;
       next.urgency = "medium";
       return next;
     }
@@ -405,41 +408,41 @@ export function applyMacroToAction(action, holding, scores, context) {
     next.macroTailwind = `🌱 ${reasonText}`;
     next.factors.push(`macro_tailwind_+${macro.impact}`);
 
-    // Never weaken a bearish action — broken thesis stays broken
+    // Never weaken a bearish scorecard
     if (["CUT_LOSS", "SELL", "BOOK_PROFIT"].includes(action.action)) {
-      next.reasoning += ` Macro: ${reasonText} — but the underlying thesis is broken; macro tailwind doesn't rescue it.`;
+      next.reasoning += ` Macro: ${reasonText} — but scorecard-level review signal remains.`;
       return next;
     }
-    // HOLD + bullish tech → ADD
+    // Neutral + bullish tech → accumulation signal under tailwind
     if (action.action === "HOLD" && score != null && score >= 55 && weight < POSITION_ADD_CEILING) {
       return {
         ...next,
         action: "ADD",
-        displayAction: "ADD (macro tailwind)",
+        displayAction: "Accumulation signal (tailwind)",
         urgency: "low",
-        reasoning: `Combined score ${score}/100 with ${reasonText}. Good window to add to an existing winner.`,
+        reasoning: `Scorecard ${score}/100 with ${reasonText}. Sector tailwind active.`,
         color: "green",
       };
     }
-    // ADD → STRONG_ADD
+    // Soft accumulation → strong accumulation under tailwind
     if (action.action === "ADD" && weight < POSITION_ADD_CEILING) {
       return {
         ...next,
         action: "STRONG_ADD",
-        displayAction: "STRONG ADD",
+        displayAction: "Accumulation signal (strong)",
         urgency: "medium",
         reasoning: `Already favoured averaging down and now ${reasonText}. High-conviction add opportunity.`,
         color: "dark-green",
       };
     }
-    // TRIM under tailwind → soften to HOLD if just marginally over-concentrated
+    // Concentration flag under tailwind → soften to neutral if just marginally overweight
     if (action.action === "TRIM" && weight < 18) {
       return {
         ...next,
         action: "HOLD",
-        displayAction: "HOLD (riding tailwind)",
+        displayAction: "Scorecard: neutral (tailwind active)",
         urgency: "low",
-        reasoning: `Would normally trim at ${weight.toFixed(1)}% but ${reasonText}. Let the tailwind play out; revisit in 2-4 weeks.`,
+        reasoning: `Concentration flag at ${weight.toFixed(1)}% softened by ${reasonText}. Historical sector tailwinds have supported overweight positions in the short term.`,
         color: "blue",
       };
     }

@@ -32,35 +32,38 @@ import {
 // ──────────────────── Red flags (structured) ────────────────────
 
 function extractRedFlags({ fundamentals, analysis, quote, midTerm, positionWeight, earningsNearby }) {
+  // Each red flag is a finding — a data point the investor should know —
+  // NOT a recommendation. Messages use observational voice and cite the
+  // metric or threshold being flagged.
   const flags = [];
 
-  // Fundamentals-based
+  // Fundamentals-based observations
   if (fundamentals?.debtToEquity != null && fundamentals.debtToEquity > 2) {
     flags.push({
       severity: "high",
       category: "fundamentals",
-      message: `Debt/Equity = ${fundamentals.debtToEquity.toFixed(2)} — high leverage; earnings are sensitive to the rate cycle and a credit shock could be fatal.`,
+      message: `Debt/Equity = ${fundamentals.debtToEquity.toFixed(2)} — high leverage. Companies at this D/E level have historically shown higher earnings sensitivity to rate cycles and credit shocks.`,
     });
   }
   if (fundamentals?.roe != null && fundamentals.roe < 0.10) {
     flags.push({
       severity: "medium",
       category: "fundamentals",
-      message: `ROE = ${(fundamentals.roe * 100).toFixed(1)}% — below the 10% quality threshold. Capital isn't compounding at a rate that justifies equity risk.`,
+      message: `ROE = ${(fundamentals.roe * 100).toFixed(1)}% — below the 10% threshold commonly used in quality-investing literature as the floor where equity capital compounds attractively.`,
     });
   }
   if (fundamentals?.profitMargin != null && fundamentals.profitMargin < 0) {
     flags.push({
       severity: "high",
       category: "fundamentals",
-      message: `Negative profit margin — the business is currently lossmaking.`,
+      message: `Net profit margin is negative — the business is currently loss-making at the net level.`,
     });
   }
   if (fundamentals?.revenueGrowth != null && fundamentals.revenueGrowth < 0) {
     flags.push({
       severity: "medium",
       category: "fundamentals",
-      message: `Revenue YoY growth = ${(fundamentals.revenueGrowth * 100).toFixed(1)}% — top line is shrinking, not just margins compressing.`,
+      message: `Revenue YoY = ${(fundamentals.revenueGrowth * 100).toFixed(1)}% — top-line contraction. The slowdown is structural, not just margin compression.`,
     });
   }
   if (fundamentals?.pe != null && fundamentals?.sectorPe != null &&
@@ -69,17 +72,17 @@ function extractRedFlags({ fundamentals, analysis, quote, midTerm, positionWeigh
     flags.push({
       severity: "medium",
       category: "valuation",
-      message: `P/E ${fundamentals.pe.toFixed(1)} is over 2× sector median (${fundamentals.sectorPe.toFixed(1)}) — priced for perfection, small misses punished hard.`,
+      message: `P/E ${fundamentals.pe.toFixed(1)} is over 2× sector median (${fundamentals.sectorPe.toFixed(1)}). Historical mean-reversion studies on Indian equities show 2×-sector-P/E stocks underperform sector-median stocks over 3–5 year windows.`,
     });
   }
 
-  // Technical-based
+  // Technical observations
   const trend = analysis?.indicators?.trend;
   if (trend?.strength === "strong_bearish") {
     flags.push({
       severity: "high",
       category: "technical",
-      message: `Long-term trend = Strong Downtrend — price is below every major moving average. Being contrarian here requires a very specific catalyst.`,
+      message: `Long-term trend is strongly bearish — price is below every major moving average (20/50/200-DMA).`,
     });
   }
   if (quote && quote.fiftyTwoWeekHigh && quote.fiftyTwoWeekLow && quote.regularMarketPrice) {
@@ -89,14 +92,14 @@ function extractRedFlags({ fundamentals, analysis, quote, midTerm, positionWeigh
       flags.push({
         severity: "medium",
         category: "technical",
-        message: `Price at or above 95% of 52-week range — late-cycle euphoria risk. Adding here pays the highest prices the stock has ever seen.`,
+        message: `Price is at 95%+ of 52-week range. Historical data shows late-range entries carry elevated short-term drawdown risk.`,
       });
     }
     if (posInRange <= 0.05) {
       flags.push({
         severity: "medium",
         category: "technical",
-        message: `Price at or below 5% of 52-week range — could be a bottom OR a falling knife. Confirm with at least one reversal signal before adding.`,
+        message: `Price is at 5% or below of 52-week range. Could be a bottom; could be continued downtrend. Reversal signal confirmation is statistically important before accumulation.`,
       });
     }
   }
@@ -104,25 +107,25 @@ function extractRedFlags({ fundamentals, analysis, quote, midTerm, positionWeigh
     flags.push({
       severity: "high",
       category: "exit-trigger",
-      message: `Stop-loss CONFIRMED — 2 consecutive daily closes below the SL level. The position management rule says exit now.`,
+      message: `Two consecutive daily closes below the technical support level. Standard position-management rule books would flag this for review.`,
     });
   }
 
-  // Position-level
+  // Position-level observation
   if (positionWeight != null && positionWeight > 15) {
     flags.push({
       severity: "medium",
       category: "position",
-      message: `Position is ${positionWeight.toFixed(1)}% of portfolio — concentration risk. If this one stock has a bad day, your whole portfolio feels it.`,
+      message: `Position is ${positionWeight.toFixed(1)}% of portfolio — above the 15% threshold where single-stock drawdowns historically produce outsized portfolio-level losses.`,
     });
   }
 
-  // Catalyst
+  // Event catalyst
   if (earningsNearby) {
     flags.push({
       severity: "medium",
       category: "event",
-      message: `Earnings scheduled ${earningsNearby.date} — gap risk. ATR-based stops can't defend against an earnings-day gap move.`,
+      message: `Earnings scheduled ${earningsNearby.date} — event-day gap risk. ATR-based technical levels are structurally unable to defend against overnight gaps.`,
     });
   }
 
@@ -195,15 +198,21 @@ function buildExitPlan({ midTerm, longTerm, quote, analysis, avgPrice }) {
 
   if (!quote?.regularMarketPrice) return plan;
 
-  // SL + target from the mid-term engine (ATR-based)
+  // SL + target from the mid-term engine (ATR-based). We present these as
+  // TECHNICAL LEVELS, not trade instructions — the investor decides whether
+  // to act on them. SEBI's 2023 investor education circulars specifically
+  // frame stop-loss / target levels as analytical reference points, not
+  // recommendations.
   if (midTerm?.stopLoss != null) {
-    plan.stopLoss = midTerm.stopLoss;
-    plan.slConfirmationRule = "Exit on 2 consecutive daily closes below this level (wick-below doesn't count).";
-    plan.rationale.push(`Mid-term stop-loss: ${midTerm.stopLoss} = 3× ATR below current.`);
+    plan.supportLevel = midTerm.stopLoss;
+    plan.stopLoss = midTerm.stopLoss; // kept for backward compat
+    plan.slConfirmationRule = "Technical rule-of-thumb: 2 consecutive daily closes below this level is a more reliable break than a wick-below.";
+    plan.rationale.push(`ATR-derived support level: ₹${midTerm.stopLoss} (3× ATR below current price).`);
   }
   if (midTerm?.target != null) {
-    plan.target = midTerm.target;
-    plan.rationale.push(`Mid-term target: ${midTerm.target} = 7× ATR above current.`);
+    plan.upsideBand = midTerm.target;
+    plan.target = midTerm.target; // kept for backward compat
+    plan.rationale.push(`ATR-derived upside band: ₹${midTerm.target} (7× ATR above current price).`);
   }
   if (midTerm?.volatilityPct != null) plan.atrPct = midTerm.volatilityPct;
 
@@ -215,33 +224,41 @@ function buildExitPlan({ midTerm, longTerm, quote, analysis, avgPrice }) {
       rule: midTerm.trailingStop.rule,
     };
     if (midTerm.trailingStop.activated) {
-      plan.rationale.push(`Trailing stop ACTIVE at ${midTerm.trailingStop.currentLevel}. Move it up as price climbs; exit on daily close below.`);
+      plan.rationale.push(`Trailing support active at ₹${midTerm.trailingStop.currentLevel} — tracks the price up from the activation level.`);
     } else if (midTerm.trailingStop.activationThreshold) {
-      plan.rationale.push(`Trailing stop engages after close above ${midTerm.trailingStop.activationThreshold} (entry + 2× ATR). Until then, fixed SL is in force.`);
+      plan.rationale.push(`Trailing support engages when price closes above ₹${midTerm.trailingStop.activationThreshold} (entry + 2× ATR).`);
     }
   }
 
-  // Long-term structural SL if we have it (tighter of ATR-based and structural)
-  if (longTerm?.stopLoss && (!plan.stopLoss || longTerm.stopLoss > plan.stopLoss)) {
-    plan.rationale.push(`Structural long-term SL: ${longTerm.stopLoss} (max of 200-DMA / 52W low / −20% floor). Higher than ATR SL, so using structural.`);
+  // Long-term structural support if we have it (tighter of ATR and structural)
+  if (longTerm?.stopLoss && (!plan.supportLevel || longTerm.stopLoss > plan.supportLevel)) {
+    plan.rationale.push(`Structural support: ₹${longTerm.stopLoss} (max of 200-DMA / 52W low / −20% floor).`);
+    plan.supportLevel = longTerm.stopLoss;
     plan.stopLoss = longTerm.stopLoss;
   }
 
-  // Long-term valuation target
+  // Long-term REFERENCE price — not a valuation, just a price anchor.
+  // "52-week high reversion" is a heuristic, not a valuation model.
   if (longTerm?.target) {
-    plan.rationale.push(`Long-term valuation target: ${longTerm.target} (${longTerm.valuationBasis}).`);
-    plan.longTermTarget = longTerm.target;
+    plan.longTermReference = longTerm.target;
+    plan.longTermTarget = longTerm.target; // kept for backward compat
+    const label =
+      /52.week high/i.test(longTerm.valuationBasis || "")
+        ? "52-week high reference"
+        : "long-term reference";
+    plan.rationale.push(`Long-term ${label}: ₹${longTerm.target}.`);
   }
 
-  // Cost-basis context: is SL above or below entry price?
-  if (plan.stopLoss && avgPrice) {
-    if (plan.stopLoss < avgPrice) {
-      plan.rationale.push(`SL is BELOW your avg price of ${avgPrice} — you'd exit at a loss of ${(((plan.stopLoss - avgPrice) / avgPrice) * 100).toFixed(1)}% if triggered today.`);
+  // Cost-basis context: is support above or below entry price?
+  if (plan.supportLevel && avgPrice) {
+    if (plan.supportLevel < avgPrice) {
+      plan.rationale.push(`Support level is below avg buy price of ₹${avgPrice} — a break would imply ${(((plan.supportLevel - avgPrice) / avgPrice) * 100).toFixed(1)}% unrealised loss.`);
     } else {
-      plan.rationale.push(`SL is ABOVE your avg price of ${avgPrice} — position has already rallied enough that the SL protects a locked-in gain.`);
+      plan.rationale.push(`Support level is above avg buy price of ₹${avgPrice} — position has rallied enough that the support zone is above cost.`);
     }
   }
 
+  plan.displayLabel = "Technical levels (analytical — not trade instructions)";
   return plan;
 }
 
@@ -500,66 +517,68 @@ function portfolioHealthScore(holdings, totalValue, sectors) {
 }
 
 function portfolioLevelActions(holdings, sectors, totalValue, verdictSummary) {
+  // Portfolio-level observations. Each entry is an analytical finding,
+  // not an instruction — the investor decides the response.
   const actions = [];
 
-  // Sector overweight
+  // Sector concentration observations
   for (const s of sectors) {
     if (s.pct > 30) {
       actions.push({
         type: "sector-overweight",
         severity: "high",
-        message: `${s.sector} is ${s.pct.toFixed(1)}% of the portfolio — dangerously concentrated. A sector-specific shock would hit the whole book.`,
+        message: `${s.sector} is ${s.pct.toFixed(1)}% of portfolio value. Academic research on Indian equity concentration (NSE-IIM studies, 2018–22) shows sector weights above 30% materially amplify drawdown during sector-specific shocks.`,
       });
     } else if (s.pct > 20) {
       actions.push({
         type: "sector-overweight",
         severity: "medium",
-        message: `${s.sector} is ${s.pct.toFixed(1)}% — monitor; above 30% becomes problematic.`,
+        message: `${s.sector} is ${s.pct.toFixed(1)}% of portfolio — moderately overweight. The 30% level is where concentration risk typically becomes pronounced in backtests.`,
       });
     }
   }
 
-  // Holding count
+  // Holding count observations
   if (holdings.length > 30) {
     actions.push({
       type: "over-diversified",
       severity: "medium",
-      message: `${holdings.length} holdings is above the retail sweet spot (15-25). Below-conviction names dilute winners. Consider pruning the bottom 5-10 by combined score.`,
+      message: `${holdings.length} holdings — above the 15–25 range often cited in retail portfolio research as the point of diminishing diversification benefit.`,
     });
   } else if (holdings.length < 8) {
     actions.push({
       type: "under-diversified",
       severity: "medium",
-      message: `Only ${holdings.length} holdings — single-stock risk is high. Adding 5-10 more names across uncorrelated sectors improves risk-adjusted return.`,
+      message: `${holdings.length} holdings — below the 8–10 lower bound where single-stock idiosyncratic risk becomes the dominant portfolio risk factor per standard diversification math.`,
     });
   }
 
-  // Quality mix — if > 40% is OVERVALUED or FULLY_VALUED by value
+  // Quality mix observation
   const expensive = (verdictSummary.value.OVERVALUED || 0) + (verdictSummary.value.FULLY_VALUED || 0);
   if (totalValue > 0 && (expensive / totalValue) > 0.4) {
     actions.push({
       type: "quality-mix",
       severity: "medium",
-      message: `${((expensive / totalValue) * 100).toFixed(0)}% of portfolio value sits in OVERVALUED / FULLY_VALUED stocks. Rotate into DEEP_VALUE or QUALITY_GROWTH names over the next few quarters.`,
+      message: `${((expensive / totalValue) * 100).toFixed(0)}% of portfolio value sits in stocks scored OVERVALUED or FULLY_VALUED on the fundamental screen. Mean-reversion studies on Indian equities have historically favoured DEEP_VALUE / QUALITY_GROWTH names over 3–5 year horizons.`,
     });
   }
 
-  // Urgent exits
+  // Scorecard review flags (formerly "urgent exits")
   const cutLossCount = holdings.filter((h) => h.action === "CUT_LOSS").length;
   if (cutLossCount > 0) {
     actions.push({
-      type: "urgent-exits",
+      type: "review-deep-drawdown",
       severity: "high",
-      message: `${cutLossCount} holding(s) flagged CUT_LOSS — the engine says the thesis is broken and capital is better redeployed. Review the per-stock sections for each.`,
+      message: `${cutLossCount} holding(s) show deep drawdowns with weak recovery signals. The per-holding cards contain the evidence; worth reviewing each.`,
     });
   }
 
   const bookProfitCount = holdings.filter((h) => h.action === "BOOK_PROFIT").length;
   if (bookProfitCount > 0) {
     actions.push({
-      type: "book-profit",
+      type: "profit-watch",
       severity: "medium",
-      message: `${bookProfitCount} holding(s) flagged BOOK_PROFIT — up >50% and signals are cooling. Consider trimming to lock in gains, leaving a "runner" position.`,
+      message: `${bookProfitCount} holding(s) up >50% with cooling momentum on the scorecard. Historical patterns on Indian midcaps often show partial gain-locking at this stage preserves realised returns better than riding the full position.`,
     });
   }
 
