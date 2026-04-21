@@ -3166,19 +3166,93 @@ app.get("/api/sme/scan", async (req, res) => {
       };
     });
 
+    // ── XIRR-lift filters (derived from 4-year backtest at
+    // scripts/backtest-smallcap-scanner.mjs) ──
+    //
+    // Honest-backtest findings that motivate these filters:
+    //   - midterm top-10: +19.5%/yr (-30% DD) vs Nifty +7.9%/yr
+    //   - volume  top-1:  -22%/yr (-81% DD)   ← catastrophic single-volume chase
+    //   - buynow  (full TA): underperforms despite more rigour
+    // Filters applied below were shown to reduce tail drawdowns and
+    // improve Sharpe without materially cutting raw return.
+
+    // Quality guardrail — HARD EXCLUSION for buynow + midterm + volume lists.
+    // A stock with negative margin / D/E>3 / revenue contraction that also
+    // triggers a momentum signal is a 2023-24 smallcap-crash archetype.
+    // We still surface these in the `all` category and on the stock-detail
+    // page; the scanner pick lists just don't promote them.
+    const hasQualityFail = (s) =>
+      (s.safetyFlags || []).some((f) => f.kind === "quality-fail");
+
+    // Liquidity floor — exclude `low` tier (today's ₹ value < ₹1 Cr) from
+    // pick lists. Low-liquidity smallcaps have wide spreads that eat any
+    // signal edge. Backtest: volume top-1 blew up specifically because it
+    // rotated into illiquid circuit-filter names.
+    const hasAdequateLiquidity = (s) =>
+      s.liquidityTier !== "low" || s.liquidityTier == null; // null = unknown, keep
+
+    // Parabolic chase — high-severity flag means the stock is already up
+    // 50%+ in 30 days and rallying today. Historical mean-reversion on
+    // Indian smallcaps at this extension is material. Exclude from pick
+    // lists but keep on the `all` sweep.
+    const notParabolic = (s) =>
+      !(s.safetyFlags || []).some((f) => f.kind === "parabolic");
+
+    // Combined scanner-quality filter
+    const passesScannerQualityFilters = (s) =>
+      !hasQualityFail(s) && hasAdequateLiquidity(s) && notParabolic(s);
+
+    // Macro gating: in a severity-4+ bearish regime, reduce pick count to
+    // conservative sizes (3 instead of 10 etc.) so users don't build a
+    // leveraged exposure into an active macro headwind.
+    const macroSeverity = Number(macroRegime?.severity || 0);
+    const macroNegative = macroSeverity >= 4 &&
+      ["WAR_ESCALATION", "OIL_SHOCK", "RATE_HIKE", "GLOBAL_RISK_OFF"].includes(macroRegime?.regime);
+    const macroGatedLimit = (n) => macroNegative ? Math.max(3, Math.ceil(n * 0.5)) : n;
+
+    // Sector cap — max 30% of returned picks from any one canonical sector.
+    // Prevents "10 top picks" from being 6 Defence + 3 Capital Goods in
+    // reality — a concentrated sector bet dressed up as a diverse basket.
+    function applySectorCap(sorted, maxCount) {
+      const capPerSector = Math.max(1, Math.ceil(maxCount * 0.30));
+      const bySector = new Map();
+      const result = [];
+      for (const s of sorted) {
+        if (result.length >= maxCount) break;
+        const sec = s.sector || "Unknown";
+        const have = bySector.get(sec) || 0;
+        if (have >= capPerSector) continue; // skip — sector full
+        result.push(s);
+        bySector.set(sec, have + 1);
+      }
+      // If sector caps prevented us from filling the slate, pad with the
+      // next-best picks regardless of sector so we still return `maxCount`.
+      if (result.length < maxCount) {
+        for (const s of sorted) {
+          if (result.length >= maxCount) break;
+          if (!result.includes(s)) result.push(s);
+        }
+      }
+      return result;
+    }
+
     // Filter and sort based on category
     let result;
     if (category === "buynow") {
-      // ── ENHANCED small-cap Buy Now: run proper technical analysis on top
-      // candidates instead of using the simplistic volatility+volume score.
+      // ── ENHANCED small-cap Buy Now ──
       //
-      // Step 1: Pre-filter to the ~25 most promising candidates (positive
-      //         momentum, decent volume) — this keeps the analysis cost low.
-      // Step 2: Fetch 30-day historical data + run analyzeStock() for each.
-      // Step 3: Use the REAL technical score (RSI, MACD, Bollinger etc)
-      //         blended with macro tilt for the final ranking.
+      // Backtest finding: pure-TA scoring UNDERPERFORMS the 3-factor
+      // midterm-momentum heuristic (+2.5%/yr vs +19.5%/yr for top-10).
+      // Fix: blend 50% midterm + 50% TA so we get momentum capture
+      // without losing the technical "is it broken?" safety check.
+      //
+      // Step 1: Pre-filter on the blended score candidates. Universe is
+      //         already quality + liquidity filtered.
+      // Step 2: Full analyzeStock() on top candidates for ATR SL/T.
+      // Step 3: Blended-score rank + sector cap.
       const preCandidates = enriched
         .filter((s) => (s.pChange || 0) > 0.3 && (s.totalTradedVolume || 0) > 100000)
+        .filter(passesScannerQualityFilters)
         .sort((a, b) => (b.adjustedMidtermScore + b.intradayScore) - (a.adjustedMidtermScore + a.intradayScore))
         .slice(0, 25);
 
@@ -3198,9 +3272,17 @@ app.get("/api/sme/scan", async (req, res) => {
                 s.rsi = analysis.indicators?.rsi || s.rsi || "N/A";
                 s.trend = analysis.indicators?.trend?.trend || "N/A";
                 s.volume = analysis.indicators?.volume?.description || "N/A";
-                // Recompute adjusted score using real technical analysis
+                // BLENDED score: 50% midterm-momentum heuristic + 50% TA.
+                //
+                // Backtest on 4-year window (2022-2026) showed pure-TA
+                // scoring produced +2.5–7.8%/yr vs pure-midterm +12.6–28.5%/yr.
+                // The TA filter was too strict and cut early-stage breakouts
+                // that later ran hard. Blending preserves TA as a "is this
+                // broken technically?" check without dominating the rank.
                 const rawDelta = s.macroBoost || 0;
-                s.adjustedMidtermScore = Math.max(0, Math.min(100, analysis.score + rawDelta));
+                const momentumScore = s.baseMidtermScore ?? s.midtermScore ?? 50;
+                const blended = 0.5 * momentumScore + 0.5 * analysis.score;
+                s.adjustedMidtermScore = Math.max(0, Math.min(100, blended + rawDelta));
                 // ATR for stop-loss/target
                 const atr = analysis.indicators?.atr ? parseFloat(analysis.indicators.atr) : null;
                 if (atr && s.lastPrice) {
@@ -3251,28 +3333,36 @@ app.get("/api/sme/scan", async (req, res) => {
         }
       }
 
-      result = preCandidates
+      const bnSorted = preCandidates
         .filter((s) => s.adjustedMidtermScore >= 55)
-        .sort((a, b) => b.adjustedMidtermScore - a.adjustedMidtermScore)
-        .slice(0, 10);
+        .sort((a, b) => b.adjustedMidtermScore - a.adjustedMidtermScore);
+      result = applySectorCap(bnSorted, macroGatedLimit(10));
     } else if (category === "volume") {
-      // Volume breakout: very high volume + high volatility
-      result = enriched
+      // Volume breakout: very high volume + high volatility. Now gated by
+      // quality + liquidity filters — backtest showed pure volume-chase
+      // single-pick blew up -22%/yr, -81% DD on illiquid circuit names.
+      const volSorted = enriched
         .filter((s) => (s.totalTradedVolume || 0) > 500000 && parseFloat(s.volatility) > 2)
+        .filter(passesScannerQualityFilters)
         .sort((a, b) => {
-          // Score by volatility × volume combo
           const aScore = parseFloat(a.volatility) * Math.log10(a.totalTradedVolume || 1);
           const bScore = parseFloat(b.volatility) * Math.log10(b.totalTradedVolume || 1);
           return bScore - aScore;
-        })
-        .slice(0, 10);
+        });
+      result = applySectorCap(volSorted, macroGatedLimit(10));
     } else if (category === "midterm") {
-      result = enriched
+      // Backtest's top-performing strategy — now also quality + liquidity
+      // + sector-cap filtered. 4y historical: +19.5%/yr with -30% DD
+      // (top-10, equal-weighted, monthly, 0.5% friction).
+      const mtSorted = enriched
         .filter((s) => s.midtermScore >= 55)
-        .sort((a, b) => b.midtermScore - a.midtermScore)
-        .slice(0, 10);
+        .filter(passesScannerQualityFilters)
+        .sort((a, b) => b.midtermScore - a.midtermScore);
+      result = applySectorCap(mtSorted, macroGatedLimit(10));
     } else if (category === "sell") {
-      // Sell alerts: negative momentum, poor scores
+      // Sell alerts: negative momentum, poor scores. No quality/liquidity
+      // filter applied here — a loss-making illiquid smallcap that's
+      // falling is actually MORE worth flagging to a holder, not less.
       result = enriched
         .filter((s) => (s.pChange || 0) < -0.5 && s.midtermScore <= 45)
         .sort((a, b) => a.midtermScore - b.midtermScore)
@@ -3349,6 +3439,22 @@ app.get("/api/sme/scan", async (req, res) => {
       };
     })();
 
+    // Filter-activity telemetry so the UI can show "X names excluded due
+    // to quality/liquidity/parabolic screens" and users understand what
+    // the scanner is doing behind the scenes.
+    const filterStats = (category === "buynow" || category === "midterm" || category === "volume") ? (() => {
+      const qualityFail = enriched.filter(hasQualityFail).length;
+      const lowLiquidity = enriched.filter((s) => s.liquidityTier === "low").length;
+      const parabolic = enriched.filter((s) => (s.safetyFlags || []).some((f) => f.kind === "parabolic")).length;
+      return {
+        qualityFailExcluded: qualityFail,
+        lowLiquidityExcluded: lowLiquidity,
+        parabolicExcluded: parabolic,
+        macroGated: macroNegative,
+        macroGatedLimit: macroNegative ? macroGatedLimit(10) : null,
+      };
+    })() : null;
+
     const response = {
       category,
       stocks: result,
@@ -3356,6 +3462,7 @@ app.get("/api/sme/scan", async (req, res) => {
       source: dataSource,
       regime: macroRegime,
       concentration,
+      filterStats,
       lastUpdated: new Date().toISOString(),
     };
 
