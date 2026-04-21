@@ -3530,23 +3530,56 @@ async function loadSectorHeatmap() {
         </div>`;
     }).join("");
 
-    // FII/DII row (loaded separately)
+    // FII/DII row (loaded separately). Uses the normalised {fii, dii}
+    // shape from /api/fii-dii — each row is an object with buyValue,
+    // sellValue, netValue in ₹Cr plus the trading date. We show the
+    // net number because that's what traders watch: a negative FII
+    // net-value is a headwind for the next 2–5 sessions.
     let fiiDiiRow = "";
     try {
       const fiiRes = await fetch("/api/fii-dii");
       const fiiData = await fiiRes.json();
-      if (fiiData.available && fiiData.data) {
+      if (fiiData.available && (fiiData.fii || fiiData.dii)) {
+        const fmtCr = (v) => {
+          if (v == null || !Number.isFinite(v)) return "N/A";
+          const sign = v > 0 ? "+" : "";
+          // Inputs are already in ₹Cr, so just format with 1 decimal + comma
+          return `${sign}${v.toLocaleString("en-IN", { maximumFractionDigits: 1 })}`;
+        };
+        const pill = (label, row) => {
+          if (!row) return "";
+          const net = row.netValue;
+          const isPos = net != null && net >= 0;
+          const color = net == null ? "var(--text-muted)" : isPos ? "var(--green)" : "var(--red)";
+          return `
+            <div style="flex:1;min-width:150px;padding:10px 12px;background:rgba(255,255,255,0.025);border:1px solid var(--border-soft);border-radius:8px;">
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">${label}</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:${color};margin:2px 0;">
+                ${fmtCr(net)} <span style="font-size:11px;color:var(--text-muted);font-weight:500;">₹Cr net</span>
+              </div>
+              <div style="font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">
+                Buy ${fmtCr(row.buyValue)} · Sell ${fmtCr(row.sellValue)}
+              </div>
+            </div>`;
+        };
+        const dateLabel = fiiData.date ? `for ${escapeHtml(fiiData.date)}` : "";
         fiiDiiRow = `
           <div style="margin-top:14px;padding:12px 14px;background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.2);border-radius:10px;">
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:8px;">FII / DII Activity${infoIcon('macro_regime')}</div>
-            <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">
-              ${typeof fiiData.data === 'string' ? escapeHtml(fiiData.data) : JSON.stringify(fiiData.data).slice(0, 300)}
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:10px;">
+              FII / DII Activity ${dateLabel}${infoIcon('macro_regime')}
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              ${pill("FII / FPI", fiiData.fii)}
+              ${pill("DII", fiiData.dii)}
             </div>
           </div>`;
       } else {
+        // Honest fallback — the endpoint is genuinely unreachable or the
+        // data hasn't been published yet (NSE publishes ~18:30 IST).
+        const msg = escapeHtml(fiiData.message || "FII/DII data temporarily unavailable from NSE.");
         fiiDiiRow = `
           <div style="margin-top:14px;padding:10px 14px;background:rgba(255,255,255,0.02);border:1px solid var(--border-soft);border-radius:8px;font-size:11px;color:var(--text-muted);">
-            FII/DII flow data available when running from Indian IP (NSE blocks Vercel's servers).
+            ${msg}
           </div>`;
       }
     } catch { /* silent */ }

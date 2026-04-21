@@ -2378,8 +2378,17 @@ app.get("/api/sector-heatmap", async (req, res) => {
  * leading indicators for Indian markets — when FIIs are net sellers, the market
  * typically corrects within 2-5 days.
  *
- * Falls back to a "data unavailable" response on Vercel (NSE blocks non-Indian IPs).
- * Cached for 30 minutes since the data updates only once per day (after market close).
+ * Upstream: NSE's /api/fiidiiTradeReact. Returns two rows — "FII/FPI" and "DII"
+ * — each with the last trading day's buyValue, sellValue and netValue in ₹Cr.
+ * Published ~18:30 IST for the same-day session.
+ *
+ * This endpoint is unauthenticated on NSE (no cookie dance needed), so it's
+ * actually robust from Vercel's bom1 region — the old code was broken because
+ * it used wrong paths (/api/fiidiiActivity/WDM and /api/marketTurnover, both
+ * return 404), then blamed the failure on "non-Indian IP" which was never the
+ * real cause.
+ *
+ * Cached for 30 minutes — FII/DII is published once per day.
  */
 const fiiDiiCache = new NodeCache({ stdTTL: 1800, checkperiod: 300 });
 
@@ -2388,41 +2397,59 @@ app.get("/api/fii-dii", async (req, res) => {
     const cached = fiiDiiCache.get("fii_dii");
     if (cached) return res.json(cached);
 
-    // Try NSE's FII/DII activity endpoint
     let fiiDiiData = null;
     try {
-      const data = await nseGet("/api/fiidiiActivity/WDM");
-      if (data && Array.isArray(data)) {
-        fiiDiiData = data;
-      }
+      // The correct public endpoint. Works without cookies as of Apr 2026.
+      const data = await nseGet(
+        "/api/fiidiiTradeReact",
+        "https://www.nseindia.com/reports/fii-dii",
+      );
+      if (Array.isArray(data) && data.length > 0) fiiDiiData = data;
     } catch (e) {
       console.warn("NSE FII/DII fetch failed:", e.message);
     }
 
-    // Alternative: try the market turnover endpoint
     if (!fiiDiiData) {
-      try {
-        const data = await nseGet("/api/marketTurnover");
-        if (data?.data) fiiDiiData = data.data;
-      } catch (e) {
-        // Silent fallback
-      }
-    }
-
-    if (!fiiDiiData) {
+      // Upstream genuinely unreachable (NSE outage, cookie block, etc.).
+      // Don't lie to the user — we ARE on an Indian IP (bom1). Just say
+      // it's temporarily unavailable and let the frontend retry later.
       const response = {
         available: false,
-        message: "FII/DII data unavailable (NSE access required from Indian IP). Available when running locally.",
+        message:
+          "FII/DII data temporarily unavailable from NSE. Usually published at ~18:30 IST for the same trading day — try again after market close.",
         lastUpdated: new Date().toISOString(),
       };
-      fiiDiiCache.set("fii_dii", response);
+      // Short cache on failure so a single upstream hiccup doesn't lock
+      // the endpoint out for the full 30 minutes.
+      fiiDiiCache.set("fii_dii", response, 120);
       return res.json(response);
     }
 
-    // Parse and structure the FII/DII data
+    // Normalise NSE's two-row array into named fields so the UI doesn't have
+    // to guess row order or parse category strings. NSE's category values
+    // have been "FII/FPI" and "DII" (sometimes "DII - Equity") for years.
+    const toNum = (v) => {
+      const n = Number(String(v ?? "").replace(/,/g, ""));
+      return Number.isFinite(n) ? n : null;
+    };
+    const shape = (row) =>
+      row
+        ? {
+            date: row.date || null,
+            buyValue: toNum(row.buyValue),
+            sellValue: toNum(row.sellValue),
+            netValue: toNum(row.netValue),
+          }
+        : null;
+    const fiiRow = fiiDiiData.find((r) => /FII|FPI/i.test(String(r.category)));
+    const diiRow = fiiDiiData.find((r) => /^DII/i.test(String(r.category)));
+
     const response = {
       available: true,
-      data: fiiDiiData,
+      date: fiiRow?.date || diiRow?.date || null,
+      fii: shape(fiiRow),
+      dii: shape(diiRow),
+      data: fiiDiiData, // preserve raw for any consumer that wants it
       lastUpdated: new Date().toISOString(),
     };
     fiiDiiCache.set("fii_dii", response);
