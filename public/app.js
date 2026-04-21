@@ -2563,6 +2563,7 @@ function renderFundamentalCard(scored, category) {
 // ==================== SME SCANNER ====================
 
 function loadSmeDashboard() {
+  loadSmeTrackRecord();
   loadSmeScan("buynow", "smeBuynowCards", "buy opportunities");
   loadSmeScan("volume", "smeVolumeCards", "volume breakouts");
   loadSmeScan("midterm", "smeMidtermCards", "mid-term picks");
@@ -2573,12 +2574,63 @@ async function refreshSme() {
   const btn = document.getElementById("smeRefreshBtn");
   if (btn) btn.classList.add("spinning");
   await Promise.all([
+    loadSmeTrackRecord(),
     loadSmeScan("buynow", "smeBuynowCards", "buy opportunities"),
     loadSmeScan("volume", "smeVolumeCards", "volume breakouts"),
     loadSmeScan("midterm", "smeMidtermCards", "mid-term picks"),
     loadSmeScan("sell", "smeSellCards", "sell alerts"),
   ]);
   setTimeout(() => { if (btn) btn.classList.remove("spinning"); }, 500);
+}
+
+/**
+ * Fetch and render the scanner's historical track record for smallcap_buynow.
+ *
+ * Rationale: users see "MOMENTUM CLUSTER · TA Score 73" and need to know
+ * if that signal historically wins ~70% or ~40% of the time. SEBI-registered
+ * RAs MUST disclose track-record; we do so here even as an unregistered
+ * educational platform because it's the right thing for user trust.
+ *
+ * Data comes from /api/track/history which aggregates the daily
+ * paper-trade snapshots (scanner picks → auto-snapshotted → tracked over
+ * 30 days → closed). We surface the key numbers plus a link-out hint.
+ */
+async function loadSmeTrackRecord() {
+  const el = document.getElementById("smeTrackRecord");
+  if (!el) return;
+  try {
+    const res = await fetch("/api/track/history?limit=1");
+    const data = await res.json();
+    const bucket = data?.byType?.smallcap_buynow;
+    if (!bucket || !bucket.total) {
+      el.innerHTML = "";
+      return;
+    }
+    const winColor = bucket.winRate >= 60 ? "#86efac" : bucket.winRate >= 50 ? "#fde047" : "#fca5a5";
+    const alphaColor = bucket.avgAlpha >= 0 ? "#86efac" : "#fca5a5";
+    el.innerHTML = `
+      <div style="background:linear-gradient(135deg, rgba(52,211,153,0.06), rgba(96,165,250,0.04)); border:1px solid rgba(52,211,153,0.2); border-radius:8px; padding:14px 16px; font-size:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
+          <div>
+            <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; font-weight:700; margin-bottom:4px;">Scanner track record &mdash; Bullish Momentum picks</div>
+            <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:baseline;">
+              <div><span style="font-size:20px; font-weight:700;">${bucket.total}</span> <span style="color:var(--text-muted); font-size:11px;">picks tracked</span></div>
+              <div><span style="font-size:20px; font-weight:700; color:${winColor};">${bucket.winRate.toFixed(1)}%</span> <span style="color:var(--text-muted); font-size:11px;">win rate</span></div>
+              <div><span style="font-size:18px; font-weight:700; color:${bucket.avgReturn >= 0 ? '#86efac' : '#fca5a5'};">${bucket.avgReturn >= 0 ? '+' : ''}${bucket.avgReturn.toFixed(2)}%</span> <span style="color:var(--text-muted); font-size:11px;">avg return</span></div>
+              <div><span style="font-size:18px; font-weight:700; color:${alphaColor};">${bucket.avgAlpha >= 0 ? '+' : ''}${bucket.avgAlpha.toFixed(2)}%</span> <span style="color:var(--text-muted); font-size:11px;">vs Nifty</span></div>
+            </div>
+            <div style="color:var(--text-muted); font-size:11px; margin-top:6px;">
+              Auto-snapshotted daily · measured over 30 trading days · ${bucket.beatsNiftyRate != null ? `${bucket.beatsNiftyRate.toFixed(0)}% beat Nifty` : ''}
+              ${bucket.bestPick ? ` · best: ${bucket.bestPick.symbol.replace(/\.NS$/, '')} (${bucket.bestPick.returnPct >= 0 ? '+' : ''}${bucket.bestPick.returnPct.toFixed(1)}%)` : ''}
+              ${bucket.worstPick ? ` · worst: ${bucket.worstPick.symbol.replace(/\.NS$/, '')} (${bucket.worstPick.returnPct.toFixed(1)}%)` : ''}
+            </div>
+          </div>
+          <span class="edu-chip" aria-label="Past performance disclaimer">Past returns ≠ future</span>
+        </div>
+      </div>`;
+  } catch {
+    el.innerHTML = "";
+  }
 }
 
 async function loadSmeScan(category, containerId, label) {
@@ -2713,6 +2765,13 @@ function renderSmeCard(stock, category) {
           <div class="metric-label">Volatility</div>
           <div class="metric-value" style="color:${parseFloat(stock.volatility) > 3 ? 'var(--yellow)' : 'inherit'};">${stock.volatility}%</div>
         </div>
+        <div class="stock-card-metric" title="${stock.liquidityValueCr != null ? `Today's traded value: ₹${stock.liquidityValueCr} Cr. Tiers: high > ₹10 Cr, medium ₹1–10 Cr, low < ₹1 Cr.` : 'Liquidity data unavailable.'}">
+          <div class="metric-label">Liquidity</div>
+          <div class="metric-value" style="font-size:11px; color:${stock.liquidityTier === 'high' ? '#86efac' : stock.liquidityTier === 'medium' ? '#fde047' : stock.liquidityTier === 'low' ? '#fca5a5' : 'inherit'};">
+            ${stock.liquidityTier ? stock.liquidityTier.toUpperCase() : '—'}
+            ${stock.liquidityValueCr != null ? `<span style="font-size:10px; color:var(--text-muted);"> &middot; ₹${stock.liquidityValueCr}Cr</span>` : ''}
+          </div>
+        </div>
         <div class="stock-card-metric">
           <div class="metric-label">Day Range</div>
           <div class="metric-value" style="font-size:11px;">&#8377;${formatNumber(stock.dayLow)}-${formatNumber(stock.dayHigh)}</div>
@@ -2746,6 +2805,7 @@ function renderSmeSafetyBadges(stock) {
     "at-52w-low":  "&#9660;",
     "low-liquidity": "&#8771;", // approx-equal (thin liquidity)
     "low-rr":      "&#9878;",   // opposition
+    "quality-fail": "&#9888;",  // warning sign for quality screen fail
   };
   const chips = flags.map((f) => {
     const isHigh = f.severity === "high";
@@ -2760,6 +2820,7 @@ function renderSmeSafetyBadges(stock) {
       "at-52w-low": "Near 52W low",
       "low-liquidity": "Thin liquidity",
       "low-rr": "Low R/R",
+      "quality-fail": "Quality fail",
     }[f.kind] || f.kind;
     return `<span style="display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:700; padding:2px 8px; border-radius:3px; background:${bg}; color:${color}; border:1px solid ${border}; letter-spacing:0.3px; text-transform:uppercase;" title="${escapeHtml(f.message)}">${icon[f.kind] || "&#9888;"} ${label}</span>`;
   }).join(" ");

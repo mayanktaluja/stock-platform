@@ -3028,6 +3028,26 @@ app.get("/api/sme/scan", async (req, res) => {
       // Headwind flag: -5 or worse triggers a UI warning strip.
       const macroHeadwind = macroBoost <= -5;
 
+      // ── Liquidity tier (P2 — SEBI small-cap review) ──
+      //
+      // A small-cap with ₹1 Cr daily traded value behaves very differently
+      // from one with ₹100 Cr. Retail users can buy/sell either, but the
+      // slippage cost on the illiquid name can eat the signal's expected
+      // return. Tier ranges calibrated from observed bid-ask spreads on
+      // NSE smallcaps:
+      //
+      //   high:  > ₹10 Cr/day traded value — institutional liquidity
+      //   med:   ₹1 – 10 Cr/day             — acceptable retail
+      //   low:   < ₹1 Cr/day                — wide spreads, slippage risk
+      //
+      // todayValueCr already computed below in safetyFlags; we compute
+      // it up here for use in both liquidity tier + the flag.
+      const todayValueCrEarly = (s.totalTradedValue || 0) / 1e7;
+      const liquidityTier = todayValueCrEarly > 10 ? "high"
+                          : todayValueCrEarly > 1  ? "medium"
+                          : todayValueCrEarly > 0  ? "low"
+                          : null;
+
       // ── Safety flags (P1 — SEBI small-cap review) ──
       //
       // Small-caps are where pump-and-dump and parabolic-reversal risk is
@@ -3076,13 +3096,49 @@ app.get("/api/sme/scan", async (req, res) => {
           message: `Price within 5% of 52-week low (₹${s.yearLow.toFixed(2)}). Could be bottom-fishing opportunity OR continued downtrend — reversal confirmation recommended.`,
         });
       }
-      const todayValueCr = (s.totalTradedValue || 0) / 1e7;
-      if (todayValueCr > 0 && todayValueCr < 1.0) {
+      if (todayValueCrEarly > 0 && todayValueCrEarly < 1.0) {
         safetyFlags.push({
           kind: "low-liquidity",
           severity: "medium",
-          message: `Today's traded value ₹${todayValueCr.toFixed(2)} Cr — thin liquidity. Bid-ask spreads widen and a modest-sized order can move the print.`,
+          message: `Today's traded value ₹${todayValueCrEarly.toFixed(2)} Cr — thin liquidity. Bid-ask spreads widen and a modest-sized order can move the print.`,
         });
+      }
+
+      // ── Fundamental guardrail (P2 — SEBI small-cap review) ──
+      //
+      // Optional exclusion layer: when we have a fundamentals snapshot for
+      // this small-cap (we only keep ~500 curated names, so coverage is
+      // partial), we flag stocks that FAIL quality screens:
+      //   • Net profit margin < 0      (loss-making at net level)
+      //   • Debt/Equity > 3.0           (distressed leverage)
+      //   • Revenue growth < -10% YoY  (material contraction)
+      // When any of these trigger AND combinedScore not already bearish,
+      // we surface a "quality-fail" flag so a purely-momentum buy signal
+      // isn't read as "good company". 2023-24 small-cap drawdowns were
+      // disproportionately concentrated in names that failed these screens.
+      //
+      // Non-blocking — the signal still appears, but with context. A user
+      // who wants pure momentum can still see it; a quality-conscious user
+      // sees the warning.
+      const fundSnap = getFundamentals(s.symbol);
+      if (fundSnap) {
+        const failReasons = [];
+        if (typeof fundSnap.profitMargin === "number" && fundSnap.profitMargin < 0) {
+          failReasons.push(`net margin ${(fundSnap.profitMargin * 100).toFixed(1)}% (loss-making)`);
+        }
+        if (typeof fundSnap.debtToEquity === "number" && fundSnap.debtToEquity > 3) {
+          failReasons.push(`D/E ${fundSnap.debtToEquity.toFixed(1)} (distressed leverage)`);
+        }
+        if (typeof fundSnap.revenueGrowth === "number" && fundSnap.revenueGrowth < -0.10) {
+          failReasons.push(`revenue YoY ${(fundSnap.revenueGrowth * 100).toFixed(0)}% (contraction)`);
+        }
+        if (failReasons.length > 0) {
+          safetyFlags.push({
+            kind: "quality-fail",
+            severity: "high",
+            message: `Fundamental quality screen failed: ${failReasons.join(" · ")}. 2023–24 small-cap drawdowns were concentrated in names that failed at least one of these quality checks — momentum alone is a weak signal in this cohort.`,
+          });
+        }
       }
 
       return {
@@ -3101,6 +3157,8 @@ app.get("/api/sme/scan", async (req, res) => {
         direction,
         stopLoss: volatility > 1 ? stopLoss : null,
         target: volatility > 1 ? target : null,
+        liquidityTier,
+        liquidityValueCr: todayValueCrEarly > 0 ? +todayValueCrEarly.toFixed(2) : null,
         safetyFlags,
         // Highest-severity safety flag, for at-a-glance badging in the UI
         safetyLevel: safetyFlags.some((f) => f.severity === "high") ? "high"
