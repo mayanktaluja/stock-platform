@@ -2703,6 +2703,7 @@ function renderSmeCard(stock, category) {
         </div>
       </div>
       ${macroBadge ? `<div style="margin-bottom:8px;">${macroBadge}</div>` : ""}
+      ${renderSmeSafetyBadges(stock)}
       <div class="stock-card-metrics">
         <div class="stock-card-metric">
           <div class="metric-label">Volume</div>
@@ -2720,6 +2721,49 @@ function renderSmeCard(stock, category) {
       ${headwindStrip}
       ${footer}
     </div>`;
+}
+
+/**
+ * Render the safety-flag chip row on a small-cap card.
+ *
+ * Signals-that-might-be-hazards shown compactly with tooltips for the
+ * full explanation. The goal is to prevent a user from reading
+ * "MOMENTUM CLUSTER" on a parabolic / overbought / illiquid stock as
+ * an unconditional entry signal.
+ *
+ * Colour coding:
+ *   high severity   → red   (parabolic 50%+ and still rallying)
+ *   medium severity → amber (overbought, extended, illiquid, at 52W edge, low R/R)
+ */
+function renderSmeSafetyBadges(stock) {
+  const flags = stock.safetyFlags;
+  if (!Array.isArray(flags) || flags.length === 0) return "";
+  const icon = {
+    parabolic:     "&#128680;", // rocket for "going parabolic"
+    extended:      "&#9650;",   // up-triangle
+    overbought:    "&#9679;",   // filled circle
+    "at-52w-high": "&#9650;",
+    "at-52w-low":  "&#9660;",
+    "low-liquidity": "&#8771;", // approx-equal (thin liquidity)
+    "low-rr":      "&#9878;",   // opposition
+  };
+  const chips = flags.map((f) => {
+    const isHigh = f.severity === "high";
+    const color = isHigh ? "#fca5a5" : "#fde047";
+    const bg = isHigh ? "rgba(239,68,68,0.12)" : "rgba(250,204,21,0.10)";
+    const border = isHigh ? "rgba(239,68,68,0.3)" : "rgba(250,204,21,0.25)";
+    const label = {
+      parabolic: "Parabolic move",
+      extended: "Extended run",
+      overbought: "Overbought",
+      "at-52w-high": "At 52W high",
+      "at-52w-low": "Near 52W low",
+      "low-liquidity": "Thin liquidity",
+      "low-rr": "Low R/R",
+    }[f.kind] || f.kind;
+    return `<span style="display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:700; padding:2px 8px; border-radius:3px; background:${bg}; color:${color}; border:1px solid ${border}; letter-spacing:0.3px; text-transform:uppercase;" title="${escapeHtml(f.message)}">${icon[f.kind] || "&#9888;"} ${label}</span>`;
+  }).join(" ");
+  return `<div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;">${chips}</div>`;
 }
 
 // ==================== MARKET NEWS ====================
