@@ -2657,7 +2657,13 @@ async function loadSmeScan(category, containerId, label) {
       return;
     }
 
-    container.innerHTML = data.stocks.map((s) => renderSmeCard(s, category)).join("");
+    // Concentration banner appears ONLY when clustering is mild or worse.
+    // Diversified scans don't need a banner — they're the default expected
+    // state. Materially clustered results deserve a "this is effectively a
+    // sector bet" callout above the cards so users see it before deciding
+    // which picks to act on.
+    const concentrationBanner = renderSmeConcentrationBanner(data.concentration);
+    container.innerHTML = concentrationBanner + data.stocks.map((s) => renderSmeCard(s, category)).join("");
     // Auto-expand the first section (Buy Now) on the Small-Cap tab
     if (category === "buynow") autoExpandSection("smeBuynowSection");
   } catch (err) {
@@ -2779,6 +2785,44 @@ function renderSmeCard(stock, category) {
       </div>
       ${headwindStrip}
       ${footer}
+    </div>`;
+}
+
+/**
+ * Render a sector-concentration banner above the card grid when the
+ * scanner's picks cluster materially in one sector. Suppressed on
+ * "diversified" results since there's nothing to warn about.
+ *
+ * Users who act on the top-N picks uniformly without reading the
+ * banner would otherwise build a sector bet disguised as a diversified
+ * momentum basket. The banner makes the hidden concentration explicit.
+ */
+function renderSmeConcentrationBanner(concentration) {
+  if (!concentration || concentration.level === "diversified") return "";
+  const color = {
+    heavy:    { border: "rgba(239,68,68,0.35)",  bg: "rgba(239,68,68,0.08)",  text: "#fca5a5" },
+    material: { border: "rgba(250,204,21,0.3)",  bg: "rgba(250,204,21,0.08)", text: "#fde047" },
+    mild:     { border: "rgba(96,165,250,0.25)", bg: "rgba(96,165,250,0.05)", text: "#93c5fd" },
+  }[concentration.level] || { border: "var(--border-soft)", bg: "transparent", text: "var(--text-muted)" };
+  const label = {
+    heavy:    "Heavy sector concentration",
+    material: "Material sector concentration",
+    mild:     "Mild sector clustering",
+  }[concentration.level] || "Sector mix";
+  return `
+    <div style="grid-column:1/-1; background:${color.bg}; border:1px solid ${color.border}; border-radius:8px; padding:12px 14px; margin-bottom:12px; font-size:12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+        <div style="display:flex; gap:10px; align-items:flex-start; flex:1; min-width:240px;">
+          <span style="font-size:14px;">&#9888;</span>
+          <div>
+            <div style="font-weight:700; color:${color.text}; text-transform:uppercase; letter-spacing:0.4px; font-size:11px; margin-bottom:4px;">${label}</div>
+            <div style="color:var(--text-secondary); line-height:1.55;">${escapeHtml(concentration.narrative)}</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:flex-start;">
+          ${(concentration.bySector || []).slice(0, 4).map((s) => `<span style="font-size:10px; font-family:'JetBrains Mono',monospace; font-weight:600; padding:3px 8px; border-radius:3px; background:rgba(255,255,255,0.03); border:1px solid var(--border-soft); color:var(--text-secondary);">${escapeHtml(s.sector)} ${s.pct.toFixed(0)}%</span>`).join("")}
+        </div>
+      </div>
     </div>`;
 }
 
