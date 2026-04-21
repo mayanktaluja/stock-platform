@@ -108,6 +108,40 @@ async function nseGet(path, referer) {
 // Export nseGet so other modules (like refresh-fundamentals.mjs) can reuse it
 export { nseGet };
 
+/**
+ * Unauthenticated NSE GET — bypasses the cookie dance entirely.
+ *
+ * WHY THIS EXISTS: `nseGet` above short-circuits with `return null` when
+ * cookie refresh fails. NSE blocks datacenter IPs from the HOMEPAGE (which
+ * is what `refreshCookies` hits), but several of NSE's public API paths —
+ * most importantly `/api/fiidiiTradeReact` — happily serve JSON without
+ * any cookie at all. On Vercel the homepage call always fails, so ANY
+ * caller going through nseGet is blocked even if their endpoint doesn't
+ * actually need cookies.
+ *
+ * This helper skips the cookie step and does a direct fetch with just a
+ * browser User-Agent + Referer. Use it for endpoints you've verified
+ * work cookie-less. Returns null on any failure so callers can fall
+ * back gracefully.
+ */
+export async function nseGetUnauthed(path, referer) {
+  const url = `${NSE_BASE}${path}`;
+  const headers = {
+    "User-Agent": NSE_UA,
+    Accept: "application/json, text/plain, */*",
+    "Accept-Language": "en-US,en;q=0.9",
+    Referer: referer || `${NSE_BASE}/`,
+  };
+  try {
+    const res = await fetchNseWithTimeout(url, { headers }, 10000);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (err) {
+    console.error(`NSE unauth fetch failed for ${path}:`, err.message);
+    return null;
+  }
+}
+
 // ────────── Public API ──────────
 
 /**
