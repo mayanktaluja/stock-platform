@@ -3294,12 +3294,68 @@ app.get("/api/sme/scan", async (req, res) => {
         .slice(0, 50);
     }
 
+    // ── Concentration diagnostic (P3 — SEBI small-cap review) ──
+    //
+    // If a user acts on the top-N picks uniformly, are they building a
+    // diversified book OR a concentrated sector bet? Surfaces the sector
+    // mix of the returned result set so the UI can flag "Top 10 picks
+    // are 70% IT Services" — a valuable warning that the momentum
+    // signal is really a sector tilt in disguise.
+    //
+    // Concentration interpretation (by top-sector share of the list):
+    //   < 25%  : diversified          (natural — 20 sectors in small-cap space)
+    //   25-40% : mild clustering      (one sector gently overrepresented)
+    //   40-60% : material clustering  (one sector driving most signals)
+    //   > 60%  : heavy concentration  (signal ≈ sector call, not stock-picking)
+    const concentration = (() => {
+      if (!result || result.length === 0) return null;
+      const totalCount = result.length;
+      const sectorCounts = new Map();
+      for (const s of result) {
+        const key = s.sector || "Unknown";
+        sectorCounts.set(key, (sectorCounts.get(key) || 0) + 1);
+      }
+      const sorted = [...sectorCounts.entries()]
+        .map(([sector, count]) => ({
+          sector,
+          count,
+          pct: +((count / totalCount) * 100).toFixed(1),
+        }))
+        .sort((a, b) => b.count - a.count);
+      const topShare = sorted[0]?.pct || 0;
+      const level = topShare >= 60 ? "heavy"
+                  : topShare >= 40 ? "material"
+                  : topShare >= 25 ? "mild"
+                  : "diversified";
+      // Human-readable interpretation
+      const top = sorted[0];
+      let narrative;
+      if (level === "heavy") {
+        narrative = `${top.pct}% of the ${totalCount} picks are ${top.sector} — effectively a sector bet, not a stock-picking signal. Diversify across sectors or treat as a ${top.sector} overweight thesis.`;
+      } else if (level === "material") {
+        narrative = `${top.sector} accounts for ${top.pct}% of the ${totalCount} picks — material sector tilt. A user acting on the full list is taking more ${top.sector} exposure than might be intended.`;
+      } else if (level === "mild") {
+        narrative = `${top.sector} is ${top.pct}% of picks — mild clustering typical when a sector is in momentum. Not a concern unless you're already overweight ${top.sector}.`;
+      } else {
+        narrative = `Signals spread across ${sorted.length} sectors — diversified. No sector dominates the list.`;
+      }
+      return {
+        level,
+        topShare,
+        topSector: top?.sector || null,
+        totalSectors: sorted.length,
+        bySector: sorted.slice(0, 8),
+        narrative,
+      };
+    })();
+
     const response = {
       category,
       stocks: result,
       totalScanned: allStocks.length,
       source: dataSource,
       regime: macroRegime,
+      concentration,
       lastUpdated: new Date().toISOString(),
     };
 
