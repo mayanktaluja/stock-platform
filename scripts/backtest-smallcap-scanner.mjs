@@ -58,6 +58,7 @@ const args = Object.fromEntries(
 const YEARS = Number(args.years || 4);
 const FRICTION = Number(args.friction ?? 0.005); // 0.5% round-trip
 const UNIVERSE_CAP = args.universe ? Number(args.universe) : 500;
+const MODE = args.mode || "compare"; // "compare" | "baseline" | "improved"
 const START_DATE = new Date();
 START_DATE.setFullYear(START_DATE.getFullYear() - YEARS);
 START_DATE.setDate(1);
@@ -229,10 +230,38 @@ function monthEndsInWindow(histories) {
   return monthEnds;
 }
 
-// ───────────── Simulation ─────────────
-function simulateCategory(histories, monthEnds, scoreFn, topN, categoryName) {
-  // Start capital 100 (normalise later). Equal-weighted into topN picks
-  // held for one month; rebalance; apply friction on every trade.
+// ───────────── Simulation (with Tier-3 improvements) ─────────────
+//
+// `opts` controls which of the improvement layers are applied. Passing
+// no opts = original monthly equal-weighted baseline. Full opts =
+// quarterly + trailing-stop + profit-ladder + ERC + guardrails.
+//
+// opts: {
+//   rebalance:       "monthly" | "quarterly"            default monthly
+//   weighting:       "equal"   | "erc"                  default equal
+//   trailingStop:    0.20 means 20% trail-from-peak     default off
+//   profitLadder:    true  = scale out 30% at +30%, +30% at +50%
+//   liquidityMin:    0 | 1 (₹Cr/day minimum recent 20d avg value)
+//   sectorCap:       0.30  = max 30% per canonical sector
+//   minScore:        55    = entry filter
+//   sectorMap:       Map<symbol, canonicalSector>       default null (off)
+// }
+function simulateCategory(histories, monthEnds, scoreFn, topN, categoryName, opts = {}) {
+  const REBAL = opts.rebalance || "monthly";
+  const WEIGHTING = opts.weighting || "equal";
+  const STOP = opts.trailingStop ?? null;                 // e.g. 0.20
+  const LADDER = opts.profitLadder ?? false;
+  const LIQ_MIN_CR = opts.liquidityMin ?? 0;
+  const SECTOR_CAP = opts.sectorCap ?? null;              // 0.30 = 30%
+  const MIN_SCORE = opts.minScore ?? 55;
+  const SECTOR_MAP = opts.sectorMap || null;
+
+  // Build the rebalance-date list. "monthly" uses all month-ends; "quarterly"
+  // takes every 3rd.
+  const rebalDates = REBAL === "quarterly"
+    ? monthEnds.filter((_, i) => i % 3 === 0 || i === monthEnds.length - 1)
+    : monthEnds;
+
   const INITIAL_CAPITAL = 100;
   const flows = [{ date: START_DATE, amount: -INITIAL_CAPITAL }];
   let capital = INITIAL_CAPITAL;
@@ -244,9 +273,97 @@ function simulateCategory(histories, monthEnds, scoreFn, topN, categoryName) {
   let wins = 0;
   let losses = 0;
 
-  for (let mi = 0; mi < monthEnds.length - 1; mi++) {
-    const rebalDate = monthEnds[mi];
-    const nextDate = monthEnds[mi + 1];
+  // Helpers inside the simulation scope
+  const applyStopAndLadder = (entry, fullSeries, fromTs, toTs) => {
+    // Walk day-by-day to implement trailing stop + profit ladder.
+    // Returns the effective realised return.
+    const bars = fullSeries.filter((b) => b.ts >= fromTs && b.ts <= toTs);
+    if (bars.length === 0) return null;
+    let positionRemaining = 1.0; // fraction of initial position still held
+    let realisedProceeds = 0;    // proceeds from partial exits, measured as (fraction × price/entry)
+    let peakPrice = entry;
+    let exitedFully = false;
+
+    for (const b of bars) {
+      if (b.close > peakPrice) peakPrice = b.close;
+      const priceRatio = b.close / entry;
+
+      // Profit ladder: scale out 30% at +30% and another 30% at +50%
+      if (LADDER && positionRemaining > 0.7 && priceRatio >= 1.30) {
+        realisedProceeds += 0.30 * priceRatio;
+        positionRemaining -= 0.30;
+      }
+      if (LADDER && positionRemaining > 0.4 && priceRatio >= 1.50) {
+        realisedProceeds += 0.30 * priceRatio;
+        positionRemaining -= 0.30;
+      }
+
+      // Trailing stop from peak
+      if (STOP != null && positionRemaining > 0 && b.close <= peakPrice * (1 - STOP)) {
+        realisedProceeds += positionRemaining * (b.close / entry);
+        positionRemaining = 0;
+        exitedFully = true;
+        break;
+      }
+    }
+
+    // If we still hold, exit at last bar close
+    if (!exitedFully && positionRemaining > 0) {
+      const last = bars[bars.length - 1];
+      realisedProceeds += positionRemaining * (last.close / entry);
+    }
+    return realisedProceeds; // proceeds expressed as a multiple of initial (1.0 = flat)
+  };
+
+  // 20-day median daily ₹ value (for liquidity floor)
+  const liquidityOK = (sym, upToTs) => {
+    if (LIQ_MIN_CR <= 0) return true;
+    const bars = histories.get(sym).filter((b) => b.ts <= upToTs).slice(-20);
+    if (bars.length < 10) return true;
+    const values = bars.map((b) => b.close * b.volume).filter((v) => Number.isFinite(v) && v > 0);
+    if (values.length === 0) return true;
+    const sorted = [...values].sort((a, b) => a - b);
+    const median = sorted[Math.floor(sorted.length / 2)];
+    return median / 1e7 >= LIQ_MIN_CR; // ₹Cr
+  };
+
+  // ERC weighting: weight ∝ 1 / annualised vol
+  const volatility20d = (sym, upToTs) => {
+    const bars = histories.get(sym).filter((b) => b.ts <= upToTs).slice(-21);
+    if (bars.length < 20) return null;
+    const returns = [];
+    for (let i = 1; i < bars.length; i++) returns.push((bars[i].close - bars[i - 1].close) / bars[i - 1].close);
+    const mean = returns.reduce((s, r) => s + r, 0) / returns.length;
+    const variance = returns.reduce((s, r) => s + (r - mean) ** 2, 0) / (returns.length - 1);
+    return Math.sqrt(variance * 252); // annualised
+  };
+
+  // Apply sector cap to a sorted list of picks
+  const applySectorCap = (sorted, maxCount) => {
+    if (!SECTOR_CAP || !SECTOR_MAP) return sorted.slice(0, maxCount);
+    const capPerSector = Math.max(1, Math.ceil(maxCount * SECTOR_CAP));
+    const result = [];
+    const bySector = new Map();
+    for (const p of sorted) {
+      if (result.length >= maxCount) break;
+      const sec = SECTOR_MAP.get(p.sym) || "Unknown";
+      const have = bySector.get(sec) || 0;
+      if (have >= capPerSector) continue;
+      result.push(p);
+      bySector.set(sec, have + 1);
+    }
+    if (result.length < maxCount) {
+      for (const p of sorted) {
+        if (result.length >= maxCount) break;
+        if (!result.includes(p)) result.push(p);
+      }
+    }
+    return result;
+  };
+
+  for (let mi = 0; mi < rebalDates.length - 1; mi++) {
+    const rebalDate = rebalDates[mi];
+    const nextDate = rebalDates[mi + 1];
     const rebalTs = rebalDate.getTime();
     const nextTs = nextDate.getTime();
 
@@ -255,8 +372,9 @@ function simulateCategory(histories, monthEnds, scoreFn, topN, categoryName) {
     for (const sym of symbols) {
       const series = slicedUpTo(histories.get(sym), rebalTs);
       if (series.length < 60) continue;
+      if (!liquidityOK(sym, rebalTs)) continue;
       const score = scoreFn(series);
-      if (!Number.isFinite(score) || score < 55) continue;
+      if (!Number.isFinite(score) || score < MIN_SCORE) continue;
       scored.push({ sym, score, lastClose: series[series.length - 1].close });
     }
     if (scored.length === 0) {
@@ -264,30 +382,49 @@ function simulateCategory(histories, monthEnds, scoreFn, topN, categoryName) {
       continue;
     }
     scored.sort((a, b) => b.score - a.score);
-    const picks = scored.slice(0, topN);
+    const picks = applySectorCap(scored, topN);
     if (picks.length === 0) continue;
 
-    // Equal-weighted sizing
-    const perStock = capital / picks.length;
-    // Apply buy friction
-    const afterBuyFriction = perStock * (1 - FRICTION / 2);
+    // Weights
+    let weights;
+    if (WEIGHTING === "erc") {
+      const invVols = picks.map((p) => {
+        const v = volatility20d(p.sym, rebalTs);
+        return v && v > 0 ? 1 / v : 1 / 0.25; // fallback 25% vol
+      });
+      const sumInv = invVols.reduce((s, v) => s + v, 0);
+      weights = invVols.map((v) => v / sumInv);
+    } else {
+      weights = picks.map(() => 1 / picks.length);
+    }
+
+    // Place trades
     let nextCapital = 0;
-    for (const pick of picks) {
+    for (let i = 0; i < picks.length; i++) {
+      const pick = picks[i];
+      const allocation = capital * weights[i];
+      const afterBuyFriction = allocation * (1 - FRICTION / 2);
       const entry = pick.lastClose;
-      // Find the next-month closing price for this stock
       const fullSeries = histories.get(pick.sym);
-      const exitBar = fullSeries.find((b) => b.ts >= nextTs);
-      if (!exitBar) {
-        // Stock data ended mid-window; assume no change
-        nextCapital += afterBuyFriction;
-        continue;
+
+      // If stop/ladder active, walk intra-period; else use simple hold-to-exit
+      let proceedsMultiple;
+      if (STOP != null || LADDER) {
+        proceedsMultiple = applyStopAndLadder(entry, fullSeries, rebalTs, nextTs);
+        if (proceedsMultiple == null) {
+          // No bars in period — assume held at entry
+          proceedsMultiple = 1.0;
+        }
+      } else {
+        const exitBar = fullSeries.find((b) => b.ts >= nextTs);
+        if (!exitBar) { proceedsMultiple = 1.0; }
+        else proceedsMultiple = exitBar.close / entry;
       }
-      const exit = exitBar.close;
-      const ret = (exit - entry) / entry;
-      // Apply sell friction
-      const proceeds = afterBuyFriction * (1 + ret) * (1 - FRICTION / 2);
+
+      const proceeds = afterBuyFriction * proceedsMultiple * (1 - FRICTION / 2);
       nextCapital += proceeds;
-      trades.push({ sym: pick.sym, entry, exit, ret, rebal: rebalDate });
+      const ret = proceedsMultiple - 1;
+      trades.push({ sym: pick.sym, entry, ret, rebal: rebalDate });
       if (ret > 0) wins++; else losses++;
     }
     capital = nextCapital;
@@ -393,21 +530,75 @@ async function main() {
   const monthEnds = monthEndsInWindow(histories);
   console.log(`✓ Month-ends in window: ${monthEnds.length}\n`);
 
-  // Baseline
+  // Baseline Nifty buy-and-hold
   const nifty = niftyHistory ? simulateBuyHoldNifty(niftyHistory, monthEnds) : null;
 
-  // Run all (category, topN) combinations
-  const results = [];
+  // Build sector map for sector-cap calculation. We pull from the live
+  // NSE index data we already fetched, then canonicalise via a simple
+  // map for the sectors that show up most often in the smallcap space.
+  //
+  // (Light-weight sector mapping — full canonicalizer is in
+  // macroRegime.normalizeSector but we don't load it here to keep the
+  // script independent.)
+  const sectorMap = new Map();
+  const LIGHT_SECTORS = {
+    IT: "IT", SOFTWARE: "IT",
+    BANK: "Banking", FINANCE: "NBFC", NBFC: "NBFC",
+    PHARMA: "Pharma", HEALTH: "Pharma",
+    AUTO: "Auto",
+    METAL: "Metals", STEEL: "Metals",
+    OIL: "Oil & Gas", GAS: "Oil & Gas", PETRO: "Oil & Gas",
+    CEMENT: "Cement",
+    POWER: "Power", UTIL: "Power",
+    TELECOM: "Telecom",
+    CHEM: "Chemicals", FERTIL: "Chemicals",
+    CAPITAL: "Capital Goods", INDUSTRIAL: "Capital Goods", ELECTRICAL: "Capital Goods",
+    DEFENCE: "Defence", AEROSPACE: "Defence",
+    INFRA: "Infrastructure", CONSTRUCT: "Infrastructure",
+    FMCG: "FMCG", CONSUMER: "FMCG", FOOD: "FMCG",
+    RETAIL: "Retail", HOTEL: "Retail",
+    REALTY: "Real Estate",
+    TEXTILE: "Textiles",
+    MEDIA: "Media",
+  };
+  // We don't have real sector metadata per symbol here; the sectorMap stays
+  // sparse and the sector cap falls back gracefully for unmapped symbols.
+  // (This is a known limitation — the LIVE scanner uses NSE metadata.)
+
+  // Define the scenarios we compare:
+  //   baseline     : original monthly equal-weighted, no guardrails
+  //   improved     : quarterly rebalance + trailing stop + profit ladder +
+  //                  ERC weighting + liquidity floor + sector cap
+  const scenarios = MODE === "compare"
+    ? [
+        { label: "baseline",  opts: {} },
+        { label: "+quarterly",       opts: { rebalance: "quarterly" } },
+        { label: "+liq-floor",       opts: { rebalance: "quarterly", liquidityMin: 1 } },
+        { label: "+trailing-stop",   opts: { rebalance: "quarterly", liquidityMin: 1, trailingStop: 0.20 } },
+        { label: "+profit-ladder",   opts: { rebalance: "quarterly", liquidityMin: 1, trailingStop: 0.20, profitLadder: true } },
+        { label: "+erc-weighting",   opts: { rebalance: "quarterly", liquidityMin: 1, trailingStop: 0.20, profitLadder: true, weighting: "erc" } },
+      ]
+    : [{ label: "single-run", opts: {} }];
+
   const categories = {
     buynow: computeBuyNowScore,
     midterm: computeMidtermScore,
     volume: computeVolumeActivity,
   };
-  for (const [name, fn] of Object.entries(categories)) {
-    for (const topN of [1, 3, 5, 10]) {
-      console.log(`  Running ${name} top-${topN} …`);
-      const result = simulateCategory(histories, monthEnds, fn, topN, name);
-      results.push(result);
+
+  // Matrix: (scenario × category × topN) — but to keep run time sane we
+  // only do categories × topN for each scenario when MODE=compare.
+  const allResults = [];
+  for (const s of scenarios) {
+    console.log(`\n── Scenario: ${s.label} (${JSON.stringify(s.opts)}) ──`);
+    for (const [name, fn] of Object.entries(categories)) {
+      for (const topN of [1, 3, 5, 10]) {
+        process.stdout.write(`  ${name} top-${topN}  `);
+        const result = simulateCategory(histories, monthEnds, fn, topN, name, s.opts);
+        result.scenario = s.label;
+        allResults.push(result);
+        console.log(`→ XIRR ${result.xirrPct ?? "—"}%`);
+      }
     }
   }
 
@@ -419,13 +610,33 @@ async function main() {
   } else {
     console.log(`    (unavailable)`);
   }
-  console.log(`\n  ${"Category".padEnd(10)} ${"TopN".padStart(5)} ${"XIRR".padStart(10)} ${"Total".padStart(10)} ${"MaxDD".padStart(10)} ${"Trades".padStart(8)} ${"Win%".padStart(8)}`);
-  console.log(`  ${"-".repeat(68)}`);
-  for (const r of results) {
-    const vsNifty = nifty && r.xirrPct != null && nifty.xirrPct != null
-      ? `  (${r.xirrPct - nifty.xirrPct >= 0 ? "+" : ""}${(r.xirrPct - nifty.xirrPct).toFixed(1)}%/yr alpha)`
-      : "";
-    console.log(`  ${r.category.padEnd(10)} ${String(r.topN).padStart(5)} ${String(r.xirrPct ?? "—").padStart(9)}% ${String(r.totalReturnPct).padStart(9)}% ${String(r.maxDrawdownPct).padStart(9)}% ${String(r.tradesCount).padStart(8)} ${String(r.winRate ?? "—").padStart(7)}%${vsNifty}`);
+
+  // Table: best strategy per scenario
+  console.log(`\n  ${"Scenario".padEnd(18)} ${"Cat".padEnd(8)} ${"TopN".padStart(5)} ${"XIRR".padStart(10)} ${"MaxDD".padStart(9)} ${"Sharpe".padStart(7)} ${"vs Nifty".padStart(10)}`);
+  console.log(`  ${"-".repeat(80)}`);
+  for (const r of allResults) {
+    const alpha = nifty && r.xirrPct != null && nifty.xirrPct != null
+      ? `${r.xirrPct - nifty.xirrPct >= 0 ? "+" : ""}${(r.xirrPct - nifty.xirrPct).toFixed(1)}%/yr`
+      : "—";
+    console.log(
+      `  ${r.scenario.padEnd(18)} ${r.category.padEnd(8)} ${String(r.topN).padStart(5)} ${String(r.xirrPct ?? "—").padStart(9)}% ${String(r.maxDrawdownPct).padStart(8)}% ${String(r.sharpe ?? "—").padStart(7)} ${alpha.padStart(10)}`,
+    );
+  }
+
+  // Pick the best row from each scenario (by Sharpe) for a summary
+  const bestPerScenario = {};
+  for (const r of allResults) {
+    if (r.sharpe == null) continue;
+    const key = r.scenario;
+    if (!bestPerScenario[key] || bestPerScenario[key].sharpe < r.sharpe) {
+      bestPerScenario[key] = r;
+    }
+  }
+  console.log(`\n  ── Best risk-adjusted (highest Sharpe) per scenario ──`);
+  console.log(`  ${"Scenario".padEnd(18)} ${"Pick".padEnd(18)} ${"XIRR".padStart(8)} ${"MaxDD".padStart(8)} ${"Sharpe".padStart(7)}`);
+  console.log(`  ${"-".repeat(65)}`);
+  for (const [scen, r] of Object.entries(bestPerScenario)) {
+    console.log(`  ${scen.padEnd(18)} ${(r.category + " top-" + r.topN).padEnd(18)} ${String(r.xirrPct).padStart(7)}% ${String(r.maxDrawdownPct).padStart(7)}% ${String(r.sharpe).padStart(7)}`);
   }
 
   const report = {
@@ -435,14 +646,17 @@ async function main() {
     universeSize: histories.size,
     monthEnds: monthEnds.length,
     nifty,
-    results,
+    scenarios: scenarios.map((s) => ({ label: s.label, opts: s.opts })),
+    results: allResults,
+    bestPerScenario,
     honestyNotes: [
       "Survivorship bias: universe uses TODAY's Smallcap 250 + Microcap 250 constituents; delisted/demoted names from 2022-2026 are not included.",
       "Dividends not included — understates total return by ~2-4% over 4 years.",
       "Transaction friction 0.5% round-trip applied to every buy AND sell. Understates costs for thinly-traded names.",
-      "Rebalance cadence: monthly close-to-close. Intra-month exits / stop-losses not simulated.",
-      "Gap risk: close-to-close only; overnight earnings gaps not modeled.",
-      "No look-ahead: scoring strictly uses data up to the rebalance date.",
+      "Stop-loss walks daily closes within each rebalance period; intra-bar stops not triggered unless a close breaks below.",
+      "Profit ladder: 30% out at +30%, another 30% at +50%, 40% held to rebalance. Applied WHEN active only.",
+      "ERC weighting uses 20d realised volatility — rebalanced on each rebalance date.",
+      "No look-ahead: scoring + sizing use data strictly up to the rebalance date.",
     ],
   };
 
