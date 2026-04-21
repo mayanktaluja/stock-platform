@@ -1087,6 +1087,48 @@ for (const s of DEDUPED) {
   if (s.isin) ISIN_INDEX.set(s.isin, s);
 }
 
+// Symbol → stock index. Keyed by BARE ticker (no exchange suffix) because
+// that's what users type into portfolio CSVs — "TCS", "RELIANCE", "HDFCBANK"
+// — even though our canonical symbols are ".NS" / ".BO" suffixed. We ALSO
+// register the full suffixed form so uploads like "TCS.NS" or "TCS.BO"
+// resolve identically.
+//
+// Collision strategy: NSE listing wins over BSE when the same bare ticker
+// exists on both exchanges (almost universally the liquid one). Our
+// scored universe is NSE-primary, so this is the right tie-break.
+const SYMBOL_INDEX = new Map();
+for (const s of DEDUPED) {
+  if (!s.symbol) continue;
+  const full = String(s.symbol).toUpperCase();
+  const bare = full.replace(/\.(NS|BO)$/, "");
+  // Prefer NSE on collision — only fill BSE slot if nothing claimed it yet
+  if (full.endsWith(".NS")) {
+    SYMBOL_INDEX.set(bare, s);
+    SYMBOL_INDEX.set(full, s);
+  } else {
+    if (!SYMBOL_INDEX.has(bare)) SYMBOL_INDEX.set(bare, s);
+    SYMBOL_INDEX.set(full, s);
+  }
+}
+
+/**
+ * Resolve a user-supplied ticker string to a scored-universe stock.
+ *
+ * Handles the three shapes brokers and users actually submit:
+ *   • "TCS"        → bare NSE ticker
+ *   • "TCS.NS"     → full NSE symbol
+ *   • "TCS.BO"     → BSE fallback
+ *
+ * Canonicalisation: uppercase, strip whitespace. Returns null on miss
+ * rather than throwing, so the parser's fallback chain stays simple.
+ */
+function findBySymbol(raw) {
+  if (!raw) return null;
+  const key = String(raw).toUpperCase().replace(/\s+/g, "").trim();
+  if (!key) return null;
+  return SYMBOL_INDEX.get(key) || null;
+}
+
 function normalizeName(name) {
   if (!name) return "";
   return String(name)
@@ -1164,6 +1206,7 @@ export {
   LIQUIDITY_MIN_TURNOVER_CR,
   validateStockList,
   findByIsin,
+  findBySymbol,
   findByName,
   normalizeName,
 };

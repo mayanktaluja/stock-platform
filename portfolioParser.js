@@ -15,12 +15,14 @@
  *
  * Resolution order for every parsed row:
  *   1. ISIN lookup (authoritative — never false-positive)
- *   2. Fuzzy name lookup (fallback for CSVs without ISIN)
- *   3. Unmatched list (still reported, with partial fields)
+ *   2. Symbol lookup (handles "TCS" / "TCS.NS" — tickers don't fuzzy-match
+ *      against company names, so this must come before name matching)
+ *   3. Fuzzy name lookup (fallback for CSVs without ISIN or symbol)
+ *   4. Unmatched list (still reported, with partial fields)
  */
 
 import xlsx from "xlsx";
-import { findByIsin, findByName, normalizeName } from "./stockList.js";
+import { findByIsin, findBySymbol, findByName, normalizeName } from "./stockList.js";
 
 // ──────────────────── Helpers ────────────────────
 
@@ -406,8 +408,18 @@ export function parsePortfolioFile(buffer, filename = "") {
       continue;
     }
 
+    // Resolution chain. Symbol goes BETWEEN ISIN and name because
+    // tickers like "TCS" or "RELIANCE" will never fuzzy-match against
+    // company names like "Tata Consultancy Services" / "Reliance
+    // Industries" — the token overlap is zero. Without a dedicated
+    // symbol lookup, even flagship Nifty 50 names end up in "unmatched"
+    // when users upload a simple Symbol,Qty,Avg-Price CSV.
     let resolved = h.isin ? findByIsin(h.isin) : null;
-    let matchType = "isin";
+    let matchType = resolved ? "isin" : null;
+    if (!resolved) {
+      resolved = findBySymbol(h.rawName);
+      if (resolved) matchType = "symbol";
+    }
     if (!resolved) {
       resolved = findByName(h.rawName);
       matchType = resolved ? "name" : "none";
