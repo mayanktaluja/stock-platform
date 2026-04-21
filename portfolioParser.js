@@ -23,6 +23,7 @@
 
 import xlsx from "xlsx";
 import { findByIsin, findBySymbol, findByName, normalizeName } from "./stockList.js";
+import { resolveNseStockLive } from "./nse.js";
 
 // ──────────────────── Helpers ────────────────────
 
@@ -481,4 +482,110 @@ export function parsePortfolioFile(buffer, filename = "") {
     summary: parsed.summary || {},
     instrumentCounts: counts,
   };
+}
+
+/**
+ * Second-pass resolution via live NSE lookup.
+ *
+ * parsePortfolioFile is synchronous and only consults the in-memory
+ * curated list + supplement. For rows that still fall into `unmatched`
+ * as `instrumentType === "equity"` with `matchType === "none"`, we call
+ * NSE's quote-equity endpoint here to authoritatively resolve them.
+ * Handles newly-listed stocks, SME/illiquid names, and anything outside
+ * the pre-built universe.
+ *
+ * This is the function that makes the analyzer truly complete: after it,
+ * any real NSE-listed equity the user holds will land in `holdings`
+ * rather than the "not in our scored universe" bucket.
+ *
+ * Called from /api/portfolio/analyze. Safe to run in parallel per row
+ * because NSE throttles gracefully and we cap concurrency. On network
+ * failure we leave the row in `unmatched` — the only cost of the live
+ * lookup is latency, never correctness.
+ *
+ * Mutates `parsed` in place: moves resolved rows from unmatched →
+ * holdings and updates warnings.
+ */
+export async function resolveUnmatchedLive(parsed) {
+  if (!parsed || !parsed.unmatched || parsed.unmatched.length === 0) return parsed;
+
+  // Only try live on equity rows with no match. Skip ETF/MF/FNO/bond —
+  // those were correctly classified and shouldn't be scored.
+  const toResolve = parsed.unmatched.filter(
+    (u) => u.instrumentType === "equity" && u.matchType === "none",
+  );
+  if (toResolve.length === 0) return parsed;
+
+  // Concurrency 4 — NSE handles this fine without rate-limiting.
+  const CONCURRENCY = 4;
+  const resolvedMap = new Map(); // sourceRow → resolved record
+  for (let i = 0; i < toResolve.length; i += CONCURRENCY) {
+    const batch = toResolve.slice(i, i + CONCURRENCY);
+    const results = await Promise.all(
+      batch.map(async (row) => {
+        try {
+          // Only pass `symbol` when we genuinely have a ticker; brokers
+          // often use `rawName` for the company name ("KROSS LIMITED"),
+          // which would then look like a ticker after whitespace-strip
+          // and block the autocomplete-by-name fallback in resolveNseStockLive.
+          const hit = await resolveNseStockLive({
+            symbol: row.symbol || null,
+            isin: row.isin,
+            name: row.rawName,
+          });
+          return { row, hit };
+        } catch {
+          return { row, hit: null };
+        }
+      }),
+    );
+    for (const { row, hit } of results) {
+      if (hit) resolvedMap.set(row.sourceRow, hit);
+    }
+  }
+
+  if (resolvedMap.size === 0) return parsed; // Nothing promoted
+
+  // Rebuild unmatched excluding the now-resolved rows, and add them to
+  // holdings with matchType: "live" so the UI can badge them distinctly.
+  const stillUnmatched = [];
+  for (const u of parsed.unmatched) {
+    const hit = resolvedMap.get(u.sourceRow);
+    if (!hit) {
+      stillUnmatched.push(u);
+      continue;
+    }
+    parsed.holdings.push({
+      symbol: hit.symbol,
+      isin: hit.isin || u.isin || null,
+      name: hit.name,
+      sector: hit.sector,
+      quantity: u.quantity,
+      avgPrice: u.avgPrice,
+      closePrice: u.closePrice,
+      purchaseDate: u.purchaseDate || null,
+      rawName: u.rawName,
+      matchType: "live",
+      instrumentType: "equity",
+      sourceRow: u.sourceRow,
+    });
+  }
+  parsed.unmatched = stillUnmatched;
+
+  // Refresh the warning text — the sync pass said "X equity rows couldn't
+  // be matched"; after this pass the count may be lower or zero.
+  const remainingEquityMisses = stillUnmatched.filter(
+    (u) => u.instrumentType === "equity" && u.matchType === "none",
+  ).length;
+  parsed.warnings = (parsed.warnings || []).filter(
+    (w) => !/couldn't be matched to the platform's stock universe/i.test(w),
+  );
+  if (remainingEquityMisses > 0) {
+    parsed.warnings.push(
+      `${remainingEquityMisses} equity row(s) couldn't be matched — NSE also couldn't find them. ` +
+      "Typically delisted, SME Emerge, or BSE-only names. They're in the report with raw info only.",
+    );
+  }
+
+  return parsed;
 }

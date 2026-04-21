@@ -1087,6 +1087,50 @@ for (const s of DEDUPED) {
   if (s.isin) ISIN_INDEX.set(s.isin, s);
 }
 
+// ─── Supplement index: NSE Total Market + Microcap/Smallcap/Nifty500 ───
+//
+// Curated ALL_STOCKS covers ~503 quality large/midcaps. Real portfolio
+// uploads regularly contain names outside that list (Azad Engineering,
+// Ujjivan SFB, and many other recently-listed or lesser-known smallcaps).
+// nseUniverseSupplement.json is built by scripts/build-nse-supplement.mjs
+// from NSE's index-stockIndices endpoint — it carries symbol+ISIN+name+
+// sector for every NSE-listed name not already in ALL_STOCKS.
+//
+// These supplement entries let findByIsin/findBySymbol resolve holdings
+// for portfolio analysis (real-time price + per-stock risk metrics still
+// work). They're intentionally NOT surfaced in the scanners because
+// the fundamental scoring model depends on the curated fundamentals.json
+// snapshot which only covers ALL_STOCKS.
+const SUPPLEMENT_BY_ISIN = new Map();
+const SUPPLEMENT_BY_SYMBOL = new Map();
+try {
+  const supplementPath = new URL("./nseUniverseSupplement.json", import.meta.url);
+  const { readFileSync } = await import("fs");
+  const raw = readFileSync(supplementPath, "utf-8");
+  const supplement = JSON.parse(raw);
+  for (const [bare, rec] of Object.entries(supplement.bySymbol || {})) {
+    const enriched = {
+      symbol: rec.symbol,
+      isin: rec.isin,
+      name: rec.name,
+      sector: rec.sector,
+      indices: rec.indices || [],
+      // Flag so downstream code can tell curated vs supplement
+      source: "nse-supplement",
+    };
+    if (rec.isin) SUPPLEMENT_BY_ISIN.set(rec.isin, enriched);
+    SUPPLEMENT_BY_SYMBOL.set(bare, enriched);
+    SUPPLEMENT_BY_SYMBOL.set(rec.symbol.toUpperCase(), enriched);
+  }
+} catch (err) {
+  // Supplement is optional — if the file is missing (e.g. first-run
+  // dev checkout before the build script ran), we just fall back to
+  // the primary curated list. Log once so engineers notice.
+  if (err?.code !== "ENOENT") {
+    console.warn("[stockList] supplement load failed:", err.message);
+  }
+}
+
 // Symbol → stock index. Keyed by BARE ticker (no exchange suffix) because
 // that's what users type into portfolio CSVs — "TCS", "RELIANCE", "HDFCBANK"
 // — even though our canonical symbols are ".NS" / ".BO" suffixed. We ALSO
@@ -1119,6 +1163,10 @@ for (const s of DEDUPED) {
  *   • "TCS.NS"     → full NSE symbol
  *   • "TCS.BO"     → BSE fallback
  *
+ * Resolution order:
+ *   1. Curated ALL_STOCKS (has sector/indices metadata for scanners)
+ *   2. NSE supplement (wider net — any NSE-listed name for holdings)
+ *
  * Canonicalisation: uppercase, strip whitespace. Returns null on miss
  * rather than throwing, so the parser's fallback chain stays simple.
  */
@@ -1126,7 +1174,12 @@ function findBySymbol(raw) {
   if (!raw) return null;
   const key = String(raw).toUpperCase().replace(/\s+/g, "").trim();
   if (!key) return null;
-  return SYMBOL_INDEX.get(key) || null;
+  const primary = SYMBOL_INDEX.get(key);
+  if (primary) return primary;
+  // Supplement keyed by both bare ("TCS") and full ("TCS.NS") — strip any
+  // exchange suffix so we match both shapes against the bare-symbol key.
+  const bare = key.replace(/\.(NS|BO)$/, "");
+  return SUPPLEMENT_BY_SYMBOL.get(bare) || SUPPLEMENT_BY_SYMBOL.get(key) || null;
 }
 
 function normalizeName(name) {
@@ -1142,7 +1195,8 @@ function normalizeName(name) {
 
 function findByIsin(isin) {
   if (!isin) return null;
-  return ISIN_INDEX.get(String(isin).trim().toUpperCase()) || null;
+  const key = String(isin).trim().toUpperCase();
+  return ISIN_INDEX.get(key) || SUPPLEMENT_BY_ISIN.get(key) || null;
 }
 
 function findByName(name) {

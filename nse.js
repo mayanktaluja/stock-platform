@@ -136,6 +136,103 @@ async function nseGet(path, referer) {
 export { nseGet };
 
 /**
+ * Last-resort live resolver for a portfolio row that didn't match the
+ * curated list OR the supplement. Tries:
+ *   1. /api/quote-equity?symbol=X  (if we have a symbol)
+ *   2. /api/search/autocomplete?q=X (if we have a name but no symbol)
+ *
+ * Returns { symbol, isin, name, sector, industry } or null. Always
+ * returns null on network errors rather than throwing — the analyzer
+ * just keeps the row in `unmatched` in that case.
+ *
+ * Why this exists: even the 1000-stock supplement won't cover every
+ * NSE-listed name — newer listings, SME Emerge, and illiquid names
+ * sit outside the major indices. This live lookup handles them on
+ * demand during portfolio analysis. At most one call per unmatched
+ * row per upload — not a hot path.
+ */
+export async function resolveNseStockLive({ symbol, isin, name } = {}) {
+  if (!symbol && !name && !isin) return null;
+
+  // Best input: a bare ticker we can quote directly. We only accept
+  // `symbol` when it actually looks like a ticker — short, no spaces,
+  // letters + digits + a few symbols. Broker xlsx files often stuff the
+  // company name ("FIBERWEB INDIA LIMITED") into the "symbol" field,
+  // which would otherwise become a bogus ticker "FIBERWEBINDIALIMITED"
+  // and block the autocomplete fallback from even running.
+  let tryQuote = null;
+  if (symbol) {
+    const cleaned = String(symbol)
+      .toUpperCase()
+      .replace(/\.(NS|BO)$/, "")
+      .replace(/\s+/g, "")
+      .trim();
+    const looksLikeTicker = /^[A-Z0-9&-]{1,15}$/.test(cleaned);
+    if (looksLikeTicker) tryQuote = cleaned;
+  }
+
+  // If we don't have a plausible ticker, bounce through autocomplete.
+  // NSE's autocomplete is fuzzy: given "FIBERWEB INDIA LIMITED" we get
+  // the FIBERWEB symbol. It doesn't match ISINs directly.
+  if (!tryQuote && name) {
+    try {
+      const url = `${NSE_BASE}/api/search/autocomplete?q=${encodeURIComponent(name)}`;
+      const res = await fetchNseWithTimeout(
+        url,
+        { headers: { "User-Agent": NSE_UA, Accept: "application/json", Referer: `${NSE_BASE}/` } },
+        8000,
+      );
+      if (res.ok) {
+        const data = await res.json();
+        const first = (data?.symbols || []).find((s) => s?.symbol && !s.symbol.endsWith("*"));
+        if (first?.symbol) tryQuote = first.symbol;
+      }
+    } catch {
+      /* silent */
+    }
+  }
+
+  if (!tryQuote) return null;
+
+  // Quote the resolved symbol for the authoritative metadata + ISIN
+  try {
+    const url = `${NSE_BASE}/api/quote-equity?symbol=${encodeURIComponent(tryQuote)}`;
+    const res = await fetchNseWithTimeout(
+      url,
+      {
+        headers: {
+          "User-Agent": NSE_UA,
+          Accept: "application/json",
+          Referer: `${NSE_BASE}/get-quotes/equity?symbol=${encodeURIComponent(tryQuote)}`,
+        },
+      },
+      8000,
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    const info = data?.info || {};
+    const meta = data?.metadata || {};
+    const ind = data?.industryInfo || {};
+    if (!info.isin && !meta.symbol) return null;
+    // If the caller passed an ISIN, sanity-check it matches — otherwise we
+    // resolved the wrong ticker (autocomplete picked a different company).
+    if (isin && info.isin && info.isin.toUpperCase() !== String(isin).toUpperCase()) {
+      return null;
+    }
+    return {
+      symbol: `${meta.symbol || tryQuote}.NS`,
+      isin: info.isin || null,
+      name: info.companyName || meta.symbol || tryQuote,
+      sector: ind.sector || meta.industry || null,
+      industry: ind.industry || meta.industry || null,
+      source: "nse-live",
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Unauthenticated NSE GET — bypasses the cookie dance entirely.
  *
  * WHY THIS EXISTS: `nseGet` above short-circuits with `return null` when

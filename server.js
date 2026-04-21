@@ -37,7 +37,7 @@ import {
 // and hoisted by ES module semantics.
 const FUNDAMENTALS_PATH_SERVER = path.join(__dirnameForEnv, "fundamentals.json");
 import { buildPortfolioIntelligence, computePortfolioCombinedScore } from "./portfolioIntelligence.js";
-import { parsePortfolioFile } from "./portfolioParser.js";
+import { parsePortfolioFile, resolveUnmatchedLive } from "./portfolioParser.js";
 import { analyzeHolding, buildReport } from "./portfolioAnalyzer.js";
 import { dailyReturns as computeDailyReturns } from "./riskMetrics.js";
 import multer from "multer";
@@ -4657,6 +4657,17 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
         error: `Failed to parse portfolio file: ${e.message}`,
         hint: "Supported: Groww XLSX export, Groww CSV, Zerodha Console CSV. File should contain Stock Name/ISIN/Quantity/Average buy price columns.",
       });
+    }
+
+    // 1b. Live NSE resolution for anything the static list + supplement
+    //     couldn't match. Promotes real listed equities (newly-listed,
+    //     SME Emerge, illiquid names outside the major indices) from
+    //     `unmatched` → `holdings` so the full book gets analysed. Silent
+    //     no-op when nothing needs live lookup.
+    try {
+      await resolveUnmatchedLive(parsed);
+    } catch (e) {
+      console.warn("[PORTFOLIO] live NSE resolution failed:", e.message);
     }
 
     // Only hard-fail when the parser found literally nothing — not when
