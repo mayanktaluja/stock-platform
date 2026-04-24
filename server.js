@@ -15,7 +15,7 @@ import rateLimit from "express-rate-limit";
 import NodeCache from "node-cache";
 
 import { analyzeStock, intradayScan, midTermAnalysis, longTermOutlook } from "./analysis.js";
-import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, getNifty100, getNifty500, getStocksByIndex, validateStockList } from "./stockList.js";
+import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, getNifty100, getNifty500, getExpandedUniverse, getStocksByIndex, validateStockList } from "./stockList.js";
 import { analyzeNewsSentiment, quickSentiment } from "./sentiment.js";
 import { fetchNifty50, fetchNseQuote, fetchNseQuoteRaw, fetchNseIndices, fetchNseIndex, fetchNseEventCalendar, fetchGiftNifty, nseGet, nseGetUnauthed, warmup as nseWarmup } from "./nse.js";
 import {
@@ -30,6 +30,25 @@ import {
   primeFundamentalsFromKV,
   saveFundamentalsToKV,
 } from "./fundamentals.js";
+// Phase 2 / Phase 4: V2 scorer infrastructure.
+//
+// V2 ships behind the SCORER_MODE env var (see scorerMode.js). Three modes:
+//   v1          — V1 only. Rollback.
+//   v2-shadow   — V1 authoritative, V2 attached as `shadowV2`. DEFAULT.
+//   v2-primary  — V2 authoritative, V1 attached as `legacyV1`.
+//
+// The direct V2 import is still kept for places the helper isn't used
+// (e.g. internal scanners that consume a score for ranking without
+// exposing it on the API). User-facing endpoints MUST go through
+// scoreForResponse() so the switch is centralised and testable.
+import { scoreFundamentalsV2 } from "./fundamentalsV2.js";
+import {
+  scoreForResponse,
+  compactScorerInfo,
+  SCORER_MODE,
+  isV2Primary,
+  isV1Only,
+} from "./scorerMode.js";
 // Path to fundamentals.json for the dev-mode disk fallback in the enrichment
 // cron endpoint. In production (Vercel) the filesystem is read-only so we
 // write to Vercel KV instead; see saveFundamentalsToKV in fundamentals.js.
@@ -37,6 +56,22 @@ import {
 // and hoisted by ES module semantics.
 const FUNDAMENTALS_PATH_SERVER = path.join(__dirnameForEnv, "fundamentals.json");
 import { buildPortfolioIntelligence, computePortfolioCombinedScore } from "./portfolioIntelligence.js";
+import {
+  buildSurveillance,
+  saveSurveillance,
+  primeSurveillanceFromKV,
+  getSurveillance,
+  getSurveillanceFlag,
+  getSurveillanceStatus,
+} from "./surveillance.js";
+import {
+  buildGovernance,
+  saveGovernance,
+  primeGovernanceFromKV,
+  getGovernance,
+  getGovernanceSnapshot,
+  getGovernanceStatus,
+} from "./governance.js";
 import { parsePortfolioFile, resolveUnmatchedLive } from "./portfolioParser.js";
 import { analyzeHolding, buildReport } from "./portfolioAnalyzer.js";
 import { dailyReturns as computeDailyReturns } from "./riskMetrics.js";
@@ -717,12 +752,27 @@ app.get("/api/stock/:symbol", async (req, res) => {
     // Now we return the same shape as the happy path, with `analysis.error`
     // surfaced clearly and `combinedScore: null` so downstream doesn't
     // compute bogus weighted averages.
+    // SEBI compliance overlay — compute once, attach to every response path.
+    // Surfaced as a top-level field (not nested under fundamentals) because it
+    // is a regulatory overlay, not a fundamental metric, and must be visible
+    // even when fundamentals data is missing.
+    const surveillance = getSurveillanceFlag(symbol);
+
     if (!historical || historical.length < 30) {
       // Still compute fundamentals if the snapshot exists — they don't
       // depend on historical data.
       const fundSnap = getFundamentals(symbol);
       let fundamentalResult = null;
-      if (fundSnap) fundamentalResult = scoreFundamentals(fundSnap, null);
+      let earlyShadowV2 = null;
+      let earlyLegacyV1 = null;
+      let earlyScorerMode = SCORER_MODE;
+      if (fundSnap) {
+        const scored = scoreForResponse(fundSnap, null, { symbol });
+        fundamentalResult = scored.primary;
+        earlyShadowV2 = scored.shadow;
+        earlyLegacyV1 = scored.legacy;
+        earlyScorerMode = scored.mode;
+      }
       // Long-term outlook can still work for new IPOs — it's fundamentals-
       // driven and doesn't need 200 days of history. Pass null for analysis
       // and dma200; the function handles missing data gracefully.
@@ -738,9 +788,15 @@ app.get("/api/stock/:symbol", async (req, res) => {
           portfolioBasisScore: null,
         },
         fundamentals: fundamentalResult,
+        // Hexagon data rides on the full V2 object (pillars + composition).
+        // Exactly one of shadowV2 / legacyV1 is non-null depending on SCORER_MODE.
+        shadowV2: earlyShadowV2,
+        legacyV1: earlyLegacyV1,
+        scorerMode: earlyScorerMode,
         longTerm: earlyLongTerm,
         sentiment,
         news: sentiment.headlines,
+        surveillance,
         lastUpdated: new Date().toISOString(),
       });
     }
@@ -750,9 +806,17 @@ app.get("/api/stock/:symbol", async (req, res) => {
     const midTerm = midTermAnalysis(analysis, quote, historical ? historical.map(d => d.close) : null);
 
     // ── Look up fundamental snapshot + score ──
+    //
+    // Under SCORER_MODE=v2-shadow (default): `fundamentalResult` = V1 output (authoritative),
+    // `shadowV2Full` = V2 output with pillars (for the hexagon + diffing).
+    // Under v2-primary: `fundamentalResult` = V2 (authoritative with pillars), `legacyV1Full` = V1.
+    // Under v1: only `fundamentalResult` is set, the other two are null.
     const fundSnap = getFundamentals(symbol);
     let fundamentalScore = null;
     let fundamentalResult = null;
+    let shadowV2Full = null;
+    let legacyV1Full = null;
+    let effectiveScorerMode = SCORER_MODE;
     if (fundSnap) {
       // Compute 200DMA from historical for the fundamental score
       let dma200 = null;
@@ -760,8 +824,12 @@ app.get("/api/stock/:symbol", async (req, res) => {
         const closes = historical.map((d) => d.close);
         dma200 = closes.slice(-200).reduce((s, v) => s + v, 0) / 200;
       }
-      fundamentalResult = scoreFundamentals(fundSnap, dma200);
-      fundamentalScore = fundamentalResult.score;
+      const scored = scoreForResponse(fundSnap, dma200, { symbol });
+      fundamentalResult = scored.primary;
+      shadowV2Full = scored.shadow;
+      legacyV1Full = scored.legacy;
+      effectiveScorerMode = scored.mode;
+      fundamentalScore = fundamentalResult?.score ?? null;
     }
 
     // ── Long-term outlook (3–12 months, fundamentals-driven) ──
@@ -811,8 +879,12 @@ app.get("/api/stock/:symbol", async (req, res) => {
         quote: formatQuote(quote),
         analysis: { error: "Technical analysis unavailable for this stock (likely insufficient history — new listing or delisted)." },
         fundamentals: fundamentalResult,
+        shadowV2: shadowV2Full,
+        legacyV1: legacyV1Full,
+        scorerMode: effectiveScorerMode,
         sentiment,
         news: sentiment.headlines,
+        surveillance,
         lastUpdated: new Date().toISOString(),
       });
     }
@@ -1037,6 +1109,12 @@ app.get("/api/stock/:symbol", async (req, res) => {
         scannerScore,
       },
       fundamentals: fundamentalResult,
+      // V2 full object (pillars + composition + signals) for the Snowflake
+      // hexagon. Exactly one of shadowV2 / legacyV1 is non-null depending on
+      // SCORER_MODE — see scorerMode.js for the contract.
+      shadowV2: shadowV2Full,
+      legacyV1: legacyV1Full,
+      scorerMode: effectiveScorerMode,
       midTerm,
       longTerm,
       sentiment,
@@ -1059,6 +1137,7 @@ app.get("/api/stock/:symbol", async (req, res) => {
       historicalChart: historical
         ? historical.slice(-90).map((d) => ({ close: d.close, volume: d.volume, date: d.date }))
         : null,
+      surveillance,
       lastUpdated: new Date().toISOString(),
     });
   } catch (err) {
@@ -1074,7 +1153,83 @@ app.get("/api/stock/:symbol", async (req, res) => {
 // instead of silently defaulting (which used to mask user typos like
 // `?universe=nifty50000` returning the full Nifty 100 with no warning).
 const VALID_SCAN_TYPES = ["all", "midterm", "buynow", "sell"];
-const VALID_SCAN_UNIVERSES = ["nifty50", "niftyNext50", "nifty100", "nifty500", "all"];
+const VALID_SCAN_UNIVERSES = ["nifty50", "niftyNext50", "nifty100", "nifty500", "all", "expanded"];
+
+/**
+ * Read and merge the segmented expanded-universe precompute.
+ *
+ * Each segment lives at `scan:precomputed_buynow_expanded:seg{i}of{N}` in
+ * KV (L2), or in the in-process scanCache (L1). Returns { response, source }
+ * where source is "L1", "L2", or "mixed". Returns null if any segment is
+ * missing — partial results would skew the ranking silently.
+ */
+async function readExpandedSegments(totalSegments) {
+  const l1Hits = [];
+  const missing = [];
+  for (let i = 0; i < totalSegments; i++) {
+    const key = `precomputed_buynow_expanded:seg${i}of${totalSegments}`;
+    const hit = scanCache.get(key);
+    if (hit) l1Hits.push(hit);
+    else missing.push({ i, key });
+  }
+
+  if (missing.length > 0) {
+    try {
+      const kv = await getKVClientForPortfolio();
+      if (!kv) return null;
+      for (const { i, key } of missing) {
+        const l2 = await kv.get(`scan:${key}`);
+        if (!l2) return null; // abort — don't return partial
+        scanCache.set(key, l2, 28800);
+        l1Hits[i] = l2;
+      }
+    } catch {
+      return null;
+    }
+  }
+
+  // Merge: concat all picks, re-sort by adjustedScore desc, apply sector cap,
+  // return top 10. Each segment already applied its own sector cap locally,
+  // but across segments the same sector could dominate — re-apply globally.
+  const allPicks = l1Hits.flatMap((r) => r.stocks || []);
+  const sorted = allPicks
+    .sort((a, b) => (b.adjustedScore ?? b.score) - (a.adjustedScore ?? a.score));
+
+  const MAX_PER_SECTOR = 2;
+  const sectorCounts = {};
+  const diversified = [];
+  for (const r of sorted) {
+    if (diversified.length >= 10) break;
+    const sec = r.sector || "Unknown";
+    sectorCounts[sec] = (sectorCounts[sec] || 0) + 1;
+    if (sectorCounts[sec] > MAX_PER_SECTOR) continue;
+    diversified.push(r);
+  }
+
+  const scannedCount = l1Hits.reduce((s, r) => s + (r.scannedCount || 0), 0);
+  const oldestSegment = l1Hits
+    .map((r) => r.precomputedAt)
+    .filter(Boolean)
+    .sort()[0] || new Date().toISOString();
+
+  return {
+    source: missing.length === 0 ? "L1" : "L2",
+    response: {
+      type: "buynow",
+      universe: "expanded",
+      stocks: diversified,
+      scannedCount,
+      universeSize: scannedCount,
+      fullUniverseSize: scannedCount,
+      truncatedForVercel: false,
+      precomputed: true,
+      precomputedAt: oldestSegment,
+      segments: totalSegments,
+      lastUpdated: new Date().toISOString(),
+      regime: l1Hits[0]?.regime,
+    },
+  };
+}
 
 app.get("/api/scan/:type", async (req, res, next) => {
   // Delegate specific named scans to their own handlers
@@ -1107,6 +1262,26 @@ app.get("/api/scan/:type", async (req, res, next) => {
     // computed data. Cuts typical scan latency from 8-15s (live scan) to
     // ~20ms (L2 hit) / ~1ms (L1 hit).
     const PRECOMPUTE_CACHE_KEY = "precomputed_buynow_nifty100";
+
+    // ── Expanded universe: try to assemble from segmented cache ──
+    //
+    // The expanded scan (~750 stocks) runs as N parallel cron jobs, each
+    // writing a slice to `precomputed_buynow_expanded:seg{i}of{N}`. Here
+    // we read all slices, merge their picks, re-rank, and return the top
+    // 10. If any slice is missing we fall through to the Nifty-100 path —
+    // partial picks would silently skew the results.
+    const EXPANDED_SEGMENTS = parseInt(process.env.EXPANDED_SCAN_SEGMENTS || "4", 10);
+    if (type === "buynow" && universe === "expanded") {
+      const merged = await readExpandedSegments(EXPANDED_SEGMENTS);
+      if (merged) {
+        res.set("X-Precomputed", merged.source);
+        return res.json(merged.response);
+      }
+      // No expanded cache — don't fall back silently; the user asked for
+      // expanded coverage, so run it live. Runs may be slow (~45s locally,
+      // times out on Vercel) — documented.
+    }
+
     if (type === "buynow" && (universe === "nifty100" || universe === "all")) {
       const l1 = scanCache.get(PRECOMPUTE_CACHE_KEY);
       if (l1) {
@@ -1137,6 +1312,7 @@ app.get("/api/scan/:type", async (req, res, next) => {
     else if (universe === "niftyNext50") stocksToScan = getStocksByIndex("NIFTY_NEXT_50");
     else if (universe === "nifty500") stocksToScan = getNifty500();
     else if (universe === "all") stocksToScan = ALL_STOCKS;
+    else if (universe === "expanded") stocksToScan = getExpandedUniverse();
     else stocksToScan = getNifty100(); // nifty100
 
     // Full universe scan — no truncation. maxDuration=60s in vercel.json
@@ -1588,9 +1764,33 @@ app.get("/api/cron/scan-precompute", async (req, res) => {
 
   try {
     const startTime = Date.now();
-    console.log("[CRON] Starting full 100-stock Buy Now pre-compute...");
 
-    const stocksToScan = getNifty100();
+    // Segmentation params for the expanded-universe scan.
+    //   universe=expanded → scan curated + supplement Nifty-indexed (~750 names)
+    //   segment=N, of=M   → scan only slice N of M (0-indexed). Each Vercel
+    //                       cron fires a distinct segment so the full scan
+    //                       completes within the 60s function cap.
+    //   universe=nifty100 (default, no-op) → legacy 100-stock scan.
+    const universeParam = (req.query.universe || "nifty100").toString();
+    const segment = Math.max(0, parseInt(req.query.segment ?? "0", 10) || 0);
+    const ofParam = Math.max(1, parseInt(req.query.of ?? "1", 10) || 1);
+    const isExpanded = universeParam === "expanded";
+
+    let stocksToScan;
+    if (isExpanded) {
+      const full = getExpandedUniverse();
+      const sliceSize = Math.ceil(full.length / ofParam);
+      const from = segment * sliceSize;
+      const to = Math.min(from + sliceSize, full.length);
+      stocksToScan = full.slice(from, to);
+      console.log(
+        `[CRON] Starting expanded Buy Now pre-compute — segment ${segment + 1}/${ofParam} (${stocksToScan.length} of ${full.length} stocks)`
+      );
+    } else {
+      stocksToScan = getNifty100();
+      console.log("[CRON] Starting full 100-stock Buy Now pre-compute...");
+    }
+
     const failureTracker = createFailureTracker();
     const results = [];
     const BATCH_SIZE = 10; // slightly larger batches since we have 60s
@@ -1720,7 +1920,9 @@ app.get("/api/cron/scan-precompute", async (req, res) => {
 
     const response = {
       type: "buynow",
-      universe: "nifty100",
+      universe: isExpanded ? "expanded" : "nifty100",
+      segment: isExpanded ? segment : null,
+      of: isExpanded ? ofParam : null,
       stocks: filtered,
       scannedCount: results.length,
       universeSize: stocksToScan.length,
@@ -1745,7 +1947,12 @@ app.get("/api/cron/scan-precompute", async (req, res) => {
     //   L2 (Vercel KV, shared): 8h TTL — serves all OTHER lambdas instantly
     // Without L2, every freshly-booted lambda would miss the cron output and
     // fall back to a 10-15s live scan.
-    const PRECOMPUTE_CACHE_KEY = "precomputed_buynow_nifty100";
+    //
+    // Segmented (expanded) cache key carries the slice index so each cron
+    // job writes its own partition; /api/scan/buynow reassembles them.
+    const PRECOMPUTE_CACHE_KEY = isExpanded
+      ? `precomputed_buynow_expanded:seg${segment}of${ofParam}`
+      : "precomputed_buynow_nifty100";
     scanCache.set(PRECOMPUTE_CACHE_KEY, response, 28800);
     try {
       const kv = await getKVClientForPortfolio();
@@ -1754,8 +1961,10 @@ app.get("/api/cron/scan-precompute", async (req, res) => {
       console.warn("[CRON] KV scan cache write failed:", e.message);
     }
 
-    // Also trigger paper-trade snapshot (once per day)
-    if (filtered.length > 0 && !(await hasSnapshotToday("buynow_nifty100"))) {
+    // Also trigger paper-trade snapshot (once per day) — only on the
+    // canonical Nifty 100 scan, not on expanded segments (which fire ~4×
+    // and would otherwise produce duplicate/inconsistent snapshots).
+    if (!isExpanded && filtered.length > 0 && !(await hasSnapshotToday("buynow_nifty100"))) {
       try {
         const niftyQuote = await fetchQuote("^NSEI").catch(() => null);
         const niftyPrice = niftyQuote?.regularMarketPrice ?? null;
@@ -2008,6 +2217,223 @@ app.get("/api/cron/enrich-fundamentals", async (req, res) => {
     console.error("[CRON] Fundamentals refresh failed:", err);
     res.status(500).json({ error: err.message });
   }
+});
+
+/**
+ * GET /api/cron/refresh-surveillance
+ *
+ * Pulls the latest ASM + GSM surveillance lists from NSE and persists them
+ * to Vercel KV (production) or surveillance.json (local dev).
+ *
+ * Defensive behaviour:
+ *   • If the fetch returns zero flagged stocks (likely NSE outage), we do
+ *     NOT overwrite an existing non-empty snapshot — better to serve a
+ *     slightly stale warning banner than to silently clear all warnings.
+ *   • Secret-gated via CRON_SECRET, same pattern as enrich-fundamentals.
+ *
+ * Cadence: daily at 04:00 IST (set in vercel.json). NSE publishes both
+ * lists once per trading day around 18:00 IST; a 04:00 run the next morning
+ * picks up the previous session's update before the market opens.
+ */
+app.get("/api/cron/refresh-surveillance", async (req, res) => {
+  const cronSecret = process.env.CRON_SECRET;
+  if (cronSecret && req.headers.authorization !== `Bearer ${cronSecret}`) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  try {
+    const startTime = Date.now();
+    console.log("[CRON] Refreshing surveillance lists...");
+    const snap = await buildSurveillance();
+    const total = Object.keys(snap.flagged || {}).length;
+
+    // Outage guard: if we got zero rows AND we already have a snapshot with
+    // non-zero rows, skip the save. The existing snapshot is better than an
+    // empty one in that case.
+    if (total === 0) {
+      const existing = getSurveillance();
+      const existingTotal = Object.keys(existing.flagged || {}).length;
+      if (existingTotal > 0) {
+        console.warn(
+          `[CRON] NSE returned 0 flagged; preserving existing snapshot with ${existingTotal} entries.`
+        );
+        return res.json({
+          ok: true,
+          skipped: true,
+          reason: "zero_rows_preserved_existing",
+          existingTotal,
+        });
+      }
+    }
+
+    const result = await saveSurveillance(snap);
+    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+    console.log(
+      `[CRON] Surveillance refreshed in ${elapsed}s. Flagged: ${total} ` +
+      `(ASM ${snap.counts.ASM}, GSM ${snap.counts.GSM}). Sink: ${result.target}.`
+    );
+    res.json({
+      ok: true,
+      total,
+      counts: snap.counts,
+      elapsedSec: Number(elapsed),
+      sink: result.target,
+      fetchedAt: snap.fetchedAt,
+    });
+  } catch (err) {
+    console.error("[CRON] Surveillance refresh failed:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * GET /api/surveillance/status
+ *
+ * Small public diagnostics endpoint. Returns counts + snapshot age so the
+ * UI can badge the surveillance banner with "updated 4h ago" or warn when
+ * the data is stale. Does NOT return the full flagged list — that's
+ * served per-stock through the existing /api/stock/:symbol response
+ * which will be augmented in the next wiring step.
+ */
+app.get("/api/surveillance/status", (req, res) => {
+  res.json(getSurveillanceStatus());
+});
+
+/**
+ * GET /api/surveillance/list
+ *
+ * Returns the full flagged map. Used by the Fundamental Scanner to exclude
+ * surveilled stocks from any "top picks" surface, and by admin/debug UIs.
+ */
+app.get("/api/surveillance/list", (req, res) => {
+  const snap = getSurveillance();
+  res.json({
+    fetchedAt: snap.fetchedAt,
+    counts: snap.counts,
+    flagged: snap.flagged,
+  });
+});
+
+/**
+ * GET /api/cron/refresh-governance
+ *
+ * Rebuilds the governance snapshot (shareholding pattern per symbol) from
+ * NSE and persists to KV (production) or governance.json (local dev).
+ *
+ * Only fetches symbols in the enriched fundamentals universe — no benefit
+ * to pulling governance for stocks we can't score. Query-string segmentation
+ * supported (?segment=0&of=4) so the 60s Vercel window isn't a risk on
+ * expanded universes; default single-segment covers the Nifty 500 coverage
+ * we currently care about.
+ *
+ * Cadence: weekly on Sunday. Shareholding filings are quarterly, so daily
+ * refreshes are pure waste — but weekly lets the new-quarter data land in
+ * the snapshot within ~3-5 days of filing.
+ *
+ * Secret-gated via CRON_SECRET. Outage guard: if the fetch returns fewer
+ * than 10% of symbols we skip the save to preserve any existing snapshot
+ * (the alternative — wiping governance data after a transient NSE outage —
+ * is worse than slightly stale data).
+ */
+app.get("/api/cron/refresh-governance", async (req, res) => {
+  const cronSecret = process.env.CRON_SECRET;
+  if (cronSecret && req.headers.authorization !== `Bearer ${cronSecret}`) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  try {
+    const startTime = Date.now();
+    // Build the list of symbols we actually need — every symbol with an
+    // enriched fundamentals snapshot. Anything not enriched can't be scored,
+    // so fetching governance for it would be wasted NSE calls.
+    const fundamentalsSnap = getAllFundamentals() || {};
+    const enriched = Object.keys(fundamentalsSnap);
+    const universe = enriched.length > 0 ? enriched : ALL_STOCKS.map((s) => s.symbol);
+
+    // Optional segmentation for operators who want to split the run across
+    // multiple cron invocations (e.g. expanded universe > 500 symbols).
+    const segment = parseInt(req.query.segment, 10);
+    const of = parseInt(req.query.of, 10);
+    let symbols = universe;
+    if (Number.isFinite(segment) && Number.isFinite(of) && of > 1 && segment >= 0 && segment < of) {
+      symbols = universe.filter((_, i) => i % of === segment);
+    }
+
+    console.log(
+      `[CRON] Refreshing governance for ${symbols.length} symbols` +
+      (Number.isFinite(of) ? ` (segment ${segment}/${of})` : "") + "..."
+    );
+    const snap = await buildGovernance({
+      symbols,
+      concurrency: 3,
+      delayMs: 220,
+      onProgress: (done, total) => {
+        if (done % 50 === 0) console.log(`[CRON]   governance: ${done}/${total}`);
+      },
+    });
+
+    const okCount = snap.counts?.ok ?? Object.keys(snap.bySymbol || {}).length;
+
+    // Outage guard — see docstring.
+    if (okCount < Math.max(5, symbols.length * 0.10)) {
+      const existing = getGovernanceSnapshot();
+      const existingCount = Object.keys(existing.bySymbol || {}).length;
+      if (existingCount > 0) {
+        console.warn(
+          `[CRON] NSE returned only ${okCount} governance records (of ${symbols.length}); ` +
+          `preserving existing snapshot with ${existingCount} entries.`
+        );
+        return res.json({
+          ok: true,
+          skipped: true,
+          reason: "low_yield_preserved_existing",
+          fetched: okCount,
+          existingCount,
+        });
+      }
+    }
+
+    const result = await saveGovernance(snap);
+    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+    console.log(
+      `[CRON] Governance refreshed in ${elapsed}s. ` +
+      `Saved ${okCount}/${symbols.length} records. Sink: ${result.target}.`
+    );
+    res.json({
+      ok: true,
+      total: symbols.length,
+      counts: snap.counts,
+      elapsedSec: Number(elapsed),
+      sink: result.target,
+      fetchedAt: snap.fetchedAt,
+    });
+  } catch (err) {
+    console.error("[CRON] Governance refresh failed:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * GET /api/governance/status
+ *
+ * Diagnostics: age of the governance snapshot + coverage count. Mirrors
+ * /api/surveillance/status for operational symmetry.
+ */
+app.get("/api/governance/status", (req, res) => {
+  res.json(getGovernanceStatus());
+});
+
+/**
+ * GET /api/governance/:symbol
+ *
+ * Per-symbol lookup — used by admin/debug UIs and the "why is governance
+ * N/A?" fallback path on the Snowflake hexagon tooltip. No-op when a symbol
+ * isn't covered; the hexagon just stays N/A.
+ */
+app.get("/api/governance/:symbol", (req, res) => {
+  const gov = getGovernance(req.params.symbol);
+  if (!gov) return res.status(404).json({ error: "No governance record for symbol" });
+  res.json({ symbol: req.params.symbol, ...gov });
 });
 
 /**
@@ -2589,10 +3015,36 @@ app.get("/api/fundamentals/:symbol", async (req, res) => {
       }
     } catch { /* optional */ }
 
-    const scored = scoreFundamentals(snap, dma200);
+    // Phase 4: score through the mode-aware helper. The `primary` result is
+    // authoritative (V1 under v2-shadow/v1 modes, V2 under v2-primary). The
+    // other scorer's result rides along under `shadowV2` or `legacyV1` so
+    // the UI can surface the transition transparently (SEBI Reg 15(2)).
+    const { primary: scored, legacy, shadow, mode } = scoreForResponse(snap, dma200, { symbol });
+
+    if (!scored) {
+      // Both scorers failed. Return 500 rather than pretending we have data.
+      return res.status(500).json({
+        error: "Scoring failed for this snapshot",
+        symbol,
+        scorerMode: mode,
+      });
+    }
+
+    // SEBI compliance overlay: surface any NSE surveillance flag (ASM/GSM)
+    // so the UI can show a warning banner. Never hide the stock — retail
+    // users searching by symbol still need to see the analytical data —
+    // but make the surveillance state unmissable.
+    const surveillance = getSurveillanceFlag(symbol);
 
     res.json({
       ...scored,
+      // Exactly one of shadowV2 / legacyV1 is non-null, depending on mode.
+      // The field name encodes the relationship to the primary so older
+      // clients (which only know about `shadowV2`) keep working unchanged.
+      shadowV2: shadow,
+      legacyV1: legacy,
+      scorerMode: mode,
+      surveillance,
       source: "nse_snapshot",
       snapshotGeneratedAt: getSnapshotGeneratedAt(),
     });
@@ -2630,9 +3082,36 @@ app.get("/api/scan/fundamentals", async (req, res) => {
       });
     }
 
-    // Score every snapshot (no 200DMA lookup for the scanner — it would be too slow
-    // with 100+ historical fetches; the per-stock endpoint gets 200DMA on demand)
-    const scored = allSnapshots.map((snap) => scoreFundamentals(snap)).filter(Boolean);
+    // Score every snapshot via the mode-aware helper. No 200DMA lookup here
+    // (too slow with 100+ historical fetches; the per-stock endpoint gets
+    // 200DMA on demand). Under v2-primary the `score`/`verdict` on each row
+    // are V2's — bucketing and macro overlay work off those transparently
+    // because V2 uses the same verdict labels. The opposite-scorer's
+    // lightweight (score+verdict+version) copy rides along per row so the
+    // UI can show an inline "old scorer said X" chip during the transition.
+    const scored = allSnapshots
+      .map((snap) => {
+        const { primary, legacy, shadow } = scoreForResponse(snap, null);
+        if (!primary) return null;
+        return {
+          ...primary,
+          legacyV1: compactScorerInfo(legacy),
+          shadowV2: compactScorerInfo(shadow),
+        };
+      })
+      .filter(Boolean);
+
+    // SEBI compliance overlay — attach surveillance flag to every scored row.
+    // The UI uses this to badge the card and, critically, to exclude surveilled
+    // stocks from any "top picks" surface (buckets.deepValue / qualityGrowth).
+    // Read once, check per-stock via the pre-built map.
+    const surveillanceSnap = getSurveillance();
+    const flaggedMap = surveillanceSnap.flagged || {};
+    for (const s of scored) {
+      const sym = s.snapshot?.symbol || s.symbol;
+      const flag = sym ? flaggedMap[sym] : null;
+      if (flag) s.surveillance = flag;
+    }
 
     // ─── Macro regime overlay (half-weight) ───
     // Fundamentals move slowly; macro shouldn't overpower them. Apply half-weight
@@ -2671,6 +3150,21 @@ app.get("/api/scan/fundamentals", async (req, res) => {
     // Categorise (unchanged — still uses raw `score` for bucketing)
     const buckets = categoriseBatch(scored, 15);
 
+    // SEBI compliance gate: a surveilled stock (ASM/GSM) cannot appear in the
+    // high-conviction DEEP_VALUE or QUALITY_GROWTH buckets. These are the
+    // surfaces retail users treat as "what should I buy" — promoting a stock
+    // under regulatory surveillance there is the single biggest compliance
+    // risk on the platform. We keep surveilled stocks visible in fairValue /
+    // all with the warning banner, so they're not hidden — just not promoted.
+    const flaggedSymbolSet = new Set(Object.keys(flaggedMap));
+    const dropFlagged = (arr) =>
+      arr.filter((s) => {
+        const sym = s.snapshot?.symbol || s.symbol;
+        return !flaggedSymbolSet.has(sym);
+      });
+    buckets.deepValue = dropFlagged(buckets.deepValue);
+    buckets.qualityGrowth = dropFlagged(buckets.qualityGrowth);
+
     let stocks;
     if (category === "deepValue")         stocks = buckets.deepValue;
     else if (category === "qualityGrowth") stocks = buckets.qualityGrowth;
@@ -2684,6 +3178,7 @@ app.get("/api/scan/fundamentals", async (req, res) => {
       stocks,
       scannedCount: scored.length,
       source: "nse_snapshot",
+      scorerMode: SCORER_MODE,
       // Two separate freshness stamps:
       //   generatedAt — last NSE price/P/E refresh (daily via cron now).
       //   enrichedAt  — last Yahoo quality metrics (ROE, D/E, margin, growth) refresh.
@@ -3121,6 +3616,8 @@ app.get("/api/sme/scan", async (req, res) => {
       // who wants pure momentum can still see it; a quality-conscious user
       // sees the warning.
       const fundSnap = getFundamentals(s.symbol);
+      let fundamentalScore = null;
+      let fundamentalVerdict = null;
       if (fundSnap) {
         const failReasons = [];
         if (typeof fundSnap.profitMargin === "number" && fundSnap.profitMargin < 0) {
@@ -3138,6 +3635,11 @@ app.get("/api/sme/scan", async (req, res) => {
             severity: "high",
             message: `Fundamental quality screen failed: ${failReasons.join(" · ")}. 2023–24 small-cap drawdowns were concentrated in names that failed at least one of these quality checks — momentum alone is a weak signal in this cohort.`,
           });
+        }
+        const fundResult = scoreFundamentals(fundSnap, null);
+        if (fundResult) {
+          fundamentalScore = fundResult.score;
+          fundamentalVerdict = fundResult.verdict;
         }
       }
 
@@ -3163,6 +3665,8 @@ app.get("/api/sme/scan", async (req, res) => {
         // Highest-severity safety flag, for at-a-glance badging in the UI
         safetyLevel: safetyFlags.some((f) => f.severity === "high") ? "high"
                    : safetyFlags.length > 0 ? "medium" : "none",
+        fundamentalScore,
+        fundamentalVerdict,
       };
     });
 
@@ -5148,9 +5652,13 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
         isin: e.holding.isin,
         rawName: e.holding.rawName,
         matchType: e.holding.matchType,
+        // Pass instrument type through so ETFs get the price-only path
+        instrumentType: e.holding.instrumentType,
+        scored: e.holding.scored,
         quantity: e.holding.quantity,
         avgPrice: e.holding.avgPrice,
         purchaseDate: e.holding.purchaseDate || null,
+        sourceRow: e.holding.sourceRow,
         quote: e.quote,
         analysis: e.analysis,
         fundamentals: e.fundamentals,
@@ -5219,6 +5727,16 @@ if (!process.env.VERCEL) {
       console.warn("[FUNDAMENTALS] KV prime failed at startup:", e.message)
     );
 
+    // Prime the surveillance (ASM/GSM) snapshot. Same pattern — no-op locally.
+    primeSurveillanceFromKV().catch((e) =>
+      console.warn("[SURVEILLANCE] KV prime failed at startup:", e.message)
+    );
+
+    // Prime the governance (promoter pledge / holding) snapshot. Same pattern.
+    primeGovernanceFromKV().catch((e) =>
+      console.warn("[GOVERNANCE] KV prime failed at startup:", e.message)
+    );
+
     // Warm macro regime cache at startup + schedule 15-min background refresh.
     // Non-blocking: we don't await the first refresh so the server starts fast.
     refreshMacroRegime().then((r) => {
@@ -5244,6 +5762,20 @@ if (process.env.VERCEL) {
       console.warn("[FUNDAMENTALS] KV prime failed on cold start:", e.message)
     ),
     new Promise((resolve) => setTimeout(resolve, 2000)),
+  ]);
+  // Same guard for surveillance — KV outage mustn't block cold start.
+  await Promise.race([
+    primeSurveillanceFromKV().catch((e) =>
+      console.warn("[SURVEILLANCE] KV prime failed on cold start:", e.message)
+    ),
+    new Promise((resolve) => setTimeout(resolve, 1500)),
+  ]);
+  // Same guard for governance.
+  await Promise.race([
+    primeGovernanceFromKV().catch((e) =>
+      console.warn("[GOVERNANCE] KV prime failed on cold start:", e.message)
+    ),
+    new Promise((resolve) => setTimeout(resolve, 1500)),
   ]);
 }
 

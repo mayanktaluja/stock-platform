@@ -31,6 +31,16 @@ const FUNDAMENTALS_PATH = path.join(__dirname, "fundamentals.json");
 // Vercel KV key for the persisted snapshot in production
 export const KV_FUNDAMENTALS_KEY = "fundamentals:snapshot";
 
+// SEBI RA Reg 25 (record-keeping) Phase 0: every score is stamped with a
+// scorer version. When we ship the Snowflake V2 scorer alongside V1 (see
+// the Transformation Plan), V2 will use "v2-*" here. Keeping the field
+// present on V1 now means audit-trail consumers can rely on its existence
+// without a forwards-compat fork later. Bump the last segment when scoring
+// weights or guardrails change materially (e.g. a pillar weight rebalance).
+// Current: V1 scorer, calibrated Apr 2026 with value-trap and growth
+// guardrails. See scoreFundamentals() below for the full change history.
+export const SCORER_VERSION = "v1.2-apr2026";
+
 // ==================== SNAPSHOT LOADER ====================
 
 // The in-memory cache is the single source of truth for all sync callers
@@ -640,6 +650,14 @@ export function scoreFundamentals(snap, dma200 = null) {
     breakdown,
     reasoning,
     warnings,
+    // SEBI RA Reg 25 audit fields. `scoredAt` is the wall-clock moment this
+    // verdict was computed; `scorerVersion` identifies which scoring ruleset
+    // produced it. Together with the `snapshot` block below (which captures
+    // the inputs actually used) these three fields make any verdict fully
+    // reproducible after the fact — the minimum bar for a defensible
+    // analytical output under the Research Analyst regulations.
+    scoredAt: new Date().toISOString(),
+    scorerVersion: SCORER_VERSION,
     snapshot: {
       symbol: snap.symbol,
       name: snap.name,
