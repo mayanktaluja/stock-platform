@@ -354,7 +354,16 @@ export function analyzeHolding(input) {
     quote, analysis, fundamentals, midTerm, longTerm,
     macroInfo, earningsNearby, positionWeight, sectorWeight, rawName, matchType,
     historical, benchReturns, purchaseDate,
+    instrumentType: rawInstrumentType,
+    scored: rawScored,
   } = input;
+
+  // ETFs are priced but not scored. We short-circuit the scoring/action
+  // engine early so a silver/gold/nifty ETF contributes to the portfolio's
+  // total value, P&L, and risk metrics — but doesn't get a fundamental
+  // verdict, a buy/sell signal, or an exit plan (those would be meaningless
+  // for a basket tracker).
+  const isEtf = rawInstrumentType === "etf" || rawScored === false;
 
   const price = quote?.regularMarketPrice ?? null;
   const invested = avgPrice * quantity;
@@ -472,6 +481,53 @@ export function analyzeHolding(input) {
     });
   }
 
+  // ETF return shape — same POSITION fields (for total portfolio value
+  // and risk aggregation) but all the scoring / action / exit-plan fields
+  // are nulled out. The UI uses `instrumentType` to pick the ETF card
+  // variant (no buy/sell action, no signal, no exit levels).
+  if (isEtf) {
+    return {
+      symbol, isin, name,
+      sector: canonicalSector(sector) || "ETF",
+      rawSector: sector || null,
+      rawName, matchType,
+      instrumentType: "etf",
+      scored: false,
+      // Position (still matters)
+      quantity, avgPrice,
+      currentPrice: price,
+      invested,
+      currentValue,
+      pnlAmount,
+      pnlPercent,
+      positionWeight,
+      // Scoring/action fields nulled — basket trackers aren't scored
+      technicalScore: null,
+      fundamentalScore: null,
+      fundamentalVerdict: null,
+      combinedScore: null,
+      recommendation: null,
+      action: "ETF",
+      displayAction: "ETF — priced only",
+      actionColor: "gray",
+      actionUrgency: "none",
+      actionReasoning: "Basket tracker — StarBhai scores single-stock fundamentals, which don't apply to ETFs. Priced here for portfolio-value and risk purposes.",
+      actionFactors: ["instrument_etf"],
+      macroWarning: null,
+      macroTailwind: null,
+      // Risk still meaningful (beta/vol of the ETF as a whole)
+      outlook: null,
+      redFlags: [],
+      exitPlan: null,
+      taxNote,
+      earningsNearby: null,
+      risk: holdingRisk,
+      sourceRow: input.sourceRow,
+      // Retain internal returns for portfolio aggregation (risk + corr)
+      _stockReturns: stockReturns,
+    };
+  }
+
   return {
     // Identity. Sector is canonicalised here so every consumer of the
     // holding (UI cards, sector pie, stress model) reads the same label.
@@ -479,6 +535,8 @@ export function analyzeHolding(input) {
     sector: canonicalSector(sector),
     rawSector: sector || null,
     rawName, matchType,
+    instrumentType: "equity",
+    scored: true,
     // Position
     quantity, avgPrice,
     currentPrice: price,

@@ -110,9 +110,20 @@ export function classifyInstrument({ isin, rawName, symbol }) {
   if (/\b(FUT|CE|PE)\b/.test(name)) return "fno";
   if (/\d{2}[A-Z]{3}\d{2}.*\d+(CE|PE)$/.test(name.replace(/\s+/g, ""))) return "fno";
 
-  // ETFs: either the token "ETF" in the name, or a known ETF symbol family
+  // ETFs: either the token "ETF" in the name, or a known ETF symbol family,
+  // or an INF-prefix ISIN combined with an ETF-theme keyword.
   if (/\bETF\b/.test(name)) return "etf";
   if (/(NIFTYBEES|BANKBEES|GOLDBEES|LIQUIDBEES|JUNIORBEES|CPSEETF|PSUBNKBEES|SILVRBEES|MON100|MAFANG|HDFCNIFTY|ICICINIFTY|ITBEES|INFRABEES|SETFNIF|MIDCAPIETF|KOTAKGOLD|KOTAKBKETF)/.test(name)) return "etf";
+
+  // INF-ISIN + ETF-theme keyword → ETF (not MF).
+  // Silver/Gold/Nifty/Sensex commodity-tracker or index-tracker ETFs are
+  // legally MF schemes (hence INF-ISIN) but behave like equities on NSE —
+  // single-symbol, live-priced, same-day settlement. Broker exports use
+  // AMC-prefix names like "TATAAML-TATSILV", "HDFCAMC-HDFCGOLDF",
+  // "ICICIAM-ICICINIFTY" which the bare-keyword list above misses.
+  if (/^INF/.test(iso) && /(SILV|SILVER|GOLD|NIFTY|SENSEX|BANK|LIQUID|BEES|MIDCAP|SMALLCAP|CPSE|PSU|ITBEE|INFRA|CONSUM|REALTY|HEALTH|AUTO|ENERG|FMCG|METAL)/.test(name)) {
+    return "etf";
+  }
 
   // Explicit MF scheme naming ("Direct Growth", "Regular Plan" etc.)
   if (/MUTUAL\s*FUND|DIRECT\s*GROWTH|DIRECT\s*PLAN|REGULAR\s*PLAN/.test(name)) return "mf";
@@ -396,9 +407,29 @@ export function parsePortfolioFile(buffer, filename = "") {
     const instrumentType = classifyInstrument(h);
     counts[instrumentType] = (counts[instrumentType] || 0) + 1;
 
-    // Non-equity instruments are surfaced as unmatched with an explicit
-    // reason — they still show up in the report so the user understands
-    // their full book, but they don't get scored.
+    // Non-equity instruments split into two groups:
+    //
+    //  • ETFs — live-priced on NSE, single-symbol, same-day settlement.
+    //    We INCLUDE them as holdings (priced, with P&L, risk metrics,
+    //    sector contribution) but without fundamental scoring. A silver
+    //    ETF IS part of the user's portfolio by value — earlier versions
+    //    dropped it into "unmatched" which understated the total book.
+    //    Uses the live-NSE resolver in resolveUnmatchedLive to map from
+    //    name → ticker.
+    //
+    //  • MFs, bonds, F&O — left in unmatched with a clear reason. MFs need
+    //    NAV API integration we don't have; bonds/F&O aren't equity-like.
+    if (instrumentType === "etf") {
+      // Stash for live-resolve in the second pass. We don't try to match
+      // against the curated list because ETFs aren't in it.
+      unmatched.push({
+        ...h,
+        matchType: "pending-live",
+        instrumentType: "etf",
+        reason: "ETF — will be priced live; no fundamental scoring.",
+      });
+      continue;
+    }
     if (instrumentType !== "equity" && instrumentType !== "unknown") {
       unmatched.push({
         ...h,
@@ -509,10 +540,20 @@ export function parsePortfolioFile(buffer, filename = "") {
 export async function resolveUnmatchedLive(parsed) {
   if (!parsed || !parsed.unmatched || parsed.unmatched.length === 0) return parsed;
 
-  // Only try live on equity rows with no match. Skip ETF/MF/FNO/bond —
-  // those were correctly classified and shouldn't be scored.
+  // Two kinds of rows are eligible for live resolution:
+  //
+  //   • equity rows with matchType "none" — the curated list + supplement
+  //     couldn't find them. Live NSE lookup usually finds newly-listed
+  //     names, SME Emerge, illiquid small-caps outside the indices.
+  //
+  //   • ETF rows (instrumentType=etf, matchType=pending-live) — the parser
+  //     deliberately leaves these for live resolution so we can fetch the
+  //     real NSE symbol + current price. Resolved ETFs get promoted into
+  //     holdings (NOT unmatched) so they contribute to portfolio totals.
   const toResolve = parsed.unmatched.filter(
-    (u) => u.instrumentType === "equity" && u.matchType === "none",
+    (u) =>
+      (u.instrumentType === "equity" && u.matchType === "none") ||
+      (u.instrumentType === "etf" && u.matchType === "pending-live"),
   );
   if (toResolve.length === 0) return parsed;
 
@@ -546,8 +587,9 @@ export async function resolveUnmatchedLive(parsed) {
 
   if (resolvedMap.size === 0) return parsed; // Nothing promoted
 
-  // Rebuild unmatched excluding the now-resolved rows, and add them to
-  // holdings with matchType: "live" so the UI can badge them distinctly.
+  // Rebuild unmatched excluding the now-resolved rows. Push resolved rows
+  // into holdings, preserving the original instrumentType so the analyzer
+  // can distinguish ETFs (price-only, no scoring) from equities (scored).
   const stillUnmatched = [];
   for (const u of parsed.unmatched) {
     const hit = resolvedMap.get(u.sourceRow);
@@ -555,18 +597,24 @@ export async function resolveUnmatchedLive(parsed) {
       stillUnmatched.push(u);
       continue;
     }
+    const isEtf = u.instrumentType === "etf";
     parsed.holdings.push({
       symbol: hit.symbol,
       isin: hit.isin || u.isin || null,
       name: hit.name,
-      sector: hit.sector,
+      sector: isEtf ? (hit.sector || "ETF") : hit.sector,
       quantity: u.quantity,
       avgPrice: u.avgPrice,
       closePrice: u.closePrice,
       purchaseDate: u.purchaseDate || null,
       rawName: u.rawName,
-      matchType: "live",
-      instrumentType: "equity",
+      matchType: isEtf ? "live-etf" : "live",
+      // Critical: preserve the original instrumentType so downstream
+      // analyzer skips scoring on ETFs but still prices them.
+      instrumentType: isEtf ? "etf" : "equity",
+      // Flag so analyzeHolding + buildReport know this row should be
+      // price-only (no TA score, no action, no recommendation).
+      scored: !isEtf,
       sourceRow: u.sourceRow,
     });
   }

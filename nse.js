@@ -136,6 +136,64 @@ async function nseGet(path, referer) {
 export { nseGet };
 
 /**
+ * Build a progressively-shorter list of name variants for NSE autocomplete.
+ *
+ * NSE autocomplete is fuzzy on "EASY TRIP PLANNERS" but returns nothing
+ * for "EASY TRIP PLANNERS LTD". Broker xlsx exports commonly include
+ * corporate suffixes (LTD, LIMITED, & CO, INDIA, INDUSTRIES). We generate
+ * variants stripping these and return them longest-first so the caller
+ * can try each until one hits.
+ *
+ * Example:
+ *   "EASY TRIP PLANNERS LTD"        → ["EASY TRIP PLANNERS LTD", "EASY TRIP PLANNERS"]
+ *   "GARDEN REACH SHIP&ENG LTD"     → [original, "GARDEN REACH SHIP&ENG", "GARDEN REACH SHIP", "GARDEN REACH"]
+ *   "TATA MOTORS LIMITED"           → [original, "TATA MOTORS"]
+ */
+function buildAutocompleteCandidates(rawName) {
+  const out = [];
+  const original = String(rawName || "").trim();
+  if (!original) return out;
+  out.push(original);
+
+  // ETF/MF broker-export format: "TATAAML-TATSILV", "HDFCAMC-HDFCGOLD",
+  // "ICICIAM-NIFTYBEES". The part after the dash IS the NSE symbol.
+  // Split on dash and push the right-hand side as its own candidate.
+  if (/^[A-Z]+-[A-Z0-9]+$/i.test(original)) {
+    const parts = original.split("-");
+    if (parts.length === 2 && parts[1].length >= 3) out.push(parts[1]);
+  }
+
+  // Strip common corporate suffixes (iteratively, so "LTD" AND "INDIA LTD" both work).
+  const SUFFIX_RE =
+    /\s+(LIMITED|LTD|CORPORATION|CORP|LTDA|INC|PVT|PRIVATE|PLC|COMPANY|CO|& CO|AND CO|INDUSTRIES|INDUSTRY|ENTERPRISES|HOLDINGS|HOLDING|INDIA|GROUP|CONSULTANCY)\.?$/i;
+  let current = original;
+  for (let i = 0; i < 5; i++) {
+    const stripped = current.replace(SUFFIX_RE, "").trim();
+    if (stripped && stripped !== current) {
+      out.push(stripped);
+      current = stripped;
+    } else {
+      break;
+    }
+  }
+
+  // Also try the first 2-3 significant tokens — NSE autocomplete ranks
+  // prefix matches highly. Skip tokens ≤2 chars.
+  const tokens = original.split(/\s+/).filter((t) => t.length > 2);
+  if (tokens.length > 2) {
+    const twoToken = tokens.slice(0, 2).join(" ");
+    if (!out.includes(twoToken)) out.push(twoToken);
+  }
+  if (tokens.length > 1) {
+    const oneToken = tokens[0];
+    if (oneToken.length >= 4 && !out.includes(oneToken)) out.push(oneToken);
+  }
+
+  // De-dup while preserving order
+  return [...new Set(out)];
+}
+
+/**
  * Last-resort live resolver for a portfolio row that didn't match the
  * curated list OR the supplement. Tries:
  *   1. /api/quote-equity?symbol=X  (if we have a symbol)
@@ -175,20 +233,29 @@ export async function resolveNseStockLive({ symbol, isin, name } = {}) {
   // NSE's autocomplete is fuzzy: given "FIBERWEB INDIA LIMITED" we get
   // the FIBERWEB symbol. It doesn't match ISINs directly.
   if (!tryQuote && name) {
-    try {
-      const url = `${NSE_BASE}/api/search/autocomplete?q=${encodeURIComponent(name)}`;
-      const res = await fetchNseWithTimeout(
-        url,
-        { headers: { "User-Agent": NSE_UA, Accept: "application/json", Referer: `${NSE_BASE}/` } },
-        8000,
-      );
-      if (res.ok) {
+    // NSE autocomplete is fuzzy on company root-name but brittle about
+    // corporate suffixes. "EASY TRIP PLANNERS LTD" returns ZERO results;
+    // "EASY TRIP PLANNERS" returns EASEMYTRIP. We try the raw name first
+    // then progressively shorter variants.
+    const candidates = buildAutocompleteCandidates(name);
+    for (const candidate of candidates) {
+      try {
+        const url = `${NSE_BASE}/api/search/autocomplete?q=${encodeURIComponent(candidate)}`;
+        const res = await fetchNseWithTimeout(
+          url,
+          { headers: { "User-Agent": NSE_UA, Accept: "application/json", Referer: `${NSE_BASE}/` } },
+          8000,
+        );
+        if (!res.ok) continue;
         const data = await res.json();
         const first = (data?.symbols || []).find((s) => s?.symbol && !s.symbol.endsWith("*"));
-        if (first?.symbol) tryQuote = first.symbol;
+        if (first?.symbol) {
+          tryQuote = first.symbol;
+          break;
+        }
+      } catch {
+        /* silent — try next candidate */
       }
-    } catch {
-      /* silent */
     }
   }
 
