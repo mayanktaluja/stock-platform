@@ -1066,6 +1066,37 @@ function getNifty500() {
   );
 }
 
+// Expanded universe = curated ALL_STOCKS (~504) + every supplement entry
+// that has a Nifty-index tag (TOTAL MARKET / SMALLCAP 250 / MICROCAP 250 /
+// NIFTY 500). Excludes the long-tail NSE-EQ-only names (sector=null, no
+// fundamentals), which would add ~1,400 low-signal rows to the scan.
+// Target size: ~750 stocks, matching Groww's headline-index coverage.
+// Used by /api/cron/scan-precompute?universe=expanded — segmented across
+// multiple cron jobs to fit Vercel's 60s function limit.
+
+function getExpandedUniverse() {
+  const seen = new Set(DEDUPED.map((s) => s.symbol));
+  const out = [...DEDUPED];
+  for (const rec of SUPPLEMENT_BY_SYMBOL.values()) {
+    if (seen.has(rec.symbol)) continue;
+    // Skip long-tail NSE-EQ-only rows (no sector, no fundamentals).
+    // Keep anything that touches a Nifty index.
+    const indices = rec.indices || [];
+    const onlyTail = indices.length === 1 && indices[0] === "NSE-EQ";
+    if (onlyTail) continue;
+    seen.add(rec.symbol);
+    out.push({
+      symbol: rec.symbol,
+      isin: rec.isin,
+      name: rec.name,
+      sector: rec.sector,
+      indices,
+      source: "nse-supplement",
+    });
+  }
+  return out;
+}
+
 // Phase 2 liquidity filter (applied downstream by scanner after fetching
 // quotes). A stock must have 30-day median turnover ≥ ₹5 cr/day to enter
 // scanner output — below that, SL/target orders can't reliably fill and
@@ -1256,6 +1287,7 @@ export {
   getAllStocks,
   getNifty100,
   getNifty500,
+  getExpandedUniverse,
   passesLiquidityFilter,
   LIQUIDITY_MIN_TURNOVER_CR,
   validateStockList,
