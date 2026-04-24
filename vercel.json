@@ -16,12 +16,36 @@
       "schedule": "50 3 * * 1-5"
     },
     {
+      "path": "/api/cron/scan-precompute?universe=expanded&segment=0&of=4",
+      "schedule": "55 3 * * 1-5"
+    },
+    {
+      "path": "/api/cron/scan-precompute?universe=expanded&segment=1&of=4",
+      "schedule": "57 3 * * 1-5"
+    },
+    {
+      "path": "/api/cron/scan-precompute?universe=expanded&segment=2&of=4",
+      "schedule": "59 3 * * 1-5"
+    },
+    {
+      "path": "/api/cron/scan-precompute?universe=expanded&segment=3&of=4",
+      "schedule": "1 4 * * 1-5"
+    },
+    {
       "path": "/api/cron/enrich-fundamentals",
       "schedule": "0 13 * * 1-5"
     },
     {
       "path": "/api/cron/warm-caches",
       "schedule": "15 3 * * 1-5"
+    },
+    {
+      "path": "/api/cron/refresh-surveillance",
+      "schedule": "30 22 * * *"
+    },
+    {
+      "path": "/api/cron/refresh-governance",
+      "schedule": "30 21 * * 0"
     }
   ]
 }

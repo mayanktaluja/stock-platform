@@ -64,6 +64,14 @@ import {
   getSurveillanceFlag,
   getSurveillanceStatus,
 } from "./surveillance.js";
+import {
+  buildGovernance,
+  saveGovernance,
+  primeGovernanceFromKV,
+  getGovernance,
+  getGovernanceSnapshot,
+  getGovernanceStatus,
+} from "./governance.js";
 import { parsePortfolioFile, resolveUnmatchedLive } from "./portfolioParser.js";
 import { analyzeHolding, buildReport } from "./portfolioAnalyzer.js";
 import { dailyReturns as computeDailyReturns } from "./riskMetrics.js";
@@ -2304,6 +2312,128 @@ app.get("/api/surveillance/list", (req, res) => {
     counts: snap.counts,
     flagged: snap.flagged,
   });
+});
+
+/**
+ * GET /api/cron/refresh-governance
+ *
+ * Rebuilds the governance snapshot (shareholding pattern per symbol) from
+ * NSE and persists to KV (production) or governance.json (local dev).
+ *
+ * Only fetches symbols in the enriched fundamentals universe — no benefit
+ * to pulling governance for stocks we can't score. Query-string segmentation
+ * supported (?segment=0&of=4) so the 60s Vercel window isn't a risk on
+ * expanded universes; default single-segment covers the Nifty 500 coverage
+ * we currently care about.
+ *
+ * Cadence: weekly on Sunday. Shareholding filings are quarterly, so daily
+ * refreshes are pure waste — but weekly lets the new-quarter data land in
+ * the snapshot within ~3-5 days of filing.
+ *
+ * Secret-gated via CRON_SECRET. Outage guard: if the fetch returns fewer
+ * than 10% of symbols we skip the save to preserve any existing snapshot
+ * (the alternative — wiping governance data after a transient NSE outage —
+ * is worse than slightly stale data).
+ */
+app.get("/api/cron/refresh-governance", async (req, res) => {
+  const cronSecret = process.env.CRON_SECRET;
+  if (cronSecret && req.headers.authorization !== `Bearer ${cronSecret}`) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  try {
+    const startTime = Date.now();
+    // Build the list of symbols we actually need — every symbol with an
+    // enriched fundamentals snapshot. Anything not enriched can't be scored,
+    // so fetching governance for it would be wasted NSE calls.
+    const fundamentalsSnap = getAllFundamentals() || {};
+    const enriched = Object.keys(fundamentalsSnap);
+    const universe = enriched.length > 0 ? enriched : ALL_STOCKS.map((s) => s.symbol);
+
+    // Optional segmentation for operators who want to split the run across
+    // multiple cron invocations (e.g. expanded universe > 500 symbols).
+    const segment = parseInt(req.query.segment, 10);
+    const of = parseInt(req.query.of, 10);
+    let symbols = universe;
+    if (Number.isFinite(segment) && Number.isFinite(of) && of > 1 && segment >= 0 && segment < of) {
+      symbols = universe.filter((_, i) => i % of === segment);
+    }
+
+    console.log(
+      `[CRON] Refreshing governance for ${symbols.length} symbols` +
+      (Number.isFinite(of) ? ` (segment ${segment}/${of})` : "") + "..."
+    );
+    const snap = await buildGovernance({
+      symbols,
+      concurrency: 3,
+      delayMs: 220,
+      onProgress: (done, total) => {
+        if (done % 50 === 0) console.log(`[CRON]   governance: ${done}/${total}`);
+      },
+    });
+
+    const okCount = snap.counts?.ok ?? Object.keys(snap.bySymbol || {}).length;
+
+    // Outage guard — see docstring.
+    if (okCount < Math.max(5, symbols.length * 0.10)) {
+      const existing = getGovernanceSnapshot();
+      const existingCount = Object.keys(existing.bySymbol || {}).length;
+      if (existingCount > 0) {
+        console.warn(
+          `[CRON] NSE returned only ${okCount} governance records (of ${symbols.length}); ` +
+          `preserving existing snapshot with ${existingCount} entries.`
+        );
+        return res.json({
+          ok: true,
+          skipped: true,
+          reason: "low_yield_preserved_existing",
+          fetched: okCount,
+          existingCount,
+        });
+      }
+    }
+
+    const result = await saveGovernance(snap);
+    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+    console.log(
+      `[CRON] Governance refreshed in ${elapsed}s. ` +
+      `Saved ${okCount}/${symbols.length} records. Sink: ${result.target}.`
+    );
+    res.json({
+      ok: true,
+      total: symbols.length,
+      counts: snap.counts,
+      elapsedSec: Number(elapsed),
+      sink: result.target,
+      fetchedAt: snap.fetchedAt,
+    });
+  } catch (err) {
+    console.error("[CRON] Governance refresh failed:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * GET /api/governance/status
+ *
+ * Diagnostics: age of the governance snapshot + coverage count. Mirrors
+ * /api/surveillance/status for operational symmetry.
+ */
+app.get("/api/governance/status", (req, res) => {
+  res.json(getGovernanceStatus());
+});
+
+/**
+ * GET /api/governance/:symbol
+ *
+ * Per-symbol lookup — used by admin/debug UIs and the "why is governance
+ * N/A?" fallback path on the Snowflake hexagon tooltip. No-op when a symbol
+ * isn't covered; the hexagon just stays N/A.
+ */
+app.get("/api/governance/:symbol", (req, res) => {
+  const gov = getGovernance(req.params.symbol);
+  if (!gov) return res.status(404).json({ error: "No governance record for symbol" });
+  res.json({ symbol: req.params.symbol, ...gov });
 });
 
 /**
@@ -5602,6 +5732,11 @@ if (!process.env.VERCEL) {
       console.warn("[SURVEILLANCE] KV prime failed at startup:", e.message)
     );
 
+    // Prime the governance (promoter pledge / holding) snapshot. Same pattern.
+    primeGovernanceFromKV().catch((e) =>
+      console.warn("[GOVERNANCE] KV prime failed at startup:", e.message)
+    );
+
     // Warm macro regime cache at startup + schedule 15-min background refresh.
     // Non-blocking: we don't await the first refresh so the server starts fast.
     refreshMacroRegime().then((r) => {
@@ -5632,6 +5767,13 @@ if (process.env.VERCEL) {
   await Promise.race([
     primeSurveillanceFromKV().catch((e) =>
       console.warn("[SURVEILLANCE] KV prime failed on cold start:", e.message)
+    ),
+    new Promise((resolve) => setTimeout(resolve, 1500)),
+  ]);
+  // Same guard for governance.
+  await Promise.race([
+    primeGovernanceFromKV().catch((e) =>
+      console.warn("[GOVERNANCE] KV prime failed on cold start:", e.message)
     ),
     new Promise((resolve) => setTimeout(resolve, 1500)),
   ]);

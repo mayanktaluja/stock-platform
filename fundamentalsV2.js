@@ -688,7 +688,9 @@ function scoreGovernance(snap) {
     return {
       score: null,
       grade: "N/A",
-      signals: ["Governance data not yet available (BSE XBRL fetcher is a Phase 2.x deliverable)"],
+      signals: [
+        "Governance data unavailable for this symbol — shareholding snapshot not in the last refresh (weekly cron). Pillar weight redistributes.",
+      ],
       inputs: {},
       coverage: 0,
     };
@@ -698,8 +700,30 @@ function scoreGovernance(snap) {
   const inputs = {};
   const subScores = [];
 
+  // Promoter holding (absolute level). Low promoter holding = diffuse
+  // ownership = weaker incentive alignment between management and minority
+  // shareholders. The ZEEL case (post-Essel debt cascade, promoter holding
+  // collapsed to <4%) is the canonical cautionary tale here.
+  //
+  // This is scored even in the absence of XBRL pledge data — making it the
+  // workhorse signal when governance.js only has the NSE master endpoint
+  // fields populated (which is the common case today).
+  if (gov.promoterHolding != null) {
+    inputs.promoterHolding = gov.promoterHolding;
+    let s;
+    if (gov.promoterHolding >= 0.50)       s = 4.8;
+    else if (gov.promoterHolding >= 0.35)  s = 4.0;
+    else if (gov.promoterHolding >= 0.25)  s = 3.2;
+    else if (gov.promoterHolding >= 0.15)  { s = 2.0; signals.push(`Promoter holding only ${(gov.promoterHolding * 100).toFixed(1)}% — diffuse ownership`); }
+    else if (gov.promoterHolding >= 0.05)  { s = 1.0; signals.push(`Promoter holding ${(gov.promoterHolding * 100).toFixed(1)}% — weak alignment`); }
+    else                                   { s = 0.2; signals.push(`Promoter holding ${(gov.promoterHolding * 100).toFixed(1)}% — severe governance risk`); }
+    subScores.push({ name: "promoterHolding", weight: 2, value: s });
+  }
+
   // Promoter pledge as % of TOTAL shares — the actual risk metric.
   // Values from real portfolios: IndiGo 0%, Zee 15%, Vodafone-Idea 80%+
+  // Currently only populated when the XBRL detail parser runs (Phase 5.x);
+  // the NSE master endpoint alone doesn't carry it.
   if (gov.pledgeOfTotal != null) {
     inputs.pledgeOfTotal = gov.pledgeOfTotal;
     let s;
@@ -748,7 +772,10 @@ function scoreGovernance(snap) {
 
   const totalW = subScores.reduce((a, s) => a + s.weight, 0);
   const score = subScores.reduce((a, s) => a + s.value * s.weight, 0) / totalW;
-  const coverage = subScores.length / 3;
+  // Max 4 sub-scores: promoterHolding + pledgeOfTotal + promoterHoldingQoQDelta + diiHolding.
+  // Today the NSE master endpoint populates 2 (promoterHolding + QoQ), so typical
+  // coverage is ~0.5 until the XBRL parser lands for pledge/FII/DII.
+  const coverage = subScores.length / 4;
   return { score: clamp05(score), grade: gradeFrom05(score), signals, inputs, coverage };
 }
 
