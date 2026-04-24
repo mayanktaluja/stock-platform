@@ -755,7 +755,16 @@ app.get("/api/stock/:symbol", async (req, res) => {
       // depend on historical data.
       const fundSnap = getFundamentals(symbol);
       let fundamentalResult = null;
-      if (fundSnap) fundamentalResult = scoreFundamentals(fundSnap, null);
+      let earlyShadowV2 = null;
+      let earlyLegacyV1 = null;
+      let earlyScorerMode = SCORER_MODE;
+      if (fundSnap) {
+        const scored = scoreForResponse(fundSnap, null, { symbol });
+        fundamentalResult = scored.primary;
+        earlyShadowV2 = scored.shadow;
+        earlyLegacyV1 = scored.legacy;
+        earlyScorerMode = scored.mode;
+      }
       // Long-term outlook can still work for new IPOs — it's fundamentals-
       // driven and doesn't need 200 days of history. Pass null for analysis
       // and dma200; the function handles missing data gracefully.
@@ -771,6 +780,11 @@ app.get("/api/stock/:symbol", async (req, res) => {
           portfolioBasisScore: null,
         },
         fundamentals: fundamentalResult,
+        // Hexagon data rides on the full V2 object (pillars + composition).
+        // Exactly one of shadowV2 / legacyV1 is non-null depending on SCORER_MODE.
+        shadowV2: earlyShadowV2,
+        legacyV1: earlyLegacyV1,
+        scorerMode: earlyScorerMode,
         longTerm: earlyLongTerm,
         sentiment,
         news: sentiment.headlines,
@@ -784,9 +798,17 @@ app.get("/api/stock/:symbol", async (req, res) => {
     const midTerm = midTermAnalysis(analysis, quote, historical ? historical.map(d => d.close) : null);
 
     // ── Look up fundamental snapshot + score ──
+    //
+    // Under SCORER_MODE=v2-shadow (default): `fundamentalResult` = V1 output (authoritative),
+    // `shadowV2Full` = V2 output with pillars (for the hexagon + diffing).
+    // Under v2-primary: `fundamentalResult` = V2 (authoritative with pillars), `legacyV1Full` = V1.
+    // Under v1: only `fundamentalResult` is set, the other two are null.
     const fundSnap = getFundamentals(symbol);
     let fundamentalScore = null;
     let fundamentalResult = null;
+    let shadowV2Full = null;
+    let legacyV1Full = null;
+    let effectiveScorerMode = SCORER_MODE;
     if (fundSnap) {
       // Compute 200DMA from historical for the fundamental score
       let dma200 = null;
@@ -794,8 +816,12 @@ app.get("/api/stock/:symbol", async (req, res) => {
         const closes = historical.map((d) => d.close);
         dma200 = closes.slice(-200).reduce((s, v) => s + v, 0) / 200;
       }
-      fundamentalResult = scoreFundamentals(fundSnap, dma200);
-      fundamentalScore = fundamentalResult.score;
+      const scored = scoreForResponse(fundSnap, dma200, { symbol });
+      fundamentalResult = scored.primary;
+      shadowV2Full = scored.shadow;
+      legacyV1Full = scored.legacy;
+      effectiveScorerMode = scored.mode;
+      fundamentalScore = fundamentalResult?.score ?? null;
     }
 
     // ── Long-term outlook (3–12 months, fundamentals-driven) ──
@@ -845,6 +871,9 @@ app.get("/api/stock/:symbol", async (req, res) => {
         quote: formatQuote(quote),
         analysis: { error: "Technical analysis unavailable for this stock (likely insufficient history — new listing or delisted)." },
         fundamentals: fundamentalResult,
+        shadowV2: shadowV2Full,
+        legacyV1: legacyV1Full,
+        scorerMode: effectiveScorerMode,
         sentiment,
         news: sentiment.headlines,
         surveillance,
@@ -1072,6 +1101,12 @@ app.get("/api/stock/:symbol", async (req, res) => {
         scannerScore,
       },
       fundamentals: fundamentalResult,
+      // V2 full object (pillars + composition + signals) for the Snowflake
+      // hexagon. Exactly one of shadowV2 / legacyV1 is non-null depending on
+      // SCORER_MODE — see scorerMode.js for the contract.
+      shadowV2: shadowV2Full,
+      legacyV1: legacyV1Full,
+      scorerMode: effectiveScorerMode,
       midTerm,
       longTerm,
       sentiment,

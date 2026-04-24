@@ -440,8 +440,212 @@ async function loadStock(symbol) {
   }
 }
 
+// SEBI Phase 0: NSE surveillance warning banner.
+// Renders nothing when the stock is not under ASM/GSM. When flagged, it
+// sits just below the stock header so users see the regulatory context
+// before any "recommendation-style" language. Non-dismissible.
+function surveillanceBanner(surveillance) {
+  if (!surveillance || !surveillance.list) return "";
+  const list = surveillance.list; // "ASM" | "GSM"
+  const stage = surveillance.stage || surveillance.timeframe || null;
+  const also = surveillance.alsoOn ? ` (also on ${surveillance.alsoOn})` : "";
+  const reason = list === "GSM"
+    ? "Graded Surveillance Measure — this stock is under the strictest NSE surveillance regime. Trading is restricted (e.g. 100% margin, call-auction only, delivery-based)."
+    : "Additional Surveillance Measure — NSE has placed this stock under enhanced surveillance. Expect tighter circuit filters and periodic call auctions. Liquidity may be impaired.";
+  return `
+    <div class="surveillance-banner" role="alert">
+      <div class="sv-icon">&#9888;</div>
+      <div>
+        <div class="sv-title">Under NSE ${list} surveillance${also}${stage ? `<span class="sv-stage">${stage}</span>` : ""}</div>
+        <div class="sv-body">${reason} This stock is <strong>excluded from StarBhai's Deep Value and Quality Growth surfaces</strong> as a compliance precaution. Analytical scores are still shown for reference — not as a recommendation.</div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Simply-Wall-Street-style Snowflake hexagon radar chart.
+ *
+ * Renders a 6-axis SVG radar for V2 scorer pillars (Value / Future / Past /
+ * Health / Dividend / Governance). Pillar scores are 0–5; null means N/A
+ * and the axis is plotted at 0 with a "N/A" label so the user sees why the
+ * shape is asymmetric rather than silently fudging to zero.
+ *
+ * Design notes:
+ *  - Concentric reference rings at scores 1/2/3/4/5 so readers can sight-read
+ *    the polygon without a legend.
+ *  - Dashed amber "threshold" ring at score=3 — above=strong, below=weak.
+ *  - Polygon fill is tinted by the average pillar score (green/amber/red).
+ *  - N/A pillars do NOT get a vertex dot so they read as "no data" rather
+ *    than "scored 0".
+ *
+ * @param {object} pillars - The `pillars` field of a V2 scorer result.
+ * @param {object} [opts]  - { size: number, title: string }
+ * @returns {string} Inline SVG markup (for html-string-based rendering).
+ */
+function renderSnowflakeHexagon(pillars, opts = {}) {
+  if (!pillars) return '';
+  const size = opts.size || 340;
+  const center = size / 2;
+  const maxRadius = size * 0.32;
+
+  const order = ['value', 'future', 'past', 'health', 'dividend', 'governance'];
+  const labels = {
+    value: 'Value', future: 'Future', past: 'Past',
+    health: 'Health', dividend: 'Dividend', governance: 'Governance',
+  };
+
+  // Start at 12 o'clock (-π/2) and step clockwise in 60° increments.
+  const axisAngles = order.map((_, i) => -Math.PI / 2 + i * (Math.PI / 3));
+
+  const pointAt = (score, axisIdx, scale = 5) => {
+    const safe = score == null ? 0 : Math.max(0, Math.min(scale, score));
+    const r = (safe / scale) * maxRadius;
+    const a = axisAngles[axisIdx];
+    return { x: center + r * Math.cos(a), y: center + r * Math.sin(a) };
+  };
+  const outerVertex = (axisIdx, k = 1) => {
+    const a = axisAngles[axisIdx];
+    return { x: center + maxRadius * k * Math.cos(a), y: center + maxRadius * k * Math.sin(a) };
+  };
+
+  // Axis spokes
+  const axisLines = order.map((_, i) => {
+    const p = outerVertex(i);
+    return `<line x1="${center}" y1="${center}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="rgba(255,255,255,0.06)" stroke-width="1" />`;
+  }).join('');
+
+  // Reference rings at 1/2/3/4/5
+  const rings = [1, 2, 3, 4, 5].map(lvl => {
+    const pts = order.map((_, i) => pointAt(lvl, i)).map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+    return `<polygon points="${pts}" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1" />`;
+  }).join('');
+
+  // Amber "average" threshold at score=3
+  const threshPts = order.map((_, i) => pointAt(3, i)).map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+  const threshold = `<polygon points="${threshPts}" fill="none" stroke="rgba(251,191,36,0.35)" stroke-width="1" stroke-dasharray="3 3" />`;
+
+  // Data polygon
+  const scores = order.map(k => pillars[k]?.score);
+  const dataPts = order.map((_, i) => pointAt(scores[i], i));
+  const dataPtsStr = dataPts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+
+  const defined = scores.filter(s => s != null);
+  const avg = defined.length ? defined.reduce((a, b) => a + b, 0) / defined.length : 0;
+  const strokeColor = avg >= 3.5 ? '#34d399' : avg >= 2.5 ? '#fbbf24' : '#f87171';
+  const fillColor   = avg >= 3.5 ? 'rgba(52,211,153,0.22)' : avg >= 2.5 ? 'rgba(251,191,36,0.18)' : 'rgba(248,113,113,0.18)';
+
+  const dataPolygon = `<polygon points="${dataPtsStr}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="2" stroke-linejoin="round" />`;
+
+  // Pillar scores are floats (e.g. 2.4444) — format to 1 decimal for display.
+  const fmt = (n) => (n == null ? 'N/A' : (Math.round(n * 10) / 10).toFixed(1));
+
+  // Data vertex dots (skip N/A)
+  const dots = order.map((k, i) => {
+    const sc = scores[i];
+    if (sc == null) return '';
+    const p = dataPts[i];
+    const tipText = `${labels[k]}: ${fmt(sc)}/5 (${pillars[k]?.grade || ''})`;
+    return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" fill="${strokeColor}" stroke="#0f1319" stroke-width="1.5"><title>${tipText}</title></circle>`;
+  }).join('');
+
+  // Axis labels (pillar name + score/grade), positioned just outside the max ring
+  const labelEls = order.map((k, i) => {
+    const outer = outerVertex(i, 1.24);
+    const sc = scores[i];
+    const isNA = sc == null;
+    const grade = pillars[k]?.grade || '';
+    const scoreText = isNA ? 'N/A' : `${fmt(sc)}/5`;
+    const subLine = isNA ? 'no data' : grade;
+    const mainColor = isNA ? '#64748b' : '#e2e8f0';
+    const subColor  = isNA ? '#475569' : '#94a3b8';
+
+    // Anchor + dy tweaked so labels don't overlap the polygon
+    const anchor = outer.x < center - 8 ? 'end' : outer.x > center + 8 ? 'start' : 'middle';
+    const above  = outer.y < center - 8;
+    const below  = outer.y > center + 8;
+    const dy1 = above ? -6 : below ? 12 : -2;
+    const dy2 = dy1 + 13;
+
+    const tip = isNA
+      ? `${labels[k]}: N/A — pillar could not be scored (data missing or redistributed)`
+      : `${labels[k]}: ${fmt(sc)}/5 — ${grade}`;
+
+    return `
+      <text x="${outer.x.toFixed(1)}" y="${(outer.y + dy1).toFixed(1)}" text-anchor="${anchor}" fill="${mainColor}" font-size="12" font-weight="600" font-family="system-ui,-apple-system,sans-serif"><title>${tip}</title>${labels[k]} <tspan fill="${subColor}" font-weight="500">${scoreText}</tspan></text>
+      <text x="${outer.x.toFixed(1)}" y="${(outer.y + dy2).toFixed(1)}" text-anchor="${anchor}" fill="${subColor}" font-size="10.5" font-family="system-ui,-apple-system,sans-serif">${subLine}</text>
+    `;
+  }).join('');
+
+  return `
+    <svg viewBox="0 0 ${size} ${size}" width="100%" style="max-width:${size}px;display:block;margin:0 auto;" role="img" aria-label="Snowflake pillar radar — ${defined.length}/6 pillars scored, average ${avg.toFixed(1)}/5">
+      ${axisLines}
+      ${rings}
+      ${threshold}
+      ${dataPolygon}
+      ${dots}
+      ${labelEls}
+    </svg>
+  `;
+}
+
+/**
+ * Accompanying legend / narrative block for the hexagon. Shows each pillar's
+ * score, grade, and the top signal so the hexagon isn't just a pretty shape.
+ */
+function renderSnowflakePillarList(pillars) {
+  if (!pillars) return '';
+  const order = ['value', 'future', 'past', 'health', 'dividend', 'governance'];
+  const labels = {
+    value: 'Value', future: 'Future', past: 'Past',
+    health: 'Health', dividend: 'Dividend', governance: 'Governance',
+  };
+  const fmt = (n) => (n == null ? 'N/A' : (Math.round(n * 10) / 10).toFixed(1));
+  const rows = order.map(k => {
+    const p = pillars[k] || {};
+    const sc = p.score;
+    const grade = p.grade || '';
+    const topSig = (p.signals && p.signals[0]) ? p.signals[0] : '';
+    const isNA = sc == null;
+    const color = isNA ? '#64748b' : (sc >= 4 ? '#34d399' : sc >= 3 ? '#94e2a8' : sc >= 2 ? '#fbbf24' : '#f87171');
+    const bar = isNA ? 0 : (sc / 5) * 100;
+    return `
+      <div style="display:grid;grid-template-columns:84px 42px 1fr;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;">
+        <div style="color:var(--text-secondary);font-weight:600;">${labels[k]}</div>
+        <div style="font-family:var(--font-mono);color:${color};font-weight:700;">${isNA ? 'N/A' : fmt(sc) + '/5'}</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="flex:0 0 70px;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;">
+            <div style="width:${bar}%;height:100%;background:${color};"></div>
+          </div>
+          <div style="color:var(--text-muted);font-size:11.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(topSig)}">
+            <span style="color:var(--text-secondary);">${grade || '—'}</span>${topSig ? ' · ' + escapeHtml(topSig) : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  return `<div style="padding:8px 12px;background:rgba(0,0,0,0.18);border-radius:10px;">${rows}</div>`;
+}
+
+/**
+ * Decide which V2 payload (if any) to feed the hexagon, based on SCORER_MODE.
+ *
+ *   v1                      → no hexagon (V2 wasn't computed)
+ *   v2-shadow               → use `shadowV2` (V1 is authoritative, V2 rides along)
+ *   v2-primary              → use `fundamentals` itself (V2 IS the primary)
+ *   v2-primary-fallback-v1  → no hexagon (V2 threw, fell back to V1)
+ */
+function selectV2PayloadForHexagon(scorerMode, fundamentals, shadowV2) {
+  if (scorerMode === 'v2-primary' && fundamentals?.pillars) return fundamentals;
+  if (scorerMode === 'v2-shadow' && shadowV2?.pillars) return shadowV2;
+  // Defensive: if the mode is unknown but we have V2 data somewhere, show it.
+  if (shadowV2?.pillars) return shadowV2;
+  if (fundamentals?.pillars) return fundamentals;
+  return null;
+}
+
 function renderStockDetail(data) {
-  const { quote, analysis, midTerm, sentiment, fundamentals, news, macro, stockVerdict, historicalChart, lastUpdated } = data;
+  const { quote, analysis, midTerm, sentiment, fundamentals, news, macro, stockVerdict, historicalChart, lastUpdated, surveillance, shadowV2, legacyV1, scorerMode } = data;
 
   if (!quote) {
     stockDetail.innerHTML = `
@@ -480,6 +684,9 @@ function renderStockDetail(data) {
       </div>
     </div>
   `;
+
+  // SEBI Phase 0: surveillance warning banner (no-op when stock is not flagged)
+  html += surveillanceBanner(surveillance);
 
   // Recommendation Banner — use combined score if available
   if (analysis && !analysis.error) {
@@ -648,6 +855,47 @@ function renderStockDetail(data) {
           <div style="margin-top:14px;padding:12px 14px;background:rgba(0,0,0,0.2);border-radius:10px;font-size:13px;color:var(--text-secondary);line-height:1.6;">
             <strong style="color:${verdictColor};">${fundamentals.verdict.replace(/_/g, ' ')}:</strong> ${escapeHtml(fundamentals.reasoning)}
           </div>
+          ${(() => {
+            // Snowflake hexagon: 6-pillar V2 radar. Only rendered when we
+            // have V2 pillar data; under SCORER_MODE=v1 this slot stays empty.
+            const v2 = selectV2PayloadForHexagon(scorerMode, fundamentals, shadowV2);
+            if (!v2?.pillars) return '';
+            const naCount = Object.values(v2.pillars).filter(p => p.score == null).length;
+            const modeTag = scorerMode === 'v2-primary'
+              ? `<span style="background:rgba(52,211,153,0.12);color:#34d399;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:600;">V2 (authoritative)</span>`
+              : scorerMode === 'v2-shadow'
+                ? `<span style="background:rgba(96,165,250,0.12);color:var(--blue);padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:600;">V2 (shadow)</span>`
+                : '';
+            return `
+              <div style="margin-top:16px;padding:16px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.18));border:1px solid var(--border-soft);border-radius:12px;">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px;">
+                  <div>
+                    <div style="font-size:13px;font-weight:700;color:var(--text-secondary);letter-spacing:0.3px;text-transform:uppercase;">Snowflake${infoIcon('snowflake_hexagon') || ''}</div>
+                    <div style="font-size:11.5px;color:var(--text-muted);margin-top:2px;">
+                      Six-pillar fundamental profile · ${v2.sectorKind || 'sector-adapted'} weights
+                      ${naCount ? ` · <span style="color:#fbbf24;">${naCount} pillar${naCount === 1 ? '' : 's'} N/A</span>` : ''}
+                    </div>
+                  </div>
+                  ${modeTag}
+                </div>
+                ${renderSnowflakeHexagon(v2.pillars)}
+                <div style="margin-top:12px;">
+                  ${renderSnowflakePillarList(v2.pillars)}
+                </div>
+                <div style="margin-top:10px;font-size:10.5px;color:var(--text-muted);line-height:1.5;">
+                  Dashed amber ring marks the average threshold (3/5). Pillars inside it are weak,
+                  outside are strong. N/A pillars redistribute their weight — see the signals list
+                  for context.
+                </div>
+              </div>
+            `;
+          })()}
+          ${fundamentals.scoredAt ? `
+            <div style="margin-top:10px;padding:8px 12px;border:1px solid var(--border-soft);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--text-muted);display:flex;gap:14px;flex-wrap:wrap;align-items:center;" title="SEBI Research Analyst record-keeping: this analytical verdict is reproducible from the inputs captured at the time of scoring.">
+              <span><span style="color:var(--text-faint);">scored</span> ${new Date(fundamentals.scoredAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}</span>
+              ${fundamentals.scorerVersion ? `<span><span style="color:var(--text-faint);">scorer</span> ${fundamentals.scorerVersion}</span>` : ''}
+            </div>
+          ` : ''}
         </div>
       `;
     }
@@ -1274,6 +1522,12 @@ function setRefreshInterval() {
   }
 }
 
+let _buynowUniverse = "nifty100";
+function onBuynowUniverseChange(val) {
+  _buynowUniverse = val === "expanded" ? "expanded" : "nifty100";
+  loadBuyNow();
+}
+
 async function loadBuyNow() {
   const container = document.getElementById("buynowCards");
   const warmingBanner = document.getElementById("buynowWarmingBanner");
@@ -1285,7 +1539,10 @@ async function loadBuyNow() {
   }, 3000);
 
   try {
-    const res = await fetch("/api/scan/buynow");
+    const url = _buynowUniverse === "expanded"
+      ? "/api/scan/buynow?universe=expanded"
+      : "/api/scan/buynow";
+    const res = await fetch(url);
     const data = await res.json();
 
     if (data.error) {
@@ -2696,6 +2953,22 @@ function renderSmeCard(stock, category) {
     headwindStrip = `<div class="macro-headwind-strip" title="${escapeHtml(stock.macroReason || "")}">&#9888; Macro headwind — small-caps amplify sector pressure</div>`;
   }
 
+  // Fundamentals chip — partial coverage (~500 curated names) so guard for null.
+  // Shown alongside macro badge so users can see both the momentum tilt and
+  // the value/quality read at a glance. Scanner still ranks on momentum; this
+  // is context, not a ranking input.
+  let fundChip = "";
+  if (stock.fundamentalScore != null && stock.fundamentalVerdict) {
+    const v = stock.fundamentalVerdict;
+    const vColor =
+      v === "DEEP_VALUE" ? "var(--green)" :
+      v === "QUALITY_GROWTH" ? "var(--blue)" :
+      v === "OVERVALUED" ? "var(--red)" :
+      "var(--text-muted)";
+    const vLabel = v.replace(/_/g, " ");
+    fundChip = `<span style="font-size:10px;padding:3px 8px;border-radius:6px;background:${vColor}18;color:${vColor};border:1px solid ${vColor}33;font-weight:700;" title="Fundamentals score ${stock.fundamentalScore}/100 — ${vLabel}. Scanner ranks on momentum; this is context.">${vLabel} &middot; ${stock.fundamentalScore}/100</span>`;
+  }
+
   // Determine what to show in footer based on category.
   //
   // For "buynow", we show a SINGLE 0-100 confidence score (same convention as
@@ -2762,7 +3035,7 @@ function renderSmeCard(stock, category) {
           <div class="stock-card-change ${isPos ? 'positive' : 'negative'}">${isPos ? '+' : ''}${stock.pChange?.toFixed(2)}%</div>
         </div>
       </div>
-      ${macroBadge ? `<div style="margin-bottom:8px;">${macroBadge}</div>` : ""}
+      ${(macroBadge || fundChip) ? `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;">${macroBadge}${fundChip}</div>` : ""}
       ${renderSmeSafetyBadges(stock)}
       <div class="stock-card-metrics">
         <div class="stock-card-metric">
