@@ -1,0 +1,43 @@
+name: CI
+
+# Runs on every push to main and every PR targeting main.
+# Purpose: catch module-load regressions (missing exports, bad imports) before
+# Vercel builds prod. PR #39 merged an `import { getExpandedUniverse }` that
+# had no matching export — Node threw SyntaxError at cold-start and every
+# /api/* route returned 500 until the next deploy. The smoke step below
+# reproduces that exact check by `import()`ing every prod entry point.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  smoke-and-test:
+    name: Smoke + unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          # Match Vercel's current Node default. Bump in lockstep with the
+          # runtime pinned in vercel.json / Vercel project settings.
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Module-load smoke test
+        # Imports server.js and every prod module. Fails if any named import
+        # can't resolve. Bounded to ~6s by the KV prime timeouts in server.js.
+        run: npm run smoke
+
+      - name: Unit tests
+        run: npm test
