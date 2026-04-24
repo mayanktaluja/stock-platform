@@ -1909,6 +1909,150 @@
       .sebi-banner strong { white-space: normal; }
     }
 
+    /* SEBI Phase 0: first-run acknowledgement modal. Shown once per
+       user per compliance-text version (version bumped in app.js when
+       disclaimer language changes materially). localStorage-backed so
+       returning users aren't nagged. Full-bleed overlay; modal body
+       scrolls on small viewports. */
+    .sebi-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 5, 8, 0.82);
+      backdrop-filter: blur(6px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .sebi-modal-overlay.show { display: flex; }
+    .sebi-modal {
+      max-width: 560px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--gold);
+      border-radius: var(--card-radius);
+      padding: 28px 28px 22px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+      color: var(--text-primary);
+    }
+    .sebi-modal-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+    }
+    .sebi-modal-subtitle {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 13px;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .sebi-modal ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px;
+    }
+    .sebi-modal ul li {
+      position: relative;
+      padding: 10px 0 10px 22px;
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border-soft);
+    }
+    .sebi-modal ul li:first-child { border-top: 0; }
+    .sebi-modal ul li::before {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 18px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0.7;
+    }
+    .sebi-modal ul li strong { color: var(--text-primary); font-weight: 600; }
+    .sebi-modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .sebi-modal-accept {
+      background: var(--gold);
+      border: 0;
+      color: #141212;
+      padding: 10px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .sebi-modal-accept:hover { background: var(--gold-deep); }
+    .sebi-modal-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-right: auto;
+    }
+
+    /* NSE surveillance warning banner — shown on stock detail when the
+       symbol is under ASM or GSM. Loud red strip, non-dismissible, sits
+       above the recommendation banner so retail users see the regulatory
+       context before any analytical label. */
+    .surveillance-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      margin: 0 0 16px;
+      background: var(--red-bg);
+      border: 1px solid var(--red-border);
+      border-left: 3px solid var(--red);
+      border-radius: var(--card-radius);
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: var(--text-primary);
+    }
+    .surveillance-banner .sv-icon {
+      font-size: 16px;
+      line-height: 1;
+      color: var(--red-soft);
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+    .surveillance-banner .sv-title {
+      font-weight: 600;
+      color: var(--red-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      font-size: 10.5px;
+      margin-bottom: 4px;
+    }
+    .surveillance-banner .sv-body {
+      color: var(--text-secondary);
+    }
+    .surveillance-banner .sv-stage {
+      display: inline-block;
+      padding: 1px 6px;
+      margin-left: 6px;
+      border: 1px solid var(--red-border);
+      border-radius: 3px;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      color: var(--red-soft);
+    }
+
     /* "Educational only" chip — sits beside the signal badges on stock cards
        to balance the loud green BUY signal visually (SEBI RA 15(2)). */
     .edu-chip {
@@ -2325,6 +2469,13 @@
         <div class="section-body">
           <div class="warming-banner" id="buynowWarmingBanner">
             First load takes ~45s on a cold server — we're analyzing 100 stocks now. Subsequent refreshes return in under 2 seconds.
+          </div>
+          <div id="buynowUniverseToggle" style="display:flex;gap:8px;align-items:center;margin-bottom:10px;font-size:12px;color:var(--text-muted);">
+            <span>Universe:</span>
+            <label style="cursor:pointer;"><input type="radio" name="buynowUniverse" value="nifty100" checked onchange="onBuynowUniverseChange(this.value)"> Nifty 100</label>
+            <label style="cursor:pointer;" title="Curated + Smallcap 250 + Microcap 250 (~750 stocks). Runs as 4 precomputed segments; picks may include small/mid-caps.">
+              <input type="radio" name="buynowUniverse" value="expanded" onchange="onBuynowUniverseChange(this.value)"> Expanded (~750)
+            </label>
           </div>
           <div id="buynowCards" class="stock-cards">
             <div class="skeleton-cards" id="buynowSkeleton">
@@ -2891,6 +3042,59 @@
 
   <!-- Shared glossary tooltip element — positioned dynamically by JS -->
   <div id="starbhaiTooltip" role="tooltip" aria-hidden="true"></div>
+
+  <!-- SEBI Phase 0: first-run compliance acknowledgement modal.
+       Shown once per user per disclaimer-version (see SEBI_DISCLAIMER_VERSION
+       below). The user must click "I understand" to proceed. This makes the
+       analytical-not-advisory framing an active acknowledgement rather than a
+       passive footer — material for SEBI RA 15(2) compliance given that the
+       platform surfaces scores, buckets, and picks that resemble advice. -->
+  <div id="sebiModalOverlay" class="sebi-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="sebiModalTitle" aria-describedby="sebiModalBody">
+    <div class="sebi-modal">
+      <div class="sebi-modal-title" id="sebiModalTitle">StarBhai is an analytical tool, not investment advice.</div>
+      <div class="sebi-modal-subtitle">Please read before using the platform.</div>
+      <ul id="sebiModalBody">
+        <li><strong>Not SEBI-registered.</strong> StarBhai is not a SEBI-registered Research Analyst or Investment Advisor. Everything you see here is <strong>analytical output computed from public financial data</strong> — not a buy, sell, or hold recommendation.</li>
+        <li><strong>Labels are analytical categories, not trade signals.</strong> Buckets like DEEP VALUE, QUALITY GROWTH, or STRONG BUY are statistical groupings based on public metrics. They describe what the numbers look like today — they do not predict what the stock will do tomorrow.</li>
+        <li><strong>Surveillance warnings are non-exhaustive.</strong> StarBhai flags stocks under NSE ASM / GSM surveillance and excludes them from high-conviction surfaces. Unflagged stocks are <strong>not certified safe</strong> — surveillance lists change daily, and many risks (governance, promoter pledges, litigation) are not captured by any automated feed.</li>
+        <li><strong>Past performance is not predictive.</strong> Backtests shown on this site reflect historical data only. Live returns differ due to slippage, taxes, timing, and market impact.</li>
+        <li><strong>Consult a SEBI-registered advisor before investing.</strong> Consider your personal circumstances, risk tolerance, and tax situation. StarBhai does not know your portfolio context and cannot substitute for a qualified advisor.</li>
+      </ul>
+      <div class="sebi-modal-footer">
+        <div class="sebi-modal-meta">v1 · last updated 2026-04-24</div>
+        <button type="button" class="sebi-modal-accept" id="sebiModalAccept">I understand — proceed</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // SEBI disclaimer gate. Runs before the main app bootstraps its UI, so
+    // first-time users see the acknowledgement before any "BUY" / "STRONG
+    // BUY" labels render. The version token lets us re-prompt when the
+    // disclaimer language materially changes without nagging returning
+    // users every session.
+    (function() {
+      const SEBI_DISCLAIMER_VERSION = "1";
+      const KEY = "starbhai.sebiAck.v" + SEBI_DISCLAIMER_VERSION;
+      try {
+        if (localStorage.getItem(KEY)) return;
+      } catch (_) {
+        // localStorage unavailable (e.g. private mode, storage disabled).
+        // Fail-open: show the modal every load; better to nag than to hide
+        // the disclaimer entirely.
+      }
+      const overlay = document.getElementById("sebiModalOverlay");
+      const btn = document.getElementById("sebiModalAccept");
+      if (!overlay || !btn) return;
+      overlay.classList.add("show");
+      document.body.style.overflow = "hidden";
+      btn.addEventListener("click", function() {
+        try { localStorage.setItem(KEY, new Date().toISOString()); } catch (_) { /* see above */ }
+        overlay.classList.remove("show");
+        document.body.style.overflow = "";
+      });
+    })();
+  </script>
 
   <script src="glossary.js"></script>
   <script src="app.js"></script>
