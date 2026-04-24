@@ -4262,6 +4262,21 @@ function renderPriceChart(historical, quote) {
 
 let _analyzerWired = false;
 
+// XIRR Optimizer state — keeps the latest analyze session so preset / tax-slab
+// chips can re-run the optimizer instantly via /api/portfolio/optimize without
+// re-uploading the file. taxSlabPct persists across sessions in localStorage
+// so the user only picks it once.
+const _optimizerState = {
+  sessionId: null,
+  preset: "balanced",
+  taxSlabPct: (() => {
+    const saved = parseInt(localStorage.getItem("starbhai.taxSlabPct") || "30", 10);
+    return [5, 20, 30].includes(saved) ? saved : 30;
+  })(),
+  assumedHoldingMonths: 24,
+  optimizer: null, // last full optimizer block (for re-render without server roundtrip)
+};
+
 function initPortfolioAnalyzer() {
   if (_analyzerWired) return;
   _analyzerWired = true;
@@ -4331,11 +4346,18 @@ async function analyzePortfolioFile(file) {
   try {
     const fd = new FormData();
     fd.append("file", file);
+    // Pass the user's persisted tax slab so the first analyze respects it
+    // (otherwise the server defaults to 30 and a 5%-slab user would see
+    // their first optimizer block computed with the wrong rate).
+    fd.append("taxSlabPct", String(_optimizerState.taxSlabPct));
+    fd.append("preset", _optimizerState.preset);
     const res = await fetch("/api/portfolio/analyze", { method: "POST", body: fd });
     const data = await res.json();
     if (!res.ok) {
       throw new Error(data.error + (data.hint ? `\n\nHint: ${data.hint}` : ""));
     }
+    _optimizerState.sessionId = data.sessionId || data.report?.optimizer?.sessionId || null;
+    _optimizerState.optimizer = data.report?.optimizer || null;
     renderAnalyzerReport(data.report, data.elapsedMs);
     setAnalyzerState("report");
   } catch (err) {
@@ -4381,6 +4403,7 @@ function renderAnalyzerReport(report, elapsedMs) {
   renderAnalyzerSummary(report, elapsedMs);
   renderAnalyzerPortfolioActions(report);
   renderAnalyzerRiskBlock(report);
+  renderAnalyzerOptimizer(report.optimizer);
   renderAnalyzerUrgent(report);
   renderAnalyzerHoldings(report);
   renderAnalyzerUnmatched(report);
@@ -4757,6 +4780,289 @@ function renderAnalyzerPortfolioActions(report) {
       ${items}
     </div>
   `;
+}
+
+// ──────────────────── XIRR Optimizer renderer ────────────────────
+//
+// Renders the analytical (NOT advisory) optimization block. SEBI compliance:
+// every move uses observational verbs ("Candidate exit", "Candidate switch")
+// and surfaces the math (drag reasons, tax cost, projected uplift, conservative
+// band). Preset and tax-slab chips re-run the optimizer in <500ms via the
+// cached /api/portfolio/optimize endpoint — no full re-analyze needed.
+
+const OPTIMIZER_PRESET_LABELS = {
+  conservative: "Conservative",
+  balanced: "Balanced",
+  aggressive: "Aggressive",
+  "tax-loss-harvest": "Tax-loss harvest",
+  "lock-in-aware": "Lock-in aware",
+};
+
+const OPTIMIZER_PRESET_TOOLTIPS = {
+  conservative: "50bps noise floor · no FY-budget bypass · no ELSS exits.",
+  balanced: "25bps floor · splits exits across FY boundary · ELSS switches when lock-in expired.",
+  aggressive: "10bps floor · permits weight breaches up to 12% if uplift >100bps · LTCG harvest mid-FY.",
+  "tax-loss-harvest": "Only surfaces moves with a realised loss (set off against gains).",
+  "lock-in-aware": "Filters every move where any instrument has remaining lock-in >6 months.",
+};
+
+function moveTypeBadge(type) {
+  const palette = {
+    EXIT:        { bg: "rgba(239,68,68,0.12)", border: "rgba(239,68,68,0.4)", text: "#fca5a5" },
+    TRIM:        { bg: "rgba(250,204,21,0.12)", border: "rgba(250,204,21,0.4)", text: "#fde047" },
+    SWITCH:      { bg: "rgba(59,130,246,0.12)", border: "rgba(59,130,246,0.4)", text: "#93c5fd" },
+    ADD:         { bg: "rgba(34,197,94,0.12)", border: "rgba(34,197,94,0.4)", text: "#86efac" },
+    CONSOLIDATE: { bg: "rgba(168,85,247,0.12)", border: "rgba(168,85,247,0.4)", text: "#d8b4fe" },
+  };
+  const c = palette[type] || palette.SWITCH;
+  // Observational labels only — never imperative ("Sell", "Buy").
+  const labels = {
+    EXIT: "Candidate exit",
+    TRIM: "Candidate trim",
+    SWITCH: "Candidate switch",
+    ADD: "Candidate add",
+    CONSOLIDATE: "Candidate consolidate",
+  };
+  return `<span style="display:inline-block; padding:3px 10px; border-radius:4px; background:${c.bg}; border:1px solid ${c.border}; color:${c.text}; font-size:11px; font-weight:700; letter-spacing:0.3px;">${labels[type] || type}</span>`;
+}
+
+function renderAnalyzerOptimizer(optimizer) {
+  const el = document.getElementById("analyzerOptimizer");
+  if (!el) return;
+
+  if (!optimizer) {
+    el.innerHTML = `
+      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+        <div style="font-size:14px; font-weight:700; margin-bottom:8px;">XIRR Optimizer</div>
+        <div style="font-size:12px; color:var(--text-muted);">
+          Optimizer block unavailable for this portfolio (likely an empty book or no investible holdings).
+        </div>
+      </div>`;
+    return;
+  }
+
+  // Cache the latest block so preset/tax chips can call /api/portfolio/optimize
+  _optimizerState.optimizer = optimizer;
+  if (optimizer.sessionId) _optimizerState.sessionId = optimizer.sessionId;
+  if (optimizer.preset) _optimizerState.preset = optimizer.preset;
+  if (Number.isFinite(optimizer.taxSlabPct)) _optimizerState.taxSlabPct = optimizer.taxSlabPct;
+
+  const currentPct = optimizer.currentXirrPct;
+  const projectedPct = optimizer.projectedXirrPct;
+  const conservativePct = optimizer.projectedXirrConservativePct;
+  const upliftBps = optimizer.projectedUpliftBps;
+  const upliftBpsConservative = optimizer.projectedUpliftBpsConservative;
+
+  const presetChips = Object.keys(OPTIMIZER_PRESET_LABELS).map((key) => {
+    const active = key === _optimizerState.preset;
+    const bg = active ? "var(--accent)" : "transparent";
+    const color = active ? "#fff" : "var(--text)";
+    const border = active ? "var(--accent)" : "#2a3349";
+    return `<button type="button"
+      onclick="applyOptimizerPreset('${key}')"
+      title="${OPTIMIZER_PRESET_TOOLTIPS[key]}"
+      style="background:${bg}; color:${color}; border:1px solid ${border}; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.15s;">
+      ${OPTIMIZER_PRESET_LABELS[key]}
+    </button>`;
+  }).join("");
+
+  const slabChips = [5, 20, 30].map((s) => {
+    const active = s === _optimizerState.taxSlabPct;
+    const bg = active ? "var(--accent)" : "transparent";
+    const color = active ? "#fff" : "var(--text)";
+    const border = active ? "var(--accent)" : "#2a3349";
+    return `<button type="button"
+      onclick="applyOptimizerTaxSlab(${s})"
+      style="background:${bg}; color:${color}; border:1px solid ${border}; padding:5px 10px; border-radius:6px; font-size:11px; font-weight:600; cursor:pointer;">
+      ${s}%
+    </button>`;
+  }).join("");
+
+  const moves = Array.isArray(optimizer.moves) ? optimizer.moves : [];
+  const moveCards = moves.length === 0
+    ? `<div style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2); border-radius:8px; padding:14px 18px; font-size:12px; color:#86efac;">
+        No positive-uplift moves at the current preset / noise floor — your book is at or near its mathematically-derived optimum given the constraints.
+      </div>`
+    : moves.map((m, idx) => {
+        const upliftColor = (m.estUpliftBps || 0) >= 0 ? "var(--green, #22c55e)" : "var(--red, #ef4444)";
+        const conservativeNote = Number.isFinite(m.estUpliftBpsConservative)
+          ? `<span style="color:var(--text-muted); font-weight:500; margin-left:8px;">(conservative band: ${m.estUpliftBpsConservative >= 0 ? "+" : ""}${m.estUpliftBpsConservative.toFixed(0)} bps)</span>`
+          : "";
+        const switchTo = Array.isArray(m.redeployTo) && m.redeployTo.length > 0
+          ? `<div style="font-size:11px; color:var(--text-muted); margin-top:6px;">
+               Redeploy to: ${m.redeployTo.map((c) => `<strong style="color:var(--text);">${c.name}</strong>${c.allocPct != null ? ` (${c.allocPct}%)` : ""}`).join(" · ")}
+             </div>`
+          : "";
+        const blocked = m.blocking
+          ? `<div style="font-size:11px; color:#fca5a5; margin-top:6px; padding:4px 8px; background:rgba(239,68,68,0.08); border-radius:4px; display:inline-block;">
+               Blocked: ${m.blocking.reason || m.blocking.type || "constraint"}
+             </div>`
+          : "";
+        return `
+          <div style="background:#0f172a; border:1px solid #1a2233; border-radius:8px; padding:14px 16px; margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:8px;">
+              <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                <span style="font-size:12px; font-weight:700; color:var(--text-muted);">#${idx + 1}</span>
+                ${moveTypeBadge(m.type)}
+                <span style="font-weight:700; font-size:13px;">${m.instrument?.name || m.instrument?.symbol || "—"}</span>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-weight:700; color:${upliftColor}; font-size:14px;">
+                  ${(m.estUpliftBps || 0) >= 0 ? "+" : ""}${(m.estUpliftBps || 0).toFixed(0)} bps
+                </div>
+                ${conservativeNote}
+              </div>
+            </div>
+            <div style="font-size:12px; color:var(--text-muted); line-height:1.5;">
+              ${m.rationale || "—"}
+            </div>
+            ${switchTo}
+            <div style="display:flex; gap:14px; flex-wrap:wrap; font-size:11px; color:var(--text-muted); margin-top:8px; padding-top:8px; border-top:1px solid #1a2233;">
+              <span>Gross proceeds: <strong style="color:var(--text);">${inr(m.grossProceedsRupees)}</strong></span>
+              <span>Tax cost: <strong style="color:#fca5a5;">${inr(m.taxCostRupees)}</strong></span>
+              <span>Net redeployable: <strong style="color:#86efac;">${inr(m.netRedeployableRupees)}</strong></span>
+            </div>
+            ${blocked}
+            ${m.compliance ? `<div style="font-size:10px; color:var(--text-muted); margin-top:6px; font-style:italic;">${m.compliance}</div>` : ""}
+          </div>`;
+      }).join("");
+
+  const constraints = Array.isArray(optimizer.constraintsBinding) ? optimizer.constraintsBinding : [];
+  const constraintPills = constraints.length === 0 ? "" : `
+    <div style="margin-top:14px;">
+      <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); margin-bottom:6px;">Constraints binding</div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        ${constraints.map((c) => `
+          <span style="display:inline-block; font-size:11px; padding:4px 10px; background:rgba(250,204,21,0.10); border:1px solid rgba(250,204,21,0.3); border-radius:4px; color:#fde047;">
+            ${c.type === "ELSS_LOCK_IN"
+              ? `ELSS lock-in: ${c.instrument || ""}${c.until ? " until " + c.until : ""}`
+              : c.type === "FY_LTCG_BUDGET"
+              ? `FY LTCG budget remaining: ${inr(c.remaining)}${c.fyEndsOn ? " (FY ends " + c.fyEndsOn + ")" : ""}`
+              : c.type === "SECTOR_CAP"
+              ? `Sector cap: ${c.sector || ""} at ${(c.pct || 0).toFixed(1)}%`
+              : c.type === "SINGLE_STOCK_CAP"
+              ? `Single-stock cap: ${c.instrument || ""} at ${(c.pct || 0).toFixed(1)}%`
+              : c.type}
+          </span>
+        `).join("")}
+      </div>
+    </div>`;
+
+  const assumptions = Array.isArray(optimizer.assumptions) ? optimizer.assumptions : [];
+  const assumptionsBlock = assumptions.length === 0 ? "" : `
+    <div style="margin-top:14px; font-size:11px; color:var(--text-muted); line-height:1.6;">
+      <div style="text-transform:uppercase; letter-spacing:0.4px; margin-bottom:4px;">Assumptions</div>
+      ${assumptions.map((a) => `<div style="margin-bottom:2px;">• ${a}</div>`).join("")}
+    </div>`;
+
+  // Header tooltip — surfaces the SEBI-compliance copy at the point of use.
+  const header = `
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+      <div>
+        <div style="font-size:14px; font-weight:700; display:flex; align-items:center; gap:10px;">
+          XIRR Optimizer
+          ${notAdviceChip("inline")}
+        </div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:4px;" title="Optimization is analytical, not advisory. Moves shown are mathematically-derived candidates for review with your IA/RA.">
+          Mathematical candidates · review with your registered adviser before acting
+        </div>
+      </div>
+      <div id="analyzerOptimizerStatus" style="font-size:11px; color:var(--text-muted);"></div>
+    </div>`;
+
+  // Hero numbers card
+  const conservativeText = Number.isFinite(conservativePct)
+    ? `<div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+         Conservative band: ${conservativePct.toFixed(2)}% (${upliftBpsConservative >= 0 ? "+" : ""}${(upliftBpsConservative || 0).toFixed(0)} bps)
+       </div>`
+    : "";
+
+  const heroCard = `
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:18px;">
+      <div style="background:#0f172a; border:1px solid #1a2233; border-radius:8px; padding:14px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted);">Current XIRR</div>
+        <div style="font-size:24px; font-weight:700; margin-top:4px;">${Number.isFinite(currentPct) ? currentPct.toFixed(2) + "%" : "—"}</div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Confidence: ${optimizer.currentXirrConfidence || "—"}</div>
+      </div>
+      <div style="background:#0f172a; border:1px solid rgba(34,197,94,0.3); border-radius:8px; padding:14px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:#86efac;">Projected XIRR</div>
+        <div style="font-size:24px; font-weight:700; margin-top:4px; color:#bbf7d0;">${Number.isFinite(projectedPct) ? projectedPct.toFixed(2) + "%" : "—"}</div>
+        ${conservativeText}
+      </div>
+      <div style="background:#0f172a; border:1px solid #1a2233; border-radius:8px; padding:14px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted);">Uplift</div>
+        <div style="font-size:24px; font-weight:700; margin-top:4px; color:${(upliftBps || 0) >= 0 ? "var(--green, #22c55e)" : "var(--red, #ef4444)"};">
+          ${(upliftBps || 0) >= 0 ? "+" : ""}${(upliftBps || 0).toFixed(0)} bps
+        </div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">${moves.length} candidate move${moves.length === 1 ? "" : "s"}</div>
+      </div>
+    </div>`;
+
+  const controls = `
+    <div style="display:grid; grid-template-columns:1fr auto; gap:14px; align-items:start; margin-bottom:18px; padding:14px; background:#0f172a; border:1px solid #1a2233; border-radius:8px;">
+      <div>
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); margin-bottom:6px;">Preset</div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">${presetChips}</div>
+      </div>
+      <div>
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); margin-bottom:6px;">Tax slab</div>
+        <div style="display:flex; gap:6px;">${slabChips}</div>
+      </div>
+    </div>`;
+
+  el.innerHTML = `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      ${header}
+      ${heroCard}
+      ${controls}
+      <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); margin-bottom:8px;">
+        Ranked moves (${moves.length})
+      </div>
+      ${moveCards}
+      ${constraintPills}
+      ${assumptionsBlock}
+    </div>`;
+}
+
+// Re-runs the optimizer against the cached session under a new preset.
+// Falls back gracefully when the session has expired (server returns 410).
+async function applyOptimizerPreset(preset) {
+  if (!_optimizerState.sessionId) return;
+  _optimizerState.preset = preset;
+  await _refreshOptimizer("Reapplying preset…");
+}
+
+async function applyOptimizerTaxSlab(slabPct) {
+  if (!_optimizerState.sessionId) return;
+  _optimizerState.taxSlabPct = slabPct;
+  // Persist so the user only picks once across sessions.
+  try { localStorage.setItem("starbhai.taxSlabPct", String(slabPct)); } catch {}
+  await _refreshOptimizer("Recomputing tax cost…");
+}
+
+async function _refreshOptimizer(statusText) {
+  const status = document.getElementById("analyzerOptimizerStatus");
+  if (status) status.textContent = statusText || "Re-running optimizer…";
+  try {
+    const res = await fetch("/api/portfolio/optimize", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sessionId: _optimizerState.sessionId,
+        preset: _optimizerState.preset,
+        taxSlabPct: _optimizerState.taxSlabPct,
+        assumedHoldingMonths: _optimizerState.assumedHoldingMonths,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      if (status) status.textContent = data.error || "Optimize failed";
+      return;
+    }
+    renderAnalyzerOptimizer(data.optimizer);
+  } catch (err) {
+    if (status) status.textContent = "Network error: " + err.message;
+  }
 }
 
 function renderAnalyzerUrgent(report) {

@@ -165,6 +165,98 @@ function whyNotAnalysed(instrumentType) {
  *          Buy value | Closing price | Closing value | Unrealised P&L
  *   Row 8+: data
  */
+// Detect & parse the Groww **Mutual Funds** XLSX export. Different schema
+// from the Stocks export: header row is `Scheme Name | AMC | Category |
+// Sub-category | Folio No. | Source | Units | Invested Value | Current Value
+// | Returns | XIRR`. Returns null when the workbook isn't an MF export so
+// the equity parser can proceed; throws only on truly unparseable rows.
+function tryParseGrowwMfXlsx(buffer) {
+  const wb = xlsx.read(buffer, { type: "buffer" });
+  if (!wb.SheetNames.length) return null;
+  const ws = wb.Sheets[wb.SheetNames[0]];
+  const rows = xlsx.utils.sheet_to_json(ws, { header: 1, raw: false, blankrows: false });
+  if (!rows.length) return null;
+
+  // MF header signature: "scheme name" + ("folio" or "xirr") + "invested"
+  let headerIdx = -1;
+  for (let i = 0; i < rows.length; i++) {
+    const joined = (rows[i] || []).map((x) => String(x || "").toLowerCase().trim()).join("|");
+    if (!joined) continue;
+    const hasScheme = joined.includes("scheme name") || joined.includes("schemename");
+    const hasFolioOrXirr = joined.includes("folio") || joined.includes("xirr");
+    const hasInvested = joined.includes("invested");
+    if (hasScheme && hasFolioOrXirr && hasInvested) { headerIdx = i; break; }
+  }
+  if (headerIdx === -1) return null;
+
+  const headers = rows[headerIdx].map(normHeader);
+  const find = (...cands) => {
+    for (const c of cands) {
+      const idx = headers.findIndex((h) => h === c);
+      if (idx >= 0) return idx;
+    }
+    for (const c of cands) {
+      const idx = headers.findIndex((h) => h.includes(c));
+      if (idx >= 0) return idx;
+    }
+    return -1;
+  };
+  const iName = find("schemename", "scheme", "fundname");
+  const iAmc = find("amc", "fundhouse");
+  const iCat = find("category");
+  const iSubCat = find("subcategory");
+  const iFolio = find("folio", "folionumber");
+  const iInvested = find("investedvalue", "invested", "investedamount");
+  const iCurrent = find("currentvalue", "current", "marketvalue");
+  const iReturns = find("returns", "pnlamount", "absolutereturn");
+  const iXirr = find("xirr", "annualisedreturn", "irr");
+
+  if (iName < 0 || iInvested < 0) return null;
+
+  const out = [];
+  for (let r = headerIdx + 1; r < rows.length; r++) {
+    const row = rows[r] || [];
+    const name = String(row[iName] ?? "").trim();
+    if (!name) continue;
+    const investedRaw = row[iInvested];
+    const invested = parseFloat(String(investedRaw ?? "").replace(/[^\d.\-]/g, ""));
+    if (!Number.isFinite(invested) || invested <= 0) continue;
+    const currentRaw = iCurrent >= 0 ? row[iCurrent] : null;
+    const current = parseFloat(String(currentRaw ?? "").replace(/[^\d.\-]/g, ""));
+    const xirrRaw = iXirr >= 0 ? String(row[iXirr] ?? "").replace(/[^\d.\-]/g, "") : "";
+    const publishedXirrPct = xirrRaw ? parseFloat(xirrRaw) : null;
+    // Groww "Returns" column is absolute ₹, not %; compute pnlPercent ourselves.
+    const pnlPercent = Number.isFinite(invested) && invested > 0 && Number.isFinite(current)
+      ? ((current - invested) / invested) * 100 : null;
+    out.push({
+      name,
+      rawName: name,
+      isin: null,
+      category: iCat >= 0 ? String(row[iCat] ?? "").trim() || null : null,
+      subCategory: iSubCat >= 0 ? String(row[iSubCat] ?? "").trim() || null : null,
+      folio: iFolio >= 0 ? String(row[iFolio] ?? "").trim() || null : null,
+      amc: iAmc >= 0 ? String(row[iAmc] ?? "").trim() || null : null,
+      instrumentType: "mf",
+      invested,
+      currentValue: Number.isFinite(current) ? current : invested,
+      publishedXirrPct: Number.isFinite(publishedXirrPct) ? publishedXirrPct : null,
+      pnlPercent: Number.isFinite(pnlPercent) ? pnlPercent : null,
+      purchaseDate: null,
+    });
+  }
+
+  if (out.length === 0) return null;
+
+  return {
+    source: "groww-mf-xlsx",
+    holdings: [], // no equity rows — the optimizer's MF path handles these
+    unmatched: [],
+    mfHoldings: out,
+    warnings: [],
+    summary: { rowCount: out.length, mfCount: out.length },
+  };
+}
+
 function parseGrowwXlsx(buffer) {
   const wb = xlsx.read(buffer, { type: "buffer" });
   if (!wb.SheetNames.length) throw new Error("Empty workbook");
@@ -385,16 +477,22 @@ export function parsePortfolioFile(buffer, filename = "") {
 
   let parsed;
   if (looksXlsx) {
-    parsed = parseGrowwXlsx(buffer);
+    // Try MF-only export first (different schema). Falls through to the
+    // equity parser when not an MF file.
+    parsed = tryParseGrowwMfXlsx(buffer);
+    if (!parsed) parsed = parseGrowwXlsx(buffer);
   } else if (looksCsv) {
     const text = typeof buffer === "string" ? buffer : Buffer.from(buffer).toString("utf-8");
     parsed = parseCsv(text);
   } else {
-    // Try xlsx first, fall back to CSV
-    try { parsed = parseGrowwXlsx(buffer); }
-    catch {
-      const text = typeof buffer === "string" ? buffer : Buffer.from(buffer).toString("utf-8");
-      parsed = parseCsv(text);
+    // Try MF, then equity xlsx, then CSV
+    parsed = tryParseGrowwMfXlsx(buffer);
+    if (!parsed) {
+      try { parsed = parseGrowwXlsx(buffer); }
+      catch {
+        const text = typeof buffer === "string" ? buffer : Buffer.from(buffer).toString("utf-8");
+        parsed = parseCsv(text);
+      }
     }
   }
 
@@ -512,6 +610,9 @@ export function parsePortfolioFile(buffer, filename = "") {
     source: parsed.source,
     summary: parsed.summary || {},
     instrumentCounts: counts,
+    // MF-only Groww exports populate this directly. Stocks-only exports leave
+    // it empty; the analyze endpoint then merges with saved-portfolio MFs.
+    mfHoldings: Array.isArray(parsed.mfHoldings) ? parsed.mfHoldings : [],
   };
 }
 

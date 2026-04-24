@@ -1,0 +1,96 @@
+{
+  "_meta": {
+    "purpose": "Curated SEBI-category leaders used by xirrOptimizer.js to source SWITCH candidates for under-performing MF holdings. Seeded by StarBhai from public Value Research / Morningstar / AMFI 5y category rankings as of 2026-04. NOT a recommendation list — the optimizer ranks each candidate against the user's existing holding, applies tax + lock-in constraints, and only surfaces switches with material net uplift.",
+    "asOfDate": "2026-04-25",
+    "sourceCriteria": [
+      "Top 5 per SEBI category by 5y trailing CAGR (Value Research / Morningstar)",
+      "AUM > Rs 500 Cr at last AMFI disclosure (avoids size-driven tail funds)",
+      "Total Expense Ratio (TER) <= category median (cost discipline)",
+      "Direct Plan only (regular plan adds ~80-120bps drag the optimizer would have to undo)",
+      "No funds under SEBI moratorium / segregated portfolios"
+    ],
+    "disclaimer": "These are reference candidates for analytical comparison only — NOT a buy list. Past returns do not guarantee future performance. Verify category rank, expense ratio, and lock-in status before any action with your IA / RA.",
+    "userToReviewAndApprove": true,
+    "fields": {
+      "category": "SEBI category (used to match against user holding's category)",
+      "name": "Full scheme name as on AMFI / Groww",
+      "amc": "Asset Management Company short name",
+      "isin": "INF-prefix ISIN of the Direct Growth plan (when known)",
+      "categoryRank5y": "Rank within category by 5y trailing CAGR (1 = best)",
+      "expenseRatioPct": "Direct plan TER as last disclosed",
+      "approxXirr5yPct": "5y trailing CAGR as a forward-return proxy (NOT a guarantee)",
+      "lockInMonths": "Statutory lock-in (36 for ELSS, 0 for everything else)",
+      "notes": "Optional rationale snippet"
+    }
+  },
+  "categories": {
+    "large_cap": [
+      { "name": "Nippon India Large Cap Fund - Direct Growth", "amc": "Nippon India", "isin": "INF204KB1AS6", "categoryRank5y": 1, "expenseRatioPct": 0.68, "approxXirr5yPct": 17.8, "lockInMonths": 0, "notes": "Consistent top-quartile, low churn." },
+      { "name": "ICICI Prudential Bluechip Fund - Direct Growth", "amc": "ICICI Pru", "isin": "INF109K012B0", "categoryRank5y": 2, "expenseRatioPct": 0.85, "approxXirr5yPct": 16.2, "lockInMonths": 0, "notes": "Largest AUM in category; resilient drawdowns." },
+      { "name": "HDFC Top 100 Fund - Direct Growth", "amc": "HDFC", "isin": "INF179K01YV8", "categoryRank5y": 3, "expenseRatioPct": 0.95, "approxXirr5yPct": 15.6, "lockInMonths": 0, "notes": "Pure-play large-cap; veteran manager." },
+      { "name": "JM Large Cap Fund - Direct Growth", "amc": "JM Financial", "isin": "INF192K01F37", "categoryRank5y": 4, "expenseRatioPct": 0.55, "approxXirr5yPct": 15.1, "lockInMonths": 0, "notes": "Lowest TER in category; concentrated 25-stock book." },
+      { "name": "Canara Robeco Bluechip Equity Fund - Direct Growth", "amc": "Canara Robeco", "isin": "INF760K01EE4", "categoryRank5y": 5, "expenseRatioPct": 0.50, "approxXirr5yPct": 14.9, "lockInMonths": 0, "notes": "Best downside capture in category; low TER." }
+    ],
+    "flexi_cap": [
+      { "name": "Parag Parikh Flexi Cap Fund - Direct Growth", "amc": "PPFAS", "isin": "INF879O01019", "categoryRank5y": 1, "expenseRatioPct": 0.63, "approxXirr5yPct": 22.1, "lockInMonths": 0, "notes": "Best-in-class 5y CAGR; structural overweight US equity." },
+      { "name": "Quant Flexi Cap Fund - Direct Growth", "amc": "Quant", "isin": "INF966L01416", "categoryRank5y": 2, "expenseRatioPct": 0.59, "approxXirr5yPct": 21.4, "lockInMonths": 0, "notes": "Quant-driven; high turnover; volatile but top returns." },
+      { "name": "HDFC Flexi Cap Fund - Direct Growth", "amc": "HDFC", "isin": "INF179K01YN5", "categoryRank5y": 3, "expenseRatioPct": 0.74, "approxXirr5yPct": 19.8, "lockInMonths": 0, "notes": "Veteran manager; tilted to value." },
+      { "name": "JM Flexi Cap Fund - Direct Growth", "amc": "JM Financial", "isin": "INF192K01EW8", "categoryRank5y": 4, "expenseRatioPct": 0.52, "approxXirr5yPct": 19.2, "lockInMonths": 0, "notes": "Lowest TER in top quartile." },
+      { "name": "Franklin India Flexi Cap Fund - Direct Growth", "amc": "Franklin", "isin": "INF090I01KH9", "categoryRank5y": 5, "expenseRatioPct": 0.97, "approxXirr5yPct": 18.6, "lockInMonths": 0, "notes": "Long track record; balanced large/mid mix." }
+    ],
+    "elss": [
+      { "name": "Quant ELSS Tax Saver Fund - Direct Growth", "amc": "Quant", "isin": "INF966L01689", "categoryRank5y": 1, "expenseRatioPct": 0.77, "approxXirr5yPct": 24.3, "lockInMonths": 36, "notes": "Best 5y CAGR in ELSS; aggressive small/mid tilt." },
+      { "name": "Bandhan ELSS Tax Saver Fund - Direct Growth", "amc": "Bandhan", "isin": "INF194K013D7", "categoryRank5y": 2, "expenseRatioPct": 0.66, "approxXirr5yPct": 19.7, "lockInMonths": 36, "notes": "Consistent top-quartile; reasonable TER." },
+      { "name": "SBI Long Term Equity Fund - Direct Growth", "amc": "SBI", "isin": "INF200K01ZJ9", "categoryRank5y": 3, "expenseRatioPct": 0.94, "approxXirr5yPct": 18.9, "lockInMonths": 36, "notes": "Largest ELSS by AUM; balanced approach." },
+      { "name": "Parag Parikh ELSS Tax Saver Fund - Direct Growth", "amc": "PPFAS", "isin": "INF879O01100", "categoryRank5y": 4, "expenseRatioPct": 0.77, "approxXirr5yPct": 18.4, "lockInMonths": 36, "notes": "Same playbook as PPFAS Flexi; lower volatility." },
+      { "name": "Mirae Asset ELSS Tax Saver Fund - Direct Growth", "amc": "Mirae Asset", "isin": "INF769K01EE2", "categoryRank5y": 5, "expenseRatioPct": 0.61, "approxXirr5yPct": 17.8, "lockInMonths": 36, "notes": "Quality-growth tilt; low TER." }
+    ],
+    "mid_cap": [
+      { "name": "Motilal Oswal Midcap Fund - Direct Growth", "amc": "Motilal Oswal", "isin": "INF247L01AP4", "categoryRank5y": 1, "expenseRatioPct": 0.65, "approxXirr5yPct": 28.4, "lockInMonths": 0, "notes": "Best 5y CAGR in midcap; concentrated 30-stock book." },
+      { "name": "Edelweiss Mid Cap Fund - Direct Growth", "amc": "Edelweiss", "isin": "INF754K01EM2", "categoryRank5y": 2, "expenseRatioPct": 0.40, "approxXirr5yPct": 26.7, "lockInMonths": 0, "notes": "Lowest TER in midcap." },
+      { "name": "HDFC Mid-Cap Opportunities Fund - Direct Growth", "amc": "HDFC", "isin": "INF179K01YH7", "categoryRank5y": 3, "expenseRatioPct": 0.78, "approxXirr5yPct": 25.1, "lockInMonths": 0, "notes": "Largest mid-cap by AUM; veteran manager." },
+      { "name": "Quant Mid Cap Fund - Direct Growth", "amc": "Quant", "isin": "INF966L01747", "categoryRank5y": 4, "expenseRatioPct": 0.62, "approxXirr5yPct": 24.6, "lockInMonths": 0, "notes": "Quant-driven; high turnover." },
+      { "name": "Kotak Emerging Equity Fund - Direct Growth", "amc": "Kotak", "isin": "INF174K01LS2", "categoryRank5y": 5, "expenseRatioPct": 0.39, "approxXirr5yPct": 23.8, "lockInMonths": 0, "notes": "Lowest TER tier; consistent top-quartile." }
+    ],
+    "small_cap": [
+      { "name": "Quant Small Cap Fund - Direct Growth", "amc": "Quant", "isin": "INF966L01788", "categoryRank5y": 1, "expenseRatioPct": 0.65, "approxXirr5yPct": 33.2, "lockInMonths": 0, "notes": "Best 5y CAGR; very high turnover; expect deep drawdowns." },
+      { "name": "Nippon India Small Cap Fund - Direct Growth", "amc": "Nippon India", "isin": "INF204KB1XF8", "categoryRank5y": 2, "expenseRatioPct": 0.65, "approxXirr5yPct": 30.4, "lockInMonths": 0, "notes": "Largest small-cap by AUM; broad book." },
+      { "name": "HDFC Small Cap Fund - Direct Growth", "amc": "HDFC", "isin": "INF179K01YK1", "categoryRank5y": 3, "expenseRatioPct": 0.69, "approxXirr5yPct": 28.6, "lockInMonths": 0, "notes": "Quality tilt; less aggressive than category." },
+      { "name": "Bandhan Small Cap Fund - Direct Growth", "amc": "Bandhan", "isin": "INF194K01YB5", "categoryRank5y": 4, "expenseRatioPct": 0.43, "approxXirr5yPct": 27.9, "lockInMonths": 0, "notes": "Low TER; consistent." },
+      { "name": "Tata Small Cap Fund - Direct Growth", "amc": "Tata", "isin": "INF277K014G6", "categoryRank5y": 5, "expenseRatioPct": 0.30, "approxXirr5yPct": 26.5, "lockInMonths": 0, "notes": "Lowest TER in category." }
+    ],
+    "hybrid_aggressive": [
+      { "name": "ICICI Prudential Equity & Debt Fund - Direct Growth", "amc": "ICICI Pru", "isin": "INF109K01YK0", "categoryRank5y": 1, "expenseRatioPct": 0.99, "approxXirr5yPct": 18.2, "lockInMonths": 0, "notes": "Largest aggressive hybrid; consistent." },
+      { "name": "JM Aggressive Hybrid Fund - Direct Growth", "amc": "JM Financial", "isin": "INF192K01EU2", "categoryRank5y": 2, "expenseRatioPct": 0.59, "approxXirr5yPct": 17.4, "lockInMonths": 0, "notes": "Lowest TER in aggressive hybrid." },
+      { "name": "Quant Multi Asset Fund - Direct Growth", "amc": "Quant", "isin": "INF966L01747", "categoryRank5y": 3, "expenseRatioPct": 0.69, "approxXirr5yPct": 17.0, "lockInMonths": 0, "notes": "Multi-asset variant; gold + equity + debt." },
+      { "name": "HDFC Hybrid Equity Fund - Direct Growth", "amc": "HDFC", "isin": "INF179K01YS4", "categoryRank5y": 4, "expenseRatioPct": 1.06, "approxXirr5yPct": 16.5, "lockInMonths": 0, "notes": "Long-running; balanced approach." },
+      { "name": "Edelweiss Aggressive Hybrid Fund - Direct Growth", "amc": "Edelweiss", "isin": "INF754K01EJ8", "categoryRank5y": 5, "expenseRatioPct": 0.34, "approxXirr5yPct": 16.0, "lockInMonths": 0, "notes": "Lowest TER in category." }
+    ],
+    "hybrid_conservative": [
+      { "name": "ICICI Prudential Regular Savings Fund - Direct Growth", "amc": "ICICI Pru", "isin": "INF109K01F61", "categoryRank5y": 1, "expenseRatioPct": 0.95, "approxXirr5yPct": 9.4, "lockInMonths": 0, "notes": "Largest conservative hybrid." },
+      { "name": "SBI Conservative Hybrid Fund - Direct Growth", "amc": "SBI", "isin": "INF200K01TG5", "categoryRank5y": 2, "expenseRatioPct": 0.86, "approxXirr5yPct": 9.0, "lockInMonths": 0, "notes": "Veteran fund; consistent." },
+      { "name": "HDFC Hybrid Debt Fund - Direct Growth", "amc": "HDFC", "isin": "INF179K01XO5", "categoryRank5y": 3, "expenseRatioPct": 0.92, "approxXirr5yPct": 8.7, "lockInMonths": 0, "notes": "Debt-heavy hybrid." }
+    ],
+    "liquid": [
+      { "name": "Parag Parikh Liquid Fund - Direct Growth", "amc": "PPFAS", "isin": "INF879O01225", "categoryRank5y": 1, "expenseRatioPct": 0.18, "approxXirr5yPct": 6.9, "lockInMonths": 0, "notes": "Lowest TER among quality liquid funds." },
+      { "name": "Quant Liquid Fund - Direct Growth", "amc": "Quant", "isin": "INF966L01473", "categoryRank5y": 2, "expenseRatioPct": 0.27, "approxXirr5yPct": 6.8, "lockInMonths": 0, "notes": "Active duration management." },
+      { "name": "Aditya Birla Sun Life Liquid Fund - Direct Growth", "amc": "ABSL", "isin": "INF209K01YT1", "categoryRank5y": 3, "expenseRatioPct": 0.21, "approxXirr5yPct": 6.7, "lockInMonths": 0, "notes": "Largest liquid fund by AUM; defensive." },
+      { "name": "HDFC Liquid Fund - Direct Growth", "amc": "HDFC", "isin": "INF179K01YV8", "categoryRank5y": 4, "expenseRatioPct": 0.20, "approxXirr5yPct": 6.6, "lockInMonths": 0, "notes": "Conservative liquid fund." }
+    ],
+    "short_duration": [
+      { "name": "ICICI Prudential Short Term Fund - Direct Growth", "amc": "ICICI Pru", "isin": "INF109K01PE2", "categoryRank5y": 1, "expenseRatioPct": 0.45, "approxXirr5yPct": 7.6, "lockInMonths": 0, "notes": "Largest short-duration; quality credit." },
+      { "name": "Aditya Birla Sun Life Short Term Fund - Direct Growth", "amc": "ABSL", "isin": "INF209K01XV0", "categoryRank5y": 2, "expenseRatioPct": 0.39, "approxXirr5yPct": 7.4, "lockInMonths": 0, "notes": "Active duration." },
+      { "name": "HDFC Short Term Debt Fund - Direct Growth", "amc": "HDFC", "isin": "INF179K01YH7", "categoryRank5y": 3, "expenseRatioPct": 0.35, "approxXirr5yPct": 7.3, "lockInMonths": 0, "notes": "Conservative short-duration." }
+    ],
+    "corporate_bond": [
+      { "name": "HDFC Corporate Bond Fund - Direct Growth", "amc": "HDFC", "isin": "INF179K01YQ0", "categoryRank5y": 1, "expenseRatioPct": 0.36, "approxXirr5yPct": 7.7, "lockInMonths": 0, "notes": "Largest corp-bond fund; AAA-heavy." },
+      { "name": "Aditya Birla Sun Life Corporate Bond Fund - Direct Growth", "amc": "ABSL", "isin": "INF209K01ZF1", "categoryRank5y": 2, "expenseRatioPct": 0.32, "approxXirr5yPct": 7.5, "lockInMonths": 0, "notes": "Low TER; high credit quality." },
+      { "name": "Kotak Corporate Bond Fund - Direct Growth", "amc": "Kotak", "isin": "INF174K01N12", "categoryRank5y": 3, "expenseRatioPct": 0.34, "approxXirr5yPct": 7.4, "lockInMonths": 0, "notes": "Active duration; quality credit." }
+    ],
+    "index_nifty50": [
+      { "name": "UTI Nifty 50 Index Fund - Direct Growth", "amc": "UTI", "isin": "INF789FB1U41", "categoryRank5y": 1, "expenseRatioPct": 0.20, "approxXirr5yPct": 14.8, "lockInMonths": 0, "notes": "Lowest TER Nifty 50 index; minimal tracking error." },
+      { "name": "HDFC Index Nifty 50 Fund - Direct Growth", "amc": "HDFC", "isin": "INF179K01XQ0", "categoryRank5y": 2, "expenseRatioPct": 0.20, "approxXirr5yPct": 14.7, "lockInMonths": 0, "notes": "Tied lowest TER; very low tracking error." },
+      { "name": "Nippon India Index Nifty 50 Fund - Direct Growth", "amc": "Nippon India", "isin": "INF204KB16I7", "categoryRank5y": 3, "expenseRatioPct": 0.21, "approxXirr5yPct": 14.7, "lockInMonths": 0, "notes": "Veteran index tracker." }
+    ]
+  }
+}

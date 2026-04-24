@@ -31,6 +31,7 @@ import {
   computeTargetWeights,
 } from "./riskMetrics.js";
 import { normalizeSector } from "./macroRegime.js";
+import { runXirrOptimizer } from "./xirrOptimizer.js";
 
 // ──────────────────── Sector canonicalisation ────────────────────
 //
@@ -1071,8 +1072,17 @@ function currencyExposure(holdings) {
  * @param {object} meta - { source, parseSummary, regime, warnings, asOfDate, benchReturns, benchSymbol }
  */
 export function buildReport(enrichedHoldings, unmatched, meta) {
-  const totalInvested = enrichedHoldings.reduce((s, h) => s + h.invested, 0);
-  const totalCurrent = enrichedHoldings.reduce((s, h) => s + (h.currentValue ?? h.invested), 0);
+  // Book-wide totals include MF holdings so the summary matches the user's
+  // statement (e.g. Groww MF-only export where enrichedHoldings is empty
+  // but mfHoldings carries ₹16L). Equity-only sub-totals are still computed
+  // from enrichedHoldings further below for sector/risk/health blocks.
+  const mfHoldingsForTotals = Array.isArray(meta?.mfHoldings) ? meta.mfHoldings : [];
+  const equityInvested = enrichedHoldings.reduce((s, h) => s + h.invested, 0);
+  const equityCurrent = enrichedHoldings.reduce((s, h) => s + (h.currentValue ?? h.invested), 0);
+  const mfInvested = mfHoldingsForTotals.reduce((s, m) => s + (Number(m.invested) || 0), 0);
+  const mfCurrent = mfHoldingsForTotals.reduce((s, m) => s + (Number(m.currentValue) || Number(m.invested) || 0), 0);
+  const totalInvested = equityInvested + mfInvested;
+  const totalCurrent = equityCurrent + mfCurrent;
   const totalPnL = totalCurrent - totalInvested;
   const totalPnLPct = totalInvested > 0 ? (totalPnL / totalInvested) * 100 : 0;
 
@@ -1105,33 +1115,47 @@ export function buildReport(enrichedHoldings, unmatched, meta) {
   const riskBlock = buildRiskBlock(enrichedHoldings, meta?.benchReturns);
   const stressTests = buildStressTests(enrichedHoldings);
 
-  // ── XIRR (only when at least one purchase date is available) ──
+  // ── XIRR (graceful — handles missing purchase dates + MF holdings) ──
   //
-  // Build the cash-flow stream: each purchase with a known date becomes
-  // a negative flow at that date; today's current value is one big
-  // positive flow. If any holding lacks a purchase date we fall back to
-  // the portfolio-weighted simple P&L — XIRR on partial data would be
-  // misleading.
+  // Delegates to xirrOptimizer.computePortfolioXirr (used as the canonical
+  // XIRR source). When a holding lacks purchaseDate, the optimizer assumes
+  // a 24-month holding window. When MF holdings carry Groww-published
+  // per-scheme XIRR, the optimizer back-solves a synthetic single flow.
+  // This means the headline XIRR is always available, with a confidence
+  // band the UI can show.
+  const stockOnlyHoldings = enrichedHoldings; // current callers don't pass mfHoldings yet
+  const mfHoldings = Array.isArray(meta?.mfHoldings) ? meta.mfHoldings : [];
   let portfolioXirr = null;
   let xirrBasis = null;
-  const allHavePurchaseDates = enrichedHoldings.length > 0
-    && enrichedHoldings.every((h) => h.purchaseDate);
-  if (allHavePurchaseDates && totalCurrent > 0) {
-    const flows = [];
-    for (const h of enrichedHoldings) {
-      if (h.invested > 0) {
-        flows.push({ date: h.purchaseDate, amount: -h.invested });
-      }
-    }
-    flows.push({ date: new Date().toISOString().slice(0, 10), amount: totalCurrent });
+  let xirrConfidence = null;
+  if (totalCurrent > 0) {
     try {
-      const rate = xirr(flows);
-      if (Number.isFinite(rate)) {
-        portfolioXirr = +(rate * 100).toFixed(2);
-        xirrBasis = `Computed on ${flows.length - 1} purchase dates + current value as of today.`;
+      const xirrInfo = runXirrOptimizer({
+        holdings: stockOnlyHoldings,
+        unmatched,
+        mfHoldings,
+        sectorAllocation: sectors,
+        preset: meta?.optimizerPreset || "balanced",
+        taxSlabPct: Number.isFinite(meta?.taxSlabPct) ? meta.taxSlabPct : 30,
+        assumedHoldingMonths: Number.isFinite(meta?.assumedHoldingMonths) ? meta.assumedHoldingMonths : 24,
+        ltcgRealisedYtdRupees: Number.isFinite(meta?.ltcgRealisedYtdRupees) ? meta.ltcgRealisedYtdRupees : 0,
+      });
+      if (xirrInfo.currentXirrPct != null) {
+        portfolioXirr = xirrInfo.currentXirrPct;
+        xirrConfidence = xirrInfo.currentXirrConfidence;
+        const partsBasis = [];
+        if (xirrInfo.currentXirrAssumptions.missingDateCount > 0) {
+          partsBasis.push(`${xirrInfo.currentXirrAssumptions.missingDateCount} holding(s) assumed ${xirrInfo.currentXirrAssumptions.assumedHoldingMonths}-month window`);
+        }
+        if (xirrInfo.currentXirrAssumptions.mfBackSolveCount > 0) {
+          partsBasis.push(`${xirrInfo.currentXirrAssumptions.mfBackSolveCount} MF holding(s) back-solved from published XIRR`);
+        }
+        xirrBasis = `Confidence: ${xirrConfidence}. ${partsBasis.length ? partsBasis.join("; ") + "." : "All holdings have known purchase dates."}`;
       }
-    } catch {
-      /* silent */
+      // Stash the full optimizer block on a stable name for the return below
+      meta._optimizerBlock = xirrInfo;
+    } catch (err) {
+      console.warn("[ANALYZER] XIRR optimizer failed:", err.message);
     }
   }
 
@@ -1165,12 +1189,17 @@ export function buildReport(enrichedHoldings, unmatched, meta) {
       totalCurrent,
       totalPnL,
       totalPnLPct,
-      // Annualised return via XIRR — null when purchase dates are missing.
+      // Annualised return via XIRR — graceful: handles missing purchase
+      // dates and MF holdings via xirrOptimizer.computePortfolioXirr.
       // Compare against Nifty CAGR to judge whether the book is adding
       // alpha vs. passively holding the index.
       xirrAnnualPct: portfolioXirr,
       xirrBasis,
+      xirrConfidence,
     },
+    // Full XIRR Optimizer block — moves, projections, constraints.
+    // Available only when we successfully computed a portfolio XIRR.
+    optimizer: meta?._optimizerBlock || null,
     health,
     risk: riskBlock,
     stressTests,

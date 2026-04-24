@@ -4,6 +4,7 @@
 // otherwise make dotenv look in the wrong place).
 import path from "path";
 import { fileURLToPath } from "url";
+import { randomUUID } from "node:crypto";
 import dotenv from "dotenv";
 const __filenameForEnv = fileURLToPath(import.meta.url);
 const __dirnameForEnv = path.dirname(__filenameForEnv);
@@ -74,6 +75,7 @@ import {
 } from "./governance.js";
 import { parsePortfolioFile, resolveUnmatchedLive } from "./portfolioParser.js";
 import { analyzeHolding, buildReport } from "./portfolioAnalyzer.js";
+import { runXirrOptimizer, PRESETS as OPTIMIZER_PRESETS } from "./xirrOptimizer.js";
 import { dailyReturns as computeDailyReturns } from "./riskMetrics.js";
 import multer from "multer";
 import { classifyRegime, computeMacroDelta, defaultCalmRegime, normalizeSector, REGIMES, SECTORS, withOpenAIRetry } from "./macroRegime.js";
@@ -117,6 +119,13 @@ const catalystCache = new NodeCache({ stdTTL: 7200, checkperiod: 600 });
 // tab switches, and the 60s auto-refresh don't rebuild the whole pipeline.
 // The Refresh button passes ?bust=1 to force a recompute.
 const portfolioCache = new NodeCache({ stdTTL: 30, checkperiod: 15 });
+// Analyzer cache — keyed by sessionId returned with each /api/portfolio/analyze
+// response. Holds the enriched holdings + MFs + sector allocation so the
+// /api/portfolio/optimize endpoint can re-run the XIRR optimizer with new
+// preset / tax-slab / assumed-holding-months knobs WITHOUT redoing the 30s
+// enrichment pipeline. 30-minute TTL is plenty for an interactive session;
+// users tweaking past that just trigger a fresh analyze.
+const analyzerCache = new NodeCache({ stdTTL: 1800, checkperiod: 300 });
 // Macro regime — one global object refreshed every 15 minutes. Contains the
 // LLM-classified market regime (war/rate/oil/policy/calm) plus sector-level
 // impact scores used by the Buy Now scanner to tilt recommendations.
@@ -5476,6 +5485,44 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       return res.status(400).json({ error: "Missing file upload (field name: file)" });
     }
 
+    // Optimizer-specific options come in via form fields (multer parses them
+    // into req.body alongside the file). Query string is also accepted as a
+    // fallback for direct browser testing.
+    const optPreset = String(req.body.preset || req.query.preset || "balanced");
+    const optTaxSlabPct = Number.parseInt(req.body.taxSlabPct || req.query.taxSlabPct || "30", 10);
+    const optAssumedHoldingMonths = Number.parseInt(req.body.assumedHoldingMonths || req.query.assumedHoldingMonths || "24", 10);
+    const ltcgRealisedYtdRupees = Number.parseFloat(req.body.ltcgRealisedYtd || req.query.ltcgRealisedYtd || "0");
+
+    // Pull saved MF holdings from the user's stored portfolio so the
+    // analyzer can compute a true book-wide XIRR (not stock-only).
+    // This is read-only — nothing is persisted by the analyze endpoint.
+    let mfHoldings = [];
+    try {
+      const saved = await readPortfolio();
+      if (saved && Array.isArray(saved.mutualFunds)) {
+        // Saved-MF schema (from Groww import): name / category / type /
+        // invested / current / returns (%) / xirr (%). No purchaseDate, no
+        // ISIN — the optimizer will fall back to assumedHoldingMonths and
+        // back-solve the xirr field into a synthetic flow.
+        mfHoldings = saved.mutualFunds.map((m) => ({
+          name: m.name || m.schemeName,
+          rawName: m.name || m.schemeName,
+          isin: m.isin || null,
+          category: m.category || null,
+          subCategory: m.subCategory || null,
+          folio: m.folio || null,
+          instrumentType: "mf",
+          invested: Number(m.invested ?? m.investedValue ?? 0),
+          currentValue: Number(m.current ?? m.currentValue ?? m.invested ?? 0),
+          publishedXirrPct: Number.isFinite(Number(m.xirr)) ? Number(m.xirr) : null,
+          pnlPercent: Number.isFinite(Number(m.returns)) ? Number(m.returns) : null,
+          purchaseDate: m.firstPurchaseDate || m.purchaseDate || null,
+        }));
+      }
+    } catch (e) {
+      console.warn("[ANALYZE] could not load saved MF holdings:", e.message);
+    }
+
     // 1. Parse the upload and resolve symbols
     let parsed;
     try {
@@ -5483,8 +5530,15 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
     } catch (e) {
       return res.status(400).json({
         error: `Failed to parse portfolio file: ${e.message}`,
-        hint: "Supported: Groww XLSX export, Groww CSV, Zerodha Console CSV. File should contain Stock Name/ISIN/Quantity/Average buy price columns.",
+        hint: "Supported: Groww XLSX export (Stocks or Mutual Funds), Groww CSV, Zerodha Console CSV.",
       });
+    }
+
+    // If the upload itself contains MF rows (Groww MF XLSX export), prefer
+    // those over the saved-portfolio MFs — the upload is the source of truth
+    // for this analyze call.
+    if (Array.isArray(parsed.mfHoldings) && parsed.mfHoldings.length > 0) {
+      mfHoldings = parsed.mfHoldings;
     }
 
     // 1b. Live NSE resolution for anything the static list + supplement
@@ -5502,7 +5556,7 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
     // it found rows but classified them all as non-equity (MF/ETF/F&O).
     // In the latter case, return a minimal report so the UI can still
     // show the "Not analysed" list and explain why.
-    if (parsed.holdings.length === 0 && parsed.unmatched.length === 0) {
+    if (parsed.holdings.length === 0 && parsed.unmatched.length === 0 && mfHoldings.length === 0) {
       return res.status(400).json({
         error: "No holdings found in the uploaded file.",
         hint: "The file parsed OK but contained no rows with a stock name, quantity, and average price. Make sure you uploaded a holdings statement (not a transactions/ledger report).",
@@ -5513,21 +5567,42 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
     // All rows were classified as non-equity → return a minimal report
     // directly (skip the expensive enrichment loop, nothing to enrich).
     if (parsed.holdings.length === 0) {
+      // MF-only books are valid — the optimizer's MF path handles them. Only
+      // surface the "no equities" warning when the user has neither equity
+      // rows nor MFs (genuinely-empty file we already rejected above).
+      const mfOnlyWarnings = mfHoldings.length === 0
+        ? [...parsed.warnings, "No listed equities detected in this file — the analyser only scores individual stocks. To use the full report, upload a file that contains at least one equity row."]
+        : parsed.warnings;
       const report = buildReport([], parsed.unmatched, {
         source: parsed.source,
         parseSummary: parsed.summary,
         regime: null,
-        warnings: [
-          ...parsed.warnings,
-          "No listed equities detected in this file — the analyser only scores individual stocks. To use the full report, upload a file that contains at least one equity row.",
-        ],
+        warnings: mfOnlyWarnings,
         asOfDate: parsed.summary?.asOfDate ?? null,
         benchReturns: [],
         benchSymbol: "^NSEI",
+        // Optimizer can still run on MF-only books — pass MFs + opts through
+        mfHoldings,
+        optimizerPreset: optPreset,
+        taxSlabPct: optTaxSlabPct,
+        assumedHoldingMonths: optAssumedHoldingMonths,
+        ltcgRealisedYtdRupees,
       });
+      // Cache for the optimize endpoint so preset/tax-slab toggles work on
+      // MF-only books too.
+      const sessionId = randomUUID();
+      analyzerCache.set(sessionId, {
+        holdings: report.holdings || [],
+        mfHoldings,
+        sectorAllocation: report.sectorAllocation || [],
+        ltcgRealisedYtdRupees,
+        cachedAt: Date.now(),
+      });
+      if (report.optimizer) report.optimizer.sessionId = sessionId;
       return res.json({
         ok: true,
         elapsedMs: Date.now() - t0,
+        sessionId,
         report,
       });
     }
@@ -5684,16 +5759,96 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       asOfDate: parsed.summary?.asOfDate ?? null,
       benchReturns,
       benchSymbol,
+      // XIRR Optimizer inputs — saved MFs + per-request preset/tax options
+      mfHoldings,
+      optimizerPreset: optPreset,
+      taxSlabPct: optTaxSlabPct,
+      assumedHoldingMonths: optAssumedHoldingMonths,
+      ltcgRealisedYtdRupees,
     });
+
+    // Cache the heavy state so the optimize endpoint can re-run runXirrOptimizer
+    // against the same enriched holdings under different presets / tax-slab /
+    // assumed-holding-months — without redoing the 30s enrichment pipeline.
+    // Sessions live 30min (see analyzerCache stdTTL above).
+    const sessionId = randomUUID();
+    analyzerCache.set(sessionId, {
+      holdings: report.holdings || reportEntries,
+      mfHoldings,
+      sectorAllocation: report.sectorAllocation || [],
+      ltcgRealisedYtdRupees,
+      cachedAt: Date.now(),
+    });
+    if (report.optimizer) report.optimizer.sessionId = sessionId;
 
     res.json({
       ok: true,
       elapsedMs: Date.now() - t0,
+      sessionId,
       report,
     });
   } catch (err) {
     console.error("Portfolio analyze error:", err.message, err.stack);
     res.status(500).json({ error: "Failed to analyze portfolio", details: err.message });
+  }
+});
+
+// Re-run the XIRR optimizer ONLY against a cached analyze session. Lets the
+// UI toggle preset / tax-slab / assumed-holding-months instantly without
+// paying the 30s analyze cost. Returns just the optimizer block (and the
+// updated summary.xirr fields), not the full report.
+//
+// Body: { sessionId, preset?, taxSlabPct?, assumedHoldingMonths?, ltcgRealisedYtd? }
+app.post("/api/portfolio/optimize", express.json(), async (req, res) => {
+  try {
+    const sessionId = String(req.body?.sessionId || "");
+    if (!sessionId) {
+      return res.status(400).json({ error: "Missing sessionId. Run /api/portfolio/analyze first." });
+    }
+    const cached = analyzerCache.get(sessionId);
+    if (!cached) {
+      return res.status(410).json({
+        error: "Session expired or not found. Re-run /api/portfolio/analyze.",
+        hint: "Analyzer sessions live 30 minutes; re-upload your portfolio file.",
+      });
+    }
+
+    const preset = String(req.body?.preset || "balanced");
+    if (!OPTIMIZER_PRESETS[preset]) {
+      return res.status(400).json({
+        error: `Unknown preset "${preset}". Allowed: ${Object.keys(OPTIMIZER_PRESETS).join(", ")}`,
+      });
+    }
+    const taxSlabPct = Number.parseInt(req.body?.taxSlabPct ?? 30, 10);
+    const assumedHoldingMonths = Number.parseInt(req.body?.assumedHoldingMonths ?? 24, 10);
+    const ltcgRealisedYtdRupees = Number.parseFloat(
+      req.body?.ltcgRealisedYtd ?? cached.ltcgRealisedYtdRupees ?? 0,
+    );
+
+    const optimizer = runXirrOptimizer({
+      holdings: cached.holdings,
+      mfHoldings: cached.mfHoldings,
+      sectorAllocation: cached.sectorAllocation,
+      preset,
+      taxSlabPct,
+      assumedHoldingMonths,
+      ltcgRealisedYtdRupees,
+    });
+    optimizer.sessionId = sessionId;
+
+    res.json({
+      ok: true,
+      sessionId,
+      optimizer,
+      summary: {
+        xirrAnnualPct: optimizer.currentXirrPct,
+        xirrConfidence: optimizer.currentXirrConfidence,
+      },
+      cachedAt: cached.cachedAt,
+    });
+  } catch (err) {
+    console.error("Portfolio optimize error:", err.message, err.stack);
+    res.status(500).json({ error: "Failed to re-run optimizer", details: err.message });
   }
 });
 
