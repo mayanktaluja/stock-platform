@@ -1,39 +1,117 @@
 #!/usr/bin/env node
 /**
- * Fundamentals Snapshot Scraper
+ * Fundamentals Snapshot Scraper — merge-safe expanded universe
  *
- * Fetches NSE quote-equity data for all tracked stocks (Nifty 50 + Nifty Next 50
- * + popular midcaps) and writes fundamentals.json in the project root.
+ * Scrapes NSE quote-equity for:
+ *   • The curated stockList.js universe (Nifty 50 + Next 50 + midcaps)
+ *   • OPTIONALLY the small-cap supplement (Smallcap 250 + Microcap 250)
+ *
+ * Writes fundamentals.json with merge semantics: existing snapshots are
+ * preserved across runs, so a partial failure doesn't shrink the file.
+ * Checkpoints to disk every CHECKPOINT_EVERY batches so an abort still
+ * saves progress.
  *
  * Must be run from a machine with Indian IP access (NSE blocks non-IN IPs).
  *
  * Usage:
- *   node scripts/refresh-fundamentals.mjs
+ *   node scripts/refresh-fundamentals.mjs              # curated only (~504)
+ *   node scripts/refresh-fundamentals.mjs --supplement # curated + smallcap/microcap
+ *   node scripts/refresh-fundamentals.mjs --full       # curated + full NSE supplement (~2181)
  *
- * Cadence: run manually once a week (or whenever you want fresh P/E data),
- * then commit fundamentals.json and push. Vercel redeploys automatically.
+ * Cadence: weekly manual run, then commit fundamentals.json.
  */
 
-import { writeFileSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, renameSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
 import { fetchNseQuoteRaw } from "../nse.js";
-import { getNifty100, getAllStocks } from "../stockList.js";
+import { getAllStocks } from "../stockList.js";
+import { ENRICHED_FIELDS } from "../enrichFundamentals.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const OUT_PATH = path.join(__dirname, "..", "fundamentals.json");
+const TMP_PATH = OUT_PATH + ".tmp";
+const SUPPLEMENT_PATH = path.join(__dirname, "..", "nseUniverseSupplement.json");
+
+const args = new Set(process.argv.slice(2));
+const INCLUDE_SUPPLEMENT = args.has("--supplement") || args.has("--full");
+const FULL_UNIVERSE = args.has("--full");
+
+const BATCH_SIZE = 5;
+const BATCH_DELAY_MS = 300;
+const CHECKPOINT_EVERY = 20; // write to disk every N batches
+
+function loadExistingSnapshots() {
+  if (!existsSync(OUT_PATH)) return {};
+  try {
+    const data = JSON.parse(readFileSync(OUT_PATH, "utf-8"));
+    return data.snapshots || {};
+  } catch (err) {
+    console.warn(`  Could not parse existing ${OUT_PATH}: ${err.message}`);
+    return {};
+  }
+}
+
+function buildSymbolList() {
+  const seen = new Set();
+  const list = [];
+
+  // 1. Curated (ALL_STOCKS from stockList.js) — full shape with name/sector
+  for (const s of getAllStocks()) {
+    if (!s.symbol || seen.has(s.symbol)) continue;
+    seen.add(s.symbol);
+    list.push({ symbol: s.symbol, name: s.name, sector: s.sector, source: "curated" });
+  }
+
+  // 2. Supplement — only if flagged
+  if (INCLUDE_SUPPLEMENT && existsSync(SUPPLEMENT_PATH)) {
+    const supp = JSON.parse(readFileSync(SUPPLEMENT_PATH, "utf-8"));
+    const bySymbol = supp.bySymbol || {};
+    for (const [bare, rec] of Object.entries(bySymbol)) {
+      const symbol = rec.symbol || `${bare}.NS`;
+      if (seen.has(symbol)) continue;
+      // Default mode: only pull Smallcap 250 + Microcap 250 (what the SME scanner ranks).
+      // --full adds the long-tail 1,431 names from the NSE EQ master.
+      const inSmallcap = (rec.indices || []).some((i) => /SMALLCAP 250|MICROCAP 250/.test(i));
+      if (!FULL_UNIVERSE && !inSmallcap) continue;
+      seen.add(symbol);
+      list.push({ symbol, name: rec.name, sector: rec.sector, source: "supplement" });
+    }
+  }
+
+  return list;
+}
+
+function writeOutput(snapshots, failures) {
+  const output = {
+    generatedAt: new Date().toISOString(),
+    source: FULL_UNIVERSE ? "nse-full" : INCLUDE_SUPPLEMENT ? "nse-expanded" : "nse",
+    stockCount: Object.keys(snapshots).length,
+    failureCount: failures.length,
+    failures,
+    snapshots,
+  };
+  // Atomic write: tmp file then rename, so a mid-write crash doesn't
+  // corrupt fundamentals.json.
+  writeFileSync(TMP_PATH, JSON.stringify(output, null, 2), "utf-8");
+  renameSync(TMP_PATH, OUT_PATH);
+}
 
 async function main() {
-  const stocks = getAllStocks(); // scrape everything we track
-  console.log(`Scraping ${stocks.length} stocks from NSE...`);
-
-  const snapshots = {};
+  const stocks = buildSymbolList();
+  const existing = loadExistingSnapshots();
+  const snapshots = { ...existing }; // merge-safe: start from existing
   const failures = [];
-  const BATCH_SIZE = 5;
-  const BATCH_DELAY_MS = 300;
 
+  const mode = FULL_UNIVERSE ? "full NSE" : INCLUDE_SUPPLEMENT ? "curated + Smallcap 250 + Microcap 250" : "curated only";
+  console.log(`Mode: ${mode}`);
+  console.log(`Existing snapshots: ${Object.keys(existing).length}`);
+  console.log(`To scrape: ${stocks.length}`);
+  console.log("");
+
+  let batchCount = 0;
   for (let i = 0; i < stocks.length; i += BATCH_SIZE) {
     const batch = stocks.slice(i, i + BATCH_SIZE);
     const results = await Promise.all(
@@ -64,9 +142,7 @@ async function main() {
             faceValue: sec.faceValue || null,
             issuedSize: sec.issuedSize || null,
             marketCap:
-              p.lastPrice && sec.issuedSize
-                ? p.lastPrice * sec.issuedSize
-                : null,
+              p.lastPrice && sec.issuedSize ? p.lastPrice * sec.issuedSize : null,
             week52High: p.weekHighLow?.max || null,
             week52Low: p.weekHighLow?.min || null,
             week52HighDate: p.weekHighLow?.maxDate || null,
@@ -76,6 +152,18 @@ async function main() {
             lowerCircuit: p.lowerCP || null,
             isin: info.isin || null,
           };
+
+          // Preserve Yahoo-enriched fields (ROE, D/E, dividends, health metrics,
+          // forward-looking inputs, etc.) if the existing snapshot has them —
+          // enrich-fundamentals.mjs runs separately and we don't want to clobber
+          // its work. The canonical field list is exported by enrichFundamentals.js
+          // so the set never drifts out of sync.
+          const prior = existing[stock.symbol];
+          if (prior) {
+            for (const field of ENRICHED_FIELDS) {
+              if (prior[field] != null) snapshot[field] = prior[field];
+            }
+          }
 
           return { symbol: stock.symbol, snapshot };
         } catch (err) {
@@ -89,28 +177,30 @@ async function main() {
       if (r) snapshots[r.symbol] = r.snapshot;
     }
 
+    batchCount++;
     const processed = Math.min(i + BATCH_SIZE, stocks.length);
-    console.log(`  ${processed}/${stocks.length} (${Object.keys(snapshots).length} ok, ${failures.length} failed)`);
+    const pctBar = `[${"#".repeat(Math.floor((processed / stocks.length) * 20)).padEnd(20)}]`;
+    console.log(
+      `  ${pctBar} ${processed}/${stocks.length} (${Object.keys(snapshots).length} ok, ${failures.length} failed)`
+    );
+
+    // Checkpoint periodically so an abort still saves progress
+    if (batchCount % CHECKPOINT_EVERY === 0) {
+      writeOutput(snapshots, failures);
+    }
 
     if (i + BATCH_SIZE < stocks.length) {
       await new Promise((r) => setTimeout(r, BATCH_DELAY_MS));
     }
   }
 
-  const output = {
-    generatedAt: new Date().toISOString(),
-    source: "nse",
-    stockCount: Object.keys(snapshots).length,
-    failureCount: failures.length,
-    failures,
-    snapshots,
-  };
+  // Final write
+  writeOutput(snapshots, failures);
 
-  writeFileSync(OUT_PATH, JSON.stringify(output, null, 2), "utf-8");
   console.log(`\n✓ Wrote ${OUT_PATH}`);
   console.log(`  ${Object.keys(snapshots).length} snapshots, ${failures.length} failures`);
   if (failures.length > 0) {
-    console.log(`\n  Failed symbols:`);
+    console.log(`\n  Failed (first 10):`);
     failures.slice(0, 10).forEach((f) => console.log(`    ${f.symbol}: ${f.reason}`));
     if (failures.length > 10) console.log(`    ... and ${failures.length - 10} more`);
   }
