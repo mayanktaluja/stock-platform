@@ -30,3 +30,14 @@ yarn-debug.log*
 yarn-error.log*
 *.log
 reports/
+# Added by code-review-graph
+.code-review-graph/
+
+# Ad-hoc shadow-mode diagnostics (one-off V2 comparison artifacts, not
+# source-of-truth — they're regenerable via scripts/shadow-compare.mjs)
+shadow-diff.json
+shadow-diff-*.json
+
+# Scratch/test scripts at repo root (kept local, not shipped)
+test-*.mjs
+test-*.js
