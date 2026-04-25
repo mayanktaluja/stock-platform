@@ -564,10 +564,6 @@ export function analyzeHolding(input) {
     macroTailwind: action.macroTailwind ?? null,
     // Report extras
     outlook,
-    // Full long-term outlook block — recommendation, score, target, narrative,
-    // news. Surfaced so the UI can render the StarBhai thesis card on
-    // analyzer holding cards (mirrors the stock detail page layout).
-    longTerm: longTerm || null,
     redFlags,
     exitPlan,
     taxNote,
@@ -1176,13 +1172,7 @@ export function buildReport(enrichedHoldings, unmatched, meta) {
   let mfPositionsBlock = null;
   if (mfHoldings.length > 0) {
     try {
-      mfPositionsBlock = recommendMfBook(mfHoldings, {
-        today: meta?.asOfDate || undefined,
-        // Priority 3: pass through the user's risk profile (when present)
-        // so the recommender can tag per-fund alignment + the asset-
-        // allocation gap module can pick the right target weights.
-        riskProfile: meta?.riskProfile || null,
-      });
+      mfPositionsBlock = recommendMfBook(mfHoldings, { today: meta?.asOfDate || undefined });
     } catch (err) {
       console.warn("[ANALYZER] MF recommender failed:", err.message);
     }

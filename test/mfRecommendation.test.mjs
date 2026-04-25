@@ -59,14 +59,8 @@ console.log("holdingsOverlap.detectOverlap:");
 }
 console.log();
 
-// ──────────────────── 2. Quant Small Cap → HOLD (offline gate, Priority 1) ──
-//
-// PRE-Priority-1 behavior: Quant Small Cap with -7.67% Groww XIRR fired SWITCH.
-// POST-Priority-1: with only `groww_xirr` available (no AMFI metrics), the
-// action is gated to HOLD with INSUFFICIENT_DATA_FOR_SWITCH. The XIRR_NEGATIVE
-// observation chip is preserved so the user still sees the underlying concern,
-// but the recommender doesn't act on a duration-mismatched signal.
-console.log("Priority 1: Quant Small Cap (groww_xirr only) → HOLD with data-quality gate:");
+// ──────────────────── 2. Quant Small Cap → EXIT/SWITCH (acceptance) ──
+console.log("ACCEPTANCE: Quant Small Cap loser → EXIT or SWITCH:");
 {
   const quant = {
     name: "Quant Small Cap Fund Direct Plan Growth",
@@ -80,44 +74,14 @@ console.log("Priority 1: Quant Small Cap (groww_xirr only) → HOLD with data-qu
     amc: "Quant Mutual Fund",
   };
   const r = recommendForPosition(quant, { overlap: detectOverlap([quant]), today: TODAY });
-  assert("Offline → HOLD (action gated, was SWITCH/EXIT pre-P1)", r.action === "HOLD", r.action);
-  assert("Confidence = LOW (gate downgrades the call)", r.confidence === "LOW", r.confidence);
-  assert("INSUFFICIENT_DATA_FOR_SWITCH chip surfaces", r.reasons.some((x) => x.code === "INSUFFICIENT_DATA_FOR_SWITCH"), r.reasons.map((x) => x.code));
-  assert("XIRR_DURATION_MISMATCH chip surfaces", r.reasons.some((x) => x.code === "XIRR_DURATION_MISMATCH"), r.reasons.map((x) => x.code));
-  // Underlying observation preserved so the user still sees the concern
-  assert("XIRR_NEGATIVE preserved as observation", r.reasons.some((x) => x.code === "XIRR_NEGATIVE"), r.reasons.map((x) => x.code));
-  assert("factors.actionGated=true", r.factors.actionGated === true, r.factors.actionGated);
-}
-console.log();
-
-// ── 2b. With AMFI metrics, the same fund WOULD fire SWITCH ──
-console.log("Priority 1: With AMFI metrics, gate releases and SWITCH fires:");
-{
-  const quantWithAmfi = {
-    name: "Quant Small Cap Fund Direct Plan Growth",
-    folio: "51082967565",
-    category: "Equity",
-    subCategory: "Small Cap",
-    invested: 112501,
-    currentValue: 103423,
-    publishedXirrPct: -7.67,
-    amc: "Quant Mutual Fund",
-    metrics: {
-      // AMFI 3y CAGR is the apples-to-apples comparison vs the 5y benchmark
-      cagr3yPct: -2.5,
-      cagr1yPct: -10,
-      cagr5yPct: 8,
-      sharpe3y: 0.1,
-      maxDrawdownPct: -38,
-      annualVolPct: 22,
-      asOfDate: TODAY,
-      historyDays: 1500,
-    },
-  };
-  const r = recommendForPosition(quantWithAmfi, { overlap: detectOverlap([quantWithAmfi]), today: TODAY });
-  assert("AMFI 3y CAGR → action gate releases", r.factors.actionGated === false, r.factors.actionGated);
-  assert("AMFI present → action ∈ {EXIT, SWITCH} (not HOLD)", ["EXIT", "SWITCH"].includes(r.action), r.action);
-  assert("Source recorded as amfi_3y", r.factors.trailingXirrSource === "amfi_3y", r.factors.trailingXirrSource);
+  assert("Quant Small Cap (-7.67%) → NOT HOLD", r.action !== "HOLD", r.action);
+  assert("Quant Small Cap → EXIT or SWITCH", ["EXIT", "SWITCH"].includes(r.action), r.action);
+  assert("Confidence = HIGH (negative XIRR + clear signal)", r.confidence === "HIGH", r.confidence);
+  assert("Reason includes XIRR_NEGATIVE", r.reasons.some((x) => x.code === "XIRR_NEGATIVE"), r.reasons.map((x) => x.code));
+  // If SWITCH, peer must NOT be Quant (same-AMC excluded)
+  if (r.action === "SWITCH") {
+    assert("SWITCH peer is not Quant AMC", !r.peerCandidates.some((c) => /quant/i.test(c.name)), r.peerCandidates.map((c) => c.name));
+  }
 }
 console.log();
 
@@ -143,15 +107,8 @@ console.log("CONSOLIDATE for duplicate folios (HOLD-quality scheme):");
 }
 console.log();
 
-// Bonus: failing scheme + dupe folio
-//
-// PRE-Priority-1: SWITCH/EXIT preempted CONSOLIDATE (a failing scheme is
-// the headline; folio hygiene is secondary).
-// POST-Priority-1: with only `groww_xirr`, SWITCH/EXIT is gated to HOLD,
-// so the CONSOLIDATE path on the dupe folio surfaces instead. A reasonable
-// fallback — the recommender can't act on a misleading return signal but
-// can still suggest folio cleanup.
-console.log("Priority 1: gated SWITCH falls back to CONSOLIDATE on dupe folio:");
+// Bonus: failing scheme + dupe folio → SWITCH/EXIT preempts CONSOLIDATE
+console.log("SWITCH preempts CONSOLIDATE on failing scheme:");
 {
   const book = [
     { name: "Axis ELSS Tax Saver Direct Plan Growth", folio: "F_LOSER_A", category: "Equity", subCategory: "ELSS", invested: 100000, currentValue: 95000, publishedXirrPct: -5 },
@@ -159,9 +116,7 @@ console.log("Priority 1: gated SWITCH falls back to CONSOLIDATE on dupe folio:")
   ];
   const overlap = detectOverlap(book);
   const r = recommendForPosition(book[1], { overlap, today: TODAY });
-  // Without AMFI, SWITCH/EXIT is gated. The original SWITCH/EXIT was based on
-  // groww_xirr, so it gets downgraded — and CONSOLIDATE/HOLD is acceptable.
-  assert("Gated dupe folio → HOLD or CONSOLIDATE (NOT SWITCH/EXIT)", !["SWITCH", "EXIT"].includes(r.action), r.action);
+  assert("Failing dupe folio → SWITCH or EXIT, NOT CONSOLIDATE", ["SWITCH", "EXIT"].includes(r.action), r.action);
 }
 console.log();
 
@@ -183,12 +138,8 @@ console.log("HOLD when within ±3pp of category benchmark:");
 }
 console.log();
 
-// ──────────────────── 5. Top-performer (offline) → HOLD (gated) ──
-//
-// Pre-P1: ADD fired. Post-P1: ADD is gated when only groww_xirr is the
-// signal — the same duration mismatch that produces false SWITCHes
-// produces false ADDs in the other direction.
-console.log("Priority 1: top performer (offline) gated to HOLD:");
+// ──────────────────── 5. Top-performer with empty category → ADD ──
+console.log("ADD when top performer + uncrowded category:");
 {
   const star = {
     name: "Mirae Asset ELSS Tax Saver Fund Direct Growth",
@@ -200,30 +151,12 @@ console.log("Priority 1: top performer (offline) gated to HOLD:");
     amc: "Mirae Asset Mutual Fund",
   };
   const r = recommendForPosition(star, { overlap: detectOverlap([star]), today: TODAY });
-  assert("Top performer (groww_xirr only) → HOLD (was ADD pre-P1)", r.action === "HOLD", r.action);
-  assert("XIRR_TOP_QUARTILE observation preserved", r.reasons.some((x) => x.code === "XIRR_TOP_QUARTILE"), r.reasons.map((x) => x.code));
-  assert("INSUFFICIENT_DATA_FOR_SWITCH chip surfaces", r.reasons.some((x) => x.code === "INSUFFICIENT_DATA_FOR_SWITCH"), r.reasons.map((x) => x.code));
+  assert("Top performer (alone in category) → ADD", r.action === "ADD", r.action);
+  assert("Reason includes XIRR_TOP_QUARTILE", r.reasons.some((x) => x.code === "XIRR_TOP_QUARTILE"), r.reasons.map((x) => x.code));
 }
 console.log();
 
-// ──────────────────── 5b. Top performer WITH AMFI metrics → ADD ──
-console.log("With AMFI metrics, top performer fires ADD:");
-{
-  const star = {
-    name: "Mirae Asset ELSS Tax Saver Fund Direct Growth",
-    folio: "77760343603",
-    category: "Equity", subCategory: "ELSS",
-    invested: 134993, currentValue: 171052,
-    publishedXirrPct: 19.5,
-    amc: "Mirae Asset Mutual Fund",
-    metrics: { cagr3yPct: 19.5, cagr1yPct: 22, cagr5yPct: 18, sharpe3y: 0.9, maxDrawdownPct: -25, asOfDate: TODAY, historyDays: 1500 },
-  };
-  const r = recommendForPosition(star, { overlap: detectOverlap([star]), today: TODAY });
-  assert("AMFI cagr3y → ADD fires (gate released)", r.action === "ADD", r.action);
-}
-console.log();
-
-// ──────────────────── 6. Top-performer in CROWDED category → HOLD ──
+// ──────────────────── 6. Top-performer in CROWDED category → HOLD (not ADD) ──
 console.log("HOLD when top performer is in crowded category:");
 {
   const book = [
@@ -233,7 +166,8 @@ console.log("HOLD when top performer is in crowded category:");
   ];
   const overlap = detectOverlap(book);
   const star = recommendForPosition(book[0], { overlap, today: TODAY });
-  assert("Top performer in crowded ELSS book → HOLD", star.action === "HOLD", star.action);
+  assert("Top performer in crowded ELSS book → HOLD (not ADD)", star.action === "HOLD", star.action);
+  assert("Reason mentions CATEGORY_CONCENTRATION", star.reasons.some((x) => x.code === "CATEGORY_CONCENTRATION"), star.reasons.map((x) => x.code));
 }
 console.log();
 
@@ -273,111 +207,31 @@ console.log("recommendBook on the real Mayank Taluja book (11 folios):");
   const out = recommendBook(realBook, { today: TODAY });
   assert("11 positions in output", out.positions.length === 11, out.positions.length);
 
-  // Action mix sanity (Priority 1: offline → HOLD/CONSOLIDATE only)
+  // Action mix sanity
   const mix = out.actionMix;
   console.log("    actionMix:", JSON.stringify(mix));
-  assert("Priority 1: no SWITCH/EXIT/ADD when only groww_xirr available",
-    !mix.SWITCH && !mix.EXIT && !mix.ADD,
-    mix);
-  assert("Only HOLD + CONSOLIDATE actions in offline mode",
-    Object.keys(mix).every((k) => k === "HOLD" || k === "CONSOLIDATE"),
-    Object.keys(mix));
+  const actionable = (mix.EXIT || 0) + (mix.SWITCH || 0) + (mix.CONSOLIDATE || 0) + (mix.ADD || 0);
+  assert("At least 4 actionable items (was: 1 in old optimizer)", actionable >= 4, actionable);
 
-  // Both Quant Small Cap folios surface as HOLD with the data-quality gate
+  // Both Quant Small Cap folios EXIT/SWITCH
   const quants = out.positions.filter((p) => /quant.*small/i.test(p.name));
   assert("Both Quant Small Cap folios surface", quants.length === 2, quants.length);
   for (const q of quants) {
-    assert(`Quant ${q.folio} action = HOLD (gated)`, q.rec.action === "HOLD", q.rec.action);
-    assert(`Quant ${q.folio} carries INSUFFICIENT_DATA_FOR_SWITCH chip`,
-      q.rec.reasons.some((r) => r.code === "INSUFFICIENT_DATA_FOR_SWITCH"),
-      q.rec.reasons.map((r) => r.code));
+    assert(`Quant ${q.folio} action ∈ {EXIT, SWITCH}`, ["EXIT", "SWITCH"].includes(q.rec.action), q.rec.action);
   }
 
-  // Duplicate Axis ELSS still detected (CONSOLIDATE is not gated)
+  // Duplicate Axis ELSS detected
   const axisFolios = out.positions.filter((p) => /axis ELSS/i.test(p.name));
   assert("Both Axis ELSS folios surface", axisFolios.length === 2, axisFolios.length);
   const consolidateAxis = axisFolios.filter((p) => p.rec.action === "CONSOLIDATE");
   assert("Smaller Axis folio → CONSOLIDATE (1 of the 2)", consolidateAxis.length === 1, consolidateAxis.map((p) => p.folio));
-  // Priority 4: ELSS CONSOLIDATEs carry the lock-in assumption disclosure
-  for (const c of consolidateAxis) {
-    assert(`Axis ELSS CONSOLIDATE ${c.folio} carries LOCK_IN_ASSUMED_CLEAR`,
-      c.rec.reasons.some((r) => r.code === "LOCK_IN_ASSUMED_CLEAR"),
-      c.rec.reasons.map((r) => r.code));
-  }
 
   // Overlap signal
   assert("duplicateFolioCount >= 2 (Axis dupes + UTI dupes + Quant dupes)", out.overlap.duplicateFolioCount >= 2, out.overlap.duplicateFolioCount);
 
-  // Priority 2: asset allocation block surfaces structural concerns
-  assert("assetAllocation block present", !!out.assetAllocation, !!out.assetAllocation);
-  assert("Book detected as 100% equity", out.assetAllocation.summary.equityPct === 100, out.assetAllocation.summary.equityPct);
-  assert("Concentration flag for missing debt", out.assetAllocation.summary.concentrationFlags.some((f) => /equity.*no.*debt/i.test(f)), out.assetAllocation.summary.concentrationFlags);
-  assert("Mid+small overweight flag", out.assetAllocation.summary.concentrationFlags.some((f) => /mid.*small/i.test(f)), out.assetAllocation.summary.concentrationFlags);
-
-  // Priority 3: risk profile defaults to absent
-  assert("riskProfile.present = false (no profile saved)", out.riskProfile.present === false, out.riskProfile);
-}
-console.log();
-
-// ──────────────────── 9. Priority 5: peer reconciliation ──
-//
-// Bandhan Small Cap and Quant Small Cap both held; without AMFI both fall
-// to HOLD via the offline gate, so the peer-exclusion path can't trigger.
-// Use AMFI-shaped synthetic metrics so both fire SWITCH and the cross-
-// exclusion is exercised.
-console.log("Priority 5: same-book SWITCH-OUT excluded from sibling peer list:");
-{
-  const book = [
-    {
-      name: "Quant Small Cap Fund Direct Plan Growth",
-      folio: "F1", category: "Equity", subCategory: "Small Cap",
-      invested: 100000, currentValue: 92000, publishedXirrPct: -5,
-      amc: "Quant Mutual Fund",
-      metrics: { cagr3yPct: -2.5, cagr5yPct: 8, sharpe3y: 0.05, maxDrawdownPct: -40, asOfDate: TODAY, historyDays: 1500 },
-    },
-    {
-      name: "Bandhan Small Cap Fund Direct Growth",
-      folio: "F2", category: "Equity", subCategory: "Small Cap",
-      invested: 100000, currentValue: 105000, publishedXirrPct: 1.3,
-      amc: "Bandhan Mutual Fund",
-      metrics: { cagr3yPct: 5, cagr5yPct: 12, sharpe3y: 0.3, maxDrawdownPct: -30, asOfDate: TODAY, historyDays: 1500 },
-    },
-  ];
-  const out = recommendBook(book, { today: TODAY });
-  const bandhan = out.positions.find((p) => /bandhan/i.test(p.name));
-  assert("Bandhan position present", !!bandhan, bandhan);
-  if (bandhan) {
-    const peerNames = (bandhan.rec.peerCandidates || []).map((c) => c.name.toLowerCase());
-    assert("Peer list does NOT contain Quant Small Cap (excluded by book)",
-      !peerNames.some((n) => /quant.*small/i.test(n)),
-      peerNames);
-    if (bandhan.rec.factors.peerExclusionCount > 0) {
-      assert("PEER_EXCLUDED_SAME_BOOK chip surfaces when an exclusion happened",
-        bandhan.rec.reasons.some((r) => r.code === "PEER_EXCLUDED_SAME_BOOK"),
-        bandhan.rec.reasons.map((r) => r.code));
-    }
-  }
-}
-console.log();
-
-// ──────────────────── 10. Priority 3: risk-profile alignment chips ──
-console.log("Priority 3: small-cap fund tagged TOO_AGGRESSIVE for CONSERVATIVE profile:");
-{
-  const conservativeProfile = { bucket: "CONSERVATIVE", score: 3, completedAt: TODAY };
-  const smallCap = {
-    name: "Quant Small Cap Fund Direct Plan Growth",
-    folio: "F1", category: "Equity", subCategory: "Small Cap",
-    invested: 100000, currentValue: 105000, publishedXirrPct: 8,
-    amc: "Quant Mutual Fund",
-  };
-  const out = recommendBook([smallCap], { today: TODAY, riskProfile: conservativeProfile });
-  const p = out.positions[0];
-  assert("riskAlignment = TOO_AGGRESSIVE for small-cap on conservative profile",
-    p.rec.factors.riskAlignment === "TOO_AGGRESSIVE", p.rec.factors.riskAlignment);
-  assert("riskProfile echoed back on the book",
-    out.riskProfile.bucket === "CONSERVATIVE", out.riskProfile);
-  assert("assetAllocation targetSource = user_profile (not default)",
-    out.assetAllocation.targetSource === "user_profile", out.assetAllocation.targetSource);
+  // Sort: actionable items first
+  const firstAction = out.positions[0].rec.action;
+  assert("First position is actionable (EXIT/SWITCH/CONSOLIDATE)", ["EXIT", "SWITCH", "CONSOLIDATE", "ADD"].includes(firstAction), firstAction);
 }
 console.log();
 

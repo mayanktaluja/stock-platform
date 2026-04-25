@@ -32,25 +32,6 @@
 
 import { mfCategoryKey, getMfCandidates } from "./xirrOptimizer.js";
 import { liveTopPeers } from "./mfNavIngestion.js";
-import { categoryToAssetClass, computeAllocationGap } from "./assetAllocation.js";
-import { tagRecRiskAlignment } from "./riskProfile.js";
-
-// Helper used by the book-level reconciliation pass (Priority 5).
-// Stricter than holdingsOverlap.normaliseSchemeName because we also
-// compare against the curated mfCandidates.json names which contain
-// punctuation ("Quant Small Cap Fund - Direct Growth"). Any alphanumerics
-// only — that way "Quant Small Cap Fund Direct Plan Growth" (Groww) and
-// "Quant Small Cap Fund - Direct Growth" (curated) collapse to the same
-// key "quant small cap" so exclusion works across both sources.
-function normaliseSchemeName(name) {
-  return String(name || "")
-    .toLowerCase()
-    .replace(/\b(direct|regular)\s*(plan|growth)?\b/g, " ")
-    .replace(/\b(plan|growth|dividend|idcw|payout|reinvest|reinvestment|fund)\b/g, " ")
-    .replace(/[^a-z0-9]+/g, " ") // strip punctuation, dashes, etc.
-    .replace(/\s+/g, " ")
-    .trim();
-}
 
 // ──────────────────── Reason codebook ────────────────────
 //
@@ -81,24 +62,6 @@ const REASONS = {
   // Edge
   MISSING_DATA: { label: "Insufficient data for high-confidence call" },
   LOCK_IN_REMAINING: { label: "Statutory lock-in not expired" },
-  // Priority 1: data-quality gates. Surfaced when the only return signal
-  // is the duration-dependent Groww-published XIRR — comparing that to a
-  // 5y category CAGR is apples-to-oranges, so SWITCH/EXIT/ADD are gated
-  // off and we surface this code instead of a misleading action.
-  INSUFFICIENT_DATA_FOR_SWITCH: { label: "Insufficient data for SWITCH/EXIT — AMFI metrics required" },
-  XIRR_DURATION_MISMATCH: { label: "Trailing XIRR is duration-dependent; benchmark is 5y CAGR" },
-  // Priority 4 (light): ELSS-specific assumption disclosure. The Holdings
-  // export doesn't carry per-installment dates, so the recommender assumes
-  // all units are out of the 36-month lock-in. The user must verify with
-  // their AMC / CAS before executing any EXIT/SWITCH.
-  LOCK_IN_ASSUMED_CLEAR: { label: "ELSS lock-in assumed cleared — verify before executing" },
-  // Priority 5: a peer was filtered because the same book is recommending
-  // EXIT/SWITCH on it. Prevents the "switch from A to B while also
-  // recommending switch out of B" inconsistency.
-  PEER_EXCLUDED_SAME_BOOK: { label: "Peer excluded — also flagged EXIT/SWITCH in your book" },
-  // Priority 3: rec is misaligned with the user's risk profile.
-  RISK_MISALIGNED_TOO_AGGRESSIVE: { label: "Position more aggressive than your risk profile" },
-  RISK_MISALIGNED_TOO_CONSERVATIVE: { label: "Position more conservative than your risk profile" },
 };
 
 // Phase 4: per-category Sharpe baselines used to gate "POOR_SHARPE" /
@@ -172,22 +135,16 @@ function amcOf(name) {
 // Pull the curated leaders for this category, exclude same-scheme and
 // same-AMC, sort by 5y CAGR descending. Returns top-3.
 
-function rankPeers(holding, catKey, excludeSchemes = null) {
-  if (!catKey) return { peers: [], excludedCount: 0 };
+function rankPeers(holding, catKey) {
+  if (!catKey) return [];
   const currentAmc = amcOf(holding.amc || holding.name);
-  const exclude = excludeSchemes instanceof Set ? excludeSchemes : null;
-  let excludedCount = 0;
-  // Always exclude the current holding's own scheme — a fund cannot be
-  // its own SWITCH target. Same-AMC exclusion below covers most of this
-  // but not when the AMC short-name detection misses (e.g. "Aditya Birla").
-  const ownSchemeKey = normaliseSchemeName(holding.name || "");
 
   // Phase 5: prefer live AMFI peers when available (real 5y CAGR computed
   // from NAV history, not a curated 2020-2025 snapshot). Falls back to
   // the curated mfCandidates.json when liveTopPeers couldn't run.
   if (Array.isArray(holding.livePeers) && holding.livePeers.length > 0) {
     const currentXirr = holding.metrics?.cagr5yPct ?? Number(holding.publishedXirrPct);
-    const peers = holding.livePeers
+    return holding.livePeers
       .map((c) => ({
         name: c.name,
         amc: c.fundHouse || null,
@@ -203,30 +160,16 @@ function rankPeers(holding, catKey, excludeSchemes = null) {
         lockInMonths: 0, // AMFI doesn't tag lock-in; the recommender doesn't recommend SWITCH into ELSS within lock anyway
         source: "amfi_live",
       }))
-      .filter((c) => {
-        if (!c.name) return false;
-        if (currentAmc && amcOf(c.amc || c.name).indexOf(currentAmc.split(" ")[0]) !== -1) return false;
-        const key = normaliseSchemeName(c.name);
-        if (key === ownSchemeKey) return false;
-        if (exclude && exclude.has(key)) { excludedCount += 1; return false; }
-        return true;
-      })
+      .filter((c) => c.name && (!currentAmc || amcOf(c.amc || c.name).indexOf(currentAmc.split(" ")[0]) === -1))
       .slice(0, 3);
-    return { peers, excludedCount };
   }
 
   // Fallback to curated list
   const all = getMfCandidates(holding);
-  if (!all.length) return { peers: [], excludedCount: 0 };
+  if (!all.length) return [];
   const currentXirr = Number(holding.publishedXirrPct);
-  const peers = all
-    .filter((c) => {
-      if (amcOf(c.amc || c.name) === currentAmc) return false;
-      const key = normaliseSchemeName(c.name);
-      if (key === ownSchemeKey) return false;
-      if (exclude && exclude.has(key)) { excludedCount += 1; return false; }
-      return true;
-    })
+  return all
+    .filter((c) => amcOf(c.amc || c.name) !== currentAmc)
     .map((c) => ({
       name: c.name,
       amc: c.amc,
@@ -242,7 +185,6 @@ function rankPeers(holding, catKey, excludeSchemes = null) {
     }))
     .sort((a, b) => (b.approxXirr5yPct || 0) - (a.approxXirr5yPct || 0))
     .slice(0, 3);
-  return { peers, excludedCount };
 }
 
 // ──────────────────── CONSOLIDATE helper ────────────────────
@@ -280,7 +222,7 @@ function maybeConsolidate(holding, folioOverlap, factors) {
 
 /**
  * @param {object} holding - normalised mf row from the parser
- * @param {object} ctx - { overlap, today, fyContext, excludePeerSchemes, riskProfile }
+ * @param {object} ctx - { overlap, today, fyContext }
  * @returns recommendation object (see file header)
  */
 export function recommendForPosition(holding, ctx = {}) {
@@ -288,11 +230,6 @@ export function recommendForPosition(holding, ctx = {}) {
   const folioOverlap = (overlap.perFundOverlap && holding.folio)
     ? overlap.perFundOverlap[holding.folio] || {}
     : {};
-  // Priority 5: book-level peer exclusion set, populated by recommendBook
-  // after a Pass-1 dry run. Empty/null on first pass and on direct
-  // (single-position) callers.
-  const excludePeerSchemes = ctx.excludePeerSchemes instanceof Set
-    ? ctx.excludePeerSchemes : null;
 
   const catKey = mfCategoryKey(holding);
   const benchmark = categoryBenchmark(catKey);
@@ -324,17 +261,9 @@ export function recommendForPosition(holding, ctx = {}) {
   }
   const hasXirr = trailingXirr != null;
   const vsBenchmarkPp = hasXirr ? +(trailingXirr - benchmark).toFixed(2) : null;
-  const { peers, excludedCount: peerExclusionCount } = rankPeers(holding, catKey, excludePeerSchemes);
+  const peers = rankPeers(holding, catKey);
   const bestPeer = peers[0] || null;
   const peerLagPp = (bestPeer && hasXirr) ? +(bestPeer.approxXirr5yPct - trailingXirr).toFixed(2) : null;
-
-  // Priority 1: data-quality gate. SWITCH/EXIT/ADD require AMFI-derived
-  // metrics — comparing the user's duration-dependent published XIRR
-  // against a 5y category CAGR is structurally incomparable and produces
-  // false positives on the bulk of a real book. When only `groww_xirr`
-  // is available, we still surface the gap as a HOLD with a data-quality
-  // reason chip; the actionable surface re-opens only with AMFI metrics.
-  const actionGated = xirrSource === "groww_xirr" || !hasXirr;
 
   // Phase 4: quality + news signals derived from Phase 2 + Phase 3 data.
   // These don't drive a top-level action by themselves — they augment
@@ -373,18 +302,6 @@ export function recommendForPosition(holding, ctx = {}) {
     newsSignal,
     materialNegCount: materialNeg.length,
     materialPosCount: materialPos.length,
-    // Priority 1: data-quality flag — read by makeRecommendation to gate
-    // SWITCH/EXIT/ADD when the only return signal is the duration-dependent
-    // groww_xirr field (apples-to-oranges vs the 5y category benchmark).
-    actionGated,
-    // Priority 5: count of peers filtered out because the same book
-    // already flagged them EXIT/SWITCH. Surfaces in the UI so the user
-    // knows why the suggested SWITCH list might be shorter than usual.
-    peerExclusionCount,
-    // Priority 3: persisted on the rec so the UI can render the alignment
-    // chip; populated by tagRecRiskAlignment in recommendBook (set null
-    // when no riskProfile exists).
-    riskAlignment: null,
     // Phase 2 quality signals — surfaced alongside the headline action
     amfi: amfi ? { schemeCode: amfi.schemeCode, schemeName: amfi.schemeName, fundHouse: amfi.fundHouse, score: amfi.score, matchType: amfi.matchType } : null,
     metrics: metrics ? {
@@ -596,87 +513,15 @@ function buildPerformance(factors) {
 }
 
 function makeRecommendation(input) {
-  let action = input.action;
-  let confidence = input.confidence;
-  const reasons = [...input.reasons];
-  const factors = input.factors || {};
-
-  // Priority 1: offline action gate.
-  //
-  // When the only return signal is the Groww-published per-position
-  // XIRR (which is duration-dependent — money invested 6 months ago
-  // looks like a poor return even for a great fund) and we'd otherwise
-  // emit SWITCH/EXIT/ADD, downgrade to HOLD with a data-quality note.
-  // The underlying observation chips (XIRR_NEGATIVE, XIRR_BELOW_CAT_BENCHMARK,
-  // XIRR_TOP_QUARTILE) stay so the user still sees the concern; only the
-  // top-line action is suppressed until AMFI metrics arrive.
-  if (factors.actionGated && (action === "SWITCH" || action === "EXIT" || action === "ADD")) {
-    reasons.push({
-      code: "INSUFFICIENT_DATA_FOR_SWITCH",
-      ...REASONS.INSUFFICIENT_DATA_FOR_SWITCH,
-      detail:
-        `Action downgraded from ${action} → HOLD. The only return signal available is ` +
-        `the broker-published per-position XIRR (${factors.trailingXirrPct}%), which is ` +
-        `duration-dependent and not directly comparable to the 5y category benchmark ` +
-        `(${factors.benchmarkPct}%). Run analyser when AMFI live ingestion is available ` +
-        `for a high-confidence call.`,
-    });
-    reasons.push({
-      code: "XIRR_DURATION_MISMATCH",
-      ...REASONS.XIRR_DURATION_MISMATCH,
-      detail:
-        "A short SIP history will show a low XIRR even on a top-quartile fund " +
-        "because most contributions are recent. Direct comparison to a 5y " +
-        "category CAGR overstates the gap.",
-    });
-    action = "HOLD";
-    confidence = "LOW";
-  }
-
-  // Priority 4 (light): ELSS lock-in disclosure.
-  //
-  // The Groww Holdings export carries no per-installment dates so we can't
-  // compute a real lock-in expiry. Per the user's directive we ASSUME all
-  // ELSS units are out of the 36-month lock-in — but every actionable
-  // recommendation on an ELSS position must surface the assumption so the
-  // user verifies with their CAS/AMC before redeeming.
-  if (factors.catKey === "elss" && (action === "SWITCH" || action === "EXIT" || action === "CONSOLIDATE")) {
-    reasons.push({
-      code: "LOCK_IN_ASSUMED_CLEAR",
-      ...REASONS.LOCK_IN_ASSUMED_CLEAR,
-      detail:
-        "Recommendation assumes all units in this ELSS folio are out of the " +
-        "36-month statutory lock-in (the Holdings export does not carry per-" +
-        "installment dates). Verify against your AMC statement or CAS before " +
-        "redeeming — locked units cannot be sold or switched.",
-    });
-  }
-
-  // Priority 5: peer-exclusion disclosure. When the same book recommends
-  // SWITCH/EXIT on a fund, that fund is dropped from the peer candidates
-  // for OTHER positions (otherwise we'd say "switch from A → B" while also
-  // saying "switch out of B"). Surface the count so the user understands
-  // why the candidate list is shorter than usual.
-  if (factors.peerExclusionCount > 0 && (action === "SWITCH" || action === "ADD")) {
-    reasons.push({
-      code: "PEER_EXCLUDED_SAME_BOOK",
-      ...REASONS.PEER_EXCLUDED_SAME_BOOK,
-      detail:
-        `${factors.peerExclusionCount} peer(s) filtered because the same book ` +
-        `flagged them EXIT/SWITCH. A fund recommended for exit elsewhere is ` +
-        `not surfaced as a SWITCH target here.`,
-    });
-  }
-
   return augmentWithQualityAndNews({
-    action,
-    confidence,
-    reasons,
+    action: input.action,
+    confidence: input.confidence,
+    reasons: input.reasons,
     peerCandidates: input.peerCandidates,
     consolidateTo: input.consolidateTo,
     performance: input.performance,
     news: null,
-    factors,
+    factors: input.factors,
   });
 }
 
@@ -750,37 +595,11 @@ import { detectOverlap } from "./holdingsOverlap.js";
 export function recommendBook(mfHoldings = [], opts = {}) {
   const overlap = detectOverlap(mfHoldings);
   const today = opts.today || new Date().toISOString().slice(0, 10);
-  const riskProfile = opts.riskProfile || null;
 
   // NOTE: Phase 5 live peers come pre-enriched on each holding (set by
   // enrichLivePeers in mfNavIngestion.js, called from the analyze
   // endpoint alongside enrichMfHoldings + enrichMfNews). Keeping
   // recommendBook synchronous so buildReport stays sync.
-
-  // ──────────── Priority 5: two-pass peer reconciliation ────────────
-  //
-  // Pass 1 (dry run): compute initial recs without any cross-position
-  //   awareness. This is exactly what the previous single-pass code did.
-  //
-  // From Pass 1 we identify schemes the book itself wants to EXIT/SWITCH
-  // away from. Those schemes must NOT be surfaced as SWITCH targets for
-  // OTHER positions in the same book — telling the user "switch out of
-  // Quant Small Cap" while also saying "switch into Quant Small Cap"
-  // is the kind of inconsistency that destroys trust in the recommender.
-  //
-  // Pass 2 (final): re-run with the exclusion set. Positions whose top
-  // peer is now excluded fall through to HOLD with a NO_BETTER_ALTERNATIVE
-  // reason. The decision tree handles this naturally.
-  const pass1 = mfHoldings.map((h) =>
-    recommendForPosition(h, { overlap, today }),
-  );
-  const excludePeerSchemes = new Set();
-  for (let i = 0; i < pass1.length; i++) {
-    const r = pass1[i];
-    if (r.action === "EXIT" || r.action === "SWITCH") {
-      excludePeerSchemes.add(normaliseSchemeName(mfHoldings[i].name || ""));
-    }
-  }
 
   const recs = mfHoldings.map((h) => ({
     name: h.name,
@@ -798,13 +617,7 @@ export function recommendBook(mfHoldings = [], opts = {}) {
     metrics: h.metrics || null,
     // Phase 3 — classified Google News items (MATERIAL + CONTEXT only)
     news: h.news || null,
-    // Pass 2: book-aware. excludePeerSchemes is non-empty whenever Pass 1
-    // identified at least one EXIT/SWITCH; otherwise it's a no-op.
-    rec: tagRecRiskAlignment(
-      recommendForPosition(h, { overlap, today, excludePeerSchemes }),
-      h,
-      riskProfile,
-    ),
+    rec: recommendForPosition(h, { overlap, today }),
   }));
 
   // Action-mix counts for the header card
@@ -857,25 +670,6 @@ export function recommendBook(mfHoldings = [], opts = {}) {
     byCategory[k].totalCurrent += p.currentValue;
   }
 
-  // Priority 2: portfolio-level asset allocation gap. Computed AFTER the
-  // per-position recs so the UI can render it as the headline card above
-  // the per-fund grid. Risk profile passed through; falls back to MODERATE
-  // defaults inside computeAllocationGap when no profile is set.
-  const assetAllocation = computeAllocationGap(mfHoldings, riskProfile);
-
-  // Priority 3: risk-profile echo. The UI uses `needsProfile` to decide
-  // whether to show the survey CTA banner; sending the profile bucket
-  // back lets the per-fund cards show the alignment chip without making
-  // a second round-trip.
-  const riskProfileBlock = riskProfile
-    ? {
-        bucket: riskProfile.bucket,
-        score: riskProfile.score,
-        completedAt: riskProfile.completedAt,
-        present: true,
-      }
-    : { present: false };
-
   return {
     positions: recs,
     actionMix,
@@ -883,8 +677,6 @@ export function recommendBook(mfHoldings = [], opts = {}) {
       duplicateFolioCount: overlap.duplicateFolioCount,
       overweightCategories: overlap.overweightCategories,
     },
-    assetAllocation,
-    riskProfile: riskProfileBlock,
     summary: {
       folioCount: recs.length,
       schemeCount: new Set(recs.map((r) => r.name)).size,

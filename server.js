@@ -78,8 +78,6 @@ import { analyzeHolding, buildReport } from "./portfolioAnalyzer.js";
 import { runXirrOptimizer, PRESETS as OPTIMIZER_PRESETS } from "./xirrOptimizer.js";
 import { enrichMfHoldings, enrichLivePeers } from "./mfNavIngestion.js";
 import { enrichMfNews } from "./mfNews.js";
-import { fetchStockNews, enrichStockNews } from "./stockNews.js";
-import { generateNarrative, enrichStockNarratives } from "./stockNarrative.js";
 import { dailyReturns as computeDailyReturns } from "./riskMetrics.js";
 import multer from "multer";
 import { classifyRegime, computeMacroDelta, defaultCalmRegime, normalizeSector, REGIMES, SECTORS, withOpenAIRetry } from "./macroRegime.js";
@@ -1104,36 +1102,6 @@ app.get("/api/stock/:symbol", async (req, res) => {
       0,
       Math.min(100, Math.round(combinedScore + effectiveMacroBoost))
     );
-
-    // ── StarBhai long-term narrative + news ──
-    // Attach a structured 3-12 month thesis to longTerm. Both calls are
-    // budget-aware (degrade to deterministic templates when the LLM cap is
-    // hit) and cached 24h per symbol so repeat detail-page loads are free.
-    if (longTerm) {
-      try {
-        const stockNews = await fetchStockNews({
-          symbol,
-          name: quote?.longName || stockInfo?.name || symbol,
-          openai: getOpenAI(),
-        });
-        const cachedRegimeForNarr = macroRegimeCache.get(MACRO_CACHE_KEY) || null;
-        const narrative = await generateNarrative({
-          symbol,
-          name: quote?.longName || stockInfo?.name || symbol,
-          sector: stockSector,
-          marketCapTier: fundamentalResult?.breakdown?.tier || null,
-          longTerm,
-          fundamentals: fundamentalResult,
-          news: stockNews,
-          macroRegime: cachedRegimeForNarr,
-          openai: getOpenAI(),
-        });
-        longTerm.narrative = narrative;
-        longTerm.news = stockNews;
-      } catch (err) {
-        console.warn(`[NARRATIVE] enrichment failed for ${symbol}:`, err.message);
-      }
-    }
 
     res.json({
       quote: formatQuote(quote),
@@ -5596,12 +5564,7 @@ app.get("/api/portfolio", async (req, res) => {
 app.post("/api/portfolio", async (req, res) => {
   try {
     const { stocks, mutualFunds } = req.body;
-    // Preserve any other fields already on the portfolio (riskProfile etc.)
-    // — POST /api/portfolio is the Groww-import endpoint and shouldn't wipe
-    // a user's risk-profile survey just because they re-imported.
-    const existing = await readPortfolio();
     const data = {
-      ...existing,
       stocks: stocks || [],
       mutualFunds: mutualFunds || [],
       lastUpdated: new Date().toISOString(),
@@ -5611,72 +5574,6 @@ app.post("/api/portfolio", async (req, res) => {
   } catch (err) {
     console.error("Portfolio save error:", err.message);
     res.status(500).json({ error: "Failed to save portfolio" });
-  }
-});
-
-// ═══════════════════════════════════════════════════════════════════════════
-// Risk Profile (Priority 3 of the MF recommender).
-//
-// Three-question survey persisted alongside the portfolio. Read by the
-// analyzer pipeline so the per-fund recommender can tag misalignment and
-// the asset-allocation gap module can pick the right target weights.
-//
-// The survey itself is dumb data — see riskProfile.js for the question
-// schema and scoring. Endpoints intentionally minimal:
-//   GET  /api/risk-profile  → { present: bool, answers, bucket, score, completedAt }
-//   POST /api/risk-profile  → { ok: true, riskProfile }
-//   DELETE /api/risk-profile → soft-clear (lets the user retake the survey)
-// ═══════════════════════════════════════════════════════════════════════════
-
-import { scoreRiskProfile, RISK_PROFILE_QUESTIONS } from "./riskProfile.js";
-
-app.get("/api/risk-profile", async (req, res) => {
-  try {
-    const portfolio = await readPortfolio();
-    const rp = portfolio?.riskProfile || null;
-    res.json({
-      questions: RISK_PROFILE_QUESTIONS,
-      present: !!(rp && rp.bucket),
-      riskProfile: rp,
-    });
-  } catch (err) {
-    console.error("[RISK-PROFILE] read error:", err.message);
-    res.status(500).json({ error: "Failed to read risk profile" });
-  }
-});
-
-app.post("/api/risk-profile", express.json(), async (req, res) => {
-  try {
-    const answers = req.body?.answers || req.body;
-    const scored = scoreRiskProfile(answers);
-    if (!scored) {
-      return res.status(400).json({
-        error: "Incomplete answers — all 3 questions are required.",
-        questions: RISK_PROFILE_QUESTIONS,
-      });
-    }
-    const portfolio = await readPortfolio();
-    const next = {
-      ...portfolio,
-      riskProfile: { ...scored, answers },
-    };
-    await savePortfolio(next);
-    res.json({ ok: true, riskProfile: next.riskProfile });
-  } catch (err) {
-    console.error("[RISK-PROFILE] save error:", err.message);
-    res.status(500).json({ error: "Failed to save risk profile" });
-  }
-});
-
-app.delete("/api/risk-profile", async (req, res) => {
-  try {
-    const portfolio = await readPortfolio();
-    const next = { ...portfolio, riskProfile: null };
-    await savePortfolio(next);
-    res.json({ ok: true });
-  } catch (err) {
-    console.error("[RISK-PROFILE] clear error:", err.message);
-    res.status(500).json({ error: "Failed to clear risk profile" });
   }
 });
 
@@ -5709,17 +5606,12 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
     const optAssumedHoldingMonths = Number.parseInt(req.body.assumedHoldingMonths || req.query.assumedHoldingMonths || "24", 10);
     const ltcgRealisedYtdRupees = Number.parseFloat(req.body.ltcgRealisedYtd || req.query.ltcgRealisedYtd || "0");
 
-    // Pull saved MF holdings + risk profile from the user's stored portfolio
-    // so the analyzer can compute a true book-wide XIRR (not stock-only)
-    // and tag per-fund recs with risk-profile alignment.
+    // Pull saved MF holdings from the user's stored portfolio so the
+    // analyzer can compute a true book-wide XIRR (not stock-only).
     // This is read-only — nothing is persisted by the analyze endpoint.
     let mfHoldings = [];
-    let savedRiskProfile = null;
     try {
       const saved = await readPortfolio();
-      if (saved && saved.riskProfile && saved.riskProfile.bucket) {
-        savedRiskProfile = saved.riskProfile;
-      }
       if (saved && Array.isArray(saved.mutualFunds)) {
         // Saved-MF schema (from Groww import): name / category / type /
         // invested / current / returns (%) / xirr (%). No purchaseDate, no
@@ -5821,9 +5713,6 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
         benchSymbol: "^NSEI",
         // Optimizer can still run on MF-only books — pass MFs + opts through
         mfHoldings,
-        // Priority 3: pass risk profile so recommendBook can tag per-fund
-        // alignment + the asset-allocation module can pick the right targets.
-        riskProfile: savedRiskProfile,
         optimizerPreset: optPreset,
         taxSlabPct: optTaxSlabPct,
         assumedHoldingMonths: optAssumedHoldingMonths,
@@ -5941,51 +5830,6 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       enriched.push(...results);
     }
 
-    // 4b. StarBhai long-term narrative + news for each scored equity holding.
-    //     Skip ETFs (instrumentType:"etf") — basket trackers don't get a
-    //     fundamental thesis. Errors here are fail-soft so a flaky news
-    //     source can't block the analyzer report. Concurrency 3 (matches
-    //     mfNews enrichment).
-    try {
-      const equityEntries = enriched.filter(
-        (e) => e.holding?.instrumentType !== "etf" && e.longTerm,
-      );
-      if (equityEntries.length > 0) {
-        const CONCURRENCY = 3;
-        let cursor = 0;
-        async function narrativeWorker() {
-          while (cursor < equityEntries.length) {
-            const idx = cursor++;
-            const entry = equityEntries[idx];
-            try {
-              const news = await fetchStockNews({
-                symbol: entry.holding.symbol,
-                name: entry.holding.name,
-                openai: getOpenAI(),
-              });
-              entry.longTerm.news = news;
-              entry.longTerm.narrative = await generateNarrative({
-                symbol: entry.holding.symbol,
-                name: entry.holding.name,
-                sector: entry.holding.sector,
-                marketCapTier: entry.fundamentals?.breakdown?.tier || null,
-                longTerm: entry.longTerm,
-                fundamentals: entry.fundamentals,
-                news,
-                macroRegime,
-                openai: getOpenAI(),
-              });
-            } catch (err) {
-              console.warn(`[ANALYZE] narrative failed for ${entry.holding.symbol}:`, err.message);
-            }
-          }
-        }
-        await Promise.all(Array.from({ length: CONCURRENCY }, narrativeWorker));
-      }
-    } catch (e) {
-      console.warn("[ANALYZE] stock news/narrative enrichment failed:", e.message);
-    }
-
     // 5. Compute total invested for positionWeight calculation
     const totalInvested = enriched.reduce((s, e) => s + e.holding.avgPrice * e.holding.quantity, 0);
 
@@ -6059,9 +5903,6 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       benchSymbol,
       // XIRR Optimizer inputs — saved MFs + per-request preset/tax options
       mfHoldings,
-      // Priority 3: same as MF-only path above. recommendBook tags each
-      // per-fund rec with risk-profile alignment when present.
-      riskProfile: savedRiskProfile,
       optimizerPreset: optPreset,
       taxSlabPct: optTaxSlabPct,
       assumedHoldingMonths: optAssumedHoldingMonths,
