@@ -8,8 +8,31 @@
  * Run with: node test/portfolioParser.test.mjs
  */
 
+import xlsx from "xlsx";
 import { parsePortfolioFile } from "../portfolioParser.js";
 import { findBySymbol, findByIsin, findByName } from "../stockList.js";
+
+// Build an in-memory Upstox-format xlsx buffer mirroring the real export
+// structure (broker header rows + the canonical column layout).
+function buildUpstoxXlsxBuffer(dataRows) {
+  const header = [
+    ["UPSTOX SECURITIES PRIVATE LIMITED"],
+    ["(Formerly EPX Uptech Private Limited)"],
+    ["Dealing Office: 30th Floor, Sunshine Tower, Senapati Bapat Marg, Dadar (W), Mumbai 400013"],
+    ["UCC", "AG5283"],
+    ["Name", "TEST USER"],
+    ["PAN", "ABCDE1234F"],
+    ["Report Date", "22-04-2026"],
+    ["Generated On", "2026-04-23 10:51:38"],
+    ["ISIN", "Scrip Name", "Free Qty", "Current Qty", "Freeze Qty",
+     "Locked Qty", "Pledge Qty", "Value Date", "Rate", "Valuation"],
+  ];
+  const rows = header.concat(dataRows);
+  const ws = xlsx.utils.aoa_to_sheet(rows);
+  const wb = xlsx.utils.book_new();
+  xlsx.utils.book_append_sheet(wb, ws, "HOLDING");
+  return xlsx.write(wb, { type: "buffer", bookType: "xlsx" });
+}
 
 let pass = 0;
 let fail = 0;
@@ -172,6 +195,91 @@ console.log("\nparsePortfolioFile end-to-end\n");
   assert("mixed: 2 unmatched (1 ETF + 1 unknown)", out.unmatched.length === 2, out.unmatched.length);
   const types = out.unmatched.map((u) => u.instrumentType).sort();
   assert("mixed: unmatched types are [equity, etf]", JSON.stringify(types) === JSON.stringify(["equity","etf"]), types);
+}
+
+// ──────────────────── Upstox xlsx parser ────────────────────
+
+console.log("\nUpstox xlsx parser\n");
+
+// Equity rows resolve via ISIN; cost basis stand-in (= Rate) makes P&L = 0
+{
+  const buf = buildUpstoxXlsxBuffer([
+    ["INE467B01029", "TATA CONSULTANCY-1/-", "5.0000", "5.0000", "0.0000", "0.0000", "0.0000", "22-04-2026", "2537.5500", "12687.7500"],
+    ["INE040A01034", "HDFC BANK-EQ1/-", "30.0000", "30.0000", "0.0000", "0.0000", "0.0000", "22-04-2026", "799.9000", "23997.0000"],
+    ["INE062A01020", "SBI - EQ", "14.0000", "14.0000", "0.0000", "0.0000", "0.0000", "22-04-2026", "1103.4000", "15447.6000"],
+  ]);
+  const out = parsePortfolioFile(buf, "holdings_22-04-2026_AG5283.xlsx");
+  assert("Upstox: source detected as upstox-xlsx", out.source === "upstox-xlsx", out.source);
+  assert("Upstox: 3 equity holdings resolved", out.holdings.length === 3, `${out.holdings.length} holdings / ${out.unmatched.length} unmatched`);
+  assert("Upstox: TCS resolved by ISIN", out.holdings.find((h) => h.symbol === "TCS.NS")?.matchType === "isin", out.holdings.find((h) => h.symbol === "TCS.NS")?.matchType);
+  const tcs = out.holdings.find((h) => h.symbol === "TCS.NS");
+  assert("Upstox: avgPrice = Rate (stand-in)", tcs?.avgPrice === 2537.55, tcs?.avgPrice);
+  assert("Upstox: closePrice = Rate", tcs?.closePrice === 2537.55, tcs?.closePrice);
+  assert("Upstox: costBasisUnknown flag set on holding", tcs?.costBasisUnknown === true, tcs?.costBasisUnknown);
+  assert(
+    "Upstox: cost-basis warning surfaced",
+    out.warnings.some((w) => /average buy price|cost basis|tradebook/i.test(w)),
+    out.warnings,
+  );
+  assert(
+    "Upstox: warning explains P&L = drift-since-report (not real P&L)",
+    out.warnings.some((w) => /price movement since the report date|since the report date/i.test(w)),
+    out.warnings,
+  );
+  assert(
+    "Upstox: warning includes the report date for clarity",
+    out.warnings.some((w) => w.includes("22-04-2026")),
+    out.warnings,
+  );
+  assert("Upstox: report date captured in summary", out.summary?.asOfDate === "22-04-2026", out.summary?.asOfDate);
+}
+
+// ETFs (INF-prefix) classified as ETF and pushed to unmatched for live resolve
+{
+  const buf = buildUpstoxXlsxBuffer([
+    ["INE467B01029", "TATA CONSULTANCY-1/-", "5.0000", "5.0000", "0.0000", "0.0000", "0.0000", "22-04-2026", "2537.5500", "12687.7500"],
+    ["INF204KB14I2", "NIP ETF NIFTY50 BEES", "175.0000", "175.0000", "0.0000", "0.0000", "0.0000", "22-04-2026", "275.5700", "48224.7500"],
+    ["INF789F1AYK6", "UTI SILVER ETF", "103.0000", "103.0000", "0.0000", "0.0000", "0.0000", "22-04-2026", "238.0900", "24523.2700"],
+  ]);
+  const out = parsePortfolioFile(buf, "holdings.xlsx");
+  assert("Upstox: 1 equity in holdings (ETFs deferred to live-resolve)", out.holdings.length === 1, out.holdings.length);
+  assert("Upstox: 2 ETFs in unmatched as pending-live", out.unmatched.filter((u) => u.matchType === "pending-live").length === 2, out.unmatched.map((u) => u.matchType));
+  const types = out.unmatched.map((u) => u.instrumentType).sort();
+  assert("Upstox: ETF rows classified as etf", JSON.stringify(types) === JSON.stringify(["etf", "etf"]), types);
+}
+
+// Single-cell footer row ("From DD-MMM-YYYY, our Broking…") is ignored
+{
+  const buf = buildUpstoxXlsxBuffer([
+    ["INE467B01029", "TATA CONSULTANCY-1/-", "5.0000", "5.0000", "0.0000", "0.0000", "0.0000", "22-04-2026", "2537.5500", "12687.7500"],
+    ["From 19-Jul-2025, our Broking operations were transitioned from RKSV to Upstox."],
+  ]);
+  const out = parsePortfolioFile(buf, "holdings.xlsx");
+  assert("Upstox: footer row skipped (no ISIN)", out.holdings.length === 1 && out.unmatched.length === 0, `${out.holdings.length}/${out.unmatched.length}`);
+}
+
+// Pledged/locked qty included via Current Qty (sum of Free + Locked + Pledge)
+{
+  // 10 free + 5 locked + 3 pledged = 18 current
+  const buf = buildUpstoxXlsxBuffer([
+    ["INE467B01029", "TATA CONSULTANCY-1/-", "10.0000", "18.0000", "0.0000", "5.0000", "3.0000", "22-04-2026", "2537.5500", "45675.9000"],
+  ]);
+  const out = parsePortfolioFile(buf, "holdings.xlsx");
+  assert("Upstox: Current Qty (18) used, not Free Qty (10)", out.holdings[0]?.quantity === 18, out.holdings[0]?.quantity);
+}
+
+// Non-Upstox xlsx with similar columns shouldn't be misidentified
+{
+  // Build a fake xlsx with Groww-style columns — should not match Upstox
+  const ws = xlsx.utils.aoa_to_sheet([
+    ["Stock Name", "ISIN", "Quantity", "Average buy price"],
+    ["TCS", "INE467B01029", "5", "3800"],
+  ]);
+  const wb = xlsx.utils.book_new();
+  xlsx.utils.book_append_sheet(wb, ws, "Sheet1");
+  const buf = xlsx.write(wb, { type: "buffer", bookType: "xlsx" });
+  const out = parsePortfolioFile(buf, "groww_export.xlsx");
+  assert("Groww xlsx still detected as groww-xlsx (no Upstox false-positive)", out.source === "groww-xlsx", out.source);
 }
 
 console.log(`\n${pass} pass, ${fail} fail`);

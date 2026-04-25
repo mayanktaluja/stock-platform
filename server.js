@@ -5530,7 +5530,7 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
     } catch (e) {
       return res.status(400).json({
         error: `Failed to parse portfolio file: ${e.message}`,
-        hint: "Supported: Groww XLSX export (Stocks or Mutual Funds), Groww CSV, Zerodha Console CSV.",
+        hint: "Supported: Groww XLSX (Stocks or Mutual Funds), Groww CSV, Zerodha Console CSV, Upstox demat holdings XLSX.",
       });
     }
 

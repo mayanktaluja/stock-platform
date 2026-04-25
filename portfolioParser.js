@@ -112,7 +112,12 @@ export function classifyInstrument({ isin, rawName, symbol }) {
 
   // ETFs: either the token "ETF" in the name, or a known ETF symbol family,
   // or an INF-prefix ISIN combined with an ETF-theme keyword.
-  if (/\bETF\b/.test(name)) return "etf";
+  //
+  // Match "ETF" as a discrete token even when it abuts digits — Upstox names
+  // like "MIRAE NSC250MQ100ETF" pack the suffix straight after a number, so
+  // \b (which needs a word/non-word transition) misses them. The non-letter
+  // lookarounds catch all of: " ETF ", "-ETF", "100ETF", "ETF$".
+  if (/(?:^|[^A-Z])ETF(?:[^A-Z]|$)/.test(name)) return "etf";
   if (/(NIFTYBEES|BANKBEES|GOLDBEES|LIQUIDBEES|JUNIORBEES|CPSEETF|PSUBNKBEES|SILVRBEES|MON100|MAFANG|HDFCNIFTY|ICICINIFTY|ITBEES|INFRABEES|SETFNIF|MIDCAPIETF|KOTAKGOLD|KOTAKBKETF)/.test(name)) return "etf";
 
   // INF-ISIN + ETF-theme keyword → ETF (not MF).
@@ -377,6 +382,160 @@ function parseGrowwXlsx(buffer) {
   return { holdings, summary, source: "groww-xlsx" };
 }
 
+// ──────────────────── Upstox XLSX ────────────────────
+
+/**
+ * Upstox demat holdings statement (xlsx).
+ *
+ * Different from Groww in two important ways:
+ *   1. No "Average buy price" column. Upstox's holdings statement is a
+ *      NSDL-style demat snapshot — it shows current valuation only, not
+ *      cost basis. We synthesise avgPrice = Rate (closing price) so the
+ *      row passes downstream validation; computed P&L will be ≈ 0% across
+ *      the book. A top-level warning explains why and points the user at
+ *      the tradebook export for real P&L.
+ *   2. Headers are "Scrip Name", "Current Qty", "Rate", "Valuation". The
+ *      Groww detector demands "average"/"avg" or "buy price" / "cost", so
+ *      Upstox files used to throw "Could not locate required columns".
+ *
+ * Observed structure (from a real Upstox holdings_DD-MM-YYYY_<UCC>.xlsx):
+ *   Row 0: ["UPSTOX SECURITIES PRIVATE LIMITED"]
+ *   Row 1: ["(Formerly EPX Uptech Private Limited)"]
+ *   Row 3: ["UCC", "<code>"]
+ *   Row 4: ["Name", "<user>"]
+ *   Row 6: ["Report Date", "DD-MM-YYYY"]
+ *   Row 8: ISIN | Scrip Name | Free Qty | Current Qty | Freeze Qty |
+ *          Locked Qty | Pledge Qty | Value Date | Rate | Valuation
+ *   Row 9+: data
+ *   Last row: a single-cell footer note about the RKSV→Upstox transition
+ *
+ * Returns null when the workbook isn't an Upstox file so the caller can
+ * fall through to Groww/CSV parsers.
+ */
+function tryParseUpstoxXlsx(buffer) {
+  const wb = xlsx.read(buffer, { type: "buffer" });
+  if (!wb.SheetNames.length) return null;
+  const ws = wb.Sheets[wb.SheetNames[0]];
+  const rows = xlsx.utils.sheet_to_json(ws, { header: 1, raw: false, blankrows: false });
+  if (!rows.length) return null;
+
+  // Header signature: ISIN + Scrip[Name] + (Current Qty | Qty) + Rate + Valuation.
+  // "Valuation" alongside "Current Qty" is highly Upstox-specific — Groww uses
+  // "Closing Value", Zerodha uses "Cur. val.", neither uses "Scrip Name".
+  let headerIdx = -1;
+  for (let i = 0; i < rows.length; i++) {
+    const joined = (rows[i] || []).map((x) => String(x || "").toLowerCase().trim()).join("|");
+    if (!joined) continue;
+    const hasIsin = joined.includes("isin");
+    const hasScrip = joined.includes("scrip");
+    const hasQty = joined.includes("current qty") || joined.includes("currentqty") ||
+                   joined.includes("qty") || joined.includes("quantity");
+    const hasRate = /\brate\b|\|rate\|/.test(joined) || joined.includes("|rate");
+    const hasValuation = joined.includes("valuation");
+    if (hasIsin && hasScrip && hasQty && hasRate && hasValuation) { headerIdx = i; break; }
+  }
+  if (headerIdx === -1) return null;
+
+  const headers = rows[headerIdx].map(normHeader);
+  const find = (...cands) => {
+    for (const c of cands) {
+      const idx = headers.findIndex((h) => h === c);
+      if (idx >= 0) return idx;
+    }
+    for (const c of cands) {
+      const idx = headers.findIndex((h) => h.includes(c));
+      if (idx >= 0) return idx;
+    }
+    return -1;
+  };
+  const iIsin = find("isin", "isincode");
+  const iName = find("scripname", "scrip", "instrument", "name");
+  // Prefer "Current Qty" over "Free Qty" — pledged/locked shares are still part
+  // of the user's economic position for analysis purposes; Current totals all.
+  // The substring "qty" matches "freeqty" first by column order, so we ask for
+  // the exact normalized form first.
+  const iQty = find("currentqty", "totalqty", "qty", "quantity");
+  const iRate = find("rate", "ltp", "closingprice", "currentprice");
+  const iValueDate = find("valuedate", "asondate", "date");
+  const iValuation = find("valuation", "currentvalue");
+
+  if (iIsin < 0 || iName < 0 || iQty < 0 || iRate < 0) {
+    throw new Error(
+      "Upstox-style header detected but required columns are missing. " +
+      `Found headers: [${headers.join(", ")}]. Need ISIN, Scrip Name, Current Qty, Rate.`,
+    );
+  }
+
+  // Pull out report-level metadata from the rows above the header for the
+  // report card. UCC and Report Date are the most useful pieces.
+  const summary = {};
+  for (let i = 0; i < headerIdx; i++) {
+    const row = rows[i] || [];
+    const k = String(row[0] || "").toLowerCase().trim();
+    const v = row[1];
+    if (!k) continue;
+    if (k === "report date") summary.asOfDate = String(v || "").trim() || null;
+    else if (k === "ucc") summary.ucc = String(v || "").trim() || null;
+  }
+
+  const holdings = [];
+  let totalValuation = 0;
+  for (let r = headerIdx + 1; r < rows.length; r++) {
+    const row = rows[r] || [];
+    const isin = String(row[iIsin] || "").trim();
+    const rawName = String(row[iName] || "").trim();
+    // The single-cell footer ("From DD-MMM-YYYY, our Broking operations…")
+    // has no ISIN, so the empty-isin guard skips it cleanly.
+    if (!isin || !rawName) continue;
+    const qty = toNumber(row[iQty]);
+    const rate = toNumber(row[iRate]);
+    if (!qty || qty <= 0 || !rate || rate <= 0) continue;
+    if (iValuation >= 0) {
+      const val = toNumber(row[iValuation]);
+      if (Number.isFinite(val) && val > 0) totalValuation += val;
+    }
+    holdings.push({
+      rawName,
+      isin,
+      quantity: qty,
+      // Cost basis is unavailable in this export — Upstox demat statements
+      // only record current valuation. Use Rate as the avg-price stand-in so
+      // the row survives downstream `avg > 0` validation. P&L will compute
+      // to ~0%; the parserWarnings entry surfaces this loud and clear.
+      avgPrice: rate,
+      closePrice: rate,
+      purchaseDate: iValueDate >= 0 ? toIsoDate(row[iValueDate]) : null,
+      sourceRow: r + 1,
+      // Forward-looking flag for any consumer that wants to render P&L as
+      // "—" instead of "0%". The current analyzer doesn't read it yet, but
+      // the data is preserved for when it does.
+      costBasisUnknown: true,
+    });
+  }
+
+  if (holdings.length === 0) return null;
+  if (totalValuation > 0) summary.current = totalValuation;
+
+  return {
+    holdings,
+    summary,
+    source: "upstox-xlsx",
+    // Bubbled up by parsePortfolioFile into the top-level warnings array
+    // so the UI surfaces them next to the "skipped non-equity" notes.
+    //
+    // The avg-price stand-in (= report Rate) means the analyser's P&L
+    // becomes "live price vs. the report's closing rate" — i.e. price drift
+    // since the report date, NOT your gain/loss from purchase. Spell that
+    // out so users don't read the percentage as a real cost-basis P&L.
+    parserWarnings: [
+      "Upstox demat holdings statements don't include an average buy price column. " +
+      `The "P&L" shown for these rows reflects price movement since the report date${summary.asOfDate ? ` (${summary.asOfDate})` : ""}, ` +
+      "not your actual gain/loss from purchase. Sector mix, fundamentals scoring, and recommendations are still accurate. " +
+      "For real cost-basis P&L, export your Upstox tradebook or annual P&L report and upload that instead.",
+    ],
+  };
+}
+
 // ──────────────────── Generic CSV (including Groww CSV / Zerodha) ────────────────────
 
 /**
@@ -477,16 +636,22 @@ export function parsePortfolioFile(buffer, filename = "") {
 
   let parsed;
   if (looksXlsx) {
-    // Try MF-only export first (different schema). Falls through to the
-    // equity parser when not an MF file.
-    parsed = tryParseGrowwMfXlsx(buffer);
+    // Detection order matters when multiple xlsx parsers can accept the
+    // workbook. Each tryParse* returns null on no-match; only parseGrowwXlsx
+    // throws as a final fallback when nothing else recognised the file.
+    //   1. Upstox demat statement (signature: ISIN+Scrip+Rate+Valuation)
+    //   2. Groww MF export (signature: SchemeName+Folio/XIRR+Invested)
+    //   3. Groww stocks export (everything else with a holdings-like header)
+    parsed = tryParseUpstoxXlsx(buffer);
+    if (!parsed) parsed = tryParseGrowwMfXlsx(buffer);
     if (!parsed) parsed = parseGrowwXlsx(buffer);
   } else if (looksCsv) {
     const text = typeof buffer === "string" ? buffer : Buffer.from(buffer).toString("utf-8");
     parsed = parseCsv(text);
   } else {
-    // Try MF, then equity xlsx, then CSV
-    parsed = tryParseGrowwMfXlsx(buffer);
+    // Unknown extension: try every xlsx parser, then CSV as last resort.
+    parsed = tryParseUpstoxXlsx(buffer);
+    if (!parsed) parsed = tryParseGrowwMfXlsx(buffer);
     if (!parsed) {
       try { parsed = parseGrowwXlsx(buffer); }
       catch {
@@ -497,6 +662,10 @@ export function parsePortfolioFile(buffer, filename = "") {
   }
 
   const warnings = [];
+  // Parser-level warnings (e.g. "Upstox holdings don't include cost basis")
+  // surface ahead of the per-row classification warnings so the user reads
+  // the most important caveat first.
+  if (Array.isArray(parsed.parserWarnings)) warnings.push(...parsed.parserWarnings);
   const unmatched = [];
   const holdings = [];
   const counts = { equity: 0, mf: 0, etf: 0, bond: 0, fno: 0, unknown: 0 };
@@ -578,6 +747,10 @@ export function parsePortfolioFile(buffer, filename = "") {
       matchType,
       instrumentType: "equity",
       sourceRow: h.sourceRow,
+      // Pass-through for parsers (e.g. Upstox) that synthesise avgPrice
+      // because the source file lacks cost basis. Defaults to false so
+      // existing parsers see no behavioural change.
+      costBasisUnknown: !!h.costBasisUnknown,
     });
   }
 
@@ -717,6 +890,7 @@ export async function resolveUnmatchedLive(parsed) {
       // price-only (no TA score, no action, no recommendation).
       scored: !isEtf,
       sourceRow: u.sourceRow,
+      costBasisUnknown: !!u.costBasisUnknown,
     });
   }
   parsed.unmatched = stillUnmatched;
