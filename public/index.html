@@ -2958,6 +2958,16 @@
         <div id="analyzerSummary" style="margin-bottom:24px;"></div>
         <!-- Portfolio-level actions -->
         <div id="analyzerPortfolioActions" style="margin-bottom:24px;"></div>
+        <!-- Priority 3: Risk profile (3-question survey). Soft-gated — when
+             absent, shows a "complete your profile" CTA banner; when set,
+             shows the bucket + an edit affordance. Drives both the asset-
+             allocation gap targets and per-fund alignment chips. -->
+        <div id="analyzerRiskProfile" style="margin-bottom:24px;"></div>
+        <!-- Priority 2: Asset allocation gap card. Surfaces structural
+             concentration risks (100% equity, missing debt, mid+small
+             over-weight) that the per-fund cards individually can't see.
+             A SEBI-RA leads with this; the per-fund cards come second. -->
+        <div id="analyzerAssetAllocation" style="margin-bottom:24px;"></div>
         <!-- Per-MF position recommendations — primary surface for SEBI-RA review.
              Each card: HOLD/EXIT/SWITCH/ADD/CONSOLIDATE + reasons + peer compare
              + (Phase 3) per-fund news. Replaces the XIRR optimizer hero as the

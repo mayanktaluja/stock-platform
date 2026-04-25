@@ -4462,6 +4462,11 @@ function actionBadge(action, displayAction) {
 function renderAnalyzerReport(report, elapsedMs) {
   renderAnalyzerSummary(report, elapsedMs);
   renderAnalyzerPortfolioActions(report);
+  // Priority 3 + 2: render risk-profile card + asset-allocation gap card
+  // BEFORE the per-fund grid. SEBI-RAs lead with allocation, then drill
+  // into individual funds.
+  renderAnalyzerRiskProfile(report.mfPositions?.riskProfile);
+  renderAnalyzerAssetAllocation(report.mfPositions?.assetAllocation, report.mfPositions?.riskProfile);
   renderAnalyzerMfPositions(report.mfPositions);
   renderAnalyzerRiskBlock(report);
   renderAnalyzerOptimizer(report.optimizer);
@@ -4866,6 +4871,20 @@ const MF_CONFIDENCE_PALETTE = {
   LOW:    { bg: "rgba(107,114,128,0.10)", text: "#cbd5e1" },
 };
 
+// Priority 3: tiny chip rendered next to the action badge when a position
+// is misaligned with the user's risk profile. Returns "" when ALIGNED or
+// when no profile is set (so the card stays clean for the common case).
+function riskAlignmentChip(alignment) {
+  if (!alignment || alignment === "ALIGNED") return "";
+  if (alignment === "TOO_AGGRESSIVE") {
+    return `<span title="More aggressive than your risk profile" style="display:inline-block; padding:3px 10px; border-radius:4px; background:rgba(239,68,68,0.10); border:1px solid rgba(239,68,68,0.35); color:#fca5a5; font-size:10px; font-weight:700; letter-spacing:0.4px;">TOO AGGRESSIVE FOR PROFILE</span>`;
+  }
+  if (alignment === "TOO_CONSERVATIVE") {
+    return `<span title="More conservative than your risk profile" style="display:inline-block; padding:3px 10px; border-radius:4px; background:rgba(59,130,246,0.10); border:1px solid rgba(59,130,246,0.35); color:#93c5fd; font-size:10px; font-weight:700; letter-spacing:0.4px;">CONSERVATIVE FOR PROFILE</span>`;
+  }
+  return "";
+}
+
 function mfActionBadge(action) {
   const p = MF_ACTION_PALETTE[action] || MF_ACTION_PALETTE.HOLD;
   return `<span style="display:inline-block; padding:4px 12px; border-radius:4px; background:${p.bg}; border:1px solid ${p.border}; color:${p.text}; font-size:11px; font-weight:700; letter-spacing:0.4px;">${p.verb}</span>`;
@@ -4874,6 +4893,252 @@ function mfActionBadge(action) {
 function mfConfidencePill(conf) {
   const p = MF_CONFIDENCE_PALETTE[conf] || MF_CONFIDENCE_PALETTE.LOW;
   return `<span style="display:inline-block; padding:2px 8px; border-radius:3px; background:${p.bg}; color:${p.text}; font-size:10px; font-weight:600; letter-spacing:0.3px;">CONF: ${conf}</span>`;
+}
+
+// ──────────────────── Priority 3: Risk profile card ────────────────────
+//
+// Soft-gated. If the user has no profile, renders a single-card CTA with
+// the 3 questions inline; submitting POSTs to /api/risk-profile and then
+// re-runs renderAnalyzerReport with the latest report.
+//
+// If the user HAS a profile, renders a compact bucket chip + edit link.
+// The per-fund cards downstream consume `factors.riskAlignment` to chip
+// misalignment (TOO_AGGRESSIVE / TOO_CONSERVATIVE).
+async function renderAnalyzerRiskProfile(rpBlock) {
+  const el = document.getElementById("analyzerRiskProfile");
+  if (!el) return;
+
+  // Pull the question schema lazily (cached after first call). Falls back
+  // to the rpBlock's data if the standalone fetch fails — keeps the card
+  // alive in offline / failure modes.
+  let questions = window.__rpQuestionsCache;
+  if (!questions) {
+    try {
+      const r = await fetch("/api/risk-profile");
+      const j = await r.json();
+      questions = j.questions || [];
+      window.__rpQuestionsCache = questions;
+    } catch {
+      questions = [];
+    }
+  }
+
+  const present = !!(rpBlock && rpBlock.present);
+
+  if (present) {
+    const bucketColor = {
+      CONSERVATIVE: "#60a5fa",
+      MODERATE:     "#a78bfa",
+      AGGRESSIVE:   "#f97316",
+    }[rpBlock.bucket] || "#94a3b8";
+    el.innerHTML = `
+      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:14px 18px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+        <div>
+          <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); margin-bottom:4px;">Risk Profile</div>
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+            <span style="display:inline-flex; align-items:center; gap:6px; padding:5px 12px; background:${bucketColor}22; border:1px solid ${bucketColor}55; border-radius:6px; color:${bucketColor}; font-weight:700; font-size:13px;">
+              ${rpBlock.bucket}
+            </span>
+            <span style="font-size:11px; color:var(--text-muted);">
+              Score ${rpBlock.score}/9 · target allocation tuned to this profile
+            </span>
+          </div>
+        </div>
+        <button id="analyzerRiskProfileEdit" type="button" style="background:transparent; border:1px solid #1a2233; color:var(--text-muted); border-radius:6px; padding:6px 12px; font-size:12px; cursor:pointer;">Retake survey</button>
+      </div>`;
+    document.getElementById("analyzerRiskProfileEdit")?.addEventListener("click", async () => {
+      // Soft-clear and re-render the survey form
+      try { await fetch("/api/risk-profile", { method: "DELETE" }); } catch {}
+      renderAnalyzerRiskProfile({ present: false });
+    });
+    return;
+  }
+
+  // No profile yet → render the inline survey form
+  if (!Array.isArray(questions) || questions.length === 0) {
+    el.innerHTML = `
+      <div style="background:var(--panel); border:1px solid rgba(245,158,11,0.4); border-radius:10px; padding:14px 18px; color:#fde68a; font-size:13px;">
+        Risk-profile questionnaire unavailable. Recommendations will use the default MODERATE profile.
+      </div>`;
+    return;
+  }
+
+  const questionsHtml = questions.map((q) => `
+    <div style="margin-bottom:14px;">
+      <div style="font-size:13px; color:var(--text); font-weight:600; margin-bottom:6px;">${q.label}</div>
+      ${q.helper ? `<div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">${q.helper}</div>` : ""}
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        ${q.options.map((o) => `
+          <label style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:#0f172a; border:1px solid #1a2233; border-radius:6px; cursor:pointer; font-size:12px; color:var(--text);">
+            <input type="radio" name="rp_${q.id}" value="${o.value}" style="margin:0;" />
+            ${o.label}
+          </label>
+        `).join("")}
+      </div>
+    </div>
+  `).join("");
+
+  el.innerHTML = `
+    <div style="background:var(--panel); border:1px solid rgba(245,158,11,0.35); border-radius:10px; padding:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:14px;">
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:10px;">
+            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.4); border-radius:6px; color:#fde68a; text-transform:uppercase; letter-spacing:0.4px;">recommended</span>
+          </div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+            SEBI IA-Reg 2013 requires risk profiling before any portfolio recommendation. Without it, the analyser uses default MODERATE assumptions.
+          </div>
+        </div>
+      </div>
+      <div id="analyzerRiskProfileForm">${questionsHtml}</div>
+      <div style="display:flex; gap:10px; align-items:center; margin-top:14px;">
+        <button id="analyzerRiskProfileSubmit" type="button" style="background:#16a34a; color:white; border:none; border-radius:6px; padding:8px 16px; font-weight:600; font-size:13px; cursor:pointer;">Save profile &amp; re-run</button>
+        <span id="analyzerRiskProfileStatus" style="font-size:11px; color:var(--text-muted);"></span>
+      </div>
+    </div>`;
+
+  document.getElementById("analyzerRiskProfileSubmit")?.addEventListener("click", async () => {
+    const status = document.getElementById("analyzerRiskProfileStatus");
+    const answers = {};
+    let missing = 0;
+    for (const q of questions) {
+      const checked = document.querySelector(`input[name="rp_${q.id}"]:checked`);
+      if (!checked) { missing += 1; continue; }
+      answers[q.id] = checked.value;
+    }
+    if (missing > 0) {
+      status.textContent = `Please answer all ${questions.length} questions (${missing} remaining).`;
+      status.style.color = "#fca5a5";
+      return;
+    }
+    status.textContent = "Saving…";
+    status.style.color = "var(--text-muted)";
+    try {
+      const r = await fetch("/api/risk-profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers }),
+      });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error || "save failed");
+      status.textContent = `Saved → ${j.riskProfile.bucket}. Re-running analysis…`;
+      status.style.color = "#86efac";
+      // Re-render this card immediately so the user sees the bucket chip
+      renderAnalyzerRiskProfile({ present: true, bucket: j.riskProfile.bucket, score: j.riskProfile.score });
+      // And tell the user to re-upload to get fully personalised analysis.
+      // (We can't re-run the analyzer without the file — it lives in
+      // multipart memory only. Surface a clear CTA instead.)
+      const allocEl = document.getElementById("analyzerAssetAllocation");
+      if (allocEl) {
+        allocEl.insertAdjacentHTML("afterbegin", `
+          <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.4); border-radius:8px; padding:10px 14px; margin-bottom:12px; font-size:12px; color:#86efac;">
+            ✓ Profile saved. Re-upload your holdings file (or re-run the analyser) to refresh allocation targets and per-fund alignment chips.
+          </div>`);
+      }
+    } catch (err) {
+      status.textContent = `Save failed: ${err.message}`;
+      status.style.color = "#fca5a5";
+    }
+  });
+}
+
+// ──────────────────── Priority 2: Asset allocation gap card ────────────────────
+//
+// Shows current vs target allocation per asset class, plus the structural
+// concentration flags from assetAllocation.computeAllocationGap. This is
+// the headline a SEBI-RA reads first — bigger structural issues dominate
+// any single-fund SWITCH.
+function renderAnalyzerAssetAllocation(alloc, rpBlock) {
+  const el = document.getElementById("analyzerAssetAllocation");
+  if (!el) return;
+  if (!alloc || !Array.isArray(alloc.buckets) || alloc.buckets.length === 0) {
+    el.innerHTML = "";
+    return;
+  }
+
+  const profileLabel = alloc.targetSource === "user_profile"
+    ? `your ${alloc.riskProfileBucket} profile`
+    : `default MODERATE profile (complete the survey above for personalised targets)`;
+
+  const VERDICT_PALETTE = {
+    OK:       { bg: "rgba(34,197,94,0.10)",  border: "rgba(34,197,94,0.35)",  text: "#86efac", label: "On target" },
+    REDUCE:   { bg: "rgba(239,68,68,0.10)",  border: "rgba(239,68,68,0.35)",  text: "#fca5a5", label: "Reduce" },
+    INCREASE: { bg: "rgba(59,130,246,0.10)", border: "rgba(59,130,246,0.35)", text: "#93c5fd", label: "Increase" },
+    ADD_NEW:  { bg: "rgba(168,85,247,0.10)", border: "rgba(168,85,247,0.35)", text: "#d8b4fe", label: "Add new" },
+  };
+
+  // Stacked bar — % of book per bucket, ordered by current weight desc
+  const barSegments = alloc.buckets
+    .filter((b) => b.currentPct > 0)
+    .map((b, i) => {
+      const colors = ["#3b82f6", "#a78bfa", "#f97316", "#10b981", "#f59e0b", "#ec4899", "#06b6d4", "#84cc16"];
+      const c = colors[i % colors.length];
+      return `<div title="${b.label} ${b.currentPct}%" style="flex:0 0 ${b.currentPct}%; background:${c}; height:100%;"></div>`;
+    }).join("");
+
+  const bucketRows = alloc.buckets.map((b) => {
+    const pal = VERDICT_PALETTE[b.verdict] || VERDICT_PALETTE.OK;
+    const gapStr = b.gapPp >= 0 ? `+${b.gapPp}pp` : `${b.gapPp}pp`;
+    const gapColor = b.verdict === "OK" ? "var(--text-muted)" : pal.text;
+    return `
+      <div style="display:grid; grid-template-columns:1.6fr 90px 90px 100px 100px; gap:12px; align-items:center; padding:10px 12px; background:#0f172a; border:1px solid #1a2233; border-radius:6px; margin-top:6px;">
+        <div>
+          <div style="font-size:13px; color:var(--text); font-weight:600;">${b.label}</div>
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px;">${b.risk} risk</div>
+        </div>
+        <div style="font-size:13px; color:var(--text); font-weight:700;">${b.currentPct}%</div>
+        <div style="font-size:11px; color:var(--text-muted);">target ${b.targetPct}%</div>
+        <div style="font-size:13px; color:${gapColor}; font-weight:600;">${gapStr}</div>
+        <div>
+          <span style="display:inline-block; padding:3px 10px; background:${pal.bg}; border:1px solid ${pal.border}; border-radius:4px; color:${pal.text}; font-size:11px; font-weight:600;">${pal.label}</span>
+        </div>
+      </div>`;
+  }).join("");
+
+  const flagsHtml = (alloc.summary?.concentrationFlags || []).map((f) => `
+    <div style="display:flex; gap:8px; align-items:flex-start; padding:8px 12px; background:rgba(239,68,68,0.08); border-left:3px solid rgba(239,68,68,0.5); border-radius:0 6px 6px 0; margin-top:6px;">
+      <span style="color:#fca5a5; font-weight:700; flex-shrink:0;">!</span>
+      <span style="font-size:12px; color:var(--text); line-height:1.5;">${f}</span>
+    </div>`).join("");
+
+  const summary = alloc.summary || {};
+  el.innerHTML = `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:10px;">
+            Asset allocation gap
+            ${notAdviceChip("inline")}
+          </div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+            Current allocation vs ${profileLabel} · book ₹${(alloc.totalCurrent / 1e5).toFixed(2)}L
+          </div>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          ${summary.equityPct ? `<span style="font-size:11px; padding:4px 10px; background:#0f172a; border:1px solid #1a2233; border-radius:4px;"><strong>${summary.equityPct}%</strong> equity</span>` : ""}
+          ${summary.debtPct ? `<span style="font-size:11px; padding:4px 10px; background:#0f172a; border:1px solid #1a2233; border-radius:4px;"><strong>${summary.debtPct}%</strong> debt</span>` : `<span style="font-size:11px; padding:4px 10px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.35); border-radius:4px; color:#fca5a5;"><strong>0%</strong> debt</span>`}
+          ${summary.hybridPct ? `<span style="font-size:11px; padding:4px 10px; background:#0f172a; border:1px solid #1a2233; border-radius:4px;"><strong>${summary.hybridPct}%</strong> hybrid</span>` : ""}
+          ${summary.commodityPct ? `<span style="font-size:11px; padding:4px 10px; background:#0f172a; border:1px solid #1a2233; border-radius:4px;"><strong>${summary.commodityPct}%</strong> gold</span>` : ""}
+        </div>
+      </div>
+
+      <div style="display:flex; height:14px; border-radius:4px; overflow:hidden; background:#0f172a; margin-top:14px; border:1px solid #1a2233;">
+        ${barSegments || '<div style="flex:1;"></div>'}
+      </div>
+
+      <div style="margin-top:14px;">
+        <div style="display:grid; grid-template-columns:1.6fr 90px 90px 100px 100px; gap:12px; padding:0 12px; font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+          <div>Asset class</div><div>Current</div><div>Target</div><div>Gap</div><div>Verdict</div>
+        </div>
+        ${bucketRows}
+      </div>
+
+      ${flagsHtml ? `
+        <div style="margin-top:14px;">
+          <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:#fca5a5; margin-bottom:6px;">Concentration flags</div>
+          ${flagsHtml}
+        </div>` : ""}
+    </div>`;
 }
 
 function renderAnalyzerMfPositions(block) {
@@ -5045,6 +5310,7 @@ function renderMfPositionCard(position, idx) {
             <span style="font-size:11px; font-weight:700; color:var(--text-muted);">#${idx + 1}</span>
             ${mfActionBadge(action)}
             ${mfConfidencePill(rec.confidence || "LOW")}
+            ${riskAlignmentChip(factors.riskAlignment)}
           </div>
           <div style="font-weight:700; font-size:14px; margin-top:8px;">${position.name || "—"}</div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">
