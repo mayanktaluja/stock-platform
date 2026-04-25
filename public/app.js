@@ -1454,7 +1454,6 @@ document.addEventListener("DOMContentLoaded", applyConcentrationMode);
 async function loadDashboard() {
   loadBuyNow();
   loadScan("midterm", "midtermCards");
-  loadVolumeBreakout();
   loadScan("sell", "sellCards");
   loadSectorHeatmap();
   loadWatchlistState();
@@ -1983,132 +1982,6 @@ function renderBuyNowCard(stock) {
   `;
 }
 
-async function loadVolumeBreakout() {
-  const container = document.getElementById("volumeCards");
-
-  try {
-    const res = await fetch("/api/scan/volume-breakout");
-    const data = await res.json();
-
-    if (data.error) {
-      container.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon">&#9888;</div><div class="empty-text">${escapeHtml(data.error)}</div></div>`;
-      return;
-    }
-
-    // Update elapsed indicator
-    const elapsedEl = document.getElementById("volumeElapsed");
-    if (elapsedEl && data.elapsedFraction !== undefined) {
-      elapsedEl.textContent = `${data.elapsedFraction}% of trading day elapsed`;
-    }
-
-    document.getElementById("lastUpdated").textContent =
-      `Updated: ${new Date(data.lastUpdated).toLocaleTimeString("en-IN")}`;
-
-    if (!data.stocks || data.stocks.length === 0) {
-      container.innerHTML = `
-        <div class="empty-state" style="grid-column:1/-1;">
-          <div class="empty-icon">&#128202;</div>
-          <div class="empty-text">No significant volume breakouts right now. Check back during market hours.</div>
-        </div>`;
-      return;
-    }
-
-    container.innerHTML = data.stocks.map(renderVolumeCard).join("");
-  } catch (err) {
-    container.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon">&#9888;</div><div class="empty-text">Failed to load volume data. Server may be starting up.</div></div>`;
-  }
-}
-
-function renderVolumeCard(stock) {
-  const isPos = stock.changePercent >= 0;
-  const ratioDisplay = stock.volumeRatio.toFixed(1);
-  const rawDisplay = stock.rawRatio.toFixed(1);
-
-  // Bar fill: cap at 5x for visual, colour by strength
-  const barPct = Math.min(100, (stock.volumeRatio / 5) * 100);
-  const barColor =
-    stock.signalStrength === "EXPLOSIVE"
-      ? "#f59e0b"
-      : stock.signalStrength === "VERY HIGH"
-      ? "#f97316"
-      : stock.signalStrength === "HIGH"
-      ? "#3b82f6"
-      : "#64748b";
-
-  const dirClass =
-    stock.direction === "BULLISH"
-      ? "direction-long"
-      : stock.direction === "BEARISH"
-      ? "direction-short"
-      : "direction-neutral";
-
-  const sigClass =
-    stock.signalStrength === "EXPLOSIVE"
-      ? "signal-explosive"
-      : stock.signalStrength === "VERY HIGH"
-      ? "signal-very-high"
-      : stock.signalStrength === "HIGH"
-      ? "signal-high"
-      : "signal-moderate";
-
-  const dirIcon =
-    stock.direction === "BULLISH" ? "&#9650;" : stock.direction === "BEARISH" ? "&#9660;" : "&#9644;";
-
-  return `
-    <div class="stock-card" onclick="loadStock('${stock.symbol}')">
-      <div class="stock-card-header">
-        <div>
-          <div class="stock-card-name">${escapeHtml(stock.name)}</div>
-          <div class="stock-card-symbol">${stock.symbol} &middot; ${stock.sector || ""}</div>
-        </div>
-        <div>
-          <div class="stock-card-price ${isPos ? "positive" : "negative"}">&#8377;${formatNumber(stock.price)}</div>
-          <div class="stock-card-change ${isPos ? "positive" : "negative"}">${isPos ? "+" : ""}${stock.changePercent?.toFixed(2)}%</div>
-        </div>
-      </div>
-
-      <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;flex-wrap:wrap;">
-        <span class="signal-badge ${sigClass}">${stock.signalStrength}</span>
-        <span class="stock-card-direction ${dirClass}" style="font-size:12px;padding:3px 10px;border-radius:6px;">${dirIcon} ${stock.direction}</span>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:${barColor};">${ratioDisplay}x projected</span>
-      </div>
-
-      <div class="volume-bar-wrap">
-        <div class="volume-bar-fill" style="width:${barPct}%;background:${barColor};"></div>
-      </div>
-      <div class="volume-ratio-label">
-        <span>Today so far: ${rawDisplay}x avg</span>
-        <span>Projected EOD: ${ratioDisplay}x avg</span>
-      </div>
-
-      <div class="stock-card-metrics">
-        <div class="stock-card-metric">
-          <div class="metric-label">Today Vol</div>
-          <div class="metric-value" style="color:${barColor};">${formatVolume(stock.currentVolume)}</div>
-        </div>
-        <div class="stock-card-metric">
-          <div class="metric-label">Avg Daily</div>
-          <div class="metric-value">${formatVolume(stock.avgVolume)}</div>
-        </div>
-        <div class="stock-card-metric">
-          <div class="metric-label">Day Range</div>
-          <div class="metric-value" style="font-size:11px;">&#8377;${formatNumber(stock.dayLow)}-${formatNumber(stock.dayHigh)}</div>
-        </div>
-      </div>
-
-      <div class="stock-card-reasoning">${escapeHtml(stock.reasoning)}</div>
-
-      <div class="stock-card-footer">
-        <span class="stock-card-direction ${dirClass}">${stock.action}</span>
-        <div class="stock-card-targets">
-          ${stock.stopLoss ? `SL: &#8377;${stock.stopLoss}` : ""}
-          ${stock.target ? ` | T: &#8377;${stock.target}` : ""}
-        </div>
-      </div>
-    </div>
-  `;
-}
-
 async function refreshAll() {
   const btn = document.getElementById("refreshBtn");
   btn.classList.add("spinning");
@@ -2117,7 +1990,6 @@ async function refreshAll() {
     loadMarketData(),
     loadBuyNow(),
     loadScan("midterm", "midtermCards"),
-    loadVolumeBreakout(),
     loadScan("sell", "sellCards"),
   ]);
 
