@@ -76,7 +76,7 @@ import {
 import { parsePortfolioFile, resolveUnmatchedLive } from "./portfolioParser.js";
 import { analyzeHolding, buildReport } from "./portfolioAnalyzer.js";
 import { runXirrOptimizer, PRESETS as OPTIMIZER_PRESETS } from "./xirrOptimizer.js";
-import { enrichMfHoldings, enrichLivePeers } from "./mfNavIngestion.js";
+import { enrichMfHoldings, enrichLivePeers, enrichBenchmarkMetrics } from "./mfNavIngestion.js";
 import { enrichMfNews } from "./mfNews.js";
 import { fetchStockNews, enrichStockNews } from "./stockNews.js";
 import { generateNarrative, enrichStockNarratives } from "./stockNarrative.js";
@@ -5794,22 +5794,25 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       const mfOnlyWarnings = mfHoldings.length === 0
         ? [...parsed.warnings, "No listed equities detected in this file — the analyser only scores individual stocks. To use the full report, upload a file that contains at least one equity row."]
         : parsed.warnings;
-      // Phase 2 + 3 + 5: enrich MF holdings with
+      // Phase 2 + 3 + 5 + Improvement #1: enrich MF holdings with
       //   • live AMFI metrics (CAGR / Sharpe / max-DD per fund)
       //   • GPT-5-classified Google News (per scheme, deduped)
       //   • live peer-compare (top 3 same-category alternatives by 5y CAGR)
-      // All three are independent network calls — Promise.all keeps total
-      // analyze latency manageable. Graceful: per-call failures leave
-      // h.amfi/h.metrics/h.news/h.livePeers as null and the recommender
-      // falls back to its Phase-1 logic.
+      //   • benchmark TRI proxy metrics + per-holding alpha
+      // The first three are independent network calls — Promise.all keeps
+      // latency low. Benchmark enrichment runs AFTER because alpha needs
+      // each holding's `metrics` populated by enrichMfHoldings. Graceful:
+      // per-call failures leave the corresponding h.* field null and the
+      // recommender falls back to its Phase-1 logic.
       try {
         await Promise.all([
           enrichMfHoldings(mfHoldings),
           enrichMfNews(mfHoldings, { openai: getOpenAI() }),
           enrichLivePeers(mfHoldings),
         ]);
+        await enrichBenchmarkMetrics(mfHoldings);
       } catch (e) {
-        console.warn("[ANALYZE] AMFI/news/peers enrichment failed (MF-only path):", e.message);
+        console.warn("[ANALYZE] AMFI/news/peers/benchmark enrichment failed (MF-only path):", e.message);
       }
       const report = buildReport([], parsed.unmatched, {
         source: parsed.source,
@@ -6034,16 +6037,19 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       });
     });
 
-    // 7b. Phase 2 + 3 + 5: AMFI metrics + per-fund news + live peers in
-    //     parallel. Same graceful pattern as the MF-only path above.
+    // 7b. Phase 2 + 3 + 5 + Improvement #1: AMFI metrics + per-fund news +
+    //     live peers in parallel; benchmark TRI alpha sequenced after (alpha
+    //     needs h.metrics from enrichMfHoldings). Same graceful pattern as
+    //     the MF-only path above.
     try {
       await Promise.all([
         enrichMfHoldings(mfHoldings),
         enrichMfNews(mfHoldings, { openai: getOpenAI() }),
         enrichLivePeers(mfHoldings),
       ]);
+      await enrichBenchmarkMetrics(mfHoldings);
     } catch (e) {
-      console.warn("[ANALYZE] AMFI/news/peers enrichment failed (mixed path):", e.message);
+      console.warn("[ANALYZE] AMFI/news/peers/benchmark enrichment failed (mixed path):", e.message);
     }
 
     // 8. Aggregate
