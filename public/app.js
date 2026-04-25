@@ -4849,6 +4849,24 @@ function renderAnalyzerMfPositions(block) {
        </div>`
     : "";
 
+  // Phase 5: portfolio-level concerns + opportunities summary
+  const summary = block.summary || {};
+  const concerns = summary.concerns || [];
+  const opportunities = summary.opportunities || [];
+  const summaryRow = (concerns.length > 0 || opportunities.length > 0) ? `
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px;">
+      <div style="background:#0f172a; border:1px solid rgba(239,68,68,0.25); border-radius:6px; padding:10px 12px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:#fca5a5; margin-bottom:6px;">Top concerns</div>
+        ${concerns.length === 0 ? '<div style="font-size:11px; color:var(--text-muted); font-style:italic;">No material concerns flagged.</div>'
+          : concerns.map((c) => `<div style="font-size:11px; color:var(--text); margin-bottom:3px;">• ${c.detail}</div>`).join("")}
+      </div>
+      <div style="background:#0f172a; border:1px solid rgba(34,197,94,0.25); border-radius:6px; padding:10px 12px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:#86efac; margin-bottom:6px;">Top switch opportunities</div>
+        ${opportunities.length === 0 ? '<div style="font-size:11px; color:var(--text-muted); font-style:italic;">No SWITCH candidates above the noise floor.</div>'
+          : opportunities.map((o) => `<div style="font-size:11px; color:var(--text); margin-bottom:3px;">• ${o.from.name?.slice(0,32)} → ${o.to?.slice(0,32)} <strong style="color:#86efac;">+${o.deltaPp}pp</strong></div>`).join("")}
+      </div>
+    </div>` : "";
+
   const header = `
     <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-bottom:16px;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
@@ -4864,6 +4882,7 @@ function renderAnalyzerMfPositions(block) {
       </div>
       <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">${mixChips || '<span style="font-size:12px; color:var(--text-muted);">No actionable positions.</span>'}</div>
       ${overlapNote}
+      ${summaryRow}
     </div>`;
 
   // ── Per-position cards ──
@@ -4886,13 +4905,33 @@ function renderMfPositionCard(position, idx) {
   const pnlColor = pctColor(pnlPctVal);
   const pnlText = Number.isFinite(pnlPctVal) ? `${pnlPctVal >= 0 ? "+" : ""}${pnlPctVal.toFixed(2)}%` : "—";
 
-  // Performance line: trailing XIRR vs category benchmark
+  // Performance line: trailing return vs category benchmark + Phase 2
+  // multi-window metrics (1y/3y/5y CAGR + Sharpe + maxDD) when AMFI
+  // ingestion succeeded.
+  const sourceLabel = factors.trailingXirrSource === "amfi_3y" ? "AMFI 3y CAGR"
+    : factors.trailingXirrSource === "amfi_1y" ? "AMFI 1y CAGR"
+    : factors.trailingXirrSource === "groww_xirr" ? "Groww trailing XIRR"
+    : "—";
   const perfLine = Number.isFinite(perf.trailingXirrPct)
     ? `<div style="font-size:12px; color:var(--text-muted); margin-top:6px;">
-         Trailing XIRR: <strong style="color:${perf.vsCategoryPp >= 0 ? '#86efac' : '#fca5a5'};">${perf.trailingXirrPct.toFixed(2)}%</strong>
+         <span style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px;">${sourceLabel}:</span>
+         <strong style="color:${perf.vsCategoryPp >= 0 ? '#86efac' : '#fca5a5'};">${perf.trailingXirrPct.toFixed(2)}%</strong>
          ${Number.isFinite(perf.vsCategoryPp) ? `· vs ${perf.categoryKey || 'category'} benchmark ${perf.categoryBenchmarkPct}% <strong style="color:${perf.vsCategoryPp >= 0 ? '#86efac' : '#fca5a5'};">(${perf.vsCategoryPp >= 0 ? "+" : ""}${perf.vsCategoryPp}pp)</strong>` : ""}
        </div>`
-    : `<div style="font-size:12px; color:var(--text-muted); margin-top:6px;">No XIRR available — Phase 2 (AMFI ingestion) will fill this in.</div>`;
+    : `<div style="font-size:12px; color:var(--text-muted); margin-top:6px;">No published XIRR or AMFI match available.</div>`;
+
+  // Multi-window metrics row — appears when AMFI ingestion produced metrics
+  const m = factors.metrics;
+  const multiWindowLine = m ? `
+    <div style="display:flex; flex-wrap:wrap; gap:14px; font-size:11px; color:var(--text-muted); margin-top:8px; padding:8px 12px; background:#0f172a; border-radius:6px; border:1px solid #1a2233;">
+      ${Number.isFinite(m.cagr1yPct) ? `<span>1y <strong style="color:${m.cagr1yPct >= 0 ? '#86efac' : '#fca5a5'};">${m.cagr1yPct}%</strong></span>` : ""}
+      ${Number.isFinite(m.cagr3yPct) ? `<span>3y <strong style="color:${m.cagr3yPct >= 0 ? '#86efac' : '#fca5a5'};">${m.cagr3yPct}%</strong></span>` : ""}
+      ${Number.isFinite(m.cagr5yPct) ? `<span>5y <strong style="color:${m.cagr5yPct >= 0 ? '#86efac' : '#fca5a5'};">${m.cagr5yPct}%</strong></span>` : ""}
+      ${Number.isFinite(m.sharpe3y) ? `<span>Sharpe(3y) <strong style="color:var(--text);">${m.sharpe3y}</strong></span>` : ""}
+      ${Number.isFinite(m.annualVolPct) ? `<span>Vol <strong style="color:var(--text);">${m.annualVolPct}%</strong></span>` : ""}
+      ${Number.isFinite(m.maxDrawdownPct) ? `<span>Max DD <strong style="color:#fca5a5;">${m.maxDrawdownPct}%</strong></span>` : ""}
+      ${factors.amfi?.schemeCode ? `<span style="opacity:0.6;">AMFI #${factors.amfi.schemeCode}${factors.amfi.matchType === "isin" ? " · ISIN match" : factors.amfi.score ? ` · name match ${factors.amfi.score}` : ""}</span>` : ""}
+    </div>` : "";
 
   // Reason chips
   const reasonsHtml = (rec.reasons || []).map((r) => `
@@ -4907,17 +4946,22 @@ function renderMfPositionCard(position, idx) {
   const peersHtml = peers.length > 0 ? `
     <div style="margin-top:12px; padding-top:12px; border-top:1px solid #1a2233;">
       <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); margin-bottom:6px;">Peer compare (same SEBI category)</div>
-      ${peers.map((c, i) => `
+      ${peers.map((c, i) => {
+        // Live AMFI peers carry richer metrics (3y CAGR + Sharpe) but no
+        // TER/rank; curated peers carry TER/rank but no Sharpe. Render
+        // each variant honestly.
+        const meta = c.source === "amfi_live"
+          ? `5y ${c.approxXirr5yPct}%${Number.isFinite(c.cagr3yPct) ? ` · 3y ${c.cagr3yPct}%` : ""}${Number.isFinite(c.sharpe3y) ? ` · Sharpe ${c.sharpe3y}` : ""} · ${c.amc || "AMC"}`
+          : `5y ${c.approxXirr5yPct}%${c.expenseRatioPct ? ` · TER ${c.expenseRatioPct}%` : ""}${c.categoryRank5y ? ` · rank #${c.categoryRank5y}` : ""}${c.lockInMonths ? ` · ${c.lockInMonths}mo lock` : ""}`;
+        return `
         <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; padding:6px 0; border-bottom:${i < peers.length-1 ? '1px solid #1a2233' : '0'};">
           <div style="flex:1; min-width:0;">
             <div style="font-size:12px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${c.name}</div>
-            <div style="font-size:10px; color:var(--text-muted); margin-top:1px;">
-              5y ${c.approxXirr5yPct}% · TER ${c.expenseRatioPct}% · rank #${c.categoryRank5y}${c.lockInMonths ? ` · ${c.lockInMonths}mo lock` : ""}
-            </div>
+            <div style="font-size:10px; color:var(--text-muted); margin-top:1px;">${meta}</div>
           </div>
           ${Number.isFinite(c.deltaPp) ? `<div style="font-size:13px; font-weight:700; color:${c.deltaPp > 0 ? '#86efac' : '#fca5a5'};">${c.deltaPp > 0 ? "+" : ""}${c.deltaPp}pp</div>` : ""}
         </div>
-      `).join("")}
+      `;}).join("")}
     </div>
   ` : "";
 
@@ -4927,12 +4971,11 @@ function renderMfPositionCard(position, idx) {
       Consolidate into folio <strong>${rec.consolidateTo.folio}</strong> (largest sibling holding the same scheme).
     </div>` : "";
 
-  // News (Phase 3 — placeholder shows "coming soon" so RA knows it's planned)
-  const newsHtml = `
-    <div style="margin-top:12px; padding-top:12px; border-top:1px solid #1a2233;">
-      <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">News (last 30d)</div>
-      <div style="font-size:11px; color:var(--text-muted); margin-top:4px; font-style:italic;">Per-fund news with material-event classification ships in Phase 3 (GPT-5 sentiment + Moneycontrol/Mint feeds).</div>
-    </div>`;
+  // Phase 3: per-fund news with GPT-5 materiality classification.
+  // Shows MATERIAL items first (manager change, regulatory action, etc.)
+  // then CONTEXT items. NOISE filtered server-side.
+  const news = position.news;
+  const newsHtml = renderMfNewsBlock(news);
 
   return `
     <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:16px; margin-bottom:12px;">
@@ -4955,6 +4998,7 @@ function renderMfPositionCard(position, idx) {
         </div>
       </div>
       ${perfLine}
+      ${multiWindowLine}
       <div style="margin-top:12px;">
         ${reasonsHtml}
       </div>
@@ -4963,6 +5007,64 @@ function renderMfPositionCard(position, idx) {
       ${newsHtml}
     </div>
   `;
+}
+
+// Phase 3: per-fund news block. Shows MATERIAL events as red-tinted
+// rows (decision-changing — manager change, regulatory action, etc.)
+// and CONTEXT items as muted grey. Each item links to the source so
+// the SEBI-RA can verify before relaying anything to a client.
+const NEWS_MATERIALITY_PALETTE = {
+  MATERIAL: { dot: "#fca5a5", label: "Material" },
+  CONTEXT:  { dot: "#94a3b8", label: "Context" },
+};
+const NEWS_SENTIMENT_TEXT = {
+  POSITIVE: { color: "#86efac", icon: "▲" },
+  NEGATIVE: { color: "#fca5a5", icon: "▼" },
+  NEUTRAL:  { color: "var(--text-muted)", icon: "·" },
+};
+function fmtNewsDate(s) {
+  if (!s) return "";
+  const d = new Date(s);
+  if (isNaN(d.getTime())) return "";
+  const now = Date.now();
+  const ageDays = Math.floor((now - d.getTime()) / 86400000);
+  if (ageDays === 0) return "today";
+  if (ageDays === 1) return "1d ago";
+  if (ageDays < 30) return `${ageDays}d ago`;
+  return d.toISOString().slice(0, 10);
+}
+function renderMfNewsBlock(news) {
+  const header = `<div style="margin-top:12px; padding-top:12px; border-top:1px solid #1a2233;">
+    <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">News (last 30d) · classified by GPT-5</div>`;
+  if (!news || !Array.isArray(news.items) || news.items.length === 0) {
+    const note = news?.note || "no recent material news";
+    return `${header}<div style="font-size:11px; color:var(--text-muted); margin-top:4px; font-style:italic;">${note}</div></div>`;
+  }
+  const counts = news.counts ? `<span style="opacity:0.6;">· ${news.counts.material} material, ${news.counts.context} context, ${news.counts.noise} noise filtered</span>` : "";
+  const rows = news.items.map((it) => {
+    const mat = NEWS_MATERIALITY_PALETTE[it.materiality] || NEWS_MATERIALITY_PALETTE.CONTEXT;
+    const sent = NEWS_SENTIMENT_TEXT[it.sentiment] || NEWS_SENTIMENT_TEXT.NEUTRAL;
+    const eventLabel = it.eventKind && it.eventKind !== "OTHER" ? `<span style="font-size:9px; padding:1px 6px; background:rgba(168,85,247,0.10); border:1px solid rgba(168,85,247,0.25); border-radius:3px; color:#d8b4fe; letter-spacing:0.3px; text-transform:uppercase;">${it.eventKind.replace(/_/g," ")}</span>` : "";
+    return `
+      <div style="display:flex; gap:10px; align-items:flex-start; padding:6px 0; border-bottom:1px solid #1a2233;">
+        <span style="color:${mat.dot}; font-size:14px; line-height:1.3;">●</span>
+        <div style="flex:1; min-width:0;">
+          <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-bottom:2px;">
+            <a href="${it.link}" target="_blank" rel="noopener" style="font-size:12px; font-weight:600; color:var(--text); text-decoration:none; line-height:1.4;">${it.title}</a>
+            ${eventLabel}
+          </div>
+          ${it.summary ? `<div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${it.summary}</div>` : ""}
+          <div style="font-size:10px; color:var(--text-muted); margin-top:3px;">
+            <span style="color:${sent.color};">${sent.icon} ${it.sentiment?.toLowerCase() || "neutral"}</span>
+            · ${it.source || "source"} · ${fmtNewsDate(it.pubDate)}
+          </div>
+        </div>
+      </div>`;
+  }).join("");
+  return `${header}
+    <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">${counts}</div>
+    ${rows}
+    </div>`;
 }
 
 // ──────────────────── XIRR Optimizer renderer ────────────────────

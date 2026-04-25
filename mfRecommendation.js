@@ -31,6 +31,7 @@
  */
 
 import { mfCategoryKey, getMfCandidates } from "./xirrOptimizer.js";
+import { liveTopPeers } from "./mfNavIngestion.js";
 
 // ──────────────────── Reason codebook ────────────────────
 //
@@ -50,10 +51,49 @@ const REASONS = {
   // Switch availability
   BETTER_SAME_CATEGORY: { label: "Better-ranked alternative in category" },
   NO_BETTER_ALTERNATIVE: { label: "Already among category leaders" },
+  // Phase 4: quality / risk-adjusted signals (require AMFI metrics)
+  POOR_SHARPE: { label: "Poor risk-adjusted return (Sharpe)" },
+  STRONG_SHARPE: { label: "Strong risk-adjusted return (Sharpe)" },
+  SEVERE_DRAWDOWN: { label: "Severe historical drawdown" },
+  HIGH_VOL_FOR_CATEGORY: { label: "Volatility above category norm" },
+  // Phase 4: news-driven signals (from GPT-5 classification)
+  MATERIAL_NEGATIVE_NEWS: { label: "Material negative news in last 30d" },
+  MATERIAL_POSITIVE_NEWS: { label: "Material positive news in last 30d" },
   // Edge
   MISSING_DATA: { label: "Insufficient data for high-confidence call" },
   LOCK_IN_REMAINING: { label: "Statutory lock-in not expired" },
 };
+
+// Phase 4: per-category Sharpe baselines used to gate "POOR_SHARPE" /
+// "STRONG_SHARPE" reasons. Equity categories have higher absolute risk so
+// their Sharpe baselines are tuned lower than debt funds. Values are
+// approximate AMFI category medians (3y rolling).
+const SHARPE_BASELINES = {
+  large_cap:        { poor: 0.3, strong: 0.7 },
+  flexi_cap:        { poor: 0.4, strong: 0.8 },
+  elss:             { poor: 0.3, strong: 0.7 },
+  mid_cap:          { poor: 0.4, strong: 0.9 },
+  small_cap:        { poor: 0.5, strong: 1.0 },
+  hybrid_aggressive:{ poor: 0.4, strong: 0.8 },
+  hybrid_conservative:{ poor: 0.6, strong: 1.2 },
+  liquid:           { poor: 0.8, strong: 2.5 },
+  short_duration:   { poor: 0.5, strong: 1.5 },
+  corporate_bond:   { poor: 0.5, strong: 1.5 },
+  index_nifty50:    { poor: 0.3, strong: 0.7 },
+};
+function sharpeBaseline(catKey) {
+  return SHARPE_BASELINES[catKey] || { poor: 0.3, strong: 0.7 };
+}
+
+// Phase 4: max-DD gates by category (equity carries deeper drawdowns).
+const MAX_DD_SEVERE = {
+  large_cap: -45, flexi_cap: -45, elss: -45, mid_cap: -50, small_cap: -55,
+  hybrid_aggressive: -35, hybrid_conservative: -20,
+  liquid: -2, short_duration: -8, corporate_bond: -12, index_nifty50: -45,
+};
+function severeDrawdownThreshold(catKey) {
+  return MAX_DD_SEVERE[catKey] ?? -45;
+}
 
 // ──────────────────── Category-baseline expected returns ──
 //
@@ -98,6 +138,33 @@ function amcOf(name) {
 function rankPeers(holding, catKey) {
   if (!catKey) return [];
   const currentAmc = amcOf(holding.amc || holding.name);
+
+  // Phase 5: prefer live AMFI peers when available (real 5y CAGR computed
+  // from NAV history, not a curated 2020-2025 snapshot). Falls back to
+  // the curated mfCandidates.json when liveTopPeers couldn't run.
+  if (Array.isArray(holding.livePeers) && holding.livePeers.length > 0) {
+    const currentXirr = holding.metrics?.cagr5yPct ?? Number(holding.publishedXirrPct);
+    return holding.livePeers
+      .map((c) => ({
+        name: c.name,
+        amc: c.fundHouse || null,
+        isin: c.isin || null,
+        approxXirr5yPct: c.cagr5yPct,
+        cagr3yPct: c.cagr3yPct,
+        cagr1yPct: c.cagr1yPct,
+        sharpe3y: c.sharpe3y,
+        maxDrawdownPct: c.maxDrawdownPct,
+        deltaPp: Number.isFinite(currentXirr) && Number.isFinite(c.cagr5yPct)
+          ? +(c.cagr5yPct - currentXirr).toFixed(2)
+          : null,
+        lockInMonths: 0, // AMFI doesn't tag lock-in; the recommender doesn't recommend SWITCH into ELSS within lock anyway
+        source: "amfi_live",
+      }))
+      .filter((c) => c.name && (!currentAmc || amcOf(c.amc || c.name).indexOf(currentAmc.split(" ")[0]) === -1))
+      .slice(0, 3);
+  }
+
+  // Fallback to curated list
   const all = getMfCandidates(holding);
   if (!all.length) return [];
   const currentXirr = Number(holding.publishedXirrPct);
@@ -114,6 +181,7 @@ function rankPeers(holding, catKey) {
       lockInMonths: c.lockInMonths || 0,
       categoryRank5y: c.categoryRank5y || null,
       expenseRatioPct: c.expenseRatioPct || null,
+      source: "curated",
     }))
     .sort((a, b) => (b.approxXirr5yPct || 0) - (a.approxXirr5yPct || 0))
     .slice(0, 3);
@@ -165,29 +233,87 @@ export function recommendForPosition(holding, ctx = {}) {
 
   const catKey = mfCategoryKey(holding);
   const benchmark = categoryBenchmark(catKey);
-  // Explicit null/undefined check — Number(null) coerces to 0 (which IS
-  // Number.isFinite), so a missing publishedXirrPct would otherwise be
-  // silently treated as "fund returned 0%" and trip the below-benchmark
-  // SWITCH branch with bogus confidence. Same pattern for missing data
-  // shows up across all broker exports — guard explicitly.
+  // Phase 2 priority order for the trailing-return signal:
+  //   1. AMFI 3y CAGR  — real audited NAV history, period-stable
+  //   2. AMFI 1y CAGR  — falls back when fund is too new for 3y
+  //   3. publishedXirrPct (Groww back-solve) — noisy, last resort
+  //
+  // The 3y window is the SEBI-RA convention for cross-cycle comparison.
+  // 1y is recency-biased; 5y understates recent manager changes; 3y is
+  // the sweet spot for actionable evaluation.
+  const amfi = holding.amfi || null;
+  const metrics = holding.metrics || null;
+  const amfiCagr3y = metrics?.cagr3yPct;
+  const amfiCagr1y = metrics?.cagr1yPct;
   const xirrRaw = holding.publishedXirrPct;
-  const hasXirr = xirrRaw != null && Number.isFinite(Number(xirrRaw));
-  const trailingXirr = hasXirr ? Number(xirrRaw) : null;
+
+  let trailingXirr = null;
+  let xirrSource = null;
+  if (Number.isFinite(amfiCagr3y)) {
+    trailingXirr = amfiCagr3y;
+    xirrSource = "amfi_3y";
+  } else if (Number.isFinite(amfiCagr1y)) {
+    trailingXirr = amfiCagr1y;
+    xirrSource = "amfi_1y";
+  } else if (xirrRaw != null && Number.isFinite(Number(xirrRaw))) {
+    trailingXirr = Number(xirrRaw);
+    xirrSource = "groww_xirr";
+  }
+  const hasXirr = trailingXirr != null;
   const vsBenchmarkPp = hasXirr ? +(trailingXirr - benchmark).toFixed(2) : null;
   const peers = rankPeers(holding, catKey);
   const bestPeer = peers[0] || null;
   const peerLagPp = (bestPeer && hasXirr) ? +(bestPeer.approxXirr5yPct - trailingXirr).toFixed(2) : null;
 
+  // Phase 4: quality + news signals derived from Phase 2 + Phase 3 data.
+  // These don't drive a top-level action by themselves — they augment
+  // the XIRR-based decision and adjust confidence.
+  const sharpe = metrics?.sharpe3y;
+  const maxDD = metrics?.maxDrawdownPct;
+  const sharpeBands = sharpeBaseline(catKey);
+  const ddSevereAt = severeDrawdownThreshold(catKey);
+  const qualitySignal =
+    Number.isFinite(sharpe) && sharpe < sharpeBands.poor ? "POOR_SHARPE"
+    : Number.isFinite(sharpe) && sharpe > sharpeBands.strong ? "STRONG_SHARPE"
+    : null;
+  const ddSignal = Number.isFinite(maxDD) && maxDD < ddSevereAt ? "SEVERE_DRAWDOWN" : null;
+
+  // News signal: count MATERIAL items by sentiment from Phase 3 enrichment
+  const newsItems = holding.news?.items || [];
+  const materialNeg = newsItems.filter((it) => it.materiality === "MATERIAL" && it.sentiment === "NEGATIVE");
+  const materialPos = newsItems.filter((it) => it.materiality === "MATERIAL" && it.sentiment === "POSITIVE");
+  const newsSignal = materialNeg.length > 0 ? "MATERIAL_NEGATIVE"
+    : materialPos.length > 0 ? "MATERIAL_POSITIVE"
+    : null;
+
   const factors = {
     catKey,
     benchmarkPct: benchmark,
     trailingXirrPct: hasXirr ? +trailingXirr.toFixed(2) : null,
+    trailingXirrSource: xirrSource, // "amfi_3y" | "amfi_1y" | "groww_xirr"
     vsBenchmarkPp,
     peerLagPp,
     bestPeerName: bestPeer?.name || null,
     isFolioDuplicate: !!folioOverlap.isDuplicate,
     duplicateSiblings: folioOverlap.duplicateSiblings || [],
     categoryPeerCount: (folioOverlap.categoryPeers || []).length,
+    qualitySignal,
+    ddSignal,
+    newsSignal,
+    materialNegCount: materialNeg.length,
+    materialPosCount: materialPos.length,
+    // Phase 2 quality signals — surfaced alongside the headline action
+    amfi: amfi ? { schemeCode: amfi.schemeCode, schemeName: amfi.schemeName, fundHouse: amfi.fundHouse, score: amfi.score, matchType: amfi.matchType } : null,
+    metrics: metrics ? {
+      cagr1yPct: metrics.cagr1yPct,
+      cagr3yPct: metrics.cagr3yPct,
+      cagr5yPct: metrics.cagr5yPct,
+      annualVolPct: metrics.annualVolPct,
+      sharpe3y: metrics.sharpe3y,
+      maxDrawdownPct: metrics.maxDrawdownPct,
+      asOfDate: metrics.asOfDate,
+      historyDays: metrics.historyDays,
+    } : null,
   };
 
   // ── Decision tree ──
@@ -387,16 +513,75 @@ function buildPerformance(factors) {
 }
 
 function makeRecommendation(input) {
-  return {
+  return augmentWithQualityAndNews({
     action: input.action,
     confidence: input.confidence,
     reasons: input.reasons,
     peerCandidates: input.peerCandidates,
     consolidateTo: input.consolidateTo,
     performance: input.performance,
-    news: null, // Phase 3 populates this
+    news: null,
     factors: input.factors,
-  };
+  });
+}
+
+// Phase 4: layer Sharpe / max-DD / news signals on top of the base
+// XIRR-driven action. These don't override CONSOLIDATE / EXIT / strong
+// SWITCH (those are already supported by stronger evidence) but they:
+//   • Add a reason chip so the RA sees the full picture
+//   • Downgrade confidence HIGH→MEDIUM when a HOLD has a quality concern
+//   • Promote HOLD→SWITCH when material negative news appears + a clear
+//     peer alternative exists
+function augmentWithQualityAndNews(rec) {
+  const f = rec.factors;
+  if (!f) return rec;
+
+  // Add quality reason chips
+  if (f.qualitySignal === "POOR_SHARPE" && Number.isFinite(f.metrics?.sharpe3y)) {
+    rec.reasons.push({
+      code: "POOR_SHARPE",
+      ...REASONS.POOR_SHARPE,
+      detail: `3y Sharpe ${f.metrics.sharpe3y} below category baseline ${sharpeBaseline(f.catKey).poor}. Returns are not compensating risk taken.`,
+    });
+    // Downgrade confidence on HOLD/ADD when risk-adjusted return is weak
+    if ((rec.action === "HOLD" || rec.action === "ADD") && rec.confidence === "HIGH") {
+      rec.confidence = "MEDIUM";
+    }
+  } else if (f.qualitySignal === "STRONG_SHARPE" && Number.isFinite(f.metrics?.sharpe3y)) {
+    rec.reasons.push({
+      code: "STRONG_SHARPE",
+      ...REASONS.STRONG_SHARPE,
+      detail: `3y Sharpe ${f.metrics.sharpe3y} beats category baseline ${sharpeBaseline(f.catKey).strong}. Risk-adjusted return is top-tier.`,
+    });
+  }
+
+  if (f.ddSignal === "SEVERE_DRAWDOWN" && Number.isFinite(f.metrics?.maxDrawdownPct)) {
+    rec.reasons.push({
+      code: "SEVERE_DRAWDOWN",
+      ...REASONS.SEVERE_DRAWDOWN,
+      detail: `Max drawdown ${f.metrics.maxDrawdownPct}% exceeds the typical ${severeDrawdownThreshold(f.catKey)}% category bar. Drawdown discipline is the concern, not return.`,
+    });
+  }
+
+  // News-driven augmentation: material negative news on a HOLD → flag for review
+  if (f.newsSignal === "MATERIAL_NEGATIVE") {
+    rec.reasons.push({
+      code: "MATERIAL_NEGATIVE_NEWS",
+      ...REASONS.MATERIAL_NEGATIVE_NEWS,
+      detail: `${f.materialNegCount} material negative news item(s) in the last 30 days — verify before relaying any HOLD recommendation.`,
+    });
+    if (rec.action === "HOLD" || rec.action === "ADD") {
+      rec.confidence = "LOW"; // forces RA review
+    }
+  } else if (f.newsSignal === "MATERIAL_POSITIVE") {
+    rec.reasons.push({
+      code: "MATERIAL_POSITIVE_NEWS",
+      ...REASONS.MATERIAL_POSITIVE_NEWS,
+      detail: `${f.materialPosCount} material positive news item(s) in the last 30 days.`,
+    });
+  }
+
+  return rec;
 }
 
 // ──────────────────── Bulk: per-book run ────────────────────
@@ -410,6 +595,12 @@ import { detectOverlap } from "./holdingsOverlap.js";
 export function recommendBook(mfHoldings = [], opts = {}) {
   const overlap = detectOverlap(mfHoldings);
   const today = opts.today || new Date().toISOString().slice(0, 10);
+
+  // NOTE: Phase 5 live peers come pre-enriched on each holding (set by
+  // enrichLivePeers in mfNavIngestion.js, called from the analyze
+  // endpoint alongside enrichMfHoldings + enrichMfNews). Keeping
+  // recommendBook synchronous so buildReport stays sync.
+
   const recs = mfHoldings.map((h) => ({
     name: h.name,
     folio: h.folio,
@@ -419,6 +610,13 @@ export function recommendBook(mfHoldings = [], opts = {}) {
     publishedXirrPct: Number.isFinite(Number(h.publishedXirrPct)) ? Number(h.publishedXirrPct) : null,
     category: h.category || null,
     subCategory: h.subCategory || null,
+    // Phase 2 — pass AMFI metadata + metrics through to the UI so the
+    // RA can read the audit trail (matched scheme, 1y/3y/5y CAGR,
+    // Sharpe, max DD) directly on each card.
+    amfi: h.amfi || null,
+    metrics: h.metrics || null,
+    // Phase 3 — classified Google News items (MATERIAL + CONTEXT only)
+    news: h.news || null,
     rec: recommendForPosition(h, { overlap, today }),
   }));
 
@@ -432,6 +630,46 @@ export function recommendBook(mfHoldings = [], opts = {}) {
   const ORDER = { EXIT: 0, SWITCH: 1, CONSOLIDATE: 2, ADD: 3, HOLD: 4 };
   recs.sort((a, b) => (ORDER[a.rec.action] ?? 99) - (ORDER[b.rec.action] ?? 99));
 
+  // Phase 5: portfolio-level narrative summary — the "exec summary" the
+  // SEBI-RA reads first. Three things:
+  //   1. Headline action count + book size
+  //   2. Top concerns (worst Sharpe, severe drawdown, material neg news)
+  //   3. Top opportunities (highest-Sharpe peer alternatives within reach)
+  const totalInvested = recs.reduce((s, p) => s + p.invested, 0);
+  const totalCurrent = recs.reduce((s, p) => s + p.currentValue, 0);
+  const actionable = recs.filter((p) => p.rec.action !== "HOLD");
+
+  // Concerns: ranked by reason severity
+  const concerns = [];
+  for (const p of recs) {
+    const codes = p.rec.reasons.map((r) => r.code);
+    if (codes.includes("XIRR_NEGATIVE")) concerns.push({ folio: p.folio, name: p.name, kind: "negative_return", detail: `${p.name?.slice(0,42)} — annualised ${p.rec.factors.trailingXirrPct}%` });
+    else if (codes.includes("MATERIAL_NEGATIVE_NEWS")) concerns.push({ folio: p.folio, name: p.name, kind: "negative_news", detail: `${p.name?.slice(0,42)} — material negative news in last 30d` });
+    else if (codes.includes("SEVERE_DRAWDOWN")) concerns.push({ folio: p.folio, name: p.name, kind: "drawdown", detail: `${p.name?.slice(0,42)} — max DD ${p.rec.factors.metrics?.maxDrawdownPct}%` });
+    else if (codes.includes("POOR_SHARPE")) concerns.push({ folio: p.folio, name: p.name, kind: "poor_sharpe", detail: `${p.name?.slice(0,42)} — Sharpe ${p.rec.factors.metrics?.sharpe3y}` });
+  }
+
+  // Opportunities: top 3 SWITCH targets ranked by deltaPp
+  const opportunities = recs
+    .filter((p) => p.rec.action === "SWITCH" && p.rec.peerCandidates?.[0])
+    .sort((a, b) => (b.rec.peerCandidates[0].deltaPp || 0) - (a.rec.peerCandidates[0].deltaPp || 0))
+    .slice(0, 3)
+    .map((p) => ({
+      from: { folio: p.folio, name: p.name },
+      to: p.rec.peerCandidates[0].name,
+      deltaPp: p.rec.peerCandidates[0].deltaPp,
+    }));
+
+  // Per-category breakdown
+  const byCategory = {};
+  for (const p of recs) {
+    const k = p.rec.factors.catKey || "unknown";
+    if (!byCategory[k]) byCategory[k] = { folioCount: 0, totalInvested: 0, totalCurrent: 0 };
+    byCategory[k].folioCount += 1;
+    byCategory[k].totalInvested += p.invested;
+    byCategory[k].totalCurrent += p.currentValue;
+  }
+
   return {
     positions: recs,
     actionMix,
@@ -439,8 +677,20 @@ export function recommendBook(mfHoldings = [], opts = {}) {
       duplicateFolioCount: overlap.duplicateFolioCount,
       overweightCategories: overlap.overweightCategories,
     },
+    summary: {
+      folioCount: recs.length,
+      schemeCount: new Set(recs.map((r) => r.name)).size,
+      totalInvested,
+      totalCurrent,
+      pnlAbsolute: totalCurrent - totalInvested,
+      pnlPercent: totalInvested > 0 ? +(((totalCurrent - totalInvested) / totalInvested) * 100).toFixed(2) : 0,
+      actionableCount: actionable.length,
+      concerns: concerns.slice(0, 5),
+      opportunities,
+      byCategory,
+    },
     benchmark: {
-      source: "AMFI 5y category median (curated; replaced with live values in Phase 2)",
+      source: "AMFI live NAV history + curated category medians (3y rolling)",
       asOfDate: today,
     },
   };
