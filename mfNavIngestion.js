@@ -554,3 +554,104 @@ export function _setTestMaster(records) {
   if (records) masterCache.set(MASTER_KEY, records);
   else masterCache.del(MASTER_KEY);
 }
+
+// ──────────────────── Improvement #1: benchmark TRI enrichment ────────────────────
+//
+// For each unique SEBI category in the user's book, resolve the canonical
+// index-fund TRI proxy (see benchmarkIndices.js), fetch its NAV history
+// once (re-using fetchSchemeHistory's per-scheme cache), compute the same
+// metrics bundle, and attach a `benchmark` block to every holding in that
+// category:
+//
+//   h.benchmark = {
+//     proxyKey, indexName, schemeCode, schemeName,
+//     metrics: { cagr1yPct, cagr3yPct, cagr5yPct, sharpe3y, maxDrawdownPct, ... },
+//     alpha:   { alpha1yPp, alpha3yPp, alpha5yPp, primaryWindow, primaryAlphaPp, verdict },
+//   }
+//
+// Categories with no defined proxy (debt, hybrid) get `h.benchmark = null`.
+// Any per-step failure (master miss, history fetch) leaves `h.benchmark = null`.
+// The recommender treats absence as "no chip" — it never blocks a decision.
+
+import {
+  benchmarkProxyForCategory,
+  resolveProxyAgainstMaster,
+  buildAlpha,
+} from "./benchmarkIndices.js";
+
+export async function enrichBenchmarkMetrics(mfHoldings = []) {
+  if (!Array.isArray(mfHoldings) || mfHoldings.length === 0) return mfHoldings;
+
+  // 1. Discover the unique benchmark proxies needed by this book.
+  const neededProxies = new Map(); // proxyKey → proxy object
+  const catToProxyKey = new Map(); // catKey → proxyKey
+  for (const h of mfHoldings) {
+    const k = mfCategoryKey(h);
+    if (!k) continue;
+    const proxy = benchmarkProxyForCategory(k);
+    if (!proxy) continue;
+    catToProxyKey.set(k, proxy.proxyKey);
+    if (!neededProxies.has(proxy.proxyKey)) neededProxies.set(proxy.proxyKey, proxy);
+  }
+  if (neededProxies.size === 0) {
+    for (const h of mfHoldings) h.benchmark = null;
+    return mfHoldings;
+  }
+
+  // 2. Resolve each proxy against the AMFI master (handles code rotation).
+  const master = await fetchAmfiMaster();
+  const resolvedByProxy = new Map(); // proxyKey → { schemeCode, schemeName, source }
+  for (const [proxyKey, proxy] of neededProxies.entries()) {
+    const resolved = resolveProxyAgainstMaster(proxy, master);
+    if (resolved) resolvedByProxy.set(proxyKey, resolved);
+  }
+
+  // 3. Fetch NAV history + compute metrics for each resolved proxy.
+  //    Re-uses fetchSchemeHistory's cache so subsequent analyze calls are cheap.
+  const metricsByProxy = new Map(); // proxyKey → { metrics }
+  await Promise.all([...resolvedByProxy.entries()].map(async ([proxyKey, resolved]) => {
+    try {
+      const series = await fetchSchemeHistory(resolved.schemeCode);
+      const metrics = series ? computeMetrics(series) : null;
+      if (metrics) metricsByProxy.set(proxyKey, metrics);
+    } catch (e) {
+      console.warn(`[BENCH] proxy ${proxyKey} (${resolved.schemeCode}) metrics failed:`, e.message);
+    }
+  }));
+
+  // 4. Attach per-holding benchmark + alpha. Compute alpha against the
+  //    holding's AMFI metrics (real NAV-derived) — never against the
+  //    duration-dependent groww_xirr (apples-to-oranges).
+  for (const h of mfHoldings) {
+    const k = mfCategoryKey(h);
+    if (!k) { h.benchmark = null; continue; }
+    const proxyKey = catToProxyKey.get(k);
+    if (!proxyKey) { h.benchmark = null; continue; }
+    const proxy = neededProxies.get(proxyKey);
+    const resolved = resolvedByProxy.get(proxyKey);
+    const benchMetrics = metricsByProxy.get(proxyKey);
+    if (!proxy || !resolved || !benchMetrics) { h.benchmark = null; continue; }
+
+    const alpha = h.metrics ? buildAlpha(h.metrics, benchMetrics) : null;
+
+    h.benchmark = {
+      proxyKey,
+      indexName: proxy.indexName,
+      schemeCode: resolved.schemeCode,
+      schemeName: resolved.schemeName,
+      proxyName: proxy.proxyName,
+      resolveSource: resolved.source,
+      metrics: {
+        cagr1yPct: benchMetrics.cagr1yPct,
+        cagr3yPct: benchMetrics.cagr3yPct,
+        cagr5yPct: benchMetrics.cagr5yPct,
+        sharpe3y: benchMetrics.sharpe3y,
+        maxDrawdownPct: benchMetrics.maxDrawdownPct,
+        annualVolPct: benchMetrics.annualVolPct,
+        asOfDate: benchMetrics.asOfDate,
+      },
+      alpha,
+    };
+  }
+  return mfHoldings;
+}

@@ -99,6 +99,14 @@ const REASONS = {
   // Priority 3: rec is misaligned with the user's risk profile.
   RISK_MISALIGNED_TOO_AGGRESSIVE: { label: "Position more aggressive than your risk profile" },
   RISK_MISALIGNED_TOO_CONSERVATIVE: { label: "Position more conservative than your risk profile" },
+  // Improvement #1 (Nifty TRI alpha): observation chips comparing the
+  // fund's CAGR to its category's index-fund TRI proxy. NEVER drives
+  // SWITCH/EXIT on its own — alpha is observational because a fund can
+  // legitimately lag in regimes where its mandate (e.g. defensive) is
+  // out of favour. The chip augments the existing XIRR-driven action.
+  BEATS_INDEX:    { label: "Beats passive index over the primary window" },
+  TRACKS_INDEX:   { label: "Tracks the index within ±150bps" },
+  LAGS_INDEX:     { label: "Lags passive index over the primary window" },
 };
 
 // Phase 4: per-category Sharpe baselines used to gate "POOR_SHARPE" /
@@ -397,6 +405,11 @@ export function recommendForPosition(holding, ctx = {}) {
       asOfDate: metrics.asOfDate,
       historyDays: metrics.historyDays,
     } : null,
+    // Improvement #1: passive-index TRI alpha (computed in
+    // mfNavIngestion.enrichBenchmarkMetrics). Null when the holding's
+    // category has no defined proxy (debt, hybrid) OR when AMFI metrics
+    // are missing on the holding side (alpha needs both sides).
+    benchmark: holding.benchmark || null,
   };
 
   // ── Decision tree ──
@@ -736,6 +749,38 @@ function augmentWithQualityAndNews(rec) {
     });
   }
 
+  // Improvement #1: passive-index alpha chip. Observation only —
+  // intentionally does NOT alter `rec.action` or `rec.confidence`.
+  // Why: a fund can lag the index for sound reasons (defensive mandate
+  // mid-cycle, factor tilt out of favour); a SEBI-RA wants the data point
+  // not an automated downgrade. Using primary window (3y > 5y > 1y).
+  const bench = f.benchmark;
+  if (bench?.alpha?.verdict && bench.alpha.primaryAlphaPp != null) {
+    const v = bench.alpha.verdict;
+    const pp = bench.alpha.primaryAlphaPp;
+    const win = bench.alpha.primaryWindow;
+    const sign = pp >= 0 ? "+" : "";
+    if (v === "BEATS") {
+      rec.reasons.push({
+        code: "BEATS_INDEX",
+        ...REASONS.BEATS_INDEX,
+        detail: `${win} CAGR ${sign}${pp}pp vs ${bench.indexName} (active management is adding value over the passive alternative).`,
+      });
+    } else if (v === "LAGS") {
+      rec.reasons.push({
+        code: "LAGS_INDEX",
+        ...REASONS.LAGS_INDEX,
+        detail: `${win} CAGR ${sign}${pp}pp vs ${bench.indexName} — net of TER, the passive index fund would have delivered better.`,
+      });
+    } else {
+      rec.reasons.push({
+        code: "TRACKS_INDEX",
+        ...REASONS.TRACKS_INDEX,
+        detail: `${win} CAGR ${sign}${pp}pp vs ${bench.indexName} — within ±150bps; active vs passive is roughly a wash here.`,
+      });
+    }
+  }
+
   return rec;
 }
 
@@ -863,6 +908,83 @@ export function recommendBook(mfHoldings = [], opts = {}) {
   // defaults inside computeAllocationGap when no profile is set.
   const assetAllocation = computeAllocationGap(mfHoldings, riskProfile);
 
+  // Improvement #1: portfolio-weighted alpha vs blended passive benchmark.
+  // For each holding with a resolved benchmark, multiply (alpha pp) by
+  // (currentValue / coveredValue) and sum. Coverage % tells the user how
+  // much of their book this number actually applies to (debt + hybrid +
+  // unmatched holdings are excluded).
+  //
+  // Two windows reported (3y primary, 5y secondary). Per-window total
+  // alpha tracks "active manager value-add over the same window's passive
+  // alternative" — the headline a SEBI-RA reads first.
+  const benchmarkAlpha = (() => {
+    let coveredValue = 0;
+    let totalValue = 0;
+    let weighted3y = 0;
+    let weighted5y = 0;
+    let weighted1y = 0;
+    let any3y = false;
+    let any5y = false;
+    let any1y = false;
+    const indexBreakdown = {}; // indexName → { rupees, weightedAlpha3y, ... }
+    for (const p of recs) {
+      const f = p.rec.factors;
+      totalValue += p.currentValue;
+      const a = f?.benchmark?.alpha;
+      if (!a) continue;
+      coveredValue += p.currentValue;
+      const idx = f.benchmark.indexName;
+      if (!indexBreakdown[idx]) indexBreakdown[idx] = { rupees: 0, weighted3y: 0, weighted5y: 0, weighted1y: 0 };
+      indexBreakdown[idx].rupees += p.currentValue;
+      if (Number.isFinite(a.alpha3yPp)) { weighted3y += a.alpha3yPp * p.currentValue; indexBreakdown[idx].weighted3y += a.alpha3yPp * p.currentValue; any3y = true; }
+      if (Number.isFinite(a.alpha5yPp)) { weighted5y += a.alpha5yPp * p.currentValue; indexBreakdown[idx].weighted5y += a.alpha5yPp * p.currentValue; any5y = true; }
+      if (Number.isFinite(a.alpha1yPp)) { weighted1y += a.alpha1yPp * p.currentValue; indexBreakdown[idx].weighted1y += a.alpha1yPp * p.currentValue; any1y = true; }
+    }
+    if (coveredValue <= 0) {
+      return {
+        present: false,
+        reason: "No equity holdings with resolved benchmarks (debt/hybrid + unmatched only).",
+      };
+    }
+    const blended = {
+      alpha1yPp: any1y ? +(weighted1y / coveredValue).toFixed(2) : null,
+      alpha3yPp: any3y ? +(weighted3y / coveredValue).toFixed(2) : null,
+      alpha5yPp: any5y ? +(weighted5y / coveredValue).toFixed(2) : null,
+    };
+    let primary = null;
+    if (blended.alpha3yPp != null) primary = { window: "3y", alphaPp: blended.alpha3yPp };
+    else if (blended.alpha5yPp != null) primary = { window: "5y", alphaPp: blended.alpha5yPp };
+    else if (blended.alpha1yPp != null) primary = { window: "1y", alphaPp: blended.alpha1yPp };
+    const verdict = primary
+      ? (primary.alphaPp >= 1.5 ? "BEATS"
+        : primary.alphaPp <= -1.5 ? "LAGS"
+        : "TRACKS")
+      : null;
+    const coveragePct = totalValue > 0 ? +((coveredValue / totalValue) * 100).toFixed(1) : 0;
+    return {
+      present: true,
+      coveragePct,
+      coveredRupees: Math.round(coveredValue),
+      totalRupees: Math.round(totalValue),
+      blended,
+      primary,
+      verdict,
+      indexBreakdown: Object.entries(indexBreakdown)
+        .map(([indexName, b]) => ({
+          indexName,
+          rupees: Math.round(b.rupees),
+          weightPct: +((b.rupees / coveredValue) * 100).toFixed(1),
+          alpha3yPp: b.rupees > 0 && b.weighted3y !== 0 ? +(b.weighted3y / b.rupees).toFixed(2) : null,
+          alpha5yPp: b.rupees > 0 && b.weighted5y !== 0 ? +(b.weighted5y / b.rupees).toFixed(2) : null,
+          alpha1yPp: b.rupees > 0 && b.weighted1y !== 0 ? +(b.weighted1y / b.rupees).toFixed(2) : null,
+        }))
+        .sort((x, y) => y.rupees - x.rupees),
+      note:
+        "Blended alpha = value-weighted average of (fund 3y/5y/1y CAGR − category index-fund TRI proxy CAGR). " +
+        "Negative = portfolio underperformed the passive alternative net of fees.",
+    };
+  })();
+
   // Priority 3: risk-profile echo. The UI uses `needsProfile` to decide
   // whether to show the survey CTA banner; sending the profile bucket
   // back lets the per-fund cards show the alignment chip without making
@@ -884,6 +1006,7 @@ export function recommendBook(mfHoldings = [], opts = {}) {
       overweightCategories: overlap.overweightCategories,
     },
     assetAllocation,
+    benchmarkAlpha,
     riskProfile: riskProfileBlock,
     summary: {
       folioCount: recs.length,
