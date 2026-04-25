@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+# StarBhai pre-push hook
+# ──────────────────────────────────────────────────────────────────────────────
+# Blocks pushes that would crash the prod Lambda. Mirrors the GitHub Action
+# "Smoke + unit tests" check exactly so what passes locally passes in CI.
+#
+# Why this exists: branch-protection rules can be bypassed by repo admins
+# (intentionally or accidentally). The 2026-04-25 incident shipped a broken
+# server.js — the GitHub Action correctly failed in 17s, but the push had
+# already triggered Vercel's deploy. This hook runs the same checks LOCALLY
+# before the push hits GitHub, so an admin bypass on the remote rule no
+# longer matters.
+#
+# Hooked in via package.json's `prepare` script (auto-runs on `npm install`),
+# which sets `git config core.hooksPath .githooks` so this file is the
+# active pre-push hook.
+#
+# Bypass: VERY rarely you need to push something that fails the smoke (e.g.
+# a hot revert that intentionally breaks something). Use:
+#   git push --no-verify
+# This hook is intentionally NOT slow so the cost of running it routinely
+# is negligible — typical run ~5s for smoke + ~1s for tests.
+# ──────────────────────────────────────────────────────────────────────────────
+
+set -e
+
+REMOTE="$1"
+URL="$2"
+
+# Only enforce on pushes to main on the canonical remote. Feature branches
+# and forks still get a quick local sanity check via npm test, but skip the
+# heavier smoke step (Vercel only deploys main).
+PROTECTED_BRANCH="main"
+
+# Read each ref being pushed — git pipes them on stdin
+PUSH_TO_PROTECTED=0
+while read -r local_ref local_sha remote_ref remote_sha; do
+  case "$remote_ref" in
+    refs/heads/$PROTECTED_BRANCH)
+      PUSH_TO_PROTECTED=1
+      ;;
+  esac
+done
+
+# Always run the unit tests — they're fast (<2s) and catch the broadest
+# class of regressions
+echo "[pre-push] Running unit tests..."
+if ! npm test --silent >/tmp/prepush-test.log 2>&1; then
+  echo "[pre-push] ✗ npm test FAILED"
+  echo
+  cat /tmp/prepush-test.log
+  echo
+  echo "[pre-push] Push blocked. Fix the failing tests, or use --no-verify if you have a strong reason."
+  exit 1
+fi
+echo "[pre-push] ✓ npm test passed"
+
+# Module-load smoke test — only when pushing to main (where Vercel auto-deploys).
+# This is the check that would have caught the 2026-04-25 incident.
+if [ "$PUSH_TO_PROTECTED" = "1" ]; then
+  echo "[pre-push] Pushing to $PROTECTED_BRANCH — running module-load smoke test..."
+  if ! npm run smoke --silent >/tmp/prepush-smoke.log 2>&1; then
+    echo "[pre-push] ✗ npm run smoke FAILED"
+    echo
+    cat /tmp/prepush-smoke.log
+    echo
+    echo "[pre-push] Push blocked. The module graph won't load on Vercel — fix the missing import / export before pushing to $PROTECTED_BRANCH."
+    echo "[pre-push] Common cause: an untracked local file is imported by a committed module."
+    exit 1
+  fi
+  echo "[pre-push] ✓ npm run smoke passed"
+fi
+
+rm -f /tmp/prepush-test.log /tmp/prepush-smoke.log
+echo "[pre-push] ✓ Pre-push checks passed — pushing"
+exit 0
