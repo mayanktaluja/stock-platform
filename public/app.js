@@ -1553,14 +1553,37 @@ async function loadBuyNow() {
     // Render macro regime banner if present
     if (data.regime) renderMacroBanner(data.regime);
 
+    // Degraded banner: server fell back to Nifty 100 because expanded
+    // segments are still warming. Shown above results so users understand
+    // why the universe selector says "Expanded" but picks look familiar.
+    const degradedBanner = data.degraded
+      ? `<div style="grid-column:1/-1;padding:12px 16px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:10px;font-size:12px;color:var(--text-secondary);line-height:1.5;margin-bottom:8px;">
+          <strong style="color:var(--yellow);">&#9888; Expanded scan refreshing:</strong>
+          ${data.degradedReason === "cache_warming"
+            ? "Both Nifty 100 and Expanded caches are warming. Try again in a few minutes."
+            : "Showing Nifty 100 picks while the 750-stock expanded scan rebuilds. Daily cron runs at 9:25–9:31 IST; data persists for 7 days."}
+        </div>`
+      : "";
+
     if (!data.stocks || data.stocks.length === 0) {
-      container.innerHTML = `
+      container.innerHTML = degradedBanner + `
         <div class="empty-state" style="grid-column:1/-1;">
           <div class="empty-icon">&#128269;</div>
-          <div class="empty-text">No strong buy signals detected right now. The market may be in a bearish phase — wait for better entries.</div>
+          <div class="empty-text">${data.message ? escapeHtml(data.message) : "No strong buy signals detected right now. The market may be in a bearish phase — wait for better entries."}</div>
         </div>`;
       return;
     }
+
+    // "Last updated Xh ago" pill — surfaces staleness so users know when
+    // the precompute last ran. Pulls from precomputedAt (cron run time)
+    // when available, falls back to lastUpdated (response generation).
+    const stamp = data.precomputedAt || data.lastUpdated;
+    const updatedPill = stamp
+      ? `<div style="grid-column:1/-1;font-size:11px;color:var(--text-muted);margin-bottom:6px;">
+          Last updated: <strong style="color:var(--text-secondary);">${timeAgo(stamp)}</strong>
+          <span style="opacity:0.6;">(${new Date(stamp).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })})</span>
+        </div>`
+      : "";
 
     // High-conviction messaging when strict filters produce fewer picks
     const hcBanner = data.highConvictionMessage
@@ -1577,7 +1600,7 @@ async function loadBuyNow() {
     const [hero, ...rest] = displayedStocks;
     const heroHtml = hero ? renderBuyNowHero(hero) : "";
     const restHtml = rest.map(renderBuyNowCard).join("");
-    container.innerHTML = hcBanner + heroHtml + restHtml;
+    container.innerHTML = degradedBanner + updatedPill + hcBanner + heroHtml + restHtml;
     autoExpandFirstSection();
   } catch (err) {
     container.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon">&#9888;</div><div class="empty-text">Failed to load buy signals. Try refreshing.</div></div>`;

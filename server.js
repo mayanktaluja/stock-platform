@@ -1242,6 +1242,30 @@ async function readExpandedSegments(totalSegments) {
   };
 }
 
+/**
+ * Read the precomputed Nifty-100 Buy Now cache (L1 → L2). Returns
+ * { source, response } or null when neither tier has it. Factored out
+ * so the expanded handler can fall back here when its own segments are
+ * missing — running the 750-stock live scan would exceed Vercel's 60s
+ * function ceiling and return 504s.
+ */
+async function readNifty100Cache() {
+  const key = "precomputed_buynow_nifty100";
+  const l1 = scanCache.get(key);
+  if (l1) return { source: "L1", response: l1 };
+  try {
+    const kv = await getKVClientForPortfolio();
+    if (kv) {
+      const l2 = await kv.get(`scan:${key}`);
+      if (l2) {
+        scanCache.set(key, l2, 28800); // promote to L1 (8h, per-instance)
+        return { source: "L2", response: l2 };
+      }
+    }
+  } catch { /* fall through */ }
+  return null;
+}
+
 app.get("/api/scan/:type", async (req, res, next) => {
   // Delegate specific named scans to their own handlers
   if (req.params.type === "volume-breakout") return next();
@@ -1288,29 +1312,41 @@ app.get("/api/scan/:type", async (req, res, next) => {
         res.set("X-Precomputed", merged.source);
         return res.json(merged.response);
       }
-      // No expanded cache — don't fall back silently; the user asked for
-      // expanded coverage, so run it live. Runs may be slow (~45s locally,
-      // times out on Vercel) — documented.
+      // Expanded segments missing (cron yet to run, KV evicted, or partial
+      // write). Falling back to the 750-stock live scan would reliably hit
+      // Vercel's 60s function cap and return 504s — instead, serve the
+      // Nifty 100 cache with a `degraded` flag so the UI can tell the user
+      // the expanded scan is warming.
+      const fallback = await readNifty100Cache();
+      if (fallback) {
+        res.set("X-Precomputed", `${fallback.source}-degraded`);
+        return res.json({
+          ...fallback.response,
+          degraded: true,
+          degradedReason: "expanded_unavailable",
+          requestedUniverse: "expanded",
+        });
+      }
+      // Both caches missing — return 200 with empty stocks + clear status
+      // rather than running a live scan that will time out.
+      return res.json({
+        type: "buynow",
+        universe: "expanded",
+        stocks: [],
+        degraded: true,
+        degradedReason: "cache_warming",
+        message: "Expanded scan is refreshing. Try again in a few minutes, or switch to Nifty 100.",
+        lastUpdated: new Date().toISOString(),
+      });
     }
 
     if (type === "buynow" && (universe === "nifty100" || universe === "all")) {
-      const l1 = scanCache.get(PRECOMPUTE_CACHE_KEY);
-      if (l1) {
-        res.set("X-Precomputed", "L1");
-        return res.json(l1);
+      const cached = await readNifty100Cache();
+      if (cached) {
+        res.set("X-Precomputed", cached.source);
+        return res.json(cached.response);
       }
-      // L2: Vercel KV — best-effort, never blocks on failure
-      try {
-        const kv = await getKVClientForPortfolio();
-        if (kv) {
-          const l2 = await kv.get(`scan:${PRECOMPUTE_CACHE_KEY}`);
-          if (l2) {
-            scanCache.set(PRECOMPUTE_CACHE_KEY, l2, 28800); // promote to L1
-            res.set("X-Precomputed", "L2");
-            return res.json(l2);
-          }
-        }
-      } catch (e) { /* fall through to live scan */ }
+      // Fall through to live scan — Nifty 100 fits in the 60s ceiling.
     }
 
     const cacheKey = `scan_${type}_${universe}`;
@@ -1764,13 +1800,51 @@ app.get("/api/scan/:type", async (req, res, next) => {
  * The scan typically completes in 15-25 seconds for 100 stocks.
  *
  * Security: Vercel cron requests include an Authorization header with
- * CRON_SECRET. We verify it if the env var is set.
+ * CRON_SECRET. We verify it if the env var is set. An unauthenticated
+ * ?warm=true mode is also accepted: it short-circuits when the cache is
+ * fresh so it can't be DOSed, and only does real work when KV is empty.
+ * Useful for manual cache warmup after a deploy or KV outage. The same
+ * handler is also exposed at /api/admin/warm-scan-cache (which always
+ * runs in warm mode).
  */
-app.get("/api/cron/scan-precompute", async (req, res) => {
-  // Optional security: verify Vercel cron secret
+async function scanPrecomputeHandler(req, res) {
+  // Auth: bearer token for scheduled cron, OR ?warm=true for unauthenticated
+  // manual warmup. The warm path short-circuits when the cache is fresh so
+  // it can't be used to DOS the upstream provider — work only happens when
+  // KV is genuinely cold (e.g., right after a deploy or KV outage).
   const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret && req.headers.authorization !== `Bearer ${cronSecret}`) {
+  const isAuthorized = !cronSecret || req.headers.authorization === `Bearer ${cronSecret}`;
+  const isWarmRequest = req.query.warm === "true";
+  if (!isAuthorized && !isWarmRequest) {
     return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  // Warm-mode short-circuit: regardless of auth, when warm=true we skip
+  // real work if the cache is already fresh. This makes the admin alias
+  // idempotent in both prod (CRON_SECRET set) and local dev (no secret).
+  if (isWarmRequest) {
+    const universeParam = (req.query.universe || "nifty100").toString();
+    const segment = Math.max(0, parseInt(req.query.segment ?? "0", 10) || 0);
+    const ofParam = Math.max(1, parseInt(req.query.of ?? "1", 10) || 1);
+    const isExpanded = universeParam === "expanded";
+    const cacheKey = isExpanded
+      ? `precomputed_buynow_expanded:seg${segment}of${ofParam}`
+      : "precomputed_buynow_nifty100";
+    const l1 = scanCache.get(cacheKey);
+    if (l1) {
+      return res.json({ ok: true, source: "L1", warmed: false, reason: "already_fresh" });
+    }
+    try {
+      const kv = await getKVClientForPortfolio();
+      if (kv) {
+        const l2 = await kv.get(`scan:${cacheKey}`);
+        if (l2) {
+          scanCache.set(cacheKey, l2, 28800);
+          return res.json({ ok: true, source: "L2", warmed: false, reason: "already_fresh" });
+        }
+      }
+    } catch { /* fall through and actually warm */ }
+    console.log(`[WARM] Cache cold for ${cacheKey} — running precompute`);
   }
 
   try {
@@ -1950,24 +2024,25 @@ app.get("/api/cron/scan-precompute", async (req, res) => {
 
     if (macroRegime) response.regime = macroRegime;
 
-    // Cache for 8 hours (covers full IST trading session 9:15–15:30).
-    // Cron runs at 3:50 UTC = 9:20 IST (5 min after market open, weekdays only).
-    //
-    // Two-tier write:
+    // Two-tier write with asymmetric TTLs:
     //   L1 (NodeCache, per-instance): 8h TTL — serves same-lambda re-hits
-    //   L2 (Vercel KV, shared): 8h TTL — serves all OTHER lambdas instantly
-    // Without L2, every freshly-booted lambda would miss the cron output and
-    // fall back to a 10-15s live scan.
+    //   L2 (Vercel KV, shared): 7d TTL — survives overnight, weekends, and
+    //     missed cron runs. The cron overwrites it daily, so stale reads
+    //     are rare; an 8h L2 TTL used to cause 504s after 17:30 IST and
+    //     all weekend because the expanded path then attempted a 750-stock
+    //     live scan that exceeds Vercel's 60s function ceiling.
     //
     // Segmented (expanded) cache key carries the slice index so each cron
     // job writes its own partition; /api/scan/buynow reassembles them.
     const PRECOMPUTE_CACHE_KEY = isExpanded
       ? `precomputed_buynow_expanded:seg${segment}of${ofParam}`
       : "precomputed_buynow_nifty100";
-    scanCache.set(PRECOMPUTE_CACHE_KEY, response, 28800);
+    const L1_TTL_SECONDS = 28800;       // 8 hours
+    const L2_TTL_SECONDS = 604800;      // 7 days
+    scanCache.set(PRECOMPUTE_CACHE_KEY, response, L1_TTL_SECONDS);
     try {
       const kv = await getKVClientForPortfolio();
-      if (kv) await kv.set(`scan:${PRECOMPUTE_CACHE_KEY}`, response, { ex: 28800 });
+      if (kv) await kv.set(`scan:${PRECOMPUTE_CACHE_KEY}`, response, { ex: L2_TTL_SECONDS });
     } catch (e) {
       console.warn("[CRON] KV scan cache write failed:", e.message);
     }
@@ -2004,6 +2079,24 @@ app.get("/api/cron/scan-precompute", async (req, res) => {
     console.error("[CRON] Pre-compute failed:", err.message);
     res.status(500).json({ error: err.message });
   }
+}
+
+app.get("/api/cron/scan-precompute", scanPrecomputeHandler);
+
+/**
+ * GET /api/admin/warm-scan-cache
+ *
+ * Unauthenticated alias of /api/cron/scan-precompute that always runs in
+ * warm mode. Idempotent: returns 200 immediately when the cache is fresh,
+ * only does real work when KV is cold. Pass ?universe=expanded&segment=N&of=4
+ * to warm a specific expanded slice; default warms the Nifty 100 cache.
+ *
+ * Typical use: after a Vercel deploy or KV outage, hit this 5× (nifty100
+ * + 4 expanded segments) to rehydrate caches without waiting for cron.
+ */
+app.get("/api/admin/warm-scan-cache", (req, res) => {
+  req.query.warm = "true";
+  return scanPrecomputeHandler(req, res);
 });
 
 /**
