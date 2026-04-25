@@ -1003,26 +1003,51 @@ function longTermOutlook(analysis, quote, fundamentalResult, dma200) {
   }
   longTermScore = Math.max(0, Math.min(100, longTermScore));
 
-  // ── 3. Recommendation ──
+  // ── 3. Quality flags + composite guardrail ──
   //
-  // Respects the quality guardrail: if the fundamental scorer downgraded the
-  // verdict because of weak ROE or high leverage, the long-term recommendation
-  // is capped at HOLD. A stock with a high raw fundamental score but a
-  // guardrail downgrade is "cheap but risky" — not something we should label
-  // BUY for a 3-12 month hold without the user explicitly overriding.
-  const guardrailApplied = breakdown.qualityGuardrailApplied === true;
+  // The previous logic auto-capped any stock at HOLD if a single quality check
+  // failed (ROE<10% OR D/E>1.0). That collapsed almost every small cap to HOLD
+  // because small caps often have one mildly-weak quality metric while being
+  // structurally healthy on the others. The new rule is composite:
+  //
+  //   • Severe single failure  → cap at HOLD ("HOLD — quality watch")
+  //   • Two-or-more moderate failures → cap at HOLD
+  //   • Single moderate failure → keep recommendation, surface flag in qualityFlags
+  //
+  // qualityFlags[] is exposed on the return so the narrative engine can cite
+  // the exact concern without re-running the checks.
+  const roeVal     = breakdown.roeValue;
+  const deVal      = breakdown.debtToEquityValue;
+  const marginVal  = breakdown.profitMarginValue;
+  const growthVal  = breakdown.revenueGrowthValue;
+
+  const qualityFlags = [];
+  if (roeVal != null && roeVal < 0.10)     qualityFlags.push("ROE_BELOW_10");
+  if (deVal != null  && deVal  > 1.0)      qualityFlags.push("DE_ABOVE_1");
+  if (marginVal != null && marginVal < 0.05) qualityFlags.push("MARGIN_SOFT");
+  if (growthVal != null && growthVal < 0.05) qualityFlags.push("GROWTH_SOFT");
+
+  const severeFlag =
+    (roeVal != null && roeVal < 0.05) ||
+    (deVal  != null && deVal  > 1.5)  ||
+    (marginVal != null && marginVal < 0);
+
+  const moderateFlagCount = qualityFlags.length;
+  const guardrailApplied  = severeFlag || moderateFlagCount >= 2;
 
   let recommendation;
   if (guardrailApplied) {
-    // Cap at HOLD — the quality check failed
-    if (longTermScore >= 62)      recommendation = "HOLD — quality guardrail";
-    else if (longTermScore >= 48) recommendation = "HOLD";
+    // Cap at HOLD — composite quality concern
+    if (longTermScore >= 65)      recommendation = "HOLD — quality watch";
+    else if (longTermScore >= 50) recommendation = "HOLD";
     else if (longTermScore >= 35) recommendation = "REDUCE";
     else                          recommendation = "EXIT";
   } else {
+    // New thresholds: tighter HOLD band (50–57) + new ACCUMULATE band (58–64)
     if (longTermScore >= 75)      recommendation = "STRONG BUY for long-term";
-    else if (longTermScore >= 62) recommendation = "BUY for long-term";
-    else if (longTermScore >= 48) recommendation = "HOLD";
+    else if (longTermScore >= 65) recommendation = "BUY for long-term";
+    else if (longTermScore >= 58) recommendation = "ACCUMULATE on dips";
+    else if (longTermScore >= 50) recommendation = "HOLD";
     else if (longTermScore >= 35) recommendation = "REDUCE";
     else                          recommendation = "EXIT";
   }
@@ -1128,6 +1153,8 @@ function longTermOutlook(analysis, quote, fundamentalResult, dma200) {
     trendContextScore: trendContext,
     fundamentalScore: fundScore,
     keyMetrics,
+    qualityFlags,
+    guardrailApplied,
   };
 }
 
