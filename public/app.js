@@ -8,6 +8,9 @@ let currentSymbol = null;
 let refreshTimer = null;
 let newsRefreshTimer = null;
 let searchTimeout = null;
+let searchAbortController = null;
+const searchClientCache = new Map(); // FIFO, capped at SEARCH_CLIENT_CACHE_MAX
+const SEARCH_CLIENT_CACHE_MAX = 50;
 let allMarketNews = []; // cached for filtering
 let watchlist = new Set(); // symbol set for quick lookup
 
@@ -332,7 +335,9 @@ function setupSearch() {
     const query = e.target.value.trim();
     if (searchTimeout) clearTimeout(searchTimeout);
 
-    if (query.length < 1) {
+    // Single-char queries match 200+ stocks and burn cache for no real signal.
+    if (query.length < 2) {
+      if (searchAbortController) searchAbortController.abort();
       searchResults.classList.remove("active");
       return;
     }
@@ -341,7 +346,7 @@ function setupSearch() {
   });
 
   searchInput.addEventListener("focus", () => {
-    if (searchInput.value.trim().length >= 1) {
+    if (searchInput.value.trim().length >= 2) {
       searchResults.classList.add("active");
     }
   });
@@ -360,15 +365,11 @@ function setupSearch() {
   });
 }
 
-async function searchStocks(query) {
-  try {
-    const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
-    const data = await res.json();
-
-    if (data.results && data.results.length > 0) {
-      searchResults.innerHTML = data.results
-        .map(
-          (r) => `
+function renderSearchResults(query, results) {
+  if (results && results.length > 0) {
+    searchResults.innerHTML = results
+      .map(
+        (r) => `
         <div class="search-result-item" onclick="loadStock('${r.symbol}')">
           <div>
             <div class="search-result-name">${escapeHtml(r.name)}</div>
@@ -377,19 +378,55 @@ async function searchStocks(query) {
           <span class="search-result-symbol">${r.symbol}</span>
         </div>
       `
-        )
-        .join("");
-      searchResults.classList.add("active");
-    } else {
-      searchResults.innerHTML = `
-        <div style="padding: 20px; text-align: center; color: var(--text-muted);">
-          No Indian stocks found for "${escapeHtml(query)}"
-        </div>
-      `;
-      searchResults.classList.add("active");
+      )
+      .join("");
+  } else {
+    searchResults.innerHTML = `
+      <div style="padding: 20px; text-align: center; color: var(--text-muted);">
+        No Indian stocks found for "${escapeHtml(query)}"
+      </div>
+    `;
+  }
+  searchResults.classList.add("active");
+}
+
+async function searchStocks(query) {
+  const cacheKey = query.toLowerCase().trim();
+  const cached = searchClientCache.get(cacheKey);
+  if (cached) {
+    renderSearchResults(query, cached);
+    return;
+  }
+
+  searchResults.innerHTML = `<div class="search-loading">Searching…</div>`;
+  searchResults.classList.add("active");
+
+  if (searchAbortController) searchAbortController.abort();
+  searchAbortController = new AbortController();
+  const signal = searchAbortController.signal;
+
+  try {
+    const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`, { signal });
+    const data = await res.json();
+
+    if (signal.aborted) return;
+
+    const results = data.results || [];
+    if (searchClientCache.size >= SEARCH_CLIENT_CACHE_MAX) {
+      searchClientCache.delete(searchClientCache.keys().next().value);
     }
+    searchClientCache.set(cacheKey, results);
+
+    renderSearchResults(query, results);
   } catch (err) {
+    if (err.name === "AbortError") return;
     console.error("Search failed:", err);
+    searchResults.innerHTML = `
+      <div style="padding: 20px; text-align: center; color: var(--text-muted);">
+        Search unavailable. Try again in a moment.
+      </div>
+    `;
+    searchResults.classList.add("active");
   }
 }
 

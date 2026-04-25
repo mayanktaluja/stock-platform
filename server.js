@@ -114,6 +114,13 @@ const quoteCache = new NodeCache({ stdTTL: 60, checkperiod: 30 });
 const historicalCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
 const newsCache = new NodeCache({ stdTTL: 120, checkperiod: 60 });
 const scanCache = new NodeCache({ stdTTL: 90, checkperiod: 30 });
+// Header search results — 5 min TTL collapses repeated keystrokes (across users
+// too) so the Yahoo Finance fallback only runs on the first miss for a query.
+const searchCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
+// ~750 deduped curated + supplement stocks. Built once at boot so the header
+// search hits a single in-memory list instead of just ALL_STOCKS (~503).
+// Wider local coverage means Yahoo is only needed for truly unknown queries.
+const SEARCH_UNIVERSE = getExpandedUniverse();
 // Catalyst calendar (NSE corporate events) changes slowly — cache for 2 hours.
 const catalystCache = new NodeCache({ stdTTL: 7200, checkperiod: 600 });
 // Portfolio intelligence orchestration is expensive (~1 second per call even
@@ -535,18 +542,25 @@ app.get("/api/search", async (req, res) => {
       return res.json({ results: [] });
     }
 
-    // Search in our local list
-    const localResults = ALL_STOCKS.filter(
+    const cacheKey = `q:${query.toLowerCase().trim()}`;
+    const cached = searchCache.get(cacheKey);
+    if (cached) {
+      res.set("X-Search-Cache", "HIT");
+      return res.json({ results: cached });
+    }
+
+    const q = query.toLowerCase();
+    const localResults = SEARCH_UNIVERSE.filter(
       (s) =>
-        s.name.toLowerCase().includes(query.toLowerCase()) ||
-        s.symbol.toLowerCase().includes(query.toLowerCase().replace(".ns", "") + ".ns") ||
-        s.symbol.toLowerCase().replace(".ns", "").includes(query.toLowerCase())
+        s.name.toLowerCase().includes(q) ||
+        s.symbol.toLowerCase().includes(q.replace(".ns", "") + ".ns") ||
+        s.symbol.toLowerCase().replace(".ns", "").includes(q)
     ).slice(0, 10);
 
-    // Also search Yahoo Finance
-    const yahooResults = await searchYahoo(query);
+    // Yahoo only fires when local has zero hits — typos, brand-new IPOs,
+    // obscure BSE-only names. Cuts ~95% of round-trips at 750-stock coverage.
+    const yahooResults = localResults.length === 0 ? await searchYahoo(query) : [];
 
-    // Merge results, local first
     const allResults = [...localResults];
     for (const yr of yahooResults) {
       if (!allResults.find((r) => r.symbol === yr.symbol)) {
@@ -554,7 +568,11 @@ app.get("/api/search", async (req, res) => {
       }
     }
 
-    res.json({ results: allResults.slice(0, 15) });
+    const finalResults = allResults.slice(0, 15);
+    searchCache.set(cacheKey, finalResults);
+    res.set("X-Search-Cache", "MISS");
+    res.set("X-Search-Yahoo", localResults.length === 0 ? "called" : "skipped");
+    res.json({ results: finalResults });
   } catch (err) {
     console.error("Search error:", err.message);
     res.status(500).json({ error: "Search failed" });
