@@ -681,6 +681,87 @@ function selectV2PayloadForHexagon(scorerMode, fundamentals, shadowV2) {
   return null;
 }
 
+// ── StarBhai long-term narrative renderer ─────────────────────────────
+//
+// Shared between the stock detail page (Long-Term Outlook info-card) and
+// the Portfolio Analyzer holding cards. Renders a structured 3–12 month
+// thesis with collapsible Growth Drivers / Key Risks / Catalysts groups,
+// a news strip with sentiment chips, and a confidence badge.
+//
+// Returns "" for missing data so the caller can inline-interpolate it.
+function renderLongTermNarrative(longTerm) {
+  const n = longTerm?.narrative;
+  if (!n) return "";
+
+  const confColor = n.confidence === "HIGH"   ? "rgba(52,211,153,0.15);color:#34d399"
+                  : n.confidence === "LOW"    ? "rgba(239,68,68,0.15);color:#ef4444"
+                  : "rgba(245,158,11,0.15);color:#f59e0b";
+
+  const flagPills = (longTerm.qualityFlags || []).map((f) =>
+    `<span style="display:inline-block;padding:2px 8px;border-radius:4px;margin-right:4px;font-size:10px;background:rgba(245,158,11,0.12);color:#f59e0b;">${escapeHtml(f.replace(/_/g, " "))}</span>`
+  ).join("");
+
+  const bullets = (arr) =>
+    (Array.isArray(arr) ? arr : []).map((b) => `<li style="margin:4px 0;">${escapeHtml(b)}</li>`).join("");
+
+  const newsItems = longTerm?.news?.items || [];
+  const newsStrip = newsItems.length > 0
+    ? `<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);">
+         <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Recent News (last 30 days)</div>
+         ${newsItems.slice(0, 3).map((it) => {
+           const sentColor = it.sentiment === "POSITIVE" ? "#34d399"
+                           : it.sentiment === "NEGATIVE" ? "#ef4444" : "var(--text-muted)";
+           const matBadge = it.materiality === "MATERIAL"
+             ? `<span style="display:inline-block;padding:1px 6px;border-radius:3px;font-size:9px;background:rgba(96,165,250,0.18);color:#60a5fa;margin-right:6px;">MATERIAL</span>`
+             : "";
+           return `<div style="font-size:11px;line-height:1.5;margin-bottom:6px;">
+             ${matBadge}
+             <a href="${escapeHtml(it.link || '#')}" target="_blank" rel="noopener" style="color:var(--text-secondary);text-decoration:none;">${escapeHtml(it.title || '')}</a>
+             <span style="color:${sentColor};font-size:10px;margin-left:6px;">${escapeHtml(it.sentiment || '')}</span>
+             ${it.source ? `<span style="color:var(--text-muted);font-size:10px;margin-left:6px;">· ${escapeHtml(it.source)}</span>` : ""}
+           </div>`;
+         }).join("")}
+       </div>`
+    : "";
+
+  return `
+    <div class="lt-narrative" style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);">
+          StarBhai Thesis${infoIcon('long_term_narrative')}
+        </div>
+        <span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.5px;${confColor};">
+          ${escapeHtml(n.confidence || 'MEDIUM')} confidence
+        </span>
+      </div>
+      <div style="font-size:13px;line-height:1.6;color:var(--text-secondary);margin-bottom:10px;">
+        ${escapeHtml(n.thesis || '')}
+      </div>
+      ${flagPills ? `<div style="margin-bottom:10px;">${flagPills}</div>` : ""}
+      <details style="margin-bottom:6px;">
+        <summary style="cursor:pointer;font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Growth drivers (${(n.growthDrivers || []).length})</summary>
+        <ul style="margin:6px 0 0 20px;font-size:12px;line-height:1.55;color:var(--text-secondary);">${bullets(n.growthDrivers)}</ul>
+      </details>
+      <details style="margin-bottom:6px;">
+        <summary style="cursor:pointer;font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Key risks (${(n.keyRisks || []).length})</summary>
+        <ul style="margin:6px 0 0 20px;font-size:12px;line-height:1.55;color:var(--text-secondary);">${bullets(n.keyRisks)}</ul>
+      </details>
+      <details style="margin-bottom:8px;">
+        <summary style="cursor:pointer;font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Catalysts to watch (${(n.catalystsToWatch || []).length})</summary>
+        <ul style="margin:6px 0 0 20px;font-size:12px;line-height:1.55;color:var(--text-secondary);">${bullets(n.catalystsToWatch)}</ul>
+      </details>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.5;">
+        <strong style="color:var(--text-secondary);">Horizon view:</strong> ${escapeHtml(n.horizonView || '')}
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:6px;line-height:1.5;">
+        <strong style="color:var(--text-secondary);">News context:</strong> ${escapeHtml(n.newsContext || 'No material recent news.')}
+      </div>
+      ${newsStrip}
+      ${n.source === "fallback" ? `<div style="font-size:10px;color:var(--text-muted);margin-top:8px;font-style:italic;">Generated from metrics (LLM unavailable or budget cap reached) — observational, not advice.</div>` : ""}
+    </div>
+  `;
+}
+
 function renderStockDetail(data) {
   const { quote, analysis, midTerm, sentiment, fundamentals, news, macro, stockVerdict, historicalChart, lastUpdated, surveillance, shadowV2, legacyV1, scorerMode } = data;
 
@@ -1039,6 +1120,7 @@ function renderStockDetail(data) {
               <div style="font-size:13px;font-weight:700;">${km.pe != null ? km.pe.toFixed(1) : "—"} <span style="font-size:10px;color:var(--text-muted);">vs</span> ${km.sectorPe != null ? km.sectorPe.toFixed(1) : "—"}</div>
             </div>
           </div>
+          ${renderLongTermNarrative(longTerm)}
         </div>
       `;
     }
@@ -5853,6 +5935,7 @@ function renderHoldingCard(h, defaultOpen) {
           ${notAdviceChip("inline")}
         </div>
         <div style="line-height:1.6; color:var(--text);">${h.actionReasoning || ""}</div>
+        ${renderLongTermNarrative(h.longTerm)}
       </div>
       ${flagsSection}
       ${outlookSection}
