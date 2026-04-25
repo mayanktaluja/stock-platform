@@ -4402,6 +4402,7 @@ function actionBadge(action, displayAction) {
 function renderAnalyzerReport(report, elapsedMs) {
   renderAnalyzerSummary(report, elapsedMs);
   renderAnalyzerPortfolioActions(report);
+  renderAnalyzerMfPositions(report.mfPositions);
   renderAnalyzerRiskBlock(report);
   renderAnalyzerOptimizer(report.optimizer);
   renderAnalyzerUrgent(report);
@@ -4782,7 +4783,195 @@ function renderAnalyzerPortfolioActions(report) {
   `;
 }
 
+// ──────────────────── Per-MF position recommendations ────────────────────
+//
+// Phase 1 of the SEBI-RA recommendation engine. Each MF in the user's book
+// gets a dedicated card with: HOLD/EXIT/SWITCH/ADD/CONSOLIDATE action,
+// confidence band, evidence trail (reason chips), peer alternatives, and
+// (Phase 3) per-fund news. Verbs stay observational ("Candidate switch")
+// per SEBI IA Reg 2013 framing — the audience is a SEBI-RA reviewing the
+// signal before deciding what to relay to clients.
+
+const MF_ACTION_PALETTE = {
+  EXIT:        { bg: "rgba(239,68,68,0.12)",  border: "rgba(239,68,68,0.5)",  text: "#fca5a5", verb: "Candidate exit" },
+  SWITCH:      { bg: "rgba(59,130,246,0.12)", border: "rgba(59,130,246,0.5)", text: "#93c5fd", verb: "Candidate switch" },
+  CONSOLIDATE: { bg: "rgba(168,85,247,0.12)", border: "rgba(168,85,247,0.5)", text: "#d8b4fe", verb: "Candidate consolidate" },
+  ADD:         { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.5)",  text: "#86efac", verb: "Candidate add" },
+  HOLD:        { bg: "rgba(107,114,128,0.10)",border: "rgba(107,114,128,0.35)",text: "#cbd5e1", verb: "Hold" },
+};
+
+const MF_CONFIDENCE_PALETTE = {
+  HIGH:   { bg: "rgba(34,197,94,0.10)", text: "#86efac" },
+  MEDIUM: { bg: "rgba(250,204,21,0.10)", text: "#fde047" },
+  LOW:    { bg: "rgba(107,114,128,0.10)", text: "#cbd5e1" },
+};
+
+function mfActionBadge(action) {
+  const p = MF_ACTION_PALETTE[action] || MF_ACTION_PALETTE.HOLD;
+  return `<span style="display:inline-block; padding:4px 12px; border-radius:4px; background:${p.bg}; border:1px solid ${p.border}; color:${p.text}; font-size:11px; font-weight:700; letter-spacing:0.4px;">${p.verb}</span>`;
+}
+
+function mfConfidencePill(conf) {
+  const p = MF_CONFIDENCE_PALETTE[conf] || MF_CONFIDENCE_PALETTE.LOW;
+  return `<span style="display:inline-block; padding:2px 8px; border-radius:3px; background:${p.bg}; color:${p.text}; font-size:10px; font-weight:600; letter-spacing:0.3px;">CONF: ${conf}</span>`;
+}
+
+function renderAnalyzerMfPositions(block) {
+  const el = document.getElementById("analyzerMfPositions");
+  if (!el) return;
+  if (!block || !Array.isArray(block.positions) || block.positions.length === 0) {
+    el.innerHTML = "";
+    return;
+  }
+
+  const positions = block.positions;
+  const mix = block.actionMix || {};
+  const totalInvested = positions.reduce((s, p) => s + (p.invested || 0), 0);
+  const totalCurrent = positions.reduce((s, p) => s + (p.currentValue || 0), 0);
+  const actionableCount = (mix.EXIT || 0) + (mix.SWITCH || 0) + (mix.CONSOLIDATE || 0) + (mix.ADD || 0);
+
+  // ── Action-mix header card ──
+  const ORDER = ["EXIT", "SWITCH", "CONSOLIDATE", "ADD", "HOLD"];
+  const mixChips = ORDER
+    .filter((a) => (mix[a] || 0) > 0)
+    .map((a) => {
+      const p = MF_ACTION_PALETTE[a];
+      return `<span style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:${p.bg}; border:1px solid ${p.border}; border-radius:6px; color:${p.text}; font-size:13px; font-weight:600;">
+        <strong style="font-size:16px;">${mix[a]}</strong> ${a.toLowerCase()}
+      </span>`;
+    })
+    .join("");
+
+  const overlap = block.overlap || {};
+  const overlapNote = overlap.duplicateFolioCount > 0 || (overlap.overweightCategories || []).length > 0
+    ? `<div style="font-size:11px; color:var(--text-muted); margin-top:8px;">
+         Book hygiene: ${overlap.duplicateFolioCount > 0 ? `<strong style="color:#d8b4fe;">${overlap.duplicateFolioCount} duplicate folio(s)</strong>` : ""}${overlap.duplicateFolioCount > 0 && overlap.overweightCategories.length > 0 ? " · " : ""}${overlap.overweightCategories.length > 0 ? `<strong style="color:#fde047;">${overlap.overweightCategories.length} category(s) with 2+ funds</strong>` : ""}.
+       </div>`
+    : "";
+
+  const header = `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-bottom:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
+        <div>
+          <div style="font-size:14px; font-weight:700; display:flex; align-items:center; gap:10px;">
+            Per-position recommendations
+            ${notAdviceChip("inline")}
+          </div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+            ${positions.length} MF position(s) · ${actionableCount} actionable · book ₹${(totalCurrent/1e5).toFixed(2)}L (cost ₹${(totalInvested/1e5).toFixed(2)}L)
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">${mixChips || '<span style="font-size:12px; color:var(--text-muted);">No actionable positions.</span>'}</div>
+      ${overlapNote}
+    </div>`;
+
+  // ── Per-position cards ──
+  const cards = positions.map((p, idx) => renderMfPositionCard(p, idx)).join("");
+
+  el.innerHTML = `
+    ${header}
+    ${cards}
+  `;
+}
+
+function renderMfPositionCard(position, idx) {
+  const rec = position.rec || {};
+  const action = rec.action || "HOLD";
+  const palette = MF_ACTION_PALETTE[action] || MF_ACTION_PALETTE.HOLD;
+  const perf = rec.performance || {};
+  const factors = rec.factors || {};
+
+  const pnlPctVal = position.pnlPercent;
+  const pnlColor = pctColor(pnlPctVal);
+  const pnlText = Number.isFinite(pnlPctVal) ? `${pnlPctVal >= 0 ? "+" : ""}${pnlPctVal.toFixed(2)}%` : "—";
+
+  // Performance line: trailing XIRR vs category benchmark
+  const perfLine = Number.isFinite(perf.trailingXirrPct)
+    ? `<div style="font-size:12px; color:var(--text-muted); margin-top:6px;">
+         Trailing XIRR: <strong style="color:${perf.vsCategoryPp >= 0 ? '#86efac' : '#fca5a5'};">${perf.trailingXirrPct.toFixed(2)}%</strong>
+         ${Number.isFinite(perf.vsCategoryPp) ? `· vs ${perf.categoryKey || 'category'} benchmark ${perf.categoryBenchmarkPct}% <strong style="color:${perf.vsCategoryPp >= 0 ? '#86efac' : '#fca5a5'};">(${perf.vsCategoryPp >= 0 ? "+" : ""}${perf.vsCategoryPp}pp)</strong>` : ""}
+       </div>`
+    : `<div style="font-size:12px; color:var(--text-muted); margin-top:6px;">No XIRR available — Phase 2 (AMFI ingestion) will fill this in.</div>`;
+
+  // Reason chips
+  const reasonsHtml = (rec.reasons || []).map((r) => `
+    <div style="background:#0f172a; border-left:3px solid ${palette.border}; padding:8px 12px; margin-top:6px; border-radius:0 6px 6px 0;">
+      <div style="font-size:11px; font-weight:700; color:${palette.text}; letter-spacing:0.3px; text-transform:uppercase; margin-bottom:2px;">${r.label}</div>
+      <div style="font-size:12px; color:var(--text-muted); line-height:1.45;">${r.detail}</div>
+    </div>
+  `).join("");
+
+  // Peer compare (top 3)
+  const peers = rec.peerCandidates || [];
+  const peersHtml = peers.length > 0 ? `
+    <div style="margin-top:12px; padding-top:12px; border-top:1px solid #1a2233;">
+      <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); margin-bottom:6px;">Peer compare (same SEBI category)</div>
+      ${peers.map((c, i) => `
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; padding:6px 0; border-bottom:${i < peers.length-1 ? '1px solid #1a2233' : '0'};">
+          <div style="flex:1; min-width:0;">
+            <div style="font-size:12px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${c.name}</div>
+            <div style="font-size:10px; color:var(--text-muted); margin-top:1px;">
+              5y ${c.approxXirr5yPct}% · TER ${c.expenseRatioPct}% · rank #${c.categoryRank5y}${c.lockInMonths ? ` · ${c.lockInMonths}mo lock` : ""}
+            </div>
+          </div>
+          ${Number.isFinite(c.deltaPp) ? `<div style="font-size:13px; font-weight:700; color:${c.deltaPp > 0 ? '#86efac' : '#fca5a5'};">${c.deltaPp > 0 ? "+" : ""}${c.deltaPp}pp</div>` : ""}
+        </div>
+      `).join("")}
+    </div>
+  ` : "";
+
+  // Consolidate target
+  const consolidateNote = rec.consolidateTo ? `
+    <div style="margin-top:10px; padding:8px 12px; background:rgba(168,85,247,0.08); border:1px solid rgba(168,85,247,0.3); border-radius:6px; font-size:12px; color:#d8b4fe;">
+      Consolidate into folio <strong>${rec.consolidateTo.folio}</strong> (largest sibling holding the same scheme).
+    </div>` : "";
+
+  // News (Phase 3 — placeholder shows "coming soon" so RA knows it's planned)
+  const newsHtml = `
+    <div style="margin-top:12px; padding-top:12px; border-top:1px solid #1a2233;">
+      <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">News (last 30d)</div>
+      <div style="font-size:11px; color:var(--text-muted); margin-top:4px; font-style:italic;">Per-fund news with material-event classification ships in Phase 3 (GPT-5 sentiment + Moneycontrol/Mint feeds).</div>
+    </div>`;
+
+  return `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:16px; margin-bottom:12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:10px;">
+        <div style="flex:1; min-width:240px;">
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+            <span style="font-size:11px; font-weight:700; color:var(--text-muted);">#${idx + 1}</span>
+            ${mfActionBadge(action)}
+            ${mfConfidencePill(rec.confidence || "LOW")}
+          </div>
+          <div style="font-weight:700; font-size:14px; margin-top:8px;">${position.name || "—"}</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">
+            ${position.category || ""}${position.subCategory ? ` · ${position.subCategory}` : ""}${position.folio ? ` · folio ${position.folio}` : ""}
+          </div>
+        </div>
+        <div style="text-align:right; min-width:160px;">
+          <div style="font-size:11px; color:var(--text-muted);">Invested → Current</div>
+          <div style="font-size:14px; font-weight:700; margin-top:2px;">${inr(position.invested)} → ${inr(position.currentValue)}</div>
+          <div style="font-size:13px; font-weight:600; color:${pnlColor}; margin-top:2px;">${pnlText}</div>
+        </div>
+      </div>
+      ${perfLine}
+      <div style="margin-top:12px;">
+        ${reasonsHtml}
+      </div>
+      ${consolidateNote}
+      ${peersHtml}
+      ${newsHtml}
+    </div>
+  `;
+}
+
 // ──────────────────── XIRR Optimizer renderer ────────────────────
+//
+// NOTE (Phase 1 reposition): the XIRR optimizer is now SUPPORTING context,
+// not the headline. Per-position MF recommendations above are the primary
+// surface for SEBI-RA review. The optimizer's value is the book-wide
+// projection if all candidate moves were executed — useful, but secondary
+// to the per-position evidence trail.
 //
 // Renders the analytical (NOT advisory) optimization block. SEBI compliance:
 // every move uses observational verbs ("Candidate exit", "Candidate switch")

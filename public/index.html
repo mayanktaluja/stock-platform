@@ -2922,7 +2922,8 @@
             Drag &amp; drop or click to browse. Supports:
             <strong style="color:var(--text);">Groww XLSX</strong>,
             <strong style="color:var(--text);">Groww CSV</strong>,
-            <strong style="color:var(--text);">Zerodha CSV</strong>.
+            <strong style="color:var(--text);">Zerodha CSV</strong>,
+            <strong style="color:var(--text);">Upstox XLSX</strong>.
           </div>
           <input type="file" id="analyzerFileInput" accept=".xlsx,.csv" style="display:none;" />
           <button id="analyzerBrowseBtn" type="button" style="background:var(--accent); color:#fff; border:0; padding:10px 24px; border-radius:8px; font-weight:600; cursor:pointer;">
@@ -2950,9 +2951,15 @@
         <div id="analyzerSummary" style="margin-bottom:24px;"></div>
         <!-- Portfolio-level actions -->
         <div id="analyzerPortfolioActions" style="margin-bottom:24px;"></div>
+        <!-- Per-MF position recommendations — primary surface for SEBI-RA review.
+             Each card: HOLD/EXIT/SWITCH/ADD/CONSOLIDATE + reasons + peer compare
+             + (Phase 3) per-fund news. Replaces the XIRR optimizer hero as the
+             headline; the optimizer block below is now supporting context. -->
+        <div id="analyzerMfPositions" style="margin-bottom:24px;"></div>
         <!-- Risk metrics + stress tests -->
         <div id="analyzerRisk" style="margin-bottom:24px;"></div>
-        <!-- XIRR Optimizer (analytical, not advisory — see SEBI compliance copy) -->
+        <!-- XIRR Optimizer (now a supporting sidebar — book-wide projection
+             complements the per-position cards above) -->
         <div id="analyzerOptimizer" style="margin-bottom:24px;"></div>
         <!-- Urgent actions -->
         <div id="analyzerUrgent" style="margin-bottom:24px;"></div>

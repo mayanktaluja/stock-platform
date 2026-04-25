@@ -32,6 +32,7 @@ import {
 } from "./riskMetrics.js";
 import { normalizeSector } from "./macroRegime.js";
 import { runXirrOptimizer } from "./xirrOptimizer.js";
+import { recommendBook as recommendMfBook } from "./mfRecommendation.js";
 
 // ──────────────────── Sector canonicalisation ────────────────────
 //
@@ -1159,6 +1160,25 @@ export function buildReport(enrichedHoldings, unmatched, meta) {
     }
   }
 
+  // ── Per-MF-position recommendations (Phase 1 of the recommender) ──
+  //
+  // Every MF in the book gets a HOLD/EXIT/SWITCH/ADD/CONSOLIDATE call
+  // with full evidence trail (perf vs cat benchmark, peer rank, folio
+  // overlap). This is the surface the SEBI-RA reads — the optimizer's
+  // book-wide projection now plays a supporting role.
+  //
+  // Wrapped in a try so a recommender bug never breaks the analyze
+  // endpoint; we log + return null and let the UI fall back gracefully.
+  let mfPositionsBlock = null;
+  if (mfHoldings.length > 0) {
+    try {
+      mfPositionsBlock = recommendMfBook(mfHoldings, { today: meta?.asOfDate || undefined });
+    } catch (err) {
+      console.warn("[ANALYZER] MF recommender failed:", err.message);
+    }
+  }
+  meta._mfPositionsBlock = mfPositionsBlock;
+
   // ── Rebalance suggestions ──
   //
   // Risk-parity target weights (equal-risk-contribution, capped at 12%
@@ -1200,6 +1220,10 @@ export function buildReport(enrichedHoldings, unmatched, meta) {
     // Full XIRR Optimizer block — moves, projections, constraints.
     // Available only when we successfully computed a portfolio XIRR.
     optimizer: meta?._optimizerBlock || null,
+    // Per-MF position recommendations — primary surface for the SEBI-RA.
+    // Each entry: { name, folio, invested, currentValue, rec: {action,
+    // confidence, reasons[], peerCandidates[], performance, news} }
+    mfPositions: meta?._mfPositionsBlock || null,
     health,
     risk: riskBlock,
     stressTests,

@@ -150,7 +150,10 @@ function returnLadderLookup(scoreOrPercentile, assetKind) {
 }
 
 // Map mfHolding.category text → mfCandidates.json key
-function mfCategoryKey(holding) {
+// Exported so the per-position recommendation engine can reuse the same
+// canonical mapping (Phase 1 of the recommender consumes the curated
+// candidates list as its peer-compare source).
+export function mfCategoryKey(holding) {
   const cat = String(holding.category || "").toLowerCase();
   const sub = String(holding.subCategory || "").toLowerCase();
   const name = String(holding.name || holding.rawName || "").toLowerCase();
@@ -169,7 +172,8 @@ function mfCategoryKey(holding) {
   return null;
 }
 
-function getMfCandidates(holding) {
+// Same — exported for reuse by mfRecommendation.js.
+export function getMfCandidates(holding) {
   const key = mfCategoryKey(holding);
   if (!key) return [];
   const list = mfCandidatesData?.categories?.[key] || [];
