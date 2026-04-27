@@ -1052,9 +1052,8 @@ app.get("/api/stock/:symbol", async (req, res) => {
     // view), the 2-factor score is shown alongside for portfolio reconciliation.
     const portfolioBasisScore = computePortfolioCombinedScore(techScore, fundamentalScore);
 
-    // Scanner score — uses the EXACT same formula the Buy Now scanner uses
-    // (tech 40% + fund 60%) so the number on the scanner card matches the
-    // number on the stock detail page. Eliminates the BUY→WEAK BUY flip.
+    // Scanner score — same 50/50 formula as the Buy Now scanner so the
+    // number on the scanner card matches the stock detail page.
     const scannerScore = fundamentalScore != null
       ? Math.round(techScore * 0.50 + fundamentalScore * 0.50)
       : Math.round(techScore);
@@ -1166,7 +1165,7 @@ app.get("/api/stock/:symbol", async (req, res) => {
         // Same data viewed through the portfolio-basis lens — deliberately
         // WITHOUT macro, since holding decisions should be less twitchy.
         portfolioBasisScore,
-        // Scanner score — matches the Buy Now scanner's 40/60 formula exactly.
+        // Scanner score — matches the Buy Now scanner's 50/50 formula exactly.
         scannerScore,
       },
       fundamentals: fundamentalResult,
@@ -1569,20 +1568,9 @@ app.get("/api/scan/:type", async (req, res, next) => {
           }
         }
 
-        // 2. Compute combined score: fundamental-dominant with technical confirmation.
-        //    Tech 40% + Fund 60% when both available; 100% tech when fund missing.
-        //
-        //    WHY 40/60 (rebalanced Apr 2026): The fundamental side now covers 9
-        //    dimensions including ROE, debt, margins, and revenue growth — not
-        //    just valuation. With a genuine quality-adjusted value signal
-        //    driving the 60%, we no longer need the extreme 65% weight to
-        //    defend against momentum noise. The 40/60 split sits in the sweet
-        //    spot CFA/CANSLIM-style hybrid strategies use: fundamentals pick
-        //    what to buy, technicals pick when, with a slightly larger
-        //    technical weight than pure deep-value because the quality
-        //    filtering upstream already removes value traps.
-        const SCANNER_TECH_WEIGHT = 0.40;
-        const SCANNER_FUND_WEIGHT = 0.60;
+        // Combined score: 50% tech + 50% fund when both available; 100% tech when fund missing.
+        const SCANNER_TECH_WEIGHT = 0.50;
+        const SCANNER_FUND_WEIGHT = 0.50;
         const techScore = r.score;
         let combinedBase;
         let dataConfidence;
@@ -1975,11 +1963,9 @@ async function scanPrecomputeHandler(req, res) {
     try { macroRegime = await getMacroRegime(); }
     catch { macroRegime = defaultCalmRegime(); }
 
-    // Mirror of the live scanner's 40/60 weighting — see the primary scanner
-    // handler above for the rationale. Kept here (instead of imported) because
-    // this is the precompute path that runs on a schedule.
-    const SCANNER_TECH_WEIGHT = 0.40;
-    const SCANNER_FUND_WEIGHT = 0.60;
+    // Mirror of the live scanner's 50/50 weighting (precompute path).
+    const SCANNER_TECH_WEIGHT = 0.50;
+    const SCANNER_FUND_WEIGHT = 0.50;
 
     for (const r of results) {
       const fundSnap = getFundamentals(r.symbol);
@@ -6240,6 +6226,146 @@ if (process.env.VERCEL) {
     new Promise((resolve) => setTimeout(resolve, 1500)),
   ]);
 }
+
+// ----------------------------------------------------------------------------
+// SWS Picks tab — endpoints
+// Reads/writes the data files produced by the SWS deep-scrape pipeline.
+// All file ops are local; no SWS calls happen here (those live in the scraper).
+// ----------------------------------------------------------------------------
+import fs from "node:fs";
+
+const SWS_PATHS = {
+  picksLatest: path.join(__dirname, "data", "sws", "picks-latest.json"),
+  refreshRequested: path.join(__dirname, "data", "sws", "refresh-requested.json"),
+  panicStop: path.join(__dirname, "data", "sws", "panic-stop.flag"),
+  progress: (n) => path.join(__dirname, "data", "sws", `progress-${n}.json`),
+  pdfDir: path.join(__dirname, "reports", "sws-picks"),
+  deepDir: path.join(__dirname, "data", "sws", "deep"),
+};
+
+function readJsonSafe(p, fallback = null) {
+  try { return JSON.parse(fs.readFileSync(p, "utf-8")); } catch { return fallback; }
+}
+
+app.get("/api/sws-picks", (req, res) => {
+  const data = readJsonSafe(SWS_PATHS.picksLatest);
+  if (!data) return res.status(404).json({ error: "no_picks_yet", hint: "Run /sws-scan-shard 1/2/3 in Claude to start the initial scan." });
+  res.json(data);
+});
+
+// Per-ticker detail endpoint backing the SWS modal. Returns the full deep-
+// scrape JSON for a ticker, plus the leaderboard card if present (so the
+// modal has access to the v2 score + breakdown without recomputing) and
+// the surveillance flag (already cached by surveillance.js).
+//
+// Live tech/news/sentiment is intentionally NOT bundled here — it lives at
+// /api/stock/:symbol and the modal calls it lazily so the SWS modal stays
+// fast (no Yahoo round-trip on open). The modal merges client-side.
+app.get("/api/sws-stock/:ticker", (req, res) => {
+  const ticker = String(req.params.ticker || "").toUpperCase().trim();
+  if (!ticker || !/^[A-Z0-9&\-]+$/.test(ticker)) {
+    return res.status(400).json({ error: "invalid_ticker" });
+  }
+  const fp = path.join(SWS_PATHS.deepDir, `${ticker}.json`);
+  const deep = readJsonSafe(fp);
+  if (!deep) return res.status(404).json({ error: "no_deep_data", ticker });
+
+  // Find the leaderboard card (v2 score + breakdown live there)
+  const picks = readJsonSafe(SWS_PATHS.picksLatest);
+  let card = null;
+  if (picks && picks.sections) {
+    for (const items of Object.values(picks.sections)) {
+      if (!Array.isArray(items)) continue;
+      const found = items.find((c) => c.ticker === ticker);
+      if (found) { card = found; break; }
+    }
+  }
+
+  // File mtime for freshness indicator (parsed_at is the parse time, mtime
+  // is the file write time — usually the same, but mtime is the canonical
+  // "when did we last touch this on disk" stamp).
+  let mtime = null;
+  try { mtime = fs.statSync(fp).mtime.toISOString(); } catch {}
+
+  // Surveillance — same regulatory overlay used by /api/stock
+  const surveillance = getSurveillanceFlag(ticker);
+
+  res.json({
+    ticker,
+    deep,
+    card,
+    surveillance,
+    file_mtime: mtime,
+  });
+});
+
+app.get("/api/sws-scan/status", (req, res) => {
+  const shards = [1, 2, 3].map((n) => {
+    const p = readJsonSafe(SWS_PATHS.progress(n));
+    if (!p) return { id: n, started: false };
+    return {
+      id: n,
+      done_count: p.done_count || 0,
+      next_local_index: p.next_local_index || 0,
+      last_ticker: p.last_ticker || null,
+      last_run_at: p.last_run_at || null,
+      complete: p.complete || false,
+      today_count: p.today_count || 0,
+    };
+  });
+  const panic = readJsonSafe(SWS_PATHS.panicStop);
+  const totalDone = shards.reduce((a, s) => a + (s.done_count || 0), 0);
+  const inProgress = shards.some((s) => s.last_run_at && !s.complete);
+  res.json({
+    in_progress: inProgress,
+    total_done: totalDone,
+    all_complete: shards.every((s) => s.complete),
+    shards,
+    panic_stop: panic ? { ...panic, active: true } : { active: false },
+    refresh_requested: readJsonSafe(SWS_PATHS.refreshRequested),
+  });
+});
+
+function writeRefreshRequest(mode) {
+  fs.mkdirSync(path.dirname(SWS_PATHS.refreshRequested), { recursive: true });
+  fs.writeFileSync(SWS_PATHS.refreshRequested, JSON.stringify({
+    mode,
+    requested_at: new Date().toISOString(),
+  }, null, 2));
+}
+
+app.post("/api/sws-scan/initial-start", express.json(), (req, res) => {
+  writeRefreshRequest("initial");
+  res.json({
+    queued: true,
+    next_step: "Open 3 terminal windows. In each, run `claude`. Then type `/sws-scan-shard 1` (term 1), `/sws-scan-shard 2` (term 2), `/sws-scan-shard 3` (term 3). Stagger: start shard 2 after shard 1 has done ~50 stocks; start shard 3 after shard 2 has done ~50.",
+  });
+});
+app.post("/api/sws-refresh/quick", express.json(), (req, res) => {
+  writeRefreshRequest("quick");
+  res.json({ queued: true, next_step: "Open 3 terminals, run `claude`, type `/sws-resume` in each." });
+});
+app.post("/api/sws-refresh/earnings", express.json(), (req, res) => {
+  writeRefreshRequest("earnings");
+  res.json({ queued: true, next_step: "Open 1 terminal, run `claude`, type `/sws-resume` (earnings refresh is small enough for one shard)." });
+});
+app.post("/api/sws-refresh/full", express.json(), (req, res) => {
+  writeRefreshRequest("full");
+  res.json({ queued: true, next_step: "Open 3 terminals, run `claude`, type `/sws-resume` in each." });
+});
+
+// Latest PDF download (returns most recent Top-50-Buy-Now-*.pdf)
+app.get("/api/sws-pdf/latest", (req, res) => {
+  try {
+    if (!fs.existsSync(SWS_PATHS.pdfDir)) return res.status(404).json({ error: "no_pdf_yet" });
+    const files = fs.readdirSync(SWS_PATHS.pdfDir).filter((f) => f.endsWith(".pdf")).sort().reverse();
+    if (files.length === 0) return res.status(404).json({ error: "no_pdf_yet" });
+    const latest = path.join(SWS_PATHS.pdfDir, files[0]);
+    res.sendFile(latest);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 
 // Export for Vercel serverless
 export default app;

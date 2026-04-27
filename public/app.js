@@ -2015,6 +2015,7 @@ function switchTab(tab) {
   const fundEl = document.getElementById("fundamentalsTab");
   const trackEl = document.getElementById("trackTab");
   const analyzerEl = document.getElementById("analyzerTab");
+  const picksEl = document.getElementById("picksTab");
 
   dashEl.style.display = "none";
   newsEl.style.display = "none";
@@ -2023,6 +2024,7 @@ function switchTab(tab) {
   if (fundEl) fundEl.style.display = "none";
   if (trackEl) trackEl.style.display = "none";
   if (analyzerEl) analyzerEl.style.display = "none";
+  if (picksEl) picksEl.style.display = "none";
   if (newsRefreshTimer) { clearInterval(newsRefreshTimer); newsRefreshTimer = null; }
 
   // Refresh the global macro banner on every tab switch. This is a cheap
@@ -2058,6 +2060,9 @@ function switchTab(tab) {
   } else if (tab === "analyzer") {
     if (analyzerEl) analyzerEl.style.display = "block";
     initPortfolioAnalyzer();
+  } else if (tab === "picks") {
+    if (picksEl) picksEl.style.display = "block";
+    loadPicks();
   } else {
     // Default: scanner tab
     const scanBtn = Array.from(tabs).find((t) => t.getAttribute("onclick")?.includes("scanner"));
@@ -5888,4 +5893,574 @@ function renderAnalyzerDisclaimer(report) {
         &nbsp;&nbsp;<strong>Tax note</strong> reflects Budget 2024 rates (20% STCG / 12.5% LTCG with ₹1.25L exemption) and assumes equity-oriented listed securities; consult a CA for your specific slab, set-off, and carry-forward situation.
       </div>
     </div>`;
+}
+
+// ==================== SWS PICKS ====================
+
+// Section order. top_ranked_30 leads (multi-factor score, broadest universe);
+// best_to_buy_now follows (legacy curated cut). Per-category sections after.
+// Sections with zero items hide automatically — see renderPicks.
+const PICKS_SECTIONS = [
+  { key: "top_ranked_30", label: "⭐ Top 30 — Multi-Factor Score", subtitle: "Ranked by v2 composite (fundamentals + catalyst bonus + risk/surveillance overlay). Mcap ≥ ₹500cr. Click any card for the full picture." },
+  { key: "best_to_buy_now", label: "🎯 Best Stocks to Buy Now", subtitle: "Top by composite score, no major risks, snowflake ≥ 18/30" },
+  { key: "deep_value", label: "💎 Deep Value", subtitle: "DEEP_VALUE verdict + SWS Valuation ≥ 4/6 + analyst upside ≥ 20%" },
+  { key: "quality_growth", label: "🌱 Quality Growth", subtitle: "Strong balance sheet + 5Y earnings growth + SWS Health ≥ 5/6" },
+  { key: "midterm", label: "⚡ Midterm Picks (3-12 months)", subtitle: "Positive 1Y momentum + analyst upside ≥ 15% + forward growth ≥ 8%" },
+  { key: "dividend_aristocrats", label: "💰 Dividend Aristocrats", subtitle: "SWS Dividend ≥ 5/6 + payout < 70% + yield ≥ 1.5%" },
+  { key: "smallcap_gems", label: "🔍 Smallcap/Midcap Hidden Gems", subtitle: "Market cap < ₹500B + snowflake ≥ 22/30 + analyst upside ≥ 15%" },
+  { key: "insider_buying", label: "👁 Insider Buying", subtitle: "Material insider/MD buy in last 90 days" },
+  { key: "upcoming_earnings", label: "📅 Upcoming Earnings (next 30 days)", subtitle: "Sorted by date — catalysts that could move price" },
+  { key: "avoid", label: "⚠ Avoid List", subtitle: "Snowflake < 12/30 + ≥ 3 risks flagged" },
+];
+
+// Per-section soft cap on cards displayed inline. The Top-30 section gets
+// its full 30; everything else stays at 12 (with a "more" hint). Upcoming
+// earnings is the worst offender today (156 entries) — capping at 30 keeps
+// the page actionable.
+const PICKS_INLINE_CAP = {
+  top_ranked_30: 30,
+  upcoming_earnings: 30,
+};
+const PICKS_INLINE_DEFAULT_CAP = 12;
+
+let picksStatusPollTimer = null;
+
+async function loadPicks() {
+  const containerEl = document.getElementById("picksContainer");
+  const metaEl = document.getElementById("picksMeta");
+  containerEl.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading picks…</div></div>`;
+
+  try {
+    const res = await fetch("/api/sws-picks");
+    if (res.status === 404) {
+      containerEl.innerHTML = renderPicksEmptyState();
+      metaEl.textContent = "No scan run yet";
+      pollPicksStatus(); // still useful — show scan progress if a scan is currently running
+      return;
+    }
+    const data = await res.json();
+    renderPicks(data);
+    metaEl.textContent = `Scanned ${new Date(data.scanned_at).toLocaleString()} · ${data.scored_count} stocks scored · ${data.failed_count} failed (in retry)`;
+    pollPicksStatus();
+  } catch (e) {
+    containerEl.innerHTML = `<div style="padding:24px;color:var(--red);">Failed to load picks: ${e.message}</div>`;
+  }
+}
+
+function renderPicksEmptyState() {
+  return `
+    <div style="padding:32px; border:1px dashed #2a3550; border-radius:8px; text-align:center;">
+      <h3 style="margin-top:0;color:var(--text-primary);">No SWS scan has been run yet</h3>
+      <p style="color:var(--text-muted); margin:12px 0 20px 0; max-width:680px; margin-left:auto; margin-right:auto;">
+        Click <strong>Quick refresh</strong> or <strong>Full refresh</strong> above to start. The scan is driven by 3 parallel Claude sessions
+        scraping every NSE/BSE listing on Simply Wall Street with built-in subscription protection (rate caps, jitter, panic-stop on any block signal).
+        Wall-clock: ~5 hrs for Quick, ~3 days for Full. The data file lives at <code>data/sws/picks-latest.json</code>.
+      </p>
+      <p style="color:var(--text-muted); font-size:12px;">
+        After clicking, open 3 terminal windows, run <code>claude</code>, then <code>/sws-scan-shard 1</code> / <code>2</code> / <code>3</code>.
+      </p>
+    </div>
+  `;
+}
+
+function renderPicks(data) {
+  const containerEl = document.getElementById("picksContainer");
+  let html = "";
+  let totalShown = 0;
+  for (const section of PICKS_SECTIONS) {
+    const items = (data.sections && data.sections[section.key]) || [];
+    if (items.length === 0) continue; // hide empty sections — phase 3 cleanup
+    totalShown += items.length;
+    const cap = PICKS_INLINE_CAP[section.key] ?? PICKS_INLINE_DEFAULT_CAP;
+    const sliced = items.slice(0, cap);
+    const overflow = items.length > cap ? items.length - cap : 0;
+    const isHero = section.key === "top_ranked_30";
+    html += `
+      <div class="dashboard-section" style="margin-bottom:28px;${isHero ? "padding:18px 16px 4px;border:1px solid #1f2c45;border-radius:10px;background:linear-gradient(180deg, rgba(74,144,226,0.04), rgba(74,144,226,0));" : ""}">
+        <div class="section-header" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;">
+          <div>
+            <h3 style="font-size:${isHero ? "20px" : "18px"};font-weight:500;margin:0;">${section.label} <span style="color:var(--text-muted);font-weight:400;">(${items.length})</span></h3>
+            <p style="font-size:11px;color:var(--text-muted);margin:4px 0 0 0;max-width:780px;">${section.subtitle}</p>
+          </div>
+        </div>
+        <div class="stock-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;">
+          ${sliced.map((s, i) => renderPickCard(s, section.key, isHero ? i + 1 : null)).join("")}
+        </div>
+        ${overflow ? `<div style="margin:10px 0 0 0;font-size:11px;color:var(--text-muted);">… and ${overflow} more</div>` : ""}
+      </div>`;
+  }
+  if (!totalShown) {
+    html = `<div style="padding:24px;color:var(--text-muted);">Scan completed but no stocks matched any section filters. Check thresholds in scripts/sws-scoring.mjs.</div>`;
+  }
+  containerEl.innerHTML = html;
+}
+
+// Color band for the score number on the card. Same thresholds the verdict
+// uses, but applied to v2_score for the headline number — gives the reader
+// an instant visual cue ("is 71 good? — yes, gold").
+function pickScoreColor(score) {
+  if (score == null) return "var(--text-muted)";
+  if (score >= 72) return "var(--gold, #f5c542)";
+  if (score >= 62) return "var(--green, #22c55e)";
+  if (score >= 48) return "var(--cyan, #4a90e2)";
+  if (score >= 40) return "var(--text-muted)";
+  return "var(--red, #ef4444)";
+}
+
+// Freshness pill — green-ish if within 48h, muted if older, "stale" badge >7d.
+function pickFreshnessPill(parsedAtIso) {
+  if (!parsedAtIso) return "";
+  const ageMs = Date.now() - new Date(parsedAtIso).getTime();
+  if (!Number.isFinite(ageMs) || ageMs < 0) return "";
+  const hours = ageMs / 3600000;
+  let label, cls = "";
+  if (hours < 48) label = `${Math.round(hours)}h ago`;
+  else {
+    const days = Math.round(hours / 24);
+    label = `${days}d ago`;
+    if (days > 7) cls = " stale";
+  }
+  return `<span class="sws-freshness-pill${cls}" title="Deep-scrape parsed ${new Date(parsedAtIso).toLocaleString()}">${label}</span>`;
+}
+
+function renderPickCard(s, sectionKey, rank = null) {
+  const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)}t` : v >= 1e9 ? `₹${(v / 1e9).toFixed(1)}b` : v >= 1e7 ? `₹${(v / 1e7).toFixed(0)}cr` : `₹${v.toLocaleString("en-IN")}`;
+  const upside = s.upside_pct != null ? `${s.upside_pct > 0 ? "+" : ""}${s.upside_pct.toFixed(1)}%` : "—";
+  const upsideColor = s.upside_pct == null ? "var(--text-muted)" : s.upside_pct >= 0 ? "var(--green)" : "var(--red)";
+  const sn = s.snowflake_total ?? "—";
+  // Headline score: v3 (fund 70% + tech 30% + catalyst − risk) > v2 (no tech) > v1 (fundamentals).
+  // v3 is only present after sws-enrich-technicals.mjs has run for that ticker.
+  const headlineRaw = s.v3_score_100 != null ? s.v3_score_100 : (s.v2_score != null ? s.v2_score : s.score);
+  const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
+  const scoreColor = pickScoreColor(headlineRaw);
+  const verdict = s.verdict || "—";
+  const verdictColor = { DEEP_VALUE: "var(--gold)", QUALITY_GROWTH: "var(--green)", FAIR_VALUE: "var(--cyan)", FULLY_VALUED: "var(--text-muted)", OVERVALUED: "var(--red)" }[verdict] || "var(--text-muted)";
+  const surv = s.v2_breakdown?.surveillance;
+  const survBadge = surv ? `<span class="sws-surveillance-badge" title="NSE ${surv.list} surveillance flag (${surv.timeframe || "—"})">${surv.list}</span>` : "";
+  const rankBadge = rank ? `<span style="font-size:10px;color:var(--text-muted);background:#0e1422;border:1px solid #1a2233;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums;flex-shrink:0;">${rank}</span>` : "";
+  const fresh = pickFreshnessPill(s.data_freshness_at);
+
+  let extraRow = "";
+  if (sectionKey === "upcoming_earnings" && s.next_earnings_date) {
+    const d = s.days_until == null ? "?" : `${s.days_until}d`;
+    const lqr = s.last_quarter_result ? `last Q: ${s.last_quarter_result}` : "";
+    extraRow = `<div style="font-size:11px;color:var(--gold);margin-top:6px;">📅 ${s.next_earnings_date} (${d}) ${lqr ? "· " + lqr : ""}</div>`;
+  }
+
+  // The card is now interactive: click anywhere except the SWS link to open
+  // the modal. The link's onclick stops propagation so deep-link still works.
+  const safeTicker = String(s.ticker || "").replace(/[^A-Z0-9&\-]/gi, "");
+  return `
+    <div class="stock-card sws-pick-card" tabindex="0" role="button" aria-label="Open detail for ${safeTicker}"
+         data-ticker="${safeTicker}"
+         onclick="openSwsModal('${safeTicker}')"
+         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openSwsModal('${safeTicker}');}"
+         style="padding:14px;border:1px solid #1a2233;border-radius:6px;background:var(--bg-elevated, #0e1422);">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+        <div style="min-width:0;flex:1;display:flex;align-items:center;gap:8px;">
+          ${rankBadge}
+          <div style="min-width:0;flex:1;">
+            <div style="font-size:14px;font-weight:600;color:var(--text-primary);">${s.ticker}${survBadge}</div>
+            <div style="font-size:11px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${s.name || ""}${fresh}</div>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:20px;font-weight:600;color:${scoreColor};line-height:1;">${score}</div>
+          <div style="font-size:9px;color:${verdictColor};letter-spacing:0.05em;margin-top:3px;">${verdict.replace(/_/g, " ")}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:10px;font-size:11px;">
+        <div><span style="color:var(--text-muted);">Px</span> ${fmtInr(s.current_price_inr)}</div>
+        <div><span style="color:var(--text-muted);">FV</span> ${fmtInr(s.fair_value_inr)}</div>
+        <div style="color:${upsideColor};">${upside}</div>
+        <div style="margin-left:auto;color:var(--text-muted);">Snow ${sn}/30</div>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.4;">${(s.narrative && s.narrative.card_one_line) || s.one_line || ""}</div>
+      ${extraRow}
+      ${s.sws_url ? `<div style="margin-top:8px;"><a href="${s.sws_url}" target="_blank" rel="noopener" onclick="event.stopPropagation();" style="font-size:10px;color:var(--cyan);text-decoration:none;">Open on SWS →</a></div>` : ""}
+    </div>`;
+}
+
+async function triggerSwsRefresh(mode) {
+  const endpoint = mode === "quick" ? "/api/sws-refresh/quick"
+                : mode === "earnings" ? "/api/sws-refresh/earnings"
+                : "/api/sws-refresh/full";
+  try {
+    const res = await fetch(endpoint, { method: "POST", headers: { "content-type": "application/json" } });
+    const data = await res.json();
+    showPicksBanner("queued", `Refresh queued. ${data.next_step || ""}`);
+    pollPicksStatus();
+  } catch (e) {
+    showPicksBanner("error", `Failed to queue refresh: ${e.message}`);
+  }
+}
+
+function downloadSwsPdf() {
+  window.open("/api/sws-pdf/latest", "_blank");
+}
+
+function showPicksBanner(kind, msg) {
+  const b = document.getElementById("picksStatusBanner");
+  if (!b) return;
+  const colors = {
+    queued: { bg: "rgba(0,150,200,0.1)", border: "var(--cyan)", text: "var(--cyan)" },
+    scanning: { bg: "rgba(0,180,100,0.1)", border: "var(--green)", text: "var(--green)" },
+    panic: { bg: "rgba(220,80,80,0.1)", border: "var(--red)", text: "var(--red)" },
+    error: { bg: "rgba(220,80,80,0.1)", border: "var(--red)", text: "var(--red)" },
+  };
+  const c = colors[kind] || colors.queued;
+  b.style.display = "block";
+  b.style.background = c.bg;
+  b.style.border = `1px solid ${c.border}`;
+  b.style.color = c.text;
+  b.innerHTML = msg;
+}
+
+async function pollPicksStatus() {
+  if (picksStatusPollTimer) clearInterval(picksStatusPollTimer);
+  const tick = async () => {
+    try {
+      const res = await fetch("/api/sws-scan/status");
+      const s = await res.json();
+      if (s.panic_stop && s.panic_stop.active) {
+        showPicksBanner("panic", `🚨 Scrape halted: <strong>${s.panic_stop.reason}</strong> (shard ${s.panic_stop.shard_id}) at ${new Date(s.panic_stop.detected_at).toLocaleTimeString()}. Review SWS account, then delete <code>data/sws/panic-stop.flag</code> to resume.`);
+        return;
+      }
+      if (s.in_progress) {
+        const lines = s.shards.filter((sh) => sh.last_run_at).map((sh) =>
+          `Shard ${sh.id}: ${sh.done_count} done${sh.last_ticker ? ` (${sh.last_ticker})` : ""}${sh.complete ? " ✓" : ""}`,
+        ).join(" · ");
+        showPicksBanner("scanning", `🟢 Scanning · ${lines || "starting…"} · Total ${s.total_done}`);
+      } else if (s.all_complete) {
+        document.getElementById("picksStatusBanner").style.display = "none";
+      }
+    } catch (e) { /* silent */ }
+  };
+  tick();
+  picksStatusPollTimer = setInterval(tick, 30 * 1000);
+}
+
+// ==================== SWS MODAL ====================
+//
+// Single modal element in the DOM. openSwsModal(ticker) populates it from
+// /api/sws-stock/:ticker (deep-scrape data + leaderboard card with v2 score)
+// and lazy-fetches /api/stock/:symbol for live technicals + news as a second
+// overlay panel inside the modal so it doesn't block first paint.
+
+let swsModalCurrentTicker = null;
+let swsModalLastFocus = null;
+
+async function openSwsModal(ticker) {
+  if (!ticker) return;
+  swsModalCurrentTicker = ticker;
+  swsModalLastFocus = document.activeElement;
+  const backdrop = document.getElementById("swsModalBackdrop");
+  const body = document.getElementById("swsModalBody");
+  if (!backdrop || !body) return;
+  body.innerHTML = `<div style="padding:60px 20px;text-align:center;color:var(--text-muted);"><div class="loading-spinner" style="margin:0 auto 12px;"></div>Loading ${ticker}…</div>`;
+  backdrop.classList.add("open");
+  document.body.style.overflow = "hidden";
+
+  try {
+    const res = await fetch(`/api/sws-stock/${encodeURIComponent(ticker)}`);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      body.innerHTML = `<div style="padding:40px 20px;color:var(--red);">Failed to load ${ticker}: ${err.error || res.status}</div>`;
+      return;
+    }
+    const data = await res.json();
+    if (swsModalCurrentTicker !== ticker) return; // user opened a different ticker since
+    body.innerHTML = renderSwsModal(data);
+    // Lazy-fetch live overlay (tech + news + recommendation) so the SWS card
+    // shows immediately and live data fills in afterwards.
+    fetchAndRenderSwsLiveOverlay(ticker);
+  } catch (e) {
+    body.innerHTML = `<div style="padding:40px 20px;color:var(--red);">Network error: ${e.message}</div>`;
+  }
+}
+
+function closeSwsModal() {
+  const backdrop = document.getElementById("swsModalBackdrop");
+  if (backdrop) backdrop.classList.remove("open");
+  document.body.style.overflow = "";
+  swsModalCurrentTicker = null;
+  if (swsModalLastFocus && typeof swsModalLastFocus.focus === "function") {
+    try { swsModalLastFocus.focus(); } catch {}
+  }
+  swsModalLastFocus = null;
+}
+
+// Esc-to-close — bound once at module load.
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    const backdrop = document.getElementById("swsModalBackdrop");
+    if (backdrop && backdrop.classList.contains("open")) closeSwsModal();
+  }
+});
+
+function renderSwsModal(data) {
+  const { ticker, deep, card, surveillance, file_mtime } = data;
+  const ov = (deep && deep.overview) || {};
+  const card_ = card || {};
+  const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)}t` : v >= 1e9 ? `₹${(v / 1e9).toFixed(1)}b` : v >= 1e7 ? `₹${(v / 1e7).toFixed(0)}cr` : `₹${v.toLocaleString("en-IN")}`;
+  const fmtPct = (v, d = 2) => v == null ? "—" : `${v >= 0 ? "+" : ""}${Number(v).toFixed(d)}%`;
+  const headlineRaw = card_.v3_score_100 != null ? card_.v3_score_100 : (card_.v2_score != null ? card_.v2_score : card_.score);
+  const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
+  const scoreColor = pickScoreColor(headlineRaw);
+  const scoreLabel = card_.v3_score_100 != null ? "v3 · blend" : (card_.v2_score != null ? "v2" : "score");
+  const verdict = card_.verdict || "—";
+  const verdictColor = { DEEP_VALUE: "var(--gold)", QUALITY_GROWTH: "var(--green)", FAIR_VALUE: "var(--cyan)", FULLY_VALUED: "var(--text-muted)", OVERVALUED: "var(--red)" }[verdict] || "var(--text-muted)";
+  const survBadge = surveillance ? `<span class="sws-surveillance-badge" title="NSE ${surveillance.list} surveillance flag (${surveillance.timeframe || "—"})">${surveillance.list}</span>` : "";
+  const fresh = pickFreshnessPill(deep && deep.parsed_at);
+  const sn = ov.snowflake || {};
+  const ret = ov.returns_pct || {};
+  const mult = ov.multiples || {};
+
+  // Score breakdown bars — show v3 when available (with fund + tech components),
+  // v2 otherwise.
+  const v2bd = card_.v2_breakdown || {};
+  const v3bd = card_.v3_breakdown || null;
+  const hasV3 = v3bd != null && card_.v3_score_100 != null;
+  const barsHtml = (() => {
+    if (headlineRaw == null) return "";
+    const items = hasV3 ? [
+      { label: "Fundamentals 70%", value: v3bd.fundamentals_component, max: 70, hint: "v1 SWS composite × 0.7 — snowflake + analyst upside + growth + margin + dividend + insider" },
+      { label: "Technicals 30%", value: v3bd.technical_component, max: 30, hint: "Live technical score (RSI, MACD, trend, 200-DMA) × 0.3 — fetched from /api/stock" },
+      { label: "Catalyst bonus", value: v3bd.pts_catalyst, max: 5, hint: "Earnings beat setup + insider buying + analyst upgrade" },
+      { label: "Risk overlay", value: v3bd.pts_risk_overlay, max: 0, min: -15, negative: true, hint: "ASM/GSM surveillance, high beta, multiple risk flags" },
+    ] : [
+      { label: "Fundamentals (v1)", value: v2bd.v1_fundamentals, max: 100, hint: "Snowflake + analyst upside + growth + margin + dividend + insider" },
+      { label: "Catalyst bonus", value: v2bd.pts_catalyst, max: 5, hint: "Earnings beat setup + insider buying + analyst upgrade" },
+      { label: "Risk overlay", value: v2bd.pts_risk_overlay, max: 0, min: -15, negative: true, hint: "ASM/GSM, high beta, multiple risk flags" },
+    ];
+    return items.map((it) => {
+      const v = it.value == null ? 0 : it.value;
+      const pct = it.negative ? (Math.abs(v) / 15) * 100 : (v / it.max) * 100;
+      return `
+        <div class="sws-modal-bar" title="${it.hint}">
+          <div class="bar-label">${it.label}</div>
+          <div class="bar-track"><div class="bar-fill ${it.negative ? "negative" : ""}" style="width:${Math.min(100, Math.abs(pct)).toFixed(0)}%"></div></div>
+          <div class="bar-value">${v == null ? "—" : (v > 0 && !it.negative ? "+" : "") + Number(v).toFixed(1)}</div>
+        </div>`;
+    }).join("");
+  })();
+
+  // Snowflake hexagon strip (5 dims)
+  const hexHtml = (sn && Object.keys(sn).length) ? `
+    <div class="sws-modal-section">
+      <h4>Snowflake — ${ov.snowflake_total ?? "?"}/30 ${ov.snowflake_summary ? `· ${ov.snowflake_summary}` : ""}</h4>
+      <div class="sws-modal-grid">
+        ${["valuation","future_growth","past_performance","financial_health","dividends"].map((k) => {
+          const score = sn[k];
+          const lbl = k.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+          const pct = score != null ? Math.round((score / 6) * 100) : 0;
+          const col = score == null ? "var(--text-muted)" : score >= 5 ? "var(--green)" : score >= 3 ? "var(--cyan)" : "var(--red)";
+          return `
+            <div class="sws-stat-cell">
+              <div class="stat-label">${lbl}</div>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+                <div class="stat-value" style="color:${col};">${score ?? "—"}<span style="font-size:10px;color:var(--text-muted);">/6</span></div>
+                <div style="flex:1;height:4px;background:#1a2233;border-radius:2px;overflow:hidden;"><div style="width:${pct}%;height:100%;background:${col};"></div></div>
+              </div>
+            </div>`;
+        }).join("")}
+      </div>
+    </div>` : "";
+
+  // Quick stats
+  const pastPerf = (deep && deep.past_performance) || {};
+  const finHealth = (deep && deep.financial_health) || {};
+  const ownership = (deep && deep.ownership) || {};
+  const mgmt = (deep && deep.management) || {};
+  const stats = [
+    ["P/E", mult.pe != null ? `${mult.pe.toFixed(1)}x` : "—"],
+    ["P/B", mult.pb != null ? `${mult.pb.toFixed(2)}x` : "—"],
+    ["P/S", mult.ps != null ? `${mult.ps.toFixed(1)}x` : "—"],
+    ["EPS", ov.eps != null ? `₹${ov.eps.toFixed(2)}` : "—"],
+    ["ROE", pastPerf.roe_pct != null ? `${pastPerf.roe_pct.toFixed(1)}%` : "—"],
+    ["ROCE", pastPerf.roce_pct != null ? `${pastPerf.roce_pct.toFixed(1)}%` : "—"],
+    ["D/E", ov.debt_to_equity_pct != null ? `${ov.debt_to_equity_pct.toFixed(1)}%` : "—"],
+    ["Debt cover", finHealth.debt_cover_pct != null ? `${finHealth.debt_cover_pct.toFixed(1)}%` : "—"],
+    ["Interest cover", finHealth.interest_cover_x != null ? `${finHealth.interest_cover_x.toFixed(1)}x` : "—"],
+    ["Net margin", ov.net_margin_pct != null ? `${ov.net_margin_pct.toFixed(1)}%` : "—"],
+    ["Gross margin", ov.gross_margin_pct != null ? `${ov.gross_margin_pct.toFixed(1)}%` : "—"],
+    ["Beta", ov.beta != null ? ov.beta.toFixed(2) : "—"],
+    ["Div yield", ov.dividend?.yield_pct != null ? `${ov.dividend.yield_pct.toFixed(2)}%` : "—"],
+    ["Payout", ov.dividend?.payout_pct != null ? `${ov.dividend.payout_pct.toFixed(0)}%` : "—"],
+    ["Insider %", ownership.insider_pct != null ? `${ownership.insider_pct.toFixed(1)}%` : "—"],
+    ["CEO tenure", mgmt.ceo_tenure_years != null ? `${mgmt.ceo_tenure_years.toFixed(1)} yr` : "—"],
+  ];
+
+  // Returns strip
+  const retsHtml = `
+    <div class="sws-modal-section">
+      <h4>Total returns</h4>
+      <div class="sws-modal-grid" style="grid-template-columns:repeat(5, 1fr);">
+        ${["1M","3M","1Y","3Y","5Y"].map((k) => {
+          const v = ret[k];
+          const col = v == null ? "var(--text-muted)" : v >= 0 ? "var(--green)" : "var(--red)";
+          return `<div class="sws-stat-cell"><div class="stat-label">${k}</div><div class="stat-value" style="color:${col};">${v == null ? "—" : fmtPct(v, 1)}</div></div>`;
+        }).join("")}
+      </div>
+    </div>`;
+
+  // Rewards / Risks
+  const rewards = ov.rewards || [];
+  const risks = ov.risks || [];
+  const rewardsRisksHtml = (rewards.length || risks.length) ? `
+    <div class="sws-modal-section">
+      <div class="sws-modal-twocol">
+        <div>
+          <h4>Rewards (${rewards.length})</h4>
+          ${rewards.length ? `<ul class="sws-bullet-list rewards">${rewards.map((r) => `<li>${escapeHtml(r)}</li>`).join("")}</ul>` : `<div style="font-size:11px;color:var(--text-muted);">None flagged at last scan.</div>`}
+        </div>
+        <div>
+          <h4>Risks (${risks.length})</h4>
+          ${risks.length ? `<ul class="sws-bullet-list risks">${risks.map((r) => `<li>${escapeHtml(r)}</li>`).join("")}</ul>` : `<div style="font-size:11px;color:var(--text-muted);">No SWS-flagged risks at last scan.</div>`}
+        </div>
+      </div>
+    </div>` : "";
+
+  // Catalysts
+  const revisions = ov.recent_analyst_revisions || [];
+  const insiders = ov.insider_activity || [];
+  const catalystHtml = (ov.next_earnings_date || revisions.length || insiders.length) ? `
+    <div class="sws-modal-section">
+      <h4>Catalysts &amp; activity</h4>
+      <div style="font-size:12px;line-height:1.6;color:var(--text-primary);">
+        ${ov.next_earnings_date ? `<div>📅 Next earnings: <strong>${ov.next_earnings_date}</strong>${ov.last_quarter_result ? ` · last quarter: <span style="color:${ov.last_quarter_result === "beat" ? "var(--green)" : "var(--red)"};">${ov.last_quarter_result}</span>` : ""}</div>` : ""}
+        ${revisions.length ? `<div style="margin-top:6px;">📊 Recent analyst revisions: ${revisions.map((r) => `${r.direction === "increased" ? "↑" : "↓"} ${r.pct}% to ₹${r.new_target_inr} (${r.date})`).join(" · ")}</div>` : ""}
+        ${insiders.length ? `<div style="margin-top:6px;">👁 Insider activity: ${insiders.length} event(s)</div>` : ""}
+      </div>
+    </div>` : "";
+
+  // Live overlay placeholder (filled by fetchAndRenderSwsLiveOverlay)
+  const livePlaceholder = `
+    <div class="sws-modal-section" id="swsModalLiveOverlay">
+      <h4>Live signals (technicals · news · regulatory)</h4>
+      <div style="font-size:11px;color:var(--text-muted);">Loading live engine…</div>
+    </div>`;
+
+  return `
+    <div class="sws-modal-hero">
+      <div style="flex:1;min-width:0;">
+        <h2 id="swsModalTitle">${ticker}${survBadge}</h2>
+        <div style="font-size:13px;color:var(--text-muted);">${escapeHtml(card_.name || ticker)}${card_.sector ? ` · ${escapeHtml(card_.sector)}` : ""}${fresh}</div>
+        <div style="display:flex;gap:14px;margin-top:10px;font-size:12px;flex-wrap:wrap;">
+          <div><span style="color:var(--text-muted);">Price</span> ${fmtInr(ov.current_price_inr)}</div>
+          <div><span style="color:var(--text-muted);">Fair value</span> ${fmtInr(ov.fair_value_inr)}</div>
+          <div><span style="color:var(--text-muted);">Upside</span> <span style="color:${ov.upside_pct == null ? "var(--text-muted)" : ov.upside_pct >= 0 ? "var(--green)" : "var(--red)"};">${fmtPct(ov.upside_pct, 1)}</span></div>
+          <div><span style="color:var(--text-muted);">Mcap</span> ${fmtInr(ov.market_cap_inr)}</div>
+          <div><span style="color:var(--text-muted);">52w</span> ${ov.fifty_two_week ? `${fmtInr(ov.fifty_two_week.low)}–${fmtInr(ov.fifty_two_week.high)}` : "—"}</div>
+        </div>
+      </div>
+      <div class="sws-modal-score">
+        <div class="score-value" style="color:${scoreColor};">${score}</div>
+        <div class="score-label" style="color:${verdictColor};">${verdict.replace(/_/g, " ")}</div>
+      </div>
+    </div>
+
+    ${barsHtml ? `
+    <div class="sws-modal-section">
+      <h4>Score breakdown — ${hasV3 ? "v3 multi-factor blend" : "v2 fundamentals composite"} (out of 100)</h4>
+      ${barsHtml}
+      ${hasV3 ? `
+        <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v3 = fundamentals×0.7 + technicals×0.3 + catalyst (max +5) − risk overlay (max −15), clamped 0-100. Technical signal: <strong style="color:var(--text-primary);">${escapeHtml(v3bd.live_recommendation || "—")}</strong>.</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">Score evolution: <strong>v1</strong> ${card_.score?.toFixed(1) || "—"} (fund only) → <strong>v2</strong> ${card_.v2_score?.toFixed(1) || "—"} (+ catalyst/risk) → <strong>v3</strong> ${card_.v3_score_100.toFixed(1)} (+ technicals).</div>
+      ` : `
+        <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v2 = fundamentals (max 100) + catalyst (max +5) − risk overlay (max −15), clamped 0-100. Live technicals shown in the Live signals panel below.</div>
+      `}
+    </div>` : ""}
+
+    ${hexHtml}
+
+    <div class="sws-modal-section">
+      <h4>Quick stats</h4>
+      <div class="sws-modal-grid">
+        ${stats.map(([l, v]) => `<div class="sws-stat-cell"><div class="stat-label">${l}</div><div class="stat-value">${v}</div></div>`).join("")}
+      </div>
+    </div>
+
+    ${retsHtml}
+    ${rewardsRisksHtml}
+    ${catalystHtml}
+
+    ${(card_.narrative && card_.narrative.pdf_rationale) ? `
+    <div class="sws-modal-section">
+      <h4>Research note</h4>
+      <div style="font-size:12px;line-height:1.7;color:var(--text-primary);white-space:pre-line;">${escapeHtml(card_.narrative.pdf_rationale)}</div>
+    </div>` : ""}
+
+    ${livePlaceholder}
+
+    <div class="sws-modal-section" style="border-top:none;padding-top:6px;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--text-muted);">
+      <div>${file_mtime ? `Deep-scrape mtime: ${new Date(file_mtime).toLocaleString()}` : ""}</div>
+      ${card_.sws_url ? `<a href="${card_.sws_url}" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none;">Open on Simply Wall Street →</a>` : ""}
+    </div>
+  `;
+}
+
+// Lazy live overlay: technical signal + news headlines + recommendation.
+// Hits /api/stock/:symbol after first paint of the modal.
+async function fetchAndRenderSwsLiveOverlay(ticker) {
+  const slot = document.getElementById("swsModalLiveOverlay");
+  if (!slot) return;
+  try {
+    const res = await fetch(`/api/stock/${encodeURIComponent(ticker)}`);
+    if (!res.ok) {
+      slot.innerHTML = `<h4>Live signals</h4><div style="font-size:11px;color:var(--text-muted);">Live engine returned ${res.status} — likely insufficient history (recent IPO) or symbol not on Yahoo.</div>`;
+      return;
+    }
+    const data = await res.json();
+    if (swsModalCurrentTicker !== ticker) return; // user navigated away
+    const tech = data.analysis?.technicalScore;
+    const sent = data.analysis?.sentimentScore;
+    const fund = data.analysis?.fundamentalScore;
+    const combined = data.analysis?.combinedScore;
+    const reco = data.analysis?.recommendation;
+    const surv = data.surveillance;
+    const news = (data.news || []).slice(0, 5);
+    const macro = data.longTerm?.macroBoost;
+
+    const colorPill = (label, val, max = 100) => {
+      if (val == null) return `<div class="sws-stat-cell"><div class="stat-label">${label}</div><div class="stat-value" style="color:var(--text-muted);">—</div></div>`;
+      const col = val >= 70 ? "var(--green)" : val >= 50 ? "var(--cyan)" : val >= 35 ? "var(--gold, #f5c542)" : "var(--red)";
+      return `<div class="sws-stat-cell"><div class="stat-label">${label}</div><div class="stat-value" style="color:${col};">${Math.round(val)}<span style="font-size:10px;color:var(--text-muted);">/${max}</span></div></div>`;
+    };
+
+    const recoColor = !reco ? "var(--text-muted)" :
+      reco.includes("STRONG BUY") || reco === "BUY" ? "var(--green)" :
+      reco === "HOLD" ? "var(--cyan)" :
+      reco.includes("SELL") ? "var(--red)" : "var(--text-muted)";
+
+    slot.innerHTML = `
+      <h4>Live signals — independent live engine (technicals · sentiment · regulatory)</h4>
+      <div class="sws-modal-grid" style="margin-bottom:10px;">
+        ${colorPill("Technicals", tech)}
+        ${colorPill("Sentiment", sent)}
+        ${colorPill("Fundamentals", fund)}
+        ${colorPill("Combined", combined)}
+      </div>
+      ${reco ? `<div style="font-size:13px;margin-bottom:10px;"><span style="color:var(--text-muted);">Recommendation:</span> <strong style="color:${recoColor};">${escapeHtml(reco)}</strong></div>` : ""}
+      ${surv ? `<div style="font-size:11px;color:var(--red);margin-bottom:10px;">⚠ NSE surveillance: <strong>${escapeHtml(surv.list)}</strong>${surv.timeframe ? ` (${escapeHtml(surv.timeframe)})` : ""}${surv.stage ? ` · stage ${escapeHtml(String(surv.stage))}` : ""}</div>` : ""}
+      ${news.length ? `
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:14px;">News (${news.length})</div>
+        <ul class="sws-bullet-list" style="margin-top:6px;">
+          ${news.map((n) => `<li>${n.url ? `<a href="${escapeAttr(n.url)}" target="_blank" rel="noopener" style="color:var(--text-primary);text-decoration:none;" onclick="event.stopPropagation();">${escapeHtml(n.title || "(untitled)")}</a>` : escapeHtml(n.title || "")}<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">${n.source ? escapeHtml(n.source) : ""}${n.publishedAt ? ` · ${new Date(n.publishedAt).toLocaleDateString()}` : ""}</div></li>`).join("")}
+        </ul>` : ""}
+      ${macro != null ? `<div style="font-size:10px;color:var(--text-muted);margin-top:10px;">Macro tilt applied: ${macro >= 0 ? "+" : ""}${macro}</div>` : ""}
+      <div style="font-size:10px;color:var(--text-muted);margin-top:10px;">Live data is fetched at modal open from NSE/Yahoo. May lag up to 15 min during market hours.</div>
+    `;
+  } catch (e) {
+    slot.innerHTML = `<h4>Live signals</h4><div style="font-size:11px;color:var(--red);">Live overlay failed: ${escapeHtml(e.message)}</div>`;
+  }
+}
+
+function escapeHtml(s) {
+  if (s == null) return "";
+  return String(s).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+function escapeAttr(s) {
+  if (s == null) return "";
+  return String(s).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
 }
