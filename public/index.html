@@ -917,8 +917,6 @@
         right: 12px !important;
       }
 
-      /* ─── Disclaimer ─── */
-      .disclaimer { font-size: 10px; padding: 14px 12px; }
     }
 
     /* Tablet: slightly wider but still constrained */
@@ -2201,16 +2199,203 @@
 
     .back-btn:hover { border-color: var(--blue); color: var(--blue); }
 
-    /* Disclaimer */
-    .disclaimer {
-      text-align: center;
-      padding: 20px;
-      font-size: 11px;
-      color: var(--text-muted);
-      border-top: 1px solid var(--border);
-      margin-top: 40px;
-      line-height: 1.6;
+    /* SWS stock detail modal — full-screen overlay with centered card */
+    .sws-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(3px);
+      z-index: 9000;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      overflow-y: auto;
+      padding: 32px 16px;
     }
+    .sws-modal-backdrop.open { display: flex; }
+    .sws-modal {
+      background: var(--bg-base, #0a0e17);
+      border: 1px solid #2a3550;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 920px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+    .sws-modal-close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      background: transparent;
+      border: 1px solid #2a3550;
+      color: var(--text-muted);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .sws-modal-close:hover { color: var(--text-primary); border-color: var(--text-muted); }
+    .sws-modal-body { padding: 24px 26px 28px; }
+    .sws-modal-hero {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #1a2233;
+    }
+    .sws-modal-hero h2 {
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin: 0 0 4px 0;
+      color: var(--text-primary);
+    }
+    .sws-modal-score {
+      flex-shrink: 0;
+      text-align: center;
+      padding: 10px 18px;
+      border-radius: 10px;
+      background: #0e1422;
+      border: 1px solid #1a2233;
+      min-width: 100px;
+    }
+    .sws-modal-score .score-value {
+      font-size: 36px;
+      font-weight: 600;
+      line-height: 1;
+      color: var(--text-primary);
+    }
+    .sws-modal-score .score-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+    }
+    .sws-modal-section {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid #1a2233;
+    }
+    .sws-modal-section h4 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin: 0 0 10px 0;
+      font-weight: 500;
+    }
+    .sws-modal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+    .sws-stat-cell {
+      padding: 9px 11px;
+      background: #0e1422;
+      border: 1px solid #1a2233;
+      border-radius: 6px;
+    }
+    .sws-stat-cell .stat-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .sws-stat-cell .stat-value {
+      font-size: 14px;
+      color: var(--text-primary);
+      margin-top: 3px;
+    }
+    .sws-modal-twocol {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 720px) {
+      .sws-modal-twocol { grid-template-columns: 1fr; }
+    }
+    .sws-bullet-list { list-style: none; padding: 0; margin: 0; }
+    .sws-bullet-list li {
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--text-primary);
+      padding: 6px 8px;
+      background: #0e1422;
+      border-left: 3px solid #2a3550;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 6px;
+    }
+    .sws-bullet-list.rewards li { border-left-color: var(--green, #22c55e); }
+    .sws-bullet-list.risks li { border-left-color: var(--red, #ef4444); }
+    .sws-modal-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      margin-bottom: 5px;
+    }
+    .sws-modal-bar .bar-label {
+      flex: 0 0 130px;
+      color: var(--text-muted);
+    }
+    .sws-modal-bar .bar-track {
+      flex: 1;
+      height: 8px;
+      background: #1a2233;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+    .sws-modal-bar .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4a90e2, #5cb85c);
+      border-radius: 4px;
+    }
+    .sws-modal-bar .bar-fill.negative { background: linear-gradient(90deg, #ef4444, #ff7a7a); }
+    .sws-modal-bar .bar-value {
+      flex: 0 0 50px;
+      text-align: right;
+      color: var(--text-primary);
+      font-variant-numeric: tabular-nums;
+    }
+    .sws-surveillance-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      text-transform: uppercase;
+      margin-left: 8px;
+    }
+    .sws-freshness-pill {
+      display: inline-block;
+      font-size: 9px;
+      color: var(--text-muted);
+      padding: 1px 6px;
+      border-radius: 8px;
+      background: #0e1422;
+      border: 1px solid #1a2233;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .sws-freshness-pill.stale { color: #fca5a5; border-color: rgba(239, 68, 68, 0.3); }
+
+    /* Make the SWS pick cards clickable — visual affordance */
+    .sws-pick-card { cursor: pointer; transition: border-color 0.12s, transform 0.12s; }
+    .sws-pick-card:hover { border-color: #2f4068 !important; transform: translateY(-1px); }
+    .sws-pick-card:focus-visible { outline: 2px solid var(--cyan, #4a90e2); outline-offset: 2px; }
+
 
     /* Intraday/Midterm info cards */
     .info-row {
@@ -2380,6 +2565,7 @@
       <button class="tab" role="tab" aria-selected="false" onclick="switchTab('sme')">Small-Cap Scanner</button>
       <button class="tab" role="tab" aria-selected="false" onclick="switchTab('track')">Track Record</button>
       <button class="tab" role="tab" aria-selected="false" onclick="switchTab('analyzer')">Portfolio Analyzer</button>
+      <button class="tab" role="tab" aria-selected="false" onclick="switchTab('picks')">SWS Picks</button>
     </div>
 
     <!-- Dashboard (Scanner Tab) -->
@@ -2531,32 +2717,6 @@
               <div class="skeleton-card"><div class="skeleton-bar tall"></div><div class="skeleton-bar med"></div><div class="skeleton-bar"></div><div class="skeleton-bar short"></div></div>
               <div class="skeleton-card"><div class="skeleton-bar tall"></div><div class="skeleton-bar med"></div><div class="skeleton-bar"></div><div class="skeleton-bar short"></div></div>
               <div class="skeleton-card"><div class="skeleton-bar tall"></div><div class="skeleton-bar med"></div><div class="skeleton-bar"></div><div class="skeleton-bar short"></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Volume Breakout Section -->
-      <div class="dashboard-section collapsed" id="volumeSection">
-        <div class="section-header" onclick="toggleSection(this)">
-          <div class="section-header-left">
-            <div class="section-accent volume"></div>
-            <div class="section-icon volume"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 17V9"/><path d="M13 17V5"/><path d="M18 17v-3"/></svg></div>
-            <div>
-              <div class="section-name">Volume Breakout Stocks <span class="section-chevron">&#9660;</span></div>
-              <div class="section-desc">Stocks trading at above-average volume — institutional footprints.</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span class="section-badge volume">VOLUME SPIKE</span>
-            <span style="font-size:11px;color:var(--text-muted);" id="volumeElapsed"></span>
-          </div>
-        </div>
-        <div class="section-body">
-          <div id="volumeCards" class="stock-cards">
-            <div class="loading">
-              <div class="loading-spinner"></div>
-              <div class="loading-text">Scanning for volume breakouts...</div>
             </div>
           </div>
         </div>
@@ -3052,18 +3212,42 @@
         </div>
       </div>
     </div>
+
+    <!-- SWS Picks Tab — categorised buy-list driven by Simply Wall Street deep-scrape -->
+    <div id="picksTab" style="display:none; padding-top:20px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
+        <div>
+          <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">SWS Picks</h2>
+          <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Categorised buy-list — every data point scraped fresh from Simply Wall Street (overview + 7 sub-tabs per stock). Click any card for full detail.</p>
+          <p id="picksMeta" style="font-size:11px; color:var(--text-muted); margin-top:6px;">Loading…</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <button class="refresh-btn" onclick="triggerSwsRefresh('quick')" title="~5 hr · refreshes overview only for all stocks">Quick refresh</button>
+          <button class="refresh-btn" onclick="triggerSwsRefresh('earnings')" title="~15 min · only stocks with earnings in next 14 days">Earnings refresh</button>
+          <button class="refresh-btn" onclick="triggerSwsRefresh('full')" title="~3 days · full deep refresh of all 8 sub-tabs for every stock">Full refresh</button>
+          <button class="refresh-btn" onclick="downloadSwsPdf()" title="Top 50 picks as PDF">Download PDF</button>
+        </div>
+      </div>
+
+      <div id="picksStatusBanner" style="display:none; padding:12px 16px; border-radius:6px; margin-bottom:16px;"></div>
+
+      <div id="picksContainer">
+        <div class="loading">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">Loading picks…</div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Disclaimer -->
-  <div class="disclaimer">
-    <strong>Disclaimer:</strong> StarBhai is for educational and informational purposes only. This is NOT financial advice and StarBhai is NOT a SEBI-registered investment advisor. Always do your own research and consult a SEBI-registered financial advisor before making investment decisions. Past performance does not indicate future results. Trading in stocks involves significant risk of loss.
-    <br><br>
-    <strong>Data &amp; Methodology:</strong>
-    Quote data sourced from NSE India (primary) and Yahoo Finance (fallback) — may be delayed up to 15 minutes.
-    Recommendations blend technical indicators (RSI, MACD, Bollinger Bands, Stochastic, trend alignment, OBV, volume, ROC, candlestick patterns) with a nine-dimension fundamental model spanning valuation (P/E vs sector median, absolute P/E, 52-week position), profitability (return on equity, net profit margin), financial health (debt-to-equity), growth (YoY revenue growth), and trend context (price vs 200-DMA, market-cap tier), and AI-classified news sentiment. The Buy Now scanner weights technicals and fundamentals equally at 50% each.
-    Macro regime classification uses an AI language model (GPT-5.4) applied to trusted news headlines — this is machine-inferred interpretation, not official RBI/SEBI policy determination.
-    Track Record shows forward returns from snapshot date and may differ from actual trading results due to slippage, timing, and market impact.
-    The "beats Nifty" metric compares individual pick returns against the Nifty 50 index over the same holding period — it is not a guarantee of outperformance.
+  <!-- SWS stock detail modal — populated by openSwsModal(ticker) -->
+  <div id="swsModalBackdrop" class="sws-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="swsModalTitle" onclick="if(event.target===this)closeSwsModal()">
+    <div class="sws-modal">
+      <button class="sws-modal-close" onclick="closeSwsModal()" aria-label="Close detail">×</button>
+      <div class="sws-modal-body" id="swsModalBody">
+        <!-- Filled by renderSwsModal() -->
+      </div>
+    </div>
   </div>
 
   <!-- Shared glossary tooltip element — positioned dynamically by JS -->

@@ -41,3 +41,25 @@ shadow-diff-*.json
 # Scratch/test scripts at repo root (kept local, not shipped)
 test-*.mjs
 test-*.js
+
+# SWS Playwright driver — single browser profile + transient pipeline state
+.sws-profile/
+.sws-profile-*/
+data/sws/captures/
+data/sws/active-shards.lock
+data/sws/active-shards.lock.tmp.*
+data/sws/pipeline.lock
+data/sws/pipeline-status.json
+data/sws/pipeline-status.json.tmp.*
+data/sws/playwright-comparison/
+data/sws/progress-*.json
+data/sws/scan-*.lock
+data/sws/refresh*.log
+data/sws/scrape-universe-progress.json
+data/sws/universe.json.pre-sitemap-backup
+data/sws/universe-from-sitemap.json
+data/sws/universe-sitemap-dropped.json
+data/sws/universe_scraped.json
+data/sws/refresh-requested.json
+data/sws/panic-stop.flag
+data/sws/picks-latest.json.tmp.*
