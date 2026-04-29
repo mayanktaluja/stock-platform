@@ -28,6 +28,7 @@ import { computeRecommendationV2 } from "./swsConvictionEngine.js";
 import { isV1Only, isV2Primary, RECOMMENDER_MODE } from "./swsRecommenderMode.js";
 import { findPeerSubstitutes } from "./swsPeerLayer.js";
 import { buildFallbackHolding } from "./swsCoverageFallback.js";
+import { buildAuditTrail } from "./swsAuditTrail.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEEP_DIR = path.resolve(__dirname, "..", "data", "sws", "deep");
@@ -504,5 +505,10 @@ export function scoreHolding(holding, portfolioContext = {}) {
     action: finalAction,
     reasons: finalReasons,
     timing,
+    audit: buildAuditTrail({
+      holding: { ...holding, sws: { ticker: scored.ticker, snowflake: snow, fair_value_inr: reconciled.fair_value_inr, crosscheck, catalyst, indianRisk, peer_substitute: { top_peer: null }, v2_recommendation: v2recommendation, v3_score: num(scored.v3_score_100, null), v3_verdict: scored.v3_verdict }, action: finalAction },
+      scored,
+      recommenderMode: RECOMMENDER_MODE,
+    }),
   };
 }
