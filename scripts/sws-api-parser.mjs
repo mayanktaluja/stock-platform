@@ -52,7 +52,13 @@ function extractSnowflake(api) {
     past: score.past ?? 0,
     financial_health: score.health ?? 0,
     dividends: score.dividend ?? 0,
-    // Aliases kept for any downstream code that reads the SWS-native names:
+    // Long-form aliases — the public/app.js modal reads future_growth /
+    // past_performance directly. Without these aliases, the Snowflake hex
+    // and pillar list rendered those two cells as "—/6" even though the
+    // data was present under the short-form names.
+    future_growth: score.future ?? 0,
+    past_performance: score.past ?? 0,
+    // SWS-native short names — kept for any downstream code that reads them.
     value: score.value ?? 0,
     health: score.health ?? 0,
     dividend: score.dividend ?? 0,
@@ -134,16 +140,43 @@ function extractReturnsPct(api) {
 }
 
 function extractMarketCap(api) {
-  // Best source: getCompanyPeers.Company.analysisValue.marketCap (in reporting
-  // currency, full integer e.g. 12159091510843 for HDFCBANK = ₹12.16 lakh cr).
-  // Alias at CompanyNarrativesWithHistogram.narratives.edges[0].node.company.analysisValue.marketCap.
-  const peers = api?.graphql?.getCompanyPeers?.Company;
-  const fromPeers = peers?.analysisValue?.marketCap;
-  if (typeof fromPeers === "number" && fromPeers > 0) return fromPeers;
+  // Per-stock market cap lives at .narratives.edges[0].node.company.data
+  // .marketCap.listing — the listing-level aggregate (shares × latest price).
+  //
+  // DO NOT use getCompanyPeers.Company.analysisValue.marketCap — that is a
+  // PEER-GROUP aggregate, not the stock's own mcap. An older parser comment
+  // claimed it was the right field after spot-checking HDFCBANK (whose peer
+  // aggregate happens to coincide with its own mcap); for every smid-cap the
+  // peer aggregate was hundreds of times too big. Verified empirically across
+  // HDFCBANK / RELIANCE / TCS / JSLL / MPSLTD / BLUEJET on 2026-04-29.
   const edges = api?.graphql?.CompanyNarrativesWithHistogram?.narratives?.edges || [];
   const node = edges[0]?.node;
-  const fromNarr = node?.company?.analysisValue?.marketCap;
-  if (typeof fromNarr === "number" && fromNarr > 0) return fromNarr;
+  const listing = node?.company?.data?.marketCap?.listing;
+  if (typeof listing === "number" && listing > 0) return listing;
+  // Fallback 1: shares_outstanding from the same narrative × lastSharePrice.
+  const sharesNarr = node?.company?.data?.marketCap?.shares_outstanding;
+  const price = api?.graphql?.CompanyNarrativesWithHistogram?.company?.analysisValue?.lastSharePrice
+    || extractCurrentPrice(api);
+  if (typeof sharesNarr === "number" && sharesNarr > 0 && typeof price === "number" && price > 0) {
+    return sharesNarr * price;
+  }
+  // Fallback 2: derive total shares from any ownership row (rest.ownership.data)
+  // that has both shares_held and percent_of_shares_outstanding > 0. The
+  // largest holder gives the best numerical precision (largest numerator),
+  // but any row works mathematically: total = held / (pct / 100). Most
+  // narrative-light stocks (IMFA, SHAILY, ITC etc.) hit this fallback —
+  // ownership data is populated for the whole NSE/BSE universe.
+  const ownership = api?.rest?.ownership?.data;
+  if (Array.isArray(ownership) && typeof price === "number" && price > 0) {
+    for (const row of ownership) {
+      const held = row?.shares_held;
+      const pct = row?.percent_of_shares_outstanding;
+      if (typeof held === "number" && held > 0 && typeof pct === "number" && pct > 0) {
+        const totalShares = held / (pct / 100);
+        return totalShares * price;
+      }
+    }
+  }
   return null;
 }
 

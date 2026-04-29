@@ -310,49 +310,81 @@ export function computeV3Score(stock, opts = {}) {
 }
 
 // ---------- Category filters ----------
+//
+// Categorisation is v3-aware: gates use stock.v3_verdict and the snowflake
+// future-growth / health pillars rather than v1's verdict labels and the
+// forward-earnings-growth field (which is null for ~98% of the universe
+// because the SWS API capture has no forecast years).
+//
+// Categories that depend on data the parser doesn't currently populate
+// (insider_buying → ownership.insider_activity, upcoming_earnings →
+// overview.next_earnings_date) are kept as no-ops here — the UI auto-hides
+// empty sections, and re-enabling them is a data-collection task, not a
+// scoring change.
 
 export function categoriseStock(stock) {
   const ov = stock.overview || {};
-  const score = stock.composite_score_100 || 0;
-  const verdict = stock.verdict;
+  const sn = ov.snowflake || {};
+  const v3Verdict = stock.v3_verdict || "WATCH";
+  const upsideRaw = num(ov.upside_pct, null);
+  const upside = upsideRaw != null ? upsideRaw : 0;
+  const hasUpside = upsideRaw != null;
+  const ret1y = num((ov.returns_pct || {})["1Y"], null);
+  const ret3m = num((ov.returns_pct || {})["3M"], null);
+  const valSnow = num(sn.valuation ?? sn.value, 0);
+  const futureSnow = num(sn.future ?? sn.future_growth, 0);
+  const healthSnow = num(sn.financial_health ?? sn.health, 0);
+  const divSnow = num(sn.dividends ?? sn.dividend, 0);
   const snowTotal = num(ov.snowflake_total, 0);
-  const upside = num(ov.upside_pct, 0);
-  const ret1y = num((ov.returns_pct || {})["1Y"], -100);
-  const ret5y = num((ov.returns_pct || {})["5Y"], 0);
-  const epsGrowth5y = (() => {
-    for (const r of (ov.rewards || [])) {
-      const m = String(r).match(/grown? ([\d.]+)\s*%\s*per year over the past 5 years/i);
-      if (m) return Number(m[1]);
-    }
-    return null;
-  })();
-  const fwdGrowth = num(stock.forward_growth_used_pct, 0);
-  const risks = (ov.risks || []).length;
-  const divYield = num(ov.dividend && ov.dividend.yield_pct, 0);
-  const divPayout = num(ov.dividend && ov.dividend.payout_pct, 100);
-  const divSnow = num((ov.snowflake || {}).dividends, 0);
-  const valSnow = num((ov.snowflake || {}).valuation, 0);
-  const healthSnow = num((ov.snowflake || {}).financial_health, 0);
+  const divYield = num(ov.dividend?.yield_pct, 0);
+  const divPayout = num(ov.dividend?.payout_pct, 100);
   const mcap = num(ov.market_cap_inr, 0);
+  const risks = (ov.risks || []).length;
   const insiderBuys = (ov.insider_activity || []).filter((x) => x.direction === "buy").length;
   const nextEarnings = ov.next_earnings_date;
 
   const cats = [];
 
-  // Note: "Best Stocks to Buy Now" is computed in a second pass globally (top 25 by score)
-  if (verdict === "DEEP_VALUE" && valSnow >= 4 && upside >= 20) cats.push("deep_value");
-  if (["DEEP_VALUE", "QUALITY_GROWTH"].includes(verdict) && healthSnow >= 5 && (epsGrowth5y == null ? ret5y > 0 : epsGrowth5y > 0)) {
+  // Deep value: top-tier v3 + cheap valuation pillar + meaningful upside.
+  if (v3Verdict === "TOP_PICK" && valSnow >= 4 && hasUpside && upside >= 20) {
+    cats.push("deep_value");
+  }
+
+  // Quality growth: strong/top v3 + balance-sheet health + future-growth signal.
+  // futureSnow ≥ 4 stands in for the historical "5Y EPS growth" requirement —
+  // it's the SWS analyst-derived future-growth pillar, populated for 99% of
+  // the universe (vs <14% for the rewards-text regex this used to use).
+  if (["TOP_PICK", "STRONG"].includes(v3Verdict) && healthSnow >= 5 && futureSnow >= 4) {
     cats.push("quality_growth");
   }
-  if (ret1y > 0 && upside >= 15 && risks === 0 && fwdGrowth >= 8) cats.push("midterm");
+
+  // Midterm: acceptable+ v3 + positive 1Y or 3M momentum + meaningful upside.
+  // Replaces the old fwdGrowth ≥ 8 requirement (forward earnings growth is
+  // ~2% covered) with the future-growth pillar at ≥3.
+  const positiveMomentum = (ret1y != null && ret1y > 0) || (ret3m != null && ret3m > 5);
+  if (["TOP_PICK", "STRONG", "ACCEPTABLE"].includes(v3Verdict) && positiveMomentum && hasUpside && upside >= 15 && futureSnow >= 3) {
+    cats.push("midterm");
+  }
+
+  // Dividend aristocrats: SWS dividend pillar + sustainable payout + real yield.
   if (divSnow >= 5 && divPayout < 70 && divYield >= 1.5) cats.push("dividend_aristocrats");
-  if (mcap > 0 && mcap < 5e11 && snowTotal >= 22 && upside >= 15) cats.push("smallcap_gems");
+
+  // Smallcap gems: market cap < ₹50,000cr + strong snowflake + meaningful upside.
+  if (mcap > 0 && mcap < 5e11 && snowTotal >= 22 && hasUpside && upside >= 15) {
+    cats.push("smallcap_gems");
+  }
+
+  // Insider buying — kept gated; data field is not currently populated.
   if (insiderBuys >= 1) cats.push("insider_buying");
+
+  // Upcoming earnings — kept gated; next_earnings_date is not currently populated.
   if (nextEarnings) {
     const days = Math.ceil((new Date(nextEarnings + "T00:00:00Z") - new Date()) / 86400000);
     if (days >= 0 && days <= 30) cats.push("upcoming_earnings");
   }
-  if (snowTotal < 12 && risks >= 3) cats.push("avoid");
+
+  // Avoid: v3 says AVOID, OR rare structural-weak fingerprint.
+  if (v3Verdict === "AVOID" || (snowTotal < 12 && risks >= 3)) cats.push("avoid");
 
   return cats;
 }
@@ -369,7 +401,6 @@ export function scoreStock(stock, opts = {}) {
   stock.score_breakdown = sc.breakdown;
   stock.forward_growth_used_pct = sc.forward_growth_used_pct;
   stock.verdict = verdictFromScore(sc.composite_score_100);
-  stock.categories = categoriseStock(stock);
   // v2 layered on top — needs v1 score in place first.
   const v2 = computeV2Score(stock);
   stock.v2_score_100 = v2.v2_score_100;
@@ -379,17 +410,23 @@ export function scoreStock(stock, opts = {}) {
   stock.v3_score_100 = v3.v3_score_100;
   stock.v3_breakdown = v3.v3_breakdown;
   stock.v3_verdict = verdictV3FromScore(v3.v3_score_100);
+  // Categorise AFTER v3 — categories key off v3_verdict (deep_value /
+  // quality_growth / midterm / avoid all switched to v3 logic).
+  stock.categories = categoriseStock(stock);
   return stock;
 }
 
 // ---------- Build leaderboard for picks-latest.json ----------
 
-function shortReason(stock) {
+function shortReason(stock, reconciled = null) {
   const ov = stock.overview || {};
   const bits = [];
   const pe = ov.multiples && ov.multiples.pe;
   if (pe != null) bits.push(`P/E ${pe.toFixed(1)}x`);
-  if (ov.upside_pct != null) bits.push(`${ov.upside_pct > 0 ? "+" : ""}${ov.upside_pct.toFixed(1)}% to fair value`);
+  // Use reconciled upside (null when SWS shipped a junk FV) so the row
+  // doesn't read "+1316% to fair value" alongside a "FV —" cell.
+  const upside = reconciled ? reconciled.upside_pct : ov.upside_pct;
+  if (upside != null) bits.push(`${upside > 0 ? "+" : ""}${upside.toFixed(1)}% to fair value`);
   const dY = ov.dividend && ov.dividend.yield_pct;
   if (dY != null && dY >= 1.5) bits.push(`${dY.toFixed(1)}% div`);
   const sn = ov.snowflake_total;
@@ -397,8 +434,45 @@ function shortReason(stock) {
   return bits.slice(0, 4).join(" · ");
 }
 
+// Sanitize fair-value / upside_pct on the leaderboard card. Mirrors the
+// holding-engine logic in services/swsHoldingEngine.js::_reconcileFVUpside —
+// raw SWS data sometimes ships an FV that's >10× or <0.1× the current price
+// (scraper artefact / placeholder), or an upside_pct in junk territory like
+// -3671% / +1316%. Without this guard the Avoid list would surface "FV ₹442
+// vs ₹31, +1316% upside" rows that are visually loud and informationally
+// useless.
+function _reconcilePickFV(ov) {
+  const price = num(ov?.current_price_inr, null);
+  const rawFv = num(ov?.fair_value_inr, null);
+  const rawUp = num(ov?.upside_pct, null);
+  // Leaderboard inSaneRange is tighter than the holding engine's: deep-value
+  // calls cluster in the +30–100% band, so anything above +400% is almost
+  // certainly a scraper artefact bleeding into a public-facing card.
+  const inSaneRange = (v) => v != null && Number.isFinite(v) && v >= -90 && v <= 400;
+  if (price != null && price > 0 && rawFv != null && rawFv > 0) {
+    const ratio = rawFv / price;
+    // 0.2 / 5 → upside band [-80%, +400%]. A stock fairly valued at 5× the
+    // current price is exceptionally rare; in SWS scrapes it's almost always
+    // a placeholder/junk value. Holding engine keeps a wider 0.1 / 10 gate
+    // because portfolio context is different (user already owns the stock).
+    if (ratio >= 0.2 && ratio <= 5) {
+      const computed = ((rawFv - price) / price) * 100;
+      if (Math.abs(computed) <= 1 && inSaneRange(rawUp)) {
+        return { upside_pct: Math.round(rawUp * 10) / 10, fair_value_inr: rawFv };
+      }
+      return { upside_pct: Math.round(computed * 10) / 10, fair_value_inr: rawFv };
+    }
+    return { upside_pct: null, fair_value_inr: null };
+  }
+  return {
+    upside_pct: inSaneRange(rawUp) ? Math.round(rawUp * 10) / 10 : null,
+    fair_value_inr: rawFv,
+  };
+}
+
 function pickCardFields(stock) {
   const ov = stock.overview || {};
+  const reconciled = _reconcilePickFV(ov);
   return {
     ticker: stock.ticker,
     name: stock.name || stock.ticker,
@@ -417,12 +491,12 @@ function pickCardFields(stock) {
     snowflake_total: ov.snowflake_total,
     snowflake: ov.snowflake,
     current_price_inr: ov.current_price_inr,
-    fair_value_inr: ov.fair_value_inr,
-    upside_pct: ov.upside_pct,
+    fair_value_inr: reconciled.fair_value_inr,
+    upside_pct: reconciled.upside_pct,
     market_cap_inr: ov.market_cap_inr,
     next_earnings_date: ov.next_earnings_date,
     last_quarter_result: ov.last_quarter_result,
-    one_line: shortReason(stock),
+    one_line: shortReason(stock, reconciled),
     data_freshness_at: stock.parsed_at || null,
   };
 }

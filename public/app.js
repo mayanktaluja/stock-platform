@@ -6281,14 +6281,14 @@ function renderAnalyzerDisclaimer(report) {
 const PICKS_SECTIONS = [
   { key: "top_ranked_30_v3", label: "⭐ Top 30 — Multi-Factor Score", subtitle: "Ranked by v3 composite (74 fundamentals · 14 momentum · ±15 safety overlay). 50%-coverage gated — every input has data for ≥50% of the universe. Mcap ≥ ₹500cr. Click any card for the full picture." },
   { key: "best_to_buy_now", label: "🎯 Best Stocks to Buy Now", subtitle: "Top by composite score, no major risks, snowflake ≥ 18/30" },
-  { key: "deep_value", label: "💎 Deep Value", subtitle: "DEEP_VALUE verdict + SWS Valuation ≥ 4/6 + analyst upside ≥ 20%" },
-  { key: "quality_growth", label: "🌱 Quality Growth", subtitle: "Strong balance sheet + 5Y earnings growth + SWS Health ≥ 5/6" },
-  { key: "midterm", label: "⚡ Midterm Picks (3-12 months)", subtitle: "Positive 1Y momentum + analyst upside ≥ 15% + forward growth ≥ 8%" },
-  { key: "dividend_aristocrats", label: "💰 Dividend Aristocrats", subtitle: "SWS Dividend ≥ 5/6 + payout < 70% + yield ≥ 1.5%" },
-  { key: "smallcap_gems", label: "🔍 Smallcap/Midcap Hidden Gems", subtitle: "Market cap < ₹500B + snowflake ≥ 22/30 + analyst upside ≥ 15%" },
-  { key: "insider_buying", label: "👁 Insider Buying", subtitle: "Material insider/MD buy in last 90 days" },
-  { key: "upcoming_earnings", label: "📅 Upcoming Earnings (next 30 days)", subtitle: "Sorted by date — catalysts that could move price" },
-  { key: "avoid", label: "⚠ Avoid List", subtitle: "Snowflake < 12/30 + ≥ 3 risks flagged" },
+  { key: "deep_value", label: "💎 Deep Value", subtitle: "v3 TOP_PICK + SWS Valuation pillar ≥ 4/6 + AnalystConsensus upside ≥ 20%" },
+  { key: "quality_growth", label: "🌱 Quality Growth", subtitle: "v3 TOP_PICK or STRONG + Health ≥ 5/6 + Future-Growth pillar ≥ 4/6" },
+  { key: "midterm", label: "⚡ Midterm Picks (3-12 months)", subtitle: "v3 ≥ ACCEPTABLE + positive 1Y or 3M momentum + upside ≥ 15% + Future-Growth ≥ 3/6" },
+  { key: "dividend_aristocrats", label: "💰 Dividend Aristocrats", subtitle: "SWS Dividend pillar ≥ 5/6 + payout < 70% + trailing yield ≥ 1.5%" },
+  { key: "smallcap_gems", label: "🔍 Smallcap/Midcap Hidden Gems", subtitle: "Market cap < ₹50,000cr + snowflake ≥ 22/30 + AnalystConsensus upside ≥ 15%" },
+  { key: "insider_buying", label: "👁 Insider Buying", subtitle: "Material insider/MD buy in last 90 days (data not yet captured)" },
+  { key: "upcoming_earnings", label: "📅 Upcoming Earnings (next 30 days)", subtitle: "Sorted by date — catalysts that could move price (data not yet captured)" },
+  { key: "avoid", label: "⚠ Avoid List", subtitle: "v3 AVOID verdict (score < 22) — bottom-quartile fundamentals + momentum profile" },
 ];
 
 // Per-section soft cap on cards displayed inline. The Top-30 section gets
