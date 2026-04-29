@@ -123,6 +123,131 @@ export function computeV2Score(stock, opts = {}) {
   };
 }
 
+// ---------- v3 score: 50%-coverage-gated scorecard ----------
+// Mirror of scripts/sws-scoring.mjs::computeV3Score. Kept in sync so that the
+// runFullScoring pipeline and the live holding engine produce identical
+// scores for the same stock. See the source file for the full design notes.
+
+export function buildUniverseStats(stocks) {
+  const r1m = [], r3m = [], r1y = [];
+  for (const s of stocks) {
+    const r = s?.overview?.returns_pct || {};
+    if (typeof r["1M"] === "number" && Number.isFinite(r["1M"])) r1m.push(r["1M"]);
+    if (typeof r["3M"] === "number" && Number.isFinite(r["3M"])) r3m.push(r["3M"]);
+    if (typeof r["1Y"] === "number" && Number.isFinite(r["1Y"])) r1y.push(r["1Y"]);
+  }
+  r1m.sort((a, b) => a - b);
+  r3m.sort((a, b) => a - b);
+  r1y.sort((a, b) => a - b);
+  return { r1m, r3m, r1y };
+}
+
+function _percentileRank(value, sorted) {
+  if (value == null || !Number.isFinite(value) || !sorted?.length) return null;
+  let lo = 0, hi = sorted.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >>> 1;
+    if (sorted[mid] < value) lo = mid + 1;
+    else hi = mid;
+  }
+  return lo / sorted.length;
+}
+
+export function computeV3Score(stock, opts = {}) {
+  const ov = stock.overview || {};
+  const snow = ov.snowflake || {};
+  const universe = opts.universe || null;
+  const surveillance = opts.surveillanceFlag ?? _getSurveillanceFlag(stock.ticker);
+
+  const v_health = num(snow.financial_health ?? snow.health, 0);
+  const v_future = num(snow.future ?? snow.future_growth, 0);
+  const v_valuation = num(snow.valuation ?? snow.value, 0);
+  const v_past = num(snow.past ?? snow.past_performance, 0);
+  const v_dividends = num(snow.dividends ?? snow.dividend, 0);
+  const pts_health = (v_health / 6) * 22;
+  const pts_future = (v_future / 6) * 20;
+  const pts_valuation = (v_valuation / 6) * 12;
+  const pts_past = (v_past / 6) * 12;
+  const pts_dividends = (v_dividends / 6) * 8;
+
+  const upside = num(ov.upside_pct, null);
+  let pts_fv_upside;
+  let fv_imputed = false;
+  if (upside == null) { pts_fv_upside = 6; fv_imputed = true; }
+  else if (upside >= 30) pts_fv_upside = 12;
+  else if (upside >= 15) pts_fv_upside = 9;
+  else if (upside >= 0) pts_fv_upside = 6;
+  else if (upside >= -10) pts_fv_upside = 3;
+  else pts_fv_upside = 0;
+
+  const r = ov.returns_pct || {};
+  const ret1y = num(r["1Y"], null);
+  const ret3m = num(r["3M"], null);
+  const ret1m = num(r["1M"], null);
+  const pct1y = universe ? _percentileRank(ret1y, universe.r1y) : null;
+  const pct3m = universe ? _percentileRank(ret3m, universe.r3m) : null;
+  const pct1m = universe ? _percentileRank(ret1m, universe.r1m) : null;
+  const pts_mom_1y = (pct1y ?? 0.5) * 8;
+  const pts_mom_3m = (pct3m ?? 0.5) * 4;
+  const pts_mom_1m = (pct1m ?? 0.5) * 2;
+  const momentum_imputed = !universe || pct1y == null || pct3m == null || pct1m == null;
+
+  const continuous = pts_health + pts_future + pts_valuation + pts_past + pts_dividends
+    + pts_fv_upside + pts_mom_1y + pts_mom_3m + pts_mom_1m;
+
+  let pts_overlay = 0;
+  const overlay_reasons = [];
+  if (surveillance) {
+    if (surveillance.list === "GSM") {
+      pts_overlay -= 15;
+      overlay_reasons.push("GSM surveillance");
+    } else if (surveillance.list === "ASM") {
+      const drop = surveillance.timeframe === "shortterm" ? 12 : 10;
+      pts_overlay -= drop;
+      overlay_reasons.push(`ASM surveillance (${surveillance.timeframe || "longterm"})`);
+    }
+  }
+  if (ret1m != null && ret1m < -25 && v_health <= 2) {
+    pts_overlay -= 5;
+    overlay_reasons.push(`Falling knife: 1M ${ret1m.toFixed(1)}% with health ${v_health}/6`);
+  }
+  if (ret1m != null && ret1m > 30 && v_valuation <= 2) {
+    pts_overlay -= 3;
+    overlay_reasons.push(`Catalyst chase: 1M +${ret1m.toFixed(1)}% with valuation ${v_valuation}/6`);
+  }
+  pts_overlay = clamp(pts_overlay, -15, 0);
+
+  const v3_score_100 = clamp(Math.round((continuous + pts_overlay) * 10) / 10, 0, 100);
+
+  return {
+    v3_score_100,
+    v3_breakdown: {
+      pts_health: Math.round(pts_health * 10) / 10,
+      pts_future: Math.round(pts_future * 10) / 10,
+      pts_valuation: Math.round(pts_valuation * 10) / 10,
+      pts_past: Math.round(pts_past * 10) / 10,
+      pts_dividends: Math.round(pts_dividends * 10) / 10,
+      pts_fv_upside,
+      fv_imputed,
+      pts_mom_1y: Math.round(pts_mom_1y * 10) / 10,
+      pts_mom_3m: Math.round(pts_mom_3m * 10) / 10,
+      pts_mom_1m: Math.round(pts_mom_1m * 10) / 10,
+      momentum_imputed,
+      pts_overlay,
+      overlay_reasons,
+      surveillance: surveillance ? { list: surveillance.list, timeframe: surveillance.timeframe } : null,
+    },
+  };
+}
+
+export function verdictV3FromScore(score) {
+  if (score >= 60) return "TOP_PICK";
+  if (score >= 45) return "STRONG";
+  if (score >= 30) return "ACCEPTABLE";
+  if (score >= 22) return "WATCH";
+  return "AVOID";
+}
+
 export function categoriseStock(stock) {
   const ov = stock.overview || {};
   const verdict = stock.verdict;
@@ -167,7 +292,7 @@ export function categoriseStock(stock) {
   return cats;
 }
 
-export function scoreStock(stock) {
+export function scoreStock(stock, opts = {}) {
   const sc = computeCompositeScore(stock);
   stock.composite_score_100 = sc.composite_score_100;
   stock.score_breakdown = sc.breakdown;
@@ -177,6 +302,14 @@ export function scoreStock(stock) {
   const v2 = computeV2Score(stock);
   stock.v2_score_100 = v2.v2_score_100;
   stock.v2_breakdown = v2.v2_breakdown;
+  // v3 — primary score for the live action engine. opts.universe must be
+  // provided (loaded via swsHoldingEngine._loadV3Universe) for calibrated
+  // momentum percentiles; without it, momentum points neutral-impute and
+  // breakdown.momentum_imputed = true.
+  const v3 = computeV3Score(stock, opts);
+  stock.v3_score_100 = v3.v3_score_100;
+  stock.v3_breakdown = v3.v3_breakdown;
+  stock.v3_verdict = verdictV3FromScore(v3.v3_score_100);
   return stock;
 }
 
