@@ -408,6 +408,9 @@ function pickCardFields(stock) {
     v2_score: stock.v2_score_100,
     v2_breakdown: stock.v2_breakdown,
     v3_score: stock.v3_score_100,
+    // Alias kept so the UI's existing `card.v3_score_100` reader resolves —
+    // the leaderboard cards and the detail modal both look up this exact name.
+    v3_score_100: stock.v3_score_100,
     v3_breakdown: stock.v3_breakdown,
     v3_verdict: stock.v3_verdict,
     verdict: stock.verdict,

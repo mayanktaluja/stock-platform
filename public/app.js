@@ -6279,7 +6279,7 @@ function renderAnalyzerDisclaimer(report) {
 // best_to_buy_now follows (legacy curated cut). Per-category sections after.
 // Sections with zero items hide automatically — see renderPicks.
 const PICKS_SECTIONS = [
-  { key: "top_ranked_30", label: "⭐ Top 30 — Multi-Factor Score", subtitle: "Ranked by v2 composite (fundamentals + catalyst bonus + risk/surveillance overlay). Mcap ≥ ₹500cr. Click any card for the full picture." },
+  { key: "top_ranked_30_v3", label: "⭐ Top 30 — Multi-Factor Score", subtitle: "Ranked by v3 composite (74 fundamentals · 14 momentum · ±15 safety overlay). 50%-coverage gated — every input has data for ≥50% of the universe. Mcap ≥ ₹500cr. Click any card for the full picture." },
   { key: "best_to_buy_now", label: "🎯 Best Stocks to Buy Now", subtitle: "Top by composite score, no major risks, snowflake ≥ 18/30" },
   { key: "deep_value", label: "💎 Deep Value", subtitle: "DEEP_VALUE verdict + SWS Valuation ≥ 4/6 + analyst upside ≥ 20%" },
   { key: "quality_growth", label: "🌱 Quality Growth", subtitle: "Strong balance sheet + 5Y earnings growth + SWS Health ≥ 5/6" },
@@ -6296,7 +6296,7 @@ const PICKS_SECTIONS = [
 // earnings is the worst offender today (156 entries) — capping at 30 keeps
 // the page actionable.
 const PICKS_INLINE_CAP = {
-  top_ranked_30: 30,
+  top_ranked_30_v3: 30,
   upcoming_earnings: 30,
 };
 const PICKS_INLINE_DEFAULT_CAP = 12;
@@ -6352,7 +6352,7 @@ function renderPicks(data) {
     const cap = PICKS_INLINE_CAP[section.key] ?? PICKS_INLINE_DEFAULT_CAP;
     const sliced = items.slice(0, cap);
     const overflow = items.length > cap ? items.length - cap : 0;
-    const isHero = section.key === "top_ranked_30";
+    const isHero = section.key === "top_ranked_30_v3";
     html += `
       <div class="dashboard-section" style="margin-bottom:28px;${isHero ? "padding:18px 16px 4px;border:1px solid #1f2c45;border-radius:10px;background:linear-gradient(180deg, rgba(74,144,226,0.04), rgba(74,144,226,0));" : ""}">
         <div class="section-header" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;">
@@ -6373,15 +6373,16 @@ function renderPicks(data) {
   containerEl.innerHTML = html;
 }
 
-// Color band for the score number on the card. Same thresholds the verdict
-// uses, but applied to v2_score for the headline number — gives the reader
-// an instant visual cue ("is 71 good? — yes, gold").
+// Color band for the score number on the card. Mirrors v3 verdict tiers
+// (TOP_PICK ≥60 → gold, STRONG ≥45 → green, ACCEPTABLE ≥30 → cyan,
+// WATCH ≥22 → muted, AVOID < 22 → red) so a glance at the headline number
+// matches the verdict label below it.
 function pickScoreColor(score) {
   if (score == null) return "var(--text-muted)";
-  if (score >= 72) return "var(--gold, #f5c542)";
-  if (score >= 62) return "var(--green, #22c55e)";
-  if (score >= 48) return "var(--cyan, #4a90e2)";
-  if (score >= 40) return "var(--text-muted)";
+  if (score >= 60) return "var(--gold, #f5c542)";
+  if (score >= 45) return "var(--green, #22c55e)";
+  if (score >= 30) return "var(--cyan, #4a90e2)";
+  if (score >= 22) return "var(--text-muted)";
   return "var(--red, #ef4444)";
 }
 
@@ -6406,13 +6407,20 @@ function renderPickCard(s, sectionKey, rank = null) {
   const upside = s.upside_pct != null ? `${s.upside_pct > 0 ? "+" : ""}${s.upside_pct.toFixed(1)}%` : "—";
   const upsideColor = s.upside_pct == null ? "var(--text-muted)" : s.upside_pct >= 0 ? "var(--green)" : "var(--red)";
   const sn = s.snowflake_total ?? "—";
-  // Headline score: v3 (fund 70% + tech 30% + catalyst − risk) > v2 (no tech) > v1 (fundamentals).
-  // v3 is only present after sws-enrich-technicals.mjs has run for that ticker.
+  // Headline score: v3 (fundamentals 74 + momentum 14 + safety overlay −15) > v2 > v1.
+  // v3 is the primary score across the universe — the runFullScoring pipeline
+  // emits it for every stock alongside v1/v2 for backward-compat.
   const headlineRaw = s.v3_score_100 != null ? s.v3_score_100 : (s.v2_score != null ? s.v2_score : s.score);
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
   const scoreColor = pickScoreColor(headlineRaw);
-  const verdict = s.verdict || "—";
-  const verdictColor = { DEEP_VALUE: "var(--gold)", QUALITY_GROWTH: "var(--green)", FAIR_VALUE: "var(--cyan)", FULLY_VALUED: "var(--text-muted)", OVERVALUED: "var(--red)" }[verdict] || "var(--text-muted)";
+  // Prefer v3_verdict (TOP_PICK/STRONG/ACCEPTABLE/WATCH/AVOID) when v3 is the
+  // headline score; fall back to v1's verdict labels for stocks scored only
+  // under v1/v2.
+  const verdict = (s.v3_score_100 != null ? s.v3_verdict : s.verdict) || "—";
+  const verdictColor = {
+    TOP_PICK: "var(--gold)", STRONG: "var(--green)", ACCEPTABLE: "var(--cyan)", WATCH: "var(--text-muted)", AVOID: "var(--red)",
+    DEEP_VALUE: "var(--gold)", QUALITY_GROWTH: "var(--green)", FAIR_VALUE: "var(--cyan)", FULLY_VALUED: "var(--text-muted)", OVERVALUED: "var(--red)",
+  }[verdict] || "var(--text-muted)";
   const surv = s.v2_breakdown?.surveillance;
   const survBadge = surv ? `<span class="sws-surveillance-badge" title="NSE ${surv.list} surveillance flag (${surv.timeframe || "—"})">${surv.list}</span>` : "";
   const rankBadge = rank ? `<span style="font-size:10px;color:var(--text-muted);background:#0e1422;border:1px solid #1a2233;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums;flex-shrink:0;">${rank}</span>` : "";
@@ -6585,32 +6593,41 @@ function renderSwsModal(data) {
   const headlineRaw = card_.v3_score_100 != null ? card_.v3_score_100 : (card_.v2_score != null ? card_.v2_score : card_.score);
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
   const scoreColor = pickScoreColor(headlineRaw);
-  const scoreLabel = card_.v3_score_100 != null ? "v3 · blend" : (card_.v2_score != null ? "v2" : "score");
-  const verdict = card_.verdict || "—";
-  const verdictColor = { DEEP_VALUE: "var(--gold)", QUALITY_GROWTH: "var(--green)", FAIR_VALUE: "var(--cyan)", FULLY_VALUED: "var(--text-muted)", OVERVALUED: "var(--red)" }[verdict] || "var(--text-muted)";
+  const scoreLabel = card_.v3_score_100 != null ? "v3" : (card_.v2_score != null ? "v2" : "score");
+  const verdict = (card_.v3_score_100 != null ? card_.v3_verdict : card_.verdict) || "—";
+  const verdictColor = {
+    TOP_PICK: "var(--gold)", STRONG: "var(--green)", ACCEPTABLE: "var(--cyan)", WATCH: "var(--text-muted)", AVOID: "var(--red)",
+    DEEP_VALUE: "var(--gold)", QUALITY_GROWTH: "var(--green)", FAIR_VALUE: "var(--cyan)", FULLY_VALUED: "var(--text-muted)", OVERVALUED: "var(--red)",
+  }[verdict] || "var(--text-muted)";
   const survBadge = surveillance ? `<span class="sws-surveillance-badge" title="NSE ${surveillance.list} surveillance flag (${surveillance.timeframe || "—"})">${surveillance.list}</span>` : "";
   const fresh = pickFreshnessPill(deep && deep.parsed_at);
   const sn = ov.snowflake || {};
   const ret = ov.returns_pct || {};
   const mult = ov.multiples || {};
 
-  // Score breakdown bars — show v3 when available (with fund + tech components),
-  // v2 otherwise.
+  // Score breakdown bars — show v3 when available (3-bar fundamentals/
+  // momentum/safety split), v2 otherwise.
   const v2bd = card_.v2_breakdown || {};
   const v3bd = card_.v3_breakdown || null;
   const hasV3 = v3bd != null && card_.v3_score_100 != null;
   const barsHtml = (() => {
     if (headlineRaw == null) return "";
-    const items = hasV3 ? [
-      { label: "Fundamentals 70%", value: v3bd.fundamentals_component, max: 70, hint: "v1 SWS composite × 0.7 — snowflake + analyst upside + growth + margin + dividend + insider" },
-      { label: "Technicals 30%", value: v3bd.technical_component, max: 30, hint: "Live technical score (RSI, MACD, trend, 200-DMA) × 0.3 — fetched from /api/stock" },
-      { label: "Catalyst bonus", value: v3bd.pts_catalyst, max: 5, hint: "Earnings beat setup + insider buying + analyst upgrade" },
-      { label: "Risk overlay", value: v3bd.pts_risk_overlay, max: 0, min: -15, negative: true, hint: "ASM/GSM surveillance, high beta, multiple risk flags" },
-    ] : [
-      { label: "Fundamentals (v1)", value: v2bd.v1_fundamentals, max: 100, hint: "Snowflake + analyst upside + growth + margin + dividend + insider" },
-      { label: "Catalyst bonus", value: v2bd.pts_catalyst, max: 5, hint: "Earnings beat setup + insider buying + analyst upgrade" },
-      { label: "Risk overlay", value: v2bd.pts_risk_overlay, max: 0, min: -15, negative: true, hint: "ASM/GSM, high beta, multiple risk flags" },
-    ];
+    let items;
+    if (hasV3) {
+      const fundTotal = (v3bd.pts_health || 0) + (v3bd.pts_future || 0) + (v3bd.pts_valuation || 0) + (v3bd.pts_past || 0) + (v3bd.pts_dividends || 0) + (v3bd.pts_fv_upside || 0);
+      const momTotal = (v3bd.pts_mom_1y || 0) + (v3bd.pts_mom_3m || 0) + (v3bd.pts_mom_1m || 0);
+      items = [
+        { label: "Fundamentals 74", value: Math.round(fundTotal * 10) / 10, max: 74, hint: "5 SWS pillars (Health 22 · Future 20 · Valuation 12 · Past 12 · Dividends 8) + AnalystConsensus FV upside (12)" },
+        { label: "Momentum 14", value: Math.round(momTotal * 10) / 10, max: 14, hint: "Universe-percentile returns: 1Y (8) + 3M (4) + 1M (2)" },
+        { label: "Safety overlay", value: v3bd.pts_overlay, max: 0, min: -15, negative: true, hint: (v3bd.overlay_reasons || []).join(" · ") || "No surveillance / momentum-tail penalties triggered" },
+      ];
+    } else {
+      items = [
+        { label: "Fundamentals (v1)", value: v2bd.v1_fundamentals, max: 100, hint: "Snowflake + analyst upside + growth + margin + dividend + insider" },
+        { label: "Catalyst bonus", value: v2bd.pts_catalyst, max: 5, hint: "Earnings beat setup + insider buying + analyst upgrade" },
+        { label: "Risk overlay", value: v2bd.pts_risk_overlay, max: 0, min: -15, negative: true, hint: "ASM/GSM, high beta, multiple risk flags" },
+      ];
+    }
     return items.map((it) => {
       const v = it.value == null ? 0 : it.value;
       const pct = it.negative ? (Math.abs(v) / 15) * 100 : (v / it.max) * 100;
@@ -6743,8 +6760,8 @@ function renderSwsModal(data) {
       <h4>Score breakdown — ${hasV3 ? "v3 multi-factor blend" : "v2 fundamentals composite"} (out of 100)</h4>
       ${barsHtml}
       ${hasV3 ? `
-        <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v3 = fundamentals×0.7 + technicals×0.3 + catalyst (max +5) − risk overlay (max −15), clamped 0-100. Technical signal: <strong style="color:var(--text-primary);">${escapeHtml(v3bd.live_recommendation || "—")}</strong>.</div>
-        <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">Score evolution: <strong>v1</strong> ${card_.score?.toFixed(1) || "—"} (fund only) → <strong>v2</strong> ${card_.v2_score?.toFixed(1) || "—"} (+ catalyst/risk) → <strong>v3</strong> ${card_.v3_score_100.toFixed(1)} (+ technicals).</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v3 = 5 SWS pillars (74) + AnalystConsensus FV upside + universe-percentile momentum (14) − safety overlay (max −15). Only inputs with ≥50% universe coverage are scored; 30% of stocks lack a fair-value estimate and get a neutral 6/12 on FV upside (flagged as fv_imputed in the breakdown).</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">Score evolution: <strong>v1</strong> ${card_.score?.toFixed(1) || "—"} (fund only) → <strong>v2</strong> ${card_.v2_score?.toFixed(1) || "—"} (+ catalyst/risk) → <strong>v3</strong> ${card_.v3_score_100.toFixed(1)} (+ momentum, ≥50% coverage gate).</div>
       ` : `
         <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v2 = fundamentals (max 100) + catalyst (max +5) − risk overlay (max −15), clamped 0-100. Live technicals shown in the Live signals panel below.</div>
       `}
