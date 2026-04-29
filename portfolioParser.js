@@ -344,20 +344,27 @@ function parseGrowwXlsx(buffer) {
     );
   }
 
-  // Pull out the summary block above the header for useful metadata
+  // Pull out the summary block above the header for useful metadata.
+  //
+  // The "Holdings statement for stocks as on DD-MM-YYYY" row carries its
+  // date entirely in column A (col B is empty), so the !v == null
+  // early-continue must NOT block date extraction. Other rows pair a
+  // label in col A with a value in col B and need both populated.
   const summary = {};
   for (let i = 0; i < headerIdx; i++) {
     const row = rows[i] || [];
     const k = String(row[0] || "").toLowerCase();
     const v = row[1];
-    if (!k || v == null) continue;
+    if (!k) continue;
+    if (k.includes("holdings statement")) {
+      const m = /(\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})/.exec(String(row[0] || ""));
+      if (m) summary.asOfDate = m[1];
+      continue;
+    }
+    if (v == null) continue;
     if (k.includes("invested value")) summary.invested = toNumber(v);
     else if (k.includes("closing value")) summary.current = toNumber(v);
     else if (k.includes("unrealised")) summary.unrealisedPL = toNumber(v);
-    else if (k.includes("holdings statement")) {
-      const m = /(\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})/.exec(String(row[0] || ""));
-      if (m) summary.asOfDate = m[1];
-    }
   }
 
   const holdings = [];
