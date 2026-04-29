@@ -27,6 +27,7 @@ import { extractIndianRiskSignals } from "./swsIndianRiskLayer.js";
 import { computeRecommendationV2 } from "./swsConvictionEngine.js";
 import { isV1Only, isV2Primary, RECOMMENDER_MODE } from "./swsRecommenderMode.js";
 import { findPeerSubstitutes } from "./swsPeerLayer.js";
+import { buildFallbackHolding } from "./swsCoverageFallback.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEEP_DIR = path.resolve(__dirname, "..", "data", "sws", "deep");
@@ -322,6 +323,15 @@ export function scoreHolding(holding, portfolioContext = {}) {
   const ticker = holding?.symbol || holding?.ticker;
   const deep = loadSWSDeep(ticker);
   if (!deep) {
+    // Coverage fallback — synthesise a low-confidence verdict from
+    // fundamentals.json (yfinance/NSE snapshot) when SWS doesn't have
+    // the ticker. Returns null when fundamentals.json also has no
+    // snapshot, in which case we fall through to the original
+    // "no opinion" stub.
+    if (!isV1Only()) {
+      const fb = buildFallbackHolding({ ticker, name: holding?.name, sector: holding?.sector, holding });
+      if (fb) return fb;
+    }
     return {
       ...holding,
       swsCovered: false,
