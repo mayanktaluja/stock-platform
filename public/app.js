@@ -4324,7 +4324,7 @@ function initPortfolioAnalyzer() {
 
   if (engineToggle) {
     const saved = localStorage.getItem("analyzer_engine");
-    engineToggle.checked = saved === "sws";
+    engineToggle.checked = saved !== "legacy";
     if (freshCapitalWrap) freshCapitalWrap.style.display = engineToggle.checked ? "flex" : "none";
     engineToggle.addEventListener("change", () => {
       localStorage.setItem("analyzer_engine", engineToggle.checked ? "sws" : "legacy");

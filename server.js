@@ -1563,7 +1563,7 @@ app.get("/api/scan/:type", async (req, res, next) => {
         let fundamentalScore = null;
         let fundamentalVerdict = null;
         if (fundSnap) {
-          const fundResult = scoreFundamentals(fundSnap);
+          const fundResult = scoreForResponse(fundSnap).primary;
           if (fundResult) {
             fundamentalScore = fundResult.score;
             fundamentalVerdict = fundResult.verdict;
@@ -1974,7 +1974,7 @@ async function scanPrecomputeHandler(req, res) {
       let fundamentalScore = null;
       let fundamentalVerdict = null;
       if (fundSnap) {
-        const fundResult = scoreFundamentals(fundSnap);
+        const fundResult = scoreForResponse(fundSnap).primary;
         if (fundResult) {
           fundamentalScore = fundResult.score;
           fundamentalVerdict = fundResult.verdict;
@@ -3778,7 +3778,7 @@ app.get("/api/sme/scan", async (req, res) => {
             message: `Fundamental quality screen failed: ${failReasons.join(" · ")}. 2023–24 small-cap drawdowns were concentrated in names that failed at least one of these quality checks — momentum alone is a weak signal in this cohort.`,
           });
         }
-        const fundResult = scoreFundamentals(fundSnap, null);
+        const fundResult = scoreForResponse(fundSnap, null).primary;
         if (fundResult) {
           fundamentalScore = fundResult.score;
           fundamentalVerdict = fundResult.verdict;
@@ -5421,7 +5421,7 @@ app.get("/api/portfolio", async (req, res) => {
                 const closes = historical.map((d) => d.close);
                 dma200 = closes.slice(-200).reduce((s, v) => s + v, 0) / 200;
               }
-              const fundResult = scoreFundamentals(fundSnap, dma200);
+              const fundResult = scoreForResponse(fundSnap, dma200).primary;
               if (fundResult) {
                 fundamentalScore = fundResult.score;
                 fundamentalVerdict = fundResult.verdict;
@@ -6081,7 +6081,7 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
           const dma200 = historical.length >= 200
             ? closes.slice(-200).reduce((s, v) => s + v, 0) / 200 : null;
           const fundSnap = getFundamentals(h.symbol);
-          const fundamentalResult = fundSnap ? scoreFundamentals(fundSnap, dma200) : null;
+          const fundamentalResult = fundSnap ? scoreForResponse(fundSnap, dma200).primary : null;
           const longTerm = longTermOutlook(analysis, quote, fundamentalResult, dma200);
           return {
             holding: h,
