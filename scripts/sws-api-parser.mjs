@@ -69,9 +69,15 @@ function extractInfo(api) {
 }
 
 function priceSeries(api) {
-  // rest.price.data is a list of {date, close} — last one is most recent.
-  // Returns the array (or [] if absent).
-  return Array.isArray(api?.rest?.price?.data) ? api.rest.price.data : [];
+  // rest.price.data is a list of {date, close}. The SWS API returns this
+  // series in NEWEST-FIRST order (verified empirically against the
+  // 2026-04-28 capture). Older versions of this parser assumed oldest-first
+  // and read [length-1] as the latest close, which silently returned the
+  // OLDEST close (up to a year stale) as `current_price_inr` and
+  // collapsed every return calculation toward 0%. Sort ascending so the
+  // rest of the file can rely on [length-1] being the freshest point.
+  const data = Array.isArray(api?.rest?.price?.data) ? api.rest.price.data : [];
+  return [...data].sort((a, b) => (a.date || 0) - (b.date || 0));
 }
 
 function extractCurrentPrice(api) {
@@ -373,7 +379,14 @@ export function parseStock(api) {
       dividend: dividendInfo, // ov.dividend.yield_pct etc — what scoring reads
       dividend_yield_pct: dividendInfo.yield_pct, // legacy alias
       net_margin_pct: fiscal?.net_margin_pct ?? null,
-      forward_earnings_growth_pct: fiscal?.earnings_growth_pct ?? null,
+      // PAST YoY earnings growth (latest reported FY vs prior FY). The SWS
+      // capture's yearlyTimeSeries holds only reported years, so this cannot
+      // be "forward". v1's pts_growth used to read forward_earnings_growth_pct
+      // from this field — that was a mislabel. Forward growth now comes only
+      // from the rewards regex ("forecast to grow X% per year"), which is the
+      // actual analyst forward signal that SWS surfaces.
+      earnings_growth_yoy_pct: fiscal?.earnings_growth_pct ?? null,
+      forward_earnings_growth_pct: null,
       revenue_growth_pct: fiscal?.revenue_growth_pct ?? null,
       latest_revenue: fiscal?.latest_revenue ?? null,
       latest_net_income: fiscal?.latest_net_income ?? null,
@@ -393,20 +406,13 @@ export function parseStock(api) {
     dividend: dividendInfo,
     fiscal: fiscal,
 
-    // Tab-specific buckets — pass through API data as-is for now; later can
-    // add finer extraction.
-    valuation: {
-      narrative: api?.graphql?.getNarrativeValuation?.Company || null,
-      histogram: api?.graphql?.CompanyNarrativesWithHistogram?.company?.valuationHistogram || null,
-    },
-    future_growth: {
-      narrative_history: api?.graphql?.NarrativeValuationHistory?.Company || null,
-    },
-    past_performance: {
-      time_series: api?.graphql?.getCompanyTimeSeries?.Company?.timeSeries || null,
-    },
-    financial_health: null, // TODO: extract from estimates / time series
-    management: null, // TODO: not in current API capture
+    // Note: tab-specific blocks (valuation/future_growth/past_performance/
+    // financial_health/management) used to pass through raw API objects here.
+    // They were never read by services/* or hydrated with the fields the
+    // frontend modal expects (roe_pct, debt_cover_pct, etc.) — they only
+    // bloated each deep JSON by ~30 KB. Removed to keep the deploy bundle
+    // under Vercel's serverless size limit. Re-add as targeted extractors
+    // (specific scalar fields) when downstream code actually reads them.
     indices: [info.exchange_symbol || info.exchange_symbol_filtered].filter(Boolean),
 
     _api_raw_path: `data/sws/deep-api/${api.ticker}.json`,

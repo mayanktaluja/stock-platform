@@ -1,10 +1,16 @@
 // Per-holding SWS scoring + action engine.
 //
 // Reads data/sws/deep/{TICKER}.json (mtime-cached), runs the SWS scorer to
-// derive composite + v2_score + verdict, then maps to a portfolio action
-// (EXIT / Reduction-50% / Reduction-25-33% / HOLD / Top-up-modest / Top-up /
-// STRONG Top-up) using portfolio-context modifiers (position_weight,
+// derive composite + v2_score + v3_score + verdict, then maps to a portfolio
+// action (EXIT / Reduction-50% / Reduction-25-33% / HOLD / Top-up-modest /
+// Top-up / STRONG Top-up) using portfolio-context modifiers (position_weight,
 // sector_weight, P&L %).
+//
+// Score driving the action engine: v3_score_100. v3 is the 50%-coverage-gated
+// scorecard (74 fundamentals · 14 momentum · ±15 safety overlay) that uses
+// every input we actually have data for and skips the sparse fields v1/v2
+// included as zeros. Thresholds in scoreBandAction are calibrated to v3's
+// distribution (universe p25≈21, p50≈29, p75≈39, p95≈59), not v1/v2's.
 //
 // The data shape was studied empirically against the 2026-04-28 API-pipeline
 // snapshot. Notable: rewards[]/risks[] are universally empty in this snapshot,
@@ -18,8 +24,29 @@ import { scoreStock, num } from "./swsScoring.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEEP_DIR = path.resolve(__dirname, "..", "data", "sws", "deep");
+const V3_UNIVERSE_PATH = path.resolve(__dirname, "..", "data", "sws", "v3-universe-stats.json");
 
 const _deepCache = new Map(); // key -> { mtimeMs, data }
+let _v3Universe = null;       // { mtimeMs, data: { r1m, r3m, r1y } }
+
+// Load the v3 universe-stats snapshot written by runFullScoring. Cached
+// against file mtime so a fresh refresh propagates without a server restart.
+// When the file is missing (first-ever boot before any refresh), return null
+// and v3 momentum will neutral-impute — score stays usable, just less
+// calibrated, with breakdown.momentum_imputed = true so callers can detect.
+function _loadV3Universe() {
+  let stat;
+  try { stat = fs.statSync(V3_UNIVERSE_PATH); } catch { return null; }
+  if (_v3Universe && _v3Universe.mtimeMs === stat.mtimeMs) return _v3Universe.data;
+  try {
+    const raw = JSON.parse(fs.readFileSync(V3_UNIVERSE_PATH, "utf-8"));
+    const data = { r1m: raw.r1m || [], r3m: raw.r3m || [], r1y: raw.r1y || [] };
+    _v3Universe = { mtimeMs: stat.mtimeMs, data };
+    return data;
+  } catch {
+    return null;
+  }
+}
 
 // SWS deep files are keyed by the bare NSE symbol (e.g. HDFCBANK.json), but
 // portfolioParser surfaces tickers with a Yahoo-style suffix (HDFCBANK.NS,
@@ -174,31 +201,40 @@ function evaluateHardOverrides({ scored, holding, snow, fiscal }) {
   return null;
 }
 
-function scoreBandAction({ v2, snow, upside, position_weight, sector_weight, risks_count }) {
-  if (v2 < 40) return { action: "EXIT", band: "OVERVALUED" };
+// v3 score thresholds — calibrated to the v3 universe distribution
+// (p25≈21, p50≈29, p75≈39, p95≈59; max≈86). Each tier targets a
+// realistic share of the universe so the action engine fires usefully:
+//   <14 EXIT  (~bottom 8%)
+//   <22 Reduction tier  (~bottom 25%)
+//   <36 HOLD  (~middle 45%)
+//   <55 Top-up tier  (~top 25%, sub-tiers by portfolio context)
+//   ≥55 STRONG Top-up tier  (~top 7%)
+// Bands match the v3 verdict labels (AVOID/WATCH/ACCEPTABLE/STRONG/TOP_PICK).
+function scoreBandAction({ v3, snow, upside, position_weight, sector_weight, risks_count }) {
+  if (v3 < 14) return { action: "EXIT", band: "AVOID" };
 
-  if (v2 < 48) {
-    if (position_weight > 10) return { action: "Reduction-50%", band: "FULLY_VALUED" };
-    if (sector_weight > 30) return { action: "Reduction-25-33%", band: "FULLY_VALUED" };
-    return { action: "Reduction-25-33%", band: "FULLY_VALUED" };
+  if (v3 < 22) {
+    if (position_weight > 10) return { action: "Reduction-50%", band: "WATCH" };
+    if (sector_weight > 30) return { action: "Reduction-25-33%", band: "WATCH" };
+    return { action: "Reduction-25-33%", band: "WATCH" };
   }
 
-  if (v2 < 62) return { action: "HOLD", band: "FAIR_VALUE" };
+  if (v3 < 36) return { action: "HOLD", band: "ACCEPTABLE" };
 
-  if (v2 < 72) {
+  if (v3 < 55) {
     if (upside >= 15 && risks_count === 0 && position_weight <= 6) {
-      return { action: "Top-up", band: "QUALITY_GROWTH" };
+      return { action: "Top-up", band: "STRONG" };
     }
     if (position_weight <= 8 && sector_weight <= 25) {
-      return { action: "Top-up-modest", band: "QUALITY_GROWTH" };
+      return { action: "Top-up-modest", band: "STRONG" };
     }
-    return { action: "HOLD", band: "QUALITY_GROWTH" };
+    return { action: "HOLD", band: "STRONG" };
   }
 
   if (position_weight <= 5 && sector_weight <= 20) {
-    return { action: "STRONG Top-up", band: "DEEP_VALUE" };
+    return { action: "STRONG Top-up", band: "TOP_PICK" };
   }
-  return { action: "Top-up-modest", band: "DEEP_VALUE" };
+  return { action: "Top-up-modest", band: "TOP_PICK" };
 }
 
 function buildSWSReasons({ scored, snow, fiscal, action, band, reconciled }) {
@@ -289,7 +325,8 @@ export function scoreHolding(holding, portfolioContext = {}) {
     };
   }
 
-  const scored = scoreStock(deep);
+  const universe = _loadV3Universe();
+  const scored = scoreStock(deep, { universe });
   const snow = pickSnowflake(scored);
   const fiscal = scored.fiscal || {};
   const ov = scored.overview || {};
@@ -310,7 +347,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
     reasons = hard.reasons;
   } else {
     const sb = scoreBandAction({
-      v2: num(scored.v2_score_100, 0),
+      v3: num(scored.v3_score_100, 0),
       snow,
       upside,
       position_weight,
@@ -334,6 +371,8 @@ export function scoreHolding(holding, portfolioContext = {}) {
       sws_url: scored.sws_url,
       score: scored.composite_score_100,
       v2_score: scored.v2_score_100,
+      v3_score: scored.v3_score_100,
+      v3_verdict: scored.v3_verdict,
       verdict: scored.verdict,
       band,
       snowflake: snow,
@@ -356,6 +395,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
       data_age_hours: dataFreshnessMs(scored) != null ? Math.round(dataFreshnessMs(scored) / 3600000) : null,
       breakdown: scored.score_breakdown,
       v2_breakdown: scored.v2_breakdown,
+      v3_breakdown: scored.v3_breakdown,
     },
     action,
     reasons,
