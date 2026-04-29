@@ -6,14 +6,11 @@
  * The switch is controlled by the SCORER_MODE env var:
  *
  *   SCORER_MODE=v1          — V1 only. No V2 computation. Rollback mode.
- *   SCORER_MODE=v2-shadow   — V1 authoritative, V2 attached as shadow.   (default)
- *   SCORER_MODE=v2-primary  — V2 authoritative, V1 attached as legacy.
+ *   SCORER_MODE=v2-shadow   — V1 authoritative, V2 attached as shadow.
+ *   SCORER_MODE=v2-primary  — V2 authoritative, V1 attached as legacy.   (default)
  *
- * Default is `v2-shadow` because:
- *   1. It's what ships post-Phase 2 — no surprise for existing users.
- *   2. Phase 3 backtest showed V2 beats V1 by +10.6pp XIRR, so the infra
- *      is ready, but flipping the switch is a deliberate operator action.
- *   3. `v1` is an intentional escape hatch if a V2 regression lands.
+ * Default is `v2-primary` (Phase 3 backtest: V2 beats V1 by +10.6pp XIRR).
+ * Use SCORER_MODE=v1 as an escape hatch if a V2 regression lands.
  *
  * Response payload shape:
  *   { primary, legacy, shadow, mode }
@@ -41,8 +38,8 @@ import { scoreFundamentals } from "./fundamentals.js";
 import { scoreFundamentalsV2 } from "./fundamentalsV2.js";
 
 const VALID_MODES = new Set(["v1", "v2-shadow", "v2-primary"]);
-const RAW_MODE = process.env.SCORER_MODE || "v2-shadow";
-export const SCORER_MODE = VALID_MODES.has(RAW_MODE) ? RAW_MODE : "v2-shadow";
+const RAW_MODE = process.env.SCORER_MODE || "v2-primary";
+export const SCORER_MODE = VALID_MODES.has(RAW_MODE) ? RAW_MODE : "v2-primary";
 
 if (!VALID_MODES.has(RAW_MODE)) {
   console.warn(
