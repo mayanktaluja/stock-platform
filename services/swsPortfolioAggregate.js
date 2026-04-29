@@ -15,6 +15,16 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { num } from "./swsScoring.js";
 import { loadSWSDeep, pickSnowflake, scoreHolding, _reconcileFVUpside } from "./swsHoldingEngine.js";
+import { detectSectorWipeout } from "./swsPeerLayer.js";
+
+// Lazy macro-regime import — only used for basket tilt; failing import
+// degrades gracefully (no tilt applied).
+let _computeMacroDelta = null;
+let _getCurrentRegimeOrNull = null;
+try {
+  const mod = await import("../macroRegime.js");
+  if (typeof mod.computeMacroDelta === "function") _computeMacroDelta = mod.computeMacroDelta;
+} catch {}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PICKS_LATEST = path.resolve(__dirname, "..", "data", "sws", "picks-latest.json");
@@ -381,14 +391,55 @@ function buildSnapshot(scoredHoldings) {
   };
 }
 
+// Apply macro-regime tilt to a list of basket rows. Each row's v3_score
+// is shifted by half the regime delta (portfolio scores move less than
+// scanner scores per the legacy convention). Pure transform; mutates a
+// copy, not the input.
+function _applyMacroTilt(rows, regime) {
+  if (!regime || !_computeMacroDelta) return rows.map((r) => ({ ...r }));
+  return rows.map((r) => {
+    const tilt = _computeMacroDelta(regime, r.sector);
+    if (!tilt || !tilt.delta) return { ...r, macro_delta: 0, macro_reason: null };
+    return {
+      ...r,
+      macro_delta: +(tilt.delta * 0.5).toFixed(2),
+      macro_reason: tilt.reason,
+      v3_score: num(r.v3_score, 0) + tilt.delta * 0.5,
+    };
+  });
+}
+
 export function buildSWSReport(scoredHoldings, opts = {}) {
   const freshCapitalInr = opts.freshCapitalInr ?? null;
   const freshPickLimit = opts.freshPickLimit ?? 8;
+  const macroRegime = opts.macroRegime ?? null;
 
   const tiers = buildTiers(scoredHoldings);
   const baskets = buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit });
   const sectorOverlay = buildSectorOverlay(scoredHoldings);
   const snapshot = buildSnapshot(scoredHoldings);
+
+  // Macro tilt — only applied to Tier B baskets (the recommendations
+  // surface). The per-stock action grid (Tier A / C / D) shows the
+  // un-tilted SWS view to keep the user-facing verdict deterministic.
+  if (macroRegime) {
+    baskets.defensive = _applyMacroTilt(baskets.defensive, macroRegime);
+    baskets.growth = _applyMacroTilt(baskets.growth, macroRegime);
+    baskets.core = _applyMacroTilt(baskets.core, macroRegime);
+    baskets.macro_regime = {
+      regime: macroRegime.regime || null,
+      severity: macroRegime.severity || null,
+      confidence: macroRegime.confidence || null,
+    };
+  }
+
+  // Sector-wipeout guard — flag any sector that would be left at zero
+  // exposure if all reductions executed. Surfaces gap #7 from the real
+  // portfolio diagnostic (CIPLA Reduction-50% leaves zero pharma).
+  const reductionTickers = new Set(
+    tiers.tierA.map((h) => h.sws?.ticker || h.symbol).filter(Boolean),
+  );
+  const sectorWipeouts = detectSectorWipeout({ scoredHoldings, reductionTickers });
 
   const picks = loadPicksLatest();
   const banner = {
@@ -403,7 +454,7 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
     banner,
     snapshot,
     tiers: {
-      A: { label: "Reductions", rows: tiers.tierA, freedRupees: tiers.freedRupees },
+      A: { label: "Reductions", rows: tiers.tierA, freedRupees: tiers.freedRupees, sector_wipeouts: sectorWipeouts },
       B: { label: "Top-ups (Two baskets + shared Core)", baskets },
       C: { label: "Hold as-is", rows: tiers.tierC },
       D: { label: "Watch (catalyst-driven)", rows: tiers.tierD },

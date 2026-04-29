@@ -26,6 +26,7 @@ import { extractCatalystSignals } from "./swsCatalystLayer.js";
 import { extractIndianRiskSignals } from "./swsIndianRiskLayer.js";
 import { computeRecommendationV2 } from "./swsConvictionEngine.js";
 import { isV1Only, isV2Primary, RECOMMENDER_MODE } from "./swsRecommenderMode.js";
+import { findPeerSubstitutes } from "./swsPeerLayer.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEEP_DIR = path.resolve(__dirname, "..", "data", "sws", "deep");
@@ -461,6 +462,13 @@ export function scoreHolding(holding, portfolioContext = {}) {
       v3_breakdown: scored.v3_breakdown,
       v2_recommendation: v2recommendation,
       recommender_mode: RECOMMENDER_MODE,
+      peer_substitute: findPeerSubstitutes({
+        ticker: scored.ticker,
+        sector: scored.sector,
+        sws_v3: num(scored.v3_score_100, null),
+        market_cap_inr: num(ov.market_cap_inr, null),
+        heldTickers: portfolioContext?.heldTickers,
+      }),
     },
     action: finalAction,
     reasons: finalReasons,
