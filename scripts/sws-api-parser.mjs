@@ -406,20 +406,13 @@ export function parseStock(api) {
     dividend: dividendInfo,
     fiscal: fiscal,
 
-    // Tab-specific buckets — pass through API data as-is for now; later can
-    // add finer extraction.
-    valuation: {
-      narrative: api?.graphql?.getNarrativeValuation?.Company || null,
-      histogram: api?.graphql?.CompanyNarrativesWithHistogram?.company?.valuationHistogram || null,
-    },
-    future_growth: {
-      narrative_history: api?.graphql?.NarrativeValuationHistory?.Company || null,
-    },
-    past_performance: {
-      time_series: api?.graphql?.getCompanyTimeSeries?.Company?.timeSeries || null,
-    },
-    financial_health: null, // TODO: extract from estimates / time series
-    management: null, // TODO: not in current API capture
+    // Note: tab-specific blocks (valuation/future_growth/past_performance/
+    // financial_health/management) used to pass through raw API objects here.
+    // They were never read by services/* or hydrated with the fields the
+    // frontend modal expects (roe_pct, debt_cover_pct, etc.) — they only
+    // bloated each deep JSON by ~30 KB. Removed to keep the deploy bundle
+    // under Vercel's serverless size limit. Re-add as targeted extractors
+    // (specific scalar fields) when downstream code actually reads them.
     indices: [info.exchange_symbol || info.exchange_symbol_filtered].filter(Boolean),
 
     _api_raw_path: `data/sws/deep-api/${api.ticker}.json`,
