@@ -62,18 +62,20 @@ function buildTiers(scoredHoldings) {
       freedRupees += freed;
       tierA.push({ ...h, freedRupees: Math.round(freed) });
     } else if (h.action === "HOLD") {
-      const v2 = num(h.sws.v2_score, 0);
+      const v3 = num(h.sws.v3_score, 0);
       const upside = num(h.sws.upside_pct, 0);
       const days = h.sws.next_earnings_date
         ? Math.ceil((new Date(h.sws.next_earnings_date + "T00:00:00Z") - Date.now()) / 86400000)
         : null;
-      const isWatch = v2 < 55 || upside < 5 || (days != null && days >= 0 && days <= 7);
+      // v3 < 36 = ACCEPTABLE-band lower edge (universe p75≈39, p50≈29 per
+      // swsHoldingEngine.js). Below that = HOLD-but-borderline → tier D watch.
+      const isWatch = v3 < 36 || upside < 5 || (days != null && days >= 0 && days <= 7);
       if (isWatch) {
         tierD.push({
           ...h,
           watchReason: days != null && days >= 0 && days <= 7
             ? `Earnings in ${days}d — re-evaluate post-result.`
-            : v2 < 55 ? `Borderline FAIR_VALUE (v2 ${v2.toFixed(1)}) — watch for catalyst.`
+            : v3 < 36 ? `Borderline ACCEPTABLE (v3 ${v3.toFixed(1)}) — watch for catalyst.`
             : `Limited upside (${upside.toFixed(1)}%) — re-rate next quarter.`,
         });
       } else {
@@ -118,6 +120,7 @@ function holdingToBasketRow(h) {
     snowflake: snow,
     snowflake_total: snow.total,
     verdict: h.sws.verdict,
+    v3_score: h.sws.v3_score,
     v2_score: h.sws.v2_score,
     current_price_inr: ov.current_price_inr,
     fair_value_inr: ov.fair_value_inr,
@@ -160,6 +163,7 @@ function pickToBasketRow(pick) {
     snowflake: snow,
     snowflake_total: snow?.total ?? pick.snowflake_total,
     verdict: pick.verdict,
+    v3_score: pick.v3_score_100 ?? pick.v3_score ?? null,
     v2_score: pick.v2_score,
     current_price_inr: ov.current_price_inr ?? pick.current_price_inr,
     fair_value_inr: reconciled.fair_value_inr,
@@ -221,6 +225,7 @@ function buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit }) {
           name: scored.sws.name,
           sector: scored.sws.sector,
           verdict: scored.sws.verdict,
+          v3_score: scored.sws.v3_score,
           v2_score: scored.sws.v2_score,
           snowflake_total: snow.total,
           snowflake: snow,
@@ -251,11 +256,11 @@ function buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit }) {
     else if (c.growth) passesGrowth.push(row);
   }
 
-  // Sort each by v2_score desc
-  const byV2 = (a, b) => num(b.v2_score, 0) - num(a.v2_score, 0);
-  passesDefensive.sort(byV2);
-  passesGrowth.sort(byV2);
-  passesBoth.sort(byV2);
+  // Sort each by v3_score desc (action engine uses v3 as authoritative)
+  const byV3 = (a, b) => num(b.v3_score, 0) - num(a.v3_score, 0);
+  passesDefensive.sort(byV3);
+  passesGrowth.sort(byV3);
+  passesBoth.sort(byV3);
 
   // Shared Core: top 3 from passesBoth
   const core = passesBoth.slice(0, 3);
@@ -311,13 +316,13 @@ function buildSectorOverlay(scoredHoldings) {
     // case-variant duplicates ("energy" vs "Energy", "utilities" vs
     // "Utilities"). SWS only fills in when stockList has none.
     const sector = h.sector || (h.swsCovered ? h.sws.sector : null) || "Unclassified";
-    if (!bySector.has(sector)) bySector.set(sector, { sector, currentValue: 0, holdings: [], avgSnowflake: 0, avgV2: 0, _snowSum: 0, _v2Sum: 0, _n: 0 });
+    if (!bySector.has(sector)) bySector.set(sector, { sector, currentValue: 0, holdings: [], avgSnowflake: 0, avgV3: 0, _snowSum: 0, _v3Sum: 0, _n: 0 });
     const row = bySector.get(sector);
     row.currentValue += cv;
     row.holdings.push(h.sws?.ticker || h.symbol);
     if (h.swsCovered) {
       row._snowSum += num(h.sws.snowflake_total, 0);
-      row._v2Sum += num(h.sws.v2_score, 0);
+      row._v3Sum += num(h.sws.v3_score, 0);
       row._n += 1;
     }
   }
@@ -329,7 +334,7 @@ function buildSectorOverlay(scoredHoldings) {
       pct: totalCV > 0 ? Math.round((row.currentValue / totalCV) * 1000) / 10 : 0,
       holdings: row.holdings,
       avgSnowflake: row._n ? Math.round(row._snowSum / row._n * 10) / 10 : null,
-      avgV2: row._n ? Math.round(row._v2Sum / row._n * 10) / 10 : null,
+      avgV3: row._n ? Math.round(row._v3Sum / row._n * 10) / 10 : null,
     });
   }
   out.sort((a, b) => b.currentValue - a.currentValue);
@@ -341,8 +346,8 @@ function buildSnapshot(scoredHoldings) {
   let totalInv = 0;
   let snowSum = 0;
   let snowN = 0;
-  let v2Sum = 0;
-  let v2N = 0;
+  let v3Sum = 0;
+  let v3N = 0;
   const verdictMix = {};
   const actionMix = {};
   let coveredCount = 0;
@@ -355,8 +360,8 @@ function buildSnapshot(scoredHoldings) {
       coveredCount++;
       snowSum += num(h.sws.snowflake_total, 0);
       snowN++;
-      v2Sum += num(h.sws.v2_score, 0);
-      v2N++;
+      v3Sum += num(h.sws.v3_score, 0);
+      v3N++;
       const verdict = h.sws.verdict || "n/a";
       verdictMix[verdict] = (verdictMix[verdict] || 0) + 1;
     }
@@ -370,7 +375,7 @@ function buildSnapshot(scoredHoldings) {
     coveredCount,
     holdingsCount: scoredHoldings.length,
     avgSnowflake: snowN ? Math.round(snowSum / snowN * 10) / 10 : null,
-    avgV2Score: v2N ? Math.round(v2Sum / v2N * 10) / 10 : null,
+    avgV3Score: v3N ? Math.round(v3Sum / v3N * 10) / 10 : null,
     verdictMix,
     actionMix,
   };
