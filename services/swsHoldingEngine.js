@@ -24,6 +24,8 @@ import { scoreStock, num } from "./swsScoring.js";
 import { crosscheckHolding } from "./swsLayerCrosscheck.js";
 import { extractCatalystSignals } from "./swsCatalystLayer.js";
 import { extractIndianRiskSignals } from "./swsIndianRiskLayer.js";
+import { computeRecommendationV2 } from "./swsConvictionEngine.js";
+import { isV1Only, isV2Primary, RECOMMENDER_MODE } from "./swsRecommenderMode.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEEP_DIR = path.resolve(__dirname, "..", "data", "sws", "deep");
@@ -377,14 +379,47 @@ export function scoreHolding(holding, portfolioContext = {}) {
   });
 
   // Layer-3 (Indian-specific risk) and Layer-4 (catalyst) shadow attaches.
-  // Both expose data the conviction engine (PR 3) consumes. They never
-  // mutate the SWS verdict or reasons on their own — confidence_delta is
-  // for downstream use only.
   const catalyst = extractCatalystSignals(scored);
   const indianRisk = extractIndianRiskSignals({
     ticker: scored.ticker || holding?.symbol || holding?.ticker,
     deep: scored,
   });
+
+  // v2 conviction engine — gated by RECOMMENDER_VERSION env var. Default
+  // is `v2-shadow` (compute v2 alongside v1, attach as
+  // sws.v2_recommendation, leave UI on v1). `v2-primary` makes v2 the
+  // authoritative `action`; `v1` skips computation entirely.
+  let v2recommendation = null;
+  if (!isV1Only()) {
+    try {
+      v2recommendation = computeRecommendationV2({
+        sws_action: action,
+        sws_v3: num(scored.v3_score_100, null),
+        sws_verdict: scored.v3_verdict,
+        crosscheck,
+        catalyst,
+        indianRisk,
+        position_ctx: {
+          positionWeight: num(holding.positionWeight, 0),
+          sectorWeight: num(portfolioContext.sectorWeights?.[scored.sector] ?? holding.sectorWeight, 0),
+          pnlPercent: num(holding.pnlPercent, 0),
+        },
+        fiscal,
+      });
+    } catch (err) {
+      console.warn(`[swsConvictionEngine] ${scored.ticker} failed: ${err.message}`);
+    }
+  }
+
+  // v2-primary: replace top-level action + reasons with v2 output.
+  // v2-shadow (default): keep v1 as authoritative; v2 lives in
+  // sws.v2_recommendation for divergence monitoring + UI opt-in.
+  let finalAction = action;
+  let finalReasons = reasons;
+  if (isV2Primary() && v2recommendation) {
+    finalAction = v2recommendation.action;
+    finalReasons = v2recommendation.narrative_paragraphs;
+  }
 
   return {
     ...holding,
@@ -424,9 +459,11 @@ export function scoreHolding(holding, portfolioContext = {}) {
       breakdown: scored.score_breakdown,
       v2_breakdown: scored.v2_breakdown,
       v3_breakdown: scored.v3_breakdown,
+      v2_recommendation: v2recommendation,
+      recommender_mode: RECOMMENDER_MODE,
     },
-    action,
-    reasons,
+    action: finalAction,
+    reasons: finalReasons,
     timing,
   };
 }
