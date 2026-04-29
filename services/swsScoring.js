@@ -286,7 +286,10 @@ export function categoriseStock(stock) {
     const days = Math.ceil((new Date(nextEarnings + "T00:00:00Z") - new Date()) / 86400000);
     if (days >= 0 && days <= 30) cats.push("upcoming_earnings");
   }
-  if (v3Verdict === "AVOID" || (snowTotal < 12 && risks >= 3)) cats.push("avoid");
+  // Avoid: v3 AVOID + mcap ≥ ₹500cr (filter illiquid micro-caps). Backstop
+  // branch keeps genuinely terrible large-caps surfacing even if v3_verdict
+  // somehow doesn't say AVOID.
+  if ((v3Verdict === "AVOID" && mcap >= 5e9) || (snowTotal < 12 && risks >= 3)) cats.push("avoid");
 
   return cats;
 }

@@ -6446,7 +6446,7 @@ function renderPickCard(s, sectionKey, rank = null) {
         <div style="min-width:0;flex:1;display:flex;align-items:center;gap:8px;">
           ${rankBadge}
           <div style="min-width:0;flex:1;">
-            <div style="font-size:14px;font-weight:600;color:var(--text-primary);">${s.ticker}${survBadge}</div>
+            <div style="font-size:14px;font-weight:600;color:var(--text-primary);">${s.ticker}${survBadge}${s.sector ? `<span style="font-size:9px;font-weight:500;color:var(--text-muted);background:rgba(255,255,255,0.04);border:1px solid var(--border-soft, #1a2233);border-radius:3px;padding:2px 6px;margin-left:6px;letter-spacing:0.02em;vertical-align:middle;">${escapeHtml(s.sector)}</span>` : ""}</div>
             <div style="font-size:11px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${s.name || ""}${fresh}</div>
           </div>
         </div>
@@ -6662,6 +6662,40 @@ function renderSwsModal(data) {
       </div>
     </div>` : "";
 
+  // Sector benchmarks — SWS publishes peer averages alongside primaryIndustry
+  // (peer P/E, peer 1Y net margin, peer 3Y forward revenue growth). Shown
+  // here as a 3-cell strip so the user can see this stock's value vs the
+  // sector. Auto-hidden when not present (sponsoredNarrative-only stocks).
+  const ib = ov.industry_benchmarks;
+  const sectorLabel = card_.sector || deep?.sector || null;
+  const benchHtml = (ib && sectorLabel) ? (() => {
+    const fmtFrac = (v) => v != null ? `${(v * 100).toFixed(1)}%` : "—";
+    const fmtMult = (v) => v != null ? `${v.toFixed(1)}x` : "—";
+    const ownNetMargin = ov.net_margin_pct != null ? ov.net_margin_pct / 100 : null;
+    const ownPe = mult.pe;
+    // Future revenue growth — we don't have a per-stock equivalent, but show
+    // the sector benchmark on its own.
+    const cells = [
+      { label: "P/E", own: fmtMult(ownPe), peer: fmtMult(ib.pe) },
+      { label: "Net margin (1Y)", own: fmtFrac(ownNetMargin), peer: fmtFrac(ib.net_income_margin_1y) },
+      { label: "Future rev growth (3Y)", own: "—", peer: fmtFrac(ib.future_revenue_growth_3y) },
+    ];
+    return `
+    <div class="sws-modal-section">
+      <h4>Sector benchmarks — ${escapeHtml(sectorLabel)}</h4>
+      <div class="sws-modal-grid">
+        ${cells.map((c) => `
+          <div class="sws-stat-cell">
+            <div class="stat-label">${c.label}</div>
+            <div style="display:flex;align-items:baseline;gap:8px;margin-top:4px;">
+              <div class="stat-value" style="font-size:14px;">${c.own}</div>
+              <div style="font-size:10px;color:var(--text-muted);">vs ${c.peer} peer</div>
+            </div>
+          </div>`).join("")}
+      </div>
+    </div>`;
+  })() : "";
+
   // Quick stats
   const pastPerf = (deep && deep.past_performance) || {};
   const finHealth = (deep && deep.financial_health) || {};
@@ -6678,7 +6712,6 @@ function renderSwsModal(data) {
     ["Debt cover", finHealth.debt_cover_pct != null ? `${finHealth.debt_cover_pct.toFixed(1)}%` : "—"],
     ["Interest cover", finHealth.interest_cover_x != null ? `${finHealth.interest_cover_x.toFixed(1)}x` : "—"],
     ["Net margin", ov.net_margin_pct != null ? `${ov.net_margin_pct.toFixed(1)}%` : "—"],
-    ["Gross margin", ov.gross_margin_pct != null ? `${ov.gross_margin_pct.toFixed(1)}%` : "—"],
     ["Beta", ov.beta != null ? ov.beta.toFixed(2) : "—"],
     ["Div yield", ov.dividend?.yield_pct != null ? `${ov.dividend.yield_pct.toFixed(2)}%` : "—"],
     ["Payout", ov.dividend?.payout_pct != null ? `${ov.dividend.payout_pct.toFixed(0)}%` : "—"],
@@ -6768,6 +6801,8 @@ function renderSwsModal(data) {
     </div>` : ""}
 
     ${hexHtml}
+
+    ${benchHtml}
 
     <div class="sws-modal-section">
       <h4>Quick stats</h4>

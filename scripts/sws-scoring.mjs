@@ -383,8 +383,12 @@ export function categoriseStock(stock) {
     if (days >= 0 && days <= 30) cats.push("upcoming_earnings");
   }
 
-  // Avoid: v3 says AVOID, OR rare structural-weak fingerprint.
-  if (v3Verdict === "AVOID" || (snowTotal < 12 && risks >= 3)) cats.push("avoid");
+  // Avoid: v3 says AVOID + meaningful liquidity (mcap ≥ ₹500cr). The mcap
+  // gate filters out illiquid micro-caps where AVOID-tier is meaningless —
+  // SEBI-aligned advice cares about names a real book might hold/exit, not
+  // 4,000 obscure ₹50cr listings. Backstop branch (snowTotal < 12 + risks ≥ 3)
+  // bypasses the mcap gate so genuinely terrible large-caps still surface.
+  if ((v3Verdict === "AVOID" && mcap >= 5e9) || (snowTotal < 12 && risks >= 3)) cats.push("avoid");
 
   return cats;
 }
