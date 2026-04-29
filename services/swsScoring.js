@@ -248,46 +248,45 @@ export function verdictV3FromScore(score) {
   return "AVOID";
 }
 
+// v3-aware categorisation — mirror of scripts/sws-scoring.mjs::categoriseStock.
+// Gates use stock.v3_verdict and snowflake pillars instead of v1's verdict
+// labels and the forward-earnings-growth field, which is null for ~98% of
+// the universe under the current SWS API capture.
 export function categoriseStock(stock) {
   const ov = stock.overview || {};
-  const verdict = stock.verdict;
+  const sn = ov.snowflake || {};
+  const v3Verdict = stock.v3_verdict || "WATCH";
+  const upsideRaw = num(ov.upside_pct, null);
+  const upside = upsideRaw != null ? upsideRaw : 0;
+  const hasUpside = upsideRaw != null;
+  const ret1y = num((ov.returns_pct || {})["1Y"], null);
+  const ret3m = num((ov.returns_pct || {})["3M"], null);
+  const valSnow = num(sn.valuation ?? sn.value, 0);
+  const futureSnow = num(sn.future ?? sn.future_growth, 0);
+  const healthSnow = num(sn.financial_health ?? sn.health, 0);
+  const divSnow = num(sn.dividends ?? sn.dividend, 0);
   const snowTotal = num(ov.snowflake_total, 0);
-  const upside = num(ov.upside_pct, 0);
-  const ret1y = num((ov.returns_pct || {})["1Y"], -100);
-  const ret5y = num((ov.returns_pct || {})["5Y"], 0);
-  const epsGrowth5y = (() => {
-    for (const r of (ov.rewards || [])) {
-      const m = String(r).match(/grown? ([\d.]+)\s*%\s*per year over the past 5 years/i);
-      if (m) return Number(m[1]);
-    }
-    return null;
-  })();
-  const fwdGrowth = num(stock.forward_growth_used_pct, 0);
-  const risks = (ov.risks || []).length;
-  const divYield = num(ov.dividend && ov.dividend.yield_pct, 0);
-  const divPayout = num(ov.dividend && ov.dividend.payout_pct, 100);
-  const divSnow = num((ov.snowflake || {}).dividends, 0);
-  const valSnow = num((ov.snowflake || {}).valuation, 0);
-  const healthSnow = num((ov.snowflake || {}).financial_health, 0);
+  const divYield = num(ov.dividend?.yield_pct, 0);
+  const divPayout = num(ov.dividend?.payout_pct, 100);
   const mcap = num(ov.market_cap_inr, 0);
+  const risks = (ov.risks || []).length;
   const insiderBuys = _countInsiderBuys(stock);
   const nextEarnings = ov.next_earnings_date;
 
   const cats = [];
 
-  if (verdict === "DEEP_VALUE" && valSnow >= 4 && upside >= 20) cats.push("deep_value");
-  if (["DEEP_VALUE", "QUALITY_GROWTH"].includes(verdict) && healthSnow >= 5 && (epsGrowth5y == null ? ret5y > 0 : epsGrowth5y > 0)) {
-    cats.push("quality_growth");
-  }
-  if (ret1y > 0 && upside >= 15 && risks === 0 && fwdGrowth >= 8) cats.push("midterm");
+  if (v3Verdict === "TOP_PICK" && valSnow >= 4 && hasUpside && upside >= 20) cats.push("deep_value");
+  if (["TOP_PICK", "STRONG"].includes(v3Verdict) && healthSnow >= 5 && futureSnow >= 4) cats.push("quality_growth");
+  const positiveMomentum = (ret1y != null && ret1y > 0) || (ret3m != null && ret3m > 5);
+  if (["TOP_PICK", "STRONG", "ACCEPTABLE"].includes(v3Verdict) && positiveMomentum && hasUpside && upside >= 15 && futureSnow >= 3) cats.push("midterm");
   if (divSnow >= 5 && divPayout < 70 && divYield >= 1.5) cats.push("dividend_aristocrats");
-  if (mcap > 0 && mcap < 5e11 && snowTotal >= 22 && upside >= 15) cats.push("smallcap_gems");
+  if (mcap > 0 && mcap < 5e11 && snowTotal >= 22 && hasUpside && upside >= 15) cats.push("smallcap_gems");
   if (insiderBuys >= 1) cats.push("insider_buying");
   if (nextEarnings) {
     const days = Math.ceil((new Date(nextEarnings + "T00:00:00Z") - new Date()) / 86400000);
     if (days >= 0 && days <= 30) cats.push("upcoming_earnings");
   }
-  if (snowTotal < 12 && risks >= 3) cats.push("avoid");
+  if (v3Verdict === "AVOID" || (snowTotal < 12 && risks >= 3)) cats.push("avoid");
 
   return cats;
 }
@@ -298,7 +297,6 @@ export function scoreStock(stock, opts = {}) {
   stock.score_breakdown = sc.breakdown;
   stock.forward_growth_used_pct = sc.forward_growth_used_pct;
   stock.verdict = verdictFromScore(sc.composite_score_100);
-  stock.categories = categoriseStock(stock);
   const v2 = computeV2Score(stock);
   stock.v2_score_100 = v2.v2_score_100;
   stock.v2_breakdown = v2.v2_breakdown;
@@ -310,6 +308,9 @@ export function scoreStock(stock, opts = {}) {
   stock.v3_score_100 = v3.v3_score_100;
   stock.v3_breakdown = v3.v3_breakdown;
   stock.v3_verdict = verdictV3FromScore(v3.v3_score_100);
+  // Categorise AFTER v3 — categories key off v3_verdict (deep_value /
+  // quality_growth / midterm / avoid all switched to v3 logic).
+  stock.categories = categoriseStock(stock);
   return stock;
 }
 
