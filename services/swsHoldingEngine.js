@@ -22,6 +22,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { scoreStock, num } from "./swsScoring.js";
 import { crosscheckHolding } from "./swsLayerCrosscheck.js";
+import { extractCatalystSignals } from "./swsCatalystLayer.js";
+import { extractIndianRiskSignals } from "./swsIndianRiskLayer.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEEP_DIR = path.resolve(__dirname, "..", "data", "sws", "deep");
@@ -374,6 +376,16 @@ export function scoreHolding(holding, portfolioContext = {}) {
     swsV3Score: num(scored.v3_score_100, null),
   });
 
+  // Layer-3 (Indian-specific risk) and Layer-4 (catalyst) shadow attaches.
+  // Both expose data the conviction engine (PR 3) consumes. They never
+  // mutate the SWS verdict or reasons on their own — confidence_delta is
+  // for downstream use only.
+  const catalyst = extractCatalystSignals(scored);
+  const indianRisk = extractIndianRiskSignals({
+    ticker: scored.ticker || holding?.symbol || holding?.ticker,
+    deep: scored,
+  });
+
   return {
     ...holding,
     swsCovered: true,
@@ -389,6 +401,8 @@ export function scoreHolding(holding, portfolioContext = {}) {
       verdict: scored.verdict,
       band,
       crosscheck,
+      catalyst,
+      indianRisk,
       snowflake: snow,
       snowflake_total: snow.total,
       current_price_inr: ov.current_price_inr,
