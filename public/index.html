@@ -2391,10 +2391,232 @@
     }
     .sws-freshness-pill.stale { color: #fca5a5; border-color: rgba(239, 68, 68, 0.3); }
 
+    /* SWS Picks — accordion-driven layout (replaces the wall-of-cards). Each
+       section uses the existing .dashboard-section / .section-body pattern;
+       overrides below extend max-height (Top-30 has 30 cards in a single
+       expanded body — the global 4000px cap clipped them). */
+    .sws-pick-section { margin-bottom: 18px; }
+    .sws-pick-section.collapsed { margin-bottom: 8px; }
+    .sws-pick-section .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border-soft, #1a2233);
+      cursor: pointer;
+      user-select: none;
+    }
+    .sws-pick-section .section-header:hover { opacity: 0.88; }
+    .sws-pick-section.collapsed .section-header { margin-bottom: 0; border-bottom-color: transparent; padding-bottom: 0; }
+    .sws-pick-section:not(.collapsed) .section-body { max-height: 20000px; opacity: 1; }
+    .sws-pick-section-hero {
+      padding: 18px 16px 8px;
+      border: 1px solid #1f2c45;
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(74,144,226,0.04), rgba(74,144,226,0));
+      margin-bottom: 24px;
+    }
+    .sws-pick-section-hero.collapsed { margin-bottom: 12px; }
+    .sws-pick-section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .sws-pick-section-title .section-name {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin: 0;
+    }
+    .sws-pick-section-hero .sws-pick-section-title .section-name { font-size: 20px; }
+    .sws-pick-section-count {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-soft, #1a2233);
+      border-radius: 10px;
+      padding: 2px 8px;
+      font-variant-numeric: tabular-nums;
+    }
+    .sws-pick-section-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin: 4px 0 0 0;
+      max-width: 780px;
+      line-height: 1.45;
+    }
+    .sws-pick-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 12px;
+    }
+    .sws-pick-overflow {
+      margin: 12px 0 0 0;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Sticky chip-nav: row of pills mapping to each visible section. Tap
+       jumps & expands. Sticky beneath the page header (64px). */
+    .sws-pick-chipnav {
+      position: sticky;
+      top: 64px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      margin-bottom: 14px;
+      background: rgba(11, 12, 16, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-soft, #1a2233);
+    }
+    .sws-pick-chipnav-scroll {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      flex: 1;
+      padding-bottom: 2px;
+    }
+    .sws-pick-chipnav-scroll::-webkit-scrollbar { height: 4px; }
+    .sws-pick-chipnav-scroll::-webkit-scrollbar-thumb { background: #2a3349; border-radius: 2px; }
+    .sws-pick-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border: 1px solid var(--border-soft, #1a2233);
+      border-radius: 14px;
+      background: var(--bg-elevated, #0e1422);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.12s ease;
+      flex-shrink: 0;
+    }
+    .sws-pick-chip:hover {
+      border-color: #2f4068;
+      color: var(--text-primary);
+    }
+    .sws-pick-chip.active {
+      border-color: rgba(74, 144, 226, 0.45);
+      color: var(--text-primary);
+      background: rgba(74, 144, 226, 0.08);
+    }
+    .sws-pick-chip-emoji { font-size: 12px; }
+    .sws-pick-chip-count {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+      background: rgba(255,255,255,0.05);
+      padding: 1px 6px;
+      border-radius: 8px;
+    }
+    .sws-pick-chip.active .sws-pick-chip-count { background: rgba(74,144,226,0.18); color: #93c5fd; }
+    .sws-pick-chipnav-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .sws-pick-chip-action {
+      padding: 6px 10px;
+      border: 1px solid var(--border-soft, #1a2233);
+      border-radius: 14px;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: all 0.12s ease;
+    }
+    .sws-pick-chip-action:hover {
+      border-color: #2f4068;
+      color: var(--text-primary);
+    }
+    @media (max-width: 720px) {
+      .sws-pick-chipnav { flex-direction: column; align-items: stretch; gap: 8px; }
+      .sws-pick-chipnav-actions { justify-content: flex-end; }
+    }
+
     /* Make the SWS pick cards clickable — visual affordance */
-    .sws-pick-card { cursor: pointer; transition: border-color 0.12s, transform 0.12s; }
+    .sws-pick-card {
+      cursor: pointer;
+      transition: border-color 0.12s, transform 0.12s;
+      padding: 14px;
+      border: 1px solid #1a2233;
+      border-radius: 6px;
+      background: var(--bg-elevated, #0e1422);
+    }
     .sws-pick-card:hover { border-color: #2f4068 !important; transform: translateY(-1px); }
     .sws-pick-card:focus-visible { outline: 2px solid var(--cyan, #4a90e2); outline-offset: 2px; }
+    .sws-pick-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .sws-pick-card-id { min-width: 0; flex: 1; display: flex; align-items: center; gap: 8px; }
+    .sws-pick-card-id-text { min-width: 0; flex: 1; }
+    .sws-pick-card-ticker { font-size: 14px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .sws-pick-card-sector {
+      font-size: 9px;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-soft, #1a2233);
+      border-radius: 3px;
+      padding: 2px 6px;
+      letter-spacing: 0.02em;
+    }
+    .sws-pick-card-name { font-size: 11px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 2px; }
+    .sws-pick-card-score { text-align: right; flex-shrink: 0; }
+    .sws-pick-card-score-num { font-size: 20px; font-weight: 600; line-height: 1; display: inline-flex; align-items: center; gap: 4px; }
+    .sws-pick-card-score-verdict {
+      font-size: 9px;
+      letter-spacing: 0.05em;
+      margin-top: 3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      justify-content: flex-end;
+    }
+    .sws-pick-card-stats {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+      font-size: 11px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .sws-pick-stat { display: inline-flex; align-items: center; gap: 4px; }
+    .sws-pick-stat-label { color: var(--text-muted); display: inline-flex; align-items: center; gap: 2px; }
+    .sws-pick-stat-snow { margin-left: auto; color: var(--text-muted); }
+    .sws-pick-card-narrative { font-size: 11px; color: var(--text-muted); margin-top: 8px; line-height: 1.4; }
+    .sws-pick-earnings-row { font-size: 11px; color: var(--gold); margin-top: 6px; }
+    .sws-pick-card-link { margin-top: 8px; }
+    .sws-pick-card-link a { font-size: 10px; color: var(--cyan); text-decoration: none; }
+    .sws-pick-card-link a:hover { text-decoration: underline; }
+    .sws-pick-rank {
+      font-size: 10px;
+      color: var(--text-muted);
+      background: #0e1422;
+      border: 1px solid #1a2233;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
 
 
     /* Intraday/Midterm info cards */

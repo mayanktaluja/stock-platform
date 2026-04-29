@@ -78,6 +78,15 @@ function infoIcon(termId) {
   return `<span class="info-icon" data-term-id="${termId}" tabindex="0" aria-label="Info: ${termId}">i</span>`;
 }
 
+// Click handler for SWS Pick cards. Opens the modal unless the click landed
+// on an info icon, a glossary term, or an embedded link — those have their
+// own behavior (tooltip / external nav) and shouldn't double-fire.
+function handlePickCardClick(event, ticker) {
+  if (event.target.closest("[data-term-id]")) return; // info icon / glossary term
+  if (event.target.closest("a")) return; // SWS link
+  openSwsModal(ticker);
+}
+
 function wrapTerm(text, termId) {
   if (!window.GLOSSARY || !window.GLOSSARY[termId]) return text;
   return `<span class="glossary-term" data-term-id="${termId}">${text}</span>`;
@@ -102,15 +111,22 @@ function recIdFromLabel(label) {
   return map[String(label).toUpperCase().trim()] || null;
 }
 
-/** Map a fundamental verdict (DEEP_VALUE etc) to its glossary ID. */
+/** Map a fundamental verdict (DEEP_VALUE etc) or v3 verdict (TOP_PICK etc) to its glossary ID. */
 function verdictIdFromLabel(verdict) {
   if (!verdict) return null;
   const map = {
+    // v1 fundamentals verdicts
     DEEP_VALUE: "deep_value",
     QUALITY_GROWTH: "quality_growth",
     FAIR_VALUE: "fair_value",
     FULLY_VALUED: "fully_valued",
     OVERVALUED: "overvalued",
+    // v3 composite verdicts (used on SWS Pick cards)
+    TOP_PICK: "v3_top_pick",
+    STRONG: "v3_strong",
+    ACCEPTABLE: "v3_acceptable",
+    WATCH: "v3_watch",
+    AVOID: "v3_avoid",
   };
   return map[String(verdict).toUpperCase().trim()] || null;
 }
@@ -6278,17 +6294,21 @@ function renderAnalyzerDisclaimer(report) {
 // Section order. top_ranked_30 leads (multi-factor score, broadest universe);
 // best_to_buy_now follows (legacy curated cut). Per-category sections after.
 // Sections with zero items hide automatically — see renderPicks.
+//
+// term_id wires each section header to a glossary tooltip explaining the
+// inclusion criteria in plain English (replaces the cryptic threshold-spec
+// subtitles that used to live here). emoji + chip_label feed the chip-nav.
 const PICKS_SECTIONS = [
-  { key: "top_ranked_30_v3", label: "⭐ Top 30 — Multi-Factor Score", subtitle: "Ranked by v3 composite (74 fundamentals · 14 momentum · ±15 safety overlay). 50%-coverage gated — every input has data for ≥50% of the universe. Mcap ≥ ₹500cr. Click any card for the full picture." },
-  { key: "best_to_buy_now", label: "🎯 Best Stocks to Buy Now", subtitle: "Top by composite score, no major risks, snowflake ≥ 18/30" },
-  { key: "deep_value", label: "💎 Deep Value", subtitle: "v3 TOP_PICK + SWS Valuation pillar ≥ 4/6 + AnalystConsensus upside ≥ 20%" },
-  { key: "quality_growth", label: "🌱 Quality Growth", subtitle: "v3 TOP_PICK or STRONG + Health ≥ 5/6 + Future-Growth pillar ≥ 4/6" },
-  { key: "midterm", label: "⚡ Midterm Picks (3-12 months)", subtitle: "v3 ≥ ACCEPTABLE + positive 1Y or 3M momentum + upside ≥ 15% + Future-Growth ≥ 3/6" },
-  { key: "dividend_aristocrats", label: "💰 Dividend Aristocrats", subtitle: "SWS Dividend pillar ≥ 5/6 + payout < 70% + trailing yield ≥ 1.5%" },
-  { key: "smallcap_gems", label: "🔍 Smallcap/Midcap Hidden Gems", subtitle: "Market cap < ₹50,000cr + snowflake ≥ 22/30 + AnalystConsensus upside ≥ 15%" },
-  { key: "insider_buying", label: "👁 Insider Buying", subtitle: "Material insider/MD buy in last 90 days (data not yet captured)" },
-  { key: "upcoming_earnings", label: "📅 Upcoming Earnings (next 30 days)", subtitle: "Sorted by date — catalysts that could move price (data not yet captured)" },
-  { key: "avoid", label: "⚠ Avoid List", subtitle: "v3 AVOID verdict (score < 22) — bottom-quartile fundamentals + momentum profile" },
+  { key: "top_ranked_30_v3", term_id: "section_top_ranked_30", emoji: "⭐", label: "⭐ Top 30 — Multi-Factor Score", chip_label: "Top 30", subtitle: "Universe-wide top 30 by v3 composite — start every session here." },
+  { key: "best_to_buy_now", term_id: "section_best_to_buy_now", emoji: "🎯", label: "🎯 Best Stocks to Buy Now", chip_label: "Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks. Use for fresh capital today." },
+  { key: "deep_value", term_id: "section_deep_value", emoji: "💎", label: "💎 Deep Value", chip_label: "Deep Value", subtitle: "Quality + cheap. TOP_PICK names trading at ≥ 20% discount to consensus FV." },
+  { key: "quality_growth", term_id: "section_quality_growth", emoji: "🌱", label: "🌱 Quality Growth", chip_label: "Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
+  { key: "midterm", term_id: "section_midterm", emoji: "⚡", label: "⚡ Midterm Picks (3-12 months)", chip_label: "Midterm", subtitle: "Trend-following — momentum already on side, with FV upside ≥ 15% remaining." },
+  { key: "dividend_aristocrats", term_id: "section_dividend_aristocrats", emoji: "💰", label: "💰 Dividend Aristocrats", chip_label: "Dividend", subtitle: "Sustainable payers: Dividend pillar ≥ 5, payout < 70%, yield ≥ 1.5%." },
+  { key: "smallcap_gems", term_id: "section_smallcap_gems", emoji: "🔍", label: "🔍 Smallcap/Midcap Hidden Gems", chip_label: "Smallcap Gems", subtitle: "Smaller-cap quality: mcap < ₹50,000cr + Snowflake ≥ 22 + upside ≥ 15%." },
+  { key: "insider_buying", term_id: "section_insider_buying", emoji: "👁", label: "👁 Insider Buying", chip_label: "Insider", subtitle: "Material insider / MD buys in last 90 days. Data field not yet captured." },
+  { key: "upcoming_earnings", term_id: "section_upcoming_earnings", emoji: "📅", label: "📅 Upcoming Earnings (next 30 days)", chip_label: "Earnings", subtitle: "Catalyst calendar — sorted by results date. Avoid initiating right before; useful pre-results setups for holdings." },
+  { key: "avoid", term_id: "section_avoid", emoji: "⚠", label: "⚠ Avoid List", chip_label: "Avoid", subtitle: "v3 AVOID — cross-check against your portfolio every refresh." },
 ];
 
 // Per-section soft cap on cards displayed inline. The Top-30 section gets
@@ -6341,36 +6361,169 @@ function renderPicksEmptyState() {
   `;
 }
 
+// Persisted accordion state. Top-30 stays expanded by default (it's the
+// hero); user choices for other sections survive across reloads in
+// localStorage. Capped at 5 expanded sections to stop a misclick from
+// resurrecting the wall-of-cards problem on next load.
+const PICKS_COLLAPSED_LS_KEY = "swsPicksCollapsed_v1";
+const PICKS_EXPANDED_CAP = 5;
+
+function loadPicksCollapsedState() {
+  try {
+    const raw = localStorage.getItem(PICKS_COLLAPSED_LS_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch { return {}; }
+}
+
+function savePicksCollapsedState(state) {
+  try { localStorage.setItem(PICKS_COLLAPSED_LS_KEY, JSON.stringify(state)); } catch {}
+}
+
+// Default: only the hero (Top-30) is expanded; everything else collapses.
+// Returns true (collapsed) unless localStorage says otherwise OR this is the
+// hero section.
+function isPicksSectionCollapsed(state, sectionKey) {
+  if (Object.prototype.hasOwnProperty.call(state, sectionKey)) return state[sectionKey];
+  return sectionKey !== "top_ranked_30_v3";
+}
+
+// Sync chip-nav .active classes from current section collapsed-state. Called
+// after every toggle so the chip indicator stays truthful (chips are
+// rendered once at load; without this they go stale).
+function syncPicksChipActiveStates() {
+  document.querySelectorAll(".sws-pick-chip[data-section-key]").forEach((chip) => {
+    const key = chip.getAttribute("data-section-key");
+    const sec = document.querySelector(`.sws-pick-section[data-section-key="${key}"]`);
+    if (!sec) return;
+    chip.classList.toggle("active", !sec.classList.contains("collapsed"));
+  });
+}
+
+// Click handler for a section header in the SWS Picks tab. Toggles the
+// .collapsed class and persists.
+function togglePicksSection(headerEl, ev) {
+  if (ev) {
+    // Don't fire when the click landed on the info icon — that opens the tooltip.
+    if (ev.target.closest("[data-term-id]")) return;
+  }
+  const section = headerEl.closest(".dashboard-section");
+  if (!section) return;
+  section.classList.toggle("collapsed");
+  const key = section.getAttribute("data-section-key");
+  if (!key) return;
+  const state = loadPicksCollapsedState();
+  state[key] = section.classList.contains("collapsed");
+  savePicksCollapsedState(state);
+  syncPicksChipActiveStates();
+}
+
+// Chip click: scroll to + expand the section. If already expanded, just scroll.
+function jumpToPicksSection(sectionKey) {
+  const section = document.querySelector(`.sws-pick-section[data-section-key="${sectionKey}"]`);
+  if (!section) return;
+  if (section.classList.contains("collapsed")) {
+    section.classList.remove("collapsed");
+    const state = loadPicksCollapsedState();
+    state[sectionKey] = false;
+    savePicksCollapsedState(state);
+  }
+  section.scrollIntoView({ behavior: "smooth", block: "start" });
+  syncPicksChipActiveStates();
+}
+
+// Expand-all / collapse-all controls in the chip-nav. Expand-all is capped
+// to PICKS_EXPANDED_CAP so we don't load 150+ cards and tank scroll perf.
+function setAllPicksCollapsed(collapsed) {
+  const sections = document.querySelectorAll(".sws-pick-section");
+  const state = loadPicksCollapsedState();
+  let expandedCount = 0;
+  sections.forEach((sec) => {
+    const key = sec.getAttribute("data-section-key");
+    if (!key) return;
+    if (collapsed) {
+      sec.classList.add("collapsed");
+      state[key] = true;
+    } else if (expandedCount < PICKS_EXPANDED_CAP) {
+      sec.classList.remove("collapsed");
+      state[key] = false;
+      expandedCount++;
+    }
+  });
+  savePicksCollapsedState(state);
+  syncPicksChipActiveStates();
+}
+
+function renderPicksChipNav(visibleSections, collapsedState) {
+  const chips = visibleSections.map(({ section, items }) => {
+    const isCollapsed = isPicksSectionCollapsed(collapsedState, section.key);
+    return `<button type="button" class="sws-pick-chip${isCollapsed ? "" : " active"}" data-section-key="${section.key}" onclick="jumpToPicksSection('${section.key}')" title="${escapeHtml(section.subtitle)}">
+      <span class="sws-pick-chip-emoji">${section.emoji}</span><span class="sws-pick-chip-label">${escapeHtml(section.chip_label)}</span><span class="sws-pick-chip-count">${items.length}</span>
+    </button>`;
+  }).join("");
+  return `
+    <div class="sws-pick-chipnav" role="navigation" aria-label="Jump to section">
+      <div class="sws-pick-chipnav-scroll">${chips}</div>
+      <div class="sws-pick-chipnav-actions">
+        <button type="button" class="sws-pick-chip-action" onclick="setAllPicksCollapsed(false)" title="Expand up to ${PICKS_EXPANDED_CAP} sections">Expand all</button>
+        <button type="button" class="sws-pick-chip-action" onclick="setAllPicksCollapsed(true)" title="Collapse every section">Collapse all</button>
+      </div>
+    </div>`;
+}
+
 function renderPicks(data) {
   const containerEl = document.getElementById("picksContainer");
-  let html = "";
+  const collapsedState = loadPicksCollapsedState();
+
+  // Filter once so chip-nav and the section list stay in sync.
+  const visibleSections = [];
   let totalShown = 0;
   for (const section of PICKS_SECTIONS) {
     const items = (data.sections && data.sections[section.key]) || [];
-    if (items.length === 0) continue; // hide empty sections — phase 3 cleanup
+    if (items.length === 0) continue;
+    visibleSections.push({ section, items });
     totalShown += items.length;
+  }
+
+  if (!totalShown) {
+    containerEl.innerHTML = `<div style="padding:24px;color:var(--text-muted);">Scan completed but no stocks matched any section filters. Check thresholds in scripts/sws-scoring.mjs.</div>`;
+    return;
+  }
+
+  const chipNav = renderPicksChipNav(visibleSections, collapsedState);
+
+  const sectionsHtml = visibleSections.map(({ section, items }) => {
     const cap = PICKS_INLINE_CAP[section.key] ?? PICKS_INLINE_DEFAULT_CAP;
     const sliced = items.slice(0, cap);
     const overflow = items.length > cap ? items.length - cap : 0;
     const isHero = section.key === "top_ranked_30_v3";
-    html += `
-      <div class="dashboard-section" style="margin-bottom:28px;${isHero ? "padding:18px 16px 4px;border:1px solid #1f2c45;border-radius:10px;background:linear-gradient(180deg, rgba(74,144,226,0.04), rgba(74,144,226,0));" : ""}">
-        <div class="section-header" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;">
-          <div>
-            <h3 style="font-size:${isHero ? "20px" : "18px"};font-weight:500;margin:0;">${section.label} <span style="color:var(--text-muted);font-weight:400;">(${items.length})</span></h3>
-            <p style="font-size:11px;color:var(--text-muted);margin:4px 0 0 0;max-width:780px;">${section.subtitle}</p>
+    const isCollapsed = isPicksSectionCollapsed(collapsedState, section.key);
+    const tip = section.term_id ? infoIcon(section.term_id) : "";
+    return `
+      <div class="dashboard-section sws-pick-section${isCollapsed ? " collapsed" : ""}${isHero ? " sws-pick-section-hero" : ""}" data-section-key="${section.key}">
+        <div class="section-header" onclick="togglePicksSection(this, event)" role="button" tabindex="0"
+             onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePicksSection(this);}">
+          <div class="section-header-left">
+            <div>
+              <div class="sws-pick-section-title">
+                <span class="section-name">${section.label}</span>
+                <span class="sws-pick-section-count">${items.length}</span>
+                ${tip}
+                <span class="section-chevron">&#9660;</span>
+              </div>
+              <p class="sws-pick-section-subtitle">${escapeHtml(section.subtitle)}</p>
+            </div>
           </div>
         </div>
-        <div class="stock-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;">
-          ${sliced.map((s, i) => renderPickCard(s, section.key, isHero ? i + 1 : null)).join("")}
+        <div class="section-body">
+          <div class="stock-cards sws-pick-grid">
+            ${sliced.map((s, i) => renderPickCard(s, section.key, isHero ? i + 1 : null)).join("")}
+          </div>
+          ${overflow ? `<div class="sws-pick-overflow">… and ${overflow} more · refine filters or open the PDF for the full list</div>` : ""}
         </div>
-        ${overflow ? `<div style="margin:10px 0 0 0;font-size:11px;color:var(--text-muted);">… and ${overflow} more</div>` : ""}
       </div>`;
-  }
-  if (!totalShown) {
-    html = `<div style="padding:24px;color:var(--text-muted);">Scan completed but no stocks matched any section filters. Check thresholds in scripts/sws-scoring.mjs.</div>`;
-  }
-  containerEl.innerHTML = html;
+  }).join("");
+
+  containerEl.innerHTML = chipNav + sectionsHtml;
 }
 
 // Color band for the score number on the card. Mirrors v3 verdict tiers
@@ -6413,6 +6566,7 @@ function renderPickCard(s, sectionKey, rank = null) {
   const headlineRaw = s.v3_score_100 != null ? s.v3_score_100 : (s.v2_score != null ? s.v2_score : s.score);
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
   const scoreColor = pickScoreColor(headlineRaw);
+  const scoreTermId = s.v3_score_100 != null ? "v3_composite_score" : "combined_score";
   // Prefer v3_verdict (TOP_PICK/STRONG/ACCEPTABLE/WATCH/AVOID) when v3 is the
   // headline score; fall back to v1's verdict labels for stocks scored only
   // under v1/v2.
@@ -6421,49 +6575,55 @@ function renderPickCard(s, sectionKey, rank = null) {
     TOP_PICK: "var(--gold)", STRONG: "var(--green)", ACCEPTABLE: "var(--cyan)", WATCH: "var(--text-muted)", AVOID: "var(--red)",
     DEEP_VALUE: "var(--gold)", QUALITY_GROWTH: "var(--green)", FAIR_VALUE: "var(--cyan)", FULLY_VALUED: "var(--text-muted)", OVERVALUED: "var(--red)",
   }[verdict] || "var(--text-muted)";
+  const verdictTermId = verdictIdFromLabel(verdict);
   const surv = s.v2_breakdown?.surveillance;
-  const survBadge = surv ? `<span class="sws-surveillance-badge" title="NSE ${surv.list} surveillance flag (${surv.timeframe || "—"})">${surv.list}</span>` : "";
-  const rankBadge = rank ? `<span style="font-size:10px;color:var(--text-muted);background:#0e1422;border:1px solid #1a2233;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums;flex-shrink:0;">${rank}</span>` : "";
+  // Surveillance badge — when a flag is present, hook it to the glossary.
+  // Native title is preserved as a fallback for keyboard-only users; the
+  // delegated tooltip handler kicks in on hover/click via data-term-id.
+  const survBadge = surv
+    ? `<span class="sws-surveillance-badge" data-term-id="nse_surveillance" tabindex="0" role="button" aria-label="NSE surveillance flag" title="NSE ${surv.list} surveillance flag (${surv.timeframe || "—"})">${surv.list}</span>`
+    : "";
+  const rankBadge = rank ? `<span class="sws-pick-rank">${rank}</span>` : "";
   const fresh = pickFreshnessPill(s.data_freshness_at);
 
   let extraRow = "";
   if (sectionKey === "upcoming_earnings" && s.next_earnings_date) {
     const d = s.days_until == null ? "?" : `${s.days_until}d`;
     const lqr = s.last_quarter_result ? `last Q: ${s.last_quarter_result}` : "";
-    extraRow = `<div style="font-size:11px;color:var(--gold);margin-top:6px;">📅 ${s.next_earnings_date} (${d}) ${lqr ? "· " + lqr : ""}</div>`;
+    extraRow = `<div class="sws-pick-earnings-row">📅 ${s.next_earnings_date} (${d}) ${lqr ? "· " + lqr : ""}</div>`;
   }
 
-  // The card is now interactive: click anywhere except the SWS link to open
-  // the modal. The link's onclick stops propagation so deep-link still works.
+  // Card click is routed through handlePickCardClick, which ignores clicks
+  // landing on info icons / glossary terms / embedded links so the tooltip
+  // and external link behaviors aren't preempted by the modal trigger.
   const safeTicker = String(s.ticker || "").replace(/[^A-Z0-9&\-]/gi, "");
   return `
     <div class="stock-card sws-pick-card" tabindex="0" role="button" aria-label="Open detail for ${safeTicker}"
          data-ticker="${safeTicker}"
-         onclick="openSwsModal('${safeTicker}')"
-         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openSwsModal('${safeTicker}');}"
-         style="padding:14px;border:1px solid #1a2233;border-radius:6px;background:var(--bg-elevated, #0e1422);">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
-        <div style="min-width:0;flex:1;display:flex;align-items:center;gap:8px;">
+         onclick="handlePickCardClick(event, '${safeTicker}')"
+         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openSwsModal('${safeTicker}');}">
+      <div class="sws-pick-card-top">
+        <div class="sws-pick-card-id">
           ${rankBadge}
-          <div style="min-width:0;flex:1;">
-            <div style="font-size:14px;font-weight:600;color:var(--text-primary);">${s.ticker}${survBadge}${s.sector ? `<span style="font-size:9px;font-weight:500;color:var(--text-muted);background:rgba(255,255,255,0.04);border:1px solid var(--border-soft, #1a2233);border-radius:3px;padding:2px 6px;margin-left:6px;letter-spacing:0.02em;vertical-align:middle;">${escapeHtml(s.sector)}</span>` : ""}</div>
-            <div style="font-size:11px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${s.name || ""}${fresh}</div>
+          <div class="sws-pick-card-id-text">
+            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
+            <div class="sws-pick-card-name">${s.name || ""}${fresh}</div>
           </div>
         </div>
-        <div style="text-align:right;">
-          <div style="font-size:20px;font-weight:600;color:${scoreColor};line-height:1;">${score}</div>
-          <div style="font-size:9px;color:${verdictColor};letter-spacing:0.05em;margin-top:3px;">${verdict.replace(/_/g, " ")}</div>
+        <div class="sws-pick-card-score">
+          <div class="sws-pick-card-score-num" style="color:${scoreColor};">${score}${infoIcon(scoreTermId)}</div>
+          <div class="sws-pick-card-score-verdict" style="color:${verdictColor};">${verdict.replace(/_/g, " ")}${verdictTermId ? infoIcon(verdictTermId) : ""}</div>
         </div>
       </div>
-      <div style="display:flex;gap:12px;margin-top:10px;font-size:11px;">
-        <div><span style="color:var(--text-muted);">Px</span> ${fmtInr(s.current_price_inr)}</div>
-        <div><span style="color:var(--text-muted);">FV</span> ${fmtInr(s.fair_value_inr)}</div>
-        <div style="color:${upsideColor};">${upside}</div>
-        <div style="margin-left:auto;color:var(--text-muted);">Snow ${sn}/30</div>
+      <div class="sws-pick-card-stats">
+        <div class="sws-pick-stat"><span class="sws-pick-stat-label">Px</span> ${fmtInr(s.current_price_inr)}</div>
+        <div class="sws-pick-stat"><span class="sws-pick-stat-label">FV${infoIcon("analyst_fair_value")}</span> ${fmtInr(s.fair_value_inr)}</div>
+        <div class="sws-pick-stat" style="color:${upsideColor};">${upside}${infoIcon("upside_pct")}</div>
+        <div class="sws-pick-stat sws-pick-stat-snow"><span class="sws-pick-stat-label">Snow${infoIcon("snowflake_score")}</span> ${sn}/30</div>
       </div>
-      <div style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.4;">${(s.narrative && s.narrative.card_one_line) || s.one_line || ""}</div>
+      <div class="sws-pick-card-narrative">${(s.narrative && s.narrative.card_one_line) || s.one_line || ""}</div>
       ${extraRow}
-      ${s.sws_url ? `<div style="margin-top:8px;"><a href="${s.sws_url}" target="_blank" rel="noopener" onclick="event.stopPropagation();" style="font-size:10px;color:var(--cyan);text-decoration:none;">Open on SWS →</a></div>` : ""}
+      ${s.sws_url ? `<div class="sws-pick-card-link"><a href="${s.sws_url}" target="_blank" rel="noopener" onclick="event.stopPropagation();">Open on SWS →</a></div>` : ""}
     </div>`;
 }
 

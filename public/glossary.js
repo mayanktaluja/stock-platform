@@ -419,4 +419,180 @@ window.GLOSSARY = {
     short: "Weight-averaged macro tilt across all your holdings (-10 to +10).",
     full: "Tells you whether your portfolio is positioned WITH the current macro regime or AGAINST it. Positive = your sector mix benefits from the current regime (tailwind). Negative = your sectors are fighting the regime (headwind). A portfolio at -8 during OIL_SHOCK is heavily exposed to aviation, autos, and chemicals — sectors that suffer when crude spikes. Use this as an early-warning rebalancing signal.",
   },
+
+  // ══════════════════════════════════════════════════════════════════════
+  // SWS PICKS — metrics, pillars, verdicts (v3 scoring engine)
+  // ══════════════════════════════════════════════════════════════════════
+
+  snowflake_score: {
+    term: "Snowflake Score",
+    category: "fundamental",
+    short: "Simply Wall Street's 6-pillar 0–30 visual rating — the 'shape' of the snowflake.",
+    full: "Aggregates Value, Future, Past, Health, Dividend, and Past-vs-Industry into a single 0–30 score (each pillar 0–6, except Position-vs-Industry which adds variation). 22+ is the high-quality band. The shape matters as much as the score: a 20 with all pillars at 3-4 is a balanced compounder, while a 20 with Health=6 + Future=0 is a cash cow with no growth runway. Always look at the pillar breakdown alongside the headline number.",
+  },
+
+  v3_composite_score: {
+    term: "Composite Score (v3)",
+    category: "fundamental",
+    short: "StarBhai's 0–100 score: 74 fundamentals + 14 momentum − 15 safety overlay.",
+    full: "Built from three blocks. Fundamentals (74 points): SWS pillars + DCF discount + ROE/leverage guardrails. Momentum (14 points): 1Y / 3M / 1M price trend, RSI position. Safety overlay (−15 points): NSE ASM/GSM penalty, declining-revenue penalty, payout-ratio penalty for unsustainable dividends. Score ≥ 60 = TOP_PICK, ≥ 45 = STRONG, ≥ 30 = ACCEPTABLE, ≥ 22 = WATCH, < 22 = AVOID. The safety overlay is what makes v3 different from a pure quality screener — it actively penalises stocks where the headline metrics look good but the structure is fragile.",
+  },
+
+  analyst_fair_value: {
+    term: "Fair Value (Analyst Consensus)",
+    category: "fundamental",
+    short: "Median sell-side price target aggregated by SWS — what the Street thinks the stock is worth.",
+    full: "Pulled live from SWS's AnalystConsensus block, which aggregates target prices from covering brokerages. Treat it as a sentiment indicator, not gospel — analyst targets cluster, lag price moves, and reflect 12-month views, not entry timing. A 20%+ upside to FV with strong Snowflake = genuine valuation gap. A 50%+ upside on a battered stock with falling earnings = the targets haven't caught down yet. Always cross-check FV against the SWS DCF if available.",
+  },
+
+  upside_pct: {
+    term: "Upside %",
+    category: "fundamental",
+    short: "(Fair Value − Current Price) ÷ Current Price — room to run before consensus says 'fair'.",
+    full: "Direct math: if Px=₹100 and FV=₹130, upside is +30%. Positive = trading at a discount to consensus FV. Negative = trading above consensus FV (fully-valued or richer). For DEEP VALUE picks, look for ≥ 20% with confirming Snowflake. For QUALITY GROWTH, ≥ 10% is enough — you're paying for compounding, not a re-rating. Negative upside on a high-quality compounder isn't necessarily a sell; it just means no margin of safety on the entry.",
+  },
+
+  valuation_pillar: {
+    term: "Valuation Pillar (SWS)",
+    category: "fundamental",
+    short: "0–6 score: how cheap the stock is vs DCF, peers, and analyst targets.",
+    full: "Built from Price-to-DCF (heaviest weight), peer P/E ratio, and discount to analyst FV. 5–6 = clearly cheap; 3–4 = fair; 0–2 = expensive. The Deep Value section requires ≥ 4 paired with ≥ 20% upside. Use this for the 'how cheap' question — pair it with the Health pillar to avoid value traps (cheap-and-broken).",
+  },
+
+  future_growth_pillar: {
+    term: "Future Growth Pillar (SWS)",
+    category: "fundamental",
+    short: "0–6 score: expected forward earnings + revenue growth vs market and sector.",
+    full: "Driven by analyst estimates of 1Y / 3Y forward earnings growth, normalised against the broader market. 5–6 = top-decile growth runway (Future-pillar leaders are usually IT, specialty chems, new-economy names). 3–4 = above market. 0–2 = no growth or shrinkage expected. Quality Growth section requires ≥ 4. Pair with Past pillar — strong Future + weak Past means the growth story is unproven.",
+  },
+
+  health_pillar: {
+    term: "Financial Health Pillar (SWS)",
+    category: "fundamental",
+    short: "0–6 score: balance-sheet strength — debt, cash cover, interest cover.",
+    full: "Captures debt-to-equity, debt-to-EBITDA, interest coverage ratio, and short-term liquidity. 5–6 = fortress balance sheet (net cash or trivial leverage). 3–4 = manageable debt with comfortable interest cover. 0–2 = leverage that can become a problem in a downturn. Quality Growth section requires ≥ 5 — for a long-term hold, the balance sheet must survive the next cycle, not just this quarter.",
+  },
+
+  dividend_pillar: {
+    term: "Dividend Pillar (SWS)",
+    category: "fundamental",
+    short: "0–6 score: yield + payout sustainability + dividend track record.",
+    full: "Combines current yield, payout ratio (lower is more sustainable), and history of stable or growing payouts. 5–6 = aristocrat-grade (consistent payer, payout < 70%, yield ≥ 1.5%). 3–4 = pays dividends but either yield is small or coverage is thin. 0–2 = no meaningful dividend. The Dividend Aristocrats section requires ≥ 5 + payout < 70% — high yield with payout > 90% is usually a yield trap (next dividend cut is a matter of when, not if).",
+  },
+
+  nse_surveillance: {
+    term: "NSE Surveillance Flag",
+    category: "fundamental",
+    short: "ASM / GSM / TT placement on NSE — a regulatory speed-bump signalling unusual activity.",
+    full: "ASM (Additional Surveillance Measure) and GSM (Graded Surveillance Measure) are NSE's mechanisms to slow trading in stocks showing unusual price/volume patterns or weak fundamentals. ASM Stage 1–4 escalates from price-band tightening to 100% margin and trade-to-trade settlement. GSM Stage 1–6 escalates similarly with stricter constraints. TT (Trade-to-Trade) requires every trade to settle by delivery — no intraday squaring. A surveillance flag isn't a verdict, but it's a flag worth respecting: SEBI/NSE saw enough to act. The v3 safety overlay applies up to −15 points based on stage.",
+  },
+
+  v3_top_pick: {
+    term: "TOP PICK (v3)",
+    category: "verdict",
+    short: "Composite ≥ 60 — top-decile fundamentals + clean safety profile.",
+    full: "The highest v3 tier. Strong on at least 3 of the 4 SWS pillars (Value/Future/Health/Dividend) AND clean on safety (no ASM/GSM, no payout > 100%, no declining revenue trend). These are the ~5–8% of the universe that pass every gate. Suitable as core holdings — but TOP_PICK doesn't override valuation: if upside-to-FV is negative, treat it as a high-quality compounder at full price, not a fresh entry.",
+  },
+
+  v3_strong: {
+    term: "STRONG (v3)",
+    category: "verdict",
+    short: "Composite 45–59 — solid quality, minor blemish on one dimension.",
+    full: "Either fundamentals are strong but safety overlay shaved a few points (low-stage surveillance, slightly elevated payout) or fundamentals are very strong on 2 pillars but average on the others. Good initiation candidates with normal position sizing. Roughly the next 15–20% of the universe after TOP_PICK.",
+  },
+
+  v3_acceptable: {
+    term: "ACCEPTABLE (v3)",
+    category: "verdict",
+    short: "Composite 30–44 — middle of the pack, no clear edge.",
+    full: "Neither cheap nor expensive, neither high-growth nor declining. The bulk of the universe lands here. For Acceptable stocks, the entry decision should be driven by sector view and technicals, not the v3 score — the score is just saying 'no fundamental red flags, no green flags either'. Smaller starter positions only.",
+  },
+
+  v3_watch: {
+    term: "WATCH (v3)",
+    category: "verdict",
+    short: "Composite 22–29 — one or more weak signals; not actionable today.",
+    full: "Either fundamentals are below average on multiple pillars, or the safety overlay has docked points. WATCH means 'don't initiate, but worth monitoring' — sometimes a turnaround starts here before it shows up in the headline score. Existing holdings should be reviewed: if the deterioration is structural, trim; if cyclical, hold with a stop.",
+  },
+
+  v3_avoid: {
+    term: "AVOID (v3)",
+    category: "verdict",
+    short: "Composite < 22 — bottom-quartile fundamentals + meaningful safety risk.",
+    full: "Combination of weak pillars (low Health or Future), bearish momentum, and active safety penalties (ASM/GSM placement, declining revenue, unsustainable payout). The v3 AVOID list exists explicitly to keep these out of buy categories — high downside, limited upside, regulatory friction. Existing positions should be reviewed for exit on next strength.",
+  },
+
+  // ══════════════════════════════════════════════════════════════════════
+  // SWS PICKS — section criteria
+  // ══════════════════════════════════════════════════════════════════════
+
+  section_top_ranked_30: {
+    term: "Top 30 — Multi-Factor Score",
+    category: "verdict",
+    short: "The 30 highest v3 composite scores in the universe (mcap ≥ ₹500cr).",
+    full: "Pure ranking — the top 30 by v3 composite score across the entire scanned universe, gated to ≥ 50% data coverage on every input (no thin-data inflations) and market cap ≥ ₹500cr (no micro-caps where the underlying SWS data is sparse). This is the section to start every session with — the universe-wide best of class.",
+  },
+
+  section_best_to_buy_now: {
+    term: "Best Stocks to Buy Now",
+    category: "verdict",
+    short: "Top by composite score with no major risks + Snowflake ≥ 18/30.",
+    full: "Tighter cut than Top-30 — adds a Snowflake floor (18/30 = solid pillar coverage) and explicitly excludes any stock with a major risk flag (high payout, declining revenue, ASM/GSM stage 3+). The Top-30 may include 'great score but watch the leverage' names; this list aims for 'safe to initiate today'. Use this for fresh capital deployment.",
+  },
+
+  section_deep_value: {
+    term: "Deep Value (section)",
+    category: "verdict",
+    short: "TOP_PICK + Valuation pillar ≥ 4/6 + AnalystConsensus upside ≥ 20%.",
+    full: "Stocks that are both high-quality (TOP_PICK on v3) AND visibly cheap (Valuation pillar 4+ and at least 20% upside to consensus FV). The combination is the point — cheap-only without quality is the value-trap zone. Typical hold period 12–24 months while the multiple re-rates. Smaller bucket than Quality Growth because the dual filter is strict.",
+  },
+
+  section_quality_growth: {
+    term: "Quality Growth (section)",
+    category: "verdict",
+    short: "TOP_PICK or STRONG + Health ≥ 5/6 + Future-Growth ≥ 4/6.",
+    full: "Compounders: balance-sheet fortress (Health ≥ 5) plus a clear forward growth runway (Future-Growth ≥ 4). Pays a premium to enter and isn't the cheapest section, but the durability is the trade. The Health gate is what keeps this list from drifting into highly-leveraged 'growth' names that crack in downturns. Hold periods often multi-year.",
+  },
+
+  section_midterm: {
+    term: "Midterm Picks (3–12 months)",
+    category: "verdict",
+    short: "ACCEPTABLE+ + positive 1Y or 3M momentum + upside ≥ 15% + Future-Growth ≥ 3.",
+    full: "Trend-following bucket: stocks that already have momentum on their side (positive 1Y or 3M return) AND remaining upside (≥ 15% to consensus FV) AND a credible growth story (Future-Growth ≥ 3). Lower quality bar than Quality Growth (ACCEPTABLE+ instead of STRONG+) because the trade is shorter — you're riding momentum, not betting on a multi-year compounder.",
+  },
+
+  section_dividend_aristocrats: {
+    term: "Dividend Aristocrats (section)",
+    category: "verdict",
+    short: "Dividend pillar ≥ 5/6 + payout < 70% + trailing yield ≥ 1.5%.",
+    full: "Sustainability-first dividend list: high pillar score (5+ means consistent payer with reasonable yield) AND payout under 70% (room to absorb a bad year without cutting) AND trailing yield ≥ 1.5% (otherwise the dividend isn't material to total return). The payout gate is critical — yield-screen lists without it are full of stocks one bad quarter away from a cut.",
+  },
+
+  section_smallcap_gems: {
+    term: "Smallcap/Midcap Hidden Gems",
+    category: "verdict",
+    short: "Mcap < ₹50,000cr + Snowflake ≥ 22/30 + AnalystConsensus upside ≥ 15%.",
+    full: "Smaller-cap quality: market cap below the large-cap threshold AND a high Snowflake (22+/30 = strong on 4+ pillars) AND visible upside (≥ 15% to consensus). The Snowflake gate is what separates this from a generic 'small-cap' screen — most small-caps have weak Health or Future pillars; the few that score 22+ are the genuine compounders that simply haven't been discovered yet. Sized smaller than large-cap holdings due to liquidity and volatility.",
+  },
+
+  section_insider_buying: {
+    term: "Insider Buying",
+    category: "verdict",
+    short: "Material insider/MD buy in last 90 days. (Field not yet captured.)",
+    full: "Tracks recent open-market purchases by promoters, MDs, or other insiders — historically one of the strongest single-factor signals for forward returns. Insiders selling can mean anything (diversification, taxes), but insiders BUYING almost always means they expect the price to be higher. Section is currently empty pending insider-transaction capture in the deep-scrape pipeline.",
+  },
+
+  section_upcoming_earnings: {
+    term: "Upcoming Earnings (next 30 days)",
+    category: "verdict",
+    short: "Stocks with results due in the next 30 days, sorted by date.",
+    full: "Catalyst calendar: every stock with an earnings date in the next month, sorted by proximity. Earnings are the single biggest scheduled price-mover for a stock — a beat on a high-quality name is often a 5–10% gap up; a miss on a richly-valued name is often a 10–20% gap down. Use this section to (a) avoid initiating on names reporting tomorrow, and (b) spot pre-results setups on high-conviction holdings.",
+  },
+
+  section_avoid: {
+    term: "Avoid List",
+    category: "verdict",
+    short: "v3 AVOID verdict — composite < 22, bottom-quartile fundamentals + risk overlay.",
+    full: "The mirror image of TOP_PICK: weak pillars + active safety penalties (ASM/GSM, declining revenue, unsustainable payout, etc.). Listed not as a 'short these' signal — Indian shorting is restricted to F&O and carries its own risks — but as a 'don't be the bag-holder' list. Cross-check against your portfolio every refresh; if any of your holdings appear here, it's worth a fundamental re-examination.",
+  },
 };
