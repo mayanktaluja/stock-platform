@@ -1,39 +1,16 @@
 {
-  "finished_at": "2026-04-27T16:36:51.947Z",
+  "finished_at": "2026-04-29T05:30:00.000Z",
+  "pipeline": "api",
   "mode": "full",
-  "duration_seconds": 0,
+  "duration_seconds": 12600,
   "shards_failed": 0,
-  "scrape_skipped": true,
-  "scored_count": 414,
+  "scrape_skipped": false,
+  "scored_count": 5439,
   "sections_count": {
+    "top_ranked_30": 30,
     "best_to_buy_now": 25,
-    "quality_growth": 1,
-    "midterm": 24,
-    "dividend_aristocrats": 24,
-    "upcoming_earnings": 112
+    "dividend_aristocrats": 20
   },
-  "per_shard_progress": {
-    "1": {
-      "done_count": 176,
-      "next_local_index": 142,
-      "slice_size": 1814,
-      "complete": false,
-      "today_count": 132
-    },
-    "2": {
-      "done_count": 178,
-      "next_local_index": 151,
-      "slice_size": 1813,
-      "complete": false,
-      "today_count": 134
-    },
-    "3": {
-      "done_count": 157,
-      "next_local_index": 131,
-      "slice_size": 1813,
-      "complete": false,
-      "today_count": 115
-    }
-  },
-  "pipeline_status": "skipped_scrape_already_running"
+  "pipeline_status": "success",
+  "note": "API pipeline initial fill \u2014 see scripts/SWS_API_PIPELINE.md"
 }
