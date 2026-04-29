@@ -75,6 +75,8 @@ import {
 } from "./governance.js";
 import { parsePortfolioFile, resolveUnmatchedLive } from "./portfolioParser.js";
 import { analyzeHolding, buildReport } from "./portfolioAnalyzer.js";
+import { scoreHolding as swsScoreHolding } from "./services/swsHoldingEngine.js";
+import { buildSWSReport } from "./services/swsPortfolioAggregate.js";
 import { runXirrOptimizer, PRESETS as OPTIMIZER_PRESETS } from "./xirrOptimizer.js";
 import { enrichMfHoldings, enrichLivePeers, enrichBenchmarkMetrics } from "./mfNavIngestion.js";
 import { enrichMfNews } from "./mfNews.js";
@@ -5694,6 +5696,11 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
     const optTaxSlabPct = Number.parseInt(req.body.taxSlabPct || req.query.taxSlabPct || "30", 10);
     const optAssumedHoldingMonths = Number.parseInt(req.body.assumedHoldingMonths || req.query.assumedHoldingMonths || "24", 10);
     const ltcgRealisedYtdRupees = Number.parseFloat(req.body.ltcgRealisedYtd || req.query.ltcgRealisedYtd || "0");
+    // Engine selector — "sws" routes to the SWS-first recommendation engine
+    // (data/sws/deep + Tier A/B/C/D action grid). Anything else falls through
+    // to the legacy Yahoo+OpenAI per-stock enrichment path.
+    const engine = String(req.body.engine || req.query.engine || "legacy").toLowerCase();
+    const freshCapitalInr = Number.parseFloat(req.body.freshCapitalInr || req.query.freshCapitalInr || "0") || null;
 
     // Pull saved MF holdings + risk profile from the user's stored portfolio
     // so the analyzer can compute a true book-wide XIRR (not stock-only)
@@ -5836,6 +5843,152 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
         report,
       });
     }
+
+    // ============================================================
+    // SWS Engine (Beta) — short-circuits the legacy enrichment path.
+    // Reads data/sws/deep/{TICKER}.json for each equity holding,
+    // scores via the SWS composite + v2 model, and returns a
+    // Tier A/B/C/D action grid. MFs/ETFs use the existing path.
+    // ============================================================
+    if (engine === "sws") {
+      const swsT0 = Date.now();
+      const swsTimings = {};
+
+      const equityHoldings = parsed.holdings.map((h) => {
+        const qty = Number(h.quantity) || 0;
+        const avg = Number(h.avgPrice) || 0;
+        return { ...h, quantity: qty, avgPrice: avg, invested: qty * avg };
+      });
+
+      // First pass: pull SWS price + sector for every holding so we can
+      // compute portfolio-wide weights before action mapping. Second pass
+      // below re-runs scoring with the real position/sector weights so
+      // action mapping (Reduction-50% on >10% positions, etc.) fires.
+      const firstPass = equityHoldings.map((h) =>
+        swsScoreHolding({ ...h, positionWeight: 0, sectorWeight: 0, pnlPercent: 0 }, { sectorWeights: {} })
+      );
+
+      let totalInvested = 0;
+      let totalCurrent = 0;
+      const sectorCV = new Map();
+      const enrichedRows = firstPass.map((row) => {
+        const livePrice = row.swsCovered ? Number(row.sws.current_price_inr) : null;
+        const qty = Number(row.quantity) || 0;
+        const avg = Number(row.avgPrice) || 0;
+        const invested = qty * avg;
+        const currentValue = (livePrice != null && Number.isFinite(livePrice)) ? qty * livePrice : invested;
+        totalInvested += invested;
+        totalCurrent += currentValue;
+        const sector = row.swsCovered ? (row.sws.sector || "Unclassified") : (row.sector || "Unclassified");
+        sectorCV.set(sector, (sectorCV.get(sector) || 0) + currentValue);
+        return { ...row, invested, currentValue, livePrice, sector };
+      });
+
+      const sectorWeights = {};
+      for (const [sector, cv] of sectorCV.entries()) {
+        sectorWeights[sector] = totalCurrent > 0 ? (cv / totalCurrent) * 100 : 0;
+      }
+
+      const scoredHoldings = enrichedRows.map((row) => {
+        const positionWeight = totalCurrent > 0 ? (row.currentValue / totalCurrent) * 100 : 0;
+        const sectorWeight = sectorWeights[row.sector] || 0;
+        const pnlPercent = row.invested > 0 ? ((row.currentValue - row.invested) / row.invested) * 100 : 0;
+        const rescored = swsScoreHolding(
+          { ...row, positionWeight, sectorWeight, pnlPercent },
+          { sectorWeights },
+        );
+        return {
+          ...rescored,
+          invested: Math.round(row.invested),
+          currentValue: Math.round(row.currentValue),
+          pnlAmount: Math.round(row.currentValue - row.invested),
+          pnlPercent: Math.round(pnlPercent * 100) / 100,
+          positionWeight: Math.round(positionWeight * 100) / 100,
+          sectorWeight: Math.round(sectorWeight * 100) / 100,
+          livePrice: row.livePrice,
+        };
+      });
+
+      swsTimings.score_ms = Date.now() - swsT0;
+      const aggT0 = Date.now();
+      const swsReport = buildSWSReport(scoredHoldings, {
+        freshCapitalInr,
+        freshPickLimit: 8,
+      });
+      swsTimings.aggregate_ms = Date.now() - aggT0;
+
+      // MF enrichment: only enrich MFs from the upload (saved-portfolio MFs
+      // surface as raw reference rows; users wanting full MF analysis can
+      // switch to the legacy engine).
+      let mfPositions = null;
+      const uploadedMfs = Array.isArray(parsed.mfHoldings) ? parsed.mfHoldings : [];
+      const mfT0 = Date.now();
+      if (uploadedMfs.length > 0) {
+        try {
+          await Promise.all([
+            enrichMfHoldings(uploadedMfs),
+            enrichMfNews(uploadedMfs, { openai: getOpenAI() }),
+            enrichLivePeers(uploadedMfs),
+          ]);
+          await enrichBenchmarkMetrics(uploadedMfs);
+          const mfReport = buildReport([], [], {
+            source: parsed.source,
+            mfHoldings: uploadedMfs,
+            riskProfile: savedRiskProfile,
+            warnings: [],
+          });
+          mfPositions = mfReport.mfPositions || null;
+        } catch (e) {
+          console.warn("[ANALYZE/SWS] MF enrichment failed:", e.message);
+        }
+      } else if (mfHoldings.length > 0) {
+        mfPositions = {
+          source: "saved-portfolio",
+          enriched: false,
+          riskProfile: savedRiskProfile,
+          holdings: mfHoldings.map((m) => ({
+            name: m.name,
+            category: m.category,
+            invested: m.invested,
+            currentValue: m.currentValue,
+            pnlPercent: m.pnlPercent,
+            publishedXirrPct: m.publishedXirrPct,
+          })),
+          note: "Saved-portfolio MFs shown without live AMFI/news enrichment in SWS engine. Switch to Legacy engine for full MF analysis.",
+        };
+      }
+      swsTimings.mf_ms = Date.now() - mfT0;
+      swsTimings.mf_count = uploadedMfs.length;
+      swsTimings.mf_saved_count = mfHoldings.length;
+
+      const sessionId = randomUUID();
+      analyzerCache.set(sessionId, {
+        engine: "sws",
+        holdings: scoredHoldings,
+        mfHoldings,
+        sectorAllocation: swsReport.sectorOverlay || [],
+        ltcgRealisedYtdRupees,
+        cachedAt: Date.now(),
+      });
+
+      return res.json({
+        ok: true,
+        elapsedMs: Date.now() - t0,
+        swsElapsedMs: Date.now() - swsT0,
+        swsTimings,
+        sessionId,
+        report: {
+          ...swsReport,
+          source: parsed.source,
+          asOfDate: parsed.summary?.asOfDate ?? null,
+          mfPositions,
+          unmatched: parsed.unmatched || [],
+          warnings: parsed.warnings || [],
+          disclaimer: "SWS Engine (Beta) · Educational analysis only. Verify live prices and risk before any transaction. SEBI-aligned tier classification; not personalised investment advice.",
+        },
+      });
+    }
+    // ============================================================
 
     // 2. Fetch live macro regime once for the whole portfolio
     let macroRegime = null;

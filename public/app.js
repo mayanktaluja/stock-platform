@@ -4303,6 +4303,18 @@ function initPortfolioAnalyzer() {
   const input = document.getElementById("analyzerFileInput");
   const browseBtn = document.getElementById("analyzerBrowseBtn");
   const dropArea = document.getElementById("analyzerDropArea");
+  const engineToggle = document.getElementById("useSWSEngine");
+  const freshCapitalWrap = document.getElementById("analyzerEngineFreshCapital");
+
+  if (engineToggle) {
+    const saved = localStorage.getItem("analyzer_engine");
+    engineToggle.checked = saved === "sws";
+    if (freshCapitalWrap) freshCapitalWrap.style.display = engineToggle.checked ? "flex" : "none";
+    engineToggle.addEventListener("change", () => {
+      localStorage.setItem("analyzer_engine", engineToggle.checked ? "sws" : "legacy");
+      if (freshCapitalWrap) freshCapitalWrap.style.display = engineToggle.checked ? "flex" : "none";
+    });
+  }
 
   browseBtn.addEventListener("click", () => input.click());
   input.addEventListener("change", (e) => {
@@ -4359,17 +4371,22 @@ async function analyzePortfolioFile(file) {
   }
 
   setAnalyzerState("analyzing");
-  document.getElementById("analyzerProgressText").textContent =
-    `Analyzing ${file.name}…`;
+  const engineToggle = document.getElementById("useSWSEngine");
+  const useSws = !!(engineToggle && engineToggle.checked);
+  document.getElementById("analyzerProgressText").textContent = useSws
+    ? `Scoring ${file.name} via SWS Engine…`
+    : `Analyzing ${file.name}…`;
 
   try {
     const fd = new FormData();
     fd.append("file", file);
-    // Pass the user's persisted tax slab so the first analyze respects it
-    // (otherwise the server defaults to 30 and a 5%-slab user would see
-    // their first optimizer block computed with the wrong rate).
     fd.append("taxSlabPct", String(_optimizerState.taxSlabPct));
     fd.append("preset", _optimizerState.preset);
+    if (useSws) {
+      fd.append("engine", "sws");
+      const fresh = Number(document.getElementById("analyzerFreshCapital")?.value || 0);
+      if (Number.isFinite(fresh) && fresh > 0) fd.append("freshCapitalInr", String(fresh));
+    }
     const res = await fetch("/api/portfolio/analyze", { method: "POST", body: fd });
     const data = await res.json();
     if (!res.ok) {
@@ -4377,7 +4394,11 @@ async function analyzePortfolioFile(file) {
     }
     _optimizerState.sessionId = data.sessionId || data.report?.optimizer?.sessionId || null;
     _optimizerState.optimizer = data.report?.optimizer || null;
-    renderAnalyzerReport(data.report, data.elapsedMs);
+    if (data.report?.engine === "sws") {
+      renderSWSAnalyzerReport(data.report, data.elapsedMs);
+    } else {
+      renderAnalyzerReport(data.report, data.elapsedMs);
+    }
     setAnalyzerState("report");
   } catch (err) {
     setAnalyzerState("upload");
@@ -4416,6 +4437,363 @@ const ANALYZER_ACTION_COLORS = {
 function actionBadge(action, displayAction) {
   const c = ANALYZER_ACTION_COLORS[action] || ANALYZER_ACTION_COLORS.HOLD;
   return `<span style="display:inline-block; padding:3px 10px; border-radius:4px; background:${c.bg}; border:1px solid ${c.border}; color:${c.text}; font-size:11px; font-weight:700; letter-spacing:0.3px;">${displayAction || action}</span>`;
+}
+
+// ──────────────────── SWS Engine renderer (Beta) ────────────────────
+//
+// The SWS engine replaces the per-stock urgent-actions/holdings cards with
+// a Tier A/B/C/D action grid driven by the SWS deep snapshot. This
+// renderer overrides the entire #analyzerReport container.
+
+const SWS_ACTION_COLORS = {
+  "EXIT":              { bg: "rgba(220,38,38,0.18)", border: "rgba(220,38,38,0.55)", text: "#fca5a5" },
+  "Reduction-50%":     { bg: "rgba(239,68,68,0.14)", border: "rgba(239,68,68,0.45)", text: "#f87171" },
+  "Reduction-25-33%":  { bg: "rgba(250,204,21,0.14)", border: "rgba(250,204,21,0.4)", text: "#fde047" },
+  "HOLD":              { bg: "rgba(59,130,246,0.12)", border: "rgba(59,130,246,0.35)", text: "#93c5fd" },
+  "Top-up-modest":     { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.4)",   text: "#86efac" },
+  "Top-up":            { bg: "rgba(34,197,94,0.18)",  border: "rgba(34,197,94,0.6)",   text: "#86efac" },
+  "STRONG Top-up":     { bg: "rgba(34,197,94,0.25)",  border: "rgba(34,197,94,0.7)",   text: "#bbf7d0" },
+  "n/a":               { bg: "rgba(107,114,128,0.12)", border: "rgba(107,114,128,0.4)", text: "#9ca3af" },
+};
+
+function swsActionBadge(action) {
+  const c = SWS_ACTION_COLORS[action] || SWS_ACTION_COLORS["HOLD"];
+  return `<span style="display:inline-block; padding:4px 10px; border-radius:5px; background:${c.bg}; border:1px solid ${c.border}; color:${c.text}; font-size:11px; font-weight:700; letter-spacing:0.3px; white-space:nowrap;">${action || "—"}</span>`;
+}
+
+function swsTimingBadge(timing) {
+  if (!timing || timing.verdict === "n/a") return "";
+  const colors = {
+    "Yes":            { bg: "rgba(34,197,94,0.10)",  text: "#86efac" },
+    "Yes-not-urgent": { bg: "rgba(59,130,246,0.10)", text: "#93c5fd" },
+    "Soft-no":        { bg: "rgba(250,204,21,0.10)", text: "#fde047" },
+    "No":             { bg: "rgba(239,68,68,0.10)",  text: "#f87171" },
+  };
+  const c = colors[timing.verdict] || colors["Yes-not-urgent"];
+  const window = timing.window ? ` · ${timing.window}` : "";
+  return `<span title="${swsEscapeAttr(timing.reason || "")}" style="display:inline-block; padding:2px 8px; border-radius:3px; background:${c.bg}; color:${c.text}; font-size:10px; font-weight:600; letter-spacing:0.2px;">${timing.verdict}${window}</span>`;
+}
+
+function swsEscapeAttr(s) {
+  return String(s || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function swsSnowflakeMini(snow) {
+  if (!snow) return "—";
+  const cells = [
+    { k: "Val", v: snow.valuation },
+    { k: "Fut", v: snow.future_growth },
+    { k: "Past", v: snow.past_performance },
+    { k: "Hlth", v: snow.financial_health },
+    { k: "Div", v: snow.dividends },
+  ];
+  return `<div style="display:inline-flex; gap:4px; align-items:center;">
+    ${cells.map(c => `<span title="${c.k} ${c.v}/6" style="display:inline-block; min-width:18px; padding:1px 4px; background:rgba(59,130,246,${0.05 + (c.v || 0) * 0.04}); border:1px solid rgba(59,130,246,${0.15 + (c.v || 0) * 0.05}); border-radius:3px; font-size:10px; font-weight:700; text-align:center; color:#93c5fd;">${c.v ?? "—"}</span>`).join("")}
+    <span style="margin-left:6px; font-size:11px; color:var(--text-muted);">${snow.total ?? "—"}/30</span>
+  </div>`;
+}
+
+function swsKpiCard(label, valueHtml) {
+  return `<div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:12px 14px;">
+    <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:4px;">${label}</div>
+    <div style="font-size:18px; font-weight:700;">${valueHtml}</div>
+  </div>`;
+}
+
+function swsHoldingRow(h) {
+  const sws = h.sws || {};
+  const tk = sws.ticker || h.symbol || "—";
+  const name = sws.name || h.name || "";
+  const v2 = sws.v2_score != null ? sws.v2_score : "—";
+  const verdict = sws.verdict || "—";
+  const cv = h.currentValue;
+  const pos = h.positionWeight != null ? h.positionWeight + "%" : "—";
+  const pnlPct = h.pnlPercent;
+  return `<tr style="border-top:1px solid #2a3349; cursor:pointer;" onclick="loadStock('${tk}.NS')">
+    <td style="padding:10px 12px;">
+      <div style="font-weight:600;">${tk}</div>
+      <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(name)}${sws.sector ? " · " + swsEscapeAttr(sws.sector) : ""}</div>
+    </td>
+    <td style="padding:10px 12px;">${swsActionBadge(h.action)}</td>
+    <td style="padding:10px 12px;">
+      <div style="font-weight:600;">${v2}</div>
+      <div style="font-size:10px; color:var(--text-muted);">${verdict}</div>
+    </td>
+    <td style="padding:10px 12px;">${swsSnowflakeMini(sws.snowflake)}</td>
+    <td style="padding:10px 12px;">
+      <div>${inr(cv)}</div>
+      <div style="font-size:10px; color:var(--text-muted);">${pos} of book</div>
+    </td>
+    <td style="padding:10px 12px; text-align:right; color:${pctColor(pnlPct)}; font-weight:600;">${pnlPct != null ? (pnlPct >= 0 ? "+" : "") + pnlPct + "%" : "—"}</td>
+    <td style="padding:10px 12px; text-align:right; color:#86efac; font-weight:600;">${h.freedRupees != null ? inr(h.freedRupees) : "—"}</td>
+    <td style="padding:10px 12px;">${swsTimingBadge(h.timing)}</td>
+  </tr>`;
+}
+
+function swsReasonRow(h) {
+  if (!h.reasons || h.reasons.length === 0) return "";
+  const tk = h.sws?.ticker || h.symbol || "—";
+  return `<details style="margin-top:8px; background:rgba(255,255,255,0.02); border:1px solid #1f2937; border-radius:6px; padding:8px 12px;">
+    <summary style="cursor:pointer; font-size:12px; color:var(--text-muted);"><strong style="color:var(--text);">${tk}</strong> · why this action</summary>
+    <ul style="margin:8px 0 0 0; padding-left:20px; font-size:12px; line-height:1.6;">
+      ${h.reasons.map(r => `<li>${swsEscapeAttr(r)}</li>`).join("")}
+    </ul>
+    ${h.timing && h.timing.reason ? `<div style="margin-top:6px; font-size:11px; color:var(--text-muted); padding:6px 10px; background:rgba(0,0,0,0.2); border-radius:4px;"><strong>Timing:</strong> ${swsEscapeAttr(h.timing.reason)}</div>` : ""}
+  </details>`;
+}
+
+function renderSWSTierA(tier) {
+  if (!tier || !tier.rows || tier.rows.length === 0) {
+    return `<div style="margin-bottom:18px;">
+      <div style="font-size:13px; font-weight:700; margin-bottom:8px; color:var(--text-muted);">Tier A · Reductions</div>
+      <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:14px; font-size:12px; color:var(--text-muted);">No reductions flagged — every covered holding scored ≥ FAIR_VALUE.</div>
+    </div>`;
+  }
+  return `<div style="margin-bottom:22px;">
+    <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px; gap:12px; flex-wrap:wrap;">
+      <div style="font-size:14px; font-weight:700;">Tier A · Reductions <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${tier.rows.length})</span></div>
+      <div style="font-size:12px; color:var(--text-muted);">Frees up <strong style="color:#86efac;">${inr(tier.freedRupees || 0)}</strong> for Tier B deployment</div>
+    </div>
+    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse; font-size:13px;">
+        <thead>
+          <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+            <th style="padding:10px 12px;">Stock</th>
+            <th style="padding:10px 12px;">Action</th>
+            <th style="padding:10px 12px;">v2 score</th>
+            <th style="padding:10px 12px;">Snowflake</th>
+            <th style="padding:10px 12px;">Position</th>
+            <th style="padding:10px 12px; text-align:right;">P&amp;L</th>
+            <th style="padding:10px 12px; text-align:right;">Freed ₹</th>
+            <th style="padding:10px 12px;">Timing</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${tier.rows.map(swsHoldingRow).join("")}
+        </tbody>
+      </table>
+    </div>
+    ${tier.rows.map(swsReasonRow).filter(Boolean).join("")}
+  </div>`;
+}
+
+function swsBasketRow(r) {
+  const upside = r.upside_pct != null ? `<span style="color:${r.upside_pct >= 0 ? '#86efac' : '#f87171'};">${r.upside_pct >= 0 ? '+' : ''}${r.upside_pct.toFixed(1)}%</span>` : "—";
+  const sourceTag = r.source === "holding"
+    ? `<span title="In-portfolio top-up" style="font-size:9px; padding:1px 6px; background:rgba(34,197,94,0.12); color:#86efac; border-radius:3px; letter-spacing:0.3px;">HELD</span>`
+    : `<span title="Outside-portfolio fresh pick" style="font-size:9px; padding:1px 6px; background:rgba(59,130,246,0.12); color:#93c5fd; border-radius:3px; letter-spacing:0.3px;">FRESH</span>`;
+  const suggested = r.suggested_inr ? `<div style="font-size:10px; color:var(--text-muted);">Suggested ${inr(r.suggested_inr)}</div>` : "";
+  return `<div style="padding:10px 14px; border-bottom:1px solid #1a2238; cursor:pointer;" onclick="loadStock('${r.ticker}.NS')">
+    <div style="display:flex; justify-content:space-between; align-items:baseline; gap:8px;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <strong style="font-size:13px;">${r.ticker}</strong>
+        ${sourceTag}
+      </div>
+      <div style="font-size:11px; color:var(--text-muted); font-weight:600;">v2 ${r.v2_score ?? "—"}</div>
+    </div>
+    <div style="margin-top:4px; font-size:11px; color:var(--text-muted); display:flex; gap:10px; flex-wrap:wrap;">
+      <span>${swsEscapeAttr(r.sector || "—")}</span>
+      <span>${swsSnowflakeMini(r.snowflake)}</span>
+    </div>
+    <div style="margin-top:4px; display:flex; justify-content:space-between; gap:8px; font-size:11px;">
+      <span>FV: ${upside}</span>
+      <span style="color:var(--text-muted);">P/E ${r.multiples?.pe?.toFixed?.(1) ?? "—"}x · Yield ${r.dividend_yield_pct?.toFixed?.(1) ?? "—"}%</span>
+    </div>
+    ${suggested}
+  </div>`;
+}
+
+function swsBasketCard(title, criteria, rows, accentColor) {
+  return `<div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; overflow:hidden;">
+    <div style="padding:12px 14px; border-bottom:1px solid #2a3349; background:rgba(0,0,0,0.15);">
+      <div style="font-size:13px; font-weight:700; color:${accentColor};">${title} <span style="color:var(--text-muted); font-weight:500;">(${rows.length})</span></div>
+      <div style="font-size:10px; color:var(--text-muted); margin-top:3px; letter-spacing:0.2px;">${criteria}</div>
+    </div>
+    <div style="max-height:380px; overflow-y:auto;">
+      ${rows.length === 0
+        ? `<div style="padding:14px; font-size:12px; color:var(--text-muted);">No qualifying picks in current snapshot.</div>`
+        : rows.map(swsBasketRow).join("")}
+    </div>
+  </div>`;
+}
+
+function renderSWSTierB(baskets) {
+  const def = baskets.defensive || [];
+  const grw = baskets.growth || [];
+  const core = baskets.core || [];
+  if (def.length === 0 && grw.length === 0 && core.length === 0) {
+    return `<div style="margin-bottom:22px;">
+      <div style="font-size:13px; font-weight:700; margin-bottom:8px; color:var(--text-muted);">Tier B · Top-ups</div>
+      <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:14px; font-size:12px; color:var(--text-muted);">No qualifying top-ups in current snapshot. Picks-latest may need refresh.</div>
+    </div>`;
+  }
+  return `<div style="margin-bottom:24px;">
+    <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:10px;">
+      <div style="font-size:14px; font-weight:700;">Tier B · Top-ups <span style="color:var(--text-muted); font-size:12px; font-weight:500;">(Two baskets + shared Core)</span></div>
+      <div style="font-size:11px; color:var(--text-muted);">In-portfolio top-ups + outside fresh picks · 65/35 split</div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px;">
+      ${swsBasketCard("Defensive", "Health ≥5 · Div ≥3 · Beta &lt;0.7", def, "#86efac")}
+      ${swsBasketCard("Growth", "Future ≥4 · Upside ≥15% · QG/DV", grw, "#93c5fd")}
+      ${swsBasketCard("Shared Core", "Passes both filters · top 3", core, "#fde047")}
+    </div>
+  </div>`;
+}
+
+function renderSWSTierC(tier) {
+  const rows = tier?.rows || [];
+  if (rows.length === 0) return "";
+  return `<div style="margin-bottom:22px;">
+    <div style="font-size:14px; font-weight:700; margin-bottom:10px;">Tier C · Hold as-is <span style="color:var(--text-muted); font-size:12px; font-weight:500;">(${rows.length})</span></div>
+    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:6px 0;">
+      ${rows.map((h, i) => {
+        const sws = h.sws || {};
+        return `<div style="padding:8px 14px; border-top:${i > 0 ? '1px solid #1a2238' : 'none'}; display:flex; justify-content:space-between; align-items:center; gap:10px; cursor:pointer;" onclick="loadStock('${sws.ticker}.NS')">
+          <div>
+            <strong style="font-size:13px;">${sws.ticker}</strong>
+            <span style="font-size:11px; color:var(--text-muted); margin-left:8px;">${swsEscapeAttr(sws.name || "")} · ${swsEscapeAttr(sws.sector || "—")}</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; font-size:11px;">
+            <span>v2 <strong>${sws.v2_score ?? "—"}</strong></span>
+            ${swsSnowflakeMini(sws.snowflake)}
+            <span style="color:${pctColor(h.pnlPercent)};">${h.pnlPercent != null ? (h.pnlPercent >= 0 ? "+" : "") + h.pnlPercent + "%" : "—"}</span>
+          </div>
+        </div>`;
+      }).join("")}
+    </div>
+  </div>`;
+}
+
+function renderSWSTierD(tier) {
+  const rows = tier?.rows || [];
+  if (rows.length === 0) return "";
+  return `<div style="margin-bottom:22px;">
+    <div style="font-size:14px; font-weight:700; margin-bottom:10px;">Tier D · Watch <span style="color:var(--text-muted); font-size:12px; font-weight:500;">(${rows.length})</span></div>
+    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:6px 0;">
+      ${rows.map((h, i) => {
+        const sws = h.sws || {};
+        const tk = sws.ticker || h.symbol || "—";
+        return `<div style="padding:10px 14px; border-top:${i > 0 ? '1px solid #1a2238' : 'none'};">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+            <div>
+              <strong style="font-size:13px;">${tk}</strong>
+              <span style="font-size:11px; color:var(--text-muted); margin-left:8px;">${swsEscapeAttr(sws.name || h.name || "")}${sws.sector ? " · " + swsEscapeAttr(sws.sector) : ""}</span>
+            </div>
+            <div style="font-size:11px; color:var(--text-muted);">${h.swsCovered === false ? '<span style="padding:2px 6px; background:rgba(107,114,128,0.15); border-radius:3px;">No SWS data</span>' : `v2 ${sws.v2_score ?? "—"}`}</div>
+          </div>
+          <div style="margin-top:4px; font-size:11px; color:#fde047;">${swsEscapeAttr(h.watchReason || "")}</div>
+        </div>`;
+      }).join("")}
+    </div>
+  </div>`;
+}
+
+function renderSWSSectorOverlay(rows) {
+  if (!rows || rows.length === 0) return "";
+  return `<div style="margin-bottom:22px;">
+    <div style="font-size:14px; font-weight:700; margin-bottom:10px;">Sector overlay</div>
+    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse; font-size:12px;">
+        <thead>
+          <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+            <th style="padding:8px 12px;">Sector</th>
+            <th style="padding:8px 12px; text-align:right;">Weight</th>
+            <th style="padding:8px 12px; text-align:right;">Avg Snowflake</th>
+            <th style="padding:8px 12px; text-align:right;">Avg v2</th>
+            <th style="padding:8px 12px;">Holdings</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map(s => `<tr style="border-top:1px solid #1a2238;">
+            <td style="padding:8px 12px; font-weight:600;">${swsEscapeAttr(s.sector)}</td>
+            <td style="padding:8px 12px; text-align:right; font-weight:600;">${s.pct}%</td>
+            <td style="padding:8px 12px; text-align:right; color:var(--text-muted);">${s.avgSnowflake ?? "—"}</td>
+            <td style="padding:8px 12px; text-align:right; color:var(--text-muted);">${s.avgV2 ?? "—"}</td>
+            <td style="padding:8px 12px; font-size:11px; color:var(--text-muted);">${s.holdings.slice(0, 6).map(t => t.replace(/\.NS$/, "")).join(", ")}${s.holdings.length > 6 ? " +" + (s.holdings.length - 6) : ""}</td>
+          </tr>`).join("")}
+        </tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function renderSWSMfSection(mfPositions) {
+  if (!mfPositions) return "";
+  if (mfPositions.source === "saved-portfolio" && !mfPositions.enriched) {
+    return `<div style="margin-bottom:22px;">
+      <div style="font-size:14px; font-weight:700; margin-bottom:10px;">Mutual funds <span style="color:var(--text-muted); font-size:12px; font-weight:500;">(saved-portfolio reference)</span></div>
+      <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:6px 0;">
+        ${(mfPositions.holdings || []).map((m, i) => `<div style="padding:8px 14px; border-top:${i > 0 ? '1px solid #1a2238' : 'none'}; display:flex; justify-content:space-between; gap:10px; font-size:12px;">
+          <div>
+            <strong>${swsEscapeAttr(m.name || "—")}</strong>
+            <span style="color:var(--text-muted); margin-left:8px;">${swsEscapeAttr(m.category || "")}</span>
+          </div>
+          <div style="display:flex; gap:14px; color:var(--text-muted);">
+            <span>${inr(m.invested)} → ${inr(m.currentValue)}</span>
+            <span style="color:${pctColor(m.pnlPercent)};">${m.pnlPercent != null ? (m.pnlPercent >= 0 ? "+" : "") + m.pnlPercent.toFixed(1) + "%" : "—"}</span>
+          </div>
+        </div>`).join("")}
+        <div style="padding:10px 14px; border-top:1px solid #1a2238; font-size:11px; color:var(--text-muted); font-style:italic;">${swsEscapeAttr(mfPositions.note || "")}</div>
+      </div>
+    </div>`;
+  }
+  return "";
+}
+
+function renderSWSAnalyzerReport(report, elapsedMs) {
+  const root = document.getElementById("analyzerReport");
+  if (!root) return;
+
+  const snap = report.snapshot || {};
+  const banner = report.banner || {};
+  const tiers = report.tiers || {};
+  const baskets = tiers.B?.baskets || {};
+  const sectorOverlay = report.sectorOverlay || [];
+
+  const snapshotAt = banner.snapshot_at ? new Date(banner.snapshot_at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "—";
+  const elapsed = elapsedMs != null ? `${elapsedMs}ms` : "—";
+
+  root.innerHTML = `
+    <div style="background:linear-gradient(135deg, rgba(59,130,246,0.08), rgba(34,197,94,0.04)); border:1px solid rgba(59,130,246,0.25); border-radius:10px; padding:14px 18px; margin-bottom:18px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+      <div>
+        <div style="font-size:14px; font-weight:700; color:#93c5fd;">${banner.engine || "SWS Engine (Beta)"}</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">
+          Snapshot: ${snapshotAt} · ${swsEscapeAttr(banner.coverage_text || "")} · scored in ${elapsed}
+        </div>
+      </div>
+      <button onclick="resetAnalyzer()" style="background:transparent; border:1px solid #2a3349; color:var(--text); padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px;">Re-upload</button>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:18px;">
+      ${swsKpiCard("Invested", inr(snap.totalInvested))}
+      ${swsKpiCard("Current value", inr(snap.totalCurrent))}
+      ${swsKpiCard("Net P&amp;L", `<span style="color:${pctColor(snap.totalPnLPct)}">${inr(snap.totalPnL)} (${snap.totalPnLPct ?? 0}%)</span>`)}
+      ${swsKpiCard("Avg Snowflake", `${snap.avgSnowflake ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/30</span>`)}
+      ${swsKpiCard("Avg v2 score", `${snap.avgV2Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
+      ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} SWS-covered)</span>`)}
+    </div>
+
+    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
+      <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">Action mix</div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        ${Object.entries(snap.actionMix || {}).map(([action, n]) => `
+          ${swsActionBadge(action)}
+          <span style="font-size:13px; color:var(--text-muted); margin-right:8px;">×${n}</span>
+        `).join("")}
+      </div>
+    </div>
+
+    ${renderSWSTierA(tiers.A)}
+    ${renderSWSTierB(baskets)}
+    ${renderSWSTierC(tiers.C)}
+    ${renderSWSTierD(tiers.D)}
+    ${renderSWSSectorOverlay(sectorOverlay)}
+    ${renderSWSMfSection(report.mfPositions)}
+
+    <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:#fde047; line-height:1.6;">
+      ${swsEscapeAttr(report.disclaimer || "")}
+    </div>
+  `;
 }
 
 function renderAnalyzerReport(report, elapsedMs) {
