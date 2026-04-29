@@ -2550,6 +2550,70 @@
       .sws-pick-chipnav-actions { justify-content: flex-end; }
     }
 
+    /* Universe radio toggle: All vs Nifty 500. Sits above the chip-nav. */
+    .sws-pick-index-filter {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      background: var(--bg-card, #0e1422);
+      border: 1px solid var(--border-soft, #1a2233);
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .sws-pick-index-filter-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .sws-pick-index-filter label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .sws-pick-index-filter input[type="radio"] {
+      accent-color: var(--blue, #4a90e2);
+      cursor: pointer;
+    }
+    .sws-filter-count {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: rgba(74,144,226,0.10);
+      padding: 1px 8px;
+      border-radius: 10px;
+      min-width: 24px;
+      text-align: center;
+    }
+
+    /* Sticky loading banner shown while /api/sws-picks is in flight. Sits at
+       the top of #picksTab so it remains visible no matter how far the user
+       has scrolled. Animation reuses the @keyframes shimmer defined above. */
+    .sws-loading-banner {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: linear-gradient(90deg, var(--blue, #4a90e2) 0%, var(--cyan, #5cc7e8) 50%, var(--blue, #4a90e2) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s ease-in-out infinite;
+      color: #fff;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-align: center;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
     /* Make the SWS pick cards clickable — visual affordance */
     .sws-pick-card {
       cursor: pointer;
@@ -3450,6 +3514,7 @@
 
     <!-- SWS Picks Tab — categorised buy-list driven by Simply Wall Street deep-scrape -->
     <div id="picksTab" style="display:none; padding-top:20px;">
+      <div id="picksLoadingBanner" class="sws-loading-banner" hidden>Loading SWS Picks…</div>
       <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">SWS Picks</h2>
@@ -3465,6 +3530,12 @@
       </div>
 
       <div id="picksStatusBanner" style="display:none; padding:12px 16px; border-radius:6px; margin-bottom:16px;"></div>
+
+      <div id="picksIndexFilter" class="sws-pick-index-filter" role="radiogroup" aria-label="Index filter">
+        <span class="sws-pick-index-filter-label">Universe:</span>
+        <label><input type="radio" name="picksIndex" value="all" checked onchange="onPicksIndexFilterChange(this.value)"> All <span class="sws-filter-count" data-count-for="all">—</span></label>
+        <label><input type="radio" name="picksIndex" value="nifty500" onchange="onPicksIndexFilterChange(this.value)"> Nifty 500 only <span class="sws-filter-count" data-count-for="nifty500">—</span></label>
+      </div>
 
       <div id="picksContainer">
         <div class="loading">

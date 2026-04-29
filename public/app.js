@@ -6323,25 +6323,63 @@ const PICKS_INLINE_DEFAULT_CAP = 12;
 
 let picksStatusPollTimer = null;
 
+// Cached payload from /api/sws-picks so the radio filter can re-render
+// without re-fetching. Set on every successful loadPicks().
+let currentPicksData = null;
+
+// Universe filter for the picks tab. "all" (default) shows everything;
+// "nifty500" hides any item whose ticker isn't in the Nifty 500 list
+// (server tags each item with `nifty500: boolean` at request time).
+const PICKS_INDEX_FILTER_LS_KEY = "swsPicksIndexFilter_v1";
+let picksIndexFilter = (() => {
+  try { return localStorage.getItem(PICKS_INDEX_FILTER_LS_KEY) || "all"; }
+  catch { return "all"; }
+})();
+
+function setPicksLoadingBanner(visible) {
+  const banner = document.getElementById("picksLoadingBanner");
+  if (banner) banner.hidden = !visible;
+}
+
+// Hydrate the radio's checked state from localStorage. Called once when
+// the SWS Picks tab is shown; safe to re-call (idempotent).
+function hydratePicksIndexFilterRadio() {
+  const radios = document.querySelectorAll('input[name="picksIndex"]');
+  radios.forEach((r) => { r.checked = (r.value === picksIndexFilter); });
+}
+
+// Radio change handler — wired via inline onchange in index.html.
+function onPicksIndexFilterChange(value) {
+  picksIndexFilter = value === "nifty500" ? "nifty500" : "all";
+  try { localStorage.setItem(PICKS_INDEX_FILTER_LS_KEY, picksIndexFilter); } catch {}
+  if (currentPicksData) renderPicks(currentPicksData);
+}
+
 async function loadPicks() {
   const containerEl = document.getElementById("picksContainer");
   const metaEl = document.getElementById("picksMeta");
+  hydratePicksIndexFilterRadio();
+  setPicksLoadingBanner(true);
   containerEl.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading picks…</div></div>`;
 
   try {
     const res = await fetch("/api/sws-picks");
     if (res.status === 404) {
+      currentPicksData = null;
       containerEl.innerHTML = renderPicksEmptyState();
       metaEl.textContent = "No scan run yet";
       pollPicksStatus(); // still useful — show scan progress if a scan is currently running
       return;
     }
     const data = await res.json();
+    currentPicksData = data;
     renderPicks(data);
     metaEl.textContent = `Scanned ${new Date(data.scanned_at).toLocaleString()} · ${data.scored_count} stocks scored · ${data.failed_count} failed (in retry)`;
     pollPicksStatus();
   } catch (e) {
     containerEl.innerHTML = `<div style="padding:24px;color:var(--red);">Failed to load picks: ${e.message}</div>`;
+  } finally {
+    setPicksLoadingBanner(false);
   }
 }
 
@@ -6453,6 +6491,15 @@ function setAllPicksCollapsed(collapsed) {
   syncPicksChipActiveStates();
 }
 
+// Write the running totals next to each radio label so the user can see
+// how many stocks each filter would yield (e.g. "All 412" / "Nifty 500 only 287").
+function updatePicksFilterCounts(totalAll, totalN500) {
+  const a = document.querySelector('[data-count-for="all"]');
+  const n = document.querySelector('[data-count-for="nifty500"]');
+  if (a) a.textContent = totalAll;
+  if (n) n.textContent = totalN500;
+}
+
 function renderPicksChipNav(visibleSections, collapsedState) {
   const chips = visibleSections.map(({ section, items }) => {
     const isCollapsed = isPicksSectionCollapsed(collapsedState, section.key);
@@ -6474,18 +6521,33 @@ function renderPicks(data) {
   const containerEl = document.getElementById("picksContainer");
   const collapsedState = loadPicksCollapsedState();
 
-  // Filter once so chip-nav and the section list stay in sync.
+  // Filter once so chip-nav and the section list stay in sync. The Nifty 500
+  // toggle drops items the server tagged with nifty500=false; section/chip
+  // counts and overflow text all derive from `visibleSections` so they
+  // update automatically.
   const visibleSections = [];
   let totalShown = 0;
+  let totalAll = 0;
+  let totalN500 = 0;
   for (const section of PICKS_SECTIONS) {
-    const items = (data.sections && data.sections[section.key]) || [];
+    const rawItems = (data.sections && data.sections[section.key]) || [];
+    totalAll += rawItems.length;
+    totalN500 += rawItems.filter((it) => it && it.nifty500).length;
+    const items = picksIndexFilter === "nifty500"
+      ? rawItems.filter((it) => it && it.nifty500)
+      : rawItems;
     if (items.length === 0) continue;
     visibleSections.push({ section, items });
     totalShown += items.length;
   }
 
+  updatePicksFilterCounts(totalAll, totalN500);
+
   if (!totalShown) {
-    containerEl.innerHTML = `<div style="padding:24px;color:var(--text-muted);">Scan completed but no stocks matched any section filters. Check thresholds in scripts/sws-scoring.mjs.</div>`;
+    const msg = picksIndexFilter === "nifty500"
+      ? `No Nifty 500 stocks in the current scan. Switch back to <strong>All</strong> above to see the full universe.`
+      : `Scan completed but no stocks matched any section filters. Check thresholds in scripts/sws-scoring.mjs.`;
+    containerEl.innerHTML = `<div style="padding:24px;color:var(--text-muted);">${msg}</div>`;
     return;
   }
 

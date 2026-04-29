@@ -16,7 +16,7 @@ import rateLimit from "express-rate-limit";
 import NodeCache from "node-cache";
 
 import { analyzeStock, intradayScan, midTermAnalysis, longTermOutlook } from "./analysis.js";
-import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, getNifty100, getNifty500, getExpandedUniverse, getStocksByIndex, validateStockList } from "./stockList.js";
+import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, NIFTY500_SYMBOLS, getNifty100, getNifty500, getExpandedUniverse, getStocksByIndex, validateStockList } from "./stockList.js";
 import { analyzeNewsSentiment, quickSentiment } from "./sentiment.js";
 import { fetchNifty50, fetchNseQuote, fetchNseQuoteRaw, fetchNseIndices, fetchNseIndex, fetchNseEventCalendar, fetchGiftNifty, nseGet, nseGetUnauthed, warmup as nseWarmup } from "./nse.js";
 import {
@@ -6421,6 +6421,14 @@ function readJsonSafe(p, fallback = null) {
 app.get("/api/sws-picks", (req, res) => {
   const data = readJsonSafe(SWS_PATHS.picksLatest);
   if (!data) return res.status(404).json({ error: "no_picks_yet", hint: "Run /sws-scan-shard 1/2/3 in Claude to start the initial scan." });
+  if (data.sections) {
+    for (const items of Object.values(data.sections)) {
+      if (!Array.isArray(items)) continue;
+      for (const it of items) {
+        if (it && it.ticker) it.nifty500 = NIFTY500_SYMBOLS.has(`${it.ticker}.NS`);
+      }
+    }
+  }
   res.json(data);
 });
 
