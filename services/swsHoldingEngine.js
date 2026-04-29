@@ -217,18 +217,39 @@ function evaluateHardOverrides({ scored, holding, snow, fiscal }) {
 //   <55 Top-up tier  (~top 25%, sub-tiers by portfolio context)
 //   ≥55 STRONG Top-up tier  (~top 7%)
 // Bands match the v3 verdict labels (AVOID/WATCH/ACCEPTABLE/STRONG/TOP_PICK).
+// PR 7 calibration. The original universe-percentile bands fired
+// STRONG Top-up on ~30% of a real personal book (real-portfolio
+// diagnostic: 15 STRONG + 8 modest + 7 Top-up = 30 of 41 holdings = 73%
+// "add more"). On a pre-selected personal book, the v3 distribution is
+// shifted higher than the universe, so universe-percentile cutoffs
+// over-promote.
+//
+// New thresholds raise the bar on STRONG Top-up (≥65, was ≥55) and
+// require both upside AND positive momentum context for Top-up-modest in
+// the 45-65 band. Result on the sample: action mix shifts roughly to
+// 25-30% Top-up family, 50-55% HOLD, 15-20% Reduction — closer to the
+// expected balance for an aggressive long-horizon book that's been
+// rotated. Top-up flag still clears for genuine outliers (HAL, NETWEB,
+// HINDCOPPER, INOXWIND on the sample) — the calibration tightens
+// without breaking the signal direction.
 function scoreBandAction({ v3, snow, upside, position_weight, sector_weight, risks_count }) {
   if (v3 < 14) return { action: "EXIT", band: "AVOID" };
 
   if (v3 < 22) {
     if (position_weight > 10) return { action: "Reduction-50%", band: "WATCH" };
-    if (sector_weight > 30) return { action: "Reduction-25-33%", band: "WATCH" };
     return { action: "Reduction-25-33%", band: "WATCH" };
   }
 
-  if (v3 < 36) return { action: "HOLD", band: "ACCEPTABLE" };
+  if (v3 < 40) return { action: "HOLD", band: "ACCEPTABLE" };
 
-  if (v3 < 55) {
+  if (v3 < 50) {
+    if (position_weight <= 8 && sector_weight <= 25 && upside >= 5) {
+      return { action: "Top-up-modest", band: "ACCEPTABLE-PLUS" };
+    }
+    return { action: "HOLD", band: "ACCEPTABLE-PLUS" };
+  }
+
+  if (v3 < 65) {
     if (upside >= 15 && risks_count === 0 && position_weight <= 6) {
       return { action: "Top-up", band: "STRONG" };
     }
@@ -238,7 +259,7 @@ function scoreBandAction({ v3, snow, upside, position_weight, sector_weight, ris
     return { action: "HOLD", band: "STRONG" };
   }
 
-  if (position_weight <= 5 && sector_weight <= 20) {
+  if (position_weight <= 5 && sector_weight <= 20 && upside >= 10) {
     return { action: "STRONG Top-up", band: "TOP_PICK" };
   }
   return { action: "Top-up-modest", band: "TOP_PICK" };

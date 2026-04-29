@@ -77,16 +77,22 @@ function buildTiers(scoredHoldings) {
       const days = h.sws.next_earnings_date
         ? Math.ceil((new Date(h.sws.next_earnings_date + "T00:00:00Z") - Date.now()) / 86400000)
         : null;
-      // v3 < 36 = ACCEPTABLE-band lower edge (universe p75≈39, p50≈29 per
-      // swsHoldingEngine.js). Below that = HOLD-but-borderline → tier D watch.
-      const isWatch = v3 < 36 || upside < 5 || (days != null && days >= 0 && days <= 7);
+      // PR 7 calibration: original watch rule (v3 < 36 OR upside < 5 OR
+      // earnings ≤7d) was so strict that EVERY HOLD on a real personal
+      // book landed in Tier D, leaving Tier C empty (real-portfolio
+      // diagnostic gap #3). New rule:
+      //   • v3 < 25  → genuinely borderline (universe p25 zone)
+      //   • upside < -5 (significantly overvalued, not just modest)
+      //   • earnings ≤3d (true imminent catalyst, not 7d window)
+      // Anything else stays in Tier C.
+      const isWatch = v3 < 25 || upside < -5 || (days != null && days >= 0 && days <= 3);
       if (isWatch) {
         tierD.push({
           ...h,
-          watchReason: days != null && days >= 0 && days <= 7
+          watchReason: days != null && days >= 0 && days <= 3
             ? `Earnings in ${days}d — re-evaluate post-result.`
-            : v3 < 36 ? `Borderline ACCEPTABLE (v3 ${v3.toFixed(1)}) — watch for catalyst.`
-            : `Limited upside (${upside.toFixed(1)}%) — re-rate next quarter.`,
+            : v3 < 25 ? `Low score (v3 ${v3.toFixed(1)}) — watch for catalyst.`
+            : `Notable overvaluation (${upside.toFixed(1)}%) — re-rate next quarter.`,
         });
       } else {
         tierC.push(h);
@@ -97,24 +103,40 @@ function buildTiers(scoredHoldings) {
   return { tierA, tierC, tierD, freedRupees: Math.round(freedRupees) };
 }
 
+// PR 7 calibration: the v1 filter required v1-verdict ∈ {QUALITY_GROWTH,
+// DEEP_VALUE} which gate at composite ≥ 62. v3-aware filter uses v3_verdict
+// (TOP_PICK ≥60, STRONG ≥45) which is the score the action engine
+// authoritatively drives off. Real-portfolio symptom: Tier B Growth basket
+// was empty despite 30 Top-up candidates because v1 verdict bands almost
+// never matched on a personal book (pre-selected → distribution skewed).
+//
+// Defensive filter is also relaxed slightly: dividends ≥ 2 (was ≥ 3) so
+// growth-oriented quality names (HDFCBANK Snowflake-div=5, SBIN div=4)
+// still pass, while pure growth no-divs (NETWEB) correctly don't.
 function classifyBasket(rec) {
   const snow = rec.snowflake;
   if (!snow) return null;
   const beta = num(rec.beta, null);
   const upside = num(rec.upside_pct, 0);
-  const verdict = rec.verdict;
+  const v3Verdict = rec.v3_verdict || rec.verdict;
+  const v3Score = num(rec.v3_score, 0);
   const risksFlag = rec.v2_breakdown?.risks_flag === true;
 
   const passesDefensive =
-    snow.financial_health >= 5 &&
-    snow.dividends >= 3 &&
-    (beta == null || beta < 0.7) &&
+    snow.financial_health >= 4 &&
+    snow.dividends >= 2 &&
+    (beta == null || beta < 0.9) &&
     !risksFlag;
 
+  // Growth: any of (a) v3 verdict says STRONG/TOP_PICK, OR (b) future
+  // pillar high + meaningful upside. Either gate is sufficient — no
+  // longer requires the v1 verdict label.
   const passesGrowth =
-    snow.future_growth >= 4 &&
-    upside >= 15 &&
-    (verdict === "QUALITY_GROWTH" || verdict === "DEEP_VALUE");
+    !risksFlag && (
+      ["TOP_PICK", "STRONG"].includes(v3Verdict) ||
+      (snow.future_growth >= 4 && upside >= 10) ||
+      v3Score >= 50
+    );
 
   return { defensive: passesDefensive, growth: passesGrowth };
 }
