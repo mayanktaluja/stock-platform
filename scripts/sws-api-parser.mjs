@@ -37,6 +37,27 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
 const SRC_DIR = path.join(REPO_ROOT, "data/sws/deep-api");
 const DEFAULT_DEST = path.join(REPO_ROOT, "data/sws/deep-api-parsed");
+const NSE_CALENDAR_PATH = path.join(REPO_ROOT, "data/sws/nse-event-calendar.json");
+
+// Load the NSE corporate-actions calendar produced by
+// scripts/sws-fetch-nse-calendar.mjs. Returns a Map(symbol → { date, purpose })
+// keyed by NSE bare symbol. Used to populate overview.next_earnings_date for
+// stocks with upcoming board meetings — the SWS API capture doesn't carry
+// this field, so NSE's free /api/event-calendar is our canonical source.
+// Returns null when the cache file is missing (treat as "no upcoming dates
+// available" rather than failing the parser).
+function loadNseCalendarMap() {
+  try {
+    const raw = JSON.parse(fs.readFileSync(NSE_CALENDAR_PATH, "utf-8"));
+    const m = new Map();
+    for (const [sym, ev] of Object.entries(raw.by_symbol || {})) {
+      if (ev?.date) m.set(sym, ev);
+    }
+    return { map: m, fetchedAt: raw.fetched_at };
+  } catch {
+    return null;
+  }
+}
 
 // ────────── Field extractors ──────────
 
@@ -470,6 +491,7 @@ function extractIndustryBenchmarks(api) {
 
 export function parseStock(api, opts = {}) {
   const sectorMap = opts.sectorMap || null;
+  const nseCalendar = opts.nseCalendar || null;
   const company = api?.graphql?.CompanySummary?.Company || {};
   const info = extractInfo(api);
   const sf = extractSnowflake(api);
@@ -529,7 +551,14 @@ export function parseStock(api, opts = {}) {
       most_recent_reported_date: fiscal?.most_recent_reported_date ?? null,
       returns_pct: extractReturnsPct(api),
       // Fields still requiring extra captures:
-      next_earnings_date: null,
+      // NSE corporate-actions calendar lookup. Date is ISO YYYY-MM-DD when
+      // the symbol has an upcoming Financial Results board meeting, null
+      // otherwise. Source: nse.js::fetchNseEventCalendar (cached to
+      // data/sws/nse-event-calendar.json by sws-fetch-nse-calendar.mjs).
+      next_earnings_date: nseCalendar?.get?.((api.ticker || "").toUpperCase())?.date || null,
+      // last_quarter_result (beat/miss/inline) requires post-result analyst
+      // commentary which neither the SWS capture nor the NSE feed surfaces.
+      // Left null until a separate result-tracker pipeline lands.
       last_quarter_result: null,
       recent_analyst_revisions: null,
     },
@@ -588,6 +617,15 @@ function main() {
   const sectorMap = buildSectorCodeMap(SRC_DIR);
   console.log(`[parser]   ${sectorMap.size} unique sector codes mapped`);
 
+  // NSE event calendar (next earnings date per symbol). Optional — when the
+  // cache file is missing, parser proceeds without next_earnings_date.
+  const nseCal = loadNseCalendarMap();
+  if (nseCal) {
+    console.log(`[parser]   NSE calendar: ${nseCal.map.size} symbols with upcoming Financial Results (fetched ${nseCal.fetchedAt})`);
+  } else {
+    console.log(`[parser]   NSE calendar: not loaded (run scripts/sws-fetch-nse-calendar.mjs to enable next_earnings_date)`);
+  }
+
   let ok = 0, failed = 0;
   for (const t of tickers) {
     const srcPath = path.join(SRC_DIR, `${t}.json`);
@@ -598,7 +636,7 @@ function main() {
     }
     try {
       const api = JSON.parse(fs.readFileSync(srcPath, "utf8"));
-      const parsed = parseStock(api, { sectorMap });
+      const parsed = parseStock(api, { sectorMap, nseCalendar: nseCal?.map || null });
       fs.writeFileSync(path.join(destDir, `${t}.json`), JSON.stringify(parsed, null, 2));
       ok++;
     } catch (e) {
