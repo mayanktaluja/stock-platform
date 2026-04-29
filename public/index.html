@@ -3561,5 +3561,9 @@
 
   <script src="glossary.js"></script>
   <script src="app.js"></script>
+  <!-- v2 SWS recommender renderer (monkey-patches swsReasonRow / swsHoldingRow
+       when sws.v2_recommendation is present in the API response). Loaded AFTER
+       app.js so the v1 globals exist before patching. -->
+  <script src="swsV2Render.js"></script>
 </body>
 </html>

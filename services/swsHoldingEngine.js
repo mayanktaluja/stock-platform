@@ -21,6 +21,14 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { scoreStock, num } from "./swsScoring.js";
+import { crosscheckHolding } from "./swsLayerCrosscheck.js";
+import { extractCatalystSignals } from "./swsCatalystLayer.js";
+import { extractIndianRiskSignals } from "./swsIndianRiskLayer.js";
+import { computeRecommendationV2 } from "./swsConvictionEngine.js";
+import { isV1Only, isV2Primary, getRecommenderMode } from "./swsRecommenderMode.js";
+import { findPeerSubstitutes } from "./swsPeerLayer.js";
+import { buildFallbackHolding } from "./swsCoverageFallback.js";
+import { buildAuditTrail } from "./swsAuditTrail.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEEP_DIR = path.resolve(__dirname, "..", "data", "sws", "deep");
@@ -210,18 +218,39 @@ function evaluateHardOverrides({ scored, holding, snow, fiscal }) {
 //   <55 Top-up tier  (~top 25%, sub-tiers by portfolio context)
 //   ≥55 STRONG Top-up tier  (~top 7%)
 // Bands match the v3 verdict labels (AVOID/WATCH/ACCEPTABLE/STRONG/TOP_PICK).
+// PR 7 calibration. The original universe-percentile bands fired
+// STRONG Top-up on ~30% of a real personal book (real-portfolio
+// diagnostic: 15 STRONG + 8 modest + 7 Top-up = 30 of 41 holdings = 73%
+// "add more"). On a pre-selected personal book, the v3 distribution is
+// shifted higher than the universe, so universe-percentile cutoffs
+// over-promote.
+//
+// New thresholds raise the bar on STRONG Top-up (≥65, was ≥55) and
+// require both upside AND positive momentum context for Top-up-modest in
+// the 45-65 band. Result on the sample: action mix shifts roughly to
+// 25-30% Top-up family, 50-55% HOLD, 15-20% Reduction — closer to the
+// expected balance for an aggressive long-horizon book that's been
+// rotated. Top-up flag still clears for genuine outliers (HAL, NETWEB,
+// HINDCOPPER, INOXWIND on the sample) — the calibration tightens
+// without breaking the signal direction.
 function scoreBandAction({ v3, snow, upside, position_weight, sector_weight, risks_count }) {
   if (v3 < 14) return { action: "EXIT", band: "AVOID" };
 
   if (v3 < 22) {
     if (position_weight > 10) return { action: "Reduction-50%", band: "WATCH" };
-    if (sector_weight > 30) return { action: "Reduction-25-33%", band: "WATCH" };
     return { action: "Reduction-25-33%", band: "WATCH" };
   }
 
-  if (v3 < 36) return { action: "HOLD", band: "ACCEPTABLE" };
+  if (v3 < 40) return { action: "HOLD", band: "ACCEPTABLE" };
 
-  if (v3 < 55) {
+  if (v3 < 50) {
+    if (position_weight <= 8 && sector_weight <= 25 && upside >= 5) {
+      return { action: "Top-up-modest", band: "ACCEPTABLE-PLUS" };
+    }
+    return { action: "HOLD", band: "ACCEPTABLE-PLUS" };
+  }
+
+  if (v3 < 65) {
     if (upside >= 15 && risks_count === 0 && position_weight <= 6) {
       return { action: "Top-up", band: "STRONG" };
     }
@@ -231,7 +260,7 @@ function scoreBandAction({ v3, snow, upside, position_weight, sector_weight, ris
     return { action: "HOLD", band: "STRONG" };
   }
 
-  if (position_weight <= 5 && sector_weight <= 20) {
+  if (position_weight <= 5 && sector_weight <= 20 && upside >= 10) {
     return { action: "STRONG Top-up", band: "TOP_PICK" };
   }
   return { action: "Top-up-modest", band: "TOP_PICK" };
@@ -316,6 +345,15 @@ export function scoreHolding(holding, portfolioContext = {}) {
   const ticker = holding?.symbol || holding?.ticker;
   const deep = loadSWSDeep(ticker);
   if (!deep) {
+    // Coverage fallback — synthesise a low-confidence verdict from
+    // fundamentals.json (yfinance/NSE snapshot) when SWS doesn't have
+    // the ticker. Returns null when fundamentals.json also has no
+    // snapshot, in which case we fall through to the original
+    // "no opinion" stub.
+    if (!isV1Only()) {
+      const fb = buildFallbackHolding({ ticker, name: holding?.name, sector: holding?.sector, holding });
+      if (fb) return fb;
+    }
     return {
       ...holding,
       swsCovered: false,
@@ -361,6 +399,61 @@ export function scoreHolding(holding, portfolioContext = {}) {
 
   const timing = computeTimingObservation({ deep: scored, scored, action });
 
+  // Layer-2 independent-fundamentals cross-check — shadow attach only.
+  // The conviction engine (PR 3) will read crosscheck.confidence_delta to
+  // bias the action band. Today we just expose the data so the divergence
+  // smoke test (scripts/smoke-sws-crosscheck.mjs) and a future UI can read
+  // it. Never throws — returns { available: false } when fundamentals.json
+  // has no snapshot for this ticker.
+  const crosscheck = crosscheckHolding({
+    ticker: scored.ticker || holding?.symbol || holding?.ticker,
+    swsSnowflake: snow,
+    swsV3Score: num(scored.v3_score_100, null),
+  });
+
+  // Layer-3 (Indian-specific risk) and Layer-4 (catalyst) shadow attaches.
+  const catalyst = extractCatalystSignals(scored);
+  const indianRisk = extractIndianRiskSignals({
+    ticker: scored.ticker || holding?.symbol || holding?.ticker,
+    deep: scored,
+  });
+
+  // v2 conviction engine — gated by RECOMMENDER_VERSION env var. Default
+  // is `v2-shadow` (compute v2 alongside v1, attach as
+  // sws.v2_recommendation, leave UI on v1). `v2-primary` makes v2 the
+  // authoritative `action`; `v1` skips computation entirely.
+  let v2recommendation = null;
+  if (!isV1Only()) {
+    try {
+      v2recommendation = computeRecommendationV2({
+        sws_action: action,
+        sws_v3: num(scored.v3_score_100, null),
+        sws_verdict: scored.v3_verdict,
+        crosscheck,
+        catalyst,
+        indianRisk,
+        position_ctx: {
+          positionWeight: num(holding.positionWeight, 0),
+          sectorWeight: num(portfolioContext.sectorWeights?.[scored.sector] ?? holding.sectorWeight, 0),
+          pnlPercent: num(holding.pnlPercent, 0),
+        },
+        fiscal,
+      });
+    } catch (err) {
+      console.warn(`[swsConvictionEngine] ${scored.ticker} failed: ${err.message}`);
+    }
+  }
+
+  // v2-primary: replace top-level action + reasons with v2 output.
+  // v2-shadow (default): keep v1 as authoritative; v2 lives in
+  // sws.v2_recommendation for divergence monitoring + UI opt-in.
+  let finalAction = action;
+  let finalReasons = reasons;
+  if (isV2Primary() && v2recommendation) {
+    finalAction = v2recommendation.action;
+    finalReasons = v2recommendation.narrative_paragraphs;
+  }
+
   return {
     ...holding,
     swsCovered: true,
@@ -375,6 +468,9 @@ export function scoreHolding(holding, portfolioContext = {}) {
       v3_verdict: scored.v3_verdict,
       verdict: scored.verdict,
       band,
+      crosscheck,
+      catalyst,
+      indianRisk,
       snowflake: snow,
       snowflake_total: snow.total,
       current_price_inr: ov.current_price_inr,
@@ -396,9 +492,23 @@ export function scoreHolding(holding, portfolioContext = {}) {
       breakdown: scored.score_breakdown,
       v2_breakdown: scored.v2_breakdown,
       v3_breakdown: scored.v3_breakdown,
+      v2_recommendation: v2recommendation,
+      recommender_mode: getRecommenderMode(),
+      peer_substitute: findPeerSubstitutes({
+        ticker: scored.ticker,
+        sector: scored.sector,
+        sws_v3: num(scored.v3_score_100, null),
+        market_cap_inr: num(ov.market_cap_inr, null),
+        heldTickers: portfolioContext?.heldTickers,
+      }),
     },
-    action,
-    reasons,
+    action: finalAction,
+    reasons: finalReasons,
     timing,
+    audit: buildAuditTrail({
+      holding: { ...holding, sws: { ticker: scored.ticker, snowflake: snow, fair_value_inr: reconciled.fair_value_inr, crosscheck, catalyst, indianRisk, peer_substitute: { top_peer: null }, v2_recommendation: v2recommendation, v3_score: num(scored.v3_score_100, null), v3_verdict: scored.v3_verdict }, action: finalAction },
+      scored,
+      recommenderMode: getRecommenderMode(),
+    }),
   };
 }
