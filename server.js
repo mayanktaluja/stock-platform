@@ -5872,16 +5872,34 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       let totalCurrent = 0;
       const sectorCV = new Map();
       const enrichedRows = firstPass.map((row) => {
-        const livePrice = row.swsCovered ? Number(row.sws.current_price_inr) : null;
+        // Price priority: SWS live > broker statement closing price > avg cost.
+        // SWS price can be null on tickers where the API didn't return a quote;
+        // the broker xlsx always carries a closing price for the statement
+        // date, so we use that as the truth-source for current value when SWS
+        // is unavailable. Falling back to invested would falsely zero out the
+        // position (livePrice=0 → -100% P&L).
+        const swsPrice = row.swsCovered ? Number(row.sws.current_price_inr) : null;
+        const brokerPrice = Number(row.closePrice) || 0;
         const qty = Number(row.quantity) || 0;
         const avg = Number(row.avgPrice) || 0;
         const invested = qty * avg;
-        const currentValue = (livePrice != null && Number.isFinite(livePrice)) ? qty * livePrice : invested;
+        const livePrice = (swsPrice != null && Number.isFinite(swsPrice) && swsPrice > 0)
+          ? swsPrice
+          : (brokerPrice > 0 ? brokerPrice : null);
+        const priceSource = (swsPrice > 0) ? "sws" : (brokerPrice > 0 ? "broker" : "avg");
+        const currentValue = livePrice != null ? qty * livePrice : invested;
         totalInvested += invested;
         totalCurrent += currentValue;
-        const sector = row.swsCovered ? (row.sws.sector || "Unclassified") : (row.sector || "Unclassified");
+        // Sector resolution: prefer the curated stockList sector (consistent
+        // proper-case vocabulary like "Energy"/"Banking"/"IT") over the SWS
+        // deep-file sector, which has inconsistent casing and synonyms
+        // ("energy"/"banks"/"automobiles") that fragment the overlay into
+        // duplicate buckets. SWS sector is only used when stockList has
+        // none. Most SWS deep JSONs lack the sector field anyway (~65%),
+        // so this preference also fixes the "65% Unclassified" collapse.
+        const sector = row.sector || (row.swsCovered ? row.sws.sector : null) || "Unclassified";
         sectorCV.set(sector, (sectorCV.get(sector) || 0) + currentValue);
-        return { ...row, invested, currentValue, livePrice, sector };
+        return { ...row, invested, currentValue, livePrice, priceSource, sector };
       });
 
       const sectorWeights = {};

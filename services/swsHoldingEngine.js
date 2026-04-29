@@ -72,6 +72,58 @@ export function isSWSPriceStale(deep, thresholdHours = 24) {
   return ageMs > thresholdHours * 3600 * 1000;
 }
 
+// Reconcile the SWS-scraped FV / upside_pct trio. Empirically the deep JSONs
+// in data/sws/deep ship with several failure modes:
+//
+//   1. price present, FV null, upside_pct = a junk number (WIPRO: -3671.4)
+//   2. price present, FV is a placeholder ratio not a price (BALUFORGE: 1.66)
+//   3. price ≈ FV (scraper re-used current price as FV) but upside_pct still
+//      carries the analyst-consensus number (LODHA, HAL, JWL: 32.1 / 15.6 / 16)
+//   4. price + FV both present, upside_pct null (ITC: should be +26.7%)
+//
+// We trust this hierarchy:
+//   • If FV/price ratio is plausible and FV != price → recompute upside.
+//   • If FV ≈ price → the recompute is ~0; prefer the SWS-quoted upside if
+//     it lies in a sane range (the analyst consensus is the live SWS view).
+//   • If FV is missing or implausibly off price → the FV is junk, fall back
+//     to the SWS-quoted upside only if it's in [-95%, +500%] — otherwise null.
+//
+// Returns { upside_pct, fair_value_inr } — both possibly null. The caller
+// should overwrite `sws.upside_pct` and `sws.fair_value_inr` with these so
+// the rest of the report (Tier-B classifier, basket rows, reason text) sees
+// the same reconciled view.
+export function _reconcileFVUpside(ov) {
+  const price = num(ov?.current_price_inr, null);
+  const rawFv = num(ov?.fair_value_inr, null);
+  const rawUp = num(ov?.upside_pct, null);
+  const inSaneRange = (v) => v != null && Number.isFinite(v) && v >= -95 && v <= 500;
+
+  // Case A: both price + FV present.
+  if (price != null && price > 0 && rawFv != null && rawFv > 0) {
+    const ratio = rawFv / price;
+    // Plausible-ratio guard: a real DCF FV shouldn't be < 1/10 of the price
+    // or > 10× the price — anything outside that window is a scraper artefact.
+    if (ratio >= 0.1 && ratio <= 10) {
+      const computed = ((rawFv - price) / price) * 100;
+      // FV ≈ price (placeholder) → trust the SWS-quoted upside if sane.
+      if (Math.abs(computed) <= 1 && inSaneRange(rawUp)) {
+        return { upside_pct: Math.round(rawUp * 10) / 10, fair_value_inr: rawFv };
+      }
+      // Otherwise prefer the math.
+      return { upside_pct: Math.round(computed * 10) / 10, fair_value_inr: rawFv };
+    }
+    // Implausible ratio → FV is junk; both fields nulled so the UI doesn't
+    // surface "(₹2 vs ₹548)" garbage.
+    return { upside_pct: null, fair_value_inr: null };
+  }
+
+  // Case B: only one (or neither) present. Trust the SWS-quoted upside iff sane.
+  return {
+    upside_pct: inSaneRange(rawUp) ? Math.round(rawUp * 10) / 10 : null,
+    fair_value_inr: rawFv,
+  };
+}
+
 const NARRATIVE_RED = /declin|structurally\s*weak|promoter\s*(exit|pledge|stake)|governance|tax-loss|fraud|sebi/i;
 
 function evaluateHardOverrides({ scored, holding, snow, fiscal }) {
@@ -149,17 +201,34 @@ function scoreBandAction({ v2, snow, upside, position_weight, sector_weight, ris
   return { action: "Top-up-modest", band: "DEEP_VALUE" };
 }
 
-function buildSWSReasons({ scored, snow, fiscal, action, band }) {
+function buildSWSReasons({ scored, snow, fiscal, action, band, reconciled }) {
   const ov = scored.overview || {};
   const reasons = [];
-  const upside = num(ov.upside_pct, null);
+  // Use the reconciled upside/FV so the user-facing reason matches what the
+  // KPI cards and basket rows show — the raw `ov.upside_pct` can carry junk
+  // values from the upstream scraper (see _reconcileFVUpside).
+  const upside = reconciled?.upside_pct ?? null;
+  const fvPrice = reconciled?.fair_value_inr ?? null;
+  const curPrice = num(ov.current_price_inr, null);
   const pe = ov.multiples?.pe;
   const fwd = num(fiscal.earnings_growth_pct, null);
   const margin = num(fiscal.net_margin_pct ?? ov.net_margin_pct, null);
   const ret1y = num((ov.returns_pct || {})["1Y"], null);
 
   reasons.push(`Snowflake ${snow.total}/30 (val ${snow.valuation}, future ${snow.future_growth}, past ${snow.past_performance}, health ${snow.financial_health}, div ${snow.dividends}).`);
-  if (upside != null) reasons.push(`${upside >= 0 ? "+" : ""}${upside.toFixed(1)}% to AnalystConsensus FV (₹${ov.fair_value_inr?.toFixed?.(0) ?? "—"} vs ₹${ov.current_price_inr?.toFixed?.(0) ?? "—"}).`);
+  // Only emit the (₹FV vs ₹price) suffix when:
+  //   • both prices are present, AND
+  //   • the rounded prices actually differ — when the scraper sets FV = price
+  //     but the upside is a non-zero analyst-consensus figure (LODHA/HAL),
+  //     the suffix would render "(₹841 vs ₹841)" alongside "+32%" which
+  //     reads as broken arithmetic. Bare form is the honest fallback.
+  const sameRoundedPrice = fvPrice != null && curPrice != null
+    && Math.round(fvPrice) === Math.round(curPrice);
+  if (upside != null && fvPrice != null && curPrice != null && !sameRoundedPrice) {
+    reasons.push(`${upside >= 0 ? "+" : ""}${upside.toFixed(1)}% to AnalystConsensus FV (₹${fvPrice.toFixed(0)} vs ₹${curPrice.toFixed(0)}).`);
+  } else if (upside != null) {
+    reasons.push(`${upside >= 0 ? "+" : ""}${upside.toFixed(1)}% to AnalystConsensus FV.`);
+  }
   if (pe != null) reasons.push(`P/E ${pe.toFixed(1)}x.`);
   if (fwd != null) reasons.push(`Earnings growth ${fwd.toFixed(1)}% YoY.`);
   if (margin != null) reasons.push(`Net margin ${margin.toFixed(1)}%.`);
@@ -224,10 +293,13 @@ export function scoreHolding(holding, portfolioContext = {}) {
   const snow = pickSnowflake(scored);
   const fiscal = scored.fiscal || {};
   const ov = scored.overview || {};
+  // Reconcile FV / upside_pct once — every downstream consumer (action
+  // mapping, reasons, basket classifier) reads the same clean numbers.
+  const reconciled = _reconcileFVUpside(ov);
 
   const position_weight = num(holding.positionWeight, 0);
   const sector_weight = num(portfolioContext.sectorWeights?.[scored.sector] ?? holding.sectorWeight, 0);
-  const upside = num(ov.upside_pct, 0);
+  const upside = num(reconciled.upside_pct, 0);
   const risks_count = scored.v2_breakdown?.risks_count ?? (ov.risks?.length || 0);
 
   const hard = evaluateHardOverrides({ scored, holding, snow, fiscal });
@@ -247,7 +319,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
     });
     action = sb.action;
     band = sb.band;
-    reasons = buildSWSReasons({ scored, snow, fiscal, action, band });
+    reasons = buildSWSReasons({ scored, snow, fiscal, action, band, reconciled });
   }
 
   const timing = computeTimingObservation({ deep: scored, scored, action });
@@ -267,8 +339,8 @@ export function scoreHolding(holding, portfolioContext = {}) {
       snowflake: snow,
       snowflake_total: snow.total,
       current_price_inr: ov.current_price_inr,
-      fair_value_inr: ov.fair_value_inr,
-      upside_pct: ov.upside_pct,
+      fair_value_inr: reconciled.fair_value_inr,
+      upside_pct: reconciled.upside_pct,
       market_cap_inr: ov.market_cap_inr,
       multiples: ov.multiples || null,
       dividend_yield_pct: ov.dividend?.yield_pct ?? ov.dividend_yield_pct ?? null,

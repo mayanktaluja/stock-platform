@@ -14,7 +14,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { num } from "./swsScoring.js";
-import { loadSWSDeep, pickSnowflake, scoreHolding } from "./swsHoldingEngine.js";
+import { loadSWSDeep, pickSnowflake, scoreHolding, _reconcileFVUpside } from "./swsHoldingEngine.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PICKS_LATEST = path.resolve(__dirname, "..", "data", "sws", "picks-latest.json");
@@ -143,6 +143,15 @@ function pickToBasketRow(pick) {
   const snow = deep ? pickSnowflake(deep) : pick.snowflake;
   const ov = deep?.overview || {};
   const fiscal = deep?.fiscal || {};
+  // Run the same FV/upside reconciliation as in-portfolio holdings so fresh
+  // picks (CARERATING, CEINSYS, etc.) don't surface raw scraper values
+  // ("65.68440275587282%") in the basket UI. Falls back to picks-latest
+  // values when the deep file is missing.
+  const reconciled = _reconcileFVUpside({
+    current_price_inr: ov.current_price_inr ?? pick.current_price_inr,
+    fair_value_inr: ov.fair_value_inr ?? pick.fair_value_inr,
+    upside_pct: ov.upside_pct ?? pick.upside_pct,
+  });
   return {
     source: "fresh",
     ticker: pick.ticker,
@@ -153,8 +162,8 @@ function pickToBasketRow(pick) {
     verdict: pick.verdict,
     v2_score: pick.v2_score,
     current_price_inr: ov.current_price_inr ?? pick.current_price_inr,
-    fair_value_inr: ov.fair_value_inr ?? pick.fair_value_inr,
-    upside_pct: ov.upside_pct ?? pick.upside_pct,
+    fair_value_inr: reconciled.fair_value_inr,
+    upside_pct: reconciled.upside_pct,
     beta: ov.beta ?? null,
     market_cap_inr: ov.market_cap_inr ?? pick.market_cap_inr,
     multiples: ov.multiples ?? null,
@@ -296,7 +305,12 @@ function buildSectorOverlay(scoredHoldings) {
   for (const h of scoredHoldings) {
     const cv = num(h.currentValue, 0);
     totalCV += cv;
-    const sector = h.swsCovered ? (h.sws.sector || "Unclassified") : (h.sector || "Unclassified");
+    // Same precedence as server.js's first pass: prefer the curated
+    // stockList sector (proper case, consistent vocabulary) over the SWS
+    // deep-file sector to keep the overlay from fragmenting into
+    // case-variant duplicates ("energy" vs "Energy", "utilities" vs
+    // "Utilities"). SWS only fills in when stockList has none.
+    const sector = h.sector || (h.swsCovered ? h.sws.sector : null) || "Unclassified";
     if (!bySector.has(sector)) bySector.set(sector, { sector, currentValue: 0, holdings: [], avgSnowflake: 0, avgV2: 0, _snowSum: 0, _v2Sum: 0, _n: 0 });
     const row = bySector.get(sector);
     row.currentValue += cv;
