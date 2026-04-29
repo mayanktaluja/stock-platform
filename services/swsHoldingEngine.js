@@ -25,7 +25,7 @@ import { crosscheckHolding } from "./swsLayerCrosscheck.js";
 import { extractCatalystSignals } from "./swsCatalystLayer.js";
 import { extractIndianRiskSignals } from "./swsIndianRiskLayer.js";
 import { computeRecommendationV2 } from "./swsConvictionEngine.js";
-import { isV1Only, isV2Primary, RECOMMENDER_MODE } from "./swsRecommenderMode.js";
+import { isV1Only, isV2Primary, getRecommenderMode } from "./swsRecommenderMode.js";
 import { findPeerSubstitutes } from "./swsPeerLayer.js";
 import { buildFallbackHolding } from "./swsCoverageFallback.js";
 import { buildAuditTrail } from "./swsAuditTrail.js";
@@ -493,7 +493,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
       v2_breakdown: scored.v2_breakdown,
       v3_breakdown: scored.v3_breakdown,
       v2_recommendation: v2recommendation,
-      recommender_mode: RECOMMENDER_MODE,
+      recommender_mode: getRecommenderMode(),
       peer_substitute: findPeerSubstitutes({
         ticker: scored.ticker,
         sector: scored.sector,
@@ -508,7 +508,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
     audit: buildAuditTrail({
       holding: { ...holding, sws: { ticker: scored.ticker, snowflake: snow, fair_value_inr: reconciled.fair_value_inr, crosscheck, catalyst, indianRisk, peer_substitute: { top_peer: null }, v2_recommendation: v2recommendation, v3_score: num(scored.v3_score_100, null), v3_verdict: scored.v3_verdict }, action: finalAction },
       scored,
-      recommenderMode: RECOMMENDER_MODE,
+      recommenderMode: getRecommenderMode(),
     }),
   };
 }
