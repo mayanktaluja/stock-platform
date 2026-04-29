@@ -4520,7 +4520,7 @@ function swsHoldingRow(h) {
   const sws = h.sws || {};
   const tk = sws.ticker || h.symbol || "—";
   const name = sws.name || h.name || "";
-  const v2 = sws.v2_score != null ? sws.v2_score : "—";
+  const v3 = sws.v3_score != null ? sws.v3_score : "—";
   const verdict = sws.verdict || "—";
   const cv = h.currentValue;
   const pos = h.positionWeight != null ? h.positionWeight + "%" : "—";
@@ -4532,7 +4532,7 @@ function swsHoldingRow(h) {
     </td>
     <td style="padding:10px 12px;">${swsActionBadge(h.action)}</td>
     <td style="padding:10px 12px;">
-      <div style="font-weight:600;">${v2}</div>
+      <div style="font-weight:600;">${v3}</div>
       <div style="font-size:10px; color:var(--text-muted);">${verdict}</div>
     </td>
     <td style="padding:10px 12px;">${swsSnowflakeMini(sws.snowflake)}</td>
@@ -4576,7 +4576,7 @@ function renderSWSTierA(tier) {
           <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
             <th style="padding:10px 12px;">Stock</th>
             <th style="padding:10px 12px;">Action</th>
-            <th style="padding:10px 12px;">v2 score</th>
+            <th style="padding:10px 12px;">v3 score</th>
             <th style="padding:10px 12px;">Snowflake</th>
             <th style="padding:10px 12px;">Position</th>
             <th style="padding:10px 12px; text-align:right;">P&amp;L</th>
@@ -4605,7 +4605,7 @@ function swsBasketRow(r) {
         <strong style="font-size:13px;">${r.ticker}</strong>
         ${sourceTag}
       </div>
-      <div style="font-size:11px; color:var(--text-muted); font-weight:600;">v2 ${r.v2_score ?? "—"}</div>
+      <div style="font-size:11px; color:var(--text-muted); font-weight:600;">v3 ${r.v3_score ?? "—"}</div>
     </div>
     <div style="margin-top:4px; font-size:11px; color:var(--text-muted); display:flex; gap:10px; flex-wrap:wrap;">
       <span>${swsEscapeAttr(r.sector || "—")}</span>
@@ -4670,7 +4670,7 @@ function renderSWSTierC(tier) {
             <span style="font-size:11px; color:var(--text-muted); margin-left:8px;">${swsEscapeAttr(sws.name || "")} · ${swsEscapeAttr(sws.sector || "—")}</span>
           </div>
           <div style="display:flex; align-items:center; gap:10px; font-size:11px;">
-            <span>v2 <strong>${sws.v2_score ?? "—"}</strong></span>
+            <span>v3 <strong>${sws.v3_score ?? "—"}</strong></span>
             ${swsSnowflakeMini(sws.snowflake)}
             <span style="color:${pctColor(h.pnlPercent)};">${h.pnlPercent != null ? (h.pnlPercent >= 0 ? "+" : "") + h.pnlPercent + "%" : "—"}</span>
           </div>
@@ -4695,7 +4695,7 @@ function renderSWSTierD(tier) {
               <strong style="font-size:13px;">${tk}</strong>
               <span style="font-size:11px; color:var(--text-muted); margin-left:8px;">${swsEscapeAttr(sws.name || h.name || "")}${sws.sector ? " · " + swsEscapeAttr(sws.sector) : ""}</span>
             </div>
-            <div style="font-size:11px; color:var(--text-muted);">${h.swsCovered === false ? '<span style="padding:2px 6px; background:rgba(107,114,128,0.15); border-radius:3px;">No SWS data</span>' : `v2 ${sws.v2_score ?? "—"}`}</div>
+            <div style="font-size:11px; color:var(--text-muted);">${h.swsCovered === false ? '<span style="padding:2px 6px; background:rgba(107,114,128,0.15); border-radius:3px;">No SWS data</span>' : `v3 ${sws.v3_score ?? "—"}`}</div>
           </div>
           <div style="margin-top:4px; font-size:11px; color:#fde047;">${swsEscapeAttr(h.watchReason || "")}</div>
         </div>`;
@@ -4715,7 +4715,7 @@ function renderSWSSectorOverlay(rows) {
             <th style="padding:8px 12px;">Sector</th>
             <th style="padding:8px 12px; text-align:right;">Weight</th>
             <th style="padding:8px 12px; text-align:right;">Avg Snowflake</th>
-            <th style="padding:8px 12px; text-align:right;">Avg v2</th>
+            <th style="padding:8px 12px; text-align:right;">Avg v3</th>
             <th style="padding:8px 12px;">Holdings</th>
           </tr>
         </thead>
@@ -4724,7 +4724,7 @@ function renderSWSSectorOverlay(rows) {
             <td style="padding:8px 12px; font-weight:600;">${swsEscapeAttr(s.sector)}</td>
             <td style="padding:8px 12px; text-align:right; font-weight:600;">${s.pct}%</td>
             <td style="padding:8px 12px; text-align:right; color:var(--text-muted);">${s.avgSnowflake ?? "—"}</td>
-            <td style="padding:8px 12px; text-align:right; color:var(--text-muted);">${s.avgV2 ?? "—"}</td>
+            <td style="padding:8px 12px; text-align:right; color:var(--text-muted);">${s.avgV3 ?? "—"}</td>
             <td style="padding:8px 12px; font-size:11px; color:var(--text-muted);">${s.holdings.slice(0, 6).map(t => t.replace(/\.NS$/, "")).join(", ")}${s.holdings.length > 6 ? " +" + (s.holdings.length - 6) : ""}</td>
           </tr>`).join("")}
         </tbody>
@@ -4785,7 +4785,7 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
       ${swsKpiCard("Current value", inr(snap.totalCurrent))}
       ${swsKpiCard("Net P&amp;L", `<span style="color:${pctColor(snap.totalPnLPct)}">${inr(snap.totalPnL)} (${snap.totalPnLPct ?? 0}%)</span>`)}
       ${swsKpiCard("Avg Snowflake", `${snap.avgSnowflake ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/30</span>`)}
-      ${swsKpiCard("Avg v2 score", `${snap.avgV2Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
+      ${swsKpiCard("Avg v3 score", `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
       ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} SWS-covered)</span>`)}
     </div>
 
