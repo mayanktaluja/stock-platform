@@ -21,6 +21,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { scoreStock, num } from "./swsScoring.js";
+import { crosscheckHolding } from "./swsLayerCrosscheck.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEEP_DIR = path.resolve(__dirname, "..", "data", "sws", "deep");
@@ -361,6 +362,18 @@ export function scoreHolding(holding, portfolioContext = {}) {
 
   const timing = computeTimingObservation({ deep: scored, scored, action });
 
+  // Layer-2 independent-fundamentals cross-check — shadow attach only.
+  // The conviction engine (PR 3) will read crosscheck.confidence_delta to
+  // bias the action band. Today we just expose the data so the divergence
+  // smoke test (scripts/smoke-sws-crosscheck.mjs) and a future UI can read
+  // it. Never throws — returns { available: false } when fundamentals.json
+  // has no snapshot for this ticker.
+  const crosscheck = crosscheckHolding({
+    ticker: scored.ticker || holding?.symbol || holding?.ticker,
+    swsSnowflake: snow,
+    swsV3Score: num(scored.v3_score_100, null),
+  });
+
   return {
     ...holding,
     swsCovered: true,
@@ -375,6 +388,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
       v3_verdict: scored.v3_verdict,
       verdict: scored.verdict,
       band,
+      crosscheck,
       snowflake: snow,
       snowflake_total: snow.total,
       current_price_inr: ov.current_price_inr,
