@@ -6355,6 +6355,45 @@ function onPicksIndexFilterChange(value) {
   if (currentPicksData) renderPicks(currentPicksData);
 }
 
+// Picks-tab search. Ephemeral by design — search is exploratory; resetting on
+// reload is the right default (unlike the universe radio, which is a saved
+// preference). 200 ms debounce so a fast typist doesn't trigger a re-render
+// per keystroke.
+let picksSearchQuery = "";
+let picksSearchTimer = null;
+
+function onPicksSearchInput(value) {
+  if (picksSearchTimer) clearTimeout(picksSearchTimer);
+  picksSearchTimer = setTimeout(() => {
+    picksSearchQuery = (value || "").trim().toLowerCase();
+    togglePicksSearchClearBtn();
+    if (currentPicksData) renderPicks(currentPicksData);
+  }, 200);
+}
+
+function onPicksSearchClear() {
+  if (picksSearchTimer) { clearTimeout(picksSearchTimer); picksSearchTimer = null; }
+  const inp = document.getElementById("picksSearchInput");
+  if (inp) inp.value = "";
+  picksSearchQuery = "";
+  togglePicksSearchClearBtn();
+  if (currentPicksData) renderPicks(currentPicksData);
+}
+
+function togglePicksSearchClearBtn() {
+  const btn = document.getElementById("picksSearchClear");
+  if (btn) btn.hidden = !picksSearchQuery;
+}
+
+// Substring match across ticker, name, and sector. Lower-cased once at input
+// time so the per-card check is just a string includes.
+function pickMatchesSearch(it, q) {
+  if (!q) return true;
+  if (!it) return false;
+  const hay = `${it.ticker || ""} ${it.name || ""} ${it.sector || ""}`.toLowerCase();
+  return hay.includes(q);
+}
+
 async function loadPicks() {
   const containerEl = document.getElementById("picksContainer");
   const metaEl = document.getElementById("picksMeta");
@@ -6501,8 +6540,13 @@ function updatePicksFilterCounts(totalAll, totalN500) {
 }
 
 function renderPicksChipNav(visibleSections, collapsedState) {
+  // While a search query is active, force-expand every visible section so the
+  // user sees matches immediately rather than having to click each accordion.
+  // Persistent collapse state is preserved — when the search clears, the
+  // user's saved expand/collapse choices return.
+  const forceExpand = !!picksSearchQuery;
   const chips = visibleSections.map(({ section, items }) => {
-    const isCollapsed = isPicksSectionCollapsed(collapsedState, section.key);
+    const isCollapsed = !forceExpand && isPicksSectionCollapsed(collapsedState, section.key);
     return `<button type="button" class="sws-pick-chip${isCollapsed ? "" : " active"}" data-section-key="${section.key}" onclick="jumpToPicksSection('${section.key}')" title="${escapeHtml(section.subtitle)}">
       <span class="sws-pick-chip-emoji">${section.emoji}</span><span class="sws-pick-chip-label">${escapeHtml(section.chip_label)}</span><span class="sws-pick-chip-count">${items.length}</span>
     </button>`;
@@ -6533,9 +6577,12 @@ function renderPicks(data) {
     const rawItems = (data.sections && data.sections[section.key]) || [];
     totalAll += rawItems.length;
     totalN500 += rawItems.filter((it) => it && it.nifty500).length;
-    const items = picksIndexFilter === "nifty500"
-      ? rawItems.filter((it) => it && it.nifty500)
-      : rawItems;
+    // Universe filter (Nifty 500) AND ephemeral search — both narrow the same
+    // items array so chip counts, overflow, and section visibility update
+    // together. Order: universe first (fewer items to scan for search).
+    const items = rawItems
+      .filter((it) => picksIndexFilter !== "nifty500" || (it && it.nifty500))
+      .filter((it) => pickMatchesSearch(it, picksSearchQuery));
     if (items.length === 0) continue;
     visibleSections.push({ section, items });
     totalShown += items.length;
@@ -6544,21 +6591,29 @@ function renderPicks(data) {
   updatePicksFilterCounts(totalAll, totalN500);
 
   if (!totalShown) {
-    const msg = picksIndexFilter === "nifty500"
-      ? `No Nifty 500 stocks in the current scan. Switch back to <strong>All</strong> above to see the full universe.`
-      : `Scan completed but no stocks matched any section filters. Check thresholds in scripts/sws-scoring.mjs.`;
+    let msg;
+    if (picksSearchQuery) {
+      msg = `No picks match "<strong>${escapeHtml(picksSearchQuery)}</strong>". Try a different ticker, name, or sector — or clear the search.`;
+    } else if (picksIndexFilter === "nifty500") {
+      msg = `No Nifty 500 stocks in the current scan. Switch back to <strong>All</strong> above to see the full universe.`;
+    } else {
+      msg = `Scan completed but no stocks matched any section filters. Check thresholds in scripts/sws-scoring.mjs.`;
+    }
     containerEl.innerHTML = `<div style="padding:24px;color:var(--text-muted);">${msg}</div>`;
     return;
   }
 
   const chipNav = renderPicksChipNav(visibleSections, collapsedState);
 
+  // Same force-expand logic as the chip-nav: an active search query overrides
+  // persistent collapse state so matches are immediately visible.
+  const forceExpand = !!picksSearchQuery;
   const sectionsHtml = visibleSections.map(({ section, items }) => {
     const cap = PICKS_INLINE_CAP[section.key] ?? PICKS_INLINE_DEFAULT_CAP;
     const sliced = items.slice(0, cap);
     const overflow = items.length > cap ? items.length - cap : 0;
     const isHero = section.key === "top_ranked_30_v3";
-    const isCollapsed = isPicksSectionCollapsed(collapsedState, section.key);
+    const isCollapsed = !forceExpand && isPicksSectionCollapsed(collapsedState, section.key);
     const tip = section.term_id ? infoIcon(section.term_id) : "";
     return `
       <div class="dashboard-section sws-pick-section${isCollapsed ? " collapsed" : ""}${isHero ? " sws-pick-section-hero" : ""}" data-section-key="${section.key}">
