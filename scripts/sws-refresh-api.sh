@@ -83,6 +83,25 @@ if [ -n "${LIVE_SHARDS}" ]; then
   SCRAPE_SKIPPED=true
 else
   echo "[refresh-api] spawning 3 API shards in parallel"
+
+  # Reset next_local_index so each fresh invocation does a full-universe pass.
+  # Without this, once shards reach end-of-slice the loop exits scraped:0 and
+  # the wrapper still runs score+PDF on stale data (silent no-op cron). Only
+  # the cursor is rewound — done_count / today_count / today_date / started_at
+  # are preserved. Safe — we hold the pipeline lock, and LIVE_SHARDS is empty.
+  node --input-type=module - <<'EOF'
+import {readFileSync, writeFileSync, existsSync} from "fs";
+for (const sid of [1, 2, 3]) {
+  const fp = `data/sws/progress-api-${sid}.json`;
+  if (!existsSync(fp)) continue;
+  const p = JSON.parse(readFileSync(fp, "utf-8"));
+  const before = p.next_local_index;
+  p.next_local_index = 0;
+  writeFileSync(fp, JSON.stringify(p, null, 2) + "\n");
+  console.log(`[refresh-api] reset shard ${sid}: next_local_index ${before} → 0`);
+}
+EOF
+
   for SHARD in 1 2 3; do
     : > "data/sws/refresh-api-shard-${SHARD}.log"
     SWS_API_DAILY_CAP="${SWS_API_DAILY_CAP:-1500}" \
