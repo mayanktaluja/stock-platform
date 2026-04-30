@@ -6318,8 +6318,24 @@ const PICKS_SECTIONS = [
 const PICKS_INLINE_CAP = {
   top_ranked_30_v3: 30,
   upcoming_earnings: 30,
+  // Off-section search bumps the cap to 24 — global search is the only path
+  // to find these stocks, so 12 feels too tight; 24 still keeps render fast.
+  off_section_search: 24,
 };
 const PICKS_INLINE_DEFAULT_CAP = 12;
+
+// Synthetic section prepended above curated sections when the user's search
+// matches scored stocks that didn't land in any of the 11 curated picks
+// buckets. Reuses the same section-header / chip / card pipeline so chip-nav,
+// force-expand, and overflow logic apply automatically.
+const PICKS_OFF_SECTION_DEF = {
+  key: "off_section_search",
+  term_id: null,
+  emoji: "🌐",
+  label: "🌐 All SWS stocks (off-section matches)",
+  chip_label: "Off-section",
+  subtitle: "Scored stocks that match your search but didn't make any curated section. Capped at 24 inline — refine your query or click through to SWS for the full pic.",
+};
 
 let picksStatusPollTimer = null;
 
@@ -6362,12 +6378,48 @@ function onPicksIndexFilterChange(value) {
 let picksSearchQuery = "";
 let picksSearchTimer = null;
 
+// Scored-universe (~5,439 stocks) lazy-loaded on first non-empty search query
+// so the picks tab itself stays snappy for users who never search. Cached for
+// the session; re-fetched on next page load. `loadFailed` short-circuits
+// retries when /api/sws-universe is missing (e.g. before backfill runs).
+let swsScoredUniverse = null;
+let swsUniverseLoadPromise = null;
+let swsUniverseLoadFailed = false;
+
+async function ensureUniverseLoaded() {
+  if (swsScoredUniverse || swsUniverseLoadFailed) return swsScoredUniverse;
+  if (!swsUniverseLoadPromise) {
+    swsUniverseLoadPromise = (async () => {
+      try {
+        const res = await fetch("/api/sws-universe");
+        if (!res.ok) { swsUniverseLoadFailed = true; return null; }
+        const data = await res.json();
+        swsScoredUniverse = Array.isArray(data?.stocks) ? data.stocks : null;
+        if (!swsScoredUniverse) swsUniverseLoadFailed = true;
+        return swsScoredUniverse;
+      } catch {
+        swsUniverseLoadFailed = true;
+        return null;
+      }
+    })();
+  }
+  return swsUniverseLoadPromise;
+}
+
 function onPicksSearchInput(value) {
   if (picksSearchTimer) clearTimeout(picksSearchTimer);
-  picksSearchTimer = setTimeout(() => {
+  picksSearchTimer = setTimeout(async () => {
     picksSearchQuery = (value || "").trim().toLowerCase();
     togglePicksSearchClearBtn();
     if (currentPicksData) renderPicks(currentPicksData);
+    // First non-empty query kicks off the universe fetch (lazy). Re-render
+    // when it lands so off-section matches appear without another keystroke.
+    // Re-render on failure too — moves the status from "Loading…" to
+    // "Universe unavailable…" rather than leaving a stuck spinner.
+    if (picksSearchQuery && !swsScoredUniverse && !swsUniverseLoadFailed) {
+      await ensureUniverseLoaded();
+      if (currentPicksData && picksSearchQuery) renderPicks(currentPicksData);
+    }
   }, 200);
 }
 
@@ -6385,13 +6437,50 @@ function togglePicksSearchClearBtn() {
   if (btn) btn.hidden = !picksSearchQuery;
 }
 
-// Substring match across ticker, name, and sector. Lower-cased once at input
-// time so the per-card check is just a string includes.
+// Substring match across ticker, name, sector, and (when present on universe
+// entries) the SWS slug — so a query like "adani-enterprises" still resolves.
+// Lower-cased once at input time so the per-card check is just string.includes.
 function pickMatchesSearch(it, q) {
   if (!q) return true;
   if (!it) return false;
-  const hay = `${it.ticker || ""} ${it.name || ""} ${it.sector || ""}`.toLowerCase();
+  const slug = it.sws_url ? (it.sws_url.match(/\/([a-z0-9-]+)-shares?$/)?.[1] || "") : "";
+  const hay = `${it.ticker || ""} ${it.name || ""} ${it.sector || ""} ${slug}`.toLowerCase();
   return hay.includes(q);
+}
+
+// Builds the freshness banner shown under the SWS Picks header. Surfaces
+// (a) the last full-pipeline-finish stamp from last-refresh.json,
+// (b) live "refresh in progress" indicator if any shard last_run_at is recent,
+// (c) a stale warning when the data is older than 3 days (the user's target
+// cadence is every 2-3 days).
+function renderPicksMetaBanner(data) {
+  const lr = data.last_refresh || {};
+  const finishedAt = lr.finished_at || null;
+  const shards = data.shard_progress_api || [];
+  const latestShardRun = shards.reduce((max, s) => {
+    if (!s.last_run_at) return max;
+    return (!max || new Date(s.last_run_at) > new Date(max)) ? s.last_run_at : max;
+  }, null);
+  // Prefer the more recent of the two stamps so an in-flight scrape pushes
+  // the displayed freshness forward in real time.
+  const dataStamp = (finishedAt && (!latestShardRun || new Date(finishedAt) >= new Date(latestShardRun)))
+    ? finishedAt
+    : latestShardRun;
+  const ageMs = dataStamp ? Date.now() - new Date(dataStamp).getTime() : null;
+  const stale = ageMs != null && ageMs > 3 * 24 * 3600 * 1000;
+  const fresh = ageMs != null && ageMs < 6 * 3600 * 1000;
+  const inFlight = shards.some((s) => s.last_run_at && (Date.now() - new Date(s.last_run_at).getTime()) < 5 * 60 * 1000);
+  const color = stale ? "var(--red)" : (fresh ? "var(--green)" : "var(--text-secondary)");
+
+  const totals = `${data.scored_count} scored · ${data.failed_count} failed`;
+  const refreshLine = dataStamp
+    ? `Last data refresh: <strong style="color:${color};">${timeAgo(dataStamp)}</strong> · ${new Date(dataStamp).toLocaleString()}${stale ? ' · <span style="color:var(--red);">stale, run /sws-refresh-api</span>' : ""}`
+    : "Refresh time unknown";
+  const inFlightLine = inFlight
+    ? `<br><span style="color:var(--accent, #4a90e2);">⟳ Refresh in progress — shard 1: ${shards[0]?.today_count || 0} · shard 2: ${shards[1]?.today_count || 0} · shard 3: ${shards[2]?.today_count || 0} stocks today</span>`
+    : "";
+
+  return `${refreshLine} · ${totals}${inFlightLine}`;
 }
 
 async function loadPicks() {
@@ -6413,7 +6502,7 @@ async function loadPicks() {
     const data = await res.json();
     currentPicksData = data;
     renderPicks(data);
-    metaEl.textContent = `Scanned ${new Date(data.scanned_at).toLocaleString()} · ${data.scored_count} stocks scored · ${data.failed_count} failed (in retry)`;
+    metaEl.innerHTML = renderPicksMetaBanner(data);
     pollPicksStatus();
   } catch (e) {
     containerEl.innerHTML = `<div style="padding:24px;color:var(--red);">Failed to load picks: ${e.message}</div>`;
@@ -6590,6 +6679,28 @@ function renderPicks(data) {
 
   updatePicksFilterCounts(totalAll, totalN500);
 
+  // Off-section matches: when search is active and the scored-universe index
+  // has loaded, surface any matching stock that ISN'T already shown above.
+  // Prepended so users see global hits before the curated buckets.
+  let offSectionCount = 0;
+  if (picksSearchQuery && Array.isArray(swsScoredUniverse) && swsScoredUniverse.length) {
+    const shown = new Set();
+    for (const v of visibleSections) {
+      for (const it of v.items) if (it && it.ticker) shown.add(it.ticker);
+    }
+    const offSection = swsScoredUniverse.filter((it) => {
+      if (!it || !it.ticker) return false;
+      if (shown.has(it.ticker)) return false;
+      if (picksIndexFilter === "nifty500" && !it.nifty500) return false;
+      return pickMatchesSearch(it, picksSearchQuery);
+    });
+    if (offSection.length > 0) {
+      offSectionCount = offSection.length;
+      visibleSections.unshift({ section: PICKS_OFF_SECTION_DEF, items: offSection });
+      totalShown += offSection.length;
+    }
+  }
+
   if (!totalShown) {
     let msg;
     if (picksSearchQuery) {
@@ -6599,10 +6710,11 @@ function renderPicks(data) {
     } else {
       msg = `Scan completed but no stocks matched any section filters. Check thresholds in scripts/sws-scoring.mjs.`;
     }
-    containerEl.innerHTML = `<div style="padding:24px;color:var(--text-muted);">${msg}</div>`;
+    containerEl.innerHTML = renderPicksSearchStatus(0, 0) + `<div style="padding:24px;color:var(--text-muted);">${msg}</div>`;
     return;
   }
 
+  const statusHtml = renderPicksSearchStatus(totalShown, offSectionCount);
   const chipNav = renderPicksChipNav(visibleSections, collapsedState);
 
   // Same force-expand logic as the chip-nav: an active search query overrides
@@ -6640,7 +6752,26 @@ function renderPicks(data) {
       </div>`;
   }).join("");
 
-  containerEl.innerHTML = chipNav + sectionsHtml;
+  containerEl.innerHTML = statusHtml + chipNav + sectionsHtml;
+}
+
+// Status line for the picks-tab search. Surfaces lazy-load progress and the
+// count of universe-wide matches so the user can tell global search is on.
+// Returns "" when no search is active so the picks tab looks identical to
+// before this feature when idle.
+function renderPicksSearchStatus(totalShown, offSectionCount) {
+  if (!picksSearchQuery) return "";
+  const q = escapeHtml(picksSearchQuery);
+  let body;
+  if (swsUniverseLoadFailed) {
+    body = `<span style="color:var(--text-muted);">Universe index unavailable — searching loaded sections only. Run <code>node scripts/sws-build-scored-universe.mjs</code> to backfill.</span>`;
+  } else if (!swsScoredUniverse) {
+    body = `<span style="color:var(--text-muted);">Loading SWS universe… in-section matches shown for "<strong>${q}</strong>".</span>`;
+  } else {
+    const universeSize = swsScoredUniverse.length;
+    body = `<span><strong>${totalShown}</strong> match${totalShown === 1 ? "" : "es"} for "<strong>${q}</strong>" across <strong>${universeSize.toLocaleString()}</strong> SWS stocks${offSectionCount ? ` · <strong>${offSectionCount}</strong> off-section` : ""}.</span>`;
+  }
+  return `<div class="sws-pick-search-status" style="padding:8px 12px; margin:4px 0 12px 0; background:rgba(255,255,255,0.03); border-radius:6px; font-size:13px;">${body}</div>`;
 }
 
 // Color band for the score number on the card. Mirrors v3 verdict tiers
