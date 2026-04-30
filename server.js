@@ -6495,11 +6495,12 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
     }
   }
 
-  // File mtime for freshness indicator (parsed_at is the parse time, mtime
-  // is the file write time — usually the same, but mtime is the canonical
-  // "when did we last touch this on disk" stamp).
-  let mtime = null;
-  try { mtime = fs.statSync(fp).mtime.toISOString(); } catch {}
+  // Freshness indicator — use parsed_at from the JSON content. fs.statSync
+  // mtime is unreliable on Vercel: serverless bundles pin every file's mtime
+  // to a fixed 2018-10-20 epoch for reproducible builds, which would render
+  // "Deep-scrape mtime: 10/20/2018" on prod regardless of when the data was
+  // actually scraped.
+  const mtime = deep.parsed_at || null;
 
   // Surveillance — same regulatory overlay used by /api/stock
   const surveillance = getSurveillanceFlag(ticker);
