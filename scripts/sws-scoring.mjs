@@ -505,6 +505,44 @@ function pickCardFields(stock) {
   };
 }
 
+// Slim projection for the picks-tab global search index. ~3× smaller than
+// pickCardFields — drops v2_breakdown bulk, v3_breakdown, full snowflake
+// (renderPickCard only reads snowflake_total), and the upcoming-earnings-only
+// fields. Adds in_sections so the front-end can skip stocks already shown in
+// curated sections.
+function slimUniverseEntry(stock, inSections) {
+  const card = pickCardFields(stock);
+  return {
+    ticker: card.ticker,
+    name: card.name,
+    sector: card.sector,
+    sws_url: card.sws_url,
+    score: card.score,
+    v2_score: card.v2_score,
+    v3_score: card.v3_score,
+    v3_score_100: card.v3_score_100,
+    v3_verdict: card.v3_verdict,
+    verdict: card.verdict,
+    v2_breakdown: card.v2_breakdown ? { surveillance: card.v2_breakdown.surveillance || null } : null,
+    snowflake_total: card.snowflake_total,
+    current_price_inr: card.current_price_inr,
+    fair_value_inr: card.fair_value_inr,
+    upside_pct: card.upside_pct,
+    market_cap_inr: card.market_cap_inr,
+    one_line: card.one_line,
+    data_freshness_at: card.data_freshness_at,
+    in_sections: inSections,
+  };
+}
+
+// Atomic write helper: stage to .tmp then rename so a mid-write crash or
+// concurrent reader (the API route) never sees a half-written JSON file.
+function writeJsonAtomic(filePath, value) {
+  const tmp = filePath + ".tmp";
+  fs.writeFileSync(tmp, JSON.stringify(value));
+  fs.renameSync(tmp, filePath);
+}
+
 export function buildLeaderboard(scoredStocks) {
   // Sort once, descending by v1 score (legacy compatibility for existing categories)
   const ordered = [...scoredStocks].sort((a, b) => (b.composite_score_100 || 0) - (a.composite_score_100 || 0));
@@ -614,6 +652,28 @@ export function runFullScoring() {
     sections,
   };
   fs.writeFileSync(PATHS.picksLatest, JSON.stringify(out, null, 2));
+
+  // Sibling: scored-universe index for the picks-tab global search.
+  // Includes EVERY scored stock (not just those in sections) with a slim
+  // subset of fields renderPickCard needs, plus an `in_sections` array so
+  // the UI can dedupe search hits against the visible curated sections.
+  // Atomic write — the /api/sws-universe route reads this file directly.
+  const tickerToSections = new Map();
+  for (const [sectionKey, items] of Object.entries(sections)) {
+    if (!Array.isArray(items)) continue;
+    for (const it of items) {
+      if (!it || !it.ticker) continue;
+      if (!tickerToSections.has(it.ticker)) tickerToSections.set(it.ticker, []);
+      tickerToSections.get(it.ticker).push(sectionKey);
+    }
+  }
+  const universeStocks = scored.map((s) => slimUniverseEntry(s, tickerToSections.get(s.ticker) || []));
+  const scoredUniversePath = path.join(path.dirname(PATHS.picksLatest), "sws-scored-universe.json");
+  writeJsonAtomic(scoredUniversePath, {
+    generated_at: new Date().toISOString(),
+    scored_count: universeStocks.length,
+    stocks: universeStocks,
+  });
 
   // Persist v3 universe distribution so the live action engine
   // (services/swsHoldingEngine.js) can score holdings with calibrated
