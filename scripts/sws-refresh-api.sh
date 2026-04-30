@@ -43,12 +43,28 @@ exec > >(tee -a "${LOG}") 2>&1
 ts() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 START_EPOCH="$(date +%s)"
 
+# Mail summary helper. Sends via Resend (scripts/sws-mail-summary.mjs).
+# Gated by SWS_MAIL_ENABLED (set =0 to silence). Silent no-op if helper
+# script is missing — keeps the wrapper resilient when run from a fresh
+# checkout that hasn't seen the mail integration.
+SWS_MAIL_FN() {
+  local subject="$1"; local body="$2"
+  [ "${SWS_MAIL_ENABLED:-1}" = "0" ] && return 0
+  [ ! -f scripts/sws-mail-summary.mjs ] && { echo "[mail] helper missing — skipping"; return 0; }
+  printf "%s" "${body}" | node scripts/sws-mail-summary.mjs "${subject}" - 2>&1 | sed 's/^/[mail] /'
+}
+
 echo "=== refresh-api started: $(ts) pid=$$ ==="
 
 # ---------- 1. Pre-flight: panic flag ----------
 
 if ! node scripts/sws-deep-scrape.mjs check-panic >/dev/null 2>&1; then
   echo "[refresh-api] PANIC flag set — refusing to run"
+  SWS_MAIL_FN "🚨 SWS refresh aborted — PANIC flag set" "The daily SWS refresh wrapper refused to start because data/sws/panic-stop.flag is set.
+
+$(cat data/sws/panic-stop.flag 2>/dev/null | head -30)
+
+Manual review required. Inspect Simply Wall Street in your browser to confirm there's no block / suspension, then delete data/sws/panic-stop.flag to allow the next run to proceed."
   exit 3
 fi
 
@@ -127,6 +143,14 @@ fi
 
 if ! node scripts/sws-deep-scrape.mjs check-panic >/dev/null 2>&1; then
   echo "[refresh-api] panic detected during scrape → skipping parse/score/narrate/PDF"
+  SWS_MAIL_FN "🚨 SWS refresh — panic mid-scrape" "Refresh started cleanly but a panic flag was raised during the scrape phase. Parse/score/narrate/PDF were skipped to avoid writing partial data.
+
+elapsed before panic: ${ELAPSED}s
+shards failed: ${FAIL}
+
+$(cat data/sws/panic-stop.flag 2>/dev/null | head -30)
+
+Inspect data/sws/refresh-api-shard-{1,2,3}.log for the trigger event, then delete data/sws/panic-stop.flag once you've reviewed."
   exit 4
 fi
 
@@ -276,5 +300,45 @@ Once merged, prod (\`stock-platform-gamma.vercel.app\`) will redeploy with the n
     echo "[refresh-api] auto-PR: branch checkout failed (working tree dirty?) — skipping"
   fi
 fi
+
+# ---------- 11. Send completion email ----------
+# Composed from last-refresh.json so the body matches what the dashboard sees.
+# Non-fatal — never blocks the success exit.
+
+MAIL_SUMMARY="$(PR_URL_ENV="${PR_URL:-}" node --input-type=module - <<'NODE_EOF' 2>/dev/null || echo "(summary unavailable)"
+import {readFileSync, existsSync} from "fs";
+const path = "data/sws/last-refresh.json";
+if (!existsSync(path)) { console.log("(no last-refresh.json yet)"); process.exit(0); }
+const j = JSON.parse(readFileSync(path, "utf-8"));
+const dur = j.duration_seconds || 0;
+const h = Math.floor(dur / 3600), m = Math.floor((dur % 3600) / 60);
+const pr = process.env.PR_URL_ENV || "";
+const lines = [
+  `Pipeline status: ${j.pipeline_status}`,
+  `Duration: ${h}h ${m}m (${dur}s)`,
+  `Scored: ${j.scored_count} stocks · Shards failed: ${j.shards_failed}`,
+  `Finished: ${j.finished_at}`,
+  "",
+  "Sections:",
+  ...Object.entries(j.sections_count || {}).map(([k, v]) => `  ${k}: ${v}`),
+  "",
+  "Per-shard progress:",
+  ...Object.entries(j.per_shard_progress || {}).map(([sid, p]) =>
+    `  shard ${sid}: ${p.done_count} done · today ${p.today_count} · last ${p.last_ticker}`),
+  "",
+  "Prod: https://stock-platform-gamma.vercel.app/",
+];
+if (pr.length) lines.push("", `Auto-PR opened: ${pr}`);
+else lines.push("", "Auto-PR not opened (skipped or disabled — manual sync needed for prod to see fresh data).");
+console.log(lines.join("\n"));
+NODE_EOF
+)"
+
+MAIL_STATUS_ICON="✅"
+[ "${FAIL}" -gt 0 ] && MAIL_STATUS_ICON="⚠️"
+MAIL_DATE="$(date -u +%Y-%m-%d)"
+MAIL_SCORED="$(node -p "JSON.parse(require('fs').readFileSync('data/sws/last-refresh.json','utf-8')).scored_count" 2>/dev/null || echo "?")"
+
+SWS_MAIL_FN "${MAIL_STATUS_ICON} SWS refresh ${MAIL_DATE} — ${MAIL_SCORED} stocks" "${MAIL_SUMMARY}"
 
 exit 0
