@@ -2592,6 +2592,72 @@
       text-align: center;
     }
 
+    /* Two-column row: universe radio (left) + search input (right). Stacks on mobile. */
+    .sws-pick-filters {
+      display: flex;
+      align-items: stretch;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .sws-pick-filters > .sws-pick-index-filter {
+      margin-bottom: 0;
+      flex: 1 1 auto;
+    }
+    .sws-pick-search-wrap {
+      position: relative;
+      flex: 1 1 280px;
+      min-width: 240px;
+      max-width: 460px;
+    }
+    .sws-pick-search-input {
+      width: 100%;
+      padding: 10px 32px 10px 32px;
+      background: var(--bg-card, #0e1422);
+      border: 1px solid var(--border-soft, #1a2233);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 13px;
+      transition: border-color 0.12s ease, box-shadow 0.12s ease;
+    }
+    .sws-pick-search-input::placeholder {
+      color: var(--text-muted);
+    }
+    .sws-pick-search-input:focus {
+      outline: none;
+      border-color: var(--blue, #4a90e2);
+      box-shadow: 0 0 0 2px rgba(74,144,226,0.18);
+    }
+    .sws-pick-search-icon {
+      position: absolute;
+      left: 10px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      opacity: 0.55;
+      pointer-events: none;
+    }
+    .sws-pick-search-clear {
+      position: absolute;
+      right: 6px; top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .sws-pick-search-clear:hover {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.06);
+    }
+    @media (max-width: 720px) {
+      .sws-pick-filters { flex-direction: column; align-items: stretch; }
+      .sws-pick-search-wrap { max-width: none; }
+    }
+
     /* Sticky loading banner shown while /api/sws-picks is in flight. Sits at
        the top of #picksTab so it remains visible no matter how far the user
        has scrolled. Animation reuses the @keyframes shimmer defined above. */
@@ -3531,10 +3597,23 @@
 
       <div id="picksStatusBanner" style="display:none; padding:12px 16px; border-radius:6px; margin-bottom:16px;"></div>
 
-      <div id="picksIndexFilter" class="sws-pick-index-filter" role="radiogroup" aria-label="Index filter">
-        <span class="sws-pick-index-filter-label">Universe:</span>
-        <label><input type="radio" name="picksIndex" value="all" checked onchange="onPicksIndexFilterChange(this.value)"> All <span class="sws-filter-count" data-count-for="all">—</span></label>
-        <label><input type="radio" name="picksIndex" value="nifty500" onchange="onPicksIndexFilterChange(this.value)"> Nifty 500 only <span class="sws-filter-count" data-count-for="nifty500">—</span></label>
+      <div id="picksFilters" class="sws-pick-filters">
+        <div id="picksIndexFilter" class="sws-pick-index-filter" role="radiogroup" aria-label="Index filter">
+          <span class="sws-pick-index-filter-label">Universe:</span>
+          <label><input type="radio" name="picksIndex" value="all" checked onchange="onPicksIndexFilterChange(this.value)"> All <span class="sws-filter-count" data-count-for="all">—</span></label>
+          <label><input type="radio" name="picksIndex" value="nifty500" onchange="onPicksIndexFilterChange(this.value)"> Nifty 500 only <span class="sws-filter-count" data-count-for="nifty500">—</span></label>
+        </div>
+        <div class="sws-pick-search-wrap">
+          <span class="sws-pick-search-icon" aria-hidden="true">&#128269;</span>
+          <input type="text" id="picksSearchInput" class="sws-pick-search-input"
+                 placeholder="Search ticker, name, or sector — e.g. RELIANCE, kotak, Banks"
+                 autocomplete="off" spellcheck="false"
+                 oninput="onPicksSearchInput(this.value)"
+                 onkeydown="if(event.key==='Escape'){onPicksSearchClear();this.blur();}"
+                 aria-label="Search picks">
+          <button type="button" id="picksSearchClear" class="sws-pick-search-clear"
+                  onclick="onPicksSearchClear()" aria-label="Clear search" hidden>&times;</button>
+        </div>
       </div>
 
       <div id="picksContainer">
