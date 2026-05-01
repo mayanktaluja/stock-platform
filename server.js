@@ -1853,9 +1853,11 @@ app.get("/api/scan/:type", async (req, res, next) => {
     const methodologyType = type === "buynow" ? "buynow" : type === "midterm" ? "midterm" : type === "sell" ? "sell" : "uniform";
     // Shadow-mode capture: log a compact diff row per pick so the daily
     // summary script (scripts/combined-shadow-summary.mjs) can drive the
-    // Phase-1 → Phase-2 gate decision. Throttled per (type, symbol) pair.
+    // Phase-1 → Phase-2 gate decision. Awaited so KV writes complete
+    // before the lambda exits — fire-and-forget loses ~89% of entries
+    // when the lambda terminates before async writes settle.
     if (shouldComputeCombined()) {
-      captureShadowDiffBulk(filtered, methodologyType);
+      await captureShadowDiffBulk(filtered, methodologyType);
     }
     const response = {
       type,
@@ -3514,7 +3516,7 @@ app.get("/api/scan/fundamentals", async (req, res) => {
     };
 
     if (shouldComputeCombined()) {
-      captureShadowDiffBulk(stocks, "fund");
+      await captureShadowDiffBulk(stocks, "fund");
     }
 
     // Paper-trade snapshot: capture deep-value picks once per day. Picks are
@@ -4342,7 +4344,7 @@ app.get("/api/sme/scan", async (req, res) => {
     };
 
     if (shouldComputeCombined()) {
-      captureShadowDiffBulk(result, "smallcap");
+      await captureShadowDiffBulk(result, "smallcap");
     }
 
     // Paper-trade snapshot: only on the buynow category, only once per day.

@@ -534,12 +534,25 @@ export async function captureShadowDiff({
 }
 
 /**
- * Bulk capture — one call per scanner request, scattering throttled
- * entries across the picks. Fire-and-forget from the caller's perspective
- * (callers don't await; failures are logged but don't break the scan).
+ * Bulk capture — one call per scanner request. Builds ALL entries in
+ * memory first, then does ONE read-modify-write to KV (or fs). This
+ * avoids two failure modes the per-call writer had on Vercel:
+ *
+ *   1. Race condition: N concurrent kv.set calls on the same key, last
+ *      writer wins → ~89% of entries lost in observed prod traffic.
+ *   2. Lambda truncation: fire-and-forget writes get cut off when the
+ *      lambda exits after the response is sent.
+ *
+ * Returns a Promise so callers can await before sending the response.
+ * KV writes are ~10-50ms; one batched write per scanner adds modest
+ * latency. Errors are swallowed so a KV outage never breaks a scanner.
  */
-export function captureShadowDiffBulk(picks, scannerType) {
-  if (!Array.isArray(picks)) return;
+export async function captureShadowDiffBulk(picks, scannerType) {
+  if (!Array.isArray(picks) || picks.length === 0) return;
+
+  const now = Date.now();
+  const entries = [];
+
   for (const p of picks) {
     if (!p || p.combinedScore == null) continue;
     const legacyScore =
@@ -547,23 +560,54 @@ export function captureShadowDiffBulk(picks, scannerType) {
         ? (p.adjustedScore ?? p.adjustedMidtermScore ?? p.score)
         : (p.legacyAdjustedScore ?? p.adjustedScore ?? p.score);
     const symbol = p.symbol || p.snapshot?.symbol;
-    if (!symbol) continue;
-    // Fire-and-forget; KV writes are async but the scanner response
-    // shouldn't block on them. Errors are caught inside captureShadowDiff
-    // so unhandled-rejection won't crash the lambda.
-    captureShadowDiff({
+    if (!symbol || legacyScore == null) continue;
+
+    // Throttle per (scannerType, symbol) pair to one capture per hour.
+    const tk = `${scannerType}:${symbol}`;
+    const last = _lastCaptureKey.get(tk);
+    if (last && now - last < SHADOW_DIFF_THROTTLE_MS) continue;
+    _lastCaptureKey.set(tk, now);
+
+    entries.push({
+      captured_at: new Date(now).toISOString(),
       scannerType,
       symbol,
-      legacyScore,
-      combinedScore: p.combinedScore,
-      swsScore: p.swsScore,
-      swsSource: p.swsSource,
-      combinedDivergence: p.combinedDivergence,
-      combinedDataConfidence: p.combinedDataConfidence,
-      weightsUsed: p.combinedWeights,
-    }).catch((err) => {
-      console.warn(`[combinedScore] capture rejected: ${err.message}`);
+      legacyScore: +Number(legacyScore).toFixed(1),
+      combinedScore: +Number(p.combinedScore).toFixed(1),
+      legacyVerdict: _legacyVerdictFromScore(legacyScore),
+      combinedVerdict: _combinedVerdictFromScore(p.combinedScore),
+      swsScore: p.swsScore != null ? +Number(p.swsScore).toFixed(1) : null,
+      swsSource: p.swsSource || null,
+      combinedDivergence: !!p.combinedDivergence,
+      combinedDataConfidence: p.combinedDataConfidence || null,
+      weightsUsed: p.combinedWeights || null,
+      methodologyVersion: METHODOLOGY_VERSION,
     });
+  }
+
+  if (entries.length === 0) return;
+
+  const kv = await _getKV();
+
+  if (kv) {
+    try {
+      const store = await _readStoreFromKV(kv);
+      store.entries.push(...entries);
+      store.entries = _trimEntries(store.entries, now);
+      await kv.set(SHADOW_DIFF_KV_KEY, store);
+    } catch (err) {
+      console.warn(`[combinedScore] KV bulk write failed: ${err.message}`);
+    }
+    return;
+  }
+
+  try {
+    const store = _readStoreFromFS();
+    store.entries.push(...entries);
+    store.entries = _trimEntries(store.entries, now);
+    fs.writeFileSync(SHADOW_DIFF_PATH, JSON.stringify(store), "utf-8");
+  } catch (err) {
+    console.warn(`[combinedScore] fs bulk write failed: ${err.message}`);
   }
 }
 
