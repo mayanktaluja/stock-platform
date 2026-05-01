@@ -77,6 +77,19 @@ import { parsePortfolioFile, resolveUnmatchedLive } from "./portfolioParser.js";
 import { analyzeHolding, buildReport } from "./portfolioAnalyzer.js";
 import { scoreHolding as swsScoreHolding } from "./services/swsHoldingEngine.js";
 import { buildSWSReport } from "./services/swsPortfolioAggregate.js";
+import {
+  computeCombinedScore,
+  lookupSwsScoreBulk,
+  getMethodology,
+  buildCombinedAudit,
+  captureShadowDiffBulk,
+  WEIGHTS as COMBINED_WEIGHTS,
+} from "./services/combinedScore.js";
+import {
+  COMBINED_SCORE_MODE,
+  shouldComputeCombined,
+  shouldSortByCombined,
+} from "./combinedScoreMode.js";
 import { runXirrOptimizer, PRESETS as OPTIMIZER_PRESETS } from "./xirrOptimizer.js";
 import { enrichMfHoldings, enrichLivePeers, enrichBenchmarkMetrics } from "./mfNavIngestion.js";
 import { enrichMfNews } from "./mfNews.js";
@@ -1644,6 +1657,75 @@ app.get("/api/scan/:type", async (req, res, next) => {
         }
       }
     }
+
+    // ── Combined Score enrichment (Tech + Fund + SWS) ──
+    // Runs for ALL types under shadow/opt-in/primary modes. Under shadow
+    // mode, combinedScore is attached as a parallel field — sort still
+    // uses the legacy adjustedScore / midTerm.score keys. Under primary
+    // mode, combined replaces adjustedScore (legacy preserved as
+    // legacyAdjustedScore) so the existing sort code keeps working.
+    if (shouldComputeCombined() && results.length > 0) {
+      const swsMap = lookupSwsScoreBulk(results.map((r) => r.symbol));
+      for (const r of results) {
+        // Fundamental score: buynow already computed it inline; midterm/
+        // sell did not. Cheap to re-look-up because getFundamentals reads
+        // from the in-memory snapshot.
+        if (r.fundamentalScore == null) {
+          const fundSnap = getFundamentals(r.symbol);
+          if (fundSnap) {
+            const fundResult = scoreForResponse(fundSnap).primary;
+            if (fundResult) {
+              r.fundamentalScore = fundResult.score;
+              r.fundamentalVerdict = fundResult.verdict;
+            }
+          }
+        }
+        const sws = swsMap.get(r.symbol) || {};
+        r.swsScore = sws.v3Score ?? null;
+        r.swsVerdict = sws.v3Verdict ?? null;
+        r.swsSource = sws.source ?? "missing";
+        r.swsCovered = sws.source === "primary";
+        r.snowflakeTotal = sws.snowflakeTotal ?? null;
+
+        const scannerType =
+          type === "buynow" ? "buynow"
+          : type === "midterm" ? "midterm"
+          : type === "sell" ? "sell"
+          : "uniform";
+        const techScore = type === "midterm" && r.midTerm
+          ? r.midTerm.score
+          : r.score;
+        const combined = computeCombinedScore({
+          techScore,
+          fundScore: r.fundamentalScore,
+          swsScore: r.swsScore,
+          scannerType,
+          surveillanceFlag: sws.surveillance,
+          swsFallback: sws.source === "fallback",
+        });
+        r.combinedScore = combined.combinedScore;
+        r.combinedDims = combined.contributingDims;
+        r.combinedDataConfidence = combined.dataConfidence;
+        r.combinedDivergence = combined.divergence;
+        r.combinedDivergenceSpread = combined.divergenceSpread;
+        r.combinedWeights = combined.weightsUsed;
+        r.combinedScoreVersion = combined.methodologyVersion;
+        r.combinedScoreMode = COMBINED_SCORE_MODE;
+
+        // Primary mode: combined replaces adjustedScore so the existing
+        // sort code at lines 1659+ ranks on it. Shadow / opt-in: leave
+        // legacy sort key intact.
+        if (shouldSortByCombined() && combined.combinedScore != null) {
+          r.legacyAdjustedScore = r.adjustedScore;
+          r.adjustedScore = combined.combinedScore;
+          if (type === "midterm" && r.midTerm) {
+            r.legacyMidTermScore = r.midTerm.score;
+            r.midTerm = { ...r.midTerm, score: combined.combinedScore };
+          }
+        }
+      }
+    }
+
     if (type === "midterm") {
       filtered = results
         .filter((r) => r.midTerm.score >= 58)
@@ -1767,6 +1849,13 @@ app.get("/api/scan/:type", async (req, res, next) => {
       filtered = results.sort((a, b) => b.score - a.score).slice(0, 15);
     }
 
+    const methodologyType = type === "buynow" ? "buynow" : type === "midterm" ? "midterm" : type === "sell" ? "sell" : "uniform";
+    // Shadow-mode capture: log a compact diff row per pick so the daily
+    // summary script (scripts/combined-shadow-summary.mjs) can drive the
+    // Phase-1 → Phase-2 gate decision. Throttled per (type, symbol) pair.
+    if (shouldComputeCombined()) {
+      captureShadowDiffBulk(filtered, methodologyType);
+    }
     const response = {
       type,
       universe,
@@ -1776,6 +1865,8 @@ app.get("/api/scan/:type", async (req, res, next) => {
       fullUniverseSize,
       truncatedForVercel,
       ...failureTracker.summary(),
+      methodology: shouldComputeCombined() ? getMethodology(methodologyType) : null,
+      combinedScoreMode: COMBINED_SCORE_MODE,
       lastUpdated: new Date().toISOString(),
     };
 
@@ -3283,6 +3374,48 @@ app.get("/api/scan/fundamentals", async (req, res) => {
       s.adjustedScore = Math.max(0, Math.min(100, s.score + macroBoost));
     }
 
+    // ── Combined Score enrichment (Tech + Fund + SWS) for Fundamental scanner ──
+    // Fundamental scanner has no native technical score (no candle scan), so
+    // we fetch a lightweight technical from analysis if needed. For now we
+    // pass null for tech — fund scanner combined math reweights pro-rata
+    // (45% fund + 35% sws, normalized to 56/44 when tech absent). When SWS
+    // is also missing the combined score collapses to the V2 fundamental
+    // score, which is the existing behaviour — zero regression.
+    if (shouldComputeCombined() && scored.length > 0) {
+      const swsMap = lookupSwsScoreBulk(scored.map((s) => s.snapshot?.symbol || s.symbol));
+      for (const s of scored) {
+        const sym = s.snapshot?.symbol || s.symbol;
+        const sws = swsMap.get(sym) || {};
+        s.swsScore = sws.v3Score ?? null;
+        s.swsVerdict = sws.v3Verdict ?? null;
+        s.swsSource = sws.source ?? "missing";
+        s.swsCovered = sws.source === "primary";
+        s.snowflakeTotal = sws.snowflakeTotal ?? null;
+
+        const combined = computeCombinedScore({
+          techScore: null,
+          fundScore: s.score,
+          swsScore: s.swsScore,
+          scannerType: "fund",
+          surveillanceFlag: sws.surveillance,
+          swsFallback: sws.source === "fallback",
+        });
+        s.combinedScore = combined.combinedScore;
+        s.combinedDims = combined.contributingDims;
+        s.combinedDataConfidence = combined.dataConfidence;
+        s.combinedDivergence = combined.divergence;
+        s.combinedDivergenceSpread = combined.divergenceSpread;
+        s.combinedWeights = combined.weightsUsed;
+        s.combinedScoreVersion = combined.methodologyVersion;
+        s.combinedScoreMode = COMBINED_SCORE_MODE;
+
+        if (shouldSortByCombined() && combined.combinedScore != null) {
+          s.legacyAdjustedScore = s.adjustedScore;
+          s.adjustedScore = combined.combinedScore;
+        }
+      }
+    }
+
     // Re-sort scored array by adjusted score so macro-tilted picks surface first
     // in the "all" view. Categorisation logic is unaffected — it still reads the
     // raw `score` for deepValue/fairValue/etc buckets (macro shouldn't override
@@ -3329,8 +3462,14 @@ app.get("/api/scan/fundamentals", async (req, res) => {
       snapshotGeneratedAt: getSnapshotGeneratedAt(),
       snapshotEnrichedAt: getSnapshotEnrichedAt(),
       regime: macroRegime,
+      methodology: shouldComputeCombined() ? getMethodology("fund") : null,
+      combinedScoreMode: COMBINED_SCORE_MODE,
       lastUpdated: new Date().toISOString(),
     };
+
+    if (shouldComputeCombined()) {
+      captureShadowDiffBulk(stocks, "fund");
+    }
 
     // Paper-trade snapshot: capture deep-value picks once per day. Picks are
     // pulled from the deepValue bucket regardless of which category was
@@ -3812,6 +3951,48 @@ app.get("/api/sme/scan", async (req, res) => {
       };
     });
 
+    // ── Combined Score enrichment (Tech + Fund + SWS) for Small-Cap scanner ──
+    // Small-caps have sparser SWS coverage so the fallback chain in
+    // services/combinedScore.js (V2-fundamentals synthetic SWS) is critical.
+    // For Tech component we use adjustedMidtermScore (the macro-adjusted
+    // momentum score) since that's what the small-cap scanner ranks on.
+    if (shouldComputeCombined() && enriched.length > 0) {
+      const swsMap = lookupSwsScoreBulk(enriched.map((s) => s.symbol));
+      for (const s of enriched) {
+        const sws = swsMap.get(s.symbol) || {};
+        s.swsScore = sws.v3Score ?? null;
+        s.swsVerdict = sws.v3Verdict ?? null;
+        s.swsSource = sws.source ?? "missing";
+        s.swsCovered = sws.source === "primary";
+        s.snowflakeTotal = sws.snowflakeTotal ?? null;
+
+        const techScore = s.adjustedMidtermScore != null
+          ? s.adjustedMidtermScore
+          : s.midtermScore;
+        const combined = computeCombinedScore({
+          techScore,
+          fundScore: s.fundamentalScore,
+          swsScore: s.swsScore,
+          scannerType: "smallcap",
+          surveillanceFlag: sws.surveillance,
+          swsFallback: sws.source === "fallback",
+        });
+        s.combinedScore = combined.combinedScore;
+        s.combinedDims = combined.contributingDims;
+        s.combinedDataConfidence = combined.dataConfidence;
+        s.combinedDivergence = combined.divergence;
+        s.combinedDivergenceSpread = combined.divergenceSpread;
+        s.combinedWeights = combined.weightsUsed;
+        s.combinedScoreVersion = combined.methodologyVersion;
+        s.combinedScoreMode = COMBINED_SCORE_MODE;
+
+        if (shouldSortByCombined() && combined.combinedScore != null) {
+          s.legacyAdjustedMidtermScore = s.adjustedMidtermScore;
+          s.adjustedMidtermScore = combined.combinedScore;
+        }
+      }
+    }
+
     // ── XIRR-lift filters (derived from 4-year backtest at
     // scripts/backtest-smallcap-scanner.mjs) ──
     //
@@ -4109,8 +4290,14 @@ app.get("/api/sme/scan", async (req, res) => {
       regime: macroRegime,
       concentration,
       filterStats,
+      methodology: shouldComputeCombined() ? getMethodology("smallcap") : null,
+      combinedScoreMode: COMBINED_SCORE_MODE,
       lastUpdated: new Date().toISOString(),
     };
+
+    if (shouldComputeCombined()) {
+      captureShadowDiffBulk(result, "smallcap");
+    }
 
     // Paper-trade snapshot: only on the buynow category, only once per day.
     // Snapshots the small-cap buy-now picks specifically (not intraday/volume
