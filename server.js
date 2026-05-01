@@ -83,6 +83,7 @@ import {
   getMethodology,
   buildCombinedAudit,
   captureShadowDiffBulk,
+  readShadowDiffStore,
   WEIGHTS as COMBINED_WEIGHTS,
 } from "./services/combinedScore.js";
 import {
@@ -2226,6 +2227,51 @@ app.get("/api/cron/scan-precompute", scanPrecomputeHandler);
 app.get("/api/admin/warm-scan-cache", (req, res) => {
   req.query.warm = "true";
   return scanPrecomputeHandler(req, res);
+});
+
+/**
+ * GET /api/admin/combined-shadow-diff
+ *
+ * Returns the combined-score shadow-diff store from Vercel KV (prod) or
+ * the local fs file (dev). Drives scripts/combined-shadow-summary.mjs
+ * via its --prod flag (which uses `vercel curl` to bypass the Vercel
+ * Authentication wall).
+ *
+ * Query params:
+ *   ?since=ISO-8601    — drop entries captured before this timestamp
+ *   ?scannerType=X     — filter to one scanner (buynow/midterm/sell/fund/smallcap)
+ *   ?limit=N           — most recent N entries (after filters)
+ *
+ * Response shape mirrors the on-disk store: { schema, source, entries[] }
+ * where source = "kv" | "fs" so the consumer can tell which storage tier
+ * served the read.
+ */
+app.get("/api/admin/combined-shadow-diff", async (req, res) => {
+  try {
+    const store = await readShadowDiffStore();
+    let entries = store.entries || [];
+    const since = req.query.since;
+    if (since) {
+      const cutoff = new Date(since).getTime();
+      if (Number.isFinite(cutoff)) {
+        entries = entries.filter((e) => new Date(e.captured_at || 0).getTime() >= cutoff);
+      }
+    }
+    const sType = req.query.scannerType;
+    if (sType) entries = entries.filter((e) => e.scannerType === sType);
+    const limit = parseInt(req.query.limit || "0", 10);
+    if (limit > 0) entries = entries.slice(-limit);
+    res.json({
+      schema: store.schema || "combined-shadow-diff-v1",
+      source: store.source || "fs",
+      total_entries_before_filter: (store.entries || []).length,
+      filtered_entries: entries.length,
+      entries,
+    });
+  } catch (err) {
+    console.error("[/api/admin/combined-shadow-diff]", err.message);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 /**

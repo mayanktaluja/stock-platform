@@ -372,7 +372,11 @@ export function getMethodology(scannerType = "uniform") {
 // ─────────────────────── Shadow-diff writer ───────────────────────
 
 const SHADOW_DIFF_PATH = path.resolve(__dirname, "..", "data", "sws", "combined-shadow-diff.json");
-// Cap the shadow-diff file at 30 days of history. The file is read by
+// Vercel KV key — single blob storing the entire diff window. Stays well
+// under KV's 1MB-per-key limit at the configured 30-day cap (typical
+// volume ~150 entries × ~250 bytes = ~38KB/day → ~1.1MB at 30d → trimmed).
+const SHADOW_DIFF_KV_KEY = "combined-shadow-diff:v1";
+// Cap the shadow-diff at 30 days of history. The store is read by
 // scripts/combined-shadow-summary.mjs to drive the Phase-1 → Phase-2 gate
 // decision; older entries aren't needed once the soak window passes.
 const SHADOW_DIFF_MAX_AGE_DAYS = 30;
@@ -380,6 +384,23 @@ const SHADOW_DIFF_MAX_AGE_DAYS = 30;
 // Without this the buynow scanner would write the same picks every cache miss.
 const SHADOW_DIFF_THROTTLE_MS = 60 * 60 * 1000;
 const _lastCaptureKey = new Map();
+
+// Lazy @vercel/kv client — mirrors the pattern in
+// server.js::getKVClientForPortfolio. Returns null when KV isn't configured
+// (local dev → fs fallback). Memoised so we don't re-import per write.
+let _kvClient = null;
+async function _getKV() {
+  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) return null;
+  if (_kvClient) return _kvClient;
+  try {
+    const mod = await import("@vercel/kv");
+    _kvClient = mod.kv;
+    return _kvClient;
+  } catch (err) {
+    console.warn(`[combinedScore] @vercel/kv import failed: ${err.message}`);
+    return null;
+  }
+}
 
 function _legacyVerdictFromScore(score) {
   if (score == null) return null;
@@ -396,14 +417,63 @@ function _combinedVerdictFromScore(score) {
   return _legacyVerdictFromScore(score);
 }
 
+function _trimEntries(entries, now) {
+  const cutoff = now - SHADOW_DIFF_MAX_AGE_DAYS * 24 * 3600 * 1000;
+  return entries.filter((e) => {
+    const t = new Date(e.captured_at || 0).getTime();
+    return Number.isFinite(t) && t >= cutoff;
+  });
+}
+
+async function _readStoreFromKV(kv) {
+  try {
+    const raw = await kv.get(SHADOW_DIFF_KV_KEY);
+    if (raw && Array.isArray(raw.entries)) return raw;
+  } catch (err) {
+    console.warn(`[combinedScore] KV read failed: ${err.message}`);
+  }
+  return { schema: "combined-shadow-diff-v1", entries: [] };
+}
+
+function _readStoreFromFS() {
+  if (!fs.existsSync(SHADOW_DIFF_PATH)) {
+    return { schema: "combined-shadow-diff-v1", entries: [] };
+  }
+  try {
+    const parsed = JSON.parse(fs.readFileSync(SHADOW_DIFF_PATH, "utf-8"));
+    if (parsed && Array.isArray(parsed.entries)) return parsed;
+  } catch {
+    // Corrupt file — start fresh rather than fail the scan.
+  }
+  return { schema: "combined-shadow-diff-v1", entries: [] };
+}
+
 /**
- * Append a row to the combined-shadow-diff.json log. Best-effort, never
- * throws — shadow-mode capture should never break a scanner request.
- *
- * Throttled per (scannerType, symbol) pair to one row per hour to keep
- * the file size manageable across the 14-day soak window.
+ * Read the shadow-diff store from KV (if available) or fs (local dev).
+ * Used by both the writer (read-modify-write) and the summary script
+ * via /api/admin/combined-shadow-diff.
  */
-export function captureShadowDiff({
+export async function readShadowDiffStore() {
+  const kv = await _getKV();
+  if (kv) {
+    const store = await _readStoreFromKV(kv);
+    return { ...store, source: "kv" };
+  }
+  return { ..._readStoreFromFS(), source: "fs" };
+}
+
+/**
+ * Append a row to the shadow-diff log. Best-effort, never throws —
+ * shadow-mode capture should never break a scanner request.
+ *
+ * Storage:
+ *   • Vercel prod (KV configured) → @vercel/kv (key: combined-shadow-diff:v1)
+ *   • Local dev / Vercel without KV → data/sws/combined-shadow-diff.json
+ *
+ * Both paths use a 30-day rolling window. Throttled per (scannerType,
+ * symbol) pair to one capture per hour to keep the store bounded.
+ */
+export async function captureShadowDiff({
   scannerType,
   symbol,
   legacyScore,
@@ -437,37 +507,36 @@ export function captureShadowDiff({
     methodologyVersion: METHODOLOGY_VERSION,
   };
 
-  // Read-modify-write. Cheap (file is ~1MB max, only appended); under
-  // 14-day soak it stays well under that. Best-effort: catch and warn.
-  try {
-    let store = { schema: "combined-shadow-diff-v1", entries: [] };
-    if (fs.existsSync(SHADOW_DIFF_PATH)) {
-      try {
-        const raw = fs.readFileSync(SHADOW_DIFF_PATH, "utf-8");
-        const parsed = JSON.parse(raw);
-        if (parsed && Array.isArray(parsed.entries)) store = parsed;
-      } catch {
-        // Corrupt file — start fresh rather than fail the scan.
-      }
+  const kv = await _getKV();
+
+  if (kv) {
+    // KV path — read, append, trim, write.
+    try {
+      const store = await _readStoreFromKV(kv);
+      store.entries.push(entry);
+      store.entries = _trimEntries(store.entries, now);
+      await kv.set(SHADOW_DIFF_KV_KEY, store);
+    } catch (err) {
+      console.warn(`[combinedScore] KV write failed: ${err.message}`);
     }
+    return;
+  }
+
+  // FS fallback (local dev). Read-modify-write — cheap at our entry volume.
+  try {
+    const store = _readStoreFromFS();
     store.entries.push(entry);
-
-    // Trim entries older than the cap.
-    const cutoff = now - SHADOW_DIFF_MAX_AGE_DAYS * 24 * 3600 * 1000;
-    store.entries = store.entries.filter((e) => {
-      const t = new Date(e.captured_at || 0).getTime();
-      return Number.isFinite(t) && t >= cutoff;
-    });
-
+    store.entries = _trimEntries(store.entries, now);
     fs.writeFileSync(SHADOW_DIFF_PATH, JSON.stringify(store), "utf-8");
   } catch (err) {
-    console.warn(`[combinedScore] shadow-diff write failed: ${err.message}`);
+    console.warn(`[combinedScore] shadow-diff fs write failed: ${err.message}`);
   }
 }
 
 /**
  * Bulk capture — one call per scanner request, scattering throttled
- * entries across the picks. Wraps captureShadowDiff().
+ * entries across the picks. Fire-and-forget from the caller's perspective
+ * (callers don't await; failures are logged but don't break the scan).
  */
 export function captureShadowDiffBulk(picks, scannerType) {
   if (!Array.isArray(picks)) return;
@@ -479,6 +548,9 @@ export function captureShadowDiffBulk(picks, scannerType) {
         : (p.legacyAdjustedScore ?? p.adjustedScore ?? p.score);
     const symbol = p.symbol || p.snapshot?.symbol;
     if (!symbol) continue;
+    // Fire-and-forget; KV writes are async but the scanner response
+    // shouldn't block on them. Errors are caught inside captureShadowDiff
+    // so unhandled-rejection won't crash the lambda.
     captureShadowDiff({
       scannerType,
       symbol,
@@ -489,6 +561,8 @@ export function captureShadowDiffBulk(picks, scannerType) {
       combinedDivergence: p.combinedDivergence,
       combinedDataConfidence: p.combinedDataConfidence,
       weightsUsed: p.combinedWeights,
+    }).catch((err) => {
+      console.warn(`[combinedScore] capture rejected: ${err.message}`);
     });
   }
 }

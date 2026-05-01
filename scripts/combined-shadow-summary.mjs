@@ -14,7 +14,9 @@
  *     must NOT appear in deepValue/qualityGrowth/buynow buckets.
  *
  * Inputs:
- *   data/sws/combined-shadow-diff.json   — written by scanner cache writes.
+ *   • Local fs (default): data/sws/combined-shadow-diff.json
+ *   • Prod KV via Vercel: --prod flag uses `vercel curl` to hit the
+ *     /api/admin/combined-shadow-diff endpoint, which reads from KV.
  *
  * Output:
  *   stdout report (markdown). Schedule via mcp__scheduled-tasks to email
@@ -23,12 +25,15 @@
  * Usage:
  *   node scripts/combined-shadow-summary.mjs
  *   node scripts/combined-shadow-summary.mjs --since 2026-04-30
- *   node scripts/combined-shadow-summary.mjs --json    # machine-readable output
+ *   node scripts/combined-shadow-summary.mjs --json    # machine-readable
+ *   node scripts/combined-shadow-summary.mjs --prod    # read prod KV via vercel curl
+ *   node scripts/combined-shadow-summary.mjs --prod --deployment <URL>
  */
 
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { execFileSync } from "node:child_process";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIFF_PATH = path.resolve(__dirname, "..", "data", "sws", "combined-shadow-diff.json");
@@ -39,17 +44,56 @@ const sinceArg = (() => {
   return i >= 0 ? args[i + 1] : null;
 })();
 const jsonOut = args.includes("--json");
+const prodMode = args.includes("--prod");
+const deploymentArg = (() => {
+  const i = args.indexOf("--deployment");
+  return i >= 0 ? args[i + 1] : null;
+})();
 
-function loadDiff() {
-  if (!fs.existsSync(DIFF_PATH)) {
-    return { entries: [] };
-  }
+function loadDiffFromFS() {
+  if (!fs.existsSync(DIFF_PATH)) return { entries: [], source: "fs" };
   try {
-    return JSON.parse(fs.readFileSync(DIFF_PATH, "utf-8"));
+    const parsed = JSON.parse(fs.readFileSync(DIFF_PATH, "utf-8"));
+    return { ...parsed, source: parsed.source || "fs" };
   } catch (err) {
     console.error(`[shadow-summary] failed to read ${DIFF_PATH}: ${err.message}`);
-    return { entries: [] };
+    return { entries: [], source: "fs" };
   }
+}
+
+function loadDiffFromProd() {
+  // Use `vercel curl` to bypass Vercel Authentication. Requires the user
+  // to be authenticated via `vercel login`. The deployment URL can be
+  // overridden via --deployment; otherwise vercel CLI picks the latest
+  // production deployment for the linked project.
+  const cliArgs = ["curl"];
+  if (deploymentArg) cliArgs.push("--deployment", deploymentArg);
+  cliArgs.push("/api/admin/combined-shadow-diff", "--", "--max-time", "60", "-s");
+  let out;
+  try {
+    out = execFileSync("vercel", cliArgs, { encoding: "utf-8", maxBuffer: 50 * 1024 * 1024 });
+  } catch (err) {
+    console.error(`[shadow-summary] vercel curl failed: ${err.message}`);
+    return { entries: [], source: "prod-error" };
+  }
+  // vercel curl emits a hint line first (the <claude-code-hint .../> tag),
+  // then the body. Split on the first '{'.
+  const start = out.indexOf("{");
+  if (start < 0) {
+    console.error("[shadow-summary] no JSON in vercel curl output");
+    return { entries: [], source: "prod-error" };
+  }
+  try {
+    const parsed = JSON.parse(out.slice(start));
+    return { ...parsed, source: parsed.source ? `prod-${parsed.source}` : "prod" };
+  } catch (err) {
+    console.error(`[shadow-summary] parse error: ${err.message}`);
+    return { entries: [], source: "prod-error" };
+  }
+}
+
+function loadDiff() {
+  return prodMode ? loadDiffFromProd() : loadDiffFromFS();
 }
 
 function sinceFilter(entries, since) {
@@ -58,7 +102,7 @@ function sinceFilter(entries, since) {
   return entries.filter((e) => new Date(e.captured_at || 0).getTime() >= cutoff);
 }
 
-function summarize(entries) {
+function summarize(entries, source) {
   const total = entries.length;
   const verdictFlips = entries.filter((e) => e.legacyVerdict !== e.combinedVerdict).length;
   const flipRate = total > 0 ? +(verdictFlips / total * 100).toFixed(1) : 0;
@@ -107,6 +151,7 @@ function summarize(entries) {
     .slice(0, 30);
 
   return {
+    source: source || "unknown",
     total_picks: total,
     verdict_flip_count: verdictFlips,
     verdict_flip_rate_pct: flipRate,
@@ -125,6 +170,7 @@ function renderMarkdown(s) {
   lines.push(`# Combined-Score Shadow Summary`);
   lines.push(``);
   lines.push(`Generated: ${new Date().toISOString()}`);
+  lines.push(`Storage: ${s.source || "fs"}`);
   if (sinceArg) lines.push(`Since: ${sinceArg}`);
   lines.push(``);
   lines.push(`## Phase-1 → Phase-2 Gate: **${s.phase_1_to_2_gate}**`);
@@ -165,7 +211,7 @@ function renderMarkdown(s) {
 function main() {
   const diff = loadDiff();
   const entries = sinceFilter(diff.entries || [], sinceArg);
-  const summary = summarize(entries);
+  const summary = summarize(entries, diff.source);
 
   if (jsonOut) {
     process.stdout.write(JSON.stringify(summary, null, 2) + "\n");
