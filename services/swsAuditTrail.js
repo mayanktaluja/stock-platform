@@ -31,6 +31,7 @@ const VERSIONS = {
   layer5_peer: "peer-v1",
   conviction: "v2-conviction-2026-04",
   fallback: "v2-fallback-2026-04",
+  combined_score: "combined-v1-2026-04",
 };
 
 function _statSafe(p) {
@@ -154,7 +155,7 @@ function _citations({ holding, scored }) {
 
 const SEBI_DISCLAIMER = "Automated analytical extraction + classification of publicly-available data. Not personalised investment advice under SEBI IA Regulations 2013 / RA Regulations 2014. User retains responsibility for final transaction decisions; verify with own RIA/RA/CA before acting.";
 
-export function buildAuditTrail({ holding, scored, recommenderMode }) {
+export function buildAuditTrail({ holding, scored, recommenderMode, combinedScoreAudit = null }) {
   const ticker = holding?.sws?.ticker || _swsKey(holding?.symbol);
   return {
     schema_version: "audit-v1",
@@ -164,6 +165,13 @@ export function buildAuditTrail({ holding, scored, recommenderMode }) {
     layer_sources: _layerSources(ticker),
     decision_path: _decisionPath({ holding, scored }),
     citations: _citations({ holding, scored }),
+    // Combined Score audit — populated by callers that have computed a
+    // Tech+Fund+SWS combined score (currently only the scanner endpoints,
+    // which build one per pick via services/combinedScore.js::buildCombinedAudit).
+    // Holding-level audit (called from swsHoldingEngine) leaves this null
+    // because portfolio actions don't currently consume the combined score.
+    // Additive — doesn't break existing readers. SEBI RA Reg 2014 Reg 16(1).
+    combined_score_audit: combinedScoreAudit,
     sebi_disclaimer: SEBI_DISCLAIMER,
   };
 }

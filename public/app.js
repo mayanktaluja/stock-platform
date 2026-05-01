@@ -1551,7 +1551,7 @@ async function loadScan(type, containerId) {
     // Phase 8A: apply Concentrated filter to midterm only. Volume/sell are
     // category-agnostic signals — we keep the full list for those.
     const stocksToRender = type === "midterm" ? applyConcentration(data.stocks) : data.stocks;
-    container.innerHTML = stocksToRender.map((s) => renderStockCard(s, type)).join("");
+    container.innerHTML = stocksToRender.map((s) => renderStockCard(s, type)).join("") + renderMethodologyFooter(data.methodology);
 
     // Update last updated
     document.getElementById("lastUpdated").textContent = `Updated: ${new Date(data.lastUpdated).toLocaleTimeString("en-IN")}`;
@@ -1563,6 +1563,92 @@ async function loadScan(type, containerId) {
       </div>
     `;
   }
+}
+
+// ──────────────── Combined Score (Tech + Fund + SWS) UI helpers ────────────────
+//
+// Drives the new SWS chip + Combined Score chip + divergence badge that
+// appear on every scanner card, plus the methodology disclosure footer
+// at the bottom of each scanner section.
+//
+// Methodology version is stamped server-side as `combined-v1-2026-04` and
+// surfaced in tooltips. SEBI IA Reg 2013 Reg 15(2) — every recommendation
+// surface must disclose its scoring methodology.
+
+function _combinedScoreColor(score) {
+  if (score == null) return "var(--text-muted)";
+  if (score >= 70) return "var(--green)";
+  if (score >= 55) return "var(--blue)";
+  if (score >= 40) return "var(--yellow)";
+  return "var(--red)";
+}
+
+function _swsVerdictColor(verdict) {
+  switch (verdict) {
+    case "TOP_PICK":   return "var(--green)";
+    case "STRONG":     return "var(--blue)";
+    case "ACCEPTABLE": return "var(--text-secondary)";
+    case "WATCH":      return "var(--yellow)";
+    case "AVOID":      return "var(--red)";
+    default:           return "var(--text-muted)";
+  }
+}
+
+function renderCombinedScoreChip(stock) {
+  if (stock?.combinedScore == null) return "";
+  const color = _combinedScoreColor(stock.combinedScore);
+  const w = stock.combinedWeights || {};
+  const conf = stock.combinedDataConfidence || "high";
+  const tip =
+    `Combined Score (${stock.combinedScoreVersion || "combined-v1"}): ` +
+    `Tech ${Math.round((w.tech || 0) * 100)}% · Fund ${Math.round((w.fund || 0) * 100)}% · SWS ${Math.round((w.sws || 0) * 100)}%. ` +
+    `Confidence: ${conf}. Dims: ${(stock.combinedDims || []).join("+")}.`;
+  const opacity = conf === "low" ? "0.65" : "1";
+  return `<span class="combined-chip" style="font-size:10px;padding:3px 8px;border-radius:6px;background:${color}18;color:${color};border:1px solid ${color}55;font-weight:700;opacity:${opacity};font-family:'JetBrains Mono',monospace;" title="${tip.replace(/"/g, "&quot;")}">&#9678; ${stock.combinedScore}/100</span>`;
+}
+
+function renderSwsChip(stock) {
+  if (stock?.swsScore == null && !stock?.swsVerdict) return "";
+  const v = stock.swsVerdict || "—";
+  const color = _swsVerdictColor(v);
+  const score = stock.swsScore != null ? Math.round(stock.swsScore) : "—";
+  const fallback = stock.swsSource === "fallback";
+  const labelV = v === "—" ? "" : v.replace(/_/g, " ");
+  const tip = fallback
+    ? `SWS coverage missing — score derived from fundamentalsV2 fallback. SWS v3 score ${score}/100, verdict ${v}.`
+    : `Simply Wall St v3 score ${score}/100, verdict ${v}. Snowflake total ${stock.snowflakeTotal ?? "—"}/30.`;
+  const fallbackTag = fallback ? ` <span style="opacity:0.7;font-size:9px;">(fallback)</span>` : "";
+  return `<span class="sws-chip" style="font-size:10px;padding:3px 8px;border-radius:6px;background:${color}18;color:${color};border:1px solid ${color}33;font-weight:700;" title="${tip.replace(/"/g, "&quot;")}">SWS ${score}${labelV ? " · " + labelV : ""}${fallbackTag}</span>`;
+}
+
+function renderDivergenceBadge(stock) {
+  if (!stock?.combinedDivergence) return "";
+  const spread = stock.combinedDivergenceSpread != null ? stock.combinedDivergenceSpread : "—";
+  const tip = `Divergent signals: spread ${spread} between Tech (${stock.score ?? "—"}), Fund (${stock.fundamentalScore ?? "—"}), SWS (${stock.swsScore ?? "—"}). Alpha-rich or trap-rich — verify before acting.`;
+  return `<span class="divergence-chip" style="font-size:10px;padding:3px 8px;border-radius:6px;background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b66;font-weight:700;" title="${tip.replace(/"/g, "&quot;")}">&#9888; Divergent</span>`;
+}
+
+function renderCombinedScoreRow(stock) {
+  const a = renderCombinedScoreChip(stock);
+  const b = renderSwsChip(stock);
+  const c = renderDivergenceBadge(stock);
+  if (!a && !b && !c) return "";
+  return `<div style="display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;">${a}${b}${c}</div>`;
+}
+
+function renderMethodologyFooter(methodology) {
+  if (!methodology || !methodology.weights) return "";
+  const wp = methodology.weightsPercent || {};
+  const refresh = methodology.lastSwsRefresh
+    ? new Date(methodology.lastSwsRefresh).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })
+    : "—";
+  const sources = (methodology.sources || []).join(" · ");
+  return `
+    <div class="methodology-footer" style="margin-top:18px;padding:10px 12px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:8px;font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;line-height:1.55;">
+      <div><strong style="color:var(--text-secondary);">Combined Score</strong> · Tech ${wp.tech || 0}% · Fund ${wp.fund || 0}% · SWS ${wp.sws || 0}% · v=${methodology.version || "—"}</div>
+      <div>Sources: ${sources} · SWS last refresh: ${refresh} (${methodology.swsScoredCount || 0} stocks)</div>
+      <div style="margin-top:4px;font-style:italic;">Educational analytics; not personalised investment advice. Past performance &ne; future returns. SEBI IA Reg 2013 / RA Reg 2014.</div>
+    </div>`;
 }
 
 function renderStockCard(stock, type) {
@@ -1615,6 +1701,7 @@ function renderStockCard(stock, type) {
           ${stock.recommendation}
         </span>
       </div>
+      ${renderCombinedScoreRow(stock)}
       <div class="stock-card-metrics">
         <div class="stock-card-metric">
           <div class="metric-label">RSI</div>
@@ -1734,7 +1821,7 @@ async function loadBuyNow() {
     const [hero, ...rest] = displayedStocks;
     const heroHtml = hero ? renderBuyNowHero(hero) : "";
     const restHtml = rest.map(renderBuyNowCard).join("");
-    container.innerHTML = degradedBanner + updatedPill + hcBanner + heroHtml + restHtml;
+    container.innerHTML = degradedBanner + updatedPill + hcBanner + heroHtml + restHtml + renderMethodologyFooter(data.methodology);
     autoExpandFirstSection();
   } catch (err) {
     container.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon">&#9888;</div><div class="empty-text">Failed to load buy signals. Try refreshing.</div></div>`;
@@ -1792,6 +1879,7 @@ function renderBuyNowHero(stock) {
           ${rr ? `<div style="text-align:center;min-width:56px;"><div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;">R:R</div><div style="font-size:16px;font-weight:600;color:var(--text-primary);margin-top:3px;">1:${rr}</div></div>` : ""}
         </div>
       </div>
+      ${renderCombinedScoreRow(stock)}
       <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);font-size:11px;color:var(--text-muted);">
         Educational only. Not investment advice. StarBhai is not a SEBI-registered investment adviser.
       </div>
@@ -1971,6 +2059,9 @@ function renderBuyNowCard(stock) {
         ${verdictChip}
         ${macroBadge}
         ${confLabel}
+        ${renderCombinedScoreChip(stock)}
+        ${renderSwsChip(stock)}
+        ${renderDivergenceBadge(stock)}
       </div>
       <div class="stock-card-metrics">
         <div class="stock-card-metric">
@@ -2734,7 +2825,11 @@ async function loadFundCategory(category, containerId) {
 
     // Phase 8A: apply Concentrated filter (slice to top-3) when that mode is on.
     const displayed = applyConcentration(data.stocks);
-    container.innerHTML = displayed.map((s) => renderFundamentalCard(s, category)).join("");
+    // Methodology footer rendered only on the first (Deep Value) category to
+    // avoid 5 stacked footers on the Fundamental tab — methodology is shared
+    // across all fund-scanner categories.
+    const footer = category === "deepValue" ? renderMethodologyFooter(data.methodology) : "";
+    container.innerHTML = displayed.map((s) => renderFundamentalCard(s, category)).join("") + footer;
     // Auto-expand the first section (Deep Value) on the Fundamental tab
     if (category === "deepValue") autoExpandSection("fundDeepValueSection");
   } catch (err) {
@@ -2837,6 +2932,9 @@ function renderFundamentalCard(scored, category) {
           ${scored.verdict.replace(/_/g, ' ')}${infoIcon(verdictIdFromLabel(scored.verdict))}
         </span>
         ${macroChip}
+        ${renderCombinedScoreChip(scored)}
+        ${renderSwsChip(scored)}
+        ${renderDivergenceBadge(scored)}
       </div>
       ${peRow}
       ${positionBar}
@@ -2957,7 +3055,10 @@ async function loadSmeScan(category, containerId, label) {
     // Concentration banner: flags material sector clustering when present.
     const filterBanner = renderSmeFilterBanner(data.filterStats, category);
     const concentrationBanner = renderSmeConcentrationBanner(data.concentration);
-    container.innerHTML = filterBanner + concentrationBanner + data.stocks.map((s) => renderSmeCard(s, category)).join("");
+    // Methodology footer once per Small-Cap tab (rendered on Buy-Now category
+    // only — same methodology applies across all small-cap categories).
+    const footer = category === "buynow" ? renderMethodologyFooter(data.methodology) : "";
+    container.innerHTML = filterBanner + concentrationBanner + data.stocks.map((s) => renderSmeCard(s, category)).join("") + footer;
     // Auto-expand the first section (Buy Now) on the Small-Cap tab
     if (category === "buynow") autoExpandSection("smeBuynowSection");
   } catch (err) {
@@ -3070,7 +3171,7 @@ function renderSmeCard(stock, category) {
           <div class="stock-card-change ${isPos ? 'positive' : 'negative'}">${isPos ? '+' : ''}${stock.pChange?.toFixed(2)}%</div>
         </div>
       </div>
-      ${(macroBadge || fundChip) ? `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;">${macroBadge}${fundChip}</div>` : ""}
+      ${(macroBadge || fundChip || stock.combinedScore != null || stock.swsScore != null) ? `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;">${macroBadge}${fundChip}${renderCombinedScoreChip(stock)}${renderSwsChip(stock)}${renderDivergenceBadge(stock)}</div>` : ""}
       ${renderSmeSafetyBadges(stock)}
       <div class="stock-card-metrics">
         <div class="stock-card-metric">
