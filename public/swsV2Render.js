@@ -84,7 +84,7 @@
     const top = peer.top_peer;
     const safeTk = escapeHtml(top.ticker);
     const safeWhy = escapeHtml(top.why);
-    return `<div style="margin-top:8px; padding:6px 10px; background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.25); border-radius:5px; font-size:11px; cursor:pointer;" onclick="loadStock('${safeTk}.NS')" title="Same-sector peer with higher v3 — consider as rotation candidate">
+    return `<div style="margin-top:8px; padding:6px 10px; background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.25); border-radius:5px; font-size:11px; cursor:pointer;" onclick="openSwsModal('${safeTk}')" title="Same-sector peer with higher v3 — consider as rotation candidate">
       <strong style="color:#93c5fd;">↻ Peer: ${safeTk}</strong> <span style="color:var(--text-muted);">— ${safeWhy}</span>
     </div>`;
   }

@@ -386,7 +386,7 @@ function renderSearchResults(query, results) {
     searchResults.innerHTML = results
       .map(
         (r) => `
-        <div class="search-result-item" onclick="loadStock('${r.symbol}')">
+        <div class="search-result-item" onclick="openStockDetailModal('${r.symbol}','search')">
           <div>
             <div class="search-result-name">${escapeHtml(r.name)}</div>
             <div class="search-result-sector">${r.sector || r.exchange || ""}</div>
@@ -1683,7 +1683,7 @@ function renderStockCard(stock, type) {
   }
 
   return `
-    <div class="stock-card" onclick="loadStock('${stock.symbol}')">
+    <div class="stock-card" onclick="openStockDetailModal('${stock.symbol}','market-scanner')">
       <div class="stock-card-header">
         <div>
           <div class="stock-card-name">${escapeHtml(stock.name)}</div>
@@ -1860,7 +1860,7 @@ function renderBuyNowHero(stock) {
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-top:4px;">
         <div style="flex:1;min-width:200px;">
           <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;">
-            <a href="#" onclick="event.preventDefault();openStockDetail('${escapeHtml(stock.symbol)}')" style="font-size:22px;font-weight:700;color:var(--text-primary);text-decoration:none;">
+            <a href="#" onclick="event.preventDefault();openStockDetailModal('${escapeHtml(stock.symbol)}','market-scanner')" style="font-size:22px;font-weight:700;color:var(--text-primary);text-decoration:none;">
               ${escapeHtml(stock.name || stock.symbol)}
             </a>
             <span style="font-size:12px;color:var(--text-muted);">${escapeHtml(stock.sector || "")}</span>
@@ -2040,7 +2040,7 @@ function renderBuyNowCard(stock) {
     : "";
 
   return `
-    <div class="stock-card" onclick="loadStock('${stock.symbol}')" style="border-left: 3px solid var(--green);">
+    <div class="stock-card" onclick="openStockDetailModal('${stock.symbol}','market-scanner')" style="border-left: 3px solid var(--green);">
       <div class="stock-card-header">
         <div>
           <div class="stock-card-name">${escapeHtml(stock.name)}</div>
@@ -2431,7 +2431,7 @@ function renderHealthAndActionsBanner(intel) {
               const c = ACTION_COLORS[u.color] || ACTION_COLORS.gray;
               const isPos = (u.pnl || 0) >= 0;
               return `
-                <div onclick="loadStock('${u.symbol}')" style="cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px 10px;border-radius:8px;background:${c.bg};border:1px solid ${c.border};">
+                <div onclick="openStockDetailModal('${u.symbol}','watchlist')" style="cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px 10px;border-radius:8px;background:${c.bg};border:1px solid ${c.border};">
                   <span style="font-size:10px;font-weight:800;padding:3px 8px;border-radius:4px;background:${c.text}22;color:${c.text};letter-spacing:0.4px;white-space:nowrap;">${u.displayAction}</span>
                   <div style="min-width:0;">
                     <div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(u.name || u.symbol)}</div>
@@ -2508,7 +2508,7 @@ function renderTopMovers(topWinners, topLosers) {
   const row = (mover, color) => {
     const isPos = mover.pnl >= 0;
     return `
-      <div onclick="loadStock('${mover.symbol}')" style="cursor:pointer;display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:7px 10px;border-radius:6px;background:rgba(255,255,255,0.02);border:1px solid ${color}22;">
+      <div onclick="openStockDetailModal('${mover.symbol}','top-movers')" style="cursor:pointer;display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:7px 10px;border-radius:6px;background:rgba(255,255,255,0.02);border:1px solid ${color}22;">
         <div style="font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(mover.name || mover.symbol)}</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:${color};font-weight:700;white-space:nowrap;">
           ${isPos ? "+" : ""}₹${formatNumber(Math.abs(mover.pnl))}
@@ -2708,7 +2708,7 @@ function renderPortfolioHoldingCard(h) {
   const weightColor = weight >= 15 ? "#eab308" : weight >= 10 ? "#60a5fa" : "var(--text-muted)";
 
   return `
-    <div class="portfolio-card" onclick="loadStock('${h.symbol}')" style="
+    <div class="portfolio-card" onclick="openStockDetailModal('${h.symbol}','portfolio')" style="
       cursor:pointer;
       background:var(--bg-card);
       border:1px solid ${color.border};
@@ -2916,7 +2916,7 @@ function renderFundamentalCard(scored, category) {
 
   const isPos = false; // not really applicable here; use verdict color
   return `
-    <div class="stock-card" onclick="loadStock('${snap.symbol}')" style="border-left: 3px solid ${borderColor};">
+    <div class="stock-card" onclick="openStockDetailModal('${snap.symbol}','fundamentals')" style="border-left: 3px solid ${borderColor};">
       <div class="stock-card-header">
         <div>
           <div class="stock-card-name">${escapeHtml(snap.name || snap.symbol.replace('.NS', ''))}</div>
@@ -3160,7 +3160,7 @@ function renderSmeCard(stock, category) {
   }
 
   return `
-    <div class="stock-card" onclick="loadStock('${stock.symbol}')" style="border-left: 3px solid ${borderColor};">
+    <div class="stock-card" onclick="openStockDetailModal('${stock.symbol}','small-cap')" style="border-left: 3px solid ${borderColor};">
       <div class="stock-card-header">
         <div>
           <div class="stock-card-name">${escapeHtml(stock.name || stock.symbol.replace('.NS', ''))}</div>
@@ -4478,7 +4478,7 @@ function renderTrackHistoryTable(trades) {
       ? `<span style="color:var(--text-muted);font-size:10px;">no live price</span>`
       : "";
     return `
-      <div onclick="loadStock('${t.symbol.replace('.NS', '')}')" style="display:grid;grid-template-columns:1fr 100px 90px 90px 90px 90px 70px;gap:12px;align-items:center;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);font-size:12px;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.06)';" onmouseout="this.style.background='rgba(255,255,255,0.02)';">
+      <div onclick="openStockDetailModal('${t.symbol.replace('.NS', '')}','analyzer')" style="display:grid;grid-template-columns:1fr 100px 90px 90px 90px 90px 70px;gap:12px;align-items:center;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);font-size:12px;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.06)';" onmouseout="this.style.background='rgba(255,255,255,0.02)';">
         <div style="min-width:0;">
           <div style="font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(t.name || t.symbol)}</div>
           <div style="font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">${t.symbol} ${t.sector ? '· ' + escapeHtml(t.sector.slice(0, 18)) : ''} ${macroBadge}</div>
@@ -5167,7 +5167,7 @@ function swsHoldingRow(h) {
   const cv = h.currentValue;
   const pos = h.positionWeight != null ? h.positionWeight + "%" : "—";
   const pnlPct = h.pnlPercent;
-  return `<tr style="border-top:1px solid #2a3349; cursor:pointer;" onclick="loadStock('${tk}.NS')">
+  return `<tr style="border-top:1px solid #2a3349; cursor:pointer;" onclick="openStockDetailModal('${tk}','mf-overlap')">
     <td style="padding:10px 12px;">
       <div style="font-weight:600;">${tk}</div>
       <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(name)}${sws.sector ? " · " + swsEscapeAttr(sws.sector) : ""}</div>
@@ -5241,7 +5241,7 @@ function swsBasketRow(r) {
     ? `<span title="In-portfolio top-up" style="font-size:9px; padding:1px 6px; background:rgba(34,197,94,0.12); color:#86efac; border-radius:3px; letter-spacing:0.3px;">HELD</span>`
     : `<span title="Outside-portfolio fresh pick" style="font-size:9px; padding:1px 6px; background:rgba(59,130,246,0.12); color:#93c5fd; border-radius:3px; letter-spacing:0.3px;">FRESH</span>`;
   const suggested = r.suggested_inr ? `<div style="font-size:10px; color:var(--text-muted);">Suggested ${inr(r.suggested_inr)}</div>` : "";
-  return `<div style="padding:10px 14px; border-bottom:1px solid #1a2238; cursor:pointer;" onclick="loadStock('${r.ticker}.NS')">
+  return `<div style="padding:10px 14px; border-bottom:1px solid #1a2238; cursor:pointer;" onclick="openStockDetailModal('${r.ticker}','mf-overlap')">
     <div style="display:flex; justify-content:space-between; align-items:baseline; gap:8px;">
       <div style="display:flex; align-items:center; gap:8px;">
         <strong style="font-size:13px;">${r.ticker}</strong>
@@ -5306,7 +5306,7 @@ function renderSWSTierC(tier) {
     <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:6px 0;">
       ${rows.map((h, i) => {
         const sws = h.sws || {};
-        return `<div style="padding:8px 14px; border-top:${i > 0 ? '1px solid #1a2238' : 'none'}; display:flex; justify-content:space-between; align-items:center; gap:10px; cursor:pointer;" onclick="loadStock('${sws.ticker}.NS')">
+        return `<div style="padding:8px 14px; border-top:${i > 0 ? '1px solid #1a2238' : 'none'}; display:flex; justify-content:space-between; align-items:center; gap:10px; cursor:pointer;" onclick="openStockDetailModal('${sws.ticker}','mf-overlap')">
           <div>
             <strong style="font-size:13px;">${sws.ticker}</strong>
             <span style="font-size:11px; color:var(--text-muted); margin-left:8px;">${swsEscapeAttr(sws.name || "")} · ${swsEscapeAttr(sws.sector || "—")}</span>
@@ -7943,4 +7943,252 @@ function escapeHtml(s) {
 function escapeAttr(s) {
   if (s == null) return "";
   return String(s).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+
+// ==================== UNIVERSAL STOCK DETAIL MODAL ====================
+//
+// openStockDetailModal(symbolOrTicker, sourceTab) is the single entry point
+// for every clickable stock surface across the platform (scanner cards,
+// search, watchlist, portfolio, MF overlap, etc.). The SWS Picks tab is
+// untouched — it still calls openSwsModal() directly.
+//
+// Two-stage progressive paint:
+//   Stage 0 — instant skeleton + spinner (before any fetch)
+//   Stage 1 — /api/sws-stock/:ticker (~20ms local file). If 200, we render
+//             the full SWS modal (reusing renderSwsModal + the lazy live
+//             overlay) — same UX as SWS Picks.
+//   Stage 1' — If /api/sws-stock 404s (ticker outside SWS scrape universe,
+//              common for small-caps), we fall through to the live-only
+//              render path which uses /api/stock/:symbol alone.
+
+function normaliseSymbol(input) {
+  if (!input) return { ticker: "", yahooSymbol: "" };
+  let s = String(input).trim().toUpperCase();
+  let suffix = ".NS";
+  if (s.startsWith("BSE:")) { suffix = ".BO"; s = s.slice(4); }
+  else if (s.startsWith("NSE:")) { s = s.slice(4); }
+  if (s.endsWith(".BO")) { suffix = ".BO"; s = s.slice(0, -3); }
+  else if (s.endsWith(".NS")) { s = s.slice(0, -3); }
+  return { ticker: s, yahooSymbol: s + suffix };
+}
+
+function renderStockDetailLoading(displayTicker) {
+  return `
+    <div style="padding:60px 20px;text-align:center;color:var(--text-muted);">
+      <div class="loading-spinner" style="margin:0 auto 16px;"></div>
+      <div style="font-size:15px;color:var(--text-primary);font-weight:600;margin-bottom:6px;">Analyzing ${escapeHtml(displayTicker)}…</div>
+      <div style="font-size:12px;">Fetching SWS deep data + live technicals + news (≈3s)</div>
+    </div>
+    <div class="sws-modal-section" style="opacity:0.4;">
+      <div style="height:14px;width:160px;background:rgba(255,255,255,0.06);border-radius:4px;margin-bottom:10px;"></div>
+      <div style="height:48px;background:rgba(255,255,255,0.04);border-radius:6px;"></div>
+    </div>
+    <div class="sws-modal-section" style="opacity:0.3;">
+      <div style="height:14px;width:120px;background:rgba(255,255,255,0.06);border-radius:4px;margin-bottom:10px;"></div>
+      <div style="height:80px;background:rgba(255,255,255,0.04);border-radius:6px;"></div>
+    </div>
+  `;
+}
+
+async function openStockDetailModal(symbolOrTicker, sourceTab) {
+  const { ticker, yahooSymbol } = normaliseSymbol(symbolOrTicker);
+  if (!ticker) return;
+
+  // Hide search dropdown if open (relevant for search-result clicks)
+  if (typeof searchResults !== "undefined" && searchResults) {
+    searchResults.classList.remove("active");
+  }
+  if (typeof searchInput !== "undefined" && searchInput) {
+    searchInput.value = "";
+  }
+
+  // Race-guard state shared with openSwsModal — same backdrop element,
+  // same close handler, same focus restoration.
+  swsModalCurrentTicker = ticker;
+  swsModalLastFocus = document.activeElement;
+
+  const backdrop = document.getElementById("swsModalBackdrop");
+  const body = document.getElementById("swsModalBody");
+  if (!backdrop || !body) return;
+
+  // Stage 0 — open immediately with skeleton.
+  body.innerHTML = renderStockDetailLoading(ticker);
+  backdrop.classList.add("open");
+  document.body.style.overflow = "hidden";
+
+  // Stage 1 — try SWS deep data first (20ms typical, 404 for non-universe).
+  let swsData = null;
+  try {
+    const r = await fetch(`/api/sws-stock/${encodeURIComponent(ticker)}`);
+    if (r.ok) swsData = await r.json();
+  } catch {
+    // network error — fall through to live-only path
+  }
+  if (swsModalCurrentTicker !== ticker) return; // user clicked another card
+
+  if (swsData) {
+    // SWS-rich path: identical to SWS Picks UX. renderSwsModal paints the
+    // hero/snowflake/valuation/rewards-risks immediately; the live overlay
+    // (tech + sentiment + news + recommendation) folds in afterwards.
+    body.innerHTML = renderSwsModal(swsData);
+    fetchAndRenderSwsLiveOverlay(ticker);
+  } else {
+    // Live-only path: /api/sws-stock 404'd. Render from /api/stock alone.
+    body.innerHTML = renderLiveOnlySkeleton(ticker, sourceTab);
+    fetchAndRenderLiveOnlyDetail(ticker, yahooSymbol, sourceTab);
+  }
+}
+
+function renderLiveOnlySkeleton(ticker, sourceTab) {
+  const sourceLabel = sourceTab ? `<span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.5px;background:rgba(96,165,250,0.15);color:#60a5fa;margin-left:8px;">${escapeHtml(sourceTab)}</span>` : "";
+  return `
+    <div class="sws-modal-hero">
+      <div style="flex:1;min-width:0;">
+        <h2 id="swsModalTitle">${escapeHtml(ticker)}${sourceLabel}</h2>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">Outside SWS deep-scrape universe — using live engine for analysis</div>
+      </div>
+    </div>
+    <div class="sws-modal-section" id="stockDetailLiveSlot">
+      <h4>Live signals — independent live engine (technicals · sentiment · regulatory)</h4>
+      <div style="padding:30px 0;text-align:center;color:var(--text-muted);">
+        <div class="loading-spinner" style="margin:0 auto 12px;"></div>
+        <div style="font-size:12px;">Running technical + sentiment + fundamental analysis…</div>
+      </div>
+    </div>
+  `;
+}
+
+async function fetchAndRenderLiveOnlyDetail(ticker, yahooSymbol, sourceTab) {
+  const slot = document.getElementById("stockDetailLiveSlot");
+  if (!slot) return;
+  let data = null;
+  try {
+    const res = await fetch(`/api/stock/${encodeURIComponent(yahooSymbol)}`);
+    if (!res.ok) {
+      slot.innerHTML = `<h4>Live signals</h4><div style="font-size:12px;color:var(--red);">Live engine returned ${res.status} — likely insufficient history (recent IPO) or symbol not on Yahoo. Try the search bar to look up a different symbol.</div>`;
+      return;
+    }
+    data = await res.json();
+  } catch (e) {
+    slot.innerHTML = `<h4>Live signals</h4><div style="font-size:12px;color:var(--red);">Network error loading live data: ${escapeHtml(e.message)}</div>`;
+    return;
+  }
+  if (swsModalCurrentTicker !== ticker) return; // user navigated away
+
+  if (data.error) {
+    slot.innerHTML = `<h4>Live signals</h4><div style="font-size:12px;color:var(--red);">${escapeHtml(data.error)}</div>`;
+    return;
+  }
+
+  // Replace the entire modal body — we now have hero info from /api/stock too.
+  const body = document.getElementById("swsModalBody");
+  if (!body) return;
+  body.innerHTML = renderLiveOnlyModal(ticker, data, sourceTab);
+}
+
+function renderLiveOnlyModal(ticker, data, sourceTab) {
+  const quote = data.quote || {};
+  const analysis = data.analysis || {};
+  const fundamentals = data.fundamentals || {};
+  const longTerm = data.longTerm || {};
+  const surv = data.surveillance;
+  const news = (data.news || []).slice(0, 5);
+
+  const tech = analysis.technicalScore;
+  const sent = analysis.sentimentScore;
+  const fund = analysis.fundamentalScore;
+  const combined = analysis.combinedScore;
+  const reco = analysis.recommendation;
+
+  const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)}t` : v >= 1e9 ? `₹${(v / 1e9).toFixed(1)}b` : v >= 1e7 ? `₹${(v / 1e7).toFixed(0)}cr` : `₹${Number(v).toLocaleString("en-IN")}`;
+  const sourceLabel = sourceTab ? `<span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.5px;background:rgba(96,165,250,0.15);color:#60a5fa;margin-left:8px;">${escapeHtml(sourceTab)}</span>` : "";
+
+  const survBadge = surv ? `<span class="sws-surveillance-badge" title="NSE ${surv.list} surveillance flag (${surv.timeframe || "—"})">${escapeHtml(surv.list)}</span>` : "";
+
+  const recoColor = !reco ? "var(--text-muted)" :
+    reco.includes("STRONG BUY") || reco === "BUY" ? "var(--green)" :
+    reco === "HOLD" ? "var(--cyan)" :
+    reco.includes("SELL") ? "var(--red)" : "var(--text-muted)";
+
+  const colorPill = (label, val, max = 100) => {
+    if (val == null) return `<div class="sws-stat-cell"><div class="stat-label">${label}</div><div class="stat-value" style="color:var(--text-muted);">—</div></div>`;
+    const col = val >= 70 ? "var(--green)" : val >= 50 ? "var(--cyan)" : val >= 35 ? "var(--gold, #f5c542)" : "var(--red)";
+    return `<div class="sws-stat-cell"><div class="stat-label">${label}</div><div class="stat-value" style="color:${col};">${Math.round(val)}<span style="font-size:10px;color:var(--text-muted);">/${max}</span></div></div>`;
+  };
+
+  // Fundamentals quick stats — pull from V2 if present, fall back to V1.
+  const fundV2 = fundamentals.shadowV2 || fundamentals.v2 || null;
+  const fundCore = fundamentals.snapshot || fundamentals.legacyV1 || fundamentals;
+  const stats = [
+    ["Price", quote.price != null ? `₹${formatNumber(quote.price)}` : "—"],
+    ["Change", quote.changePercent != null ? `${quote.changePercent >= 0 ? "+" : ""}${Number(quote.changePercent).toFixed(2)}%` : "—"],
+    ["P/E", fundCore.pe != null ? `${Number(fundCore.pe).toFixed(1)}x` : "—"],
+    ["Sector P/E", fundCore.sectorPe != null ? `${Number(fundCore.sectorPe).toFixed(1)}x` : "—"],
+    ["Mcap", fmtInr(fundCore.marketCap)],
+    ["52w high", fundCore.week52High != null ? `₹${formatNumber(fundCore.week52High)}` : "—"],
+    ["52w low", fundCore.week52Low != null ? `₹${formatNumber(fundCore.week52Low)}` : "—"],
+    ["Sector", fundCore.sector ? escapeHtml(String(fundCore.sector).slice(0, 18)) : "—"],
+  ];
+
+  return `
+    <div class="sws-modal-hero">
+      <div style="flex:1;min-width:0;">
+        <h2 id="swsModalTitle">${escapeHtml(ticker)}${survBadge}${sourceLabel}</h2>
+        <div style="font-size:13px;color:var(--text-muted);">${escapeHtml(quote.name || fundCore.name || ticker)}${fundCore.sector ? ` · ${escapeHtml(fundCore.sector)}` : ""}</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:6px;">⚠ Outside SWS deep-scrape universe — analysis from independent live engine only (no Snowflake / fair-value / SWS rewards-risks)</div>
+      </div>
+      ${reco ? `
+        <div class="sws-modal-score">
+          <div class="score-value" style="color:${recoColor};font-size:18px;line-height:1.2;">${escapeHtml(reco)}</div>
+          ${combined != null ? `<div class="score-label" style="color:var(--text-muted);">Combined ${Math.round(combined)}/100</div>` : ""}
+        </div>
+      ` : ""}
+    </div>
+
+    <div class="sws-modal-section">
+      <h4>Live engine scores</h4>
+      <div class="sws-modal-grid" style="margin-bottom:6px;">
+        ${colorPill("Technicals", tech)}
+        ${colorPill("Sentiment", sent)}
+        ${colorPill("Fundamentals", fund)}
+        ${colorPill("Combined", combined)}
+      </div>
+    </div>
+
+    ${surv ? `
+    <div class="sws-modal-section" style="background:rgba(239,68,68,0.04);border-left:3px solid var(--red);">
+      <div style="font-size:12px;color:var(--red);">⚠ NSE surveillance: <strong>${escapeHtml(surv.list)}</strong>${surv.timeframe ? ` (${escapeHtml(surv.timeframe)})` : ""}${surv.stage ? ` · stage ${escapeHtml(String(surv.stage))}` : ""}</div>
+    </div>
+    ` : ""}
+
+    <div class="sws-modal-section">
+      <h4>Quick stats</h4>
+      <div class="sws-modal-grid">
+        ${stats.map(([l, v]) => `<div class="sws-stat-cell"><div class="stat-label">${l}</div><div class="stat-value">${v}</div></div>`).join("")}
+      </div>
+    </div>
+
+    ${(longTerm.recommendation || longTerm.narrative) ? `
+    <div class="sws-modal-section">
+      <h4>Long-term outlook (3–12 months)</h4>
+      ${longTerm.recommendation ? `<div style="font-size:13px;color:var(--text-primary);margin-bottom:6px;"><strong>${escapeHtml(longTerm.recommendation)}</strong>${longTerm.score != null ? ` · score ${Math.round(longTerm.score)}/100` : ""}${longTerm.fundamentalVerdict ? ` · ${escapeHtml(longTerm.fundamentalVerdict.replace(/_/g, " "))}` : ""}</div>` : ""}
+      ${longTerm.narrative ? `<div style="font-size:12px;line-height:1.7;color:var(--text-primary);white-space:pre-line;">${escapeHtml(longTerm.narrative)}</div>` : ""}
+      ${longTerm.macroBoost != null ? `<div style="font-size:10px;color:var(--text-muted);margin-top:8px;">Macro tilt: ${longTerm.macroBoost >= 0 ? "+" : ""}${longTerm.macroBoost}</div>` : ""}
+    </div>
+    ` : ""}
+
+    ${news.length ? `
+    <div class="sws-modal-section">
+      <h4>News (${news.length})</h4>
+      <ul class="sws-bullet-list">
+        ${news.map((n) => `<li>${n.url ? `<a href="${escapeAttr(n.url)}" target="_blank" rel="noopener" style="color:var(--text-primary);text-decoration:none;" onclick="event.stopPropagation();">${escapeHtml(n.title || "(untitled)")}</a>` : escapeHtml(n.title || "")}<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">${n.source ? escapeHtml(n.source) : ""}${n.publishedAt ? ` · ${new Date(n.publishedAt).toLocaleDateString()}` : ""}</div></li>`).join("")}
+      </ul>
+    </div>
+    ` : ""}
+
+    <div class="sws-modal-section" style="border-top:none;padding-top:6px;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--text-muted);">
+      <div>Live data fetched at modal open. May lag up to 15 min during market hours.</div>
+      <div>Source: ${escapeHtml(sourceTab || "—")}</div>
+    </div>
+  `;
 }

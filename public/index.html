@@ -3636,7 +3636,7 @@
     </div>
   </div>
 
-  <!-- SWS stock detail modal — populated by openSwsModal(ticker) -->
+  <!-- Stock detail modal — populated by openSwsModal(ticker) for SWS Picks, or openStockDetailModal(symbol, sourceTab) for every other clickable stock surface -->
   <div id="swsModalBackdrop" class="sws-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="swsModalTitle" onclick="if(event.target===this)closeSwsModal()">
     <div class="sws-modal">
       <button class="sws-modal-close" onclick="closeSwsModal()" aria-label="Close detail">×</button>
