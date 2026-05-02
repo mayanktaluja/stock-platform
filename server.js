@@ -4653,7 +4653,6 @@ app.get("/api/news/market", async (req, res) => {
       count: scored.length,
       sources: ["Economic Times", "LiveMint", "Google News India"],
       compliance: {
-        regNo: process.env.SEBI_REG_NO || "Pending registration",
         sources: ["NSE", "RBI", "SEBI", "Economic Times", "LiveMint", "Google News India"],
       },
       lastUpdated: new Date().toISOString(),
