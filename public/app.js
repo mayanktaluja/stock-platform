@@ -3964,9 +3964,8 @@ function renderSectorHeatmap(heatmap) {
   `;
 }
 
-// ── Compliance footer (mandatory per IA Reg 2013 / RA Reg 2014) ──
+// ── Compliance footer — sources cited + general-commentary disclaimer ──
 function renderComplianceFooter(compliance) {
-  const regNo = compliance?.regNo || "Pending registration";
   const sources = Array.isArray(compliance?.sources) && compliance.sources.length
     ? compliance.sources
     : ["NSE", "RBI", "SEBI", "Economic Times", "LiveMint", "Google News India"];
@@ -3974,8 +3973,7 @@ function renderComplianceFooter(compliance) {
     <div class="card" style="margin-top:32px;font-size:11px;color:var(--text-muted);line-height:1.6;">
       <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:8px;">Disclosures &amp; Sources</div>
       <div style="margin-bottom:8px;">Data sources: ${sources.map((s) => escapeHtml(s)).join(" · ")}.</div>
-      <div style="margin-bottom:8px;">This page presents general market commentary derived from publicly available NSE provisional data, RBI/SEBI public sources, and aggregated headlines. Indicative levels only. <strong>This is not investment advice.</strong> Past performance is not indicative of future results.</div>
-      <div>SEBI Reg No: <span style="font-family:'JetBrains Mono',monospace;color:var(--text-secondary);">${escapeHtml(regNo)}</span></div>
+      <div>This page presents general market commentary derived from publicly available NSE provisional data, RBI/SEBI public sources, and aggregated headlines. Indicative levels only. <strong>This is not investment advice.</strong> Past performance is not indicative of future results.</div>
     </div>
   `;
 }
