@@ -19,6 +19,7 @@ import { analyzeStock, intradayScan, midTermAnalysis, longTermOutlook } from "./
 import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, NIFTY500_SYMBOLS, getNifty100, getNifty500, getExpandedUniverse, getStocksByIndex, validateStockList } from "./stockList.js";
 import { analyzeNewsSentiment, quickSentiment } from "./sentiment.js";
 import { fetchNifty50, fetchNseQuote, fetchNseQuoteRaw, fetchNseIndices, fetchNseIndex, fetchNseEventCalendar, fetchGiftNifty, nseGet, nseGetUnauthed, warmup as nseWarmup } from "./nse.js";
+import { appendIfNew as appendFiiDiiHistory, readRecent as readFiiDiiHistory } from "./fiiDiiHistory.js";
 import {
   getFundamentals,
   getAllFundamentals,
@@ -3252,11 +3253,33 @@ app.get("/api/fii-dii", async (req, res) => {
     const fiiRow = fiiDiiData.find((r) => /FII|FPI/i.test(String(r.category)));
     const diiRow = fiiDiiData.find((r) => /^DII/i.test(String(r.category)));
 
+    const fiiShaped = shape(fiiRow);
+    const diiShaped = shape(diiRow);
+    const sessionDate = fiiRow?.date || diiRow?.date || null;
+
+    // Persist this session into the rolling history (idempotent on date),
+    // then read back the last 10 sessions for the sparkline. Both operations
+    // are best-effort — failures don't block the response.
+    let history = [];
+    try {
+      if (sessionDate) {
+        await appendFiiDiiHistory({
+          date: sessionDate,
+          fii: fiiShaped?.netValue,
+          dii: diiShaped?.netValue,
+        });
+      }
+      history = await readFiiDiiHistory(10);
+    } catch (histErr) {
+      console.warn("[FII-DII] history persistence/read failed:", histErr.message);
+    }
+
     const response = {
       available: true,
-      date: fiiRow?.date || diiRow?.date || null,
-      fii: shape(fiiRow),
-      dii: shape(diiRow),
+      date: sessionDate,
+      fii: fiiShaped,
+      dii: diiShaped,
+      history, // last 10 sessions newest-first, for client-side sparkline
       data: fiiDiiData, // preserve raw for any consumer that wants it
       lastUpdated: new Date().toISOString(),
     };
@@ -4482,6 +4505,75 @@ app.get("/api/market", async (req, res) => {
 });
 
 /**
+ * Market calendar — combines NSE corporate-event calendar (today + next 7
+ * days, results / board meetings / AGMs) with the hand-maintained macro
+ * calendar at data/macroCalendar.json (RBI MPC, FOMC, CPI/GDP/NFP releases).
+ *
+ * Cached for 30 minutes. NSE refreshes the underlying file ~daily.
+ */
+const marketCalendarCache = new NodeCache({ stdTTL: 1800, checkperiod: 120 });
+
+app.get("/api/market-calendar", async (req, res) => {
+  try {
+    const cached = marketCalendarCache.get("calendar");
+    if (cached) return res.json(cached);
+
+    // ── NSE corporate events (today + next 7 days) ──
+    let corporate = [];
+    try {
+      const all = await fetchNseEventCalendar();
+      const todayMs = new Date().setHours(0, 0, 0, 0);
+      const horizonMs = todayMs + 7 * 86400 * 1000;
+      // NSE date format is "DD-MMM-YYYY" — parse to ms for comparison
+      const monthIdx = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+      const toMs = (str) => {
+        const m = String(str || "").match(/^(\d{1,2})-([A-Za-z]{3})-(\d{4})$/);
+        if (!m) return NaN;
+        const [, dd, mon, yyyy] = m;
+        const mi = monthIdx[mon];
+        if (mi == null) return NaN;
+        return new Date(Number(yyyy), mi, Number(dd)).getTime();
+      };
+      corporate = all
+        .map((e) => ({ ...e, _ms: toMs(e.date) }))
+        .filter((e) => Number.isFinite(e._ms) && e._ms >= todayMs && e._ms <= horizonMs)
+        .sort((a, b) => a._ms - b._ms)
+        .slice(0, 25)
+        .map(({ _ms, ...rest }) => rest);
+    } catch (err) {
+      console.warn("[CALENDAR] NSE event fetch failed:", err.message);
+    }
+
+    // ── Macro calendar (hand-maintained JSON, future-only, top 10) ──
+    let macro = [];
+    try {
+      const calPath = path.join(__dirname, "data", "macroCalendar.json");
+      const raw = readFileSync(calPath, "utf-8");
+      const parsed = JSON.parse(raw);
+      const todayIso = new Date().toISOString().slice(0, 10);
+      macro = (parsed.events || [])
+        .filter((e) => e && e.date && e.date >= todayIso)
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .slice(0, 10);
+    } catch (err) {
+      console.warn("[CALENDAR] macroCalendar.json read failed:", err.message);
+    }
+
+    const response = {
+      corporate,
+      macro,
+      counts: { corporate: corporate.length, macro: macro.length },
+      lastUpdated: new Date().toISOString(),
+    };
+    marketCalendarCache.set("calendar", response);
+    res.json(response);
+  } catch (err) {
+    console.error("[CALENDAR] error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
  * Market news aggregator — pulls from ET, Google News, LiveMint.
  * Cached for 5 minutes. Frontend refreshes every 10 minutes.
  */
@@ -4544,75 +4636,26 @@ app.get("/api/news/market", async (req, res) => {
       return { ...a, sentiment: label };
     });
 
-    // ── AI Market Digest ──
-    // Generate a structured summary from the top 30 headlines so users
-    // get a morning-briefing-style digest instead of clicking through 50 links.
-    // Falls back to null when OpenAI is unavailable — the raw headlines still render.
-    let digest = null;
-    try {
-      const client = getOpenAI();
-      if (client && scored.length >= 5) {
-        console.log(`[NEWS] Generating digest from ${scored.length} headlines...`);
-        const headlineBlock = scored.slice(0, 30).map((a, i) => {
-          return `${i + 1}. [${a.sentiment.toUpperCase()}] [${a.publisher || "?"}] ${a.title}`;
-        }).join("\n");
-
-        // Direct call with AbortController timeout (15s max)
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 15000);
-
-        try {
-          const digestResponse = await client.chat.completions.create({
-            model: "gpt-5.4",
-            temperature: 0.3,
-            max_completion_tokens: 4000, // GPT-5.4 reasoning model: needs ~2000 for thinking + ~800 for output
-            messages: [
-              {
-                role: "system",
-                content: "You are a senior Indian market analyst writing a morning briefing for professional traders. Given today's market headlines, produce a structured JSON digest. Be concise, specific, and actionable. Reference specific stocks/sectors/numbers from the headlines.\n\nOutput strict JSON only:\n{\n  \"marketMood\": \"bullish\" or \"bearish\" or \"mixed\",\n  \"moodSummary\": \"one sentence: what is driving the market today\",\n  \"keyTakeaways\": [\"bullet 1\", \"bullet 2\", \"bullet 3\", \"bullet 4\"],\n  \"bullishDrivers\": [\"what is pushing stocks up, be specific\"],\n  \"bearishRisks\": [\"what to watch out for, be specific\"],\n  \"sectorsToWatch\": [\"sector: reason\"]\n}"
-              },
-              {
-                role: "user",
-                content: "Today's " + scored.length + " Indian market headlines:\n\n" + headlineBlock + "\n\nGenerate the market digest JSON."
-              }
-            ],
-          });
-          clearTimeout(timeout);
-
-          // GPT-5.4 may return content in .output_text (reasoning model) or .choices[0].message.content
-          let text = "";
-          if (digestResponse.choices?.[0]?.message?.content) {
-            text = digestResponse.choices[0].message.content;
-          } else if (digestResponse.output_text) {
-            text = digestResponse.output_text;
-          } else if (digestResponse.choices?.[0]?.text) {
-            text = digestResponse.choices[0].text;
-          }
-          console.log(`[NEWS] Digest response: ${text.length} chars, model=${digestResponse.model || '?'}`);
-          if (!text) {
-            // Dump structure to find where content lives
-            console.log(`[NEWS] Response structure: ${JSON.stringify(digestResponse).slice(0, 500)}`);
-          }
-          const jsonMatch = text.match(/\{[\s\S]*\}/);
-          if (jsonMatch) {
-            digest = JSON.parse(jsonMatch[0]);
-            console.log(`[NEWS] Digest generated: mood=${digest.marketMood}, takeaways=${digest.keyTakeaways?.length}`);
-          }
-        } catch (innerErr) {
-          clearTimeout(timeout);
-          console.error("[NEWS] Digest LLM call failed:", innerErr.message);
-        }
-      }
-    } catch (err) {
-      console.error("[NEWS] Digest generation failed:", err.message);
-      // digest stays null — frontend handles gracefully
-    }
+    // ── Deterministic Market Digest ──
+    // Composite mood from 6 signals: sectoral breadth, adv/decl, FII flow,
+    // DII flow, headline tilt, GIFT Nifty (off-hours). Sources are existing
+    // in-process caches — no LLM call, no external network, always-on.
+    const digest = buildDeterministicDigest(scored, {
+      sectorHeatmap: sectorHeatmapCache.get("heatmap"),
+      fiiDii: fiiDiiCache.get("fii_dii"),
+      market: marketCache.get("market"),
+      marketStatus: isMarketOpen() ? "OPEN" : "CLOSED",
+    });
 
     const response = {
       articles: scored,
       digest,
       count: scored.length,
       sources: ["Economic Times", "LiveMint", "Google News India"],
+      compliance: {
+        regNo: process.env.SEBI_REG_NO || "Pending registration",
+        sources: ["NSE", "RBI", "SEBI", "Economic Times", "LiveMint", "Google News India"],
+      },
       lastUpdated: new Date().toISOString(),
     };
 
@@ -4623,6 +4666,135 @@ app.get("/api/news/market", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch news" });
   }
 });
+
+// Deterministic digest builder for /api/news/market. Pure function — reads
+// existing cache snapshots, no I/O. Returns the same shape the frontend
+// already consumes ({marketMood, moodSummary, keyTakeaways, bullishDrivers,
+// bearishRisks, sectorsToWatch}). Each of 6 signals contributes ±1 or 0; sum
+// determines mood. Every claim in moodSummary cites a number for SEBI
+// "reasonable basis" compliance.
+function buildDeterministicDigest(scored, ctx) {
+  const { sectorHeatmap, fiiDii, market, marketStatus } = ctx || {};
+  const fmtCr = (n) => `₹${Math.abs(n).toLocaleString("en-IN", { maximumFractionDigits: 0 })} Cr`;
+  const fmtPct = (n) => `${n >= 0 ? "+" : ""}${Number(n).toFixed(2)}%`;
+
+  const signals = [];
+
+  // 1. Sectoral breadth — # of sectors with positive avgChange
+  if (sectorHeatmap?.sectors?.length) {
+    const total = sectorHeatmap.sectors.length;
+    const green = sectorHeatmap.sectors.filter((s) => (s.avgChange ?? 0) > 0).length;
+    const greenThresh = Math.ceil(total * 0.63);  // ≥12 of 19
+    const redThresh = Math.floor(total * 0.37);   // ≤7 of 19
+    let c = 0;
+    if (green >= greenThresh) c = 1;
+    else if (green <= redThresh) c = -1;
+    signals.push({ contributed: c, claim: `Sectoral breadth: ${green}/${total} green` });
+  } else {
+    signals.push({ contributed: 0, claim: "Sectoral breadth data not yet available" });
+  }
+
+  // 2. Adv/Decl ratio — across Nifty 100 stocks scanned for the heatmap
+  if (sectorHeatmap?.marketBreadth) {
+    const { advancing = 0, declining = 0 } = sectorHeatmap.marketBreadth;
+    const ratio = declining > 0 ? advancing / declining : (advancing > 0 ? 99 : 0);
+    let c = 0;
+    if (ratio >= 2.0) c = 1;
+    else if (ratio <= 0.5) c = -1;
+    signals.push({ contributed: c, claim: `Adv/Decl: ${advancing}/${declining} (ratio ${ratio.toFixed(2)})` });
+  }
+
+  // 3. FII net (cash market, today's published session)
+  let fiiNet = null, diiNet = null;
+  if (fiiDii?.available !== false) {
+    fiiNet = fiiDii?.fii?.netValue;
+    diiNet = fiiDii?.dii?.netValue;
+  }
+  if (fiiNet != null) {
+    let c = 0;
+    if (fiiNet >= 500) c = 1;
+    else if (fiiNet <= -500) c = -1;
+    signals.push({ contributed: c, claim: `FII ${fiiNet >= 0 ? "net buy" : "net sell"} ${fmtCr(fiiNet)}` });
+  } else {
+    signals.push({ contributed: 0, claim: "FII data not yet available" });
+  }
+
+  // 4. DII net (cash market)
+  if (diiNet != null) {
+    let c = 0;
+    if (diiNet >= 500) c = 1;
+    else if (diiNet <= -500) c = -1;
+    signals.push({ contributed: c, claim: `DII ${diiNet >= 0 ? "net buy" : "net sell"} ${fmtCr(diiNet)}` });
+  } else {
+    signals.push({ contributed: 0, claim: "DII data not yet available" });
+  }
+
+  // 5. Headline tilt — RSS bullish vs bearish from keyword classifier
+  const bullCount = scored.filter((a) => a.sentiment === "bullish").length;
+  const bearCount = scored.filter((a) => a.sentiment === "bearish").length;
+  let headlineSig = 0;
+  if (bullCount >= bearCount * 1.5 && bullCount >= 10) headlineSig = 1;
+  else if (bearCount >= bullCount * 1.5 && bearCount >= 10) headlineSig = -1;
+  signals.push({ contributed: headlineSig, claim: `Headlines tilt: ${bullCount} bullish vs ${bearCount} bearish` });
+
+  // 6. GIFT Nifty — only weighted when cash market is closed (overnight signal)
+  if (marketStatus === "CLOSED" && Array.isArray(market?.indices)) {
+    const gift = market.indices.find((i) => /gift/i.test(i.name || ""));
+    if (gift && Number.isFinite(gift.changePercent)) {
+      let c = 0;
+      if (gift.changePercent >= 0.3) c = 1;
+      else if (gift.changePercent <= -0.3) c = -1;
+      signals.push({ contributed: c, claim: `GIFT Nifty ${fmtPct(gift.changePercent)} (off-hours)` });
+    }
+  }
+
+  // Composite score → mood
+  const score = signals.reduce((sum, s) => sum + (s.contributed || 0), 0);
+  let marketMood;
+  if (score >= 2) marketMood = "bullish";
+  else if (score <= -2) marketMood = "bearish";
+  else marketMood = "mixed";
+
+  // moodSummary: contributing claims joined; cites every number for compliance
+  const contributingClaims = signals.filter((s) => s.contributed !== 0).map((s) => s.claim);
+  const allClaims = signals.map((s) => s.claim);
+  let moodSummary;
+  if (contributingClaims.length === 0) {
+    moodSummary = "Insufficient data — check back after market open.";
+  } else {
+    moodSummary = contributingClaims.join(" · ");
+  }
+
+  // keyTakeaways: top 3 by absolute weight (contributing signals first), then claims with 0 weight as filler
+  const ranked = [...signals].sort((a, b) => Math.abs(b.contributed) - Math.abs(a.contributed));
+  const keyTakeaways = ranked.slice(0, 3).map((s) => s.claim);
+
+  // bullishDrivers / bearishRisks: top 4 verbatim RSS headline titles (by recency, scored is already sorted desc)
+  const bullishDrivers = scored.filter((a) => a.sentiment === "bullish").slice(0, 4).map((a) => a.title);
+  const bearishRisks = scored.filter((a) => a.sentiment === "bearish").slice(0, 4).map((a) => a.title);
+
+  // sectorsToWatch: top 3 absolute movers from heatmap, with sign
+  let sectorsToWatch = [];
+  if (sectorHeatmap?.sectors?.length) {
+    sectorsToWatch = [...sectorHeatmap.sectors]
+      .sort((a, b) => Math.abs(b.avgChange ?? 0) - Math.abs(a.avgChange ?? 0))
+      .slice(0, 3)
+      .map((s) => `${s.sector}: ${fmtPct(s.avgChange ?? 0)}`);
+  }
+
+  return {
+    marketMood,
+    moodSummary,
+    keyTakeaways,
+    bullishDrivers,
+    bearishRisks,
+    sectorsToWatch,
+    // Diagnostic / transparency for clients that want to drill in
+    score,
+    signals: allClaims,
+    generatedBy: "deterministic",
+  };
+}
 
 function safeDateParse(str) {
   if (!str) return null;
@@ -5822,11 +5994,16 @@ app.post("/api/portfolio", async (req, res) => {
     // Preserve any other fields already on the portfolio (riskProfile etc.)
     // — POST /api/portfolio is the Groww-import endpoint and shouldn't wipe
     // a user's risk-profile survey just because they re-imported.
+    //
+    // Distinguish "field omitted" from "field sent as empty array": only
+    // overwrite when the client actually sent a value. This lets the
+    // analyzer's "Save as my portfolio" checkbox post a Stocks-only book
+    // without nuking saved MF holdings.
     const existing = await readPortfolio();
     const data = {
       ...existing,
-      stocks: stocks || [],
-      mutualFunds: mutualFunds || [],
+      stocks: stocks !== undefined ? stocks : (existing.stocks || []),
+      mutualFunds: mutualFunds !== undefined ? mutualFunds : (existing.mutualFunds || []),
       lastUpdated: new Date().toISOString(),
     };
     await savePortfolio(data);
@@ -6001,6 +6178,47 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       console.warn("[PORTFOLIO] live NSE resolution failed:", e.message);
     }
 
+    // Build a clean "savable" snapshot of the upload — the same shape that
+    // POST /api/portfolio expects. The frontend can ship this back when the
+    // user ticks "Save as my portfolio" on the analyzer; that decouples the
+    // save path from the rest of the report payload (which carries
+    // enrichment baggage like LLM narratives that have no business sitting
+    // in portfolio.json).
+    //
+    // mutualFunds is intentionally null when the upload doesn't contain MFs
+    // so the client can omit the field from POST and the saved MF list is
+    // preserved (a Stocks-only Groww export should not wipe MF holdings).
+    const uploadHasMfs = Array.isArray(parsed.mfHoldings) && parsed.mfHoldings.length > 0;
+    const savable = {
+      stocks: parsed.holdings.map((h) => ({
+        symbol: h.symbol,
+        name: h.name,
+        quantity: h.quantity,
+        avgPrice: h.avgPrice,
+        sector: h.sector || null,
+        isin: h.isin || null,
+        purchaseDate: h.purchaseDate || null,
+      })),
+      // Map analyzer-shape MF rows back to storage schema (name/category/
+      // invested/current/xirr/returns) so the round-trip preserves the
+      // shape readers expect. Null when the upload has no MFs.
+      mutualFunds: uploadHasMfs
+        ? parsed.mfHoldings.map((m) => ({
+            name: m.name || m.rawName || null,
+            category: m.category || null,
+            subCategory: m.subCategory || null,
+            folio: m.folio || null,
+            invested: m.invested ?? 0,
+            current: m.currentValue ?? m.invested ?? 0,
+            xirr: m.publishedXirrPct ?? null,
+            returns: m.pnlPercent ?? null,
+            isin: m.isin || null,
+          }))
+        : null,
+      source: parsed.source,
+      parsedAt: new Date().toISOString(),
+    };
+
     // Only hard-fail when the parser found literally nothing — not when
     // it found rows but classified them all as non-equity (MF/ETF/F&O).
     // In the latter case, return a minimal report so the UI can still
@@ -6076,6 +6294,7 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
         elapsedMs: Date.now() - t0,
         sessionId,
         report,
+        savable,
       });
     }
 
@@ -6239,6 +6458,7 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
           warnings: parsed.warnings || [],
           disclaimer: "SWS Engine (Beta) · Educational analysis only. Verify live prices and risk before any transaction. SEBI-aligned tier classification; not personalised investment advice.",
         },
+        savable,
       });
     }
     // ============================================================
@@ -6485,6 +6705,7 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       elapsedMs: Date.now() - t0,
       sessionId,
       report,
+      savable,
     });
   } catch (err) {
     console.error("Portfolio analyze error:", err.message, err.stack);

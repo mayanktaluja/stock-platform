@@ -2151,7 +2151,7 @@ function switchTab(tab) {
   if (tab === "news") {
     newsEl.style.display = "block";
     loadMarketNews();
-    newsRefreshTimer = setInterval(loadMarketNews, 10 * 60 * 1000);
+    newsRefreshTimer = setInterval(() => loadMarketNews({ silent: true }), 10 * 60 * 1000);
   } else if (tab === "portfolio") {
     portEl.style.display = "block";
     loadPortfolio();
@@ -3319,18 +3319,40 @@ function renderSmeSafetyBadges(stock) {
 // ==================== MARKET NEWS ====================
 
 let _newsDigest = null; // cached digest for filter re-renders
+let _newsCompliance = null; // cached compliance meta for footer
+let _newsLoading = false; // debounce concurrent loads
 
-async function loadMarketNews() {
+function setNewsLoadingBanner(visible) {
+  const b = document.getElementById("newsLoadingBanner");
+  if (b) b.hidden = !visible;
+}
+
+async function loadMarketNews(opts = {}) {
+  if (_newsLoading) return;
+  _newsLoading = true;
+  const silent = !!opts.silent;
+  if (!silent) setNewsLoadingBanner(true);
+
   const container = document.getElementById("newsContainer");
 
   try {
-    // Fetch verdict and news in parallel
-    const [newsRes, verdictRes] = await Promise.all([
+    // Fan out 7 endpoints in parallel — all secondary endpoints failure-soft
+    const [newsRes, verdictRes, marketRes, heatmapRes, fiiRes, portfolioRes, calendarRes] = await Promise.all([
       fetch("/api/news/market"),
       fetch("/api/market-verdict").catch(() => null),
+      fetch("/api/market").catch(() => null),
+      fetch("/api/sector-heatmap").catch(() => null),
+      fetch("/api/fii-dii").catch(() => null),
+      fetch("/api/portfolio").catch(() => null),
+      fetch("/api/market-calendar").catch(() => null),
     ]);
     const data = await newsRes.json();
-    const verdict = verdictRes ? await verdictRes.json().catch(() => null) : null;
+    const verdict = verdictRes && verdictRes.ok ? await verdictRes.json().catch(() => null) : null;
+    const market = marketRes && marketRes.ok ? await marketRes.json().catch(() => null) : null;
+    const heatmap = heatmapRes && heatmapRes.ok ? await heatmapRes.json().catch(() => null) : null;
+    const fiiDii = fiiRes && fiiRes.ok ? await fiiRes.json().catch(() => null) : null;
+    const portfolio = portfolioRes && portfolioRes.ok ? await portfolioRes.json().catch(() => null) : null;
+    const calendar = calendarRes && calendarRes.ok ? await calendarRes.json().catch(() => null) : null;
 
     if (data.error) {
       container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">${escapeHtml(data.error)}</div></div>`;
@@ -3339,17 +3361,21 @@ async function loadMarketNews() {
 
     allMarketNews = data.articles || [];
     _newsDigest = data.digest || null;
+    _newsCompliance = data.compliance || null;
 
     const updatedEl = document.getElementById("newsLastUpdated");
     if (updatedEl) updatedEl.textContent = `Updated: ${new Date(data.lastUpdated).toLocaleTimeString("en-IN")}`;
 
-    renderNewsPage(allMarketNews, _newsDigest, verdict);
+    renderNewsPage(allMarketNews, _newsDigest, verdict, market, heatmap, fiiDii, portfolio, calendar);
   } catch (err) {
     container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">Failed to load news. Try again.</div></div>`;
+  } finally {
+    if (!silent) setNewsLoadingBanner(false);
+    _newsLoading = false;
   }
 }
 
-function renderNewsPage(articles, digest, verdict) {
+function renderNewsPage(articles, digest, verdict, market, heatmap, fiiDii, portfolio, calendar) {
   const container = document.getElementById("newsContainer");
 
   if (!articles || articles.length === 0) {
@@ -3358,6 +3384,12 @@ function renderNewsPage(articles, digest, verdict) {
   }
 
   let html = "";
+
+  // ── Pulse strip (live indices + breadth) ──
+  html += renderPulseStrip(market, heatmap);
+
+  // ── Your Book Today (portfolio sliver — hidden when no holdings imported) ──
+  html += renderPortfolioSliver(portfolio);
 
   // ── Today's Verdict (5-signal dashboard) ──
   if (verdict && verdict.signals) {
@@ -3428,9 +3460,9 @@ function renderNewsPage(articles, digest, verdict) {
 
         <!-- Bullish / Bearish columns -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-          <!-- Bullish Drivers -->
+          <!-- Top Bullish Headlines -->
           <div style="padding:14px 16px;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.18);border-radius:10px;">
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--green);font-weight:700;margin-bottom:10px;">&#9650; Bullish Drivers</div>
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--green);font-weight:700;margin-bottom:10px;">&#9650; Top Bullish Headlines</div>
             ${digest.bullishDrivers && digest.bullishDrivers.length > 0
               ? `<ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:6px;">
                   ${digest.bullishDrivers.map((d) => `<li style="font-size:12px;color:var(--text-secondary);line-height:1.5;">${escapeHtml(d)}</li>`).join("")}
@@ -3439,9 +3471,9 @@ function renderNewsPage(articles, digest, verdict) {
             }
           </div>
 
-          <!-- Bearish Risks -->
+          <!-- Top Bearish Headlines -->
           <div style="padding:14px 16px;background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.18);border-radius:10px;">
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--red);font-weight:700;margin-bottom:10px;">&#9660; Bearish Risks</div>
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--red);font-weight:700;margin-bottom:10px;">&#9660; Top Bearish Headlines</div>
             ${digest.bearishRisks && digest.bearishRisks.length > 0
               ? `<ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:6px;">
                   ${digest.bearishRisks.map((d) => `<li style="font-size:12px;color:var(--text-secondary);line-height:1.5;">${escapeHtml(d)}</li>`).join("")}
@@ -3461,10 +3493,19 @@ function renderNewsPage(articles, digest, verdict) {
           </div>
         ` : ""}
 
-        <div style="margin-top:14px;font-size:10px;color:var(--text-muted);text-align:right;">AI-generated from ${articles.length} headlines · Not investment advice</div>
+        <div style="margin-top:14px;font-size:10px;color:var(--text-muted);text-align:right;">Composite of headlines + sectors + FII/DII · Not investment advice</div>
       </div>
     `;
   }
+
+  // ── Calendar (NSE corporate events + macro / policy dates) ──
+  html += renderCalendarCard(calendar);
+
+  // ── FII / DII Flow card ──
+  html += renderFiiDiiCard(fiiDii);
+
+  // ── Sector heatmap (19 sectors, ranked by avgChange) ──
+  html += renderSectorHeatmap(heatmap);
 
   // ── Raw Headlines (collapsed by default) ──
   const bullish = articles.filter((a) => a.sentiment === "bullish");
@@ -3495,7 +3536,448 @@ function renderNewsPage(articles, digest, verdict) {
     </div>
   `;
 
+  // ── Compliance footer (mandatory per IA Reg 2013 / RA Reg 2014) ──
+  html += renderComplianceFooter(_newsCompliance);
+
   container.innerHTML = html;
+}
+
+// ── Pulse strip: live indices + breadth bar (top of page) ──
+function renderPulseStrip(market, heatmap) {
+  const indices = Array.isArray(market?.indices) ? market.indices : [];
+  const status = market?.marketStatus || "—";
+  const statusColor = status === "OPEN" ? "var(--green)" : status === "CLOSED" ? "var(--text-muted)" : "var(--yellow)";
+
+  // 4 priority symbols in canonical order; fall back to whatever the API gave us
+  const priority = ["NIFTY 50", "SENSEX", "BANK NIFTY", "GIFT NIFTY"];
+  const ordered = [];
+  for (const name of priority) {
+    const hit = indices.find((i) => (i.name || "").toUpperCase() === name);
+    if (hit) ordered.push(hit);
+  }
+  for (const i of indices) {
+    if (!ordered.includes(i) && ordered.length < 4) ordered.push(i);
+  }
+
+  let tilesHtml = "";
+  if (ordered.length === 0) {
+    tilesHtml = `<div class="card" style="grid-column:span 4;"><div class="card-sub">Index data unavailable.</div></div>`;
+  } else {
+    tilesHtml = ordered.map((i) => {
+      const chg = Number(i.changePercent ?? 0);
+      const chgColor = chg > 0 ? "var(--green)" : chg < 0 ? "var(--red)" : "var(--text-muted)";
+      const arrow = chg > 0 ? "&#9650;" : chg < 0 ? "&#9660;" : "&#9679;";
+      const price = i.price != null ? Number(i.price).toLocaleString("en-IN", { maximumFractionDigits: 2 }) : "—";
+      return `
+        <div class="card">
+          <div class="card-title">${escapeHtml(i.name || "")}</div>
+          <div class="card-value" style="color:${chgColor};">${price}</div>
+          <div class="card-sub" style="color:${chgColor};">${arrow} ${chg >= 0 ? "+" : ""}${chg.toFixed(2)}%</div>
+        </div>`;
+    }).join("");
+  }
+
+  // Breadth bar — green/red flex from sector-heatmap.marketBreadth
+  let breadthHtml = "";
+  const br = heatmap?.marketBreadth;
+  if (br && (br.advancing != null || br.declining != null)) {
+    const adv = Number(br.advancing || 0);
+    const dec = Number(br.declining || 0);
+    const total = adv + dec || 1;
+    const advPct = (adv / total) * 100;
+    const decPct = (dec / total) * 100;
+    breadthHtml = `
+      <div style="margin-top:14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">
+          <span>Market Breadth (Nifty 100)</span>
+          <span><span style="color:var(--green);font-weight:700;">${adv} adv</span> · <span style="color:var(--red);font-weight:700;">${dec} decl</span></span>
+        </div>
+        <div style="display:flex;height:6px;border-radius:3px;overflow:hidden;background:rgba(255,255,255,0.04);">
+          <div style="width:${advPct}%;background:var(--green);"></div>
+          <div style="width:${decPct}%;background:var(--red);"></div>
+        </div>
+      </div>`;
+  }
+
+  return `
+    <div style="margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">Pulse</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:11px;">
+          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${statusColor};"></span>
+          <span style="color:${statusColor};font-weight:700;">Market ${escapeHtml(status)}</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(${Math.max(ordered.length, 1)}, minmax(0,1fr));gap:12px;">
+        ${tilesHtml}
+      </div>
+      ${breadthHtml}
+    </div>
+  `;
+}
+
+// ── Your Book Today: portfolio sliver (top 3 winners / losers + intraday net) ──
+// Hidden entirely when no portfolio is imported. Computes today's intraday
+// rupee P&L from per-holding `change * quantity` since /api/portfolio doesn't
+// aggregate it server-side. Lifetime P&L is shown alongside via summary.totalPnl.
+function renderPortfolioSliver(portfolio) {
+  const stocks = Array.isArray(portfolio?.stocks) ? portfolio.stocks : [];
+  if (stocks.length === 0) return "";
+
+  // Today's intraday net = sum(change * quantity). `change` is rupee delta
+  // for the single share; quantity scales it to position-level rupees.
+  let todayNet = 0;
+  let totalCurrent = 0;
+  for (const h of stocks) {
+    const change = Number(h.change ?? 0);
+    const qty = Number(h.quantity ?? 0);
+    if (Number.isFinite(change) && Number.isFinite(qty)) todayNet += change * qty;
+    const cv = Number(h.currentValue ?? 0);
+    if (Number.isFinite(cv)) totalCurrent += cv;
+  }
+  const todayPct = totalCurrent > 0 ? (todayNet / (totalCurrent - todayNet)) * 100 : 0;
+
+  // Top 3 winners / losers — sort by today's % change (intraday)
+  const ranked = stocks
+    .filter((h) => Number.isFinite(Number(h.changePercent)))
+    .sort((a, b) => Number(b.changePercent) - Number(a.changePercent));
+  const winners = ranked.slice(0, 3);
+  const losers = ranked.slice(-3).reverse();
+
+  const todayColor = todayNet >= 0 ? "var(--green)" : "var(--red)";
+  const todayArrow = todayNet >= 0 ? "&#9650;" : "&#9660;";
+  const fmtCr = (n) => {
+    const abs = Math.abs(n);
+    if (abs >= 100000) return `${n >= 0 ? "+" : "−"}₹${(abs / 100000).toFixed(2)}L`;
+    if (abs >= 1000) return `${n >= 0 ? "+" : "−"}₹${(abs / 1000).toFixed(1)}K`;
+    return `${n >= 0 ? "+" : "−"}₹${abs.toFixed(0)}`;
+  };
+
+  const moverChip = (h) => {
+    const cp = Number(h.changePercent ?? 0);
+    const c = cp >= 0 ? "var(--green)" : "var(--red)";
+    const sym = String(h.symbol || "").replace(/\.NS$/, "").replace(/\.BO$/, "");
+    return `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border-radius:6px;background:rgba(255,255,255,0.02);border:1px solid var(--border);">
+        <span style="font-size:12px;font-weight:700;color:var(--text-primary);">${escapeHtml(sym)}</span>
+        <span style="font-size:11px;font-weight:700;color:${c};font-family:'JetBrains Mono',monospace;">${cp >= 0 ? "+" : ""}${cp.toFixed(2)}%</span>
+      </div>`;
+  };
+
+  const summary = portfolio?.summary || {};
+  const lifetimePnl = Number(summary.totalPnl ?? 0);
+  const lifetimePnlPct = Number(summary.totalPnlPercent ?? 0);
+  const lifetimeColor = lifetimePnl >= 0 ? "var(--green)" : "var(--red)";
+
+  return `
+    <div style="margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">Your Book Today · ${stocks.length} holdings</div>
+        <div style="font-size:10px;color:var(--text-muted);">Live valuation · NSE</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2, minmax(0,1fr)) 2fr;gap:12px;align-items:stretch;">
+        <div class="card">
+          <div class="card-title">Today (intraday)</div>
+          <div class="card-value" style="color:${todayColor};">${todayArrow} ${fmtCr(todayNet)}</div>
+          <div class="card-sub" style="color:${todayColor};">${todayPct >= 0 ? "+" : ""}${todayPct.toFixed(2)}% on ₹${(totalCurrent / 100000).toFixed(2)}L book</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Lifetime P&amp;L</div>
+          <div class="card-value" style="color:${lifetimeColor};">${fmtCr(lifetimePnl)}</div>
+          <div class="card-sub" style="color:${lifetimeColor};">${lifetimePnlPct >= 0 ? "+" : ""}${lifetimePnlPct.toFixed(2)}% vs invested</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div>
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--green);font-weight:700;margin-bottom:6px;">&#9650; Top Winners</div>
+            <div style="display:flex;flex-direction:column;gap:4px;">${winners.map(moverChip).join("")}</div>
+          </div>
+          <div>
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--red);font-weight:700;margin-bottom:6px;">&#9660; Top Losers</div>
+            <div style="display:flex;flex-direction:column;gap:4px;">${losers.map(moverChip).join("")}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ── Calendar: NSE corporate events (next 7d) + macro / policy dates ──
+// Two stacked sub-sections. Macro events first (higher signal), then a
+// compact list of corporate events. Hides itself only when both feeds
+// are empty — partial outage shows what we have.
+function renderCalendarCard(calendar) {
+  const corp = Array.isArray(calendar?.corporate) ? calendar.corporate : [];
+  const macro = Array.isArray(calendar?.macro) ? calendar.macro : [];
+  if (corp.length === 0 && macro.length === 0) {
+    return `
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-title">Calendar</div>
+        <div class="card-sub">No upcoming events available — corporate feed (NSE) and macro feed both empty.</div>
+      </div>`;
+  }
+
+  // Format an ISO date (YYYY-MM-DD) into "DD-MMM" for compact display
+  const fmtIso = (iso) => {
+    if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso || "";
+    const d = new Date(iso + "T00:00:00");
+    if (isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
+  };
+  // NSE returns "DD-MMM-YYYY"; trim to "DD-MMM" for compact display
+  const fmtNse = (str) => {
+    const m = String(str || "").match(/^(\d{1,2})-([A-Za-z]{3})-\d{4}$/);
+    return m ? `${m[1]}-${m[2]}` : str;
+  };
+  const tierColor = (t) => {
+    if (t === "A+") return "var(--red)";
+    if (t === "A") return "var(--yellow)";
+    return "var(--text-muted)";
+  };
+
+  const macroRows = macro.map((e) => {
+    const tc = tierColor(e.tier);
+    return `
+      <div style="display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:8px 12px;border-radius:6px;background:rgba(255,255,255,0.02);border:1px solid var(--border);">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--text-secondary);min-width:54px;">${fmtIso(e.date)}</div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--text-primary);">${escapeHtml(e.title || "")}</div>
+          ${e.notes ? `<div style="font-size:11px;color:var(--text-muted);margin-top:2px;line-height:1.4;">${escapeHtml(e.notes)}</div>` : ""}
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px;">
+          <span style="font-size:10px;font-weight:700;color:${tc};letter-spacing:0.3px;">${escapeHtml(e.tier || "")}</span>
+          <span style="font-size:10px;color:var(--text-muted);">${escapeHtml(e.country || "")} · ${escapeHtml(e.category || "")}</span>
+        </div>
+      </div>`;
+  }).join("");
+
+  const corpRows = corp.slice(0, 12).map((e) => {
+    const purposeLower = String(e.purpose || "").toLowerCase();
+    const isResults = purposeLower.includes("financial");
+    const purposeColor = isResults ? "var(--green)" : "var(--text-secondary)";
+    return `
+      <div style="display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:6px 10px;border-radius:6px;background:rgba(255,255,255,0.02);border:1px solid var(--border);">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--text-secondary);min-width:48px;">${escapeHtml(fmtNse(e.date))}</div>
+        <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+          <span style="font-size:12px;font-weight:700;color:var(--text-primary);">${escapeHtml(e.symbol || "")}</span>
+          <span style="font-size:11px;color:var(--text-muted);margin-left:6px;">${escapeHtml(e.company || "")}</span>
+        </div>
+        <span style="font-size:10px;color:${purposeColor};text-transform:uppercase;letter-spacing:0.3px;">${escapeHtml(e.purpose || "")}</span>
+      </div>`;
+  }).join("");
+
+  return `
+    <div style="margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">Calendar · Next 7 days</div>
+        <div style="font-size:10px;color:var(--text-muted);">${corp.length} corporate · ${macro.length} macro / policy</div>
+      </div>
+      ${macro.length > 0 ? `
+        <div style="margin-bottom:12px;">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);margin-bottom:6px;">Macro &amp; Policy</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">${macroRows}</div>
+        </div>` : ""}
+      ${corp.length > 0 ? `
+        <div>
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);margin-bottom:6px;">Results &amp; Board Meetings (NSE)</div>
+          <div style="display:flex;flex-direction:column;gap:4px;">${corpRows}</div>
+          ${corp.length > 12 ? `<div style="margin-top:6px;font-size:10px;color:var(--text-muted);text-align:right;">+${corp.length - 12} more</div>` : ""}
+        </div>` : ""}
+    </div>
+  `;
+}
+
+// ── FII / DII Flow card ──
+function renderFiiDiiCard(fiiDii) {
+  if (!fiiDii || fiiDii.available === false) {
+    const msg = fiiDii?.message || "Temporarily unavailable from NSE — usually published ~18:30 IST.";
+    return `
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-title">FII / DII Flows</div>
+        <div class="card-sub">${escapeHtml(msg)}</div>
+      </div>`;
+  }
+
+  const fii = Number(fiiDii?.fii?.netValue ?? 0);
+  const dii = Number(fiiDii?.dii?.netValue ?? 0);
+  const date = fiiDii?.date || "";
+  const fmtCr = (n) => {
+    const abs = Math.abs(n).toLocaleString("en-IN", { maximumFractionDigits: 0 });
+    return `${n >= 0 ? "+" : "−"}₹${abs} Cr`;
+  };
+  const fiiColor = fii >= 0 ? "var(--green)" : "var(--red)";
+  const diiColor = dii >= 0 ? "var(--green)" : "var(--red)";
+
+  // Quadrant interpretation — deterministic, mirrors server-side phrasing
+  let interp;
+  if (fii >= 0 && dii >= 0) interp = "Both FII and DII net buyers — broad-based accumulation.";
+  else if (fii >= 0 && dii < 0) interp = "FII buying while DII selling — foreign-led tape.";
+  else if (fii < 0 && dii >= 0) interp = "DII absorbing FII outflows — domestic conviction holding.";
+  else interp = "Distribution day — FII and DII both net sellers. Caution warranted.";
+
+  return `
+    <div style="margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">Institutional Flows · Cash Market</div>
+        <div style="font-size:10px;color:var(--text-muted);">NSE provisional · ${escapeHtml(date)}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="card">
+          <div class="card-title">FII / FPI Net</div>
+          <div class="card-value" style="color:${fiiColor};">${fmtCr(fii)}</div>
+          <div class="card-sub">Buy ₹${Number(fiiDii?.fii?.buyValue ?? 0).toLocaleString("en-IN", { maximumFractionDigits: 0 })} Cr · Sell ₹${Number(fiiDii?.fii?.sellValue ?? 0).toLocaleString("en-IN", { maximumFractionDigits: 0 })} Cr</div>
+        </div>
+        <div class="card">
+          <div class="card-title">DII Net</div>
+          <div class="card-value" style="color:${diiColor};">${fmtCr(dii)}</div>
+          <div class="card-sub">Buy ₹${Number(fiiDii?.dii?.buyValue ?? 0).toLocaleString("en-IN", { maximumFractionDigits: 0 })} Cr · Sell ₹${Number(fiiDii?.dii?.sellValue ?? 0).toLocaleString("en-IN", { maximumFractionDigits: 0 })} Cr</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid var(--border);font-size:13px;color:var(--text-secondary);">${escapeHtml(interp)}</div>
+      ${renderFiiDiiSparkline(fiiDii?.history)}
+    </div>
+  `;
+}
+
+// ── FII / DII rolling sparkline (last N sessions, dual-line bipolar) ──
+// `history` is newest-first array of {date, fii, dii}. Each value is net
+// ₹Cr (signed). We reverse for a left→right time axis and plot two
+// polylines centred on a zero baseline so positive/negative flows are
+// visually obvious.
+function renderFiiDiiSparkline(history) {
+  if (!Array.isArray(history) || history.length < 2) {
+    return `
+      <div style="margin-top:14px;padding:10px 14px;border-radius:8px;border:1px dashed var(--border);font-size:11px;color:var(--text-muted);text-align:center;">
+        5-session sparkline builds as new sessions are recorded · ${Array.isArray(history) ? history.length : 0} session${history?.length === 1 ? "" : "s"} captured so far
+      </div>`;
+  }
+
+  // Reverse to chronological order (oldest first → today last on right edge)
+  const points = history.slice(0, 10).reverse();
+  const fiiVals = points.map((p) => Number(p.fii ?? 0));
+  const diiVals = points.map((p) => Number(p.dii ?? 0));
+  const maxAbs = Math.max(
+    1,
+    ...fiiVals.map((v) => Math.abs(v)),
+    ...diiVals.map((v) => Math.abs(v))
+  );
+
+  const W = 600;
+  const H = 80;
+  const padX = 4;
+  const innerW = W - padX * 2;
+  const midY = H / 2;
+  const usableH = (H - 8) / 2; // leave 4px padding top/bottom
+
+  const xFor = (i) => padX + (points.length === 1 ? innerW / 2 : (i / (points.length - 1)) * innerW);
+  const yFor = (v) => midY - (v / maxAbs) * usableH;
+
+  const fiiPoly = fiiVals.map((v, i) => `${xFor(i).toFixed(1)},${yFor(v).toFixed(1)}`).join(" ");
+  const diiPoly = diiVals.map((v, i) => `${xFor(i).toFixed(1)},${yFor(v).toFixed(1)}`).join(" ");
+
+  const fiiLast = fiiVals[fiiVals.length - 1];
+  const diiLast = diiVals[diiVals.length - 1];
+  const fmtCompact = (v) => {
+    if (!Number.isFinite(v)) return "—";
+    const abs = Math.abs(v);
+    const sign = v >= 0 ? "+" : "−";
+    if (abs >= 1000) return `${sign}₹${(abs / 1000).toFixed(1)}K Cr`;
+    return `${sign}₹${abs.toFixed(0)} Cr`;
+  };
+
+  // Dot at the right edge (today) for each series
+  const fiiDot = `<circle cx="${xFor(points.length - 1).toFixed(1)}" cy="${yFor(fiiLast).toFixed(1)}" r="3" fill="var(--red)" />`;
+  const diiDot = `<circle cx="${xFor(points.length - 1).toFixed(1)}" cy="${yFor(diiLast).toFixed(1)}" r="3" fill="var(--green)" />`;
+
+  const firstDate = points[0]?.date || "";
+  const lastDate = points[points.length - 1]?.date || "";
+
+  return `
+    <div style="margin-top:14px;padding:12px 14px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,0.02);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">
+        <span>${points.length}-session trend</span>
+        <span style="display:flex;gap:14px;font-weight:600;text-transform:none;letter-spacing:0;">
+          <span style="color:var(--red);">&#9679; FII ${fmtCompact(fiiLast)}</span>
+          <span style="color:var(--green);">&#9679; DII ${fmtCompact(diiLast)}</span>
+        </span>
+      </div>
+      <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px;" preserveAspectRatio="none">
+        <line x1="0" y1="${midY}" x2="${W}" y2="${midY}" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 4" />
+        <polyline points="${fiiPoly}" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-linejoin="round" />
+        <polyline points="${diiPoly}" fill="none" stroke="var(--green)" stroke-width="1.6" stroke-linejoin="round" />
+        ${fiiDot}
+        ${diiDot}
+      </svg>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-top:6px;">
+        <span>${escapeHtml(firstDate)}</span>
+        <span>${escapeHtml(lastDate)}</span>
+      </div>
+    </div>
+  `;
+}
+
+// ── Sector heatmap (19 sectors, ranked by avgChange) ──
+function renderSectorHeatmap(heatmap) {
+  if (!heatmap || !Array.isArray(heatmap.sectors) || heatmap.sectors.length === 0) {
+    return `
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-title">Sector Heatmap</div>
+        <div class="card-sub">Sector data unavailable. First fetch warms cache (~4s).</div>
+      </div>`;
+  }
+
+  // Already sorted desc by avgChange server-side
+  const rows = heatmap.sectors.map((s) => {
+    const chg = Number(s.avgChange ?? 0);
+    const intensity = Math.min(Math.abs(chg) / 2.5, 1); // cap at 2.5% for full intensity
+    const bg = chg > 0
+      ? `rgba(52,211,153,${0.05 + intensity * 0.18})`
+      : chg < 0
+        ? `rgba(248,113,113,${0.05 + intensity * 0.18})`
+        : "rgba(255,255,255,0.02)";
+    const chgColor = chg > 0 ? "var(--green)" : chg < 0 ? "var(--red)" : "var(--text-muted)";
+    const arrow = chg > 0 ? "&#9650;" : chg < 0 ? "&#9660;" : "&#9679;";
+    const tg = s.topGainer;
+    const tl = s.topLoser;
+    const tgChip = tg ? `<span style="font-size:10px;color:var(--green);">${escapeHtml(tg.symbol?.replace(".NS","") || "")} ${tg.change >= 0 ? "+" : ""}${Number(tg.change).toFixed(1)}%</span>` : "";
+    const tlChip = tl ? `<span style="font-size:10px;color:var(--red);">${escapeHtml(tl.symbol?.replace(".NS","") || "")} ${Number(tl.change).toFixed(1)}%</span>` : "";
+
+    return `
+      <div style="display:grid;grid-template-columns:1.4fr auto auto 1fr 1fr;gap:12px;align-items:center;padding:10px 14px;border-radius:8px;background:${bg};border:1px solid var(--border);">
+        <div style="font-size:13px;font-weight:600;color:var(--text-primary);">${escapeHtml(s.sector || "Unknown")}</div>
+        <div style="font-size:13px;font-weight:700;font-family:'JetBrains Mono',monospace;color:${chgColor};text-align:right;">${arrow} ${chg >= 0 ? "+" : ""}${chg.toFixed(2)}%</div>
+        <div style="font-size:10px;color:var(--text-muted);"><span style="color:var(--green);">${s.winners ?? 0}</span>/<span style="color:var(--red);">${s.losers ?? 0}</span></div>
+        <div style="text-align:right;">${tgChip}</div>
+        <div style="text-align:right;">${tlChip}</div>
+      </div>`;
+  }).join("");
+
+  return `
+    <div style="margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">Sector Heatmap · ${heatmap.sectors.length} sectors · Nifty 100 universe</div>
+        <div style="font-size:10px;color:var(--text-muted);">Sorted by avg % change</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        ${rows}
+      </div>
+    </div>
+  `;
+}
+
+// ── Compliance footer (mandatory per IA Reg 2013 / RA Reg 2014) ──
+function renderComplianceFooter(compliance) {
+  const regNo = compliance?.regNo || "Pending registration";
+  const sources = Array.isArray(compliance?.sources) && compliance.sources.length
+    ? compliance.sources
+    : ["NSE", "RBI", "SEBI", "Economic Times", "LiveMint", "Google News India"];
+  return `
+    <div class="card" style="margin-top:32px;font-size:11px;color:var(--text-muted);line-height:1.6;">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:8px;">Disclosures &amp; Sources</div>
+      <div style="margin-bottom:8px;">Data sources: ${sources.map((s) => escapeHtml(s)).join(" · ")}.</div>
+      <div style="margin-bottom:8px;">This page presents general market commentary derived from publicly available NSE provisional data, RBI/SEBI public sources, and aggregated headlines. Indicative levels only. <strong>This is not investment advice.</strong> Past performance is not indicative of future results.</div>
+      <div>SEBI Reg No: <span style="font-family:'JetBrains Mono',monospace;color:var(--text-secondary);">${escapeHtml(regNo)}</span></div>
+    </div>
+  `;
 }
 
 function renderNewsHeadlineCard(a) {
@@ -4477,6 +4959,59 @@ function resetAnalyzer() {
   if (input) input.value = "";
 }
 
+// Persist a `savable` block (returned by /api/portfolio/analyze) as the
+// canonical portfolio. Surfaces inline status under the analyzer's
+// "Save as my portfolio" checkbox so the user sees confirmation without a
+// modal / toast. Caller decides whether to fire — checkbox state is
+// inspected at the call site, not here.
+async function saveAnalyzedPortfolio(savable) {
+  const statusEl = document.getElementById("analyzerSaveStatus");
+  const setStatus = (msg, kind) => {
+    if (!statusEl) return;
+    statusEl.textContent = msg;
+    statusEl.style.display = "block";
+    if (kind === "ok") {
+      statusEl.style.background = "rgba(52,211,153,0.1)";
+      statusEl.style.border = "1px solid rgba(52,211,153,0.3)";
+      statusEl.style.color = "#86efac";
+    } else if (kind === "err") {
+      statusEl.style.background = "rgba(239,68,68,0.1)";
+      statusEl.style.border = "1px solid rgba(239,68,68,0.3)";
+      statusEl.style.color = "#fca5a5";
+    } else {
+      statusEl.style.background = "rgba(255,255,255,0.04)";
+      statusEl.style.border = "1px solid #2a3349";
+      statusEl.style.color = "var(--text-muted)";
+    }
+  };
+
+  setStatus("Saving as portfolio…", "info");
+  try {
+    // Only include mutualFunds in the body when the upload itself contained
+    // MF rows — the server preserves saved MFs when the field is omitted.
+    const body = { stocks: savable.stocks || [] };
+    if (Array.isArray(savable.mutualFunds)) body.mutualFunds = savable.mutualFunds;
+    const res = await fetch("/api/portfolio", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) {
+      throw new Error(data.error || `HTTP ${res.status}`);
+    }
+    setStatus(
+      `Saved ✓ ${data.stockCount} stock${data.stockCount === 1 ? "" : "s"}` +
+      (data.mfCount ? ` · ${data.mfCount} MF${data.mfCount === 1 ? "" : "s"}` : "") +
+      ". Market Intelligence sliver will pick this up on next refresh.",
+      "ok"
+    );
+  } catch (err) {
+    setStatus(`Save failed: ${err.message}. Your analysis is still here — try the checkbox again or use the import script.`, "err");
+    throw err;
+  }
+}
+
 async function analyzePortfolioFile(file) {
   const errEl = document.getElementById("analyzerUploadError");
   errEl.style.display = "none";
@@ -4517,6 +5052,14 @@ async function analyzePortfolioFile(file) {
       renderAnalyzerReport(data.report, data.elapsedMs);
     }
     setAnalyzerState("report");
+
+    // "Save as my portfolio" — if ticked, persist the parsed upload via
+    // POST /api/portfolio. This is fire-after-render so a failed save never
+    // hides the analysis the user is already looking at.
+    const saveToggle = document.getElementById("analyzerSaveAsPortfolio");
+    if (saveToggle && saveToggle.checked && data.savable) {
+      saveAnalyzedPortfolio(data.savable).catch(() => { /* status surfaces inline */ });
+    }
   } catch (err) {
     setAnalyzerState("upload");
     errEl.textContent = err.message;
