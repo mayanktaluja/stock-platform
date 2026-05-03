@@ -29,7 +29,8 @@ import { isV1Only, isV2Primary, getRecommenderMode } from "./swsRecommenderMode.
 import { findPeerSubstitutes } from "./swsPeerLayer.js";
 import { buildFallbackHolding } from "./swsCoverageFallback.js";
 import { buildAuditTrail } from "./swsAuditTrail.js";
-import { promoteToLadderV2 } from "./actionLadder.js";
+import { promoteToLadderV2, parseTrimPct } from "./actionLadder.js";
+import { computeTaxScenarios, inferAssetClass } from "../taxEngine.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEEP_DIR = path.resolve(__dirname, "..", "data", "sws", "deep");
@@ -494,6 +495,33 @@ export function scoreHolding(holding, portfolioContext = {}) {
     finalReasons = [...ladderRationale, ...finalReasons];
   }
 
+  // ─── Tax scenarios for trim / exit actions ───────────────────────
+  // Compute realised-tax cost for each ladder rung (25/33/50/66/100%)
+  // so the UI can show "if you trim X% you keep ₹Y net, ₹Z LTCG/STCG
+  // tax". Skips top-ups + HOLD (no realisation event). Skips when
+  // current value ≤ 0 (deeply broken position with no proceeds to model).
+  // fyContext is supplied by the caller via portfolioContext to share
+  // the LTCG-budget remaining across every holding in the same request.
+  let taxScenarios = null;
+  const isTrimOrExit = parseTrimPct(promotedAction) > 0;
+  const investedAmt = num(holding.invested ?? (holding.avgPrice * holding.quantity), 0);
+  const currentAmt = num(holding.currentValue ?? (ov.current_price_inr * holding.quantity), 0);
+  if (isTrimOrExit && investedAmt > 0 && currentAmt > 0) {
+    try {
+      taxScenarios = computeTaxScenarios({
+        investedRupees: investedAmt,
+        currentValueRupees: currentAmt,
+        purchaseDate: holding.purchaseDate || null,
+        assetClass: inferAssetClass(holding),
+        fyContext: portfolioContext.fyContext || null,
+        today: portfolioContext.today || undefined,
+        taxSlabPct: portfolioContext.taxSlabPct,
+      });
+    } catch (err) {
+      console.warn(`[swsHoldingEngine] taxScenarios failed for ${scored.ticker}: ${err.message}`);
+    }
+  }
+
   return {
     ...holding,
     swsCovered: true,
@@ -551,6 +579,10 @@ export function scoreHolding(holding, portfolioContext = {}) {
     ladderRationale,
     ladderV2,
     convictionProxy,
+    // Per-rung tax scenarios (₹ realised, gain, tax, net, LTCG/STCG regime)
+    // for the four trim percentages + full exit. Null on HOLD / top-up
+    // actions (no realisation event), or when invested/current value is 0.
+    taxScenarios,
     reasons: finalReasons,
     timing,
     audit: buildAuditTrail({

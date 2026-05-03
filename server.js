@@ -77,6 +77,7 @@ import {
 import { parsePortfolioFile, resolveUnmatchedLive } from "./portfolioParser.js";
 import { analyzeHolding, buildReport } from "./portfolioAnalyzer.js";
 import { scoreHolding as swsScoreHolding } from "./services/swsHoldingEngine.js";
+import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
 import { buildSWSReport } from "./services/swsPortfolioAggregate.js";
 import {
   computeCombinedScore,
@@ -6430,6 +6431,16 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
         return { ...h, quantity: qty, avgPrice: avg, invested: qty * avg };
       });
 
+      // FY tax context — single source of truth for the LTCG-budget the
+      // user has remaining for this financial year. Built once per
+      // /analyze call, shared across every holding's tax scenarios so
+      // the exemption math is consistent (each holding sees the SAME
+      // remaining budget — they don't all "consume" it independently).
+      // PR-3 brings the intake gate that asks the user for ltcgRealisedYtd;
+      // until then the request body / query carries the value with a
+      // 0 default (full exemption available).
+      const fyContext = swsBuildFyContext(new Date(), Number.isFinite(ltcgRealisedYtdRupees) ? ltcgRealisedYtdRupees : 0, 0);
+
       // First pass: pull SWS price + sector for every holding so we can
       // compute portfolio-wide weights before action mapping. Second pass
       // below re-runs scoring with the real position/sector weights so
@@ -6483,7 +6494,10 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
         const pnlPercent = row.invested > 0 ? ((row.currentValue - row.invested) / row.invested) * 100 : 0;
         const rescored = swsScoreHolding(
           { ...row, positionWeight, sectorWeight, pnlPercent },
-          { sectorWeights },
+          // fyContext flows through to scoreHolding's taxScenarios block.
+          // taxSlabPct uses the request-time slab (default 30%) so debt
+          // instruments get accurate slab-based math.
+          { sectorWeights, fyContext, taxSlabPct: optTaxSlabPct },
         );
         return {
           ...rescored,

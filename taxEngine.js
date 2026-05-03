@@ -321,6 +321,69 @@ export function suggestFyAwareSplit(input) {
   };
 }
 
+// ──────────────────── Ladder-rung tax scenarios ────────────────────
+
+/**
+ * Compute realised-tax scenarios for a set of trim percentages so the UI
+ * can show "if I trim 25% I keep ₹X net, vs 50% keeps ₹Y" side-by-side.
+ *
+ * Reuses computeExitTax for each rung — same Budget-2024 rates, same FY
+ * exemption accounting, same regime classification (LTCG / STCG / loss /
+ * slab). Returned shape is normalised + rounded so the UI can render
+ * without per-row math.
+ *
+ * @param {object} input
+ * @param {number} input.investedRupees
+ * @param {number} input.currentValueRupees
+ * @param {string} input.purchaseDate - ISO date
+ * @param {string} input.assetClass    - "equity" / "equity_mf" / "etf" / etc
+ * @param {object} [input.fyContext]   - from buildFyContext()
+ * @param {Date|string} [input.today]
+ * @param {number} [input.taxSlabPct]  - for debt instruments
+ * @param {number[]} [input.rungs]     - default [25, 33, 50, 66, 100]
+ * @returns {Array<{
+ *   trimPct, grossProceedsRupees, gainRupees, taxRupees, taxPctOfGain,
+ *   netProceedsRupees, regime, daysHeld, isLongTerm, exemptionUsedRupees,
+ *   exemptionRemainingRupees, lockInBreach, notes
+ * }>}
+ */
+export function computeTaxScenarios(input) {
+  const rungs = Array.isArray(input.rungs) && input.rungs.length > 0
+    ? input.rungs
+    : [25, 33, 50, 66, 100];
+
+  return rungs.map((pct) => {
+    const t = computeExitTax({
+      investedRupees: input.investedRupees,
+      currentValueRupees: input.currentValueRupees,
+      exitFractionPct: pct,
+      purchaseDate: input.purchaseDate,
+      assetClass: input.assetClass || "equity",
+      fyContext: input.fyContext,
+      today: input.today,
+      taxSlabPct: input.taxSlabPct,
+    });
+    const taxPctOfGain = t.gainRupees > 0
+      ? +((t.taxCostRupees / t.gainRupees) * 100).toFixed(1)
+      : 0;
+    return {
+      trimPct: pct,
+      grossProceedsRupees: Math.round(t.grossProceedsRupees),
+      gainRupees: Math.round(t.gainRupees),
+      taxRupees: Math.round(t.taxCostRupees),
+      taxPctOfGain,
+      netProceedsRupees: Math.round(t.netProceedsRupees),
+      regime: t.regime,
+      daysHeld: t.daysHeld,
+      isLongTerm: t.isLongTerm,
+      exemptionUsedRupees: Math.round(t.exemptionUsedRupees || 0),
+      exemptionRemainingRupees: Math.round(t.exemptionRemainingRupees || 0),
+      lockInBreach: !!t.lockInBreach,
+      notes: t.notes || [],
+    };
+  });
+}
+
 // ──────────────────── Asset-class inference ────────────────────
 
 /**

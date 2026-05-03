@@ -5185,7 +5185,7 @@ function swsHoldingRow(h) {
   const pnlPct = h.pnlPercent;
   return `<tr style="border-top:1px solid #2a3349; cursor:pointer;" onclick="openStockDetailModal('${tk}','mf-overlap')">
     <td style="padding:10px 12px;">
-      <div style="font-weight:600;">${tk}</div>
+      <div style="font-weight:600;">${tk} ${swsSurveillanceChip(sws.surveillance)}</div>
       <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(name)}${sws.sector ? " · " + swsEscapeAttr(sws.sector) : ""}</div>
     </td>
     <td style="padding:10px 12px;">${swsActionBadge(h.action)}</td>
@@ -5204,15 +5204,305 @@ function swsHoldingRow(h) {
   </tr>`;
 }
 
+// Conviction colors for the v2 conviction engine — used by both the
+// row dot and the expanded card badge. HIGH/LOW edges are green/red,
+// MEDIUM is muted; MEDIUM-HIGH/MEDIUM-LOW lean toward their endpoints.
+const SWS_CONVICTION_COLORS = {
+  HIGH:          { bg: "rgba(34,197,94,0.18)",   border: "rgba(34,197,94,0.6)",   text: "#86efac" },
+  "MEDIUM-HIGH": { bg: "rgba(34,197,94,0.10)",   border: "rgba(34,197,94,0.4)",   text: "#86efac" },
+  MEDIUM:        { bg: "rgba(148,163,184,0.10)", border: "rgba(148,163,184,0.4)", text: "#cbd5e1" },
+  "MEDIUM-LOW":  { bg: "rgba(250,204,21,0.10)",  border: "rgba(250,204,21,0.4)",  text: "#fde047" },
+  LOW:           { bg: "rgba(239,68,68,0.10)",   border: "rgba(239,68,68,0.4)",   text: "#fca5a5" },
+};
+
+// Conviction badge with net layer delta. Pulls from v2_recommendation
+// when present, falls back to convictionProxy from the ladder promotion.
+function swsConvictionBadge(rec, fallbackProxy) {
+  const conviction = rec?.conviction || fallbackProxy || null;
+  if (!conviction) return "";
+  const c = SWS_CONVICTION_COLORS[conviction] || SWS_CONVICTION_COLORS.MEDIUM;
+  const layerCount = rec?.net_delta != null
+    ? `Δ${rec.net_delta > 0 ? "+" : ""}${rec.net_delta}`
+    : "";
+  return `<span title="Net layer delta from cross-check + catalyst + India-risk votes" style="display:inline-block; padding:2px 7px; border-radius:4px; background:${c.bg}; border:1px solid ${c.border}; color:${c.text}; font-size:10px; font-weight:700; letter-spacing:0.3px;">${conviction}${layerCount ? " · " + layerCount : ""}</span>`;
+}
+
+// Per-layer vote arrows — quick scan of which independent layers
+// confirmed/dissented from the SWS-band action.
+function swsLayerVoteIcons(rec) {
+  if (!rec || !rec.layer_votes) return "";
+  const icon = (v) => v > 0 ? "↑" : v < 0 ? "↓" : "→";
+  const color = (v) => v > 0 ? "#86efac" : v < 0 ? "#fca5a5" : "#94a3b8";
+  const layers = [
+    { k: "Cross-check", v: rec.layer_votes.crosscheck },
+    { k: "Catalyst",    v: rec.layer_votes.catalyst },
+    { k: "India-risk",  v: rec.layer_votes.indianRisk },
+  ];
+  return `<div style="margin:8px 0 0 0; display:inline-flex; gap:10px; font-size:11px;">
+    ${layers.map((l) => `<span title="${l.k} layer vote" style="color:${color(l.v)};">${l.k} ${icon(l.v)}</span>`).join("")}
+  </div>`;
+}
+
+// 3-paragraph analyst-style narrative from swsReasonNarrator. Renders
+// **bold** markdown inline + bullet glyphs on their own line.
+function swsNarrativeBlock(rec) {
+  if (!rec || !Array.isArray(rec.narrative_paragraphs)) return "";
+  return rec.narrative_paragraphs.map((p, i) => {
+    const html = swsEscapeAttr(p)
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      .replace(/(•[^•\n]+)/g, '<div style="margin-top:4px;">$1</div>');
+    return `<p style="margin:${i === 0 ? "10px" : "12px"} 0 0 0; font-size:12px; line-height:1.55; color:var(--text);">${html}</p>`;
+  }).join("");
+}
+
+// Peer-rotation chip — clickable, opens stock detail modal for the peer.
+// Uses the top_peer field from peer_substitute.
+function swsTopPeerChip(holding) {
+  const peer = holding?.sws?.peer_substitute;
+  if (!peer || !peer.top_peer) return "";
+  const top = peer.top_peer;
+  const tk = swsEscapeAttr(top.ticker);
+  const why = swsEscapeAttr(top.why || "");
+  return `<div style="margin-top:8px; padding:6px 10px; background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.25); border-radius:5px; font-size:11px; cursor:pointer;" onclick="openStockDetailModal('${tk}','peer-rotation')" title="Same-sector peer with higher v3 — consider as rotation candidate">
+    <strong style="color:#93c5fd;">↻ Peer: ${tk}</strong> <span style="color:var(--text-muted);">— ${why}</span>
+  </div>`;
+}
+
+// Surveillance chip — red for GSM (severe), amber for ASM (lighter).
+// Pure rendering helper consumed by both the table row and the expanded
+// reason panel.
+function swsSurveillanceChip(surv) {
+  if (!surv || !surv.list) return "";
+  const isGsm = surv.list === "GSM";
+  const bg = isGsm ? "rgba(220,38,38,0.18)" : "rgba(234,88,12,0.16)";
+  const border = isGsm ? "rgba(220,38,38,0.5)" : "rgba(234,88,12,0.5)";
+  const color = isGsm ? "#fca5a5" : "#fdba74";
+  const label = `${surv.list}${surv.stage ? `-${surv.stage}` : ""}${surv.timeframe ? ` · ${surv.timeframe}` : ""}`;
+  const tooltip = isGsm
+    ? "NSE Graded Surveillance Measure — regulatory caution / restricted trading"
+    : "NSE Additional Surveillance Measure — heightened monitoring";
+  return `<span title="${swsEscapeAttr(tooltip)}" style="display:inline-block; padding:2px 8px; border-radius:4px; background:${bg}; border:1px solid ${border}; color:${color}; font-size:10px; font-weight:700; letter-spacing:0.4px; vertical-align:middle;">⚠ ${label}</span>`;
+}
+
+// Larger snowflake hex display for the expanded card. Each axis is
+// labeled, scored 0-6, and tinted by score so the strong/weak axes are
+// visually obvious.
+function swsSnowflakeFull(snow) {
+  if (!snow) return "";
+  const axes = [
+    { k: "Valuation",      v: snow.valuation },
+    { k: "Future Growth",  v: snow.future_growth },
+    { k: "Past Perf.",     v: snow.past_performance },
+    { k: "Health",         v: snow.financial_health },
+    { k: "Dividends",      v: snow.dividends },
+  ];
+  return `<div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:6px;">
+    ${axes.map((a) => {
+      const score = a.v ?? 0;
+      const intensity = score / 6;
+      const bg = `rgba(59,130,246,${0.08 + intensity * 0.18})`;
+      const border = `rgba(59,130,246,${0.2 + intensity * 0.35})`;
+      const color = score >= 4 ? "#bfdbfe" : score >= 2 ? "#93c5fd" : "#64748b";
+      return `<div style="background:${bg}; border:1px solid ${border}; border-radius:6px; padding:8px 6px; text-align:center;">
+        <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:2px;">${a.k}</div>
+        <div style="font-size:18px; font-weight:700; color:${color}; line-height:1.1;">${a.v ?? "—"}<span style="font-size:10px; color:var(--text-muted); font-weight:500;">/6</span></div>
+      </div>`;
+    }).join("")}
+  </div>
+  <div style="text-align:center; margin-top:6px; font-size:11px; color:var(--text-muted);">Snowflake total <strong style="color:#93c5fd;">${snow.total ?? "—"}/30</strong></div>`;
+}
+
+// Tax-scenarios table: shows the four ladder rungs side-by-side with
+// gross proceeds, gain, tax cost, net keep, and regime. Highlights the
+// rung that matches the recommended action so the user can see the
+// "this is the engine's call" alongside the alternatives.
+function swsTaxScenariosTable(taxScenarios, currentAction) {
+  if (!Array.isArray(taxScenarios) || taxScenarios.length === 0) return "";
+  // Map action label → rung %. The ladder uses 25/33/50/66/100; legacy
+  // labels approximate to the closest standard rung.
+  const rungOfAction = {
+    "Reduction-25%": 25, "Reduction-25-33%": 33, "Reduction-33%": 33,
+    "Reduction-50%": 50, "Reduction-66%": 66,
+    "EXIT-staged": 50, "EXIT-now": 100, "EXIT": 100,
+  };
+  const recommendedRung = rungOfAction[currentAction] ?? null;
+  const regimeBadge = (regime) => {
+    if (regime === "ltcg") return `<span style="font-size:9px; padding:1px 5px; background:rgba(34,197,94,0.10); color:#86efac; border-radius:3px; letter-spacing:0.3px;">LTCG 12.5%</span>`;
+    if (regime === "stcg") return `<span style="font-size:9px; padding:1px 5px; background:rgba(250,204,21,0.10); color:#fde047; border-radius:3px; letter-spacing:0.3px;">STCG 20%</span>`;
+    if (regime === "loss") return `<span style="font-size:9px; padding:1px 5px; background:rgba(107,114,128,0.10); color:#9ca3af; border-radius:3px; letter-spacing:0.3px;">LOSS · carry-fwd</span>`;
+    if (regime?.startsWith("slab_")) return `<span style="font-size:9px; padding:1px 5px; background:rgba(239,68,68,0.10); color:#fca5a5; border-radius:3px; letter-spacing:0.3px;">SLAB ${regime.replace("slab_", "")}%</span>`;
+    return `<span style="font-size:9px; color:var(--text-muted);">—</span>`;
+  };
+  const rows = taxScenarios.map((sc) => {
+    const isRec = recommendedRung === sc.trimPct;
+    return `<tr style="${isRec ? "background:rgba(250,204,21,0.06);" : ""}">
+      <td style="padding:6px 10px; font-weight:${isRec ? 700 : 500}; color:${isRec ? "#fde047" : "var(--text)"};">
+        ${sc.trimPct}%${isRec ? ' <span style="font-size:9px; color:#fde047;">← engine pick</span>' : ""}
+      </td>
+      <td style="padding:6px 10px; text-align:right;">${inr(sc.grossProceedsRupees)}</td>
+      <td style="padding:6px 10px; text-align:right; color:${sc.gainRupees >= 0 ? '#86efac' : '#f87171'};">${sc.gainRupees >= 0 ? "+" : ""}${inr(sc.gainRupees)}</td>
+      <td style="padding:6px 10px; text-align:right;">${sc.taxRupees > 0 ? inr(sc.taxRupees) : "—"}</td>
+      <td style="padding:6px 10px; text-align:right; font-weight:600;">${inr(sc.netProceedsRupees)}</td>
+      <td style="padding:6px 10px;">${regimeBadge(sc.regime)}</td>
+    </tr>`;
+  }).join("");
+  // Holding-period note from any scenario (they all share the same purchase date)
+  const sample = taxScenarios[0] || {};
+  const periodNote = sample.daysHeld != null
+    ? `${sample.daysHeld} days held · ${sample.isLongTerm ? "long-term (LTCG)" : "short-term (STCG)"}`
+    : "purchase date unknown — STCG assumed";
+  return `<div style="margin-top:10px;">
+    <div style="font-size:11px; font-weight:700; color:#fde047; margin-bottom:6px; letter-spacing:0.4px; text-transform:uppercase;">Tax scenarios per ladder rung <span style="font-weight:500; color:var(--text-muted); text-transform:none; letter-spacing:0;">· ${periodNote}</span></div>
+    <table style="width:100%; border-collapse:collapse; font-size:11px;">
+      <thead>
+        <tr style="font-size:9px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); border-bottom:1px solid #1f2937;">
+          <th style="padding:6px 10px; text-align:left;">Trim</th>
+          <th style="padding:6px 10px; text-align:right;">Gross ₹</th>
+          <th style="padding:6px 10px; text-align:right;">Gain ₹</th>
+          <th style="padding:6px 10px; text-align:right;">Tax ₹</th>
+          <th style="padding:6px 10px; text-align:right;">Net keep</th>
+          <th style="padding:6px 10px;">Regime</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+}
+
+// Counter-thesis card. Pulled from v2_recommendation.counter_thesis. The
+// falsification trigger (what would prove this thesis wrong) is rendered
+// alongside per the SEBI-RA "what would change my mind" pattern.
+function swsCounterThesisCard(v2rec) {
+  if (!v2rec || !v2rec.counter_thesis) return "";
+  const ft = v2rec.falsification_trigger;
+  return `<div style="margin-top:10px; padding:8px 10px; background:rgba(168,85,247,0.06); border:1px solid rgba(168,85,247,0.18); border-radius:5px; font-size:11px;">
+    <div style="font-weight:700; color:#c4b5fd; margin-bottom:4px; letter-spacing:0.3px;">Counter-thesis</div>
+    <div style="line-height:1.5; color:var(--text);">${swsEscapeAttr(v2rec.counter_thesis)}</div>
+    ${ft ? `<div style="margin-top:6px; padding-top:6px; border-top:1px dashed rgba(168,85,247,0.2); color:var(--text-muted); font-style:italic;"><strong style="color:#c4b5fd; font-style:normal;">Falsification trigger:</strong> ${swsEscapeAttr(ft)}</div>` : ""}
+  </div>`;
+}
+
+// Catalyst calendar — renders pending earnings + analyst PT actions +
+// insider buys as a stacked list. Empty state is handled by the caller.
+function swsCatalystCalendar(catalyst) {
+  if (!catalyst || !catalyst.available) return "";
+  const items = [];
+  if (catalyst.next_earnings_days != null && catalyst.next_earnings_days >= 0) {
+    items.push(`<div>📅 Earnings in <strong>${catalyst.next_earnings_days}d</strong></div>`);
+  }
+  if (Array.isArray(catalyst.recent_pt_actions) && catalyst.recent_pt_actions.length > 0) {
+    items.push(`<div>📊 ${catalyst.recent_pt_actions.length} recent analyst PT action(s)</div>`);
+  }
+  if (catalyst.insider_buys_count > 0) {
+    items.push(`<div>🟢 ${catalyst.insider_buys_count} insider buy(s)</div>`);
+  }
+  if (Array.isArray(catalyst.pending_catalysts) && catalyst.pending_catalysts.length > 0) {
+    for (const c of catalyst.pending_catalysts.slice(0, 3)) {
+      const urgencyDot = c.urgency === "high" ? "🔴" : c.urgency === "medium" ? "🟡" : "⚪";
+      items.push(`<div>${urgencyDot} ${swsEscapeAttr(c.text || c.kind || "")}</div>`);
+    }
+  }
+  if (items.length === 0) return "";
+  return `<div style="margin-top:10px; padding:8px 10px; background:rgba(59,130,246,0.05); border:1px solid rgba(59,130,246,0.15); border-radius:5px; font-size:11px;">
+    <div style="font-weight:700; color:#93c5fd; margin-bottom:4px; letter-spacing:0.3px;">Catalysts</div>
+    <div style="display:flex; flex-direction:column; gap:3px; line-height:1.5;">${items.join("")}</div>
+  </div>`;
+}
+
+// Peer-substitute card — shows up to 2 same-sector higher-v3 alternatives
+// with one-line "why this peer beats yours" reasoning.
+function swsPeerSubstitutes(peer) {
+  if (!peer || !peer.available || !Array.isArray(peer.peers) || peer.peers.length === 0) return "";
+  const peers = peer.peers.slice(0, 2);
+  return `<div style="margin-top:10px; padding:8px 10px; background:rgba(34,197,94,0.05); border:1px solid rgba(34,197,94,0.15); border-radius:5px; font-size:11px;">
+    <div style="font-weight:700; color:#86efac; margin-bottom:4px; letter-spacing:0.3px;">Peer substitutes (same sector, higher v3)</div>
+    <div style="display:flex; flex-direction:column; gap:4px;">
+      ${peers.map((p) => `<div>
+        <strong>${swsEscapeAttr(p.ticker)}</strong>
+        <span style="color:var(--text-muted);"> v3 ${p.v3_score ?? "—"}, snow ${p.snowflake_total ?? "—"}/30</span>
+        ${p.why ? `<div style="color:var(--text-muted); margin-top:2px; line-height:1.4;">${swsEscapeAttr(p.why)}</div>` : ""}
+      </div>`).join("")}
+    </div>
+  </div>`;
+}
+
+// Audit-trail nested details — decision path + citations + version refs
+// for SEBI-RA compliance reproducibility. Collapsed by default.
+function swsAuditTrailDetails(audit) {
+  if (!audit || !audit.decision_path) return "";
+  const versions = audit.versions || {};
+  const versionLine = Object.entries(versions).map(([k, v]) => `${k}=${v}`).join(" · ");
+  const citations = Array.isArray(audit.citations) ? audit.citations : [];
+  return `<details style="margin-top:10px; padding:8px 10px; background:rgba(0,0,0,0.2); border:1px solid #1f2937; border-radius:5px; font-size:11px;">
+    <summary style="cursor:pointer; font-weight:700; color:var(--text-muted); letter-spacing:0.3px;">Audit trail (decision reproducibility)</summary>
+    <div style="margin-top:6px;">
+      <div style="font-weight:700; color:var(--text-muted); margin-bottom:3px; font-size:10px; text-transform:uppercase; letter-spacing:0.4px;">Decision path</div>
+      <ol style="margin:0; padding-left:16px; line-height:1.5;">
+        ${(audit.decision_path || []).map((s) => `<li>${swsEscapeAttr(typeof s === "string" ? s : s.step || JSON.stringify(s))}</li>`).join("")}
+      </ol>
+      ${citations.length > 0 ? `<div style="margin-top:8px; color:var(--text-muted);"><strong style="color:var(--text);">Citations:</strong> ${citations.length} source(s)</div>` : ""}
+      ${versionLine ? `<div style="margin-top:6px; font-size:10px; color:var(--text-muted); font-family:monospace;">${swsEscapeAttr(versionLine)}</div>` : ""}
+    </div>
+  </details>`;
+}
+
 function swsReasonRow(h) {
   if (!h.reasons || h.reasons.length === 0) return "";
   const tk = h.sws?.ticker || h.symbol || "—";
-  return `<details style="margin-top:8px; background:rgba(255,255,255,0.02); border:1px solid #1f2937; border-radius:6px; padding:8px 12px;">
-    <summary style="cursor:pointer; font-size:12px; color:var(--text-muted);"><strong style="color:var(--text);">${tk}</strong> · why this action</summary>
-    <ul style="margin:8px 0 0 0; padding-left:20px; font-size:12px; line-height:1.6;">
-      ${h.reasons.map(r => `<li>${swsEscapeAttr(r)}</li>`).join("")}
-    </ul>
-    ${h.timing && h.timing.reason ? `<div style="margin-top:6px; font-size:11px; color:var(--text-muted); padding:6px 10px; background:rgba(0,0,0,0.2); border-radius:4px;"><strong>Timing:</strong> ${swsEscapeAttr(h.timing.reason)}</div>` : ""}
+  const sws = h.sws || {};
+  const rec = sws.v2_recommendation || null;
+  const ov = sws;
+  const fvLine = (ov.fair_value_inr != null && ov.current_price_inr != null)
+    ? `<div style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">
+        AnalystConsensus FV <strong style="color:var(--text);">₹${Number(ov.fair_value_inr).toFixed(0)}</strong> vs current
+        <strong style="color:var(--text);">₹${Number(ov.current_price_inr).toFixed(0)}</strong>
+        ${ov.upside_pct != null ? `<span style="color:${ov.upside_pct >= 0 ? '#86efac' : '#f87171'};"> · ${ov.upside_pct >= 0 ? '+' : ''}${ov.upside_pct.toFixed(1)}% to FV</span>` : ""}
+      </div>`
+    : "";
+
+  // Avoid duplicating narrative paragraphs in the bullet list. When the
+  // v2 conviction engine is active, h.reasons already CONTAINS the
+  // narrative paragraphs (set by swsHoldingEngine when v2-primary is on)
+  // and swsNarrativeBlock(rec) renders them in their own paragraph block.
+  // In that case, fall back to ladderRationale-only bullets, which give
+  // the user the rung-selection trace without repeating the narrative.
+  const hasV2Narrative = !!(rec && Array.isArray(rec.narrative_paragraphs) && rec.narrative_paragraphs.length > 0);
+  const bulletReasons = hasV2Narrative
+    ? (Array.isArray(h.ladderRationale) && h.ladderRationale.length > 0 ? h.ladderRationale : [])
+    : h.reasons;
+  const bulletList = bulletReasons.length > 0
+    ? `<ul style="margin:10px 0 0 0; padding-left:20px; font-size:12px; line-height:1.6;">
+        ${bulletReasons.map(r => `<li>${swsEscapeAttr(r)}</li>`).join("")}
+      </ul>`
+    : "";
+
+  return `<details style="margin-top:8px; background:rgba(255,255,255,0.02); border:1px solid #1f2937; border-radius:6px; padding:10px 14px;">
+    <summary style="cursor:pointer; font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+      <strong style="color:var(--text);">${tk}</strong>
+      <span>· why this action</span>
+      ${swsSurveillanceChip(sws.surveillance)}
+      ${swsConvictionBadge(rec, h.convictionProxy)}
+    </summary>
+    ${swsLayerVoteIcons(rec)}
+    ${swsNarrativeBlock(rec)}
+    <div style="margin-top:12px;">
+      ${fvLine}
+      ${swsSnowflakeFull(sws.snowflake)}
+    </div>
+    <div style="margin-top:12px; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px;">
+      <div>
+        ${bulletList}
+        ${h.timing && h.timing.reason ? `<div style="margin-top:8px; font-size:11px; color:var(--text-muted); padding:6px 10px; background:rgba(0,0,0,0.2); border-radius:4px;"><strong style="color:var(--text);">Timing:</strong> ${swsEscapeAttr(h.timing.reason)}</div>` : ""}
+      </div>
+      <div>
+        ${swsCounterThesisCard(rec)}
+        ${swsCatalystCalendar(sws.catalyst)}
+        ${swsTopPeerChip(h)}
+        ${swsPeerSubstitutes(sws.peer_substitute)}
+      </div>
+    </div>
+    ${swsTaxScenariosTable(h.taxScenarios, h.action)}
+    ${swsAuditTrailDetails(h.audit)}
   </details>`;
 }
 
