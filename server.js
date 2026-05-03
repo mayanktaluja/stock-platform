@@ -6218,9 +6218,16 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
     const optAssumedHoldingMonths = Number.parseInt(req.body.assumedHoldingMonths || req.query.assumedHoldingMonths || "24", 10);
     const ltcgRealisedYtdRupees = Number.parseFloat(req.body.ltcgRealisedYtd || req.query.ltcgRealisedYtd || "0");
     // Engine selector — "sws" routes to the SWS-first recommendation engine
-    // (data/sws/deep + Tier A/B/C/D action grid). Anything else falls through
-    // to the legacy Yahoo+OpenAI per-stock enrichment path.
-    const engine = String(req.body.engine || req.query.engine || "legacy").toLowerCase();
+    // (data/sws/deep + Tier A/B/C/D action grid + defensive/growth/core
+    // baskets + per-holding snowflake/conviction/counter-thesis/catalyst
+    // /surveillance layers). Anything else falls through to the legacy
+    // Yahoo+OpenAI per-stock enrichment path.
+    //
+    // Default flipped to "sws" as part of PR-1; ANALYZER_ENGINE_DEFAULT env
+    // var provides instant rollback ("legacy") without a code change. Per-
+    // request `?engine=legacy` still works for one-off comparisons.
+    const engineDefault = String(process.env.ANALYZER_ENGINE_DEFAULT || "sws").toLowerCase();
+    const engine = String(req.body.engine || req.query.engine || engineDefault).toLowerCase();
     const freshCapitalInr = Number.parseFloat(req.body.freshCapitalInr || req.query.freshCapitalInr || "0") || null;
 
     // Pull saved MF holdings + risk profile from the user's stored portfolio

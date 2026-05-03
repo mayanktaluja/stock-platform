@@ -8,6 +8,14 @@
       "port": 3005,
       "env": { "PORT": "3005" },
       "cwd": "/Users/mayanktaluja/Desktop/claude/stock-platform"
+    },
+    {
+      "name": "stockpulse-ladder-v2",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.js"],
+      "port": 3006,
+      "env": { "PORT": "3006", "SWS_LADDER_V2": "1", "ANALYZER_ENGINE_DEFAULT": "sws" },
+      "cwd": "/Users/mayanktaluja/Desktop/claude/stock-platform"
     }
   ]
 }

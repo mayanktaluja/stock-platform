@@ -16,6 +16,11 @@ import { fileURLToPath } from "node:url";
 import { num } from "./swsScoring.js";
 import { loadSWSDeep, pickSnowflake, scoreHolding, _reconcileFVUpside } from "./swsHoldingEngine.js";
 import { detectSectorWipeout } from "./swsPeerLayer.js";
+import {
+  ALL_REDUCTION_ACTIONS,
+  ALL_TOPUP_ACTIONS,
+  parseTrimPct,
+} from "./actionLadder.js";
 
 // Lazy macro-regime import — only used for basket tilt; failing import
 // degrades gracefully (no tilt applied).
@@ -44,15 +49,21 @@ function loadPicksLatest() {
   }
 }
 
-const REDUCTION_ACTIONS = new Set(["EXIT", "Reduction-50%", "Reduction-25-33%"]);
-const TOPUP_ACTIONS = new Set(["Top-up-modest", "Top-up", "STRONG Top-up"]);
+// Action sets from actionLadder cover both legacy (EXIT / Reduction-50% /
+// Reduction-25-33% / Top-up-modest / Top-up / STRONG Top-up) and ladder-v2
+// (EXIT-now / EXIT-staged / Reduction-66/50/33/25% / Top-up-25/33/50/100%)
+// labels. Aggregator behaviour stays identical for legacy callers; v2 labels
+// flow through naturally because parseTrimPct understands every rung.
+const REDUCTION_ACTIONS = ALL_REDUCTION_ACTIONS;
+const TOPUP_ACTIONS = ALL_TOPUP_ACTIONS;
 
 function _reductionRupees(holding) {
   const cv = num(holding.currentValue, 0);
-  if (holding.action === "EXIT") return cv;
-  if (holding.action === "Reduction-50%") return cv * 0.5;
-  if (holding.action === "Reduction-25-33%") return cv * 0.30;
-  return 0;
+  // parseTrimPct handles every label in the system: EXIT/EXIT-now → 1.0,
+  // EXIT-staged → 0.5 (only the today-half is realised), Reduction-* fixed
+  // tiers, plus the legacy Reduction-25-33% → 0.30 mapping kept for
+  // backward compat with v1 outputs.
+  return cv * parseTrimPct(holding.action);
 }
 
 function buildTiers(scoredHoldings) {

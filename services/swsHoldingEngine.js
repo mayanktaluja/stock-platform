@@ -29,6 +29,7 @@ import { isV1Only, isV2Primary, getRecommenderMode } from "./swsRecommenderMode.
 import { findPeerSubstitutes } from "./swsPeerLayer.js";
 import { buildFallbackHolding } from "./swsCoverageFallback.js";
 import { buildAuditTrail } from "./swsAuditTrail.js";
+import { promoteToLadderV2 } from "./actionLadder.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEEP_DIR = path.resolve(__dirname, "..", "data", "sws", "deep");
@@ -234,6 +235,11 @@ function evaluateHardOverrides({ scored, holding, snow, fiscal }) {
 // HINDCOPPER, INOXWIND on the sample) — the calibration tightens
 // without breaking the signal direction.
 function scoreBandAction({ v3, snow, upside, position_weight, sector_weight, risks_count }) {
+  // scoreBandAction always emits LEGACY labels. The ladder-v2 promotion
+  // runs as a post-stage on the FINAL action (after the conviction
+  // engine + position guardrails), in scoreHolding below — that's the
+  // only place where conviction proxy + the post-guardrail action are
+  // both known, so granular rung selection sees the full factor stack.
   if (v3 < 14) return { action: "EXIT", band: "AVOID" };
 
   if (v3 < 22) {
@@ -377,6 +383,8 @@ export function scoreHolding(holding, portfolioContext = {}) {
   const upside = num(reconciled.upside_pct, 0);
   const risks_count = scored.v2_breakdown?.risks_count ?? (ov.risks?.length || 0);
 
+  const surveillance = scored.v2_breakdown?.surveillance || null;
+
   const hard = evaluateHardOverrides({ scored, holding, snow, fiscal });
   let action, band, reasons;
   if (hard) {
@@ -454,6 +462,38 @@ export function scoreHolding(holding, portfolioContext = {}) {
     finalReasons = v2recommendation.narrative_paragraphs;
   }
 
+  // ─── Ladder-v2 final-stage promotion ─────────────────────────────
+  // SWS_LADDER_V2=1 promotes the legacy action label to a granular
+  // rung based on the full factor stack — conviction proxy (which now
+  // includes the v2 layer-vote signal indirectly via surveillance/risks),
+  // position weight, sector weight, upside, P&L drawdown. When the flag
+  // is off, promoteToLadderV2 returns the input unchanged. The legacy
+  // label is preserved on the output for consumers that don't read v2
+  // labels yet.
+  const promotion = promoteToLadderV2({
+    legacyAction: finalAction,
+    v3: num(scored.v3_score_100, 0),
+    snow_total: snow?.total ?? 0,
+    position_weight,
+    sector_weight,
+    upside,
+    risks_count,
+    surveillance: scored.v2_breakdown?.surveillance || null,
+    pnlPercent: num(holding.pnlPercent, 0),
+  });
+  const promotedAction = promotion.action;
+  const ladderRationale = promotion.ladderRationale;
+  const ladderV2 = promotion.ladderV2;
+  const convictionProxy = promotion.conviction;
+  const legacyAction = promotion.legacyAction;
+
+  // When the ladder fires, prepend its rationale to the engine's reasons
+  // so the UI can show the ladder logic (one bullet per step) ahead of
+  // the SWS engine's standard reason set.
+  if (ladderRationale && ladderRationale.length) {
+    finalReasons = [...ladderRationale, ...finalReasons];
+  }
+
   return {
     ...holding,
     swsCovered: true,
@@ -502,7 +542,15 @@ export function scoreHolding(holding, portfolioContext = {}) {
         heldTickers: portfolioContext?.heldTickers,
       }),
     },
-    action: finalAction,
+    // Promoted action — when SWS_LADDER_V2=1 this is the granular rung
+    // (EXIT-now / EXIT-staged / Reduction-66/50/33/25% / Top-up-25/33/50/100%);
+    // when off it's the legacy label. legacyAction always carries the
+    // legacy equivalent so older consumers keep working.
+    action: promotedAction,
+    legacyAction,
+    ladderRationale,
+    ladderV2,
+    convictionProxy,
     reasons: finalReasons,
     timing,
     audit: buildAuditTrail({

@@ -37,10 +37,16 @@
 import { num } from "./swsScoring.js";
 import { buildReasonNarrative } from "./swsReasonNarrator.js";
 import { buildCounterThesis } from "./swsCounterThesis.js";
+import { ladderToLegacy } from "./actionLadder.js";
 
 // Action ladder from most-bearish to most-bullish. softenAction("STRONG Top-up")
 // returns "Top-up", softenAction("Reduction-50%") returns "Reduction-25-33%",
 // etc. Tie-break stops at HOLD per the agreed default ("soften toward HOLD").
+//
+// The conviction engine works in legacy-label space — when the v2 ladder is
+// firing upstream, ladder labels (EXIT-now, Reduction-66%, Top-up-100%, …)
+// are normalised to legacy via ladderToLegacy() at every entry point. Output
+// stays in legacy space; the holding engine layers the v2 label back on top.
 const ACTION_LADDER = [
   "EXIT",
   "Reduction-50%",
@@ -52,7 +58,7 @@ const ACTION_LADDER = [
 ];
 
 function _ladderIndex(action) {
-  const i = ACTION_LADDER.indexOf(action);
+  const i = ACTION_LADDER.indexOf(ladderToLegacy(action));
   return i < 0 ? ACTION_LADDER.indexOf("HOLD") : i;
 }
 
@@ -76,10 +82,16 @@ function _bumpToward(action, direction) {
 }
 
 function _isBullishAction(action) {
-  return action && (action.startsWith("Top-up") || action === "STRONG Top-up");
+  if (!action) return false;
+  // Treat both legacy (Top-up-modest / Top-up / STRONG Top-up) and ladder-v2
+  // (Top-up-25%/33%/50%/100%) labels as bullish. The startsWith("Top-up")
+  // check naturally covers both.
+  return action.startsWith("Top-up") || action === "STRONG Top-up";
 }
 function _isBearishAction(action) {
-  return action && (action === "EXIT" || action.startsWith("Reduction"));
+  if (!action) return false;
+  // Legacy: EXIT, Reduction-*. Ladder-v2: EXIT-now, EXIT-staged, Reduction-*.
+  return action === "EXIT" || action.startsWith("EXIT-") || action.startsWith("Reduction");
 }
 
 function _convictionBand(netDelta) {

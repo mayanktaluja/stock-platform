@@ -5103,7 +5103,12 @@ function actionBadge(action, displayAction) {
 // a Tier A/B/C/D action grid driven by the SWS deep snapshot. This
 // renderer overrides the entire #analyzerReport container.
 
+// Action color map keyed by both legacy labels (EXIT, Reduction-50%, …) and
+// ladder-v2 labels (EXIT-now, EXIT-staged, Reduction-66/50/33/25%,
+// Top-up-25/33/50/100%). Trim severity scales with the trim percentage —
+// deeper red for bigger reductions, deeper green for bigger top-ups.
 const SWS_ACTION_COLORS = {
+  // Legacy labels (kept for v1 compatibility + when SWS_LADDER_V2=0)
   "EXIT":              { bg: "rgba(220,38,38,0.18)", border: "rgba(220,38,38,0.55)", text: "#fca5a5" },
   "Reduction-50%":     { bg: "rgba(239,68,68,0.14)", border: "rgba(239,68,68,0.45)", text: "#f87171" },
   "Reduction-25-33%":  { bg: "rgba(250,204,21,0.14)", border: "rgba(250,204,21,0.4)", text: "#fde047" },
@@ -5111,6 +5116,17 @@ const SWS_ACTION_COLORS = {
   "Top-up-modest":     { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.4)",   text: "#86efac" },
   "Top-up":            { bg: "rgba(34,197,94,0.18)",  border: "rgba(34,197,94,0.6)",   text: "#86efac" },
   "STRONG Top-up":     { bg: "rgba(34,197,94,0.25)",  border: "rgba(34,197,94,0.7)",   text: "#bbf7d0" },
+  // Ladder-v2 reductions (deeper red as trim % rises; staged exit is amber)
+  "EXIT-now":          { bg: "rgba(220,38,38,0.22)", border: "rgba(220,38,38,0.65)", text: "#fca5a5" },
+  "EXIT-staged":       { bg: "rgba(234,88,12,0.16)", border: "rgba(234,88,12,0.5)",  text: "#fdba74" },
+  "Reduction-66%":     { bg: "rgba(220,38,38,0.16)", border: "rgba(220,38,38,0.55)", text: "#fca5a5" },
+  "Reduction-33%":     { bg: "rgba(250,204,21,0.14)", border: "rgba(250,204,21,0.4)", text: "#fde047" },
+  "Reduction-25%":     { bg: "rgba(250,204,21,0.10)", border: "rgba(250,204,21,0.35)", text: "#fde68a" },
+  // Ladder-v2 top-ups (deeper green as add % rises)
+  "Top-up-25%":        { bg: "rgba(34,197,94,0.10)",  border: "rgba(34,197,94,0.35)", text: "#86efac" },
+  "Top-up-33%":        { bg: "rgba(34,197,94,0.14)",  border: "rgba(34,197,94,0.45)", text: "#86efac" },
+  "Top-up-50%":        { bg: "rgba(34,197,94,0.18)",  border: "rgba(34,197,94,0.6)",  text: "#86efac" },
+  "Top-up-100%":       { bg: "rgba(34,197,94,0.28)",  border: "rgba(34,197,94,0.75)", text: "#bbf7d0" },
   "n/a":               { bg: "rgba(107,114,128,0.12)", border: "rgba(107,114,128,0.4)", text: "#9ca3af" },
 };
 
