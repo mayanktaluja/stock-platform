@@ -89,3 +89,49 @@ export function getPortfolioStorage() {
   console.log(`[PORTFOLIO] Using ${_storage.name} storage`);
   return _storage;
 }
+
+// ── Analyzer snapshot helpers ──
+//
+// Single-user app — the snapshot is stored as a `analyzerSnapshot` field
+// on the portfolio object so it round-trips through whichever backend
+// (file or KV) is active. Lightweight — services/analyzerDiff.js
+// buildSnapshot() strips the per-row payload to ~6 fields × N holdings,
+// so even a 50-holding book is well under 10 KB.
+//
+// Used by /api/portfolio/analyze in the SWS path: load the previous
+// snapshot before scoring → run scoreHoldings → diff vs prev →
+// overwrite with the new snapshot for next time.
+
+/**
+ * Read the persisted analyzer snapshot. Returns null when no prior run
+ * has saved one (first-ever analyze). Never throws — read errors fall
+ * through to null so the analyzer reports "first run" cleanly.
+ */
+export async function loadLastAnalyzerSnapshot() {
+  try {
+    const portfolio = await getPortfolioStorage().read();
+    return portfolio?.analyzerSnapshot || null;
+  } catch (err) {
+    console.warn("[ANALYZER-SNAPSHOT] read failed:", err.message);
+    return null;
+  }
+}
+
+/**
+ * Persist the analyzer snapshot. Merges into the existing portfolio
+ * object so other fields (stocks, mutualFunds, riskProfile, intake) are
+ * preserved. Best-effort — write errors log + return false rather than
+ * blocking the analyze response.
+ */
+export async function saveAnalyzerSnapshot(snapshot) {
+  try {
+    const storage = getPortfolioStorage();
+    const portfolio = await storage.read();
+    const next = { ...portfolio, analyzerSnapshot: snapshot };
+    await storage.write(next);
+    return true;
+  } catch (err) {
+    console.warn("[ANALYZER-SNAPSHOT] write failed:", err.message);
+    return false;
+  }
+}

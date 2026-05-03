@@ -79,6 +79,7 @@ import { analyzeHolding, buildReport } from "./portfolioAnalyzer.js";
 import { scoreHolding as swsScoreHolding } from "./services/swsHoldingEngine.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
 import { buildSWSReport } from "./services/swsPortfolioAggregate.js";
+import { loadLastAnalyzerSnapshot, saveAnalyzerSnapshot } from "./portfolioStorage.js";
 import {
   computeCombinedScore,
   lookupSwsScoreBulk,
@@ -6643,11 +6644,34 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
 
       swsTimings.score_ms = Date.now() - swsT0;
       const aggT0 = Date.now();
+      // PR-4: load the user's prior analyzer snapshot for diff mode.
+      // Gated by ANALYZER_DIFF=1 — when off, priorSnapshot is null and
+      // buildSWSReport returns "first run" diff for every call. Read
+      // failures fall through to null so diff doesn't block the analyze.
+      let priorSnapshot = null;
+      if (process.env.ANALYZER_DIFF === "1") {
+        try {
+          priorSnapshot = await loadLastAnalyzerSnapshot();
+        } catch (err) {
+          console.warn("[ANALYZE] prior snapshot load failed:", err.message);
+        }
+      }
       const swsReport = buildSWSReport(scoredHoldings, {
         freshCapitalInr,
         freshPickLimit: 8,
+        priorSnapshot,
       });
       swsTimings.aggregate_ms = Date.now() - aggT0;
+
+      // PR-4: persist the new snapshot for the next run's diff. Best-
+      // effort — write errors only log. Strip from the response so the
+      // wire payload doesn't carry the prior+next snapshot blobs (the
+      // diff itself is already in swsReport.diff).
+      if (process.env.ANALYZER_DIFF === "1" && swsReport.analyzerSnapshotForNextRun) {
+        saveAnalyzerSnapshot(swsReport.analyzerSnapshotForNextRun)
+          .catch((err) => console.warn("[ANALYZE] snapshot save failed:", err.message));
+      }
+      delete swsReport.analyzerSnapshotForNextRun;
 
       // MF enrichment: only enrich MFs from the upload (saved-portfolio MFs
       // surface as raw reference rows; users wanting full MF analysis can

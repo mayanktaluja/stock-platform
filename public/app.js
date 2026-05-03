@@ -5892,6 +5892,151 @@ function renderSWSMfSection(mfPositions) {
   return "";
 }
 
+// PR-4: "Since last review" diff banner. Renders only when prior
+// snapshot exists AND material changes were detected. First-run /
+// no-changes paths return empty string so the banner self-hides.
+function renderSWSDiffBanner(diff) {
+  if (!diff || !diff.hasChanges) return "";
+  const chip = (label, color) =>
+    `<span style="display:inline-block; padding:2px 8px; border-radius:4px; background:${color}22; color:${color}; font-size:11px; font-weight:700; letter-spacing:0.3px; margin-right:6px;">${label}</span>`;
+
+  const sections = [];
+  if (diff.actionChanges.length > 0) {
+    sections.push(`<div style="margin-top:8px;">
+      <div style="font-size:11px; font-weight:700; color:#93c5fd; margin-bottom:4px; letter-spacing:0.3px;">Action changes (${diff.actionChanges.length})</div>
+      ${diff.actionChanges.slice(0, 6).map((c) =>
+        `<div style="font-size:12px; line-height:1.5;"><strong>${swsEscapeAttr(c.ticker)}</strong>: ${swsEscapeAttr(c.prevAction)} → <strong>${swsEscapeAttr(c.currentAction)}</strong></div>`
+      ).join("")}
+      ${diff.actionChanges.length > 6 ? `<div style="font-size:11px; color:var(--text-muted); margin-top:2px;">+${diff.actionChanges.length - 6} more</div>` : ""}
+    </div>`);
+  }
+  if (diff.scoreChanges.length > 0) {
+    sections.push(`<div style="margin-top:8px;">
+      <div style="font-size:11px; font-weight:700; color:#fde047; margin-bottom:4px; letter-spacing:0.3px;">Score shifts ≥ 5 pts (${diff.scoreChanges.length})</div>
+      ${diff.scoreChanges.slice(0, 6).map((c) => {
+        const arrow = c.delta > 0 ? "↑" : "↓";
+        const color = c.delta > 0 ? "#86efac" : "#fca5a5";
+        return `<div style="font-size:12px; line-height:1.5;"><strong>${swsEscapeAttr(c.ticker)}</strong>: ${c.prevScore} → ${c.currentScore} <span style="color:${color}; font-weight:700;">${arrow}${Math.abs(c.delta).toFixed(1)}</span></div>`;
+      }).join("")}
+    </div>`);
+  }
+  if (diff.newHoldings.length > 0) {
+    sections.push(`<div style="margin-top:8px;">
+      <div style="font-size:11px; font-weight:700; color:#86efac; margin-bottom:4px; letter-spacing:0.3px;">New holdings (${diff.newHoldings.length})</div>
+      <div style="font-size:12px; line-height:1.5;">${diff.newHoldings.map((n) => `<strong>${swsEscapeAttr(n.ticker)}</strong>`).join(", ")}</div>
+    </div>`);
+  }
+  if (diff.exitedHoldings.length > 0) {
+    sections.push(`<div style="margin-top:8px;">
+      <div style="font-size:11px; font-weight:700; color:#fca5a5; margin-bottom:4px; letter-spacing:0.3px;">Exited holdings (${diff.exitedHoldings.length})</div>
+      <div style="font-size:12px; line-height:1.5;">${diff.exitedHoldings.map((e) => `<strong>${swsEscapeAttr(e.ticker)}</strong>`).join(", ")}</div>
+    </div>`);
+  }
+  if (diff.surveillanceChanges.length > 0) {
+    sections.push(`<div style="margin-top:8px;">
+      <div style="font-size:11px; font-weight:700; color:#fdba74; margin-bottom:4px; letter-spacing:0.3px;">⚠ Surveillance changes (${diff.surveillanceChanges.length})</div>
+      ${diff.surveillanceChanges.map((s) => {
+        const prev = s.prev ? `${s.prev.list}${s.prev.stage ? `-${s.prev.stage}` : ""}` : "none";
+        const cur = s.current ? `${s.current.list}${s.current.stage ? `-${s.current.stage}` : ""}` : "none";
+        return `<div style="font-size:12px; line-height:1.5;"><strong>${swsEscapeAttr(s.ticker)}</strong>: ${prev} → ${cur}</div>`;
+      }).join("")}
+    </div>`);
+  }
+
+  return `<div style="background:linear-gradient(135deg, rgba(168,85,247,0.10), rgba(59,130,246,0.06)); border:1px solid rgba(168,85,247,0.30); border-radius:10px; padding:14px 18px; margin-bottom:18px;">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+      <strong style="font-size:13px; color:#c4b5fd; letter-spacing:0.3px;">SINCE LAST REVIEW</strong>
+      <span style="font-size:11px; color:var(--text-muted);">${diff.prevAt ? new Date(diff.prevAt).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "—"}</span>
+    </div>
+    <div style="font-size:13px; line-height:1.5; color:var(--text);">${swsEscapeAttr(diff.summary)}</div>
+    ${sections.join("")}
+  </div>`;
+}
+
+// PR-4: portfolio liquidity-tail bucketing as a stacked bar. Buckets
+// are <1d / 1-5d / 5-10d / >10d / no-data. Tooltip on each segment
+// shows the holdings inside it for drill-down.
+function renderSWSLiquidityTail(tail) {
+  if (!tail || tail.totalValue <= 0) return "";
+  const bucketMeta = [
+    { key: "<1d",     color: "#22c55e", label: "<1 day"   },
+    { key: "1-5d",    color: "#86efac", label: "1-5 days" },
+    { key: "5-10d",   color: "#fde047", label: "5-10 days" },
+    { key: ">10d",    color: "#fca5a5", label: ">10 days" },
+    { key: "no-data", color: "#9ca3af", label: "No data"   },
+  ];
+
+  const segments = bucketMeta
+    .filter((b) => tail.buckets[b.key] > 0)
+    .map((b) => {
+      const pct = tail.pct[b.key];
+      const tickers = (tail.tickersByBucket[b.key] || []).join(", ") || "—";
+      const tooltip = `${b.label} · ${pct}% (${tickers})`;
+      return `<div title="${swsEscapeAttr(tooltip)}" style="background:${b.color}; flex: ${pct} 0 0; min-width:${pct < 3 ? '12px' : '0'};"></div>`;
+    }).join("");
+
+  const legendRows = bucketMeta
+    .filter((b) => tail.buckets[b.key] > 0)
+    .map((b) => `<div style="display:flex; align-items:center; gap:6px; font-size:11px;">
+      <span style="display:inline-block; width:10px; height:10px; border-radius:2px; background:${b.color};"></span>
+      <span style="color:var(--text-muted);">${b.label}</span>
+      <strong style="color:var(--text);">${tail.pct[b.key]}%</strong>
+      <span style="color:var(--text-muted);">${inr(tail.buckets[b.key])}</span>
+    </div>`).join("");
+
+  return `<div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
+      <div>
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">Liquidity tail</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">Estimated days-to-exit by holding · ₹${(tail.illiquidValue / 1e3).toFixed(1)}K (${tail.illiquidPct}%) sits in 5d+ buckets</div>
+      </div>
+    </div>
+    <div style="display:flex; height:14px; border-radius:4px; overflow:hidden; margin-bottom:10px;">${segments}</div>
+    <div style="display:flex; flex-wrap:wrap; gap:14px; row-gap:6px;">${legendRows}</div>
+    <div style="font-size:10px; color:var(--text-muted); margin-top:8px; line-height:1.5;" title="${swsEscapeAttr(tail.methodology)}">Hover bar segments to see which holdings sit in each bucket.</div>
+  </div>`;
+}
+
+// PR-4: outside-portfolio fresh picks block. Two columns (defensive +
+// growth) with the per-pick suggested ₹ and concentration-aware alloc%.
+function renderSWSOutsidePicks(picks) {
+  if (!picks || !picks.available) return "";
+  const total = (picks.growth?.length || 0) + (picks.defensive?.length || 0);
+  if (total === 0) return "";
+  const triggerLine = (picks.triggerReasons || []).join(" · ");
+  const renderColumn = (rows, title, color) => `<div style="background:rgba(0,0,0,0.18); border:1px solid #2a3349; border-radius:8px; padding:12px 14px;">
+    <div style="font-size:12px; font-weight:700; color:${color}; margin-bottom:8px; letter-spacing:0.3px;">${title} (${rows.length})</div>
+    ${rows.length === 0
+      ? `<div style="font-size:11px; color:var(--text-muted);">No qualifying picks in current snapshot.</div>`
+      : rows.map((r) => `<div style="padding:8px 0; border-top:1px solid #1a2238; cursor:pointer;" onclick="openStockDetailModal('${swsEscapeAttr(r.ticker)}','outside-pick')">
+        <div style="display:flex; justify-content:space-between; gap:8px; align-items:baseline;">
+          <strong style="font-size:13px;">${swsEscapeAttr(r.ticker)}</strong>
+          <span style="font-size:11px; color:var(--text-muted);">v3 ${r.v3_score ?? "—"}</span>
+        </div>
+        <div style="margin-top:4px; font-size:11px; color:var(--text-muted); display:flex; gap:10px; flex-wrap:wrap;">
+          <span>${swsEscapeAttr(r.sector || "—")}</span>
+          ${r.upside_pct != null ? `<span style="color:${r.upside_pct >= 0 ? '#86efac' : '#f87171'};">FV ${r.upside_pct >= 0 ? '+' : ''}${r.upside_pct.toFixed(1)}%</span>` : ""}
+          ${r.suggested_inr > 0 ? `<span style="color:#fde047;">${inr(r.suggested_inr)}</span>` : ""}
+        </div>
+      </div>`).join("")
+    }
+  </div>`;
+
+  return `<div style="margin-bottom:22px;">
+    <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
+      <div>
+        <div style="font-size:14px; font-weight:700;">Outside-portfolio fresh picks <span style="font-size:12px; font-weight:500; color:var(--text-muted);">(${total})</span></div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${swsEscapeAttr(triggerLine)} · ${picks.allocPct}% of fresh capital allocated${picks.allocInr > 0 ? ` (${inr(picks.allocInr)})` : ""}</div>
+      </div>
+      <div title="${swsEscapeAttr(picks.methodology)}" style="font-size:11px; color:var(--text-muted); font-style:italic; cursor:help;">methodology ⓘ</div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
+      ${renderColumn(picks.defensive || [], "Defensive (quality_growth + deep_value)", "#86efac")}
+      ${renderColumn(picks.growth || [], "Growth (top_ranked_v3 + smallcap_gems)", "#93c5fd")}
+    </div>
+  </div>`;
+}
+
 function renderSWSAnalyzerReport(report, elapsedMs) {
   const root = document.getElementById("analyzerReport");
   if (!root) return;
@@ -5901,6 +6046,10 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
   const tiers = report.tiers || {};
   const baskets = tiers.B?.baskets || {};
   const sectorOverlay = report.sectorOverlay || [];
+  // PR-4 additions
+  const diff = report.diff || null;
+  const liquidityTail = report.liquidityTail || null;
+  const outsidePicks = report.outsidePicks || null;
 
   const snapshotAt = banner.snapshot_at ? new Date(banner.snapshot_at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "—";
   const elapsed = elapsedMs != null ? `${elapsedMs}ms` : "—";
@@ -5916,6 +6065,8 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
       <button onclick="resetAnalyzer()" style="background:transparent; border:1px solid #2a3349; color:var(--text); padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px;">Re-upload</button>
     </div>
 
+    ${renderSWSDiffBanner(diff)}
+
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:18px;">
       ${swsKpiCard("Invested", inr(snap.totalInvested))}
       ${swsKpiCard("Current value", inr(snap.totalCurrent))}
@@ -5924,6 +6075,8 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
       ${swsKpiCard("Avg v3 score", `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
       ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} SWS-covered)</span>`)}
     </div>
+
+    ${renderSWSLiquidityTail(liquidityTail)}
 
     <div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
       <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">Action mix</div>
@@ -5937,6 +6090,7 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
 
     ${renderSWSTierA(tiers.A)}
     ${renderSWSTierB(baskets)}
+    ${renderSWSOutsidePicks(outsidePicks)}
     ${renderSWSTierC(tiers.C)}
     ${renderSWSTierD(tiers.D)}
     ${renderSWSSectorOverlay(sectorOverlay)}
