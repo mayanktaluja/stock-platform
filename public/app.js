@@ -5038,6 +5038,20 @@ async function analyzePortfolioFile(file) {
       if (Number.isFinite(fresh) && fresh > 0) fd.append("freshCapitalInr", String(fresh));
     }
     const res = await fetch("/api/portfolio/analyze", { method: "POST", body: fd });
+
+    // 412 Precondition Failed → SUITABILITY_GATE blocked the analyze
+    // because the user has no persisted intake. Open the intake modal,
+    // and when the user saves, retry the analyze with the same file.
+    if (res.status === 412) {
+      const blocked = await res.json();
+      setAnalyzerState("upload");
+      openAnalyzerIntake({
+        questions: blocked.questions || null,
+        afterSave: () => analyzeUploadedFile(file),
+      });
+      return;
+    }
+
     const data = await res.json();
     if (!res.ok) {
       throw new Error(data.error + (data.hint ? `\n\nHint: ${data.hint}` : ""));
@@ -5064,6 +5078,175 @@ async function analyzePortfolioFile(file) {
     errEl.style.display = "block";
   }
 }
+
+// ──────────────────── 5-question SEBI suitability intake ────────────────
+//
+// Triggered from two places:
+//   1. /api/portfolio/analyze returning 412 Precondition Failed (when
+//      SUITABILITY_GATE=1 and the user has no persisted intake).
+//   2. An "Edit intake" link rendered on the analyzer report (after a
+//      successful analyze) so the user can revise without re-uploading.
+//
+// Backed by /api/portfolio/intake CRUD. The form schema comes from the
+// server (questions array on the 412 response or from a fresh GET).
+
+let _analyzerIntakeAfterSave = null;
+
+async function openAnalyzerIntake({ questions = null, afterSave = null } = {}) {
+  const modal = document.getElementById("analyzerIntakeModal");
+  const form = document.getElementById("analyzerIntakeForm");
+  const errEl = document.getElementById("analyzerIntakeError");
+  if (!modal || !form) return;
+  errEl.style.display = "none";
+  errEl.textContent = "";
+  _analyzerIntakeAfterSave = afterSave || null;
+
+  // Fetch questions + persisted intake (if any) so the form opens with
+  // the user's previous answers pre-filled. Allows easy edits without
+  // re-typing.
+  let qs = questions;
+  let prefill = {};
+  try {
+    const j = await (await fetch("/api/portfolio/intake")).json();
+    if (Array.isArray(j.questions)) qs = j.questions;
+    if (j.intake) prefill = { ...prefill, ...j.intake };
+    if (j.riskProfile?.answers) prefill = { ...prefill, ...j.riskProfile.answers };
+  } catch (_) { /* no-op — caller may have supplied questions */ }
+  if (!Array.isArray(qs) || qs.length === 0) {
+    errEl.textContent = "Could not load intake questions.";
+    errEl.style.display = "block";
+    return;
+  }
+
+  form.innerHTML = qs.map((q) => renderAnalyzerIntakeField(q, prefill)).join("");
+
+  modal.style.display = "flex";
+}
+
+function closeAnalyzerIntake() {
+  const modal = document.getElementById("analyzerIntakeModal");
+  if (modal) modal.style.display = "none";
+  _analyzerIntakeAfterSave = null;
+}
+
+function renderAnalyzerIntakeField(q, prefill = {}) {
+  const labelHtml = `<div style="font-size:13px; font-weight:600; margin-bottom:4px;">${intakeEscapeHtml(q.label)}</div>`;
+  const helperHtml = q.helper
+    ? `<div style="font-size:11.5px; color:var(--text-muted); margin-bottom:8px; line-height:1.4;">${intakeEscapeHtml(q.helper)}</div>`
+    : "";
+
+  // Type inference for legacy schemas: RISK_PROFILE_QUESTIONS predates
+  // the type field, so a question with `options` array and no explicit
+  // type should render as a radio group.
+  const inferredType = q.type || (Array.isArray(q.options) ? "radio" : null);
+
+  if (inferredType === "numeric") {
+    const v = prefill[q.id] != null ? prefill[q.id] : "";
+    return `<div data-intake-field="${q.id}">
+      ${labelHtml}${helperHtml}
+      <input type="number" name="${q.id}" min="${q.min ?? 0}" step="${q.step ?? 1}" placeholder="${intakeEscapeHtml(q.placeholder || "")}" value="${intakeEscapeHtml(String(v))}"
+        style="width:200px; padding:8px 10px; background:var(--bg); border:1px solid #2a3349; border-radius:6px; color:var(--text); font-size:13px;" />
+    </div>`;
+  }
+  if (inferredType === "text") {
+    const v = prefill[q.id] != null ? prefill[q.id] : "";
+    return `<div data-intake-field="${q.id}">
+      ${labelHtml}${helperHtml}
+      <input type="text" name="${q.id}" placeholder="${intakeEscapeHtml(q.placeholder || "")}" value="${intakeEscapeHtml(String(v))}"
+        style="width:100%; padding:8px 10px; background:var(--bg); border:1px solid #2a3349; border-radius:6px; color:var(--text); font-size:13px;" />
+    </div>`;
+  }
+  if (inferredType === "radio") {
+    const cur = prefill[q.id] != null ? prefill[q.id] : "";
+    return `<div data-intake-field="${q.id}">
+      ${labelHtml}${helperHtml}
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        ${q.options.map((o) => `<label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:13px;">
+          <input type="radio" name="${q.id}" value="${intakeEscapeHtml(o.value)}" ${cur === o.value ? "checked" : ""} style="cursor:pointer;" />
+          <span>${intakeEscapeHtml(o.label)}</span>
+        </label>`).join("")}
+      </div>
+    </div>`;
+  }
+  if (inferredType === "subform" && Array.isArray(q.questions)) {
+    return `<div data-intake-field="${q.id}" style="padding:12px 14px; border:1px dashed #2a3349; border-radius:8px;">
+      ${labelHtml}${helperHtml}
+      <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+        ${q.questions.map((sub) => renderAnalyzerIntakeField(sub, prefill)).join("")}
+      </div>
+    </div>`;
+  }
+  return ""; // unknown type — graceful skip
+}
+
+// Lightweight HTML escape for intake-form label/helper strings.
+// Renamed from escapeHtml() to intakeEscapeHtml() — there are already
+// two other escapeHtml() declarations elsewhere in this file (4085,
+// 8421) and a third would shadow them silently in some engines.
+function intakeEscapeHtml(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+async function submitAnalyzerIntake() {
+  const form = document.getElementById("analyzerIntakeForm");
+  const errEl = document.getElementById("analyzerIntakeError");
+  if (!form) return;
+  // Collect answers — numerics, radios, text inputs from any depth.
+  const answers = {};
+  for (const el of form.querySelectorAll("input")) {
+    if (el.type === "radio") {
+      if (el.checked) answers[el.name] = el.value;
+    } else if (el.type === "number") {
+      const v = el.value === "" ? null : Number(el.value);
+      if (v != null && Number.isFinite(v)) answers[el.name] = v;
+      else answers[el.name] = 0; // numeric-required fields default to 0 when blank
+    } else {
+      answers[el.name] = el.value;
+    }
+  }
+  errEl.style.display = "none";
+  try {
+    const res = await fetch("/api/portfolio/intake", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ answers }),
+    });
+    const j = await res.json();
+    if (!res.ok) {
+      const missingTxt = Array.isArray(j.missing) && j.missing.length > 0
+        ? ` Missing: ${j.missing.join(", ")}.`
+        : "";
+      errEl.textContent = (j.error || "Failed to save intake.") + missingTxt;
+      errEl.style.display = "block";
+      return;
+    }
+    const after = _analyzerIntakeAfterSave;
+    closeAnalyzerIntake();
+    if (typeof after === "function") after();
+  } catch (err) {
+    errEl.textContent = err.message || "Network error saving intake.";
+    errEl.style.display = "block";
+  }
+}
+
+// Wire the modal buttons once on first load.
+(function () {
+  if (typeof document === "undefined") return;
+  const wire = () => {
+    const closeBtn = document.getElementById("analyzerIntakeClose");
+    const cancelBtn = document.getElementById("analyzerIntakeCancel");
+    const submitBtn = document.getElementById("analyzerIntakeSubmit");
+    closeBtn?.addEventListener("click", closeAnalyzerIntake);
+    cancelBtn?.addEventListener("click", closeAnalyzerIntake);
+    submitBtn?.addEventListener("click", submitAnalyzerIntake);
+  };
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", wire);
+  } else {
+    wire();
+  }
+})();
 
 // ──────────────────── Rendering ────────────────────
 
@@ -5142,6 +5325,11 @@ function swsTimingBadge(timing) {
     "Yes-not-urgent": { bg: "rgba(59,130,246,0.10)", text: "#93c5fd" },
     "Soft-no":        { bg: "rgba(250,204,21,0.10)", text: "#fde047" },
     "No":             { bg: "rgba(239,68,68,0.10)",  text: "#f87171" },
+    // PR-3 — additional verdict from the timingObservation module:
+    // "Wait-for-open" fires when NSE is closed / pre-open / post-close
+    // and any non-HOLD action is queued. Coloured neutral (slate) so it
+    // reads "informational" rather than red/green.
+    "Wait-for-open":  { bg: "rgba(148,163,184,0.10)", text: "#cbd5e1" },
   };
   const c = colors[timing.verdict] || colors["Yes-not-urgent"];
   const window = timing.window ? ` · ${timing.window}` : "";

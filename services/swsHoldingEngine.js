@@ -31,6 +31,7 @@ import { buildFallbackHolding } from "./swsCoverageFallback.js";
 import { buildAuditTrail } from "./swsAuditTrail.js";
 import { promoteToLadderV2, parseTrimPct } from "./actionLadder.js";
 import { computeTaxScenarios, inferAssetClass } from "../taxEngine.js";
+import { computeTimingObservation as computeTimingObservationFromModule } from "./timingObservation.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEEP_DIR = path.resolve(__dirname, "..", "data", "sws", "deep");
@@ -313,39 +314,22 @@ function buildSWSReasons({ scored, snow, fiscal, action, band, reconciled }) {
   return reasons;
 }
 
-export function computeTimingObservation({ deep, scored, action, livePrice }) {
-  const ov = scored.overview || {};
-  const ret1m = num((ov.returns_pct || {})["1M"], 0);
-  const next = ov.next_earnings_date;
-  const now = Date.now();
-  const epsDays = next ? Math.ceil((Date.parse(next + "T00:00:00Z") - now) / 86400000) : null;
-  const recentDownRev = (ov.recent_analyst_revisions || []).some?.((r) => r?.direction === "decreased");
-
-  // Skip timing for HOLD — no action means no timing question.
-  if (action === "HOLD") {
-    return { verdict: "n/a", window: null, reason: "Hold — no transaction needed." };
-  }
-
-  if (epsDays != null && epsDays >= 0 && epsDays <= 3) {
-    return { verdict: "No", window: null, reason: `Earnings in ${epsDays}d — wait for results before acting.` };
-  }
-
-  if (recentDownRev) {
-    return { verdict: "Soft-no", window: "closing-vwap", reason: "Recent analyst PT cut — let dust settle, target closing VWAP if acting." };
-  }
-
-  if (ret1m > 15) {
-    return { verdict: "Soft-no", window: "closing-vwap", reason: `1M return +${ret1m.toFixed(1)}% — overshot, defer to closing VWAP.` };
-  }
-
-  if (ret1m < -15) {
-    if (action.startsWith("Top-up") || action === "STRONG Top-up") {
-      return { verdict: "Yes", window: "mid-morning", reason: `1M return ${ret1m.toFixed(1)}% — averaging window, mid-morning entry.` };
-    }
-    return { verdict: "Yes-not-urgent", window: "post-lunch", reason: `1M return ${ret1m.toFixed(1)}% — avoid panic exit, wait for intraday stability.` };
-  }
-
-  return { verdict: "Yes", window: "mid-morning", reason: "No proximate catalyst or volatility shock — standard mid-morning window." };
+/**
+ * Backward-compatibility shim. The real timing logic moved to
+ * services/timingObservation.js as part of PR-3 (richer inputs:
+ * NSE market state from IST clock, macro-regime severity, sector
+ * impact). Existing callers still hit this name; new callers use
+ * computeTimingObservationFromModule directly.
+ */
+export function computeTimingObservation({ deep, scored, action, livePrice, now, marketState, regimeSeverity, sectorImpact } = {}) {
+  return computeTimingObservationFromModule({
+    action,
+    scored,
+    now: now instanceof Date ? now : new Date(),
+    marketState,
+    regimeSeverity,
+    sectorImpact,
+  });
 }
 
 export function scoreHolding(holding, portfolioContext = {}) {
@@ -406,7 +390,20 @@ export function scoreHolding(holding, portfolioContext = {}) {
     reasons = buildSWSReasons({ scored, snow, fiscal, action, band, reconciled });
   }
 
-  const timing = computeTimingObservation({ deep: scored, scored, action });
+  // Pass regime severity + sector impact from portfolioContext when the
+  // server provides them (analyzer route does — computed once per
+  // request from the macro-regime layer). When missing, the timing
+  // module degrades gracefully — momentum + earnings + market-state
+  // signals remain.
+  const timing = computeTimingObservation({
+    deep: scored,
+    scored,
+    action,
+    now: portfolioContext.now instanceof Date ? portfolioContext.now : undefined,
+    marketState: portfolioContext.marketState,
+    regimeSeverity: num(portfolioContext.regimeSeverity, 0),
+    sectorImpact: num(portfolioContext.sectorImpactBySector?.[scored.sector], 0),
+  });
 
   // Layer-2 independent-fundamentals cross-check — shadow attach only.
   // The conviction engine (PR 3) will read crosscheck.confidence_delta to

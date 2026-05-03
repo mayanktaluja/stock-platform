@@ -3636,6 +3636,26 @@
     </div>
   </div>
 
+  <!-- 5-question SEBI suitability intake modal -->
+  <!-- Body-level so it overlays correctly regardless of which tab is active. -->
+  <!-- Shown by app.js when /api/portfolio/analyze returns 412 (SUITABILITY_GATE=1 -->
+  <!-- + missing intake), or when the user clicks "Edit intake" inline. -->
+  <div id="analyzerIntakeModal" style="display:none; position:fixed; top:0; right:0; bottom:0; left:0; z-index:9999; background:rgba(0,0,0,0.78); align-items:flex-start; justify-content:center; padding:40px 16px; overflow-y:auto;" role="dialog" aria-modal="true" aria-labelledby="analyzerIntakeTitle">
+    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:12px; padding:24px 28px; max-width:680px; width:100%; box-shadow:0 24px 60px rgba(0,0,0,0.45);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:6px;">
+        <h2 id="analyzerIntakeTitle" style="margin:0; font-size:20px; font-weight:700; letter-spacing:-0.01em;">Suitability intake</h2>
+        <button id="analyzerIntakeClose" type="button" aria-label="Close intake" style="background:transparent; border:0; color:var(--text-muted); font-size:22px; line-height:1; cursor:pointer; padding:0 6px;">&times;</button>
+      </div>
+      <p style="margin:0 0 18px; font-size:12.5px; color:var(--text-muted); line-height:1.5;">SEBI's IA Reg Schedule III + RA Reg 9(b) require a suitability check before any portfolio recommendation. Five questions, one minute. Saved across runs &mdash; you only fill this once unless something material changes.</p>
+      <form id="analyzerIntakeForm" style="display:flex; flex-direction:column; gap:18px;"></form>
+      <div id="analyzerIntakeError" style="display:none; margin-top:14px; padding:10px 12px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:6px; color:#fca5a5; font-size:12.5px;"></div>
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:18px;">
+        <button id="analyzerIntakeCancel" type="button" style="background:transparent; color:var(--text-muted); border:1px solid #2a3349; padding:8px 16px; border-radius:6px; font-size:13px; cursor:pointer;">Cancel</button>
+        <button id="analyzerIntakeSubmit" type="button" style="background:var(--accent); color:#fff; border:0; padding:8px 20px; border-radius:6px; font-size:13px; font-weight:600; cursor:pointer;">Save &amp; continue</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Stock detail modal — populated by openSwsModal(ticker) for SWS Picks, or openStockDetailModal(symbol, sourceTab) for every other clickable stock surface -->
   <div id="swsModalBackdrop" class="sws-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="swsModalTitle" onclick="if(event.target===this)closeSwsModal()">
     <div class="sws-modal">

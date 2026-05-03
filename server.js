@@ -6138,7 +6138,7 @@ app.post("/api/portfolio", async (req, res) => {
 //   DELETE /api/risk-profile → soft-clear (lets the user retake the survey)
 // ═══════════════════════════════════════════════════════════════════════════
 
-import { scoreRiskProfile, RISK_PROFILE_QUESTIONS } from "./riskProfile.js";
+import { scoreRiskProfile, RISK_PROFILE_QUESTIONS, INTAKE_QUESTIONS, buildIntake, hasCompleteIntake } from "./riskProfile.js";
 
 app.get("/api/risk-profile", async (req, res) => {
   try {
@@ -6190,6 +6190,66 @@ app.delete("/api/risk-profile", async (req, res) => {
   }
 });
 
+// 5-question SEBI suitability intake — extends the 3-question risk
+// profile with fresh capital, transactional changes, focus stock, and
+// LTCG-YTD. Persisted to portfolio.intake + portfolio.riskProfile in
+// a single write so the analyzer's gate check sees both populated.
+//
+// GET    /api/portfolio/intake → { questions, present: bool, intake, riskProfile }
+// POST   /api/portfolio/intake → { ok: true, intake, riskProfile }
+// DELETE /api/portfolio/intake → soft-clear (lets the user retake)
+
+app.get("/api/portfolio/intake", async (req, res) => {
+  try {
+    const portfolio = await readPortfolio();
+    res.json({
+      questions: INTAKE_QUESTIONS,
+      present: hasCompleteIntake(portfolio),
+      intake: portfolio?.intake || null,
+      riskProfile: portfolio?.riskProfile || null,
+    });
+  } catch (err) {
+    console.error("[INTAKE] read error:", err.message);
+    res.status(500).json({ error: "Failed to read intake" });
+  }
+});
+
+app.post("/api/portfolio/intake", express.json(), async (req, res) => {
+  try {
+    const built = buildIntake(req.body?.answers || req.body);
+    if (!built.ok) {
+      return res.status(400).json({
+        error: built.error,
+        missing: built.missing,
+        questions: INTAKE_QUESTIONS,
+      });
+    }
+    const portfolio = await readPortfolio();
+    const next = {
+      ...portfolio,
+      intake: built.intake,
+      riskProfile: built.riskProfile,
+    };
+    await savePortfolio(next);
+    res.json({ ok: true, intake: next.intake, riskProfile: next.riskProfile });
+  } catch (err) {
+    console.error("[INTAKE] save error:", err.message);
+    res.status(500).json({ error: "Failed to save intake" });
+  }
+});
+
+app.delete("/api/portfolio/intake", async (req, res) => {
+  try {
+    const portfolio = await readPortfolio();
+    const next = { ...portfolio, intake: null };
+    await savePortfolio(next);
+    res.json({ ok: true });
+  } catch (err) {
+    console.error("[INTAKE] clear error:", err.message);
+    res.status(500).json({ error: "Failed to clear intake" });
+  }
+});
+
 // ═══════════════════════════════════════════════════════════════════════════
 // Phase 5: Portfolio Analyzer — stateless upload + deep analysis.
 //
@@ -6216,8 +6276,12 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
     // fallback for direct browser testing.
     const optPreset = String(req.body.preset || req.query.preset || "balanced");
     const optTaxSlabPct = Number.parseInt(req.body.taxSlabPct || req.query.taxSlabPct || "30", 10);
+    // ltcgRealisedYtdRupees + freshCapitalInr are declared with `let` so
+    // the saved-intake block below can fill them in when the request
+    // body doesn't supply explicit overrides. Explicit body/query still
+    // wins (we only fall back when the parsed value is null/0/NaN).
     const optAssumedHoldingMonths = Number.parseInt(req.body.assumedHoldingMonths || req.query.assumedHoldingMonths || "24", 10);
-    const ltcgRealisedYtdRupees = Number.parseFloat(req.body.ltcgRealisedYtd || req.query.ltcgRealisedYtd || "0");
+    let ltcgRealisedYtdRupees = Number.parseFloat(req.body.ltcgRealisedYtd || req.query.ltcgRealisedYtd || "0");
     // Engine selector — "sws" routes to the SWS-first recommendation engine
     // (data/sws/deep + Tier A/B/C/D action grid + defensive/growth/core
     // baskets + per-holding snowflake/conviction/counter-thesis/catalyst
@@ -6229,7 +6293,33 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
     // request `?engine=legacy` still works for one-off comparisons.
     const engineDefault = String(process.env.ANALYZER_ENGINE_DEFAULT || "sws").toLowerCase();
     const engine = String(req.body.engine || req.query.engine || engineDefault).toLowerCase();
-    const freshCapitalInr = Number.parseFloat(req.body.freshCapitalInr || req.query.freshCapitalInr || "0") || null;
+    let freshCapitalInr = Number.parseFloat(req.body.freshCapitalInr || req.query.freshCapitalInr || "0") || null;
+
+    // SUITABILITY_GATE — when enabled, refuse the analyze if the user
+    // hasn't completed the 5-question SEBI intake. The UI catches the
+    // 412 Precondition Failed + opens the intake modal. After the user
+    // POSTs answers to /api/portfolio/intake, the gate clears.
+    //
+    // Default off in dev so the existing user flow keeps working;
+    // production sets SUITABILITY_GATE=1 once the modal is shipped.
+    if (process.env.SUITABILITY_GATE === "1") {
+      try {
+        const saved = await readPortfolio();
+        if (!hasCompleteIntake(saved)) {
+          return res.status(412).json({
+            error: "Suitability intake not complete.",
+            hint: "POST /api/portfolio/intake with the 5 required answers, then retry the analyze.",
+            questions: INTAKE_QUESTIONS,
+            preconditionRequired: "intake",
+          });
+        }
+      } catch (err) {
+        // Read errors fall through — better to analyze than to hard-block
+        // on a transient KV/file glitch. The gate only enforces when we
+        // KNOW intake is missing.
+        console.warn("[ANALYZE] suitability gate read failed:", err.message);
+      }
+    }
 
     // Pull saved MF holdings + risk profile from the user's stored portfolio
     // so the analyzer can compute a true book-wide XIRR (not stock-only)
@@ -6237,10 +6327,26 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
     // This is read-only — nothing is persisted by the analyze endpoint.
     let mfHoldings = [];
     let savedRiskProfile = null;
+    let savedIntake = null;
     try {
       const saved = await readPortfolio();
       if (saved && saved.riskProfile && saved.riskProfile.bucket) {
         savedRiskProfile = saved.riskProfile;
+      }
+      // Intake fallback values — when the request body didn't supply
+      // freshCapitalInr / ltcgRealisedYtd, the persisted intake fills
+      // them in (so the analyzer doesn't ask for capital and tax YTD on
+      // every run). Explicit query/body still wins.
+      if (saved && saved.intake) {
+        savedIntake = saved.intake;
+        const reqHasFresh = req.body.freshCapitalInr != null || req.query.freshCapitalInr != null;
+        if (!reqHasFresh && Number.isFinite(saved.intake.freshCapitalInr) && saved.intake.freshCapitalInr > 0) {
+          freshCapitalInr = saved.intake.freshCapitalInr;
+        }
+        const reqHasLtcg = req.body.ltcgRealisedYtd != null || req.query.ltcgRealisedYtd != null;
+        if (!reqHasLtcg && Number.isFinite(saved.intake.ltcgRealisedYtdRupees) && saved.intake.ltcgRealisedYtdRupees > 0) {
+          ltcgRealisedYtdRupees = saved.intake.ltcgRealisedYtdRupees;
+        }
       }
       if (saved && Array.isArray(saved.mutualFunds)) {
         // Saved-MF schema (from Groww import): name / category / type /
@@ -6488,6 +6594,21 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
         sectorWeights[sector] = totalCurrent > 0 ? (cv / totalCurrent) * 100 : 0;
       }
 
+      // Macro regime fetch — uses cached value from the same NodeCache
+      // that Market Intelligence + scanners populate. Graceful: empty
+      // cache + classifyRegime failure → calm regime, severity 0, no
+      // headwind/tailwind nudges in timing observations.
+      const cachedRegime = macroRegimeCache.get(MACRO_CACHE_KEY) || defaultCalmRegime();
+      const regimeSeverity = Number(cachedRegime?.severity) || 0;
+      // Pre-compute sector impacts once so scoreHolding doesn't re-derive
+      // them per row — the macroRegime sectorImpacts list is small (~20
+      // canonical sectors) so a single pass + map is cheap.
+      const sectorImpactBySector = {};
+      for (const sectorName of Object.keys(sectorWeights)) {
+        const hit = (cachedRegime?.sectorImpacts || []).find((s) => s.sector === sectorName);
+        sectorImpactBySector[sectorName] = hit?.impact ?? 0;
+      }
+
       const scoredHoldings = enrichedRows.map((row) => {
         const positionWeight = totalCurrent > 0 ? (row.currentValue / totalCurrent) * 100 : 0;
         const sectorWeight = sectorWeights[row.sector] || 0;
@@ -6497,7 +6618,16 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
           // fyContext flows through to scoreHolding's taxScenarios block.
           // taxSlabPct uses the request-time slab (default 30%) so debt
           // instruments get accurate slab-based math.
-          { sectorWeights, fyContext, taxSlabPct: optTaxSlabPct },
+          // regimeSeverity + sectorImpactBySector feed the timing
+          // observation module via portfolioContext — used to flag
+          // sector-headwind situations as "Soft-no, closing-VWAP".
+          {
+            sectorWeights,
+            fyContext,
+            taxSlabPct: optTaxSlabPct,
+            regimeSeverity,
+            sectorImpactBySector,
+          },
         );
         return {
           ...rescored,
