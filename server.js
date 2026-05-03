@@ -4,7 +4,7 @@
 // otherwise make dotenv look in the wrong place).
 import path from "path";
 import { fileURLToPath } from "url";
-import { randomUUID } from "node:crypto";
+import { randomUUID, createHmac, timingSafeEqual } from "node:crypto";
 import dotenv from "dotenv";
 const __filenameForEnv = fileURLToPath(import.meta.url);
 const __dirnameForEnv = path.dirname(__filenameForEnv);
@@ -225,6 +225,116 @@ function requireApiKey(req, res, next) {
 app.use("/api/portfolio", requireApiKey);
 app.use("/api/watchlist", requireApiKey);
 app.use("/api/stock/", stockDetailLimiter);
+
+// ── Login gate (single-user password protection) ──
+//
+// When STARBHAI_LOGIN_PASSWORD and STARBHAI_SESSION_SECRET are both set,
+// the entire UI + API is locked behind a single password. Sessions are
+// HMAC-signed cookies (no DB, no new deps). When either env var is unset
+// (local dev), the gate is a no-op — same convenience pattern as
+// requireApiKey above. /api/cron/* is always exempt so Vercel schedules
+// keep firing.
+const LOGIN_PASSWORD = process.env.STARBHAI_LOGIN_PASSWORD || "";
+const SESSION_SECRET = process.env.STARBHAI_SESSION_SECRET || "";
+const SESSION_COOKIE = "starbhai_session";
+const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
+const LOGIN_ENABLED = !!(LOGIN_PASSWORD && SESSION_SECRET);
+
+function signSession(tsMs) {
+  const payload = String(tsMs);
+  const sig = createHmac("sha256", SESSION_SECRET).update(payload).digest("hex");
+  return `${payload}.${sig}`;
+}
+
+function verifySession(token) {
+  if (!token || !LOGIN_ENABLED) return false;
+  const idx = token.indexOf(".");
+  if (idx < 0) return false;
+  const payload = token.slice(0, idx);
+  const sig = token.slice(idx + 1);
+  const expect = createHmac("sha256", SESSION_SECRET).update(payload).digest("hex");
+  if (sig.length !== expect.length) return false;
+  let sigBuf, expectBuf;
+  try {
+    sigBuf = Buffer.from(sig, "hex");
+    expectBuf = Buffer.from(expect, "hex");
+  } catch {
+    return false;
+  }
+  if (sigBuf.length !== expectBuf.length || sigBuf.length === 0) return false;
+  if (!timingSafeEqual(sigBuf, expectBuf)) return false;
+  const ts = Number(payload);
+  return Number.isFinite(ts) && Date.now() - ts <= SESSION_TTL_MS;
+}
+
+function readCookie(req, name) {
+  const raw = req.headers.cookie || "";
+  for (const part of raw.split(";")) {
+    const eq = part.indexOf("=");
+    if (eq < 0) continue;
+    if (part.slice(0, eq).trim() === name) return part.slice(eq + 1).trim();
+  }
+  return null;
+}
+
+const loginAttemptLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  message: { error: "Too many login attempts. Try again in 15 minutes." },
+});
+
+// Login + logout routes — registered BEFORE the gate so they're reachable
+// when the user has no session cookie yet.
+app.post("/api/login", loginAttemptLimiter, express.json(), (req, res) => {
+  if (!LOGIN_ENABLED) return res.status(500).json({ error: "login-not-configured" });
+  const pw = (req.body && req.body.password) || "";
+  const provided = Buffer.from(String(pw));
+  const expected = Buffer.from(LOGIN_PASSWORD);
+  const ok = provided.length === expected.length && timingSafeEqual(provided, expected);
+  if (!ok) return res.status(401).json({ error: "invalid" });
+  const token = signSession(Date.now());
+  const flags = [
+    `${SESSION_COOKIE}=${token}`,
+    "Path=/",
+    "HttpOnly",
+    "SameSite=Strict",
+    `Max-Age=${Math.floor(SESSION_TTL_MS / 1000)}`,
+  ];
+  if (process.env.VERCEL) flags.push("Secure");
+  res.setHeader("Set-Cookie", flags.join("; "));
+  res.json({ ok: true });
+});
+
+app.post("/api/logout", (req, res) => {
+  const flags = [
+    `${SESSION_COOKIE}=`,
+    "Path=/",
+    "HttpOnly",
+    "SameSite=Strict",
+    "Max-Age=0",
+  ];
+  if (process.env.VERCEL) flags.push("Secure");
+  res.setHeader("Set-Cookie", flags.join("; "));
+  res.json({ ok: true });
+});
+
+// The gate — must come BEFORE express.static so static assets (index.html,
+// app.js, etc.) are also protected.
+app.use((req, res, next) => {
+  if (!LOGIN_ENABLED) return next();
+  if (req.path === "/login.html") return next();
+  if (req.path === "/api/login" || req.path === "/api/logout") return next();
+  if (req.path.startsWith("/api/cron/")) return next();
+  if (verifySession(readCookie(req, SESSION_COOKIE))) return next();
+
+  const accept = req.headers.accept || "";
+  if (req.method === "GET" && accept.includes("text/html")) {
+    return res.redirect(302, "/login.html");
+  }
+  return res.status(401).json({ error: "unauthenticated" });
+});
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());

@@ -543,6 +543,128 @@ function tryParseUpstoxXlsx(buffer) {
   };
 }
 
+// ──────────────────── Zerodha Kite XLSX ────────────────────
+
+/**
+ * Zerodha Kite holdings statement (xlsx).
+ *
+ * Workbook structure (verified from a real export):
+ *   Sheets: ["Equity", "Mutual Funds", "Combined"]
+ *
+ *   Equity sheet:
+ *     Row 0: ["View Zerodha's guide on using tax reports for filing."]
+ *     Row 1: ["Client ID", "<UCC>"]
+ *     Row 2: ["Equity Holdings Statement as on YYYY-MM-DD"]
+ *     Rows 3-7: Summary block (Invested Value / Present Value / Unrealized P&L / %)
+ *     Row 8:  blank
+ *     Row 9:  HEADERS:
+ *       Symbol | ISIN | Sector | Quantity Available | Quantity Discrepant
+ *       | Quantity Long Term | Quantity Pledged (Margin) | Quantity Pledged (Loan)
+ *       | Average Price | Previous Closing Price | Unrealized P&L | Unrealized P&L Pct.
+ *     Rows 10+: data
+ *
+ * Distinguishing signature (won't false-positive on Groww/Upstox):
+ *   - Sheet named "Equity" exists
+ *   - Header row contains "symbol" + "isin" + "quantityavailable"
+ *
+ * Tickers with -Z / -T market-category suffixes (e.g. AGSTRA-Z, FCSSOFT-T)
+ * pass through as the rawName; ISIN-first resolution downstream maps them
+ * to the canonical symbol so the SWS engine finds the deep file.
+ *
+ * Returns null when the workbook isn't a Zerodha Kite file so the caller
+ * can fall through to the Groww parser.
+ */
+function tryParseZerodhaXlsx(buffer) {
+  const wb = xlsx.read(buffer, { type: "buffer" });
+  if (!wb.SheetNames.includes("Equity")) return null;
+
+  const ws = wb.Sheets["Equity"];
+  const rows = xlsx.utils.sheet_to_json(ws, { header: 1, raw: false, blankrows: false });
+  if (!rows.length) return null;
+
+  // Header detection — scan for the signature row.
+  let headerIdx = -1;
+  for (let i = 0; i < rows.length; i++) {
+    const joined = (rows[i] || []).map((x) => normHeader(x)).join("|");
+    if (!joined) continue;
+    const hasSymbol = joined.includes("symbol");
+    const hasIsin = joined.includes("isin");
+    const hasQtyAvail = joined.includes("quantityavailable");
+    if (hasSymbol && hasIsin && hasQtyAvail) { headerIdx = i; break; }
+  }
+  if (headerIdx === -1) return null;
+
+  const headers = rows[headerIdx].map(normHeader);
+  const find = (...cands) => {
+    for (const c of cands) {
+      const idx = headers.findIndex((h) => h === c);
+      if (idx >= 0) return idx;
+    }
+    for (const c of cands) {
+      const idx = headers.findIndex((h) => h.includes(c));
+      if (idx >= 0) return idx;
+    }
+    return -1;
+  };
+
+  // Exact-match first so "quantityavailable" wins over the four other
+  // "quantity*" columns (Discrepant / Long Term / Pledged Margin / Pledged Loan).
+  const iName  = find("symbol");
+  const iIsin  = find("isin", "isincode");
+  const iQty   = find("quantityavailable");
+  const iAvg   = find("averageprice", "avgprice", "average");
+  const iClose = find("previousclosingprice", "closingprice", "ltp");
+
+  if (iName < 0 || iQty < 0 || iAvg < 0) return null;
+
+  // Pull out report-level metadata from the rows above the header.
+  const summary = {};
+  for (let i = 0; i < headerIdx; i++) {
+    const row = rows[i] || [];
+    const cell0 = String(row[0] || "").trim();
+    const cell1 = row[1];
+    const k = cell0.toLowerCase();
+    if (!k) continue;
+    if (k === "client id") {
+      summary.ucc = String(cell1 || "").trim() || null;
+    } else if (k.startsWith("equity holdings statement")) {
+      const m = cell0.match(/(\d{4}-\d{2}-\d{2})/);
+      if (m) summary.asOfDate = m[1];
+    } else if (k === "invested value") {
+      const v = toNumber(cell1);
+      if (Number.isFinite(v)) summary.invested = v;
+    } else if (k === "present value") {
+      const v = toNumber(cell1);
+      if (Number.isFinite(v)) summary.current = v;
+    }
+  }
+
+  const holdings = [];
+  for (let r = headerIdx + 1; r < rows.length; r++) {
+    const row = rows[r] || [];
+    const rawName = String(row[iName] || "").trim();
+    if (!rawName) continue;
+    const isin = iIsin >= 0 ? String(row[iIsin] || "").trim() || null : null;
+    const qty = toNumber(row[iQty]);
+    const avg = toNumber(row[iAvg]);
+    // avg=0 placeholder rows (e.g. unresolved scrips Zerodha couldn't ticker)
+    // are silently dropped; they'd fail downstream `avg > 0` validation anyway.
+    if (!qty || qty <= 0 || !avg || avg <= 0) continue;
+    holdings.push({
+      rawName,
+      isin,
+      quantity: qty,
+      avgPrice: avg,
+      closePrice: iClose >= 0 ? toNumber(row[iClose]) : null,
+      purchaseDate: null,
+      sourceRow: r + 1,
+    });
+  }
+
+  if (holdings.length === 0) return null;
+  return { holdings, summary, source: "zerodha-xlsx" };
+}
+
 // ──────────────────── Generic CSV (including Groww CSV / Zerodha) ────────────────────
 
 /**
@@ -648,9 +770,11 @@ export function parsePortfolioFile(buffer, filename = "") {
     // throws as a final fallback when nothing else recognised the file.
     //   1. Upstox demat statement (signature: ISIN+Scrip+Rate+Valuation)
     //   2. Groww MF export (signature: SchemeName+Folio/XIRR+Invested)
-    //   3. Groww stocks export (everything else with a holdings-like header)
+    //   3. Zerodha Kite holdings (signature: "Equity" sheet + Symbol/ISIN/QtyAvailable)
+    //   4. Groww stocks export (everything else with a holdings-like header)
     parsed = tryParseUpstoxXlsx(buffer);
     if (!parsed) parsed = tryParseGrowwMfXlsx(buffer);
+    if (!parsed) parsed = tryParseZerodhaXlsx(buffer);
     if (!parsed) parsed = parseGrowwXlsx(buffer);
   } else if (looksCsv) {
     const text = typeof buffer === "string" ? buffer : Buffer.from(buffer).toString("utf-8");
@@ -659,6 +783,7 @@ export function parsePortfolioFile(buffer, filename = "") {
     // Unknown extension: try every xlsx parser, then CSV as last resort.
     parsed = tryParseUpstoxXlsx(buffer);
     if (!parsed) parsed = tryParseGrowwMfXlsx(buffer);
+    if (!parsed) parsed = tryParseZerodhaXlsx(buffer);
     if (!parsed) {
       try { parsed = parseGrowwXlsx(buffer); }
       catch {
