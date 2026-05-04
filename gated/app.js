@@ -22,43 +22,15 @@ const dashboard = document.getElementById("dashboard");
 
 // ==================== INITIALIZATION ====================
 
-// SEBI RA mode config — populated by /api/ra-config on boot. Stays at
-// raMode:false until the fetch resolves, so the existing "Educational
-// only" banner is the safe default if the endpoint fails.
+// Frozen no-op RA config. The page-level RA-banner swap was removed by
+// user request; the per-card disclosure pane reads window.RA_CONFIG for
+// fallback strings and we leave it at safe defaults so the disclosure
+// pane shows "Research Analyst / Not configured" rather than throwing.
 window.RA_CONFIG = { raMode: false, arn: null, analystName: null, firm: null, disclosures: {}, methodologyVersion: null };
-
-async function loadRaConfig() {
-  try {
-    const res = await fetch("/api/ra-config");
-    if (!res.ok) return;
-    const cfg = await res.json();
-    window.RA_CONFIG = cfg;
-    applyRaBanner();
-  } catch (_e) {
-    // Silent — banner stays in default educational mode.
-  }
-}
-
-function applyRaBanner() {
-  const el = document.getElementById("sebiBanner");
-  const cfg = window.RA_CONFIG;
-  if (!el || !cfg || !cfg.raMode) return;
-  const arn = cfg.arn ? `<strong>${escapeHtml(cfg.arn)}</strong>` : "<strong>ARN not configured</strong>";
-  const analyst = cfg.analystName
-    ? `${escapeHtml(cfg.analystName)}${cfg.firm ? `, ${escapeHtml(cfg.firm)}` : ""}`
-    : "Research Analyst";
-  el.innerHTML = `
-    <strong>SEBI RA Research.</strong> Published by ${analyst} (${arn}) under SEBI (Research Analysts) Regulations 2014.
-    Recommendations include target, stop-loss, and methodology disclosure on each card.
-    Investments in securities are subject to market risk; past performance does not guarantee future returns.
-    Read disclosures before acting.
-  `;
-}
 
 document.addEventListener("DOMContentLoaded", () => {
   updateClock();
   setInterval(updateClock, 1000);
-  loadRaConfig(); // SEBI RA banner swap
   loadMarketData();
   loadMacroRegime(); // global: shown on every tab
   setInterval(loadMacroRegime, 15 * 60 * 1000); // refresh every 15 minutes
