@@ -336,6 +336,15 @@ app.use((req, res, next) => {
   return res.status(401).json({ error: "unauthenticated" });
 });
 
+// SPA static files (app.js, index.html, etc.) live in gated/ — NOT public/ —
+// because Vercel auto-serves files in public/ from its edge CDN, bypassing
+// this gate middleware. Files in gated/ are bundled into the serverless
+// function via the `includeFiles` config in vercel.json and only reach the
+// client through Express, so the login gate above always runs first.
+app.use(express.static(path.join(__dirname, "gated")));
+// public/ now contains only login.html (intentionally CDN-served so the
+// login page is reachable without a session). express.static for public/
+// is kept for local dev parity and as a defensive fallback.
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
