@@ -10104,14 +10104,19 @@ function renderSwsModal(data) {
       </div>
     </div>` : "";
 
-  // Catalysts
+  // Catalysts. last_quarter_result is sourced from the picks card (Yahoo
+  // earningsHistory enricher writes it there) — the deep file's
+  // overview.last_quarter_result is always null since the SWS API parser
+  // doesn't populate it. Prefer card_; fall back to ov for legacy.
   const revisions = ov.recent_analyst_revisions || [];
   const insiders = ov.insider_activity || [];
+  const lqrModal = card_.last_quarter_result || ov.last_quarter_result || null;
+  const lqrColor = lqrModal === "beat" ? "var(--green)" : lqrModal === "miss" ? "var(--red)" : "var(--text-muted)";
   const catalystHtml = (ov.next_earnings_date || revisions.length || insiders.length) ? `
     <div class="sws-modal-section">
       <h4>Catalysts &amp; activity</h4>
       <div style="font-size:12px;line-height:1.6;color:var(--text-primary);">
-        ${ov.next_earnings_date ? `<div>📅 Next earnings: <strong>${ov.next_earnings_date}</strong>${ov.last_quarter_result ? ` · last quarter: <span style="color:${ov.last_quarter_result === "beat" ? "var(--green)" : "var(--red)"};">${ov.last_quarter_result}</span>` : ""}</div>` : ""}
+        ${ov.next_earnings_date ? `<div>📅 Next earnings: <strong>${ov.next_earnings_date}</strong>${lqrModal ? ` · last quarter: <span style="color:${lqrColor};text-transform:uppercase;font-weight:600;">${lqrModal}</span>` : ""}</div>` : ""}
         ${revisions.length ? `<div style="margin-top:6px;">📊 Recent analyst revisions: ${revisions.map((r) => `${r.direction === "increased" ? "↑" : "↓"} ${r.pct}% to ₹${r.new_target_inr} (${r.date})`).join(" · ")}</div>` : ""}
         ${insiders.length ? `<div style="margin-top:6px;">👁 Insider activity: ${insiders.length} event(s)</div>` : ""}
       </div>

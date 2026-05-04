@@ -7300,14 +7300,24 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
   const deep = readJsonSafe(fp);
   if (!deep) return res.status(404).json({ error: "no_deep_data", ticker });
 
-  // Find the leaderboard card (v2 score + breakdown live there)
+  // Find the leaderboard card (v2 score + breakdown live there). Prefer the
+  // upcoming-earnings section's card variant when present — only that one
+  // carries the Yahoo-sourced last_quarter_result. The other sections pin
+  // it null so picking any-old-section's card would suppress the badge in
+  // the modal even when we have the data.
   const picks = readJsonSafe(SWS_PATHS.picksLatest);
   let card = null;
   if (picks && picks.sections) {
-    for (const items of Object.values(picks.sections)) {
-      if (!Array.isArray(items)) continue;
-      const found = items.find((c) => c.ticker === ticker);
-      if (found) { card = found; break; }
+    const upcoming = picks.sections.upcoming_earnings;
+    if (Array.isArray(upcoming)) {
+      card = upcoming.find((c) => c.ticker === ticker) || null;
+    }
+    if (!card) {
+      for (const items of Object.values(picks.sections)) {
+        if (!Array.isArray(items)) continue;
+        const found = items.find((c) => c.ticker === ticker);
+        if (found) { card = found; break; }
+      }
     }
   }
 
