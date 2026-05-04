@@ -33,7 +33,7 @@ For each stock:
 
 #### 1a. Pre-flight checks
 - Run `node scripts/sws-deep-scrape.mjs check-panic`. If exit 1 → **PANIC PATH**: do NOT schedule next session, goto Step 5 (release lock only), print the warning block below.
-- Run `node scripts/sws-deep-scrape.mjs check-rate-cap {SHARD_ID}`. If exit 1, parse JSON from output. If `reason: "daily_cap"`, exit (we're done for today). If `reason: "per_minute_cap"`, sleep `wait_ms` with `python3 -c "import time; time.sleep(N)"`, then retry the check.
+- Run `node scripts/sws-deep-scrape.mjs check-rate-cap {SHARD_ID}`. If exit 1, parse JSON from output. If `reason: "per_minute_cap"`, sleep `wait_ms` with `python3 -c "import time; time.sleep(N)"`, then retry the check.
 
 #### 1b. URL resolution
 - The stock object has `sws_url`. If it starts with `https://simplywall.st/search?...`, the URL is a search-fallback; you must resolve to canonical:

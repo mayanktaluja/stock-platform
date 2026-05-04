@@ -47,11 +47,11 @@ A daily run is already scheduled at 02:00 IST via the `sws-api-refresh-daily` ta
 |---|---|
 | Exit 3 — panic flag set | Inspect `data/sws/panic-stop.flag`, then delete to resume. Never auto-clear. |
 | Exit 4 — panic during scrape | Same. Look at `data/sws/refresh-api-shard-{1,2,3}.log` for the trigger. |
-| Cloudflare 403 / 429 in logs | Stop. Reduce `SWS_API_DAILY_CAP`. Wait 1+ hour before retry. |
+| Cloudflare 403 / 429 in logs | Stop. Wait 1+ hour before retry. If recurring, lower `RATE_CAPS.maxStocksPerMinutePerShard` in `scripts/sws-config.mjs`. |
 | `search_phase_execution_exception` in failed-stocks | SWS OpenSearch backend overload. Non-fatal. Will recover. |
 
 ## Run
 
 ```bash
-SWS_API_DAILY_CAP=${SWS_API_DAILY_CAP:-3000} bash scripts/sws-refresh-api.sh
+bash scripts/sws-refresh-api.sh
 ```
