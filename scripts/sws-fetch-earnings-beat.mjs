@@ -1,5 +1,9 @@
 // Backfill last_quarter_result on upcoming_earnings cards from Yahoo Finance.
 //
+// Coverage note: today's run resolved 117/242 tickers (48%); the remainder
+// are smaller small-caps that Yahoo doesn't carry quarterly EPS history for.
+// The badge gracefully hides on those — see classify() return paths below.
+//
 // Why: SWS DOM scraper used to populate this field; the API parser that
 // replaced it can't (REST endpoint doesn't expose it), so the field has been
 // null on every card since the migration. We source it from Yahoo's
