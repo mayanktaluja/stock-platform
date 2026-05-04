@@ -22,9 +22,43 @@ const dashboard = document.getElementById("dashboard");
 
 // ==================== INITIALIZATION ====================
 
+// SEBI RA mode config — populated by /api/ra-config on boot. Stays at
+// raMode:false until the fetch resolves, so the existing "Educational
+// only" banner is the safe default if the endpoint fails.
+window.RA_CONFIG = { raMode: false, arn: null, analystName: null, firm: null, disclosures: {}, methodologyVersion: null };
+
+async function loadRaConfig() {
+  try {
+    const res = await fetch("/api/ra-config");
+    if (!res.ok) return;
+    const cfg = await res.json();
+    window.RA_CONFIG = cfg;
+    applyRaBanner();
+  } catch (_e) {
+    // Silent — banner stays in default educational mode.
+  }
+}
+
+function applyRaBanner() {
+  const el = document.getElementById("sebiBanner");
+  const cfg = window.RA_CONFIG;
+  if (!el || !cfg || !cfg.raMode) return;
+  const arn = cfg.arn ? `<strong>${escapeHtml(cfg.arn)}</strong>` : "<strong>ARN not configured</strong>";
+  const analyst = cfg.analystName
+    ? `${escapeHtml(cfg.analystName)}${cfg.firm ? `, ${escapeHtml(cfg.firm)}` : ""}`
+    : "Research Analyst";
+  el.innerHTML = `
+    <strong>SEBI RA Research.</strong> Published by ${analyst} (${arn}) under SEBI (Research Analysts) Regulations 2014.
+    Recommendations include target, stop-loss, and methodology disclosure on each card.
+    Investments in securities are subject to market risk; past performance does not guarantee future returns.
+    Read disclosures before acting.
+  `;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   updateClock();
   setInterval(updateClock, 1000);
+  loadRaConfig(); // SEBI RA banner swap
   loadMarketData();
   loadMacroRegime(); // global: shown on every tab
   setInterval(loadMacroRegime, 15 * 60 * 1000); // refresh every 15 minutes
@@ -1628,12 +1662,130 @@ function renderDivergenceBadge(stock) {
   return `<span class="divergence-chip" style="font-size:10px;padding:3px 8px;border-radius:6px;background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b66;font-weight:700;" title="${tip.replace(/"/g, "&quot;")}">&#9888; Divergent</span>`;
 }
 
+// SEBI IA Reg 2013 §15(4): warn the user when a recommendation is for a
+// name they already hold — re-recommending without flagging concentration
+// is a regulatory miss. Tier the colour: <7% blue (informational),
+// 7–10% gold (caution), >10% red (overweight).
+function renderPortfolioChip(stock) {
+  if (!stock?.inPortfolio) return "";
+  const w = Number(stock.currentWeight);
+  if (!Number.isFinite(w)) return "";
+  const after = stock.concentrationAfterTopUp;
+  let color = "var(--blue, #38bdf8)";
+  let bg = "rgba(56,189,248,0.12)";
+  let border = "rgba(56,189,248,0.32)";
+  let prefix = "ALREADY HELD";
+  if (w >= 10) {
+    color = "#f87171"; bg = "rgba(248,113,113,0.12)"; border = "rgba(248,113,113,0.4)";
+    prefix = "OVERWEIGHT";
+  } else if (w >= 7) {
+    color = "#fbbf24"; bg = "rgba(251,191,36,0.12)"; border = "rgba(251,191,36,0.36)";
+    prefix = "ALREADY HELD";
+  }
+  const tip = `${prefix}: this name is ${w.toFixed(2)}% of your cost-basis book.${
+    after != null ? ` A ₹50k top-up would push it to ~${after.toFixed(2)}%.` : ""
+  } Verify concentration before adding.`;
+  const trail = after != null ? ` &rarr; ${after.toFixed(1)}%` : "";
+  return `<span class="portfolio-chip" style="font-size:10px;padding:3px 8px;border-radius:6px;background:${bg};color:${color};border:1px solid ${border};font-weight:700;" title="${tip.replace(/"/g, "&quot;")}">${prefix} ${w.toFixed(1)}%${trail}</span>`;
+}
+
+// SEBI RA Reg 2014 §9 + 2025 amendment §6 — per-recommendation disclosure
+// pane. Renders a collapsed <details> block on every Buy Now / Mid-Term /
+// Sell card containing analyst + ARN, conflict declaration, holding
+// period, target/SL/R:R, score band, methodology weights, data-as-of,
+// and the standard SEBI disclaimer. Conviction-as-% is intentionally
+// not shown yet — that needs the score-band → realized-hit-rate map
+// from paperTrades history (P1.6).
+function convictionBandLabel(score, type) {
+  const s = Number(score);
+  if (!Number.isFinite(s)) return "—";
+  if (type === "sell") {
+    if (s <= 25) return "STRONG SELL";
+    if (s <= 37) return "SELL";
+    return "WEAK SELL";
+  }
+  if (s >= 75) return "STRONG";
+  if (s >= 65) return "MODERATE";
+  if (s >= 55) return "WEAK";
+  return "BELOW THRESHOLD";
+}
+
+function holdingPeriodLabel(type) {
+  if (type === "midterm") return "1–4 weeks (~7–28 trading days)";
+  if (type === "sell") return "Exit signal — close on next confirmed close below SL";
+  return "4–12 weeks (~28–84 trading days)";
+}
+
+function renderSebiDisclosure(stock, type) {
+  const cfg = window.RA_CONFIG || {};
+  const arn = cfg.arn || "Not configured (set RA_ARN env)";
+  const analyst = cfg.analystName
+    ? `${cfg.analystName}${cfg.firm ? `, ${cfg.firm}` : ""}`
+    : "Research Analyst";
+  const interest = cfg.disclosures?.financialInterest ? "Yes" : "No";
+  const overOnePct = cfg.disclosures?.holdsOverOnePct ? "Yes" : "No";
+  const compensated = cfg.disclosures?.compensated ? "Yes" : "No";
+
+  const score = type === "midterm" ? stock?.midTerm?.score : (stock?.score ?? stock?.adjustedScore);
+  const band = convictionBandLabel(score, type);
+  const holdPeriod = holdingPeriodLabel(type);
+
+  const sl = type === "midterm" ? stock?.midTerm?.stopLoss : stock?.stopLoss;
+  const tgt = type === "midterm" ? stock?.midTerm?.target : stock?.target;
+  const rr = type === "midterm" ? stock?.midTerm?.riskReward : stock?.riskReward;
+  const slTgtLine = (sl && tgt)
+    ? `SL ₹${formatNumber(sl)} · Target ₹${formatNumber(tgt)}${rr ? ` · R:R ${rr}` : ""}`
+    : "Not specified for this scanner type";
+
+  const dataAsOf = stock?.lastUpdated || stock?.snapshotAt || new Date().toISOString();
+  const dataAsOfPretty = (() => {
+    try {
+      return new Date(dataAsOf).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" });
+    } catch (_e) { return dataAsOf; }
+  })();
+
+  const methodVersion = stock?.combinedScoreVersion || cfg.methodologyVersion || "combined-v1-2026-04";
+  const weights = stock?.combinedWeights;
+  const weightsLine = weights
+    ? `Tech ${Math.round(weights.tech * 100)}% · Fund ${Math.round((weights.fund || 0) * 100)}% · SWS ${Math.round((weights.sws || 0) * 100)}%`
+    : "Tech + Fund (legacy 50/50)";
+
+  const conflictLine = (interest === "Yes" || overOnePct === "Yes" || compensated === "Yes")
+    ? `<strong style="color:#fbbf24;">Disclosed:</strong> Financial interest: ${interest} · Holding &gt; 1%: ${overOnePct} · Compensation from subject: ${compensated}`
+    : `Financial interest in subject: ${interest} · Holding &gt; 1%: ${overOnePct} · Compensation from subject: ${compensated}`;
+
+  return `
+    <details class="sebi-disclosure" onclick="event.stopPropagation()" style="margin-top:10px;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,0.015);">
+      <summary style="cursor:pointer;list-style:none;padding:8px 12px;font-size:11px;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;gap:8px;">
+        <span style="font-family:'JetBrains Mono',monospace;color:var(--gold,#fbbf24);">SEBI</span>
+        <span>Disclosure &amp; methodology</span>
+        <span style="margin-left:auto;font-weight:400;color:var(--text-muted);">${band} conviction · v=${methodVersion}</span>
+      </summary>
+      <div style="padding:10px 12px 12px;font-size:11px;color:var(--text-muted);line-height:1.6;border-top:1px solid var(--border);">
+        <div><strong style="color:var(--text-secondary);">Analyst:</strong> ${escapeHtml(analyst)} · <strong>ARN:</strong> ${escapeHtml(arn)}</div>
+        <div><strong style="color:var(--text-secondary);">Holding period:</strong> ${holdPeriod}</div>
+        <div><strong style="color:var(--text-secondary);">Risk parameters:</strong> ${slTgtLine}</div>
+        <div><strong style="color:var(--text-secondary);">Score band:</strong> ${score != null ? Math.round(score) : "—"}/100 → ${band} (conviction-% calibration to live track record pending — P1.6)</div>
+        <div><strong style="color:var(--text-secondary);">Methodology weights:</strong> ${weightsLine}</div>
+        <div><strong style="color:var(--text-secondary);">Data as of:</strong> ${dataAsOfPretty}</div>
+        <div style="margin-top:6px;">${conflictLine}</div>
+        <div style="margin-top:8px;font-style:italic;font-size:10px;">
+          Issued under SEBI (Research Analysts) Regulations, 2014. Investments in securities are subject to market risk;
+          read all related documents before investing. Past performance does not guarantee future returns.
+          This recommendation is made on the basis of the methodology stamped above and may be revised when inputs update.
+        </div>
+      </div>
+    </details>
+  `;
+}
+
 function renderCombinedScoreRow(stock) {
   const a = renderCombinedScoreChip(stock);
   const b = renderSwsChip(stock);
   const c = renderDivergenceBadge(stock);
-  if (!a && !b && !c) return "";
-  return `<div style="display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;">${a}${b}${c}</div>`;
+  const d = renderPortfolioChip(stock);
+  if (!a && !b && !c && !d) return "";
+  return `<div style="display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;">${a}${b}${c}${d}</div>`;
 }
 
 function renderMethodologyFooter(methodology) {
@@ -1716,8 +1868,10 @@ function renderStockCard(stock, type) {
           <div class="metric-value" style="font-size:11px;">${stock.trend || "N/A"}</div>
         </div>
       </div>
+      ${stock.earningsNearby ? `<div style="margin-top:6px;padding:4px 8px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);border-radius:6px;font-size:10px;color:var(--yellow);font-weight:600;">&#9888; Earnings on ${stock.earningsNearby.date} &mdash; binary event risk</div>` : ""}
       <div class="stock-card-reasoning">${escapeHtml(stock.reasoning || "")}</div>
       ${footer}
+      ${renderSebiDisclosure(stock, type)}
     </div>
   `;
 }
@@ -2062,6 +2216,7 @@ function renderBuyNowCard(stock) {
         ${renderCombinedScoreChip(stock)}
         ${renderSwsChip(stock)}
         ${renderDivergenceBadge(stock)}
+        ${renderPortfolioChip(stock)}
       </div>
       <div class="stock-card-metrics">
         <div class="stock-card-metric">
@@ -2080,10 +2235,15 @@ function renderBuyNowCard(stock) {
       ${slTargetRow}
       ${earningsBadge}
       <div class="stock-card-reasoning">${escapeHtml(stock.reasoning || "")}</div>
+      ${renderSebiDisclosure(stock, "buynow")}
       <div class="stock-card-footer">
         <span class="stock-card-direction direction-long">&#9650; STRONG SIGNAL</span>
         <span class="edu-chip" aria-label="Educational only, not a buy recommendation">Educational only</span>
-        <span style="font-size:11px; color:var(--text-muted);">${stock.dataConfidence === "high" ? "Tech 40% + Fund 60%" : "Tech only"}</span>
+        <span style="font-size:11px; color:var(--text-muted);" title="Active scoring weights from the API methodology stamp.">${
+          stock.combinedWeights && stock.combinedWeights.tech != null
+            ? `Tech ${Math.round(stock.combinedWeights.tech * 100)}% · Fund ${Math.round((stock.combinedWeights.fund || 0) * 100)}% · SWS ${Math.round((stock.combinedWeights.sws || 0) * 100)}%`
+            : (stock.dataConfidence === "high" ? "Tech + Fund + SWS" : "Tech only")
+        }</span>
       </div>
     </div>
   `;
