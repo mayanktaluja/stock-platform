@@ -55,6 +55,41 @@
         "WHATIF_SIMULATOR": "1"
       },
       "cwd": "/Users/mayanktaluja/Desktop/claude/stock-platform"
+    },
+    {
+      "name": "stockpulse-ui-v2",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.js"],
+      "port": 3010,
+      "env": {
+        "PORT": "3010",
+        "SWS_LADDER_V2": "1",
+        "ANALYZER_ENGINE_DEFAULT": "sws",
+        "SUITABILITY_GATE": "1",
+        "ANALYZER_DIFF": "1",
+        "OUTSIDE_PICKS": "1",
+        "WHATIF_SIMULATOR": "1",
+        "ANALYZER_UI_V2": "1"
+      },
+      "cwd": "/Users/mayanktaluja/Desktop/claude/stock-platform"
+    },
+    {
+      "name": "stockpulse-ladder-v3",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.js"],
+      "port": 3011,
+      "env": {
+        "PORT": "3011",
+        "SWS_LADDER_V2": "1",
+        "SWS_LADDER_V3": "1",
+        "ANALYZER_ENGINE_DEFAULT": "sws",
+        "SUITABILITY_GATE": "1",
+        "ANALYZER_DIFF": "1",
+        "OUTSIDE_PICKS": "1",
+        "WHATIF_SIMULATOR": "1",
+        "ANALYZER_UI_V2": "1"
+      },
+      "cwd": "/Users/mayanktaluja/Desktop/claude/stock-platform"
     }
   ]
 }

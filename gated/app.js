@@ -5371,12 +5371,20 @@ function swsHoldingRow(h) {
   const cv = h.currentValue;
   const pos = h.positionWeight != null ? h.positionWeight + "%" : "—";
   const pnlPct = h.pnlPercent;
+  // Inline ₹ pill — shows the rupee size of the chosen rung next to the
+  // action badge so the user sees "Reduction-33% · ₹12,400" at a glance.
+  // Pulls from V3-emitted trimRupees / topUpRupees on the holding object.
+  const rupeesInline = (() => {
+    const r = h.trimRupees ?? h.topUpRupees ?? null;
+    if (!Number.isFinite(r) || r <= 0) return "";
+    return `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">${inr(r)}</div>`;
+  })();
   return `<tr style="border-top:1px solid #2a3349; cursor:pointer;" onclick="openStockDetailModal('${tk}','mf-overlap')">
     <td style="padding:10px 12px;">
       <div style="font-weight:600;">${tk} ${swsSurveillanceChip(sws.surveillance)}</div>
       <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(name)}${sws.sector ? " · " + swsEscapeAttr(sws.sector) : ""}</div>
     </td>
-    <td style="padding:10px 12px;">${swsActionBadge(h.action)}</td>
+    <td style="padding:10px 12px;">${swsActionBadge(h.action)}${rupeesInline}</td>
     <td style="padding:10px 12px;">
       <div style="font-weight:600;">${v3}</div>
       <div style="font-size:10px; color:var(--text-muted);">${verdict}</div>
@@ -6298,6 +6306,13 @@ function resetWhatIf() {
 }
 
 function renderSWSAnalyzerReport(report, elapsedMs) {
+  // ANALYZER_UI_V2 dispatcher for the SWS path. Default user flow uses
+  // ANALYZER_ENGINE_DEFAULT=sws so this is the primary surface for the
+  // simplification — adds a hero card + glossary chips on technical KPI
+  // labels. Sub-renderers (TierA/B/C/D, MfSection, etc.) are unchanged
+  // because they're already progressively disclosed.
+  if (report?.ui?.v2) return renderSWSAnalyzerReportV2(report, elapsedMs);
+
   const root = document.getElementById("analyzerReport");
   if (!root) return;
 
@@ -6363,7 +6378,150 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
   `;
 }
 
+// V2 of the SWS analyzer report. Adds a plain-English hero card at the top
+// (1–2 sentences answering "what does this report say in 10 seconds?") and
+// glossary chips next to the technical KPI labels. The Tier A/B/C/D sub-
+// renderers are unchanged — they're already progressively disclosed.
+function renderSWSAnalyzerReportV2(report, elapsedMs) {
+  const root = document.getElementById("analyzerReport");
+  if (!root) return;
+
+  const snap = report.snapshot || {};
+  const banner = report.banner || {};
+  const tiers = report.tiers || {};
+  const baskets = tiers.B?.baskets || {};
+  const sectorOverlay = report.sectorOverlay || [];
+  const diff = report.diff || null;
+  const liquidityTail = report.liquidityTail || null;
+  const outsidePicks = report.outsidePicks || null;
+
+  const snapshotAt = banner.snapshot_at ? new Date(banner.snapshot_at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "—";
+  const elapsed = elapsedMs != null ? `${elapsedMs}ms` : "—";
+
+  // Hero copy — 1–2 sentences derived deterministically from snap.* fields.
+  // Guard every numeric so an empty book renders cleanly.
+  const heroSentences = [];
+  if (Number.isFinite(snap.holdingsCount)) {
+    const cv = Number.isFinite(snap.totalCurrent) ? inr(snap.totalCurrent) : "—";
+    heroSentences.push(`Your book has <strong>${snap.holdingsCount}</strong> holdings worth <strong>${cv}</strong>.`);
+  }
+  if (Number.isFinite(snap.totalPnL) && Number.isFinite(snap.totalPnLPct)) {
+    const pnlSign = snap.totalPnL >= 0 ? "up" : "down";
+    const pnlAbs = inr(Math.abs(snap.totalPnL));
+    heroSentences.push(`Net P&L is <strong>${pnlSign} ${pnlAbs}</strong> (${snap.totalPnLPct >= 0 ? "+" : ""}${snap.totalPnLPct}%).`);
+  }
+  // Surface action-mix counts in plain English (e.g. "5 names look like good
+  // holds; 2 need attention.")
+  const mix = snap.actionMix || {};
+  const exitCount = (mix.EXIT || 0) + (mix["EXIT-now"] || 0) + (mix["EXIT-staged"] || 0);
+  const trimCount = Object.entries(mix).filter(([k]) => k.startsWith("Reduction-")).reduce((a, [, v]) => a + v, 0);
+  const topUpCount = Object.entries(mix).filter(([k]) => k.startsWith("Top-up-")).reduce((a, [, v]) => a + v, 0);
+  const holdCount = mix.HOLD || 0;
+  const actionParts = [];
+  if (holdCount > 0) actionParts.push(`<strong>${holdCount}</strong> to hold`);
+  if (topUpCount > 0) actionParts.push(`<strong>${topUpCount}</strong> to top up`);
+  if (trimCount > 0) actionParts.push(`<strong>${trimCount}</strong> to trim`);
+  if (exitCount > 0) actionParts.push(`<strong>${exitCount}</strong> to exit`);
+  if (actionParts.length > 0) {
+    heroSentences.push(`The engine reads ${actionParts.join(", ")}.`);
+  }
+  // V3 ladder breakdown — show per-rung distribution so the user sees the
+  // engine isn't piling everything onto one rung. e.g. "Trim breakdown:
+  // 3 by 50%, 6 by 33%, 2 by 25%". Surfaces only the non-zero rungs.
+  const trimByRung = [
+    ["Reduction-66%", "66%", mix["Reduction-66%"] || 0],
+    ["Reduction-50%", "50%", mix["Reduction-50%"] || 0],
+    ["Reduction-33%", "33%", mix["Reduction-33%"] || 0],
+    ["Reduction-25%", "25%", mix["Reduction-25%"] || 0],
+    ["Reduction-25-33%", "25–33%", mix["Reduction-25-33%"] || 0],
+  ].filter(([, , n]) => n > 0);
+  const topUpByRung = [
+    ["Top-up-100%", "100%", mix["Top-up-100%"] || 0],
+    ["Top-up-50%", "50%", mix["Top-up-50%"] || 0],
+    ["Top-up-33%", "33%", mix["Top-up-33%"] || 0],
+    ["Top-up-25%", "25%", mix["Top-up-25%"] || 0],
+  ].filter(([, , n]) => n > 0);
+  const exitByRung = [
+    ["EXIT-now", "now", (mix["EXIT-now"] || 0) + (mix.EXIT || 0)],
+    ["EXIT-staged", "staged", mix["EXIT-staged"] || 0],
+  ].filter(([, , n]) => n > 0);
+  const breakdownParts = [];
+  if (trimByRung.length > 0) {
+    breakdownParts.push(`Trim: ${trimByRung.map(([, l, n]) => `<strong>${n}</strong> by ${l}`).join(", ")}`);
+  }
+  if (topUpByRung.length > 0) {
+    breakdownParts.push(`Top-up: ${topUpByRung.map(([, l, n]) => `<strong>${n}</strong> by ${l}`).join(", ")}`);
+  }
+  if (exitByRung.length > 0) {
+    breakdownParts.push(`Exit: ${exitByRung.map(([, l, n]) => `<strong>${n}</strong> ${l}`).join(", ")}`);
+  }
+  if (breakdownParts.length > 0) {
+    heroSentences.push(`<span style="color:var(--text-muted); font-size:12px;">${breakdownParts.join(" · ")}.</span>`);
+  }
+  const heroBlock = heroSentences.length > 0
+    ? `<div style="margin-bottom:18px; padding:14px 16px; background:rgba(96,165,250,0.05); border-left:3px solid #60a5fa; border-radius:0 8px 8px 0; font-size:14px; line-height:1.6; color:var(--text);">
+        ${heroSentences.map((s) => `<div style="margin-bottom:4px;">${s}</div>`).join("")}
+        <div style="font-size:11px; color:var(--text-muted); margin-top:6px;">Click any section below for the detailed evidence.</div>
+       </div>`
+    : "";
+
+  root.innerHTML = `
+    <div style="background:linear-gradient(135deg, rgba(59,130,246,0.08), rgba(34,197,94,0.04)); border:1px solid rgba(59,130,246,0.25); border-radius:10px; padding:14px 18px; margin-bottom:18px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+      <div>
+        <div style="font-size:14px; font-weight:700; color:#93c5fd;">${banner.engine || "SWS Engine (Beta)"}</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">
+          Snapshot: ${snapshotAt} · ${swsEscapeAttr(banner.coverage_text || "")} · scored in ${elapsed}
+        </div>
+      </div>
+      <button onclick="resetAnalyzer()" style="background:transparent; border:1px solid #2a3349; color:var(--text); padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px;">Re-upload</button>
+    </div>
+
+    ${heroBlock}
+
+    ${renderSWSDiffBanner(diff)}
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:18px;">
+      ${swsKpiCard("Money put in", inr(snap.totalInvested))}
+      ${swsKpiCard("What it's worth today", inr(snap.totalCurrent))}
+      ${swsKpiCard("Net P&amp;L", `<span style="color:${pctColor(snap.totalPnLPct)}">${inr(snap.totalPnL)} (${snap.totalPnLPct ?? 0}%)</span>`)}
+      ${swsKpiCard(`Avg quality score ${infoIcon("snowflake_score")}`, `${snap.avgSnowflake ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/30</span>`)}
+      ${swsKpiCard(`Avg overall score ${infoIcon("combined_score")}`, `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
+      ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} covered)</span>`)}
+    </div>
+
+    ${renderSWSLiquidityTail(liquidityTail)}
+
+    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
+      <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">Action mix</div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        ${Object.entries(snap.actionMix || {}).map(([action, n]) => `
+          ${swsActionBadge(action)}
+          <span style="font-size:13px; color:var(--text-muted); margin-right:8px;">×${n}</span>
+        `).join("")}
+      </div>
+    </div>
+
+    ${renderSWSTierA(tiers.A)}
+    ${renderSWSTierB(baskets)}
+    ${renderSWSOutsidePicks(outsidePicks)}
+    ${renderSWSWhatIfPanel(report, _optimizerState.sessionId || null)}
+    ${renderSWSTierC(tiers.C)}
+    ${renderSWSTierD(tiers.D)}
+    ${renderSWSSectorOverlay(sectorOverlay)}
+    ${renderSWSMfSection(report.mfPositions)}
+
+    <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:#fde047; line-height:1.6;">
+      ${swsEscapeAttr(report.disclaimer || "")}
+    </div>
+  `;
+}
+
 function renderAnalyzerReport(report, elapsedMs) {
+  // ANALYZER_UI_V2 dispatcher — when the server set report.ui.v2 = true
+  // (env ANALYZER_UI_V2=1), route to the simplified renderer. Old code
+  // path stays untouched for instant rollback (set env=0, no redeploy).
+  if (report?.ui?.v2) return renderAnalyzerReportV2(report, elapsedMs);
+
   renderAnalyzerSummary(report, elapsedMs);
   renderAnalyzerPortfolioActions(report);
   // Priority 3 + 2: render risk-profile card + asset-allocation gap card
@@ -7838,6 +7996,1238 @@ function renderAnalyzerDisclaimer(report) {
         &nbsp;&nbsp;<strong>Tax note</strong> reflects Budget 2024 rates (20% STCG / 12.5% LTCG with ₹1.25L exemption) and assumes equity-oriented listed securities; consult a CA for your specific slab, set-off, and carry-forward situation.
       </div>
     </div>`;
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// V2 ANALYZER UI — simplified hero/summary/advanced layers, gated by
+// ANALYZER_UI_V2=1 (server side; client dispatches on report.ui.v2).
+// Engine math is bit-for-bit identical (same `report` object). Each V2
+// function lives next to its V1 counterpart so a follow-up PR can delete
+// the V1 path cleanly after a 2-week soak.
+// ════════════════════════════════════════════════════════════════════════
+
+function renderAnalyzerReportV2(report, elapsedMs) {
+  renderAnalyzerSummaryV2(report, elapsedMs);
+  renderAnalyzerPortfolioActions(report);  // V1 — already lean
+  renderAnalyzerRiskProfileV2(report.mfPositions?.riskProfile);
+  renderAnalyzerAssetAllocationV2(report.mfPositions?.assetAllocation, report.mfPositions?.riskProfile);
+  renderAnalyzerMfPositionsV2(report.mfPositions);
+  renderAnalyzerRiskBlockV2(report);
+  renderAnalyzerOptimizerV2(report.optimizer);
+  renderAnalyzerUrgent(report);            // V1 — already lean
+  renderAnalyzerHoldingsV2(report);
+  renderAnalyzerUnmatched(report);         // V1 — already lean
+  renderAnalyzerDisclaimer(report);        // V1 — canonical
+}
+
+// Hero copy helpers — guarded against null/NaN inputs so V2 never renders
+// "NaN%" or "undefined" on edge cases (empty book, missing risk block).
+function _v2HealthVerdict(score) {
+  if (!Number.isFinite(score)) return { word: "—", lead: "Live data is still arriving — score and breakdown will populate shortly." };
+  if (score >= 70) return { word: "Healthy",          lead: "Your book looks healthy overall." };
+  if (score >= 50) return { word: "OK",               lead: "Your book is in OK shape with a few rough edges." };
+  return            { word: "Needs attention",        lead: "There are a couple of things worth fixing here." };
+}
+function _v2BetaSentence(b) {
+  if (!Number.isFinite(b)) return null;
+  if (b > 1.25) return `Your book moves about <strong>${b.toFixed(2)}×</strong> as much as the Nifty — when the index falls 10%, expect roughly ${(b * 10).toFixed(0)}% drop here.`;
+  if (b > 1.05) return `Your book moves about <strong>${b.toFixed(2)}×</strong> the Nifty — slightly more volatile than the index.`;
+  if (b > 0.9)  return `Your book moves roughly in lockstep with the Nifty (β ${b.toFixed(2)}).`;
+  return `Your book moves about <strong>${b.toFixed(2)}×</strong> the Nifty — defensive, less volatile than the index.`;
+}
+function _v2VarSentence(varPct) {
+  if (!Number.isFinite(varPct)) return null;
+  return `On a typical bad day (worst 1-in-20), expect a <strong>~${Math.abs(varPct).toFixed(1)}%</strong> drop.`;
+}
+
+function renderAnalyzerSummaryV2(report, elapsedMs) {
+  const el = document.getElementById("analyzerSummary");
+  const s = report.summary;
+  const h = report.health;
+  const sectors = report.sectorAllocation.slice(0, 6);
+
+  const pnlColor = pctColor(s.totalPnLPct);
+  const hasHealth = h && h.score != null;
+  const healthColor = !hasHealth ? "var(--text-muted)"
+    : h.score >= 70 ? "var(--green, #22c55e)"
+    : h.score >= 50 ? "#fde047" : "#fca5a5";
+  const verdict = _v2HealthVerdict(hasHealth ? h.score : null);
+
+  const sectorBars = sectors.map((s) =>
+    `<div style="display:flex; justify-content:space-between; align-items:center; gap:8px; padding:4px 0; font-size:12px;">
+      <span style="color:var(--text-muted);">${s.sector}</span>
+      <span style="font-weight:600;">${s.pct.toFixed(1)}%</span>
+    </div>
+    <div style="height:6px; background:#1a2233; border-radius:3px; overflow:hidden; margin-bottom:6px;">
+      <div style="width:${Math.min(100, s.pct)}%; height:100%; background:var(--accent);"></div>
+    </div>`,
+  ).join("");
+
+  const heroLine = hasHealth
+    ? `<div style="font-size:14px; font-weight:600; color:var(--text); margin-bottom:14px; padding:10px 14px; background:rgba(96,165,250,0.05); border-left:3px solid #60a5fa; border-radius:0 6px 6px 0; line-height:1.5;">
+        ${verdict.lead}
+       </div>`
+    : "";
+
+  el.innerHTML = `
+    ${heroLine}
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:16px; margin-bottom:16px;">
+      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Money put in</div>
+        <div style="font-size:22px; font-weight:700;">${inr(s.totalInvested)}</div>
+      </div>
+      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">What it's worth today</div>
+        <div style="font-size:22px; font-weight:700;">${inr(s.totalCurrent)}</div>
+      </div>
+      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">P&amp;L${s.xirrAnnualPct != null ? ` · XIRR ${s.xirrAnnualPct >= 0 ? "+" : ""}${s.xirrAnnualPct.toFixed(1)}%/yr` : ""}</div>
+        <div style="font-size:22px; font-weight:700; color:${pnlColor};">
+          ${s.totalPnL >= 0 ? "+" : ""}${inr(s.totalPnL)}
+          <span style="font-size:14px; font-weight:500; margin-left:6px;">(${s.totalPnLPct >= 0 ? "+" : ""}${s.totalPnLPct.toFixed(2)}%)</span>
+        </div>
+        ${s.xirrAnnualPct != null
+          ? `<div style="font-size:10px; color:var(--text-muted); margin-top:4px;" title="${s.xirrBasis || ''}">Annualised via XIRR over actual purchase dates</div>`
+          : `<div style="font-size:10px; color:var(--text-muted); margin-top:4px;">Upload includes purchase dates → XIRR annualised return</div>`}
+      </div>
+      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Portfolio Health ${infoIcon("health_score")}</div>
+        <div style="font-size:22px; font-weight:700; color:${healthColor};">${hasHealth ? h.score : "—"}<span style="font-size:14px; color:var(--text-muted);">/100</span> <span style="font-size:13px; color:${healthColor}; font-weight:600;">· ${verdict.word}</span></div>
+        ${hasHealth ? `
+          <details style="margin-top:6px;">
+            <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">Score breakdown ▾</summary>
+            <div style="font-size:11px; color:var(--text-muted); margin-top:4px; padding-left:6px;">
+              Avg score ${h.components.avgScore} · Diversity ${h.components.diversity}pts
+            </div>
+          </details>` : `<div style="font-size:11px; color:var(--text-muted); margin-top:4px;">No equity holdings to score</div>`}
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+        <div style="font-size:13px; font-weight:700; margin-bottom:12px;">Sector allocation</div>
+        ${sectorBars || '<div style="font-size:12px; color:var(--text-muted);">No sector data.</div>'}
+      </div>
+      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+        <div style="font-size:13px; font-weight:700; margin-bottom:12px;">Quality mix (by value)</div>
+        ${Object.entries(report.verdictMix.value)
+          .filter(([, v]) => v > 0)
+          .sort(([, a], [, b]) => b - a)
+          .map(([k, v]) => {
+            const pct = s.totalCurrent > 0 ? (v / s.totalCurrent) * 100 : 0;
+            const color = { DEEP_VALUE: "#22c55e", QUALITY_GROWTH: "#86efac", FAIR_VALUE: "#93c5fd", FULLY_VALUED: "#fde047", OVERVALUED: "#fca5a5", UNRATED: "#9ca3af" }[k] || "#9ca3af";
+            return `<div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; padding:4px 0;">
+              <span style="color:${color};">${k.replace("_", " ")}</span>
+              <span style="font-weight:600;">${pct.toFixed(1)}%</span>
+            </div>`;
+          }).join("")}
+      </div>
+    </div>
+
+    ${renderRebalanceTableV2(report)}
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-size:11px; color:var(--text-muted); gap:10px; flex-wrap:wrap;">
+      <div>${freshnessBadge(report)}</div>
+      <div>Analyzed ${s.holdingsCount} holdings${s.unmatchedCount > 0 ? ` · ${s.unmatchedCount} not analysed` : ""} · ${elapsedMs}ms</div>
+    </div>
+  `;
+}
+
+function renderRebalanceTableV2(report) {
+  const targets = report.rebalanceTargets;
+  if (!Array.isArray(targets) || targets.length === 0) return "";
+
+  const sorted = [...targets].sort(
+    (a, b) => Math.abs(b.deltaPct) - Math.abs(a.deltaPct),
+  );
+  const maxAbsDelta = Math.max(...sorted.map((t) => Math.abs(t.deltaPct)));
+
+  return `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-top:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:10px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:240px;">
+          <div style="font-size:14px; font-weight:700;">Rebalance preview</div>
+          <div style="font-size:12px; color:var(--text); margin-top:6px; line-height:1.5;">
+            Here's what your portfolio would look like if every stock pulled equal weight on risk. <strong>This is a diagnostic view — not a trade instruction.</strong>
+          </div>
+        </div>
+        ${notAdviceChip()}
+      </div>
+      <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:12px;">
+          <thead>
+            <tr style="color:var(--text-muted); font-size:10px; text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid #1a2233;">
+              <th style="text-align:left; padding:8px 4px;">Symbol</th>
+              <th style="text-align:right; padding:8px 4px;">Current %</th>
+              <th style="text-align:right; padding:8px 4px;">Target %</th>
+              <th style="text-align:right; padding:8px 4px;">Change %</th>
+              <th style="text-align:right; padding:8px 4px;">Change ₹</th>
+              <th style="padding:8px 4px; width:35%;">Deviation</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sorted.map((t) => {
+              const isOver = t.deltaPct < 0;
+              const color = Math.abs(t.deltaPct) < 2 ? "var(--text-muted)"
+                : isOver ? "#fca5a5" : "#86efac";
+              const barPct = maxAbsDelta > 0 ? (Math.abs(t.deltaPct) / maxAbsDelta) * 100 : 0;
+              return `<tr style="border-bottom:1px solid #111827;">
+                <td style="padding:8px 4px; font-family:'JetBrains Mono',monospace; font-weight:600;">${t.symbol.replace(".NS", "")}</td>
+                <td style="padding:8px 4px; text-align:right; font-family:'JetBrains Mono',monospace;">${t.currentWeight.toFixed(1)}%</td>
+                <td style="padding:8px 4px; text-align:right; font-family:'JetBrains Mono',monospace; color:var(--text-muted);">${t.targetWeight.toFixed(1)}%</td>
+                <td style="padding:8px 4px; text-align:right; font-family:'JetBrains Mono',monospace; color:${color}; font-weight:600;">${isOver ? "" : "+"}${t.deltaPct.toFixed(1)}</td>
+                <td style="padding:8px 4px; text-align:right; font-family:'JetBrains Mono',monospace; color:${color};">${isOver ? "" : "+"}${inr(t.deltaValue)}</td>
+                <td style="padding:8px 4px;">
+                  <div style="display:flex; align-items:center; gap:4px;">
+                    <div style="flex:1; background:#0b1220; height:6px; border-radius:3px; overflow:hidden; position:relative;">
+                      <div style="position:absolute; left:${isOver ? `${50 - barPct / 2}%` : "50%"}; width:${barPct / 2}%; height:100%; background:${color}; border-radius:3px;"></div>
+                      <div style="position:absolute; left:50%; top:0; bottom:0; width:1px; background:#1a2233;"></div>
+                    </div>
+                  </div>
+                </td>
+              </tr>`;
+            }).join("")}
+          </tbody>
+        </table>
+      </div>
+      <details style="margin-top:10px;">
+        <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">How is the target calculated? ▾</summary>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:6px; line-height:1.5; padding-left:6px;">
+          Target weight ∝ 1/volatility, capped at 12%/stock. This is the "mathematically diversified" distribution where each stock contributes equal risk to the book — not a trade instruction.
+        </div>
+      </details>
+    </div>
+  `;
+}
+
+function renderAnalyzerRiskBlockV2(report) {
+  const el = document.getElementById("analyzerRisk");
+  if (!el) return;
+  const r = report.risk;
+  const tests = report.stressTests || [];
+
+  if (!r && tests.length === 0) { el.innerHTML = ""; return; }
+
+  const beta = r?.weightedBeta;
+  const vol = r?.portfolioVolatilityPct;
+  const benchVol = r?.benchVolatilityPct;
+  const sharpe = r?.portfolioSharpe;
+  const benchSharpe = r?.benchSharpe;
+  const maxDD = r?.maxDrawdownPct;
+  const var95 = r?.var95DailyPct;
+  const benchVar95 = r?.benchVar95DailyPct;
+  const avgCorr = r?.avgCorrelation;
+
+  const betaColor = beta == null ? "var(--text-muted)"
+    : beta > 1.25 ? "#fca5a5"
+    : beta > 1.0  ? "#fde047"
+    : "#86efac";
+  const volColor = (vol == null || benchVol == null) ? "var(--text-muted)"
+    : vol > benchVol * 1.2 ? "#fca5a5"
+    : vol < benchVol * 0.8 ? "#86efac"
+    : "#fde047";
+  const sharpeColor = sharpe == null ? "var(--text-muted)"
+    : sharpe > 1 ? "#86efac"
+    : sharpe > 0 ? "#fde047"
+    : "#fca5a5";
+
+  const fmtPct = (v, withSign = false) => v == null ? "—" : `${withSign && v >= 0 ? "+" : ""}${v.toFixed(v >= 10 || v <= -10 ? 0 : 1)}%`;
+  const fmtNum = (v) => v == null ? "—" : v.toFixed(2);
+
+  const confBand = r?.confidence || (r?.sampleDays >= 252 ? "high" : r?.sampleDays >= 126 ? "medium" : "low");
+  const confColor = { high: "#86efac", medium: "#fde047", low: "#fca5a5" }[confBand] || "var(--text-muted)";
+  const confChip = r?.sampleDays != null
+    ? `<span style="font-size:10px; color:${confColor}; background:${confColor}22; padding:3px 8px; border-radius:4px; font-weight:700; letter-spacing:0.4px; text-transform:uppercase;" title="Confidence based on ${r.sampleDays} daily observations.">Confidence: ${confBand}</span>`
+    : "";
+  const betaBand = r?.weightedBetaSE != null
+    ? `±${r.weightedBetaSE} (1σ)`
+    : `${r?.betaCoverage ?? 0}/${r?.betaTotal ?? 0} holdings priced`;
+  const sharpeBand = r?.portfolioSharpeSE != null
+    ? `±${r.portfolioSharpeSE} (1σ) · Nifty: ${fmtNum(benchSharpe)}`
+    : `Nifty: ${fmtNum(benchSharpe)}`;
+
+  // Hero copy guarded against null
+  const heroLines = [];
+  const betaLine = _v2BetaSentence(beta);
+  const varLine = _v2VarSentence(var95);
+  if (betaLine) heroLines.push(betaLine);
+  if (varLine) heroLines.push(varLine);
+  const heroBlock = heroLines.length
+    ? `<div style="margin-bottom:14px; padding:10px 14px; background:rgba(96,165,250,0.05); border-left:3px solid #60a5fa; border-radius:0 6px 6px 0; font-size:13px; line-height:1.6;">
+        ${heroLines.map((l) => `<div>${l}</div>`).join("")}
+       </div>` : "";
+
+  const riskCard = r ? `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-bottom:12px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
+        <div style="font-size:14px; font-weight:700;">How risky is your book?</div>
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">${notAdviceChip()}</div>
+      </div>
+      ${heroBlock}
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Market sensitivity (beta) ${infoIcon("beta_metric")}</div>
+          <div style="font-size:20px; font-weight:700; color:${betaColor};">${fmtNum(beta)}</div>
+        </div>
+        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">How much it swings (volatility) ${infoIcon("volatility")}</div>
+          <div style="font-size:20px; font-weight:700; color:${volColor};">${fmtPct(vol)}</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Nifty: ${fmtPct(benchVol)}</div>
+        </div>
+        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Return per unit of risk (Sharpe) ${infoIcon("sharpe")}</div>
+          <div style="font-size:20px; font-weight:700; color:${sharpeColor};">${fmtNum(sharpe)}</div>
+        </div>
+        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Worst peak-to-trough drop (1y) ${infoIcon("max_drawdown")}</div>
+          <div style="font-size:20px; font-weight:700; color:#fca5a5;">${fmtPct(maxDD)}</div>
+        </div>
+        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Worst-day loss (1-in-20) ${infoIcon("var95")}</div>
+          <div style="font-size:20px; font-weight:700; color:#fca5a5;">${fmtPct(var95)}</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Nifty: ${fmtPct(benchVar95)}</div>
+        </div>
+        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">How together your stocks move ${infoIcon("pairwise_correlation")}</div>
+          <div style="font-size:20px; font-weight:700;">${fmtNum(avgCorr)}</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">1 = all move together</div>
+        </div>
+      </div>
+      <details style="margin-top:12px;">
+        <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">Methodology &amp; confidence ▾</summary>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:6px; line-height:1.6; padding-left:6px;">
+          ${confChip}
+          <div style="margin-top:6px;">Beta band: ${betaBand}</div>
+          <div style="margin-top:2px;">Sharpe band: ${sharpeBand}</div>
+          <div style="margin-top:2px;">Vs. Nifty 50, last ${r.sampleDays} trading days. ${r.methodology || ""}</div>
+          ${r.interpretation ? `<div style="margin-top:6px; padding:8px 10px; background:rgba(147,197,253,0.05); border-left:2px solid #60a5fa; border-radius:3px; color:var(--text);">${r.interpretation}</div>` : ""}
+        </div>
+      </details>
+    </div>` : "";
+
+  // Stress hero — find the most-severe scenario for the lead line
+  const largest = tests.reduce((a, b) => (Math.abs(b.projectedLossPct ?? 0) > Math.abs(a?.projectedLossPct ?? 0) ? b : a), null);
+  const stressHero = largest && Number.isFinite(largest.marketShockPct) && Number.isFinite(largest.projectedLossAmount)
+    ? `<div style="margin-bottom:14px; padding:10px 14px; background:rgba(252,165,165,0.05); border-left:3px solid #fca5a5; border-radius:0 6px 6px 0; font-size:13px; line-height:1.6;">
+        If the Nifty drops <strong>${Math.abs(largest.marketShockPct).toFixed(0)}%</strong>, you'd likely lose around <strong>${inr(Math.abs(largest.projectedLossAmount))}</strong> (${largest.projectedLossPct.toFixed(1)}% of book).
+       </div>` : "";
+
+  const rows = tests.map((t) => {
+    const pct = t.projectedLossPct;
+    const amt = t.projectedLossAmount;
+    const color = pct < -25 ? "#fca5a5" : pct < -15 ? "#fde047" : "#93c5fd";
+    return `
+      <div style="display:grid; grid-template-columns: 1fr 120px 100px 140px; gap:12px; align-items:center; padding:10px 0; border-bottom:1px solid #1a2233; font-size:13px;">
+        <div>${t.name}</div>
+        <div style="color:var(--text-muted); font-size:12px;">Nifty ${fmtPct(t.marketShockPct, true)}</div>
+        <div style="color:${color}; font-weight:700;">${fmtPct(pct, true)}</div>
+        <div style="color:${color}; font-weight:600; text-align:right;">${amt >= 0 ? "+" : ""}${inr(amt)}</div>
+      </div>`;
+  }).join("");
+
+  const pureBetaRows = tests.map((t) => {
+    const pure = t.projectedLossPctPureBeta;
+    const adj = t.projectedLossPct;
+    if (pure == null || adj == null) return "";
+    return `
+      <div style="display:grid; grid-template-columns: 1fr 120px 120px; gap:12px; padding:6px 0; font-size:12px; color:var(--text-muted);">
+        <div>${t.name}</div>
+        <div>Pure-β: ${fmtPct(pure, true)}</div>
+        <div>Sector adds ${(adj - pure).toFixed(1)}pp</div>
+      </div>`;
+  }).join("");
+
+  const stressCard = tests.length ? `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
+        <div style="font-size:14px; font-weight:700;">What happens if the market crashes?</div>
+        ${notAdviceChip()}
+      </div>
+      ${stressHero}
+      <div style="display:grid; grid-template-columns: 1fr 120px 100px 140px; gap:12px; font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; padding-bottom:4px;">
+        <div>Scenario</div><div>Market shock</div><div>Projected Δ</div><div style="text-align:right;">Δ in ₹</div>
+      </div>
+      ${rows}
+      <details style="margin-top:10px;">
+        <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">How are these calculated? ▾</summary>
+        <div style="margin-top:8px;">
+          ${pureBetaRows ? `<div style="margin-bottom:8px;">${pureBetaRows}</div>` : ""}
+          <div style="font-size:11px; color:var(--text-muted); line-height:1.55;">
+            Two models side-by-side: (1) pure β × market shock, (2) β × sector-dispersion multiplier. Multipliers calibrated from 2008 GFC + 2020 COVID drawdowns on NSE sectorals: NBFC 1.6×, Metals 1.5×, Banking 1.4×, Auto 1.3×, IT 0.8×, Pharma 0.7×, FMCG 0.7×. Sector-adjusted model matches historical drawdowns more closely; pure-β typically underestimates tail risk for small/mid-caps.
+          </div>
+        </div>
+      </details>
+    </div>` : "";
+
+  // Currency
+  const cx = report.currencyExposure;
+  const currencyHero = cx
+    ? `<div style="margin-bottom:14px; padding:10px 14px; background:rgba(134,239,172,0.05); border-left:3px solid #86efac; border-radius:0 6px 6px 0; font-size:13px; line-height:1.6;">
+        About <strong>${cx.usdEarningPct.toFixed(1)}%</strong> of your earnings are USD-linked (IT + Pharma) — that's a natural hedge if the rupee weakens.
+       </div>` : "";
+
+  const currencyCard = cx ? `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-top:12px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
+        <div style="font-size:14px; font-weight:700;">Rupee vs dollar split</div>
+        ${notAdviceChip()}
+      </div>
+      ${currencyHero}
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Rupee earners</div>
+          <div style="font-size:20px; font-weight:700;">${cx.inrExposurePct.toFixed(1)}%</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Full INR-denominated earnings</div>
+        </div>
+        <div style="padding:12px; background:#0b1220; border:1px solid #1a2233; border-radius:8px;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Dollar earners</div>
+          <div style="font-size:20px; font-weight:700; color:#86efac;">${cx.usdEarningPct.toFixed(1)}%</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">IT Services + Pharma (${inr(cx.usdEarningValue)})</div>
+        </div>
+      </div>
+      <details style="margin-top:10px;">
+        <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">Why this matters ▾</summary>
+        <div style="margin-top:8px;">
+          <div style="font-size:12px; color:var(--text-secondary); line-height:1.6; margin-bottom:8px;">${cx.narrative}</div>
+          <div style="font-size:10px; color:var(--text-muted); font-style:italic;">Methodology: ${cx.methodology}</div>
+        </div>
+      </details>
+    </div>` : "";
+
+  el.innerHTML = riskCard + stressCard + currencyCard;
+}
+
+async function renderAnalyzerRiskProfileV2(rpBlock) {
+  // V2 differs from V1 only when bucket is set — wraps the cryptic "Score X/9
+  // · target allocation tuned to this profile" sub-line in <details>, and
+  // leads with a plain-English sentence. Survey path is byte-identical.
+  const el = document.getElementById("analyzerRiskProfile");
+  if (!el) return;
+
+  let questions = window.__rpQuestionsCache;
+  if (!questions) {
+    try {
+      const r = await fetch("/api/risk-profile");
+      const j = await r.json();
+      questions = j.questions || [];
+      window.__rpQuestionsCache = questions;
+    } catch {
+      questions = [];
+    }
+  }
+
+  const present = !!(rpBlock && rpBlock.present);
+
+  if (present) {
+    const bucketColor = {
+      CONSERVATIVE: "#60a5fa",
+      MODERATE:     "#a78bfa",
+      AGGRESSIVE:   "#f97316",
+    }[rpBlock.bucket] || "#94a3b8";
+    el.innerHTML = `
+      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:14px 18px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+          <div>
+            <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); margin-bottom:4px;">Risk Profile</div>
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+              <span style="display:inline-flex; align-items:center; gap:6px; padding:5px 12px; background:${bucketColor}22; border:1px solid ${bucketColor}55; border-radius:6px; color:${bucketColor}; font-weight:700; font-size:13px;">
+                ${rpBlock.bucket}
+              </span>
+            </div>
+            <div style="font-size:13px; color:var(--text); margin-top:8px; line-height:1.5;">
+              You're a <strong>${rpBlock.bucket}</strong> investor. Your portfolio is being measured against ${rpBlock.bucket.toLowerCase()}-aligned targets.
+            </div>
+          </div>
+          <button id="analyzerRiskProfileEdit" type="button" style="background:transparent; border:1px solid #1a2233; color:var(--text-muted); border-radius:6px; padding:6px 12px; font-size:12px; cursor:pointer;">Retake survey</button>
+        </div>
+        <details style="margin-top:10px;">
+          <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">Methodology ▾</summary>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:6px; padding-left:6px; line-height:1.6;">
+            Score ${rpBlock.score}/9 · target allocation tuned to this profile. SEBI IA-Reg 2013 requires risk profiling before any portfolio recommendation; this 3-question survey is the minimum suitability assessment.
+          </div>
+        </details>
+      </div>`;
+    document.getElementById("analyzerRiskProfileEdit")?.addEventListener("click", async () => {
+      try { await fetch("/api/risk-profile", { method: "DELETE" }); } catch {}
+      renderAnalyzerRiskProfileV2({ present: false });
+    });
+    return;
+  }
+
+  // Unset path — identical to V1
+  if (!Array.isArray(questions) || questions.length === 0) {
+    el.innerHTML = `
+      <div style="background:var(--panel); border:1px solid rgba(245,158,11,0.4); border-radius:10px; padding:14px 18px; color:#fde68a; font-size:13px;">
+        Risk-profile questionnaire unavailable. Recommendations will use the default MODERATE profile.
+      </div>`;
+    return;
+  }
+
+  const questionsHtml = questions.map((q) => `
+    <div style="margin-bottom:14px;">
+      <div style="font-size:13px; color:var(--text); font-weight:600; margin-bottom:6px;">${q.label}</div>
+      ${q.helper ? `<div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">${q.helper}</div>` : ""}
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        ${q.options.map((o) => `
+          <label style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:#0f172a; border:1px solid #1a2233; border-radius:6px; cursor:pointer; font-size:12px; color:var(--text);">
+            <input type="radio" name="rp_${q.id}" value="${o.value}" style="margin:0;" />
+            ${o.label}
+          </label>
+        `).join("")}
+      </div>
+    </div>
+  `).join("");
+
+  el.innerHTML = `
+    <div style="background:var(--panel); border:1px solid rgba(245,158,11,0.35); border-radius:10px; padding:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:14px;">
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:10px;">
+            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.4); border-radius:6px; color:#fde68a; text-transform:uppercase; letter-spacing:0.4px;">recommended</span>
+          </div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+            SEBI IA-Reg 2013 requires risk profiling before any portfolio recommendation. Without it, the analyser uses default MODERATE assumptions.
+          </div>
+        </div>
+      </div>
+      <div id="analyzerRiskProfileForm">${questionsHtml}</div>
+      <div style="display:flex; gap:10px; align-items:center; margin-top:14px;">
+        <button id="analyzerRiskProfileSubmit" type="button" style="background:#16a34a; color:white; border:none; border-radius:6px; padding:8px 16px; font-weight:600; font-size:13px; cursor:pointer;">Save profile &amp; re-run</button>
+        <span id="analyzerRiskProfileStatus" style="font-size:11px; color:var(--text-muted);"></span>
+      </div>
+    </div>`;
+
+  document.getElementById("analyzerRiskProfileSubmit")?.addEventListener("click", async () => {
+    const status = document.getElementById("analyzerRiskProfileStatus");
+    const answers = {};
+    let missing = 0;
+    for (const q of questions) {
+      const checked = document.querySelector(`input[name="rp_${q.id}"]:checked`);
+      if (!checked) { missing += 1; continue; }
+      answers[q.id] = checked.value;
+    }
+    if (missing > 0) {
+      status.textContent = `Please answer all ${questions.length} questions (${missing} remaining).`;
+      status.style.color = "#fca5a5";
+      return;
+    }
+    status.textContent = "Saving…";
+    status.style.color = "var(--text-muted)";
+    try {
+      const r = await fetch("/api/risk-profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers }),
+      });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error || "save failed");
+      status.textContent = `Saved → ${j.riskProfile.bucket}. Re-running analysis…`;
+      status.style.color = "#86efac";
+      renderAnalyzerRiskProfileV2({ present: true, bucket: j.riskProfile.bucket, score: j.riskProfile.score });
+      const allocEl = document.getElementById("analyzerAssetAllocation");
+      if (allocEl) {
+        allocEl.insertAdjacentHTML("afterbegin", `
+          <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.4); border-radius:8px; padding:10px 14px; margin-bottom:12px; font-size:12px; color:#86efac;">
+            ✓ Profile saved. Re-upload your holdings file (or re-run the analyser) to refresh allocation targets and per-fund alignment chips.
+          </div>`);
+      }
+    } catch (err) {
+      status.textContent = `Save failed: ${err.message}`;
+      status.style.color = "#fca5a5";
+    }
+  });
+}
+
+function renderAnalyzerAssetAllocationV2(alloc, rpBlock) {
+  const el = document.getElementById("analyzerAssetAllocation");
+  if (!el) return;
+  if (!alloc || !Array.isArray(alloc.buckets) || alloc.buckets.length === 0) {
+    el.innerHTML = "";
+    return;
+  }
+
+  const profileLabel = alloc.targetSource === "user_profile"
+    ? `your ${alloc.riskProfileBucket} profile`
+    : `default MODERATE profile (complete the survey above for personalised targets)`;
+
+  const VERDICT_PALETTE = {
+    OK:       { bg: "rgba(34,197,94,0.10)",  border: "rgba(34,197,94,0.35)",  text: "#86efac", label: "On target" },
+    REDUCE:   { bg: "rgba(239,68,68,0.10)",  border: "rgba(239,68,68,0.35)",  text: "#fca5a5", label: "Reduce" },
+    INCREASE: { bg: "rgba(59,130,246,0.10)", border: "rgba(59,130,246,0.35)", text: "#93c5fd", label: "Increase" },
+    ADD_NEW:  { bg: "rgba(168,85,247,0.10)", border: "rgba(168,85,247,0.35)", text: "#d8b4fe", label: "Add new" },
+  };
+
+  // Hero copy
+  const offTargetBuckets = alloc.buckets.filter((b) => b.verdict !== "OK");
+  let heroLine;
+  if (offTargetBuckets.length === 0) {
+    const bucketName = (rpBlock?.bucket || alloc.riskProfileBucket || "MODERATE").toLowerCase();
+    heroLine = `Your asset mix matches the target for your <strong>${bucketName}</strong> profile.`;
+  } else {
+    const worst = offTargetBuckets.reduce((a, b) => Math.abs(b.gapPp || 0) > Math.abs(a.gapPp || 0) ? b : a);
+    const direction = worst.verdict === "REDUCE" ? "over-weight" : "under-weight";
+    heroLine = `You're <strong>${direction}</strong> in <strong>${worst.label}</strong> — target is ${worst.targetPct}%, you have ${worst.currentPct}%.`;
+  }
+  const heroBlock = `<div style="margin-top:8px; padding:10px 14px; background:rgba(96,165,250,0.05); border-left:3px solid #60a5fa; border-radius:0 6px 6px 0; font-size:13px; line-height:1.6;">${heroLine}</div>`;
+
+  const barSegments = alloc.buckets
+    .filter((b) => b.currentPct > 0)
+    .map((b, i) => {
+      const colors = ["#3b82f6", "#a78bfa", "#f97316", "#10b981", "#f59e0b", "#ec4899", "#06b6d4", "#84cc16"];
+      const c = colors[i % colors.length];
+      return `<div title="${b.label} ${b.currentPct}%" style="flex:0 0 ${b.currentPct}%; background:${c}; height:100%;"></div>`;
+    }).join("");
+
+  const bucketRows = alloc.buckets.map((b) => {
+    const pal = VERDICT_PALETTE[b.verdict] || VERDICT_PALETTE.OK;
+    const gapStr = b.gapPp >= 0 ? `+${b.gapPp}pp` : `${b.gapPp}pp`;
+    const gapColor = b.verdict === "OK" ? "var(--text-muted)" : pal.text;
+    return `
+      <div style="display:grid; grid-template-columns:1.6fr 90px 90px 100px 100px; gap:12px; align-items:center; padding:10px 12px; background:#0f172a; border:1px solid #1a2233; border-radius:6px; margin-top:6px;">
+        <div>
+          <div style="font-size:13px; color:var(--text); font-weight:600;">${b.label}</div>
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px;">${b.risk} risk</div>
+        </div>
+        <div style="font-size:13px; color:var(--text); font-weight:700;">${b.currentPct}%</div>
+        <div style="font-size:11px; color:var(--text-muted);">target ${b.targetPct}%</div>
+        <div style="font-size:13px; color:${gapColor}; font-weight:600;">${gapStr}</div>
+        <div>
+          <span style="display:inline-block; padding:3px 10px; background:${pal.bg}; border:1px solid ${pal.border}; border-radius:4px; color:${pal.text}; font-size:11px; font-weight:600;">${pal.label}</span>
+        </div>
+      </div>`;
+  }).join("");
+
+  const flagsHtml = (alloc.summary?.concentrationFlags || []).map((f) => `
+    <div style="display:flex; gap:8px; align-items:flex-start; padding:8px 12px; background:rgba(239,68,68,0.08); border-left:3px solid rgba(239,68,68,0.5); border-radius:0 6px 6px 0; margin-top:6px;">
+      <span style="color:#fca5a5; font-weight:700; flex-shrink:0;">!</span>
+      <span style="font-size:12px; color:var(--text); line-height:1.5;">${f}</span>
+    </div>`).join("");
+
+  const summary = alloc.summary || {};
+  el.innerHTML = `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:240px;">
+          <div style="font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:10px;">
+            Are you spread across the right assets?
+            ${notAdviceChip("inline")}
+          </div>
+          ${heroBlock}
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          ${summary.equityPct ? `<span style="font-size:11px; padding:4px 10px; background:#0f172a; border:1px solid #1a2233; border-radius:4px;"><strong>${summary.equityPct}%</strong> equity</span>` : ""}
+          ${summary.debtPct ? `<span style="font-size:11px; padding:4px 10px; background:#0f172a; border:1px solid #1a2233; border-radius:4px;"><strong>${summary.debtPct}%</strong> debt</span>` : `<span style="font-size:11px; padding:4px 10px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.35); border-radius:4px; color:#fca5a5;"><strong>0%</strong> debt</span>`}
+          ${summary.hybridPct ? `<span style="font-size:11px; padding:4px 10px; background:#0f172a; border:1px solid #1a2233; border-radius:4px;"><strong>${summary.hybridPct}%</strong> hybrid</span>` : ""}
+          ${summary.commodityPct ? `<span style="font-size:11px; padding:4px 10px; background:#0f172a; border:1px solid #1a2233; border-radius:4px;"><strong>${summary.commodityPct}%</strong> gold</span>` : ""}
+        </div>
+      </div>
+
+      <div style="display:flex; height:14px; border-radius:4px; overflow:hidden; background:#0f172a; margin-top:14px; border:1px solid #1a2233;">
+        ${barSegments || '<div style="flex:1;"></div>'}
+      </div>
+
+      <div style="margin-top:14px;">
+        <div style="display:grid; grid-template-columns:1.6fr 90px 90px 100px 100px; gap:12px; padding:0 12px; font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+          <div>Asset class</div><div>Current</div><div>Target</div><div>Gap</div><div>Verdict</div>
+        </div>
+        ${bucketRows}
+      </div>
+
+      ${flagsHtml ? `
+        <div style="margin-top:14px;">
+          <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:#fca5a5; margin-bottom:6px;">Concentration flags</div>
+          ${flagsHtml}
+        </div>` : ""}
+
+      <details style="margin-top:14px;">
+        <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">Methodology ▾</summary>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:6px; padding-left:6px; line-height:1.6;">
+          Current allocation vs ${profileLabel} · book ₹${(alloc.totalCurrent / 1e5).toFixed(2)}L
+        </div>
+      </details>
+    </div>`;
+}
+
+const MF_ACTION_PALETTE_V2 = {
+  EXIT:        { bg: "rgba(239,68,68,0.12)",  border: "rgba(239,68,68,0.5)",  text: "#fca5a5", verb: "Consider exiting" },
+  SWITCH:      { bg: "rgba(59,130,246,0.12)", border: "rgba(59,130,246,0.5)", text: "#93c5fd", verb: "Consider switching" },
+  CONSOLIDATE: { bg: "rgba(168,85,247,0.12)", border: "rgba(168,85,247,0.5)", text: "#d8b4fe", verb: "Consider consolidating" },
+  ADD:         { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.5)",  text: "#86efac", verb: "Consider adding" },
+  HOLD:        { bg: "rgba(107,114,128,0.10)",border: "rgba(107,114,128,0.35)",text: "#cbd5e1", verb: "Hold" },
+};
+
+function mfActionBadgeV2(action) {
+  const p = MF_ACTION_PALETTE_V2[action] || MF_ACTION_PALETTE_V2.HOLD;
+  return `<span style="display:inline-block; padding:4px 12px; border-radius:4px; background:${p.bg}; border:1px solid ${p.border}; color:${p.text}; font-size:11px; font-weight:700; letter-spacing:0.4px;">${p.verb}</span>`;
+}
+
+function renderAnalyzerMfPositionsV2(block) {
+  const el = document.getElementById("analyzerMfPositions");
+  if (!el) return;
+  if (!block || !Array.isArray(block.positions) || block.positions.length === 0) {
+    el.innerHTML = "";
+    return;
+  }
+
+  const positions = block.positions;
+  const mix = block.actionMix || {};
+  const totalInvested = positions.reduce((s, p) => s + (p.invested || 0), 0);
+  const totalCurrent = positions.reduce((s, p) => s + (p.currentValue || 0), 0);
+  const actionableCount = (mix.EXIT || 0) + (mix.SWITCH || 0) + (mix.CONSOLIDATE || 0) + (mix.ADD || 0);
+
+  const heroLine = actionableCount === 0
+    ? `<div style="font-size:13px; color:var(--text); margin-top:6px; line-height:1.5;">All ${positions.length} of your funds are in HOLD range — no actionable recommendations right now.</div>`
+    : `<div style="font-size:13px; color:var(--text); margin-top:6px; line-height:1.5;">
+         <strong>${actionableCount}</strong> of your <strong>${positions.length}</strong> funds need attention.
+         ${(mix.EXIT || 0) > 0 ? `<strong>${mix.EXIT}</strong> look like exit candidates. ` : ""}
+         ${(mix.SWITCH || 0) > 0 ? `<strong>${mix.SWITCH}</strong> have stronger peers in the same category. ` : ""}
+         ${(mix.CONSOLIDATE || 0) > 0 ? `<strong>${mix.CONSOLIDATE}</strong> can be consolidated. ` : ""}
+       </div>`;
+
+  const ORDER = ["EXIT", "SWITCH", "CONSOLIDATE", "ADD", "HOLD"];
+  const mixChips = ORDER
+    .filter((a) => (mix[a] || 0) > 0)
+    .map((a) => {
+      const p = MF_ACTION_PALETTE_V2[a];
+      return `<span style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:${p.bg}; border:1px solid ${p.border}; border-radius:6px; color:${p.text}; font-size:13px; font-weight:600;">
+        <strong style="font-size:16px;">${mix[a]}</strong> ${a.toLowerCase()}
+      </span>`;
+    })
+    .join("");
+
+  const overlap = block.overlap || {};
+  const hasOverlap = overlap.duplicateFolioCount > 0 || (overlap.overweightCategories || []).length > 0;
+  const overlapNote = hasOverlap
+    ? `<details style="margin-top:10px;">
+        <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">Book hygiene details ▾</summary>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:6px; padding-left:6px; line-height:1.6;">
+          ${overlap.duplicateFolioCount > 0 ? `<div><strong style="color:#d8b4fe;">${overlap.duplicateFolioCount} duplicate folio(s)</strong> — same scheme split across multiple folios; consolidating reduces tracking overhead.</div>` : ""}
+          ${(overlap.overweightCategories || []).length > 0 ? `<div><strong style="color:#fde047;">${overlap.overweightCategories.length} category(s) with 2+ funds</strong> — overlap of holdings expected; check the per-fund peer compare to spot the weakest of each set.</div>` : ""}
+        </div>
+       </details>`
+    : "";
+
+  const summary = block.summary || {};
+  const concerns = summary.concerns || [];
+  const opportunities = summary.opportunities || [];
+  const summaryRow = (concerns.length > 0 || opportunities.length > 0) ? `
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px;">
+      <div style="background:#0f172a; border:1px solid rgba(239,68,68,0.25); border-radius:6px; padding:10px 12px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:#fca5a5; margin-bottom:6px;">Top concerns</div>
+        ${concerns.length === 0 ? '<div style="font-size:11px; color:var(--text-muted); font-style:italic;">No material concerns flagged.</div>'
+          : concerns.map((c) => `<div style="font-size:11px; color:var(--text); margin-bottom:3px;">• ${c.detail}</div>`).join("")}
+      </div>
+      <div style="background:#0f172a; border:1px solid rgba(34,197,94,0.25); border-radius:6px; padding:10px 12px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:#86efac; margin-bottom:6px;">Top switch opportunities</div>
+        ${opportunities.length === 0 ? '<div style="font-size:11px; color:var(--text-muted); font-style:italic;">No SWITCH candidates above the noise floor.</div>'
+          : opportunities.map((o) => `<div style="font-size:11px; color:var(--text); margin-bottom:3px;">• ${o.from.name?.slice(0,32)} → ${o.to?.slice(0,32)} <strong style="color:#86efac;">+${o.deltaPp}pp</strong></div>`).join("")}
+      </div>
+    </div>` : "";
+
+  const header = `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px; margin-bottom:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
+        <div>
+          <div style="font-size:14px; font-weight:700; display:flex; align-items:center; gap:10px;">
+            What to do with your mutual funds
+            ${notAdviceChip("inline")}
+          </div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+            ${positions.length} MF position(s) · ${actionableCount} actionable · book ₹${(totalCurrent/1e5).toFixed(2)}L (cost ₹${(totalInvested/1e5).toFixed(2)}L)
+          </div>
+          ${heroLine}
+        </div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">${mixChips || '<span style="font-size:12px; color:var(--text-muted);">No actionable positions.</span>'}</div>
+      ${overlapNote}
+      ${summaryRow}
+    </div>`;
+
+  const cards = positions.map((p, idx) => renderMfPositionCardV2(p, idx)).join("");
+
+  el.innerHTML = `
+    ${header}
+    ${cards}
+  `;
+}
+
+function renderMfPositionCardV2(position, idx) {
+  const rec = position.rec || {};
+  const action = rec.action || "HOLD";
+  const palette = MF_ACTION_PALETTE_V2[action] || MF_ACTION_PALETTE_V2.HOLD;
+  const perf = rec.performance || {};
+  const factors = rec.factors || {};
+
+  const pnlPctVal = position.pnlPercent;
+  const pnlColor = pctColor(pnlPctVal);
+  const pnlText = Number.isFinite(pnlPctVal) ? `${pnlPctVal >= 0 ? "+" : ""}${pnlPctVal.toFixed(2)}%` : "—";
+
+  const sourceLabel = factors.trailingXirrSource === "amfi_3y" ? "AMFI 3y CAGR"
+    : factors.trailingXirrSource === "amfi_1y" ? "AMFI 1y CAGR"
+    : factors.trailingXirrSource === "groww_xirr" ? "Groww trailing XIRR"
+    : "—";
+  const perfLine = Number.isFinite(perf.trailingXirrPct)
+    ? `<div style="font-size:12px; color:var(--text-muted); margin-top:6px;">
+         <span style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px;">${sourceLabel}:</span>
+         <strong style="color:${perf.vsCategoryPp >= 0 ? '#86efac' : '#fca5a5'};">${perf.trailingXirrPct.toFixed(2)}%</strong>
+         ${Number.isFinite(perf.vsCategoryPp) ? `· vs ${perf.categoryKey || 'category'} benchmark ${perf.categoryBenchmarkPct}% <strong style="color:${perf.vsCategoryPp >= 0 ? '#86efac' : '#fca5a5'};">(${perf.vsCategoryPp >= 0 ? "+" : ""}${perf.vsCategoryPp}pp)</strong>` : ""}
+       </div>`
+    : `<div style="font-size:12px; color:var(--text-muted); margin-top:6px;">No published XIRR or AMFI match available.</div>`;
+
+  const m = factors.metrics;
+  const hasMultiWindow = m && (Number.isFinite(m.cagr1yPct) || Number.isFinite(m.cagr3yPct) || Number.isFinite(m.cagr5yPct) || Number.isFinite(m.sharpe3y) || Number.isFinite(m.annualVolPct) || Number.isFinite(m.maxDrawdownPct));
+  const multiWindowDetails = hasMultiWindow ? `
+    <details style="margin-top:8px;">
+      <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">Show metrics ▾</summary>
+      <div style="display:flex; flex-wrap:wrap; gap:14px; font-size:11px; color:var(--text-muted); margin-top:6px; padding:8px 12px; background:#0f172a; border-radius:6px; border:1px solid #1a2233;">
+        ${Number.isFinite(m.cagr1yPct) ? `<span>1y <strong style="color:${m.cagr1yPct >= 0 ? '#86efac' : '#fca5a5'};">${m.cagr1yPct}%</strong></span>` : ""}
+        ${Number.isFinite(m.cagr3yPct) ? `<span>3y <strong style="color:${m.cagr3yPct >= 0 ? '#86efac' : '#fca5a5'};">${m.cagr3yPct}%</strong></span>` : ""}
+        ${Number.isFinite(m.cagr5yPct) ? `<span>5y <strong style="color:${m.cagr5yPct >= 0 ? '#86efac' : '#fca5a5'};">${m.cagr5yPct}%</strong></span>` : ""}
+        ${Number.isFinite(m.sharpe3y) ? `<span>Sharpe(3y) ${infoIcon("sharpe")} <strong style="color:var(--text);">${m.sharpe3y}</strong></span>` : ""}
+        ${Number.isFinite(m.annualVolPct) ? `<span>Vol <strong style="color:var(--text);">${m.annualVolPct}%</strong></span>` : ""}
+        ${Number.isFinite(m.maxDrawdownPct) ? `<span>Max DD <strong style="color:#fca5a5;">${m.maxDrawdownPct}%</strong></span>` : ""}
+        ${factors.amfi?.schemeCode ? `<span style="opacity:0.6;">AMFI #${factors.amfi.schemeCode}${factors.amfi.matchType === "isin" ? " · ISIN match" : factors.amfi.score ? ` · name match ${factors.amfi.score}` : ""}</span>` : ""}
+      </div>
+    </details>` : "";
+
+  const reasons = rec.reasons || [];
+  const leadReason = reasons.length > 0
+    ? `<div style="font-size:13px; color:var(--text); margin-top:10px; padding:10px 12px; background:rgba(96,165,250,0.04); border-left:3px solid #60a5fa; border-radius:0 6px 6px 0;">
+        <strong style="color:${palette.text}; text-transform:uppercase; letter-spacing:0.3px; font-size:11px;">${reasons[0].label}:</strong>
+        <span style="line-height:1.5;"> ${reasons[0].detail}</span>
+       </div>`
+    : "";
+  const remainingReasons = reasons.slice(1);
+  const reasonsHtml = remainingReasons.map((r) => `
+    <div style="background:#0f172a; border-left:3px solid ${palette.border}; padding:8px 12px; margin-top:6px; border-radius:0 6px 6px 0;">
+      <div style="font-size:11px; font-weight:700; color:${palette.text}; letter-spacing:0.3px; text-transform:uppercase; margin-bottom:2px;">${r.label}</div>
+      <div style="font-size:12px; color:var(--text-muted); line-height:1.45;">${r.detail}</div>
+    </div>
+  `).join("");
+
+  const peers = rec.peerCandidates || [];
+  const peersHtml = peers.length > 0 ? `
+    <div style="margin-top:12px; padding-top:12px; border-top:1px solid #1a2233;">
+      <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); margin-bottom:6px;">Peer compare (same SEBI category)</div>
+      ${peers.map((c, i) => {
+        const meta = c.source === "amfi_live"
+          ? `5y ${c.approxXirr5yPct}%${Number.isFinite(c.cagr3yPct) ? ` · 3y ${c.cagr3yPct}%` : ""}${Number.isFinite(c.sharpe3y) ? ` · Sharpe ${c.sharpe3y}` : ""} · ${c.amc || "AMC"}`
+          : `5y ${c.approxXirr5yPct}%${c.expenseRatioPct ? ` · TER ${c.expenseRatioPct}%` : ""}${c.categoryRank5y ? ` · rank #${c.categoryRank5y}` : ""}${c.lockInMonths ? ` · ${c.lockInMonths}mo lock` : ""}`;
+        return `
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; padding:6px 0; border-bottom:${i < peers.length-1 ? '1px solid #1a2233' : '0'};">
+          <div style="flex:1; min-width:0;">
+            <div style="font-size:12px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${c.name}</div>
+            <div style="font-size:10px; color:var(--text-muted); margin-top:1px;">${meta}</div>
+          </div>
+          ${Number.isFinite(c.deltaPp) ? `<div style="font-size:13px; font-weight:700; color:${c.deltaPp > 0 ? '#86efac' : '#fca5a5'};">${c.deltaPp > 0 ? "+" : ""}${c.deltaPp}pp</div>` : ""}
+        </div>
+      `;}).join("")}
+    </div>
+  ` : "";
+
+  const consolidateNote = rec.consolidateTo ? `
+    <div style="margin-top:10px; padding:8px 12px; background:rgba(168,85,247,0.08); border:1px solid rgba(168,85,247,0.3); border-radius:6px; font-size:12px; color:#d8b4fe;">
+      Consolidate into folio <strong>${rec.consolidateTo.folio}</strong> (largest sibling holding the same scheme).
+    </div>` : "";
+
+  const news = position.news;
+  const newsHtml = renderMfNewsBlock(news);
+
+  return `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:16px; margin-bottom:12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:10px;">
+        <div style="flex:1; min-width:240px;">
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+            <span style="font-size:11px; font-weight:700; color:var(--text-muted);">#${idx + 1}</span>
+            ${mfActionBadgeV2(action)}
+            ${mfConfidencePill(rec.confidence || "LOW")}
+            ${riskAlignmentChip(factors.riskAlignment)}
+          </div>
+          <div style="font-weight:700; font-size:14px; margin-top:8px;">${position.name || "—"}</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">
+            ${position.category || ""}${position.subCategory ? ` · ${position.subCategory}` : ""}${position.folio ? ` · folio ${position.folio}` : ""}
+          </div>
+        </div>
+        <div style="text-align:right; min-width:160px;">
+          <div style="font-size:11px; color:var(--text-muted);">Invested → Current</div>
+          <div style="font-size:14px; font-weight:700; margin-top:2px;">${inr(position.invested)} → ${inr(position.currentValue)}</div>
+          <div style="font-size:13px; font-weight:600; color:${pnlColor}; margin-top:2px;">${pnlText}</div>
+        </div>
+      </div>
+      ${leadReason}
+      ${perfLine}
+      ${multiWindowDetails}
+      ${remainingReasons.length ? `<div style="margin-top:12px;">${reasonsHtml}</div>` : ""}
+      ${consolidateNote}
+      ${peersHtml}
+      ${newsHtml}
+    </div>
+  `;
+}
+
+function renderAnalyzerOptimizerV2(optimizer) {
+  const el = document.getElementById("analyzerOptimizer");
+  if (!el) return;
+
+  if (!optimizer) {
+    el.innerHTML = `
+      <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+        <div style="font-size:14px; font-weight:700; margin-bottom:8px;">Where could your returns improve?</div>
+        <div style="font-size:12px; color:var(--text-muted);">
+          Optimizer block unavailable for this portfolio (likely an empty book or no investible holdings).
+        </div>
+      </div>`;
+    return;
+  }
+
+  _optimizerState.optimizer = optimizer;
+  if (optimizer.sessionId) _optimizerState.sessionId = optimizer.sessionId;
+  if (optimizer.preset) _optimizerState.preset = optimizer.preset;
+  if (Number.isFinite(optimizer.taxSlabPct)) _optimizerState.taxSlabPct = optimizer.taxSlabPct;
+
+  const currentPct = optimizer.currentXirrPct;
+  const projectedPct = optimizer.projectedXirrPct;
+  const conservativePct = optimizer.projectedXirrConservativePct;
+  const upliftBps = optimizer.projectedUpliftBps;
+  const upliftBpsConservative = optimizer.projectedUpliftBpsConservative;
+  const moves = Array.isArray(optimizer.moves) ? optimizer.moves : [];
+
+  const heroLine = (() => {
+    if (moves.length === 0) {
+      return `Your book is at or near its mathematically-derived optimum — no positive-uplift switches at the current preset.`;
+    }
+    if (!Number.isFinite(currentPct) || !Number.isFinite(projectedPct)) {
+      return `${moves.length} candidate switch${moves.length === 1 ? "" : "es"} below — review with your registered adviser before acting.`;
+    }
+    const sign = (upliftBps || 0) >= 0 ? "+" : "";
+    return `Switching the <strong>${moves.length}</strong> position${moves.length === 1 ? "" : "s"} below could lift your annualised return from <strong>${currentPct.toFixed(2)}%</strong> to <strong>${projectedPct.toFixed(2)}%</strong> — about <strong>${sign}${(upliftBps || 0).toFixed(0)} basis points</strong> more per year.`;
+  })();
+  const heroBlock = `<div style="margin-top:6px; padding:10px 14px; background:rgba(96,165,250,0.05); border-left:3px solid #60a5fa; border-radius:0 6px 6px 0; font-size:13px; line-height:1.6;">${heroLine}</div>`;
+
+  const presetChips = Object.keys(OPTIMIZER_PRESET_LABELS).map((key) => {
+    const active = key === _optimizerState.preset;
+    const bg = active ? "var(--accent)" : "transparent";
+    const color = active ? "#fff" : "var(--text)";
+    const border = active ? "var(--accent)" : "#2a3349";
+    return `<button type="button"
+      onclick="applyOptimizerPreset('${key}')"
+      title="${OPTIMIZER_PRESET_TOOLTIPS[key]}"
+      style="background:${bg}; color:${color}; border:1px solid ${border}; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.15s;">
+      ${OPTIMIZER_PRESET_LABELS[key]}
+    </button>`;
+  }).join("");
+
+  const slabChips = [5, 20, 30].map((s) => {
+    const active = s === _optimizerState.taxSlabPct;
+    const bg = active ? "var(--accent)" : "transparent";
+    const color = active ? "#fff" : "var(--text)";
+    const border = active ? "var(--accent)" : "#2a3349";
+    return `<button type="button"
+      onclick="applyOptimizerTaxSlab(${s})"
+      style="background:${bg}; color:${color}; border:1px solid ${border}; padding:5px 10px; border-radius:6px; font-size:11px; font-weight:600; cursor:pointer;">
+      ${s}%
+    </button>`;
+  }).join("");
+
+  const moveCards = moves.length === 0
+    ? `<div style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2); border-radius:8px; padding:14px 18px; font-size:12px; color:#86efac;">
+        No positive-uplift moves at the current preset / noise floor — your book is at or near its mathematically-derived optimum given the constraints.
+      </div>`
+    : moves.map((m, idx) => {
+        const upliftColor = (m.estUpliftBps || 0) >= 0 ? "var(--green, #22c55e)" : "var(--red, #ef4444)";
+        const switchTo = Array.isArray(m.redeployTo) && m.redeployTo.length > 0
+          ? `<div style="font-size:11px; color:var(--text-muted); margin-top:6px;">
+               Redeploy to: ${m.redeployTo.map((c) => `<strong style="color:var(--text);">${c.name}</strong>${c.allocPct != null ? ` (${c.allocPct}%)` : ""}`).join(" · ")}
+             </div>`
+          : "";
+        const blocked = m.blocking
+          ? `<div style="font-size:11px; color:#fca5a5; margin-top:6px; padding:4px 8px; background:rgba(239,68,68,0.08); border-radius:4px; display:inline-block;">
+               Blocked: ${m.blocking.reason || m.blocking.type || "constraint"}
+             </div>`
+          : "";
+        return `
+          <div style="background:#0f172a; border:1px solid #1a2233; border-radius:8px; padding:14px 16px; margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:8px;">
+              <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                <span style="font-size:12px; font-weight:700; color:var(--text-muted);">#${idx + 1}</span>
+                ${moveTypeBadge(m.type)}
+                <span style="font-weight:700; font-size:13px;">${m.instrument?.name || m.instrument?.symbol || "—"}</span>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-weight:700; color:${upliftColor}; font-size:14px;">
+                  ${(m.estUpliftBps || 0) >= 0 ? "+" : ""}${(m.estUpliftBps || 0).toFixed(0)} bps
+                </div>
+              </div>
+            </div>
+            <div style="font-size:12px; color:var(--text-muted); line-height:1.5;">
+              ${m.rationale || "—"}
+            </div>
+            ${switchTo}
+            <div style="display:flex; gap:14px; flex-wrap:wrap; font-size:11px; color:var(--text-muted); margin-top:8px; padding-top:8px; border-top:1px solid #1a2233;">
+              <span>Cash from selling: <strong style="color:var(--text);">${inr(m.grossProceedsRupees)}</strong></span>
+              <span>Tax owed: <strong style="color:#fca5a5;">${inr(m.taxCostRupees)}</strong></span>
+              <span>Cash to reinvest: <strong style="color:#86efac;">${inr(m.netRedeployableRupees)}</strong></span>
+            </div>
+            ${blocked}
+            ${m.compliance ? `<div style="font-size:10px; color:var(--text-muted); margin-top:6px; font-style:italic;">${m.compliance}</div>` : ""}
+          </div>`;
+      }).join("");
+
+  const constraints = Array.isArray(optimizer.constraintsBinding) ? optimizer.constraintsBinding : [];
+  const assumptions = Array.isArray(optimizer.assumptions) ? optimizer.assumptions : [];
+  const hasAdvanced = constraints.length > 0 || assumptions.length > 0 || Number.isFinite(conservativePct);
+
+  const constraintPills = constraints.length === 0 ? "" : `
+    <div style="margin-bottom:10px;">
+      <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); margin-bottom:6px;">Constraints binding</div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        ${constraints.map((c) => `
+          <span style="display:inline-block; font-size:11px; padding:4px 10px; background:rgba(250,204,21,0.10); border:1px solid rgba(250,204,21,0.3); border-radius:4px; color:#fde047;">
+            ${c.type === "ELSS_LOCK_IN"
+              ? `ELSS lock-in: ${c.instrument || ""}${c.until ? " until " + c.until : ""}`
+              : c.type === "FY_LTCG_BUDGET"
+              ? `FY LTCG budget remaining: ${inr(c.remaining)}${c.fyEndsOn ? " (FY ends " + c.fyEndsOn + ")" : ""}`
+              : c.type === "SECTOR_CAP"
+              ? `Sector cap: ${c.sector || ""} at ${(c.pct || 0).toFixed(1)}%`
+              : c.type === "SINGLE_STOCK_CAP"
+              ? `Single-stock cap: ${c.instrument || ""} at ${(c.pct || 0).toFixed(1)}%`
+              : c.type}
+          </span>
+        `).join("")}
+      </div>
+    </div>`;
+
+  const assumptionsBlock = assumptions.length === 0 ? "" : `
+    <div style="font-size:11px; color:var(--text-muted); line-height:1.6; margin-bottom:8px;">
+      <div style="text-transform:uppercase; letter-spacing:0.4px; margin-bottom:4px;">Assumptions</div>
+      ${assumptions.map((a) => `<div style="margin-bottom:2px;">• ${a}</div>`).join("")}
+    </div>`;
+
+  const conservativeText = Number.isFinite(conservativePct)
+    ? `<div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">Conservative band: projected ${conservativePct.toFixed(2)}% (${upliftBpsConservative >= 0 ? "+" : ""}${(upliftBpsConservative || 0).toFixed(0)} bps).</div>`
+    : "";
+
+  const advancedDetails = hasAdvanced ? `
+    <details style="margin-top:14px;">
+      <summary style="font-size:11px; color:var(--text-muted); cursor:pointer; list-style:none;">Why these moves &amp; assumptions ▾</summary>
+      <div style="margin-top:10px;">
+        ${conservativeText}
+        ${constraintPills}
+        ${assumptionsBlock}
+      </div>
+    </details>` : "";
+
+  const header = `
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+      <div style="flex:1; min-width:240px;">
+        <div style="font-size:14px; font-weight:700; display:flex; align-items:center; gap:10px;">
+          Where could your returns improve?
+          ${notAdviceChip("inline")}
+        </div>
+        ${heroBlock}
+      </div>
+      <div id="analyzerOptimizerStatus" style="font-size:11px; color:var(--text-muted);"></div>
+    </div>`;
+
+  const heroCard = `
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:18px;">
+      <div style="background:#0f172a; border:1px solid #1a2233; border-radius:8px; padding:14px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted);">Current XIRR</div>
+        <div style="font-size:24px; font-weight:700; margin-top:4px;">${Number.isFinite(currentPct) ? currentPct.toFixed(2) + "%" : "—"}</div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Confidence: ${optimizer.currentXirrConfidence || "—"} ${infoIcon("data_confidence")}</div>
+      </div>
+      <div style="background:#0f172a; border:1px solid rgba(34,197,94,0.3); border-radius:8px; padding:14px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:#86efac;">Projected XIRR</div>
+        <div style="font-size:24px; font-weight:700; margin-top:4px; color:#bbf7d0;">${Number.isFinite(projectedPct) ? projectedPct.toFixed(2) + "%" : "—"}</div>
+      </div>
+      <div style="background:#0f172a; border:1px solid #1a2233; border-radius:8px; padding:14px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted);">Uplift</div>
+        <div style="font-size:24px; font-weight:700; margin-top:4px; color:${(upliftBps || 0) >= 0 ? "var(--green, #22c55e)" : "var(--red, #ef4444)"};">
+          ${(upliftBps || 0) >= 0 ? "+" : ""}${(upliftBps || 0).toFixed(0)} bps
+        </div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">${moves.length} candidate move${moves.length === 1 ? "" : "s"}</div>
+      </div>
+    </div>`;
+
+  const controls = `
+    <div style="display:grid; grid-template-columns:1fr auto; gap:14px; align-items:start; margin-bottom:18px; padding:14px; background:#0f172a; border:1px solid #1a2233; border-radius:8px;">
+      <div>
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); margin-bottom:6px;">Preset</div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">${presetChips}</div>
+      </div>
+      <div>
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); margin-bottom:6px;">Tax slab</div>
+        <div style="display:flex; gap:6px;">${slabChips}</div>
+      </div>
+    </div>`;
+
+  el.innerHTML = `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      ${header}
+      ${heroCard}
+      ${controls}
+      <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); margin-bottom:8px;">
+        Ranked moves (${moves.length})
+      </div>
+      ${moveCards}
+      ${advancedDetails}
+    </div>`;
+}
+
+function renderAnalyzerHoldingsV2(report) {
+  const el = document.getElementById("analyzerHoldings");
+  const cards = report.holdings.map((h, idx) => renderHoldingCardV2(h, idx === 0)).join("");
+  el.innerHTML = `
+    <div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:10px; flex-wrap:wrap;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="font-size:14px; font-weight:700;">Per-holding deep dive (${report.holdings.length})</div>
+          ${notAdviceChip()}
+        </div>
+        <div style="font-size:11px; color:var(--text-muted);">Click any row to expand</div>
+      </div>
+      ${cards}
+    </div>
+  `;
+}
+
+function renderHoldingCardV2(h, defaultOpen) {
+  const openAttr = defaultOpen ? " open" : "";
+  const pnlC = pctColor(h.pnlPercent);
+  const pnlStr = `${h.pnlPercent >= 0 ? "+" : ""}${(h.pnlPercent || 0).toFixed(1)}%`;
+  const flagsSection = h.redFlags && h.redFlags.length
+    ? `<div style="margin:14px 0;">
+        <div style="font-size:12px; font-weight:700; color:#fca5a5; margin-bottom:6px;">&#9888; Red flags</div>
+        ${h.redFlags.map((f) => `<div style="font-size:12px; padding:6px 10px; margin-bottom:4px; background:rgba(${f.severity === 'high' ? '239,68,68' : '250,204,21'},0.08); border-left:2px solid ${f.severity === 'high' ? '#fca5a5' : '#fde047'}; border-radius:3px;">${f.message}</div>`).join("")}
+      </div>` : "";
+
+  const ep = h.exitPlan || {};
+  const hasTechnicalLevels = ep.supportLevel || ep.stopLoss || ep.target || ep.upsideBand || ep.trailingStop;
+  const exitDetails = hasTechnicalLevels
+    ? `<details style="margin:14px 0;">
+        <summary style="cursor:pointer; list-style:none; padding:10px 14px; background:#111827; border-radius:6px; font-size:13px; font-weight:700; color:#93c5fd; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span>Technical levels ▾</span>
+          <span style="font-size:10px; color:var(--text-muted); font-style:italic; font-weight:400;">analytical reference — not trade instructions</span>
+        </summary>
+        <div style="padding:12px 14px; background:#111827; border-top:1px solid #1a2233; border-radius:0 0 6px 6px; margin-top:-2px;">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; font-size:12px;">
+            ${(ep.supportLevel ?? ep.stopLoss) != null ? `<div><span style="color:var(--text-muted);">Support:</span> <strong>₹${ep.supportLevel ?? ep.stopLoss}</strong></div>` : ""}
+            ${(ep.upsideBand ?? ep.target) != null ? `<div><span style="color:var(--text-muted);">Upside band:</span> <strong>₹${ep.upsideBand ?? ep.target}</strong></div>` : ""}
+            ${ep.trailingStop ? `<div><span style="color:var(--text-muted);">Trailing support:</span> ${ep.trailingStop.activated ? `<strong style="color:#86efac;">active @ ₹${ep.trailingStop.currentLevel}</strong>` : `<span>engages above ₹${ep.trailingStop.activationLevel}</span>`}</div>` : ""}
+            ${(h.longTermReference ?? h.longTermTarget) ? `<div><span style="color:var(--text-muted);">52W high reference:</span> <strong>₹${h.longTermReference ?? h.longTermTarget}</strong></div>` : ""}
+          </div>
+          ${ep.slConfirmationRule ? `<div style="font-size:11px; color:var(--text-muted); margin-top:6px;">${ep.slConfirmationRule}</div>` : ""}
+          ${ep.rationale && ep.rationale.length ? `<div style="font-size:11px; color:var(--text-muted); margin-top:8px; line-height:1.5;">${ep.rationale.map((r) => "• " + r).join("<br>")}</div>` : ""}
+        </div>
+      </details>` : "";
+
+  const outlookSection = h.outlook
+    ? `<div style="margin:14px 0; padding:12px 14px; background:#111827; border-radius:6px;">
+        <div style="font-size:12px; font-weight:700; margin-bottom:8px;">Outlook</div>
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; font-size:12px;">
+          ${["shortTerm", "midTerm", "longTerm"].map((k) => {
+            const o = h.outlook[k];
+            const arrow = o.direction === "up" ? "↑" : o.direction === "down" ? "↓" : "→";
+            const color = o.direction === "up" ? "#86efac" : o.direction === "down" ? "#fca5a5" : "#9ca3af";
+            return `<div>
+              <div style="color:var(--text-muted); font-size:10px; text-transform:uppercase;">${o.horizon}</div>
+              <div style="color:${color}; font-weight:700; font-size:13px;">${arrow} ${o.direction.toUpperCase()}</div>
+              <div style="font-size:10px; color:var(--text-muted);">${o.confidence} confidence</div>
+            </div>`;
+          }).join("")}
+        </div>
+      </div>` : "";
+
+  const taxSection = h.taxNote
+    ? `<div style="margin:14px 0; padding:10px 14px; background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.2); border-radius:6px; font-size:12px;">
+        <div style="font-weight:700; color:#fde047; margin-bottom:4px;">Tax note${h.purchaseDate ? ` <span style="font-weight:500; color:var(--text-muted);">· purchased ${h.purchaseDate}</span>` : ""}</div>
+        <div>${h.taxNote.summary}</div>
+        ${h.taxNote.holdingPeriod ? `<div style="color:var(--text-muted); font-size:11px; margin-top:4px;">${h.taxNote.holdingPeriod}</div>` : ""}
+        <div style="color:var(--text-muted); font-size:11px; margin-top:4px;">${h.taxNote.detail}</div>
+      </div>` : "";
+
+  const hasRiskMetrics = h.risk && (h.risk.beta != null || h.risk.annualizedVolatility != null || h.risk.maxDrawdown1y != null);
+  const riskDetails = hasRiskMetrics
+    ? (() => {
+        const liqColor = {
+          good:  "#86efac",
+          fair:  "#a7f3d0",
+          watch: "#fde047",
+          poor:  "#fca5a5",
+        }[h.risk.liquidityBand] || "var(--text-muted)";
+        const liqLabel = h.risk.daysToExit != null
+          ? `<div><span style="color:var(--text-muted);">Days to exit:</span> <strong style="color:${liqColor};">${h.risk.daysToExit}</strong><span style="color:var(--text-muted);font-size:10px;"> (20% ADV rule)</span></div>`
+          : "";
+        const sampleChip = h.risk.sampleSize != null
+          ? (() => {
+              const n = h.risk.sampleSize;
+              const band = n >= 252 ? "high" : n >= 126 ? "medium" : "low";
+              const c = { high: "#86efac", medium: "#fde047", low: "#fca5a5" }[band];
+              return `<span style="font-size:10px; color:${c}; background:${c}22; padding:2px 6px; border-radius:3px; font-weight:700; letter-spacing:0.3px; text-transform:uppercase;" title="${n} daily observations used.">conf: ${band}</span>`;
+            })()
+          : "";
+        return `<details style="margin:14px 0;">
+          <summary style="cursor:pointer; list-style:none; padding:10px 14px; background:#111827; border-radius:6px; font-size:13px; font-weight:700; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span>Risk numbers ▾</span>
+            ${sampleChip}
+          </summary>
+          <div style="padding:12px 14px; background:#111827; border-top:1px solid #1a2233; border-radius:0 0 6px 6px; margin-top:-2px;">
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px; font-size:12px;">
+              ${h.risk.beta != null ? `<div><span style="color:var(--text-muted);">Beta ${infoIcon("beta_metric")}:</span> <strong>${h.risk.beta.toFixed(2)}</strong></div>` : ""}
+              ${h.risk.annualizedVolatility != null ? `<div><span style="color:var(--text-muted);">Vol (ann.) ${infoIcon("volatility")}:</span> <strong>${h.risk.annualizedVolatility.toFixed(1)}%</strong></div>` : ""}
+              ${h.risk.maxDrawdown1y != null ? `<div><span style="color:var(--text-muted);">Max DD (1y) ${infoIcon("max_drawdown")}:</span> <strong style="color:#fca5a5;">${h.risk.maxDrawdown1y.toFixed(1)}%</strong></div>` : ""}
+              ${h.risk.var95Daily != null ? `<div><span style="color:var(--text-muted);">95% daily VaR ${infoIcon("var95")}:</span> <strong style="color:#fca5a5;">${h.risk.var95Daily.toFixed(2)}%</strong></div>` : ""}
+              ${liqLabel}
+              <div style="grid-column:1/-1; padding-top:8px; margin-top:6px; border-top:1px solid #1a2233; display:flex; gap:14px; flex-wrap:wrap; font-size:12px;">
+                <div><span style="color:var(--text-muted);">Tech:</span> ${h.technicalScore ?? "—"}</div>
+                <div><span style="color:var(--text-muted);">Combined ${infoIcon("combined_score")}:</span> ${h.combinedScore != null ? h.combinedScore + "/100" : "—"}</div>
+              </div>
+            </div>
+          </div>
+        </details>`;
+      })()
+    : "";
+
+  return `<details${openAttr} style="border:1px solid #1a2233; border-radius:8px; margin-bottom:8px; background:#0b1220;">
+    <summary style="cursor:pointer; padding:12px 16px; list-style:none; display:grid; grid-template-columns: 140px 1fr 130px 120px 110px 60px; gap:12px; align-items:center; font-size:13px;">
+      <div style="font-weight:700;">${h.symbol.replace(".NS", "")}</div>
+      <div style="color:var(--text-muted); font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${h.name}</div>
+      <div>${actionBadge(h.action, h.displayAction)}</div>
+      <div style="color:${pnlC}; font-weight:600;">${pnlStr}</div>
+      <div style="font-size:11px; color:var(--text-muted);">${(h.positionWeight || 0).toFixed(1)}% wt</div>
+      <div style="font-size:11px; text-align:right;">${h.combinedScore != null ? h.combinedScore + "/100" : "—"}</div>
+    </summary>
+    <div style="padding:4px 16px 16px; border-top:1px solid #1a2233;">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px; padding:10px 0; font-size:12px;">
+        <div><span style="color:var(--text-muted);">Qty:</span> ${h.quantity}</div>
+        <div><span style="color:var(--text-muted);">Avg:</span> ₹${h.avgPrice}</div>
+        <div><span style="color:var(--text-muted);">Current:</span> ${h.currentPrice != null ? "₹" + h.currentPrice : "—"}</div>
+        <div><span style="color:var(--text-muted);">Invested:</span> ${inr(h.invested)}</div>
+        <div><span style="color:var(--text-muted);">Value:</span> ${inr(h.currentValue)}</div>
+        <div><span style="color:var(--text-muted);">P&amp;L:</span> <span style="color:${pnlC};">${h.pnlAmount >= 0 ? "+" : ""}${inr(h.pnlAmount)}</span></div>
+      </div>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px; padding:4px 0 10px; font-size:12px; border-top:1px solid #1a2233;">
+        <div><span style="color:var(--text-muted);">Fund:</span> ${h.fundamentalScore ?? "—"}</div>
+        <div><span style="color:var(--text-muted);">Verdict:</span> ${h.fundamentalVerdict ? h.fundamentalVerdict.replace("_", " ") : "—"}</div>
+        <div><span style="color:var(--text-muted);">Signal:</span> ${h.recommendation || "—"}</div>
+        <div><span style="color:var(--text-muted);">Sector:</span> ${h.sector}</div>
+      </div>
+      <div style="margin:12px 0; padding:12px 14px; background:#111827; border-radius:6px; font-size:13px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap;">
+          <div style="font-weight:700;">Why ${h.displayAction || h.action}</div>
+          ${notAdviceChip("inline")}
+        </div>
+        <div style="line-height:1.6; color:var(--text);">${h.actionReasoning || ""}</div>
+        ${renderLongTermNarrative(h.longTerm)}
+      </div>
+      ${flagsSection}
+      ${outlookSection}
+      ${riskDetails}
+      ${exitDetails}
+      ${taxSection}
+      ${h.earningsNearby ? `<div style="font-size:12px; padding:8px 12px; background:rgba(59,130,246,0.08); border-radius:4px; margin-top:8px;">&#128197; <strong>Upcoming earnings:</strong> ${h.earningsNearby.date}</div>` : ""}
+    </div>
+  </details>`;
 }
 
 // ==================== SWS PICKS ====================

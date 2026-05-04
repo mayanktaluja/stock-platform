@@ -29,7 +29,7 @@ import { isV1Only, isV2Primary, getRecommenderMode } from "./swsRecommenderMode.
 import { findPeerSubstitutes } from "./swsPeerLayer.js";
 import { buildFallbackHolding } from "./swsCoverageFallback.js";
 import { buildAuditTrail } from "./swsAuditTrail.js";
-import { promoteToLadderV2, parseTrimPct } from "./actionLadder.js";
+import { promoteToLadderV2, parseTrimPct, parseTopUpPct } from "./actionLadder.js";
 import { computeTaxScenarios, inferAssetClass } from "../taxEngine.js";
 import { computeTimingObservation as computeTimingObservationFromModule } from "./timingObservation.js";
 
@@ -484,6 +484,18 @@ export function scoreHolding(holding, portfolioContext = {}) {
   const ladderV2 = promotion.ladderV2;
   const convictionProxy = promotion.conviction;
   const legacyAction = promotion.legacyAction;
+  // V3 surface: severity score (0..1) + per-component contribution. Null
+  // when V3 path didn't fire (V2 categorical or legacy passthrough).
+  const ladderSeverity = Number.isFinite(promotion.severity) ? promotion.severity : null;
+  const ladderSeverityComponents = promotion.severityComponents || null;
+  // Per-rung ₹ realised — current value × trim/topup fraction. Lets the UI
+  // show "Reduction-33% · ₹12,400 freed" inline next to the action badge.
+  // Null on HOLD or when current value is missing.
+  const _cv = num(holding.currentValue ?? (ov.current_price_inr * holding.quantity), 0);
+  const trimFrac = parseTrimPct(promotedAction);
+  const topUpFrac = parseTopUpPct(promotedAction);
+  const trimRupees = trimFrac > 0 && _cv > 0 ? Math.round(_cv * trimFrac) : null;
+  const topUpRupees = topUpFrac > 0 && _cv > 0 ? Math.round(_cv * topUpFrac) : null;
 
   // When the ladder fires, prepend its rationale to the engine's reasons
   // so the UI can show the ladder logic (one bullet per step) ahead of
@@ -576,6 +588,16 @@ export function scoreHolding(holding, portfolioContext = {}) {
     ladderRationale,
     ladderV2,
     convictionProxy,
+    // V3 severity: continuous score 0..1 + per-component breakdown. The UI
+    // renders this alongside the rung label so the user sees WHY a stock
+    // landed on a specific rung. Null on HOLD or when V3 didn't fire.
+    ladderSeverity,
+    ladderSeverityComponents,
+    // ₹ realised for the chosen rung — `currentValue × trim_or_topup fraction`.
+    // Surfaced inline as "Reduction-33% · ₹12,400" so the user sees the
+    // rupee impact at a glance, no clicking required.
+    trimRupees,
+    topUpRupees,
     // Per-rung tax scenarios (₹ realised, gain, tax, net, LTCG/STCG regime)
     // for the four trim percentages + full exit. Null on HOLD / top-up
     // actions (no realisation event), or when invested/current value is 0.
