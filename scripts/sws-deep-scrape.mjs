@@ -189,11 +189,6 @@ export function detectPanicSignalsInText(text, url = "") {
 
 export function checkRateCap(shardId) {
   const progress = readJson(PATHS.progress(shardId)) || defaultProgress(shardId);
-  // Daily cap
-  const today = new Date().toISOString().slice(0, 10);
-  if (progress.today_date === today && progress.today_count >= RATE_CAPS.maxStocksPerDayPerShard) {
-    return { ok: false, reason: "daily_cap", at: progress.today_count };
-  }
   // Per-minute cap: if last 2 stocks finished within 60s, throttle
   const recent = progress.recent_completion_times || [];
   if (recent.length >= RATE_CAPS.maxStocksPerMinutePerShard) {

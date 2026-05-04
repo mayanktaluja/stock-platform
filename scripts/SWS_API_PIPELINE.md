@@ -42,7 +42,7 @@ hooks, ~25× faster end-to-end.
 │   - Walks shard's slice of universe.json            │
 │   - Per stock: 2-4s pacing + ±30% jitter            │
 │   - Every 50 stocks: 30-180s burst pause            │
-│   - Honors panic flag, daily cap, rate cap          │
+│   - Honors panic flag, per-minute rate cap          │
 │   - On Cloudflare 403 / 429 → IMMEDIATE panic      │
 │   - Output: data/sws/deep-api/<TICKER>.json (raw)   │
 └──────────┬──────────────────────────────────────────┘
@@ -75,11 +75,9 @@ The client is invisible to Cloudflare for these reasons:
    reading research notes" cadence.
 4. **Same residential IP** — no proxy rotation (which would itself look
    suspicious for an authenticated session).
-5. **Daily cap** — 1500/day default (configurable via `SWS_API_DAILY_CAP`),
-   shared sanity ceiling with the legacy pipeline.
-6. **Honors all existing safety hooks** — panic flag, rate cap subcommands
-   in `sws-deep-scrape.mjs`. A panic-stop halts ALL shards within the next
-   stock check.
+5. **Honors all existing safety hooks** — panic flag, per-minute rate cap
+   subcommand in `sws-deep-scrape.mjs`. A panic-stop halts ALL shards
+   within the next stock check.
 
 ## Daily refresh
 
@@ -87,7 +85,7 @@ Scheduled task `sws-api-refresh-daily` runs at 02:00 IST every day:
 
 ```
 cron: 0 2 * * * (local time)
-prompt: cd .../stock-platform && SWS_API_DAILY_CAP=3000 bash scripts/sws-refresh-api.sh
+prompt: cd .../stock-platform && bash scripts/sws-refresh-api.sh
 ```
 
 Each run:
@@ -199,7 +197,7 @@ Re-scoring is then offline — no re-scrape needed.
 | Symptom | Meaning | Recovery |
 |---|---|---|
 | `panic_recorded` with `kind:"blocked"` (Cloudflare 403) | SWS Cloudflare flagged us as bot | STOP. Investigate. May need to reduce parallelism or wait. |
-| `panic_recorded` with `kind:"rate_limited"` (HTTP 429) | SWS rate-limited us | STOP. Wait an hour, lower `SWS_API_DAILY_CAP`, retry. |
+| `panic_recorded` with `kind:"rate_limited"` (HTTP 429) | SWS rate-limited us | STOP. Wait an hour, lower `RATE_CAPS.maxStocksPerMinutePerShard` in `scripts/sws-config.mjs`, retry. |
 | `halt` with `reason:"auth_expired"` | JWT in browser session expired | Re-run with fresh stealth context launch (orchestrator does this on each invocation) |
 | `halt` with `reason:"browser_closed"` | Playwright browser crashed | Respawn the shard. Progress preserved. |
 | `stock_failed` `kind:"graphql_error"` (search_phase_execution_exception) | SWS OpenSearch backend overloaded — sheds load briefly | Non-fatal, single stock. Retry sweep at end. |

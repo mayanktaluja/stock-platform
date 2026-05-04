@@ -40,7 +40,6 @@ export const TIMING = {
 // Rate caps — hard limits enforced by the orchestrator before each request.
 export const RATE_CAPS = {
   maxStocksPerMinutePerShard: 2, // = 6/min combined across 3 shards
-  maxStocksPerDayPerShard: 400, // = 1,200/day combined; ensures multi-day spread looks normal
 };
 
 // Model assignments per phase.

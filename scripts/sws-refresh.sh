@@ -5,9 +5,7 @@
 #
 # Each shard process is bounded (~30-60 stocks per session, then exits).
 # This script kicks off ONE pass — fire it on a cron / Cowork schedule to
-# keep chipping away at the universe over the day. The per-shard daily cap
-# (400 stocks/day) is enforced inside the scraper, so re-firing after the
-# cap is hit is a no-op.
+# keep chipping away at the universe over the day.
 #
 # Usage:
 #   ./scripts/sws-refresh.sh                # default mode = full

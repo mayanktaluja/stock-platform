@@ -6,8 +6,7 @@
  * data/sws/deep-api/<TICKER>.json. Honors all the same safety hooks as the
  * old scraper:
  *   - check-panic before every stock
- *   - check-rate-cap before every stock
- *   - daily cap (per shard) and per-minute cap (global)
+ *   - check-rate-cap before every stock (per-minute cap)
  *   - circadian window
  *   - shard lock
  *
@@ -116,11 +115,6 @@ function rollDailyCount(progress) {
   }
 }
 
-// Read DAILY_CAP from env so we can bump for one-time initial fills.
-// Default 1500 is a safe sustained-operation ceiling. For initial population
-// of the full universe, set SWS_API_DAILY_CAP=3000.
-const DAILY_CAP = parseInt(process.env.SWS_API_DAILY_CAP || "1500", 10);
-
 // ────────── Main scrape loop ──────────
 
 async function main() {
@@ -174,10 +168,6 @@ async function main() {
         break;
       }
       rollDailyCount(progress);
-      if (progress.today_count >= DAILY_CAP) {
-        logEvent({ event: "halt", reason: "daily_cap", shard: shardId, today_count: progress.today_count });
-        break;
-      }
 
       const stock = slice[i];
       const ticker = stock.ticker;

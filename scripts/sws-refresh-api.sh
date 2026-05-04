@@ -17,7 +17,6 @@
 #
 # Usage:
 #   ./scripts/sws-refresh-api.sh                       # full universe
-#   SWS_API_DAILY_CAP=3000 ./scripts/sws-refresh-api.sh  # higher daily cap
 #
 # Exit codes match sws-refresh.sh (the legacy DOM scraper):
 #   0  success (or another refresh already in progress — exit clean)
@@ -120,8 +119,7 @@ EOF
 
   for SHARD in 1 2 3; do
     : > "data/sws/refresh-api-shard-${SHARD}.log"
-    SWS_API_DAILY_CAP="${SWS_API_DAILY_CAP:-1500}" \
-      node scripts/sws-api-scrape.mjs "${SHARD}" \
+    node scripts/sws-api-scrape.mjs "${SHARD}" \
       >> "data/sws/refresh-api-shard-${SHARD}.log" 2>&1 &
     PIDS+=("$!")
     echo "[refresh-api] shard ${SHARD} → PID $!"
@@ -232,6 +230,14 @@ console.log("[refresh-api] summary written: scored=" + scoredCount + " shards=" 
 EOF
 
 echo "=== refresh-api complete: $(ts) elapsed=${ELAPSED}s ==="
+
+# Release the pipeline lock now — data work is done and the auto-PR step
+# below invokes `git push`, whose pre-push hook runs `npm test`, which
+# includes a test that calls claimPipelineLock(). If we still hold the
+# lock when that test runs (and it's < 30min old, i.e. STALE_TOKEN_MS in
+# sws-deep-scrape.mjs), the test fails with "first claim acquires" and
+# blocks the push. The trap on EXIT still serves as a safety net.
+node scripts/sws-deep-scrape.mjs release-pipeline-lock >/dev/null 2>&1 || true
 
 # ---------- 10. Auto-propagate to prod (data PR) ----------
 # Without this, refreshed files only live on local disk; prod (stateless
