@@ -36,7 +36,7 @@ const SWS_LAST_REFRESH_PATH = path.resolve(__dirname, "..", "data", "sws", "last
 export const METHODOLOGY_VERSION = "combined-v1-2026-04";
 
 // ─────────────────────── Weighting matrix ───────────────────────
-// scannerType → { tech, fund, sws }. Sum to 1.0.
+// scannerType → { tech, fund, sws, news? }. Sum to 1.0.
 //
 // Justification per row is in the plan file's §1 weighting matrix.
 // Buy-Now stays tech-led to preserve the Phase-4 attribution edge.
@@ -46,6 +46,13 @@ export const METHODOLOGY_VERSION = "combined-v1-2026-04";
 // independent valuation cross-check.
 // Small-Cap stays tech-led because momentum dominates and SWS coverage
 // is sparser at the bottom of the universe.
+//
+// P1.4 (May 2026): News-sentiment slotted as a 4th pillar via NEWS_WEIGHTS.
+// computeCombinedScore() pulls from NEWS_WEIGHTS only when newsScore is
+// available; otherwise the legacy 3-pillar weights below are used and
+// pro-rata reweighting applies when fund/sws are missing. The news
+// allocation is borrowed from tech (the most volatile pillar): tech goes
+// from 0.45 → 0.40 in Buy Now, etc.
 export const WEIGHTS = Object.freeze({
   buynow:    { tech: 0.45, fund: 0.25, sws: 0.30 },
   midterm:   { tech: 0.35, fund: 0.30, sws: 0.35 },
@@ -53,6 +60,15 @@ export const WEIGHTS = Object.freeze({
   fund:      { tech: 0.20, fund: 0.45, sws: 0.35 },
   smallcap:  { tech: 0.50, fund: 0.20, sws: 0.30 },
   uniform:   { tech: 1 / 3, fund: 1 / 3, sws: 1 / 3 },
+});
+
+export const NEWS_WEIGHTS = Object.freeze({
+  buynow:    { tech: 0.40, fund: 0.20, sws: 0.25, news: 0.15 },
+  midterm:   { tech: 0.30, fund: 0.25, sws: 0.30, news: 0.15 },
+  sell:      { tech: 0.45, fund: 0.20, sws: 0.20, news: 0.15 },
+  fund:      { tech: 0.20, fund: 0.40, sws: 0.30, news: 0.10 },
+  smallcap:  { tech: 0.45, fund: 0.20, sws: 0.25, news: 0.10 },
+  uniform:   { tech: 0.25, fund: 0.25, sws: 0.25, news: 0.25 },
 });
 
 // Divergence threshold: max - min over the three component scores.
@@ -281,17 +297,26 @@ export function computeCombinedScore({
   techScore = null,
   fundScore = null,
   swsScore = null,
+  newsScore = null,        // P1.4: 4th pillar — null when sentiment.available === false
   scannerType = "uniform",
   surveillanceFlag = null,
   swsFallback = false,
 } = {}) {
-  const baseWeights = WEIGHTS[scannerType] || WEIGHTS.uniform;
+  // P1.4: Switch the weight basis based on news availability. NEWS_WEIGHTS
+  // budgets a news allocation by trimming tech (the most volatile pillar).
+  // When news is null, fall back to the 3-pillar WEIGHTS so existing
+  // pro-rata behaviour for missing fund/sws keeps working unchanged.
+  const hasNews = Number.isFinite(newsScore);
+  const baseWeights = hasNews
+    ? (NEWS_WEIGHTS[scannerType] || NEWS_WEIGHTS.uniform)
+    : (WEIGHTS[scannerType] || WEIGHTS.uniform);
 
   // Build present-dim list with raw weights.
   const dims = [];
   if (Number.isFinite(techScore)) dims.push({ key: "tech", score: techScore, weight: baseWeights.tech });
   if (Number.isFinite(fundScore)) dims.push({ key: "fund", score: fundScore, weight: baseWeights.fund });
   if (Number.isFinite(swsScore))  dims.push({ key: "sws",  score: swsScore,  weight: baseWeights.sws  });
+  if (hasNews)                    dims.push({ key: "news", score: newsScore, weight: baseWeights.news });
 
   if (dims.length === 0) {
     return {
@@ -314,11 +339,12 @@ export function computeCombinedScore({
   const combinedScore = Math.max(0, Math.min(100, Math.round(weighted * 10) / 10));
 
   // Effective per-dim weights actually applied (after reweighting).
-  const weightsUsed = { tech: 0, fund: 0, sws: 0 };
+  const weightsUsed = { tech: 0, fund: 0, sws: 0, news: 0 };
   for (const d of dims) weightsUsed[d.key] = +(d.weight / sumW).toFixed(3);
 
-  // Confidence flag.
-  const dataConfidence = dims.length === 3 ? "high" : dims.length === 2 ? "medium" : "low";
+  // Confidence flag. With the news pillar enabled (4 dims max) we keep
+  // the same ladder: ≥3 dims = high; 2 = medium; 1 = low.
+  const dataConfidence = dims.length >= 3 ? "high" : dims.length === 2 ? "medium" : "low";
 
   // Divergence: the spread among present components. Two-dim spread is
   // already meaningful (Tech vs SWS dispersion) so we compute it whenever
