@@ -2378,6 +2378,25 @@
       text-transform: uppercase;
       margin-left: 8px;
     }
+    /* Last-quarter EPS-vs-consensus badge on upcoming-earnings cards.
+       Class names (.beat/.miss/.inline) match the JSON values emitted by
+       scripts/sws-fetch-earnings-beat.mjs verbatim — no string conversion in
+       the renderer. Mirrors the surveillance-badge geometry; only the colour
+       palette differs per outcome. */
+    .sws-q-result-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-left: 8px;
+      cursor: help;
+    }
+    .sws-q-result-badge.beat   { background: rgba(34, 197, 94, 0.15);  border: 1px solid rgba(34, 197, 94, 0.4);  color: #86efac; }
+    .sws-q-result-badge.miss   { background: rgba(239, 68, 68, 0.15);  border: 1px solid rgba(239, 68, 68, 0.4);  color: #fca5a5; }
+    .sws-q-result-badge.inline { background: rgba(148, 163, 184, 0.15); border: 1px solid rgba(148, 163, 184, 0.35); color: #cbd5e1; }
     .sws-freshness-pill {
       display: inline-block;
       font-size: 9px;

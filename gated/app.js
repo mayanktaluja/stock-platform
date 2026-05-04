@@ -9778,8 +9778,14 @@ function renderPickCard(s, sectionKey, rank = null) {
   let extraRow = "";
   if (sectionKey === "upcoming_earnings" && s.next_earnings_date) {
     const d = s.days_until == null ? "?" : `${s.days_until}d`;
-    const lqr = s.last_quarter_result ? `last Q: ${s.last_quarter_result}` : "";
-    extraRow = `<div class="sws-pick-earnings-row">📅 ${s.next_earnings_date} (${d}) ${lqr ? "· " + lqr : ""}</div>`;
+    const lqr = s.last_quarter_result;
+    // Beat/miss/inline class names match the JSON values verbatim — see
+    // scripts/sws-fetch-earnings-beat.mjs. Card stays unchanged when null
+    // (no Yahoo coverage, recent IPO, or last reported quarter > 180 days).
+    const lqrBadge = lqr
+      ? `<span class="sws-q-result-badge ${lqr}" data-term-id="last_quarter_result" tabindex="0" role="button" aria-label="Last quarter result: ${lqr}" title="Last quarter EPS vs estimate: ${lqr.toUpperCase()}">Last Q: ${lqr.toUpperCase()}</span>`
+      : "";
+    extraRow = `<div class="sws-pick-earnings-row">📅 ${s.next_earnings_date} (${d})${lqrBadge ? " " + lqrBadge : ""}</div>`;
   }
 
   // Card click is routed through handlePickCardClick, which ignores clicks
