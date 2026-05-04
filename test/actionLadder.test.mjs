@@ -21,6 +21,10 @@ import {
   pickTrimRung,
   pickTopUpRung,
   promoteToLadderV2,
+  computeTrimSeverity,
+  computeTopUpSeverity,
+  severityToTrimRung,
+  severityToTopUpRung,
   ALL_REDUCTION_ACTIONS,
   ALL_TOPUP_ACTIONS,
   LEGACY_REDUCTION_ACTIONS,
@@ -471,6 +475,166 @@ assert("V2-unique reduction labels not in legacy set",
 assert("LEGACY and LADDER_V2 topup sets are disjoint",
   [...LEGACY_TOPUP_ACTIONS].every((a) => !LADDER_V2_TOPUP_ACTIONS.has(a)),
   null);
+
+// ════════════════════════════════════════════════════════════════════════
+// V3 — continuous severity model
+// ════════════════════════════════════════════════════════════════════════
+
+console.log("\ncomputeTrimSeverity\n");
+
+// Healthy stock — minimal severity, no trim.
+{
+  const r = computeTrimSeverity({
+    v3: 80, position_weight: 2, sector_weight: 10,
+    conviction: "MEDIUM-HIGH", surveillance: null, pnlPercent: 10, risks_count: 0,
+  });
+  assert("healthy stock severity ≈ 0.10", r.severity < 0.15, r.severity);
+  assert("healthy → no trim rung", severityToTrimRung(r.severity) === null, severityToTrimRung(r.severity));
+  assert("rationale produces 8 lines", r.rationale.length === 8, r.rationale.length);
+}
+
+// Mild WATCH-band stock — typical retail holding hitting 33% in V2.
+{
+  const r = computeTrimSeverity({
+    v3: 20, position_weight: 4, sector_weight: 15,
+    conviction: "MEDIUM", surveillance: null, pnlPercent: -10, risks_count: 0,
+  });
+  assert("mild WATCH severity in 0.25..0.40 band", r.severity >= 0.25 && r.severity < 0.45, r.severity);
+  assert("mild WATCH → Reduction-33%", severityToTrimRung(r.severity) === "Reduction-33%", severityToTrimRung(r.severity));
+}
+
+// Concentrated weak name — should escalate above 33%.
+{
+  const r = computeTrimSeverity({
+    v3: 18, position_weight: 18, sector_weight: 15,
+    conviction: "LOW", surveillance: null, pnlPercent: -25, risks_count: 1,
+  });
+  assert("concentrated weak severity in 0.55..0.75", r.severity >= 0.55 && r.severity < 0.75, r.severity);
+  // Either Reduction-50% or Reduction-66% depending on exact calibration —
+  // both are correct for this profile (escalation beyond 33%).
+  const rung = severityToTrimRung(r.severity);
+  assert("concentrated weak → Reduction-50% or Reduction-66%",
+    rung === "Reduction-50%" || rung === "Reduction-66%", rung);
+}
+
+// Broken thesis — should hit EXIT-staged or EXIT-now.
+{
+  const r = computeTrimSeverity({
+    v3: 10, position_weight: 4, sector_weight: 12,
+    conviction: "LOW", surveillance: null, pnlPercent: -45, risks_count: 2,
+  });
+  assert("broken thesis severity in 0.55..0.85", r.severity >= 0.55 && r.severity < 0.85, r.severity);
+  const rung = severityToTrimRung(r.severity);
+  assert("broken thesis → exit-tier or 66% rung",
+    rung === "Reduction-66%" || rung === "EXIT-staged" || rung === "EXIT-now", rung);
+}
+
+// GSM-3+ surveillance hard override — EXIT-now regardless of score.
+{
+  assert("GSM-3+ override → EXIT-now",
+    severityToTrimRung(0.10, { gsmStage3Plus: true }) === "EXIT-now",
+    severityToTrimRung(0.10, { gsmStage3Plus: true }));
+  // Even with high severity, GSM-3+ goes through EXIT-now (not double-counted).
+  assert("GSM-3+ override even at high severity",
+    severityToTrimRung(0.95, { gsmStage3Plus: true }) === "EXIT-now",
+    severityToTrimRung(0.95, { gsmStage3Plus: true }));
+}
+
+// Boundary mappings — rung edges must be deterministic.
+console.log("\nseverityToTrimRung boundaries\n");
+assert("0.14 → null (below trim floor)",       severityToTrimRung(0.14) === null,            severityToTrimRung(0.14));
+assert("0.15 → Reduction-25%",                 severityToTrimRung(0.15) === "Reduction-25%", severityToTrimRung(0.15));
+assert("0.29 → Reduction-25%",                 severityToTrimRung(0.29) === "Reduction-25%", severityToTrimRung(0.29));
+assert("0.30 → Reduction-33%",                 severityToTrimRung(0.30) === "Reduction-33%", severityToTrimRung(0.30));
+assert("0.44 → Reduction-33%",                 severityToTrimRung(0.44) === "Reduction-33%", severityToTrimRung(0.44));
+assert("0.45 → Reduction-50%",                 severityToTrimRung(0.45) === "Reduction-50%", severityToTrimRung(0.45));
+assert("0.59 → Reduction-50%",                 severityToTrimRung(0.59) === "Reduction-50%", severityToTrimRung(0.59));
+assert("0.60 → Reduction-66%",                 severityToTrimRung(0.60) === "Reduction-66%", severityToTrimRung(0.60));
+assert("0.74 → Reduction-66%",                 severityToTrimRung(0.74) === "Reduction-66%", severityToTrimRung(0.74));
+assert("0.75 → EXIT-staged",                   severityToTrimRung(0.75) === "EXIT-staged",   severityToTrimRung(0.75));
+assert("0.89 → EXIT-staged",                   severityToTrimRung(0.89) === "EXIT-staged",   severityToTrimRung(0.89));
+assert("0.90 → EXIT-now",                      severityToTrimRung(0.90) === "EXIT-now",      severityToTrimRung(0.90));
+assert("1.00 → EXIT-now",                      severityToTrimRung(1.00) === "EXIT-now",      severityToTrimRung(1.00));
+
+// Determinism — same inputs ⇒ same severity.
+{
+  const a = computeTrimSeverity({ v3: 18, position_weight: 4, sector_weight: 15, conviction: "MEDIUM", surveillance: null, pnlPercent: -10, risks_count: 0 });
+  const b = computeTrimSeverity({ v3: 18, position_weight: 4, sector_weight: 15, conviction: "MEDIUM", surveillance: null, pnlPercent: -10, risks_count: 0 });
+  assert("severity is deterministic", a.severity === b.severity, [a.severity, b.severity]);
+}
+
+// ──────────────────── computeTopUpSeverity ────────────────────
+
+console.log("\ncomputeTopUpSeverity\n");
+
+// TOP_PICK with full room + upside + clean risks → 100%.
+{
+  const r = computeTopUpSeverity({ v3: 75, position_weight: 2, sector_weight: 10, upside: 25, risks_count: 0 });
+  assert("TOP_PICK clean → severity ≥ 0.70", r.severity >= 0.70, r.severity);
+  assert("TOP_PICK clean → Top-up-100%", severityToTopUpRung(r.severity) === "Top-up-100%", severityToTopUpRung(r.severity));
+}
+// STRONG band moderate — should land Top-up-50% or Top-up-33%.
+{
+  const r = computeTopUpSeverity({ v3: 60, position_weight: 5, sector_weight: 18, upside: 12, risks_count: 1 });
+  const rung = severityToTopUpRung(r.severity);
+  assert("STRONG moderate → 33% or 50% rung",
+    rung === "Top-up-33%" || rung === "Top-up-50%", rung);
+}
+// Below threshold — no top-up.
+{
+  const r = computeTopUpSeverity({ v3: 45, position_weight: 7, sector_weight: 23, upside: 4, risks_count: 3 });
+  assert("weak signal → no top-up rung", severityToTopUpRung(r.severity) === null, severityToTopUpRung(r.severity));
+}
+
+// ──────────────────── promoteToLadderV2 with V3 flag ────────────────────
+
+console.log("\npromoteToLadderV2 V3 path\n");
+
+const SAVED_V3 = process.env.SWS_LADDER_V3;
+function withV3On(fn) {
+  process.env.SWS_LADDER_V2 = "1";
+  process.env.SWS_LADDER_V3 = "1";
+  try { fn(); } finally {
+    process.env.SWS_LADDER_V2 = SAVED_FLAG;
+    process.env.SWS_LADDER_V3 = SAVED_V3;
+  }
+}
+
+withV3On(() => {
+  // V3 should produce specific rungs for typical retail factors — no
+  // default-fallback to 33% when factors don't say so.
+  const r = promoteToLadderV2({
+    legacyAction: "Reduction-50%",
+    v3: 19, snow_total: 12, position_weight: 3, sector_weight: 14,
+    upside: -5, risks_count: 1,
+    surveillance: null, pnlPercent: -8,
+  });
+  assert("V3 promotion returns ladderV2=true", r.ladderV2 === true, r.ladderV2);
+  assert("V3 promotion populates severity", typeof r.severity === "number" && r.severity >= 0 && r.severity <= 1, r.severity);
+  assert("V3 promotion populates rationale array", Array.isArray(r.ladderRationale) && r.ladderRationale.length >= 8, r.ladderRationale?.length);
+  // For these mild factors severity should be in 0.20-0.40 → Reduction-25% or Reduction-33%
+  assert("V3 mild WATCH → 25% or 33%",
+    r.action === "Reduction-25%" || r.action === "Reduction-33%", r.action);
+
+  // Concentrated position should escalate.
+  const r2 = promoteToLadderV2({
+    legacyAction: "Reduction-50%",
+    v3: 16, snow_total: 10, position_weight: 16, sector_weight: 18,
+    upside: -10, risks_count: 1,
+    surveillance: null, pnlPercent: -22,
+  });
+  assert("V3 concentrated weak → 50% or 66%",
+    r2.action === "Reduction-50%" || r2.action === "Reduction-66%", r2.action);
+
+  // GSM-3+ → EXIT-now hard override on EXIT path.
+  const r3 = promoteToLadderV2({
+    legacyAction: "EXIT",
+    v3: 18, snow_total: 12, position_weight: 4, sector_weight: 15,
+    upside: -8, risks_count: 1,
+    surveillance: { list: "GSM", stage: 3 }, pnlPercent: -15,
+  });
+  assert("V3 GSM-3+ EXIT → EXIT-now", r3.action === "EXIT-now", r3.action);
+});
 
 // ──────────────────── Summary ────────────────────
 

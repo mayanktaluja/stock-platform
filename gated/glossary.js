@@ -595,4 +595,50 @@ window.GLOSSARY = {
     short: "v3 AVOID verdict — composite < 22, bottom-quartile fundamentals + risk overlay.",
     full: "The mirror image of TOP_PICK: weak pillars + active safety penalties (ASM/GSM, declining revenue, unsustainable payout, etc.). Listed not as a 'short these' signal — Indian shorting is restricted to F&O and carries its own risks — but as a 'don't be the bag-holder' list. Cross-check against your portfolio every refresh; if any of your holdings appear here, it's worth a fundamental re-examination.",
   },
+
+  // ══════════════════════════════════════════════════════════════════════
+  // PORTFOLIO RISK METRICS — added for the V2 analyzer UI
+  // ══════════════════════════════════════════════════════════════════════
+
+  beta_metric: {
+    term: "Beta · Market Sensitivity",
+    category: "portfolio",
+    short: "How much your stock or book moves vs the market — 1.0 = moves 1-for-1 with Nifty.",
+    full: "Beta measures how strongly a stock or portfolio moves with the broader market (Nifty 50 here). Beta of 1.0 means the position moves in lockstep with the index. Beta of 1.4 means a 10% Nifty drop typically pulls the position down ~14%; beta of 0.7 means it only falls ~7%. Defensive sectors (FMCG, Pharma) often run below 1.0; cyclicals (NBFCs, Metals, Real Estate) above 1.2. Use weighted-portfolio beta to size your exposure to broad market shocks — it's the single best predictor of how a -20% Nifty event would translate to your book.",
+  },
+
+  volatility: {
+    term: "Volatility · Annualised Standard Deviation",
+    category: "portfolio",
+    short: "How wide the swings are — higher = bumpier ride. Annualised so it's comparable across stocks.",
+    full: "Annualised volatility takes the standard deviation of daily returns and scales it to a yearly number (×√252). Nifty 50 typically runs 15–20% annualised; a single midcap can run 35–50%; a smallcap 50%+. Volatility is direction-agnostic — it tells you the SIZE of typical moves, not which way. Higher vol means a bigger range of plausible outcomes over any given holding period. Pairs with beta: a stock can be high-vol but low-beta if its swings aren't correlated with the index.",
+  },
+
+  sharpe: {
+    term: "Sharpe Ratio",
+    category: "portfolio",
+    short: "Return earned per unit of risk taken. Above 1 is good, above 2 is excellent.",
+    full: "Sharpe ratio is (return − risk-free rate) / volatility. Indian markets typically use the 10y G-Sec yield (~6.5%) as the risk-free baseline. A Sharpe of 0.5 is mediocre; 1.0 is solid; above 1.5 is rare and usually means the metric is computed over a regime-favourable window. Negative Sharpe means the portfolio underperformed the risk-free rate per unit of risk taken — you'd have been better off in fixed income. Always check the sample window — Sharpe can flip dramatically across bull and bear cycles.",
+  },
+
+  var95: {
+    term: "Value-at-Risk (95% daily)",
+    category: "portfolio",
+    short: "The loss you'd expect on a typical bad day — once every 20 trading days, the daily drop is bigger than this.",
+    full: "Historical VaR at 95% confidence is the 5th-percentile daily return — the loss you'd see (or worse) on roughly one trading day in twenty. A VaR95 of −2.5% means most days you lose less, but one day in twenty you lose ≥2.5%. VaR is NOT a worst-case — by definition, the other 5% of days are worse, sometimes much worse (the 'tail'). For tail risk, look at Expected Shortfall (CVaR) or stress-test scenarios. VaR is most useful as a sanity check on day-to-day exposure: if your VaR is bigger than you can stomach, the position is too large.",
+  },
+
+  max_drawdown: {
+    term: "Max Drawdown",
+    category: "portfolio",
+    short: "The worst peak-to-trough fall over the last year. Tells you how deep the worst dip got.",
+    full: "Max drawdown is the largest cumulative drop from any peak to a subsequent trough over the measurement window. It captures the WORST stretch of pain you'd have lived through if you held the full period. Indian midcaps typically show max drawdowns of 25–40% even in 'normal' years; Nifty 50 sees 15–25%. Plan to live through at least max drawdown again — historical data is conservative on tail risk because samples are limited. If your psychological tolerance is below max-DD, the position is too big.",
+  },
+
+  pairwise_correlation: {
+    term: "Pairwise Correlation",
+    category: "portfolio",
+    short: "How together your stocks move. 1 = lockstep (no diversification). 0 = independent.",
+    full: "Average pairwise correlation across all stocks in the portfolio. Correlation of 1.0 means every name moves together — diversification is illusory, you effectively own one bet. 0.0 means stocks move independently. Indian large-caps typically show correlations of 0.5–0.7 because they share Nifty exposure. Below 0.3 is genuinely diversified; above 0.7 is concentration risk hiding inside a multi-stock book. Note: correlations spike toward 1.0 in panics — diversification is most valuable in calm markets, least valuable in crises.",
+  },
 };

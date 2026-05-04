@@ -6751,6 +6751,10 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
           unmatched: parsed.unmatched || [],
           warnings: parsed.warnings || [],
           disclaimer: "SWS Engine (Beta) · Educational analysis only. Verify live prices and risk before any transaction. SEBI-aligned tier classification; not personalised investment advice.",
+          // ANALYZER_UI_V2 flag — gated on env. Client renderSWSAnalyzerReport
+          // dispatches to V2 (hero + glossary chips) when v2 is true. Legacy
+          // path is at server.js ~6995. Both paths read the same env var.
+          ui: { v2: process.env.ANALYZER_UI_V2 === "1" },
         },
         savable,
       });
@@ -6993,6 +6997,12 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       cachedAt: Date.now(),
     });
     if (report.optimizer) report.optimizer.sessionId = sessionId;
+
+    // ANALYZER_UI_V2 flag — opt-in to the simplified analyzer UI (hero +
+    // glossary chips + collapsed advanced sections). Default OFF in dev so
+    // the existing flow keeps working. Production sets ANALYZER_UI_V2=1
+    // once the V2 path has soaked. Client dispatches on `report.ui.v2`.
+    report.ui = { v2: process.env.ANALYZER_UI_V2 === "1" };
 
     res.json({
       ok: true,
