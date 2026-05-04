@@ -22,7 +22,8 @@ import {
   parseTrimPct,
 } from "./actionLadder.js";
 import { bucketByDaysToExit } from "./liquidityTail.js";
-import { buildSnapshot as buildDiffSnapshot, diffSnapshots } from "./analyzerDiff.js";
+import { buildSnapshot as buildDiffSnapshot, diffSnapshots, snapshotByTicker } from "./analyzerDiff.js";
+import { applyPostTrimCooldown } from "./postTrimCooldown.js";
 
 // Lazy macro-regime import — only used for basket tilt; failing import
 // degrades gracefully (no tilt applied).
@@ -78,6 +79,14 @@ function buildTiers(scoredHoldings) {
   for (const h of scoredHoldings) {
     if (!h.swsCovered) {
       tierD.push({ ...h, watchReason: "No SWS data — verify ticker / treat as out-of-universe." });
+      continue;
+    }
+    // Cooldown softeners (action was Reduction-* but the user already
+    // trimmed) come through with action="HOLD" + recentlyTrimmedReason.
+    // Route them to Tier C so the user sees them as "no further action
+    // needed" with a clear badge — not as a fresh HOLD recommendation.
+    if (h.recentlyTrimmedReason) {
+      tierC.push(h);
       continue;
     }
     if (REDUCTION_ACTIONS.has(h.action)) {
@@ -582,26 +591,39 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
   const macroRegime = opts.macroRegime ?? null;
   const priorSnapshot = opts.priorSnapshot ?? null;
 
-  const tiers = buildTiers(scoredHoldings);
-  const baskets = buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit });
-  const sectorOverlay = buildSectorOverlay(scoredHoldings);
-  const snapshot = buildSnapshot(scoredHoldings);
+  // Post-trim cooldown — softens any Reduction-* call on a holding the
+  // user already trimmed (qty drop ≥ 10% vs prior snapshot, or
+  // lastTrimmedAt within the cooldown window). The engine's underlying
+  // recommendation still rides through as `originalAction` on the row so
+  // the UI can show "engine wanted Reduction-25%, suppressed because you
+  // trimmed N days ago". Pure when priorSnapshot is null (first run /
+  // ANALYZER_DIFF off) — cooledCount = 0, holdings unchanged.
+  const cooled = applyPostTrimCooldown(scoredHoldings, priorSnapshot);
+  const effectiveHoldings = cooled.holdings;
+
+  const tiers = buildTiers(effectiveHoldings);
+  const baskets = buildBaskets({ scoredHoldings: effectiveHoldings, freshCapitalInr, freshPickLimit });
+  const sectorOverlay = buildSectorOverlay(effectiveHoldings);
+  const snapshot = buildSnapshot(effectiveHoldings);
 
   // PR-4: liquidity-tail bucketing — % of book in <1d / 1-5d / 5-10d /
   // >10d / no-data buckets via market-cap proxy + surveillance escalation.
-  const liquidityTail = bucketByDaysToExit(scoredHoldings);
+  const liquidityTail = bucketByDaysToExit(effectiveHoldings);
 
   // PR-4: outside-portfolio fresh picks — surface 10-12 candidates from
   // picks-latest.json (set-diffed against held tickers) when fresh
   // capital is available OR top-5 holdings dominate the book. Gated by
   // OUTSIDE_PICKS=1 env flag (returns { available: false } otherwise).
-  const outsidePicks = surfaceOutsidePicks({ scoredHoldings, freshCapitalInr });
+  const outsidePicks = surfaceOutsidePicks({ scoredHoldings: effectiveHoldings, freshCapitalInr });
 
   // PR-4: diff vs prior analyzer run. buildDiffSnapshot strips the heavy
   // SWS payload to a per-row tuple (~100 bytes × N) so persisted state
   // stays small. priorSnapshot is null on first run → diff returns
   // hasChanges:false with the "first run" summary.
-  const diffSnapshot = buildDiffSnapshot(scoredHoldings);
+  // Pass priorByTicker so lastTrimmedAt carries forward — cooldown
+  // memory persists across multiple runs without the user trimming again.
+  const priorByTicker = snapshotByTicker(priorSnapshot);
+  const diffSnapshot = buildDiffSnapshot(effectiveHoldings, { priorByTicker });
   const diff = diffSnapshots(priorSnapshot, diffSnapshot);
 
   // Macro tilt — only applied to Tier B baskets (the recommendations
@@ -621,10 +643,13 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
   // Sector-wipeout guard — flag any sector that would be left at zero
   // exposure if all reductions executed. Surfaces gap #7 from the real
   // portfolio diagnostic (CIPLA Reduction-50% leaves zero pharma).
+  // Reads from cooled holdings so cooldown-suppressed reductions don't
+  // count toward a "wipeout" (the user isn't planning to trim those
+  // again — the engine already deferred the call).
   const reductionTickers = new Set(
     tiers.tierA.map((h) => h.sws?.ticker || h.symbol).filter(Boolean),
   );
-  const sectorWipeouts = detectSectorWipeout({ scoredHoldings, reductionTickers });
+  const sectorWipeouts = detectSectorWipeout({ scoredHoldings: effectiveHoldings, reductionTickers });
 
   const picks = loadPicksLatest();
   const banner = {
@@ -651,5 +676,8 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
       D: { label: "Watch (catalyst-driven)", rows: tiers.tierD },
     },
     sectorOverlay,
+    cooldownSummary: {
+      cooledCount: cooled.cooledCount,
+    },
   };
 }

@@ -11,7 +11,13 @@
 // Pure function. No I/O, no LLM. Snapshot shape (lightweight — we don't
 // serialise the full SWS payload):
 //
-//   { ticker, action, v3Score, surveillance, currentValue, snowflakeTotal }
+//   { ticker, action, v3Score, surveillance, currentValue, snowflakeTotal,
+//     quantity, lastTrimmedAt }
+//
+// quantity + lastTrimmedAt power the post-trim cooldown — when a holding's
+// qty drops materially run-to-run, the cooldown overrides any further
+// Reduction-* call to HOLD-watch for ~14 days so the engine doesn't keep
+// asking the user to trim something they already trimmed.
 //
 // A snapshot is an array of these row objects + a top-level
 // { generatedAt, holdingsCount, totalValue }.
@@ -20,22 +26,68 @@
  * Build a lightweight snapshot from the current SWS report's holdings.
  * Strips everything except the per-row fields the diff cares about so
  * persisted snapshots stay small (~100 bytes per row).
+ *
+ * @param {Array} scoredHoldings  output of swsHoldingEngine.scoreHolding
+ * @param {object} [opts]
+ * @param {Map<string,object>} [opts.priorByTicker]  prior-snapshot lookup
+ *   for carrying lastTrimmedAt forward when no fresh trim is detected
+ *   this run (so the cooldown window persists across multiple analyses)
+ * @param {string} [opts.now]  ISO timestamp override (tests)
+ * @param {number} [opts.trimDetectionPct]  qty-drop threshold to record
+ *   a fresh trim (default 0.10 = 10%)
  */
-export function buildSnapshot(scoredHoldings, meta = {}) {
-  const rows = (scoredHoldings || []).map((h) => ({
-    ticker: h.sws?.ticker || h.symbol || h.ticker || null,
-    action: h.action || null,
-    v3Score: h.sws?.v3_score ?? null,
-    surveillance: h.sws?.surveillance ? { list: h.sws.surveillance.list, stage: h.sws.surveillance.stage ?? null } : null,
-    currentValue: h.currentValue ?? null,
-    snowflakeTotal: h.sws?.snowflake_total ?? null,
-  }));
+export function buildSnapshot(scoredHoldings, opts = {}) {
+  const priorByTicker = opts.priorByTicker instanceof Map
+    ? opts.priorByTicker
+    : new Map();
+  const now = opts.now || new Date().toISOString();
+  const trimPct = Number.isFinite(opts.trimDetectionPct) ? opts.trimDetectionPct : 0.10;
+
+  const rows = (scoredHoldings || []).map((h) => {
+    const ticker = h.sws?.ticker || h.symbol || h.ticker || null;
+    const qty = Number.isFinite(h.quantity) ? h.quantity : null;
+    const prior = ticker ? priorByTicker.get(ticker) : null;
+    const priorQty = prior && Number.isFinite(prior.quantity) ? prior.quantity : null;
+
+    // Detect a fresh trim — current qty is materially below prior qty.
+    // When detected, stamp lastTrimmedAt to "now"; otherwise carry the
+    // prior stamp forward unchanged so the cooldown window persists
+    // across multiple runs without the user trimming again.
+    let lastTrimmedAt = prior?.lastTrimmedAt || null;
+    if (qty != null && priorQty != null && priorQty > 0 && qty <= priorQty * (1 - trimPct)) {
+      lastTrimmedAt = now;
+    }
+
+    return {
+      ticker,
+      action: h.action || null,
+      v3Score: h.sws?.v3_score ?? null,
+      surveillance: h.sws?.surveillance ? { list: h.sws.surveillance.list, stage: h.sws.surveillance.stage ?? null } : null,
+      currentValue: h.currentValue ?? null,
+      snowflakeTotal: h.sws?.snowflake_total ?? null,
+      quantity: qty,
+      lastTrimmedAt,
+    };
+  });
   return {
-    generatedAt: new Date().toISOString(),
+    generatedAt: now,
     holdingsCount: rows.length,
     totalValue: rows.reduce((s, r) => s + (Number(r.currentValue) || 0), 0),
     rows,
   };
+}
+
+/**
+ * Build a Map<ticker, row> view of a snapshot's rows for O(1) lookup.
+ * Returns an empty Map when the snapshot is null/malformed.
+ */
+export function snapshotByTicker(snapshot) {
+  const m = new Map();
+  if (!snapshot || !Array.isArray(snapshot.rows)) return m;
+  for (const r of snapshot.rows) {
+    if (r?.ticker) m.set(r.ticker, r);
+  }
+  return m;
 }
 
 // Score change threshold — only flag movements ≥ this value to avoid
