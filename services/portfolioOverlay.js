@@ -57,6 +57,7 @@ export async function loadPortfolioWeightMap() {
           avgPrice: avg,
           costBasis: qty * avg,
           sector: s.sector || null,
+          purchaseDate: s.purchaseDate || null,
         };
       })
       .filter(Boolean);
@@ -114,6 +115,12 @@ export function tagPicksWithPortfolio(picks, weightMap, defaultTopUpRupees = 500
     if (held) {
       p.inPortfolio = true;
       p.currentWeight = parseFloat(held.weightPct.toFixed(2));
+      // Surface avgPrice / quantity / purchaseDate too so the Sell scanner
+      // tax overlay (services/taxOverlay.js) can compute pnlAmount and
+      // days-to-LTCG without re-loading the portfolio.
+      p.heldQuantity = held.quantity;
+      p.heldAvgPrice = held.avgPrice;
+      p.heldPurchaseDate = held.purchaseDate || null;
       const newCostBasis = totalCostBasis + defaultTopUpRupees;
       const newPositionCost = held.costBasis + defaultTopUpRupees;
       p.concentrationAfterTopUp = parseFloat(

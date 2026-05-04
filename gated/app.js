@@ -1765,7 +1765,22 @@ function renderSebiDisclosure(stock, type) {
         <div><strong style="color:var(--text-secondary);">Analyst:</strong> ${escapeHtml(analyst)} · <strong>ARN:</strong> ${escapeHtml(arn)}</div>
         <div><strong style="color:var(--text-secondary);">Holding period:</strong> ${holdPeriod}</div>
         <div><strong style="color:var(--text-secondary);">Risk parameters:</strong> ${slTgtLine}</div>
-        <div><strong style="color:var(--text-secondary);">Score band:</strong> ${score != null ? Math.round(score) : "—"}/100 → ${band} (conviction-% calibration to live track record pending — P1.6)</div>
+        <div><strong style="color:var(--text-secondary);">Score band:</strong> ${score != null ? Math.round(score) : "—"}/100 → ${band}${
+          Number.isFinite(stock?.convictionPct)
+            ? ` · realized hit-rate ${(stock.convictionPct * 100).toFixed(0)}% (band ${stock.convictionBand || ""})`
+            : " (calibration pending — needs ≥ 10 trades in this band)"
+        }</div>
+        ${stock?.timingObservation ? `
+        <div><strong style="color:var(--text-secondary);">Today the right day?</strong> <strong style="color:${
+          stock.timingObservation.verdict === "Yes" ? "var(--green)" :
+          stock.timingObservation.verdict === "Yes-not-urgent" ? "var(--blue, #38bdf8)" :
+          stock.timingObservation.verdict === "Soft-no" ? "var(--gold, #fbbf24)" :
+          stock.timingObservation.verdict === "Wait-for-open" ? "var(--blue, #38bdf8)" :
+          stock.timingObservation.verdict === "No" ? "#f87171" : "var(--text-muted)"
+        };">${escapeHtml(stock.timingObservation.verdict)}</strong>${
+          stock.timingObservation.window ? ` · ${escapeHtml(stock.timingObservation.window)}` : ""
+        } — ${escapeHtml(stock.timingObservation.reason)}</div>
+        ` : ""}
         <div><strong style="color:var(--text-secondary);">Methodology weights:</strong> ${weightsLine}</div>
         <div><strong style="color:var(--text-secondary);">Data as of:</strong> ${dataAsOfPretty}</div>
         <div style="margin-top:6px;">${conflictLine}</div>
@@ -1826,7 +1841,26 @@ function renderStockCard(stock, type) {
       </div>
     `;
   } else if (type === "sell") {
+    // P2.4: tax-aware overlay. Renders only when the user holds the name
+    // and we have a known purchase date — otherwise the badge is silent.
+    const tax = stock.taxOverlay;
+    let taxBadge = "";
+    if (tax) {
+      const isLtcg = tax.taxRegime === "LTCG";
+      const isUrgent = tax.daysToLT > 0 && tax.daysToLT <= 30;
+      const color = isLtcg ? "#34d399" : isUrgent ? "#fbbf24" : "#94a3b8";
+      const bg = isLtcg ? "rgba(52,211,153,0.10)" : isUrgent ? "rgba(251,191,36,0.10)" : "rgba(148,163,184,0.10)";
+      const border = isLtcg ? "rgba(52,211,153,0.30)" : isUrgent ? "rgba(251,191,36,0.32)" : "rgba(148,163,184,0.30)";
+      taxBadge = `
+        <div style="margin-top:8px;padding:8px 10px;background:${bg};border:1px solid ${border};border-radius:8px;font-size:11px;color:${color};line-height:1.5;" title="${escapeHtml(tax.hint)}">
+          <strong>${escapeHtml(tax.label)}</strong> · ${escapeHtml(tax.taxRegime)}
+          ${tax.pnlPct != null ? ` · PnL ${tax.pnlPct >= 0 ? "+" : ""}${tax.pnlPct}%` : ""}
+          <div style="font-weight:400;color:var(--text-muted);margin-top:3px;">${escapeHtml(tax.hint)}</div>
+        </div>
+      `;
+    }
     footer = `
+      ${taxBadge}
       <div class="stock-card-footer">
         <span class="stock-card-direction direction-short">&#9888; EXIT</span>
         <span style="font-size:12px; color:var(--text-muted);">Score: ${stock.score}/100</span>

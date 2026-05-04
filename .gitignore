@@ -40,6 +40,10 @@ shadow-diff.json
 shadow-diff-*.json
 data/sws/combined-shadow-diff.json
 
+# P2.1: scanner audit trail — locally-generated each scan; production should
+# persist to KV / S3 / equivalent for SEBI 5-yr retention.
+data/audit/
+
 # Scratch/test scripts at repo root (kept local, not shipped)
 test-*.mjs
 test-*.js
