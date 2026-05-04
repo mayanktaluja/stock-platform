@@ -136,6 +136,14 @@ import {
   getStorageStats,
   getISTDateKey,
 } from "./paperTrades.js";
+import {
+  bucketTradesByScoreBand,
+  getConvictionPct,
+  getBandLabel,
+} from "./services/convictionMap.js";
+import { persistScannerAudit } from "./services/scannerAuditTrail.js";
+import { tagSellPicksWithTax } from "./services/taxOverlay.js";
+import { computeTimingObservation } from "./services/timingObservation.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -539,6 +547,93 @@ async function fetchDetailedQuote(symbol) {
     console.error(`Detailed quote error for ${symbol}:`, err.message);
     return null;
   }
+}
+
+// ─── P1.6: Conviction map (score-band → realized hit-rate) ──────────
+//
+// Lazy-built from paperTrades. The scanner endpoint calls
+// getOrBuildConvictionMap() once per request; first call after the cache
+// expires fetches a current quote per unique held symbol (using the
+// existing 60s quoteCache so concurrent scanners don't double-fetch),
+// computes returnPct per trade, and buckets by 5-pt score bands.
+//
+// Cache 6h. The map is purely informational — used to render
+// "78/100 → ~62%" on the disclosure pane. A null hit-rate (insufficient
+// sample) means the disclosure pane keeps the qualitative band label
+// (STRONG / MODERATE / WEAK) instead of showing a noisy %.
+
+const CONVICTION_TTL_MS = 6 * 60 * 60 * 1000; // 6h
+let _convictionMap = null;
+let _convictionMapAt = 0;
+let _convictionMapInflight = null;
+
+async function getOrBuildConvictionMap() {
+  const now = Date.now();
+  if (_convictionMap && (now - _convictionMapAt) < CONVICTION_TTL_MS) {
+    return _convictionMap;
+  }
+  if (_convictionMapInflight) return _convictionMapInflight;
+
+  _convictionMapInflight = (async () => {
+    try {
+      const trades = await readAllTrades();
+      if (!Array.isArray(trades) || trades.length === 0) {
+        _convictionMap = { bands: {}, builtAt: new Date().toISOString(), totalTrades: 0, eligibleTrades: 0 };
+        _convictionMapAt = now;
+        return _convictionMap;
+      }
+      // Group trades by symbol so we fetch each quote once.
+      const bySymbol = new Map();
+      for (const t of trades) {
+        if (!t.symbol) continue;
+        if (!bySymbol.has(t.symbol)) bySymbol.set(t.symbol, []);
+        bySymbol.get(t.symbol).push(t);
+      }
+      // Fetch quotes in parallel batches of 10 to avoid hammering NSE.
+      const symbols = Array.from(bySymbol.keys());
+      const priceMap = new Map();
+      const BATCH = 10;
+      for (let i = 0; i < symbols.length; i += BATCH) {
+        const slice = symbols.slice(i, i + BATCH);
+        const quotes = await Promise.all(slice.map((s) => fetchQuote(s).catch(() => null)));
+        for (let j = 0; j < slice.length; j++) {
+          const q = quotes[j];
+          if (q && Number.isFinite(q.regularMarketPrice)) {
+            priceMap.set(slice[j], q.regularMarketPrice);
+          }
+        }
+      }
+      // Compute returnPct + daysHeld per trade (in-memory, no I/O).
+      const enriched = [];
+      for (const t of trades) {
+        const cp = priceMap.get(t.symbol);
+        if (!Number.isFinite(cp)) continue;
+        const r = computeReturns(t, cp, null);
+        if (r && Number.isFinite(r.returnPct)) {
+          enriched.push({
+            scoreAtSnapshot: Number(t.scoreAtSnapshot),
+            returnPct: r.returnPct,
+            daysHeld: r.daysHeld,
+          });
+        }
+      }
+      _convictionMap = bucketTradesByScoreBand(enriched);
+      _convictionMapAt = now;
+      console.log(
+        `[convictionMap] built: ${_convictionMap.eligibleTrades}/${_convictionMap.totalTrades} eligible, ` +
+        `bands=${Object.keys(_convictionMap.bands).length}`
+      );
+      return _convictionMap;
+    } catch (err) {
+      console.warn("[convictionMap] build failed:", err.message);
+      _convictionMap = { bands: {}, builtAt: new Date().toISOString(), totalTrades: 0, eligibleTrades: 0 };
+      _convictionMapAt = now;
+      return _convictionMap;
+    } finally {
+      _convictionMapInflight = null;
+    }
+  })();
+  return _convictionMapInflight;
 }
 
 /**
@@ -2074,6 +2169,12 @@ app.get("/api/scan/:type", async (req, res, next) => {
     try {
       const weightMap = await loadPortfolioWeightMap();
       tagPicksWithPortfolio(filtered, weightMap);
+      // P2.4: Tax-aware Sell overlay. Computes days-to-LTCG + STCG/LTCG
+      // saving hint per held pick. No-op for buynow/midterm. Renders the
+      // "DEFER N days for LTCG" or "ALREADY LTCG" hint on Sell cards.
+      if (type === "sell") {
+        tagSellPicksWithTax(filtered);
+      }
       // Sell scanner is not re-ranked — exit alerts on held names are
       // exactly what the user wants surfaced first.
       if (type === "buynow" || type === "midterm") {
@@ -2087,6 +2188,60 @@ app.get("/api/scan/:type", async (req, res, next) => {
       }
     } catch (err) {
       console.warn("[scanner] portfolio overlay failed:", err.message);
+    }
+
+    // ─── P1.6: Conviction-as-% ───
+    // Attach the realized historical hit-rate for each pick's score band
+    // so the disclosure pane can render "78/100 → ~62%" instead of just
+    // the qualitative STRONG/MODERATE/WEAK label. Built lazily and
+    // cached 6h; null when the band has fewer than 10 historical trades.
+    let convictionMap = null;
+    try {
+      convictionMap = await getOrBuildConvictionMap();
+      for (const r of filtered) {
+        const score = type === "midterm" ? r.midTerm?.score : (r.adjustedScore ?? r.score);
+        const pct = getConvictionPct(score, convictionMap);
+        r.convictionPct = pct;       // 0..1 ratio, or null
+        r.convictionBand = getBandLabel(score);
+      }
+    } catch (err) {
+      console.warn("[scanner] conviction map failed:", err.message);
+    }
+
+    // ─── P2.5: Timing observation per pick ───
+    // Reuses services/timingObservation.js (already wired into the
+    // portfolio review flow). Maps Buy Now / Mid-Term picks to "Top-up"
+    // (a buy action) and Sell picks to "EXIT" so the function picks the
+    // right intraday window. We only have earningsNearby per pick; the
+    // SWS overview's monthly-return + analyst-revision fields aren't
+    // loaded for the scanner (would require a deep-scrape per pick).
+    // Without those, the function still produces the right output for
+    // the dominant cases: market-state (NSE closed → wait-for-open),
+    // earnings imminent (≤3d → No), regime severity, or default
+    // "mid-morning 10:30-12:00 IST".
+    try {
+      const action = type === "sell" ? "EXIT" : "Top-up";
+      const regimeSeverity = macroRegime?.severity ?? 0;
+      for (const r of filtered) {
+        const synthesizedScored = {
+          overview: {
+            next_earnings_date: r.earningsNearby?.date || null,
+          },
+        };
+        const sectorImpact = (macroRegime?.sectorImpacts || {})[r.sector] ?? 0;
+        try {
+          r.timingObservation = computeTimingObservation({
+            action,
+            scored: synthesizedScored,
+            regimeSeverity,
+            sectorImpact,
+          });
+        } catch (_e) {
+          r.timingObservation = null;
+        }
+      }
+    } catch (err) {
+      console.warn("[scanner] timing observation failed:", err.message);
     }
 
     // Shadow-mode capture: log a compact diff row per pick so the daily
@@ -2115,6 +2270,16 @@ app.get("/api/scan/:type", async (req, res, next) => {
     if (type === "buynow" && req.query.debug === "1" && filterDropoff) {
       response.filterDropoff = filterDropoff;
     }
+    // P1.6 calibration metadata: callers can render "calibrated against N
+    // trades over the past Xd" in the disclosure pane footer.
+    if (convictionMap) {
+      response.conviction = {
+        builtAt: convictionMap.builtAt,
+        totalTrades: convictionMap.totalTrades,
+        eligibleTrades: convictionMap.eligibleTrades,
+        bandsCount: Object.keys(convictionMap.bands || {}).length,
+      };
+    }
 
     // High-conviction messaging: when strict filters (Phase 1) produce fewer
     // than 10 picks, communicate this as selectivity, not a gap.
@@ -2134,6 +2299,27 @@ app.get("/api/scan/:type", async (req, res, next) => {
     // a second round-trip. Only for buynow — other scan types don't use it.
     if (type === "buynow" && macroRegime) {
       response.regime = macroRegime;
+    }
+
+    // ─── P2.1: Full input-snapshot audit trail (SEBI RA Reg §16(1)) ───
+    // Persist every pick's complete input + decision metadata to
+    // data/audit/scanner/{date}/{type}.json so a SEBI auditor can
+    // reconstruct the reasoning behind any pick 5 years from now.
+    // Best-effort: any I/O failure is logged but doesn't break the API.
+    if ((type === "buynow" || type === "midterm" || type === "sell") && filtered.length > 0) {
+      try {
+        const niftyQuote = type === "buynow" ? await fetchQuote("^NSEI").catch(() => null) : null;
+        await persistScannerAudit(filtered, type, {
+          dateKey: getISTDateKey(),
+          regime: macroRegime,
+          niftyPrice: niftyQuote?.regularMarketPrice ?? null,
+          methodologyVersion: shouldComputeCombined() ? getMethodology(methodologyType)?.version : null,
+          universe,
+          scannedAt: response.lastUpdated,
+        });
+      } catch (err) {
+        console.warn("[scanner audit] persist failed:", err.message);
+      }
     }
 
     // ─── Paper-trade snapshot trigger ───
