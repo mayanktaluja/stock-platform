@@ -5969,21 +5969,36 @@ function renderSWSTierB(baskets) {
 function renderSWSTierC(tier) {
   const rows = tier?.rows || [];
   if (rows.length === 0) return "";
+  const cooledCount = rows.filter((h) => h.recentlyTrimmedReason).length;
+  const cooledHeader = cooledCount > 0
+    ? ` <span style="margin-left:8px; padding:2px 7px; background:rgba(168,85,247,0.15); color:#c4b5fd; border-radius:3px; font-size:10px; font-weight:700; letter-spacing:0.3px;">${cooledCount} RECENTLY TRIMMED</span>`
+    : "";
   return `<div style="margin-bottom:22px;">
-    <div style="font-size:14px; font-weight:700; margin-bottom:10px;">Tier C · Hold as-is <span style="color:var(--text-muted); font-size:12px; font-weight:500;">(${rows.length})</span></div>
+    <div style="font-size:14px; font-weight:700; margin-bottom:10px;">Tier C · Hold as-is <span style="color:var(--text-muted); font-size:12px; font-weight:500;">(${rows.length})</span>${cooledHeader}</div>
     <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:6px 0;">
       ${rows.map((h, i) => {
         const sws = h.sws || {};
-        return `<div style="padding:8px 14px; border-top:${i > 0 ? '1px solid #1a2238' : 'none'}; display:flex; justify-content:space-between; align-items:center; gap:10px; cursor:pointer;" onclick="openStockDetailModal('${sws.ticker}','mf-overlap')">
-          <div>
-            <strong style="font-size:13px;">${sws.ticker}</strong>
-            <span style="font-size:11px; color:var(--text-muted); margin-left:8px;">${swsEscapeAttr(sws.name || "")} · ${swsEscapeAttr(sws.sector || "—")}</span>
+        const cooled = !!h.recentlyTrimmedReason;
+        const cooledBadge = cooled
+          ? `<span style="margin-left:6px; padding:2px 6px; background:rgba(168,85,247,0.15); color:#c4b5fd; border-radius:3px; font-size:10px; font-weight:700; letter-spacing:0.3px;">RECENTLY TRIMMED</span>`
+          : "";
+        const cooledSubline = cooled
+          ? `<div style="margin-top:4px; font-size:11px; color:#c4b5fd; line-height:1.4;">${swsEscapeAttr(h.recentlyTrimmedReason)}${h.originalAction ? ` <span style="color:var(--text-muted);">(engine wanted ${swsEscapeAttr(h.originalAction)} — suppressed)</span>` : ""}</div>`
+          : "";
+        return `<div style="padding:8px 14px; border-top:${i > 0 ? '1px solid #1a2238' : 'none'}; display:flex; flex-direction:column; gap:0; cursor:pointer;" onclick="openStockDetailModal('${sws.ticker}','mf-overlap')">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+            <div>
+              <strong style="font-size:13px;">${sws.ticker}</strong>
+              ${cooledBadge}
+              <span style="font-size:11px; color:var(--text-muted); margin-left:8px;">${swsEscapeAttr(sws.name || "")} · ${swsEscapeAttr(sws.sector || "—")}</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px; font-size:11px;">
+              <span>v3 <strong>${sws.v3_score ?? "—"}</strong></span>
+              ${swsSnowflakeMini(sws.snowflake)}
+              <span style="color:${pctColor(h.pnlPercent)};">${h.pnlPercent != null ? (h.pnlPercent >= 0 ? "+" : "") + h.pnlPercent + "%" : "—"}</span>
+            </div>
           </div>
-          <div style="display:flex; align-items:center; gap:10px; font-size:11px;">
-            <span>v3 <strong>${sws.v3_score ?? "—"}</strong></span>
-            ${swsSnowflakeMini(sws.snowflake)}
-            <span style="color:${pctColor(h.pnlPercent)};">${h.pnlPercent != null ? (h.pnlPercent >= 0 ? "+" : "") + h.pnlPercent + "%" : "—"}</span>
-          </div>
+          ${cooledSubline}
         </div>`;
       }).join("")}
     </div>
