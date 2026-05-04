@@ -2921,7 +2921,7 @@
     <!-- SEBI compliance: persistent disclaimer banner visible above every tab.
          Addresses RA Regulation 15(2): "fair, balanced, not misleading".
          Short-form here with a link to the full disclaimer section below. -->
-    <div class="sebi-banner" role="note">
+    <div class="sebi-banner" role="note" id="sebiBanner">
       <strong>Educational content only.</strong> StarBhai is not a SEBI-registered investment adviser. All scores and picks are algorithmic signals for research &mdash; not buy/sell recommendations. Past performance does not guarantee future returns.
     </div>
 
@@ -3273,7 +3273,7 @@
         <strong>Growth</strong> (YoY revenue growth), and
         <strong>Trend context</strong> (price vs 200-DMA, market-cap tier).
         A stock cannot be labelled <em>Deep Value</em> or <em>Quality Growth</em> unless its ROE and leverage both clear the quality guardrail — this prevents value-trap picks where a cheap P/E masks a deteriorating business.
-        The Buy Now scanner uses a <strong>dual-lane system</strong>: 6 slots reserved for Quality Growth (55-64% win rate) and 4 for Deep Value, with <strong>sector momentum overlay</strong> (outperforming sectors get priority) and <strong>earnings calendar filter</strong> (stocks with results within 7 days are flagged). Banking, Tourism, Cement, and Chemicals sectors are excluded based on 8-year backtesting (consistently negative returns).
+        The Buy Now scanner uses a <strong>dual-lane system</strong>: 4 slots for Quality Growth and 1 for Deep Value (DV must clear ROE&nbsp;≥&nbsp;15% and adjusted score ≥ 70 — a tighter bar than QG's ≥ 65, because 24-month attribution showed DV had −1.97% edge across 193 trades vs QG's +1.97% across 47). The pipeline applies a <strong>sector momentum overlay</strong> (sectors beating Nifty by &gt;3% get +3, lagging by &gt;3% get −3), a <strong>3-trading-day earnings blackout</strong> (the 7-day window is flagged on the card), and a <strong>max 2 picks per sector</strong> diversification cap. Tourism, Cement, and Chemicals are excluded based on the 2025 backtest (consistently negative attribution); Banking was kept in after the same diagnostic showed it would have contributed +5.07% avg return over 29 trades during the rate-cut cycle.
         All picks include a <strong>2-close SL confirmation</strong> rule and a <strong>dynamic trailing stop</strong> to lock in gains.
         ROE, debt, margin, and growth data are sourced from Yahoo Finance; prices and sector P/E from NSE India.
       </div>
