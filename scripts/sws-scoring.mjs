@@ -544,8 +544,22 @@ function writeJsonAtomic(filePath, value) {
 }
 
 export function buildLeaderboard(scoredStocks) {
-  // Sort once, descending by v1 score (legacy compatibility for existing categories)
-  const ordered = [...scoredStocks].sort((a, b) => (b.composite_score_100 || 0) - (a.composite_score_100 || 0));
+  // Sort once, descending by v3 — canonical across every section except
+  // upcoming_earnings (which re-sorts by date below). Card headlines render
+  // v3, so the section rank order matches the number the user sees.
+  const ordered = [...scoredStocks].sort((a, b) => (b.v3_score_100 || 0) - (a.v3_score_100 || 0));
+
+  // Hygiene gate for the universe-wide Top-30. Market cap ≥ ₹500cr (skip
+  // illiquid micro-caps that need a different analysis frame); exclude GSM
+  // (heavy regulatory red flag — the score overlay deduction isn't enough).
+  const MIN_MCAP_INR = 5_000_000_000; // ₹500cr
+  const hygiene = (s) => {
+    const mcap = num(s.overview?.market_cap_inr, 0);
+    if (mcap < MIN_MCAP_INR) return false;
+    const surv = s.v2_breakdown?.surveillance;
+    if (surv && surv.list === "GSM") return false;
+    return true;
+  };
 
   // Best to Buy Now = top 25 with no major risks and snow ≥ 18
   const bestToBuy = ordered
@@ -567,30 +581,11 @@ export function buildLeaderboard(scoredStocks) {
       return c;
     });
 
-  // top_ranked_30: ranked desc by v2_score_100 across the WHOLE universe.
-  // Hygiene filters: market cap >= ₹500cr (skip illiquid micro-caps that
-  // need a different analysis frame), exclude GSM (heavy regulatory red
-  // flag — score deduction is not enough; just filter them out).
-  const MIN_MCAP_INR = 5_000_000_000; // ₹500cr
-  const hygiene = (s) => {
-    const mcap = num(s.overview?.market_cap_inr, 0);
-    if (mcap < MIN_MCAP_INR) return false;
-    const surv = s.v2_breakdown?.surveillance;
-    if (surv && surv.list === "GSM") return false;
-    return true;
-  };
-  const orderedV2 = [...scoredStocks].sort((a, b) => (b.v2_score_100 || 0) - (a.v2_score_100 || 0));
-  const top30 = orderedV2.filter(hygiene).slice(0, 30).map(pickCardFields);
-
-  // top_ranked_30_v3: same hygiene, ranked by v3_score_100 — for A/B vs v2
-  // before cutting over. Rendered side-by-side in picks-latest.json so the
-  // user can compare which framework surfaces better names.
-  const orderedV3 = [...scoredStocks].sort((a, b) => (b.v3_score_100 || 0) - (a.v3_score_100 || 0));
-  const top30v3 = orderedV3.filter(hygiene).slice(0, 30).map(pickCardFields);
+  // Universe-wide top 30 by v3 composite — canonical headline section.
+  const top30 = ordered.filter(hygiene).slice(0, 30).map(pickCardFields);
 
   return {
-    top_ranked_30: top30,
-    top_ranked_30_v3: top30v3,
+    top_ranked_30_v3: top30,
     best_to_buy_now: bestToBuy,
     deep_value: cat("deep_value"),
     quality_growth: cat("quality_growth"),

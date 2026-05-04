@@ -487,6 +487,13 @@ window.GLOSSARY = {
     full: "ASM (Additional Surveillance Measure) and GSM (Graded Surveillance Measure) are NSE's mechanisms to slow trading in stocks showing unusual price/volume patterns or weak fundamentals. ASM Stage 1–4 escalates from price-band tightening to 100% margin and trade-to-trade settlement. GSM Stage 1–6 escalates similarly with stricter constraints. TT (Trade-to-Trade) requires every trade to settle by delivery — no intraday squaring. A surveillance flag isn't a verdict, but it's a flag worth respecting: SEBI/NSE saw enough to act. The v3 safety overlay applies up to −15 points based on stage.",
   },
 
+  last_quarter_result: {
+    term: "Last Quarter Result · BEAT / MISS / INLINE",
+    category: "fundamental",
+    short: "How the most recent quarter's reported EPS landed against the consensus estimate.",
+    full: "BEAT = reported EPS at least 2% above consensus estimate. MISS = at least 2% below. INLINE = within ±2%. Sourced from Yahoo Finance earningsHistory and refreshed as part of every SWS pipeline run. A confirmed BEAT going into the next earnings window contributes +3 to the v2/v3 catalyst bonus when next earnings are within 30 days; INLINE and MISS contribute zero. The badge is hidden when the company has no earnings history (recent IPO), when EPS estimate or actual is missing for the latest quarter, or when the most recently reported quarter is older than 180 days (annual reporters or stale Yahoo coverage). Treat the badge as context, not a directive — a beat-after-beat-after-miss pattern is a different signal than a single beat.",
+  },
+
   v3_top_pick: {
     term: "TOP PICK (v3)",
     category: "verdict",

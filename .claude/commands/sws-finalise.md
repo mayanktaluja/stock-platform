@@ -17,16 +17,22 @@ Use this after all 3 shards have completed scraping. Single Opus 4.7 session.
    ```
    This reads every file in `data/sws/deep/`, scores each, builds the categorised leaderboard, and writes `data/sws/picks-latest.json`.
 
-2. **Generate PDF:**
+2. **Backfill last-quarter beat/miss on upcoming-earnings cards:**
+   ```bash
+   node scripts/sws-fetch-earnings-beat.mjs
+   ```
+   Calls Yahoo Finance `quoteSummary({modules:["earningsHistory"]})` for every ticker in the upcoming-earnings section (~200–250) at concurrency 5 and writes `last_quarter_result` (`"beat" | "miss" | "inline" | null`) back into the picks JSON. ~15 seconds. Safe to fail without aborting the rest of the pipeline — the badge simply won't render for tickers Yahoo can't resolve. Tail of the output prints `beat=N miss=N inline=N unknown=N`.
+
+3. **Generate PDF:**
    ```bash
    python3 scripts/generate-sws-picks-pdf.py
    ```
    Writes `reports/sws-picks/Top-50-Buy-Now-{YYYY-MM-DD}.pdf`.
 
-3. **Cleanup scheduled tasks:**
+4. **Cleanup scheduled tasks:**
    List scheduled tasks via `mcp__scheduled-tasks__list_scheduled_tasks`. Delete any `sws-shard-*-resume` and `sws-watcher` tasks via `mcp__scheduled-tasks__update_scheduled_task` (set `enabled: false` or delete).
 
-4. **Print summary:**
+5. **Print summary:**
    ```
    ✅ SWS scan complete
    Scored:        {N} stocks
