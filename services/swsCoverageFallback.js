@@ -73,13 +73,20 @@ function _v2ToSwsSnowflake(v2pillars) {
 // Map V2 verdict + composite to an SWS-style action band. Conservative
 // thresholds — fallback path always biases toward HOLD because we don't
 // have the SWS catalyst-aware momentum overlay.
+//
+// When SWS_LADDER_V2 is enabled the labels promote to the granular ladder.
+// We can't run the full pickTrimRung matrix here because we don't have
+// position weight / sector weight at fallback time, so we map score-band
+// to a conservative ladder rung. Round-trip is deterministic.
 function _fallbackAction(v2score) {
+  const v2Mode = process.env.SWS_LADDER_V2 === "1";
   if (v2score == null) return "HOLD";
-  if (v2score >= 70) return "Top-up-modest";
+  if (v2score >= 70) return v2Mode ? "Top-up-25%" : "Top-up-modest";
   if (v2score >= 55) return "HOLD";
   if (v2score >= 40) return "HOLD";
-  if (v2score >= 30) return "Reduction-25-33%";
-  return "Reduction-50%";
+  if (v2score >= 30) return v2Mode ? "Reduction-33%" : "Reduction-25-33%";
+  if (v2score >= 14) return v2Mode ? "Reduction-50%" : "Reduction-50%";
+  return v2Mode ? "EXIT-staged" : "EXIT";
 }
 
 function _v3FromV2(v2score) {

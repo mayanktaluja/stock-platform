@@ -16,6 +16,13 @@ import { fileURLToPath } from "node:url";
 import { num } from "./swsScoring.js";
 import { loadSWSDeep, pickSnowflake, scoreHolding, _reconcileFVUpside } from "./swsHoldingEngine.js";
 import { detectSectorWipeout } from "./swsPeerLayer.js";
+import {
+  ALL_REDUCTION_ACTIONS,
+  ALL_TOPUP_ACTIONS,
+  parseTrimPct,
+} from "./actionLadder.js";
+import { bucketByDaysToExit } from "./liquidityTail.js";
+import { buildSnapshot as buildDiffSnapshot, diffSnapshots } from "./analyzerDiff.js";
 
 // Lazy macro-regime import — only used for basket tilt; failing import
 // degrades gracefully (no tilt applied).
@@ -44,15 +51,21 @@ function loadPicksLatest() {
   }
 }
 
-const REDUCTION_ACTIONS = new Set(["EXIT", "Reduction-50%", "Reduction-25-33%"]);
-const TOPUP_ACTIONS = new Set(["Top-up-modest", "Top-up", "STRONG Top-up"]);
+// Action sets from actionLadder cover both legacy (EXIT / Reduction-50% /
+// Reduction-25-33% / Top-up-modest / Top-up / STRONG Top-up) and ladder-v2
+// (EXIT-now / EXIT-staged / Reduction-66/50/33/25% / Top-up-25/33/50/100%)
+// labels. Aggregator behaviour stays identical for legacy callers; v2 labels
+// flow through naturally because parseTrimPct understands every rung.
+const REDUCTION_ACTIONS = ALL_REDUCTION_ACTIONS;
+const TOPUP_ACTIONS = ALL_TOPUP_ACTIONS;
 
 function _reductionRupees(holding) {
   const cv = num(holding.currentValue, 0);
-  if (holding.action === "EXIT") return cv;
-  if (holding.action === "Reduction-50%") return cv * 0.5;
-  if (holding.action === "Reduction-25-33%") return cv * 0.30;
-  return 0;
+  // parseTrimPct handles every label in the system: EXIT/EXIT-now → 1.0,
+  // EXIT-staged → 0.5 (only the today-half is realised), Reduction-* fixed
+  // tiers, plus the legacy Reduction-25-33% → 0.30 mapping kept for
+  // backward compat with v1 outputs.
+  return cv * parseTrimPct(holding.action);
 }
 
 function buildTiers(scoredHoldings) {
@@ -211,6 +224,138 @@ function pickToBasketRow(pick) {
     v2_breakdown: pick.v2_breakdown,
     surveillance: pick.v2_breakdown?.surveillance ?? null,
     sws_url: pick.sws_url ?? null,
+  };
+}
+
+// Outside-portfolio fresh picks — surfaces a structured list of
+// candidates from 4 picks-latest buckets, set-diffed against the user's
+// held tickers, split into defensive (quality_growth + deep_value) and
+// growth (top_ranked_30_v3 + smallcap_gems).
+//
+// Trigger: fires when fresh capital > 0 OR top-5 holdings > 50% of book
+// (concentration risk). Allocates 15-35% of fresh capital depending on
+// concentration severity — heavier concentration → larger fresh-picks
+// allocation to dilute single-name risk.
+//
+// Gated by OUTSIDE_PICKS=1 env flag per PR-4 plan.
+function surfaceOutsidePicks({ scoredHoldings, freshCapitalInr, limit = 12 }) {
+  if (process.env.OUTSIDE_PICKS !== "1") {
+    return { available: false, reason: "OUTSIDE_PICKS feature flag disabled" };
+  }
+
+  const totalValue = scoredHoldings.reduce((s, h) => s + (num(h.currentValue, 0) || 0), 0);
+  if (totalValue <= 0) {
+    return { available: false, reason: "No portfolio value to compute concentration." };
+  }
+
+  // Concentration score = top-5 holdings as % of book. ≥50% = trigger.
+  const sortedByValue = [...scoredHoldings]
+    .filter((h) => num(h.currentValue, 0) > 0)
+    .sort((a, b) => num(b.currentValue, 0) - num(a.currentValue, 0));
+  const top5Value = sortedByValue.slice(0, 5).reduce((s, h) => s + num(h.currentValue, 0), 0);
+  const concentrationPct = +((top5Value / totalValue) * 100).toFixed(1);
+
+  const hasFreshCapital = num(freshCapitalInr, 0) > 0;
+  const isOverConcentrated = concentrationPct >= 50;
+  if (!hasFreshCapital && !isOverConcentrated) {
+    return {
+      available: false,
+      reason: "No fresh capital and concentration < 50% — outside picks not surfaced.",
+      concentrationPct,
+    };
+  }
+
+  const heldTickers = new Set(
+    scoredHoldings.filter((h) => h.swsCovered && h.sws?.ticker).map((h) => h.sws.ticker),
+  );
+  const picks = loadPicksLatest();
+  const sections = picks?.sections || {};
+
+  // Pull from 4 buckets, set-diff against held. The plan calls out
+  // top_ranked_30_v3 (the v3-aware ranking) — we fall back to
+  // top_ranked_30 if the v3 variant isn't populated.
+  const growthSrc = [
+    ...(sections.top_ranked_30_v3 || sections.top_ranked_30 || []),
+    ...(sections.smallcap_gems || []),
+  ].filter((p) => p?.ticker && !heldTickers.has(p.ticker));
+
+  const defensiveSrc = [
+    ...(sections.quality_growth || []),
+    ...(sections.deep_value || []),
+  ].filter((p) => p?.ticker && !heldTickers.has(p.ticker));
+
+  // Dedupe within each list, then take top by v3_score. Cross-bucket
+  // dedupe runs after — if a ticker qualifies for both growth and
+  // defensive buckets (common: a top-ranked v3 name with strong
+  // quality_growth metrics), it stays in growth (the higher-priority
+  // surface) and is removed from defensive so the user doesn't see
+  // duplicates.
+  const dedupe = (arr) => {
+    const seen = new Set();
+    const out = [];
+    for (const p of arr.sort((a, b) => num(b.v3_score, 0) - num(a.v3_score, 0))) {
+      if (seen.has(p.ticker)) continue;
+      seen.add(p.ticker);
+      out.push(p);
+    }
+    return out;
+  };
+  const growth = dedupe(growthSrc).slice(0, Math.ceil(limit / 2));
+  const growthTickers = new Set(growth.map((p) => p.ticker));
+  const defensive = dedupe(defensiveSrc)
+    .filter((p) => !growthTickers.has(p.ticker))
+    .slice(0, Math.floor(limit / 2));
+
+  // Allocation pct of fresh capital — scales 15-35% by concentration:
+  //   ≥ 70% concentrated → 35% to fresh picks (heaviest dilution)
+  //   60-70% → 25%
+  //   50-60% → 20%
+  //   < 50% (only fires when freshCapital > 0) → 15% (gentle outward push)
+  let allocPct;
+  if (concentrationPct >= 70) allocPct = 35;
+  else if (concentrationPct >= 60) allocPct = 25;
+  else if (concentrationPct >= 50) allocPct = 20;
+  else allocPct = 15;
+
+  const allocInr = hasFreshCapital ? Math.round(freshCapitalInr * (allocPct / 100)) : 0;
+  const totalPicks = growth.length + defensive.length;
+  const perPickInr = totalPicks > 0 && allocInr > 0
+    ? Math.round(allocInr / totalPicks)
+    : 0;
+
+  // Annotate each row with source + suggested ₹ + the basket-row shape
+  // the UI already renders.
+  const annotateBucket = (rows, basketLabel) => rows.map((p) => {
+    const baseRow = pickToBasketRow(p);
+    return {
+      ...baseRow,
+      source: "fresh",
+      basket: basketLabel,
+      suggested_inr: perPickInr,
+    };
+  });
+
+  return {
+    available: true,
+    concentrationPct,
+    triggerReasons: [
+      hasFreshCapital ? `Fresh capital ₹${freshCapitalInr.toLocaleString("en-IN")} available` : null,
+      isOverConcentrated ? `Top-5 holdings = ${concentrationPct}% of book (≥50% trigger)` : null,
+    ].filter(Boolean),
+    allocPct,
+    allocInr,
+    perPickInr,
+    growth: annotateBucket(growth, "growth"),
+    defensive: annotateBucket(defensive, "defensive"),
+    counts: {
+      growth: growth.length,
+      defensive: defensive.length,
+      total: totalPicks,
+    },
+    methodology:
+      `Picks: top_ranked_30_v3 + smallcap_gems (growth) and quality_growth + deep_value (defensive), ` +
+      `set-diffed against your ${heldTickers.size} held ticker(s). Allocation ${allocPct}% scales with ` +
+      `concentration: ≥70% → 35%, 60-70% → 25%, 50-60% → 20%, else 15%. Always opt-in via OUTSIDE_PICKS=1.`,
   };
 }
 
@@ -435,11 +580,29 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
   const freshCapitalInr = opts.freshCapitalInr ?? null;
   const freshPickLimit = opts.freshPickLimit ?? 8;
   const macroRegime = opts.macroRegime ?? null;
+  const priorSnapshot = opts.priorSnapshot ?? null;
 
   const tiers = buildTiers(scoredHoldings);
   const baskets = buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit });
   const sectorOverlay = buildSectorOverlay(scoredHoldings);
   const snapshot = buildSnapshot(scoredHoldings);
+
+  // PR-4: liquidity-tail bucketing — % of book in <1d / 1-5d / 5-10d /
+  // >10d / no-data buckets via market-cap proxy + surveillance escalation.
+  const liquidityTail = bucketByDaysToExit(scoredHoldings);
+
+  // PR-4: outside-portfolio fresh picks — surface 10-12 candidates from
+  // picks-latest.json (set-diffed against held tickers) when fresh
+  // capital is available OR top-5 holdings dominate the book. Gated by
+  // OUTSIDE_PICKS=1 env flag (returns { available: false } otherwise).
+  const outsidePicks = surfaceOutsidePicks({ scoredHoldings, freshCapitalInr });
+
+  // PR-4: diff vs prior analyzer run. buildDiffSnapshot strips the heavy
+  // SWS payload to a per-row tuple (~100 bytes × N) so persisted state
+  // stays small. priorSnapshot is null on first run → diff returns
+  // hasChanges:false with the "first run" summary.
+  const diffSnapshot = buildDiffSnapshot(scoredHoldings);
+  const diff = diffSnapshots(priorSnapshot, diffSnapshot);
 
   // Macro tilt — only applied to Tier B baskets (the recommendations
   // surface). The per-stock action grid (Tier A / C / D) shows the
@@ -475,6 +638,12 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
     engine: "sws",
     banner,
     snapshot,
+    diff,
+    liquidityTail,
+    outsidePicks,
+    // The lightweight snapshot to persist for next run's diff.
+    // Server.js writes this to portfolio.analyzerSnapshot post-render.
+    analyzerSnapshotForNextRun: diffSnapshot,
     tiers: {
       A: { label: "Reductions", rows: tiers.tierA, freedRupees: tiers.freedRupees, sector_wipeouts: sectorWipeouts },
       B: { label: "Top-ups (Two baskets + shared Core)", baskets },

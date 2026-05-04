@@ -5038,6 +5038,20 @@ async function analyzePortfolioFile(file) {
       if (Number.isFinite(fresh) && fresh > 0) fd.append("freshCapitalInr", String(fresh));
     }
     const res = await fetch("/api/portfolio/analyze", { method: "POST", body: fd });
+
+    // 412 Precondition Failed → SUITABILITY_GATE blocked the analyze
+    // because the user has no persisted intake. Open the intake modal,
+    // and when the user saves, retry the analyze with the same file.
+    if (res.status === 412) {
+      const blocked = await res.json();
+      setAnalyzerState("upload");
+      openAnalyzerIntake({
+        questions: blocked.questions || null,
+        afterSave: () => analyzeUploadedFile(file),
+      });
+      return;
+    }
+
     const data = await res.json();
     if (!res.ok) {
       throw new Error(data.error + (data.hint ? `\n\nHint: ${data.hint}` : ""));
@@ -5064,6 +5078,175 @@ async function analyzePortfolioFile(file) {
     errEl.style.display = "block";
   }
 }
+
+// ──────────────────── 5-question SEBI suitability intake ────────────────
+//
+// Triggered from two places:
+//   1. /api/portfolio/analyze returning 412 Precondition Failed (when
+//      SUITABILITY_GATE=1 and the user has no persisted intake).
+//   2. An "Edit intake" link rendered on the analyzer report (after a
+//      successful analyze) so the user can revise without re-uploading.
+//
+// Backed by /api/portfolio/intake CRUD. The form schema comes from the
+// server (questions array on the 412 response or from a fresh GET).
+
+let _analyzerIntakeAfterSave = null;
+
+async function openAnalyzerIntake({ questions = null, afterSave = null } = {}) {
+  const modal = document.getElementById("analyzerIntakeModal");
+  const form = document.getElementById("analyzerIntakeForm");
+  const errEl = document.getElementById("analyzerIntakeError");
+  if (!modal || !form) return;
+  errEl.style.display = "none";
+  errEl.textContent = "";
+  _analyzerIntakeAfterSave = afterSave || null;
+
+  // Fetch questions + persisted intake (if any) so the form opens with
+  // the user's previous answers pre-filled. Allows easy edits without
+  // re-typing.
+  let qs = questions;
+  let prefill = {};
+  try {
+    const j = await (await fetch("/api/portfolio/intake")).json();
+    if (Array.isArray(j.questions)) qs = j.questions;
+    if (j.intake) prefill = { ...prefill, ...j.intake };
+    if (j.riskProfile?.answers) prefill = { ...prefill, ...j.riskProfile.answers };
+  } catch (_) { /* no-op — caller may have supplied questions */ }
+  if (!Array.isArray(qs) || qs.length === 0) {
+    errEl.textContent = "Could not load intake questions.";
+    errEl.style.display = "block";
+    return;
+  }
+
+  form.innerHTML = qs.map((q) => renderAnalyzerIntakeField(q, prefill)).join("");
+
+  modal.style.display = "flex";
+}
+
+function closeAnalyzerIntake() {
+  const modal = document.getElementById("analyzerIntakeModal");
+  if (modal) modal.style.display = "none";
+  _analyzerIntakeAfterSave = null;
+}
+
+function renderAnalyzerIntakeField(q, prefill = {}) {
+  const labelHtml = `<div style="font-size:13px; font-weight:600; margin-bottom:4px;">${intakeEscapeHtml(q.label)}</div>`;
+  const helperHtml = q.helper
+    ? `<div style="font-size:11.5px; color:var(--text-muted); margin-bottom:8px; line-height:1.4;">${intakeEscapeHtml(q.helper)}</div>`
+    : "";
+
+  // Type inference for legacy schemas: RISK_PROFILE_QUESTIONS predates
+  // the type field, so a question with `options` array and no explicit
+  // type should render as a radio group.
+  const inferredType = q.type || (Array.isArray(q.options) ? "radio" : null);
+
+  if (inferredType === "numeric") {
+    const v = prefill[q.id] != null ? prefill[q.id] : "";
+    return `<div data-intake-field="${q.id}">
+      ${labelHtml}${helperHtml}
+      <input type="number" name="${q.id}" min="${q.min ?? 0}" step="${q.step ?? 1}" placeholder="${intakeEscapeHtml(q.placeholder || "")}" value="${intakeEscapeHtml(String(v))}"
+        style="width:200px; padding:8px 10px; background:var(--bg); border:1px solid #2a3349; border-radius:6px; color:var(--text); font-size:13px;" />
+    </div>`;
+  }
+  if (inferredType === "text") {
+    const v = prefill[q.id] != null ? prefill[q.id] : "";
+    return `<div data-intake-field="${q.id}">
+      ${labelHtml}${helperHtml}
+      <input type="text" name="${q.id}" placeholder="${intakeEscapeHtml(q.placeholder || "")}" value="${intakeEscapeHtml(String(v))}"
+        style="width:100%; padding:8px 10px; background:var(--bg); border:1px solid #2a3349; border-radius:6px; color:var(--text); font-size:13px;" />
+    </div>`;
+  }
+  if (inferredType === "radio") {
+    const cur = prefill[q.id] != null ? prefill[q.id] : "";
+    return `<div data-intake-field="${q.id}">
+      ${labelHtml}${helperHtml}
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        ${q.options.map((o) => `<label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:13px;">
+          <input type="radio" name="${q.id}" value="${intakeEscapeHtml(o.value)}" ${cur === o.value ? "checked" : ""} style="cursor:pointer;" />
+          <span>${intakeEscapeHtml(o.label)}</span>
+        </label>`).join("")}
+      </div>
+    </div>`;
+  }
+  if (inferredType === "subform" && Array.isArray(q.questions)) {
+    return `<div data-intake-field="${q.id}" style="padding:12px 14px; border:1px dashed #2a3349; border-radius:8px;">
+      ${labelHtml}${helperHtml}
+      <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+        ${q.questions.map((sub) => renderAnalyzerIntakeField(sub, prefill)).join("")}
+      </div>
+    </div>`;
+  }
+  return ""; // unknown type — graceful skip
+}
+
+// Lightweight HTML escape for intake-form label/helper strings.
+// Renamed from escapeHtml() to intakeEscapeHtml() — there are already
+// two other escapeHtml() declarations elsewhere in this file (4085,
+// 8421) and a third would shadow them silently in some engines.
+function intakeEscapeHtml(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+async function submitAnalyzerIntake() {
+  const form = document.getElementById("analyzerIntakeForm");
+  const errEl = document.getElementById("analyzerIntakeError");
+  if (!form) return;
+  // Collect answers — numerics, radios, text inputs from any depth.
+  const answers = {};
+  for (const el of form.querySelectorAll("input")) {
+    if (el.type === "radio") {
+      if (el.checked) answers[el.name] = el.value;
+    } else if (el.type === "number") {
+      const v = el.value === "" ? null : Number(el.value);
+      if (v != null && Number.isFinite(v)) answers[el.name] = v;
+      else answers[el.name] = 0; // numeric-required fields default to 0 when blank
+    } else {
+      answers[el.name] = el.value;
+    }
+  }
+  errEl.style.display = "none";
+  try {
+    const res = await fetch("/api/portfolio/intake", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ answers }),
+    });
+    const j = await res.json();
+    if (!res.ok) {
+      const missingTxt = Array.isArray(j.missing) && j.missing.length > 0
+        ? ` Missing: ${j.missing.join(", ")}.`
+        : "";
+      errEl.textContent = (j.error || "Failed to save intake.") + missingTxt;
+      errEl.style.display = "block";
+      return;
+    }
+    const after = _analyzerIntakeAfterSave;
+    closeAnalyzerIntake();
+    if (typeof after === "function") after();
+  } catch (err) {
+    errEl.textContent = err.message || "Network error saving intake.";
+    errEl.style.display = "block";
+  }
+}
+
+// Wire the modal buttons once on first load.
+(function () {
+  if (typeof document === "undefined") return;
+  const wire = () => {
+    const closeBtn = document.getElementById("analyzerIntakeClose");
+    const cancelBtn = document.getElementById("analyzerIntakeCancel");
+    const submitBtn = document.getElementById("analyzerIntakeSubmit");
+    closeBtn?.addEventListener("click", closeAnalyzerIntake);
+    cancelBtn?.addEventListener("click", closeAnalyzerIntake);
+    submitBtn?.addEventListener("click", submitAnalyzerIntake);
+  };
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", wire);
+  } else {
+    wire();
+  }
+})();
 
 // ──────────────────── Rendering ────────────────────
 
@@ -5103,7 +5286,12 @@ function actionBadge(action, displayAction) {
 // a Tier A/B/C/D action grid driven by the SWS deep snapshot. This
 // renderer overrides the entire #analyzerReport container.
 
+// Action color map keyed by both legacy labels (EXIT, Reduction-50%, …) and
+// ladder-v2 labels (EXIT-now, EXIT-staged, Reduction-66/50/33/25%,
+// Top-up-25/33/50/100%). Trim severity scales with the trim percentage —
+// deeper red for bigger reductions, deeper green for bigger top-ups.
 const SWS_ACTION_COLORS = {
+  // Legacy labels (kept for v1 compatibility + when SWS_LADDER_V2=0)
   "EXIT":              { bg: "rgba(220,38,38,0.18)", border: "rgba(220,38,38,0.55)", text: "#fca5a5" },
   "Reduction-50%":     { bg: "rgba(239,68,68,0.14)", border: "rgba(239,68,68,0.45)", text: "#f87171" },
   "Reduction-25-33%":  { bg: "rgba(250,204,21,0.14)", border: "rgba(250,204,21,0.4)", text: "#fde047" },
@@ -5111,6 +5299,17 @@ const SWS_ACTION_COLORS = {
   "Top-up-modest":     { bg: "rgba(34,197,94,0.12)",  border: "rgba(34,197,94,0.4)",   text: "#86efac" },
   "Top-up":            { bg: "rgba(34,197,94,0.18)",  border: "rgba(34,197,94,0.6)",   text: "#86efac" },
   "STRONG Top-up":     { bg: "rgba(34,197,94,0.25)",  border: "rgba(34,197,94,0.7)",   text: "#bbf7d0" },
+  // Ladder-v2 reductions (deeper red as trim % rises; staged exit is amber)
+  "EXIT-now":          { bg: "rgba(220,38,38,0.22)", border: "rgba(220,38,38,0.65)", text: "#fca5a5" },
+  "EXIT-staged":       { bg: "rgba(234,88,12,0.16)", border: "rgba(234,88,12,0.5)",  text: "#fdba74" },
+  "Reduction-66%":     { bg: "rgba(220,38,38,0.16)", border: "rgba(220,38,38,0.55)", text: "#fca5a5" },
+  "Reduction-33%":     { bg: "rgba(250,204,21,0.14)", border: "rgba(250,204,21,0.4)", text: "#fde047" },
+  "Reduction-25%":     { bg: "rgba(250,204,21,0.10)", border: "rgba(250,204,21,0.35)", text: "#fde68a" },
+  // Ladder-v2 top-ups (deeper green as add % rises)
+  "Top-up-25%":        { bg: "rgba(34,197,94,0.10)",  border: "rgba(34,197,94,0.35)", text: "#86efac" },
+  "Top-up-33%":        { bg: "rgba(34,197,94,0.14)",  border: "rgba(34,197,94,0.45)", text: "#86efac" },
+  "Top-up-50%":        { bg: "rgba(34,197,94,0.18)",  border: "rgba(34,197,94,0.6)",  text: "#86efac" },
+  "Top-up-100%":       { bg: "rgba(34,197,94,0.28)",  border: "rgba(34,197,94,0.75)", text: "#bbf7d0" },
   "n/a":               { bg: "rgba(107,114,128,0.12)", border: "rgba(107,114,128,0.4)", text: "#9ca3af" },
 };
 
@@ -5126,6 +5325,11 @@ function swsTimingBadge(timing) {
     "Yes-not-urgent": { bg: "rgba(59,130,246,0.10)", text: "#93c5fd" },
     "Soft-no":        { bg: "rgba(250,204,21,0.10)", text: "#fde047" },
     "No":             { bg: "rgba(239,68,68,0.10)",  text: "#f87171" },
+    // PR-3 — additional verdict from the timingObservation module:
+    // "Wait-for-open" fires when NSE is closed / pre-open / post-close
+    // and any non-HOLD action is queued. Coloured neutral (slate) so it
+    // reads "informational" rather than red/green.
+    "Wait-for-open":  { bg: "rgba(148,163,184,0.10)", text: "#cbd5e1" },
   };
   const c = colors[timing.verdict] || colors["Yes-not-urgent"];
   const window = timing.window ? ` · ${timing.window}` : "";
@@ -5169,7 +5373,7 @@ function swsHoldingRow(h) {
   const pnlPct = h.pnlPercent;
   return `<tr style="border-top:1px solid #2a3349; cursor:pointer;" onclick="openStockDetailModal('${tk}','mf-overlap')">
     <td style="padding:10px 12px;">
-      <div style="font-weight:600;">${tk}</div>
+      <div style="font-weight:600;">${tk} ${swsSurveillanceChip(sws.surveillance)}</div>
       <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(name)}${sws.sector ? " · " + swsEscapeAttr(sws.sector) : ""}</div>
     </td>
     <td style="padding:10px 12px;">${swsActionBadge(h.action)}</td>
@@ -5188,15 +5392,305 @@ function swsHoldingRow(h) {
   </tr>`;
 }
 
+// Conviction colors for the v2 conviction engine — used by both the
+// row dot and the expanded card badge. HIGH/LOW edges are green/red,
+// MEDIUM is muted; MEDIUM-HIGH/MEDIUM-LOW lean toward their endpoints.
+const SWS_CONVICTION_COLORS = {
+  HIGH:          { bg: "rgba(34,197,94,0.18)",   border: "rgba(34,197,94,0.6)",   text: "#86efac" },
+  "MEDIUM-HIGH": { bg: "rgba(34,197,94,0.10)",   border: "rgba(34,197,94,0.4)",   text: "#86efac" },
+  MEDIUM:        { bg: "rgba(148,163,184,0.10)", border: "rgba(148,163,184,0.4)", text: "#cbd5e1" },
+  "MEDIUM-LOW":  { bg: "rgba(250,204,21,0.10)",  border: "rgba(250,204,21,0.4)",  text: "#fde047" },
+  LOW:           { bg: "rgba(239,68,68,0.10)",   border: "rgba(239,68,68,0.4)",   text: "#fca5a5" },
+};
+
+// Conviction badge with net layer delta. Pulls from v2_recommendation
+// when present, falls back to convictionProxy from the ladder promotion.
+function swsConvictionBadge(rec, fallbackProxy) {
+  const conviction = rec?.conviction || fallbackProxy || null;
+  if (!conviction) return "";
+  const c = SWS_CONVICTION_COLORS[conviction] || SWS_CONVICTION_COLORS.MEDIUM;
+  const layerCount = rec?.net_delta != null
+    ? `Δ${rec.net_delta > 0 ? "+" : ""}${rec.net_delta}`
+    : "";
+  return `<span title="Net layer delta from cross-check + catalyst + India-risk votes" style="display:inline-block; padding:2px 7px; border-radius:4px; background:${c.bg}; border:1px solid ${c.border}; color:${c.text}; font-size:10px; font-weight:700; letter-spacing:0.3px;">${conviction}${layerCount ? " · " + layerCount : ""}</span>`;
+}
+
+// Per-layer vote arrows — quick scan of which independent layers
+// confirmed/dissented from the SWS-band action.
+function swsLayerVoteIcons(rec) {
+  if (!rec || !rec.layer_votes) return "";
+  const icon = (v) => v > 0 ? "↑" : v < 0 ? "↓" : "→";
+  const color = (v) => v > 0 ? "#86efac" : v < 0 ? "#fca5a5" : "#94a3b8";
+  const layers = [
+    { k: "Cross-check", v: rec.layer_votes.crosscheck },
+    { k: "Catalyst",    v: rec.layer_votes.catalyst },
+    { k: "India-risk",  v: rec.layer_votes.indianRisk },
+  ];
+  return `<div style="margin:8px 0 0 0; display:inline-flex; gap:10px; font-size:11px;">
+    ${layers.map((l) => `<span title="${l.k} layer vote" style="color:${color(l.v)};">${l.k} ${icon(l.v)}</span>`).join("")}
+  </div>`;
+}
+
+// 3-paragraph analyst-style narrative from swsReasonNarrator. Renders
+// **bold** markdown inline + bullet glyphs on their own line.
+function swsNarrativeBlock(rec) {
+  if (!rec || !Array.isArray(rec.narrative_paragraphs)) return "";
+  return rec.narrative_paragraphs.map((p, i) => {
+    const html = swsEscapeAttr(p)
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      .replace(/(•[^•\n]+)/g, '<div style="margin-top:4px;">$1</div>');
+    return `<p style="margin:${i === 0 ? "10px" : "12px"} 0 0 0; font-size:12px; line-height:1.55; color:var(--text);">${html}</p>`;
+  }).join("");
+}
+
+// Peer-rotation chip — clickable, opens stock detail modal for the peer.
+// Uses the top_peer field from peer_substitute.
+function swsTopPeerChip(holding) {
+  const peer = holding?.sws?.peer_substitute;
+  if (!peer || !peer.top_peer) return "";
+  const top = peer.top_peer;
+  const tk = swsEscapeAttr(top.ticker);
+  const why = swsEscapeAttr(top.why || "");
+  return `<div style="margin-top:8px; padding:6px 10px; background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.25); border-radius:5px; font-size:11px; cursor:pointer;" onclick="openStockDetailModal('${tk}','peer-rotation')" title="Same-sector peer with higher v3 — consider as rotation candidate">
+    <strong style="color:#93c5fd;">↻ Peer: ${tk}</strong> <span style="color:var(--text-muted);">— ${why}</span>
+  </div>`;
+}
+
+// Surveillance chip — red for GSM (severe), amber for ASM (lighter).
+// Pure rendering helper consumed by both the table row and the expanded
+// reason panel.
+function swsSurveillanceChip(surv) {
+  if (!surv || !surv.list) return "";
+  const isGsm = surv.list === "GSM";
+  const bg = isGsm ? "rgba(220,38,38,0.18)" : "rgba(234,88,12,0.16)";
+  const border = isGsm ? "rgba(220,38,38,0.5)" : "rgba(234,88,12,0.5)";
+  const color = isGsm ? "#fca5a5" : "#fdba74";
+  const label = `${surv.list}${surv.stage ? `-${surv.stage}` : ""}${surv.timeframe ? ` · ${surv.timeframe}` : ""}`;
+  const tooltip = isGsm
+    ? "NSE Graded Surveillance Measure — regulatory caution / restricted trading"
+    : "NSE Additional Surveillance Measure — heightened monitoring";
+  return `<span title="${swsEscapeAttr(tooltip)}" style="display:inline-block; padding:2px 8px; border-radius:4px; background:${bg}; border:1px solid ${border}; color:${color}; font-size:10px; font-weight:700; letter-spacing:0.4px; vertical-align:middle;">⚠ ${label}</span>`;
+}
+
+// Larger snowflake hex display for the expanded card. Each axis is
+// labeled, scored 0-6, and tinted by score so the strong/weak axes are
+// visually obvious.
+function swsSnowflakeFull(snow) {
+  if (!snow) return "";
+  const axes = [
+    { k: "Valuation",      v: snow.valuation },
+    { k: "Future Growth",  v: snow.future_growth },
+    { k: "Past Perf.",     v: snow.past_performance },
+    { k: "Health",         v: snow.financial_health },
+    { k: "Dividends",      v: snow.dividends },
+  ];
+  return `<div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:6px;">
+    ${axes.map((a) => {
+      const score = a.v ?? 0;
+      const intensity = score / 6;
+      const bg = `rgba(59,130,246,${0.08 + intensity * 0.18})`;
+      const border = `rgba(59,130,246,${0.2 + intensity * 0.35})`;
+      const color = score >= 4 ? "#bfdbfe" : score >= 2 ? "#93c5fd" : "#64748b";
+      return `<div style="background:${bg}; border:1px solid ${border}; border-radius:6px; padding:8px 6px; text-align:center;">
+        <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:2px;">${a.k}</div>
+        <div style="font-size:18px; font-weight:700; color:${color}; line-height:1.1;">${a.v ?? "—"}<span style="font-size:10px; color:var(--text-muted); font-weight:500;">/6</span></div>
+      </div>`;
+    }).join("")}
+  </div>
+  <div style="text-align:center; margin-top:6px; font-size:11px; color:var(--text-muted);">Snowflake total <strong style="color:#93c5fd;">${snow.total ?? "—"}/30</strong></div>`;
+}
+
+// Tax-scenarios table: shows the four ladder rungs side-by-side with
+// gross proceeds, gain, tax cost, net keep, and regime. Highlights the
+// rung that matches the recommended action so the user can see the
+// "this is the engine's call" alongside the alternatives.
+function swsTaxScenariosTable(taxScenarios, currentAction) {
+  if (!Array.isArray(taxScenarios) || taxScenarios.length === 0) return "";
+  // Map action label → rung %. The ladder uses 25/33/50/66/100; legacy
+  // labels approximate to the closest standard rung.
+  const rungOfAction = {
+    "Reduction-25%": 25, "Reduction-25-33%": 33, "Reduction-33%": 33,
+    "Reduction-50%": 50, "Reduction-66%": 66,
+    "EXIT-staged": 50, "EXIT-now": 100, "EXIT": 100,
+  };
+  const recommendedRung = rungOfAction[currentAction] ?? null;
+  const regimeBadge = (regime) => {
+    if (regime === "ltcg") return `<span style="font-size:9px; padding:1px 5px; background:rgba(34,197,94,0.10); color:#86efac; border-radius:3px; letter-spacing:0.3px;">LTCG 12.5%</span>`;
+    if (regime === "stcg") return `<span style="font-size:9px; padding:1px 5px; background:rgba(250,204,21,0.10); color:#fde047; border-radius:3px; letter-spacing:0.3px;">STCG 20%</span>`;
+    if (regime === "loss") return `<span style="font-size:9px; padding:1px 5px; background:rgba(107,114,128,0.10); color:#9ca3af; border-radius:3px; letter-spacing:0.3px;">LOSS · carry-fwd</span>`;
+    if (regime?.startsWith("slab_")) return `<span style="font-size:9px; padding:1px 5px; background:rgba(239,68,68,0.10); color:#fca5a5; border-radius:3px; letter-spacing:0.3px;">SLAB ${regime.replace("slab_", "")}%</span>`;
+    return `<span style="font-size:9px; color:var(--text-muted);">—</span>`;
+  };
+  const rows = taxScenarios.map((sc) => {
+    const isRec = recommendedRung === sc.trimPct;
+    return `<tr style="${isRec ? "background:rgba(250,204,21,0.06);" : ""}">
+      <td style="padding:6px 10px; font-weight:${isRec ? 700 : 500}; color:${isRec ? "#fde047" : "var(--text)"};">
+        ${sc.trimPct}%${isRec ? ' <span style="font-size:9px; color:#fde047;">← engine pick</span>' : ""}
+      </td>
+      <td style="padding:6px 10px; text-align:right;">${inr(sc.grossProceedsRupees)}</td>
+      <td style="padding:6px 10px; text-align:right; color:${sc.gainRupees >= 0 ? '#86efac' : '#f87171'};">${sc.gainRupees >= 0 ? "+" : ""}${inr(sc.gainRupees)}</td>
+      <td style="padding:6px 10px; text-align:right;">${sc.taxRupees > 0 ? inr(sc.taxRupees) : "—"}</td>
+      <td style="padding:6px 10px; text-align:right; font-weight:600;">${inr(sc.netProceedsRupees)}</td>
+      <td style="padding:6px 10px;">${regimeBadge(sc.regime)}</td>
+    </tr>`;
+  }).join("");
+  // Holding-period note from any scenario (they all share the same purchase date)
+  const sample = taxScenarios[0] || {};
+  const periodNote = sample.daysHeld != null
+    ? `${sample.daysHeld} days held · ${sample.isLongTerm ? "long-term (LTCG)" : "short-term (STCG)"}`
+    : "purchase date unknown — STCG assumed";
+  return `<div style="margin-top:10px;">
+    <div style="font-size:11px; font-weight:700; color:#fde047; margin-bottom:6px; letter-spacing:0.4px; text-transform:uppercase;">Tax scenarios per ladder rung <span style="font-weight:500; color:var(--text-muted); text-transform:none; letter-spacing:0;">· ${periodNote}</span></div>
+    <table style="width:100%; border-collapse:collapse; font-size:11px;">
+      <thead>
+        <tr style="font-size:9px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); border-bottom:1px solid #1f2937;">
+          <th style="padding:6px 10px; text-align:left;">Trim</th>
+          <th style="padding:6px 10px; text-align:right;">Gross ₹</th>
+          <th style="padding:6px 10px; text-align:right;">Gain ₹</th>
+          <th style="padding:6px 10px; text-align:right;">Tax ₹</th>
+          <th style="padding:6px 10px; text-align:right;">Net keep</th>
+          <th style="padding:6px 10px;">Regime</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+}
+
+// Counter-thesis card. Pulled from v2_recommendation.counter_thesis. The
+// falsification trigger (what would prove this thesis wrong) is rendered
+// alongside per the SEBI-RA "what would change my mind" pattern.
+function swsCounterThesisCard(v2rec) {
+  if (!v2rec || !v2rec.counter_thesis) return "";
+  const ft = v2rec.falsification_trigger;
+  return `<div style="margin-top:10px; padding:8px 10px; background:rgba(168,85,247,0.06); border:1px solid rgba(168,85,247,0.18); border-radius:5px; font-size:11px;">
+    <div style="font-weight:700; color:#c4b5fd; margin-bottom:4px; letter-spacing:0.3px;">Counter-thesis</div>
+    <div style="line-height:1.5; color:var(--text);">${swsEscapeAttr(v2rec.counter_thesis)}</div>
+    ${ft ? `<div style="margin-top:6px; padding-top:6px; border-top:1px dashed rgba(168,85,247,0.2); color:var(--text-muted); font-style:italic;"><strong style="color:#c4b5fd; font-style:normal;">Falsification trigger:</strong> ${swsEscapeAttr(ft)}</div>` : ""}
+  </div>`;
+}
+
+// Catalyst calendar — renders pending earnings + analyst PT actions +
+// insider buys as a stacked list. Empty state is handled by the caller.
+function swsCatalystCalendar(catalyst) {
+  if (!catalyst || !catalyst.available) return "";
+  const items = [];
+  if (catalyst.next_earnings_days != null && catalyst.next_earnings_days >= 0) {
+    items.push(`<div>📅 Earnings in <strong>${catalyst.next_earnings_days}d</strong></div>`);
+  }
+  if (Array.isArray(catalyst.recent_pt_actions) && catalyst.recent_pt_actions.length > 0) {
+    items.push(`<div>📊 ${catalyst.recent_pt_actions.length} recent analyst PT action(s)</div>`);
+  }
+  if (catalyst.insider_buys_count > 0) {
+    items.push(`<div>🟢 ${catalyst.insider_buys_count} insider buy(s)</div>`);
+  }
+  if (Array.isArray(catalyst.pending_catalysts) && catalyst.pending_catalysts.length > 0) {
+    for (const c of catalyst.pending_catalysts.slice(0, 3)) {
+      const urgencyDot = c.urgency === "high" ? "🔴" : c.urgency === "medium" ? "🟡" : "⚪";
+      items.push(`<div>${urgencyDot} ${swsEscapeAttr(c.text || c.kind || "")}</div>`);
+    }
+  }
+  if (items.length === 0) return "";
+  return `<div style="margin-top:10px; padding:8px 10px; background:rgba(59,130,246,0.05); border:1px solid rgba(59,130,246,0.15); border-radius:5px; font-size:11px;">
+    <div style="font-weight:700; color:#93c5fd; margin-bottom:4px; letter-spacing:0.3px;">Catalysts</div>
+    <div style="display:flex; flex-direction:column; gap:3px; line-height:1.5;">${items.join("")}</div>
+  </div>`;
+}
+
+// Peer-substitute card — shows up to 2 same-sector higher-v3 alternatives
+// with one-line "why this peer beats yours" reasoning.
+function swsPeerSubstitutes(peer) {
+  if (!peer || !peer.available || !Array.isArray(peer.peers) || peer.peers.length === 0) return "";
+  const peers = peer.peers.slice(0, 2);
+  return `<div style="margin-top:10px; padding:8px 10px; background:rgba(34,197,94,0.05); border:1px solid rgba(34,197,94,0.15); border-radius:5px; font-size:11px;">
+    <div style="font-weight:700; color:#86efac; margin-bottom:4px; letter-spacing:0.3px;">Peer substitutes (same sector, higher v3)</div>
+    <div style="display:flex; flex-direction:column; gap:4px;">
+      ${peers.map((p) => `<div>
+        <strong>${swsEscapeAttr(p.ticker)}</strong>
+        <span style="color:var(--text-muted);"> v3 ${p.v3_score ?? "—"}, snow ${p.snowflake_total ?? "—"}/30</span>
+        ${p.why ? `<div style="color:var(--text-muted); margin-top:2px; line-height:1.4;">${swsEscapeAttr(p.why)}</div>` : ""}
+      </div>`).join("")}
+    </div>
+  </div>`;
+}
+
+// Audit-trail nested details — decision path + citations + version refs
+// for SEBI-RA compliance reproducibility. Collapsed by default.
+function swsAuditTrailDetails(audit) {
+  if (!audit || !audit.decision_path) return "";
+  const versions = audit.versions || {};
+  const versionLine = Object.entries(versions).map(([k, v]) => `${k}=${v}`).join(" · ");
+  const citations = Array.isArray(audit.citations) ? audit.citations : [];
+  return `<details style="margin-top:10px; padding:8px 10px; background:rgba(0,0,0,0.2); border:1px solid #1f2937; border-radius:5px; font-size:11px;">
+    <summary style="cursor:pointer; font-weight:700; color:var(--text-muted); letter-spacing:0.3px;">Audit trail (decision reproducibility)</summary>
+    <div style="margin-top:6px;">
+      <div style="font-weight:700; color:var(--text-muted); margin-bottom:3px; font-size:10px; text-transform:uppercase; letter-spacing:0.4px;">Decision path</div>
+      <ol style="margin:0; padding-left:16px; line-height:1.5;">
+        ${(audit.decision_path || []).map((s) => `<li>${swsEscapeAttr(typeof s === "string" ? s : s.step || JSON.stringify(s))}</li>`).join("")}
+      </ol>
+      ${citations.length > 0 ? `<div style="margin-top:8px; color:var(--text-muted);"><strong style="color:var(--text);">Citations:</strong> ${citations.length} source(s)</div>` : ""}
+      ${versionLine ? `<div style="margin-top:6px; font-size:10px; color:var(--text-muted); font-family:monospace;">${swsEscapeAttr(versionLine)}</div>` : ""}
+    </div>
+  </details>`;
+}
+
 function swsReasonRow(h) {
   if (!h.reasons || h.reasons.length === 0) return "";
   const tk = h.sws?.ticker || h.symbol || "—";
-  return `<details style="margin-top:8px; background:rgba(255,255,255,0.02); border:1px solid #1f2937; border-radius:6px; padding:8px 12px;">
-    <summary style="cursor:pointer; font-size:12px; color:var(--text-muted);"><strong style="color:var(--text);">${tk}</strong> · why this action</summary>
-    <ul style="margin:8px 0 0 0; padding-left:20px; font-size:12px; line-height:1.6;">
-      ${h.reasons.map(r => `<li>${swsEscapeAttr(r)}</li>`).join("")}
-    </ul>
-    ${h.timing && h.timing.reason ? `<div style="margin-top:6px; font-size:11px; color:var(--text-muted); padding:6px 10px; background:rgba(0,0,0,0.2); border-radius:4px;"><strong>Timing:</strong> ${swsEscapeAttr(h.timing.reason)}</div>` : ""}
+  const sws = h.sws || {};
+  const rec = sws.v2_recommendation || null;
+  const ov = sws;
+  const fvLine = (ov.fair_value_inr != null && ov.current_price_inr != null)
+    ? `<div style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">
+        AnalystConsensus FV <strong style="color:var(--text);">₹${Number(ov.fair_value_inr).toFixed(0)}</strong> vs current
+        <strong style="color:var(--text);">₹${Number(ov.current_price_inr).toFixed(0)}</strong>
+        ${ov.upside_pct != null ? `<span style="color:${ov.upside_pct >= 0 ? '#86efac' : '#f87171'};"> · ${ov.upside_pct >= 0 ? '+' : ''}${ov.upside_pct.toFixed(1)}% to FV</span>` : ""}
+      </div>`
+    : "";
+
+  // Avoid duplicating narrative paragraphs in the bullet list. When the
+  // v2 conviction engine is active, h.reasons already CONTAINS the
+  // narrative paragraphs (set by swsHoldingEngine when v2-primary is on)
+  // and swsNarrativeBlock(rec) renders them in their own paragraph block.
+  // In that case, fall back to ladderRationale-only bullets, which give
+  // the user the rung-selection trace without repeating the narrative.
+  const hasV2Narrative = !!(rec && Array.isArray(rec.narrative_paragraphs) && rec.narrative_paragraphs.length > 0);
+  const bulletReasons = hasV2Narrative
+    ? (Array.isArray(h.ladderRationale) && h.ladderRationale.length > 0 ? h.ladderRationale : [])
+    : h.reasons;
+  const bulletList = bulletReasons.length > 0
+    ? `<ul style="margin:10px 0 0 0; padding-left:20px; font-size:12px; line-height:1.6;">
+        ${bulletReasons.map(r => `<li>${swsEscapeAttr(r)}</li>`).join("")}
+      </ul>`
+    : "";
+
+  return `<details style="margin-top:8px; background:rgba(255,255,255,0.02); border:1px solid #1f2937; border-radius:6px; padding:10px 14px;">
+    <summary style="cursor:pointer; font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+      <strong style="color:var(--text);">${tk}</strong>
+      <span>· why this action</span>
+      ${swsSurveillanceChip(sws.surveillance)}
+      ${swsConvictionBadge(rec, h.convictionProxy)}
+    </summary>
+    ${swsLayerVoteIcons(rec)}
+    ${swsNarrativeBlock(rec)}
+    <div style="margin-top:12px;">
+      ${fvLine}
+      ${swsSnowflakeFull(sws.snowflake)}
+    </div>
+    <div style="margin-top:12px; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px;">
+      <div>
+        ${bulletList}
+        ${h.timing && h.timing.reason ? `<div style="margin-top:8px; font-size:11px; color:var(--text-muted); padding:6px 10px; background:rgba(0,0,0,0.2); border-radius:4px;"><strong style="color:var(--text);">Timing:</strong> ${swsEscapeAttr(h.timing.reason)}</div>` : ""}
+      </div>
+      <div>
+        ${swsCounterThesisCard(rec)}
+        ${swsCatalystCalendar(sws.catalyst)}
+        ${swsTopPeerChip(h)}
+        ${swsPeerSubstitutes(sws.peer_substitute)}
+      </div>
+    </div>
+    ${swsTaxScenariosTable(h.taxScenarios, h.action)}
+    ${swsAuditTrailDetails(h.audit)}
   </details>`;
 }
 
@@ -5398,6 +5892,411 @@ function renderSWSMfSection(mfPositions) {
   return "";
 }
 
+// PR-4: "Since last review" diff banner. Renders only when prior
+// snapshot exists AND material changes were detected. First-run /
+// no-changes paths return empty string so the banner self-hides.
+function renderSWSDiffBanner(diff) {
+  if (!diff || !diff.hasChanges) return "";
+  const chip = (label, color) =>
+    `<span style="display:inline-block; padding:2px 8px; border-radius:4px; background:${color}22; color:${color}; font-size:11px; font-weight:700; letter-spacing:0.3px; margin-right:6px;">${label}</span>`;
+
+  const sections = [];
+  if (diff.actionChanges.length > 0) {
+    sections.push(`<div style="margin-top:8px;">
+      <div style="font-size:11px; font-weight:700; color:#93c5fd; margin-bottom:4px; letter-spacing:0.3px;">Action changes (${diff.actionChanges.length})</div>
+      ${diff.actionChanges.slice(0, 6).map((c) =>
+        `<div style="font-size:12px; line-height:1.5;"><strong>${swsEscapeAttr(c.ticker)}</strong>: ${swsEscapeAttr(c.prevAction)} → <strong>${swsEscapeAttr(c.currentAction)}</strong></div>`
+      ).join("")}
+      ${diff.actionChanges.length > 6 ? `<div style="font-size:11px; color:var(--text-muted); margin-top:2px;">+${diff.actionChanges.length - 6} more</div>` : ""}
+    </div>`);
+  }
+  if (diff.scoreChanges.length > 0) {
+    sections.push(`<div style="margin-top:8px;">
+      <div style="font-size:11px; font-weight:700; color:#fde047; margin-bottom:4px; letter-spacing:0.3px;">Score shifts ≥ 5 pts (${diff.scoreChanges.length})</div>
+      ${diff.scoreChanges.slice(0, 6).map((c) => {
+        const arrow = c.delta > 0 ? "↑" : "↓";
+        const color = c.delta > 0 ? "#86efac" : "#fca5a5";
+        return `<div style="font-size:12px; line-height:1.5;"><strong>${swsEscapeAttr(c.ticker)}</strong>: ${c.prevScore} → ${c.currentScore} <span style="color:${color}; font-weight:700;">${arrow}${Math.abs(c.delta).toFixed(1)}</span></div>`;
+      }).join("")}
+    </div>`);
+  }
+  if (diff.newHoldings.length > 0) {
+    sections.push(`<div style="margin-top:8px;">
+      <div style="font-size:11px; font-weight:700; color:#86efac; margin-bottom:4px; letter-spacing:0.3px;">New holdings (${diff.newHoldings.length})</div>
+      <div style="font-size:12px; line-height:1.5;">${diff.newHoldings.map((n) => `<strong>${swsEscapeAttr(n.ticker)}</strong>`).join(", ")}</div>
+    </div>`);
+  }
+  if (diff.exitedHoldings.length > 0) {
+    sections.push(`<div style="margin-top:8px;">
+      <div style="font-size:11px; font-weight:700; color:#fca5a5; margin-bottom:4px; letter-spacing:0.3px;">Exited holdings (${diff.exitedHoldings.length})</div>
+      <div style="font-size:12px; line-height:1.5;">${diff.exitedHoldings.map((e) => `<strong>${swsEscapeAttr(e.ticker)}</strong>`).join(", ")}</div>
+    </div>`);
+  }
+  if (diff.surveillanceChanges.length > 0) {
+    sections.push(`<div style="margin-top:8px;">
+      <div style="font-size:11px; font-weight:700; color:#fdba74; margin-bottom:4px; letter-spacing:0.3px;">⚠ Surveillance changes (${diff.surveillanceChanges.length})</div>
+      ${diff.surveillanceChanges.map((s) => {
+        const prev = s.prev ? `${s.prev.list}${s.prev.stage ? `-${s.prev.stage}` : ""}` : "none";
+        const cur = s.current ? `${s.current.list}${s.current.stage ? `-${s.current.stage}` : ""}` : "none";
+        return `<div style="font-size:12px; line-height:1.5;"><strong>${swsEscapeAttr(s.ticker)}</strong>: ${prev} → ${cur}</div>`;
+      }).join("")}
+    </div>`);
+  }
+
+  return `<div style="background:linear-gradient(135deg, rgba(168,85,247,0.10), rgba(59,130,246,0.06)); border:1px solid rgba(168,85,247,0.30); border-radius:10px; padding:14px 18px; margin-bottom:18px;">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+      <strong style="font-size:13px; color:#c4b5fd; letter-spacing:0.3px;">SINCE LAST REVIEW</strong>
+      <span style="font-size:11px; color:var(--text-muted);">${diff.prevAt ? new Date(diff.prevAt).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "—"}</span>
+    </div>
+    <div style="font-size:13px; line-height:1.5; color:var(--text);">${swsEscapeAttr(diff.summary)}</div>
+    ${sections.join("")}
+  </div>`;
+}
+
+// PR-4: portfolio liquidity-tail bucketing as a stacked bar. Buckets
+// are <1d / 1-5d / 5-10d / >10d / no-data. Tooltip on each segment
+// shows the holdings inside it for drill-down.
+function renderSWSLiquidityTail(tail) {
+  if (!tail || tail.totalValue <= 0) return "";
+  const bucketMeta = [
+    { key: "<1d",     color: "#22c55e", label: "<1 day"   },
+    { key: "1-5d",    color: "#86efac", label: "1-5 days" },
+    { key: "5-10d",   color: "#fde047", label: "5-10 days" },
+    { key: ">10d",    color: "#fca5a5", label: ">10 days" },
+    { key: "no-data", color: "#9ca3af", label: "No data"   },
+  ];
+
+  const segments = bucketMeta
+    .filter((b) => tail.buckets[b.key] > 0)
+    .map((b) => {
+      const pct = tail.pct[b.key];
+      const tickers = (tail.tickersByBucket[b.key] || []).join(", ") || "—";
+      const tooltip = `${b.label} · ${pct}% (${tickers})`;
+      return `<div title="${swsEscapeAttr(tooltip)}" style="background:${b.color}; flex: ${pct} 0 0; min-width:${pct < 3 ? '12px' : '0'};"></div>`;
+    }).join("");
+
+  const legendRows = bucketMeta
+    .filter((b) => tail.buckets[b.key] > 0)
+    .map((b) => `<div style="display:flex; align-items:center; gap:6px; font-size:11px;">
+      <span style="display:inline-block; width:10px; height:10px; border-radius:2px; background:${b.color};"></span>
+      <span style="color:var(--text-muted);">${b.label}</span>
+      <strong style="color:var(--text);">${tail.pct[b.key]}%</strong>
+      <span style="color:var(--text-muted);">${inr(tail.buckets[b.key])}</span>
+    </div>`).join("");
+
+  return `<div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
+      <div>
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">Liquidity tail</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">Estimated days-to-exit by holding · ₹${(tail.illiquidValue / 1e3).toFixed(1)}K (${tail.illiquidPct}%) sits in 5d+ buckets</div>
+      </div>
+    </div>
+    <div style="display:flex; height:14px; border-radius:4px; overflow:hidden; margin-bottom:10px;">${segments}</div>
+    <div style="display:flex; flex-wrap:wrap; gap:14px; row-gap:6px;">${legendRows}</div>
+    <div style="font-size:10px; color:var(--text-muted); margin-top:8px; line-height:1.5;" title="${swsEscapeAttr(tail.methodology)}">Hover bar segments to see which holdings sit in each bucket.</div>
+  </div>`;
+}
+
+// PR-4: outside-portfolio fresh picks block. Two columns (defensive +
+// growth) with the per-pick suggested ₹ and concentration-aware alloc%.
+function renderSWSOutsidePicks(picks) {
+  if (!picks || !picks.available) return "";
+  const total = (picks.growth?.length || 0) + (picks.defensive?.length || 0);
+  if (total === 0) return "";
+  const triggerLine = (picks.triggerReasons || []).join(" · ");
+  const renderColumn = (rows, title, color) => `<div style="background:rgba(0,0,0,0.18); border:1px solid #2a3349; border-radius:8px; padding:12px 14px;">
+    <div style="font-size:12px; font-weight:700; color:${color}; margin-bottom:8px; letter-spacing:0.3px;">${title} (${rows.length})</div>
+    ${rows.length === 0
+      ? `<div style="font-size:11px; color:var(--text-muted);">No qualifying picks in current snapshot.</div>`
+      : rows.map((r) => `<div style="padding:8px 0; border-top:1px solid #1a2238; cursor:pointer;" onclick="openStockDetailModal('${swsEscapeAttr(r.ticker)}','outside-pick')">
+        <div style="display:flex; justify-content:space-between; gap:8px; align-items:baseline;">
+          <strong style="font-size:13px;">${swsEscapeAttr(r.ticker)}</strong>
+          <span style="font-size:11px; color:var(--text-muted);">v3 ${r.v3_score ?? "—"}</span>
+        </div>
+        <div style="margin-top:4px; font-size:11px; color:var(--text-muted); display:flex; gap:10px; flex-wrap:wrap;">
+          <span>${swsEscapeAttr(r.sector || "—")}</span>
+          ${r.upside_pct != null ? `<span style="color:${r.upside_pct >= 0 ? '#86efac' : '#f87171'};">FV ${r.upside_pct >= 0 ? '+' : ''}${r.upside_pct.toFixed(1)}%</span>` : ""}
+          ${r.suggested_inr > 0 ? `<span style="color:#fde047;">${inr(r.suggested_inr)}</span>` : ""}
+        </div>
+      </div>`).join("")
+    }
+  </div>`;
+
+  return `<div style="margin-bottom:22px;">
+    <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
+      <div>
+        <div style="font-size:14px; font-weight:700;">Outside-portfolio fresh picks <span style="font-size:12px; font-weight:500; color:var(--text-muted);">(${total})</span></div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${swsEscapeAttr(triggerLine)} · ${picks.allocPct}% of fresh capital allocated${picks.allocInr > 0 ? ` (${inr(picks.allocInr)})` : ""}</div>
+      </div>
+      <div title="${swsEscapeAttr(picks.methodology)}" style="font-size:11px; color:var(--text-muted); font-style:italic; cursor:help;">methodology ⓘ</div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
+      ${renderColumn(picks.defensive || [], "Defensive (quality_growth + deep_value)", "#86efac")}
+      ${renderColumn(picks.growth || [], "Growth (top_ranked_v3 + smallcap_gems)", "#93c5fd")}
+    </div>
+  </div>`;
+}
+
+// PR-5: what-if simulator panel. Slider + numeric input per row;
+// debounced POST to /api/portfolio/simulate-whatif; baseline-vs-scenario
+// metrics rendered side-by-side with delta arrows.
+//
+// Mutation rows = top 6 holdings by current value (the user's biggest
+// levers) + top 4 outside fresh picks (deploy candidates). Dynamic
+// add/remove not in v1 — keep the UI scannable.
+
+let _whatIfState = {
+  sessionId: null,
+  baseline: null,
+  scenario: null,
+  deltas: null,
+  warnings: [],
+  realisedTax: 0,
+  pendingTimer: null,
+  freshPicksByTicker: new Map(),
+};
+
+function renderSWSWhatIfPanel(report, sessionId) {
+  // Panel only renders when the analyze response carried a sessionId
+  // and the SWS engine produced a Tier A. Without sessionId the
+  // simulator endpoint can't read the cached holdings.
+  if (!sessionId) return "";
+  const tierA = report?.tiers?.A?.rows || [];
+  const tierC = report?.tiers?.C?.rows || [];
+  const outsidePicks = report?.outsidePicks;
+  const freshPicks = [
+    ...(outsidePicks?.defensive || []),
+    ...(outsidePicks?.growth || []),
+  ];
+
+  // Persist sessionId + freshPicks lookup for the slider handlers.
+  _whatIfState.sessionId = sessionId;
+  _whatIfState.freshPicksByTicker = new Map(freshPicks.map((p) => [p.ticker, p]));
+
+  // Top 6 holdings by current value — the user's biggest levers for
+  // trim. Tier A (already-flagged reductions) prioritised; falls
+  // through to Tier C if Tier A is short.
+  const trimCandidates = [...tierA, ...tierC]
+    .filter((h) => h.currentValue > 0 && h.sws?.ticker)
+    .sort((a, b) => b.currentValue - a.currentValue)
+    .slice(0, 6);
+
+  const deployCandidates = freshPicks.slice(0, 4);
+  if (trimCandidates.length === 0 && deployCandidates.length === 0) return "";
+
+  const rowSlider = (h, kind) => {
+    const ticker = h.sws?.ticker || h.ticker;
+    const cv = h.currentValue || 0;
+    // Slider step is a fixed ₹500 so the human can dial in
+    // round-number trims, AND so 0 is always a valid step boundary.
+    // min/max are then snapped to step multiples — without this, browsers
+    // snap value="0" to the closest valid step (e.g. -548 for a slider
+    // with min=-28380, step=568) and the simulator sees phantom mutations
+    // on every untouched row.
+    const STEP = 500;
+    const minMax = kind === "trim"
+      ? { min: -Math.ceil(cv / STEP) * STEP, max: 0 }
+      : { min: 0, max: Math.ceil(Math.max(50000, cv * 2) / STEP) * STEP };
+    const sectorChip = h.sws?.sector
+      ? `<span style="font-size:10px; color:var(--text-muted);">${swsEscapeAttr(h.sws.sector)}</span>`
+      : "";
+    return `<div style="padding:10px 0; border-top:1px solid #1a2238; display:grid; grid-template-columns:140px 1fr 110px; gap:10px; align-items:center;">
+      <div>
+        <div style="font-weight:600; font-size:12px;">${swsEscapeAttr(ticker)}</div>
+        <div style="display:flex; gap:6px; align-items:center; margin-top:2px;">
+          ${sectorChip}
+          ${h.sws?.v3_score != null ? `<span style="font-size:10px; color:var(--text-muted);">v3 ${h.sws.v3_score}</span>` : ""}
+        </div>
+        <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">${kind === "trim" ? "Holding" : "Fresh"}: ${inr(cv || 0)}</div>
+      </div>
+      <input type="range" min="${minMax.min}" max="${minMax.max}" step="${STEP}" value="0"
+        data-whatif-ticker="${swsEscapeAttr(ticker)}" data-whatif-kind="${kind}"
+        oninput="onWhatIfSlider(this)"
+        style="width:100%; cursor:pointer;" />
+      <input type="number" data-whatif-ticker-num="${swsEscapeAttr(ticker)}" placeholder="0" step="${STEP}"
+        oninput="onWhatIfNumberInput(this)"
+        style="width:100%; padding:6px 8px; background:var(--bg); border:1px solid #2a3349; border-radius:5px; color:var(--text); font-size:12px;" />
+    </div>`;
+  };
+
+  return `<div id="whatIfPanel" style="margin:24px 0; padding:18px 20px; background:linear-gradient(135deg, rgba(34,197,94,0.05), rgba(59,130,246,0.05)); border:1px solid rgba(34,197,94,0.2); border-radius:10px;">
+    <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:6px; flex-wrap:wrap;">
+      <div>
+        <div style="font-size:14px; font-weight:700; color:#86efac;">What-if simulator</div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Drag a slider to trim or deploy. Health, sector mix, β, illiquid % and realised tax recompute live.</div>
+      </div>
+      <button id="whatIfReset" onclick="resetWhatIf()" style="background:transparent; color:var(--text-muted); border:1px solid #2a3349; padding:5px 12px; border-radius:5px; font-size:11px; cursor:pointer;">Reset all</button>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:18px; margin-top:14px;">
+      <div style="background:rgba(0,0,0,0.18); border:1px solid #1a2238; border-radius:8px; padding:12px 14px;">
+        <div style="font-size:11px; font-weight:700; color:#fca5a5; letter-spacing:0.3px; margin-bottom:4px;">TRIM ▾</div>
+        <div style="font-size:10px; color:var(--text-muted); margin-bottom:6px;">Slide left to reduce a position</div>
+        ${trimCandidates.length === 0
+          ? `<div style="font-size:11px; color:var(--text-muted); padding:6px 0;">No trim candidates available.</div>`
+          : trimCandidates.map((h) => rowSlider(h, "trim")).join("")}
+      </div>
+      <div style="background:rgba(0,0,0,0.18); border:1px solid #1a2238; border-radius:8px; padding:12px 14px;">
+        <div style="font-size:11px; font-weight:700; color:#86efac; letter-spacing:0.3px; margin-bottom:4px;">DEPLOY ▴</div>
+        <div style="font-size:10px; color:var(--text-muted); margin-bottom:6px;">Slide right to add a fresh pick</div>
+        ${deployCandidates.length === 0
+          ? `<div style="font-size:11px; color:var(--text-muted); padding:6px 0;">No fresh picks. Enable OUTSIDE_PICKS=1 to surface candidates.</div>`
+          : deployCandidates.map((p) => rowSlider({ sws: { ticker: p.ticker, sector: p.sector, v3_score: p.v3_score }, currentValue: 0, ticker: p.ticker }, "deploy")).join("")}
+      </div>
+    </div>
+
+    <div id="whatIfResults" style="margin-top:18px; min-height:60px; padding:12px 14px; background:rgba(0,0,0,0.20); border:1px solid #1a2238; border-radius:8px;">
+      <div style="font-size:12px; color:var(--text-muted);">Move a slider to see the scenario preview.</div>
+    </div>
+  </div>`;
+}
+
+// Slider input handler. Snaps to -cv .. cv ranges set in markup; updates
+// the matching number input + debounces a POST to the simulator endpoint.
+function onWhatIfSlider(el) {
+  const ticker = el.dataset.whatifTicker;
+  const numEl = document.querySelector(`input[data-whatif-ticker-num="${ticker}"]`);
+  if (numEl) numEl.value = el.value;
+  scheduleWhatIfRecompute();
+}
+
+function onWhatIfNumberInput(el) {
+  const ticker = el.dataset.whatifTickerNum;
+  const sliderEl = document.querySelector(`input[type=range][data-whatif-ticker="${ticker}"]`);
+  if (sliderEl) sliderEl.value = el.value || "0";
+  scheduleWhatIfRecompute();
+}
+
+function scheduleWhatIfRecompute() {
+  if (_whatIfState.pendingTimer) clearTimeout(_whatIfState.pendingTimer);
+  _whatIfState.pendingTimer = setTimeout(runWhatIfRecompute, 250);
+}
+
+async function runWhatIfRecompute() {
+  if (!_whatIfState.sessionId) return;
+  // Collect mutations from all sliders. Filter |Δ| < ₹500 as effectively
+  // zero — HTML range steps may not divide cleanly, so a "rest at zero"
+  // slider can land at ₹100-200 due to step quantization. Without this
+  // filter the results panel shows phantom mutations on untouched rows.
+  const mutations = [];
+  const sliders = document.querySelectorAll("input[type=range][data-whatif-ticker]");
+  for (const sl of sliders) {
+    const v = Number(sl.value);
+    if (Number.isFinite(v) && Math.abs(v) >= 500) {
+      mutations.push({ ticker: sl.dataset.whatifTicker, deltaRupees: Math.round(v) });
+    }
+  }
+  // Build freshPicks list for the simulator (sector + market_cap context)
+  const freshPicks = Array.from(_whatIfState.freshPicksByTicker.values());
+
+  const resultsEl = document.getElementById("whatIfResults");
+  if (!resultsEl) return;
+  if (mutations.length === 0) {
+    resultsEl.innerHTML = `<div style="font-size:12px; color:var(--text-muted);">Move a slider to see the scenario preview.</div>`;
+    return;
+  }
+
+  resultsEl.innerHTML = `<div style="font-size:12px; color:var(--text-muted);">Computing scenario…</div>`;
+  try {
+    const res = await fetch("/api/portfolio/simulate-whatif", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sessionId: _whatIfState.sessionId, mutations, freshPicks }),
+    });
+    if (res.status === 404) {
+      resultsEl.innerHTML = `<div style="font-size:12px; color:#fde047;">Simulator endpoint disabled (server flag WHATIF_SIMULATOR=1 to enable).</div>`;
+      return;
+    }
+    const j = await res.json();
+    if (!res.ok) {
+      resultsEl.innerHTML = `<div style="font-size:12px; color:#fca5a5;">${swsEscapeAttr(j.error || "Simulation failed")}</div>`;
+      return;
+    }
+    _whatIfState.baseline = j.baseline;
+    _whatIfState.scenario = j.scenario;
+    _whatIfState.deltas = j.deltas;
+    _whatIfState.warnings = j.warnings || [];
+    _whatIfState.realisedTax = j.realisedTax || 0;
+    resultsEl.innerHTML = renderWhatIfResults(j);
+  } catch (err) {
+    resultsEl.innerHTML = `<div style="font-size:12px; color:#fca5a5;">Network error: ${swsEscapeAttr(err.message)}</div>`;
+  }
+}
+
+function renderWhatIfResults(out) {
+  const { baseline, scenario, deltas, realisedTax, warnings, mutationsApplied } = out;
+  const arrow = (n) => n > 0 ? "↑" : n < 0 ? "↓" : "—";
+  const colorFor = (metric, n) => {
+    // Direction-of-good differs by metric. Health up is good; illiquid up is bad.
+    const goodWhenUp = ["healthScore", "avgV3"];
+    const goodWhenDown = ["illiquidPct", "weightedBeta"];
+    if (n === 0) return "var(--text-muted)";
+    if (goodWhenUp.includes(metric)) return n > 0 ? "#86efac" : "#fca5a5";
+    if (goodWhenDown.includes(metric)) return n < 0 ? "#86efac" : "#fca5a5";
+    return n > 0 ? "#86efac" : "#fca5a5"; // neutral default
+  };
+  const fmt = (n, places = 1) => Number.isFinite(n) ? n.toFixed(places) : "—";
+
+  const metric = (label, metricKey, base, scen, suffix = "") => {
+    const d = deltas[metricKey];
+    return `<div style="padding:8px 10px; background:rgba(0,0,0,0.20); border-radius:5px;">
+      <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px;">${label}</div>
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-top:4px;">
+        <div style="font-size:13px;">${fmt(base)}${suffix}</div>
+        <div style="font-size:11px; color:var(--text-muted);">→</div>
+        <div style="font-size:14px; font-weight:700;">${fmt(scen)}${suffix}</div>
+      </div>
+      <div style="font-size:10px; font-weight:700; margin-top:2px; color:${colorFor(metricKey, d)};">${arrow(d)} ${d > 0 ? "+" : ""}${fmt(d)}${suffix}</div>
+    </div>`;
+  };
+
+  const sectorRows = Object.entries(deltas.sectorMix || {})
+    .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))
+    .slice(0, 5)
+    .map(([sector, d]) => `<div style="font-size:11px; line-height:1.5;">
+      <span>${swsEscapeAttr(sector)}</span>
+      <strong style="color:${d > 0 ? '#86efac' : '#fca5a5'}; margin-left:6px;">${d > 0 ? "+" : ""}${fmt(d)}pp</strong>
+    </div>`).join("");
+
+  return `
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:8px; margin-bottom:10px;">
+      ${metric("Health score", "healthScore", baseline.healthScore, scenario.healthScore)}
+      ${metric("Avg v3", "avgV3", baseline.avgV3, scenario.avgV3)}
+      ${metric("Largest position", "largestPositionPct", baseline.largestPositionPct, scenario.largestPositionPct, "%")}
+      ${metric("Illiquid (5d+)", "illiquidPct", baseline.illiquidPct, scenario.illiquidPct, "%")}
+      ${baseline.weightedBeta != null && scenario.weightedBeta != null
+        ? metric("Weighted β", "weightedBeta", baseline.weightedBeta, scenario.weightedBeta)
+        : ""}
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
+      <div>
+        <div style="font-size:11px; font-weight:700; color:var(--text-muted); letter-spacing:0.3px; margin-bottom:4px;">Sector mix shift (top 5)</div>
+        ${sectorRows || `<div style="font-size:11px; color:var(--text-muted);">No sector changes.</div>`}
+      </div>
+      <div>
+        <div style="font-size:11px; font-weight:700; color:#fde047; letter-spacing:0.3px; margin-bottom:4px;">Realised tax cost</div>
+        <div style="font-size:18px; font-weight:700;">${inr(realisedTax || 0)}</div>
+        <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">${(mutationsApplied || []).filter((m) => m.kind === "trim" || m.kind === "full-exit").length} trim / exit mutation(s)</div>
+      </div>
+    </div>
+    ${warnings.length > 0
+      ? `<div style="margin-top:10px; padding:8px 10px; background:rgba(250,204,21,0.08); border:1px solid rgba(250,204,21,0.25); border-radius:5px; font-size:11px; color:#fde047;">
+          ${warnings.map((w) => `<div>${swsEscapeAttr(w)}</div>`).join("")}
+        </div>`
+      : ""}
+  `;
+}
+
+function resetWhatIf() {
+  document.querySelectorAll("[data-whatif-ticker], [data-whatif-ticker-num]").forEach((el) => {
+    el.value = el.type === "range" ? "0" : "";
+  });
+  const resultsEl = document.getElementById("whatIfResults");
+  if (resultsEl) resultsEl.innerHTML = `<div style="font-size:12px; color:var(--text-muted);">Move a slider to see the scenario preview.</div>`;
+  _whatIfState.scenario = null;
+  _whatIfState.deltas = null;
+}
+
 function renderSWSAnalyzerReport(report, elapsedMs) {
   const root = document.getElementById("analyzerReport");
   if (!root) return;
@@ -5407,6 +6306,10 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
   const tiers = report.tiers || {};
   const baskets = tiers.B?.baskets || {};
   const sectorOverlay = report.sectorOverlay || [];
+  // PR-4 additions
+  const diff = report.diff || null;
+  const liquidityTail = report.liquidityTail || null;
+  const outsidePicks = report.outsidePicks || null;
 
   const snapshotAt = banner.snapshot_at ? new Date(banner.snapshot_at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "—";
   const elapsed = elapsedMs != null ? `${elapsedMs}ms` : "—";
@@ -5422,6 +6325,8 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
       <button onclick="resetAnalyzer()" style="background:transparent; border:1px solid #2a3349; color:var(--text); padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px;">Re-upload</button>
     </div>
 
+    ${renderSWSDiffBanner(diff)}
+
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:18px;">
       ${swsKpiCard("Invested", inr(snap.totalInvested))}
       ${swsKpiCard("Current value", inr(snap.totalCurrent))}
@@ -5430,6 +6335,8 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
       ${swsKpiCard("Avg v3 score", `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
       ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} SWS-covered)</span>`)}
     </div>
+
+    ${renderSWSLiquidityTail(liquidityTail)}
 
     <div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
       <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">Action mix</div>
@@ -5443,6 +6350,8 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
 
     ${renderSWSTierA(tiers.A)}
     ${renderSWSTierB(baskets)}
+    ${renderSWSOutsidePicks(outsidePicks)}
+    ${renderSWSWhatIfPanel(report, _optimizerState.sessionId || null)}
     ${renderSWSTierC(tiers.C)}
     ${renderSWSTierD(tiers.D)}
     ${renderSWSSectorOverlay(sectorOverlay)}

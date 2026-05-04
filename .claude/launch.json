@@ -8,6 +8,53 @@
       "port": 3005,
       "env": { "PORT": "3005" },
       "cwd": "/Users/mayanktaluja/Desktop/claude/stock-platform"
+    },
+    {
+      "name": "stockpulse-ladder-v2",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.js"],
+      "port": 3006,
+      "env": { "PORT": "3006", "SWS_LADDER_V2": "1", "ANALYZER_ENGINE_DEFAULT": "sws" },
+      "cwd": "/Users/mayanktaluja/Desktop/claude/stock-platform"
+    },
+    {
+      "name": "stockpulse-suitability-gate",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.js"],
+      "port": 3007,
+      "env": { "PORT": "3007", "SWS_LADDER_V2": "1", "ANALYZER_ENGINE_DEFAULT": "sws", "SUITABILITY_GATE": "1" },
+      "cwd": "/Users/mayanktaluja/Desktop/claude/stock-platform"
+    },
+    {
+      "name": "stockpulse-pr4",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.js"],
+      "port": 3008,
+      "env": {
+        "PORT": "3008",
+        "SWS_LADDER_V2": "1",
+        "ANALYZER_ENGINE_DEFAULT": "sws",
+        "SUITABILITY_GATE": "1",
+        "ANALYZER_DIFF": "1",
+        "OUTSIDE_PICKS": "1"
+      },
+      "cwd": "/Users/mayanktaluja/Desktop/claude/stock-platform"
+    },
+    {
+      "name": "stockpulse-pr5",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.js"],
+      "port": 3009,
+      "env": {
+        "PORT": "3009",
+        "SWS_LADDER_V2": "1",
+        "ANALYZER_ENGINE_DEFAULT": "sws",
+        "SUITABILITY_GATE": "1",
+        "ANALYZER_DIFF": "1",
+        "OUTSIDE_PICKS": "1",
+        "WHATIF_SIMULATOR": "1"
+      },
+      "cwd": "/Users/mayanktaluja/Desktop/claude/stock-platform"
     }
   ]
 }
