@@ -96,6 +96,13 @@ import {
   rerankFreshFirst,
 } from "./services/portfolioOverlay.js";
 import {
+  computeAdv20Day,
+  getAdvFloor,
+  getExcludingSurveillance,
+  loadFnoBanSet,
+  bareNseSymbol,
+} from "./services/indianMarketFilters.js";
+import {
   COMBINED_SCORE_MODE,
   shouldComputeCombined,
   shouldSortByCombined,
@@ -1581,6 +1588,9 @@ app.get("/api/scan/:type", async (req, res, next) => {
             const analysis = analyzeStock(historical, quote);
             const intraday = intradayScan(analysis, quote);
             const midTerm = midTermAnalysis(analysis, quote, historical ? historical.map(d => d.close) : null);
+            // P1.2: 20-day ADV (₹) for liquidity gate. Computed here so the
+            // baseFilter / midterm filter can read it without re-fetching.
+            const adv20 = computeAdv20Day(historical);
 
             return {
               symbol: stock.symbol,
@@ -1598,6 +1608,8 @@ app.get("/api/scan/:type", async (req, res, next) => {
               trend: analysis.indicators?.trend?.trend || "N/A",
               // ATR for stop-loss/target computation in Buy Now
               atr: analysis.indicators?.atr ? parseFloat(analysis.indicators.atr) : null,
+              // ADV (₹) — 20-trading-day average traded value
+              adv20: adv20,
             };
           } catch (e) {
             failureTracker.record(stock.symbol, "exception: " + e.message);
@@ -1615,6 +1627,7 @@ app.get("/api/scan/:type", async (req, res, next) => {
     }
 
     let filtered;
+    let filterDropoff = null; // populated only for buynow when filters run
     // Fetch current macro regime ONCE per scan (for buynow only — other scan
     // types are unaffected). On Vercel this uses the lazy stale-while-revalidate
     // cache; locally it uses the 15-min background refresh.
@@ -1627,6 +1640,18 @@ app.get("/api/scan/:type", async (req, res, next) => {
     // block scopes, causing "earningsBlackoutSet is not defined" at runtime.
     const earningsNearbyMap = new Map();
     const earningsBlackoutSet = new Set();
+    // P1.2 (May 2026): Indian-market microstructure gates. Loaded ONCE per
+    // scan so baseFilter / midterm filter can call them synchronously.
+    // Fail-open: if NSE feeds are down we get an empty set and no veto,
+    // which is safer than dropping every pick.
+    let fnoBanSet = new Set();
+    if (type === "buynow" || type === "midterm") {
+      try {
+        fnoBanSet = await loadFnoBanSet();
+      } catch (err) {
+        console.warn("[scanner] fno-ban load failed:", err.message);
+      }
+    }
 
     // Hoisted earnings-calendar populate. Buy Now uses this for dual-lane
     // filter; Mid-Term (1–4 week hold) needs it too because a print falling
@@ -1865,6 +1890,11 @@ app.get("/api/scan/:type", async (req, res, next) => {
           r.earningsNearby = earningsNearbyMap.get(r.symbol);
         }
       }
+      // P1.2 + P1.3 (May 2026): Indian-market gate for Mid-Term — same logic
+      // as baseFilter on the buynow side. ADV floor scales with universe;
+      // GSM (any stage) + ASM Stage 2/3/4 + F&O ban list + > 30% promoter
+      // pledge all excluded.
+      const midtermAdvFloor = getAdvFloor(universe);
       filtered = results
         .filter((r) => r.midTerm.score >= 58)
         .filter((r) => !earningsBlackoutSet.has(r.symbol))
@@ -1873,6 +1903,13 @@ app.get("/api/scan/:type", async (req, res, next) => {
         // are excluded because a SEBI RA recommendation without a stop-loss
         // is incomplete by definition.
         .filter((r) => Number.isFinite(r.midTerm?.riskReward) && r.midTerm.riskReward >= 1.5)
+        .filter((r) => !(Number.isFinite(r.adv20) && r.adv20 < midtermAdvFloor))
+        .filter((r) => !getExcludingSurveillance(r.symbol))
+        .filter((r) => !fnoBanSet.has(bareNseSymbol(r.symbol)))
+        .filter((r) => {
+          const gov = getGovernance(r.symbol);
+          return !(gov && Number.isFinite(gov.promoterPledge) && gov.promoterPledge > 0.30);
+        })
         .sort((a, b) => b.midTerm.score - a.midTerm.score)
         .slice(0, 10);
     } else if (type === "buynow") {
@@ -1927,23 +1964,46 @@ app.get("/api/scan/:type", async (req, res, next) => {
       const DV_SLOTS = 1;
       const DV_MIN_SCORE = 70; // stricter than QG's 65 floor
 
+      filterDropoff = { score: 0, hold: 0, earnings: 0, verdict: 0, sector: 0, rr: 0, adv: 0, surveillance: 0, fno: 0, pledge: 0, passed: 0 };
+      const advFloor = getAdvFloor(universe);
       const baseFilter = (r) => {
-        if (r.adjustedScore < 65) return false;
-        if (r.recommendation === "HOLD") return false;
+        if (r.adjustedScore < 65) { filterDropoff.score++; return false; }
+        if (r.recommendation === "HOLD") { filterDropoff.hold++; return false; }
         // Phase 2: earnings blackout — excludes picks within 3 trading days
         // of their earnings announcement. ATR-based SL can't defend against
         // earnings-gap losses. UI still shows the 7-day warning badge.
-        if (earningsBlackoutSet.has(r.symbol)) return false;
-        if (r.fundamentalVerdict === "OVERVALUED" || r.fundamentalVerdict === "FULLY_VALUED" || r.fundamentalVerdict === "FAIR_VALUE") return false;
+        if (earningsBlackoutSet.has(r.symbol)) { filterDropoff.earnings++; return false; }
+        if (r.fundamentalVerdict === "OVERVALUED" || r.fundamentalVerdict === "FULLY_VALUED" || r.fundamentalVerdict === "FAIR_VALUE") { filterDropoff.verdict++; return false; }
         const sector = normalizeSector(r.sector) || r.sector || "";
-        if (EXCLUDED_SECTORS.has(sector)) return false;
+        if (EXCLUDED_SECTORS.has(sector)) { filterDropoff.sector++; return false; }
         // P1.1 (May 2026): R:R hard floor. Theoretical R:R = 6×ATR / 4×ATR
         // = 1.5, so this is mostly defensive — catches floating-point edge
         // cases, picks missing ATR (no SL computable), and any future
         // multiplier change that would produce sub-1.5 R:R. A SEBI RA
         // recommendation without a stop-loss is incomplete by definition,
         // so picks with no riskReward at all are excluded too.
-        if (!Number.isFinite(r.riskReward) || r.riskReward < 1.5) return false;
+        if (!Number.isFinite(r.riskReward) || r.riskReward < 1.5) { filterDropoff.rr++; return false; }
+        // P1.2 (May 2026): Indian-market microstructure gates.
+        //   - ADV: don't recommend a stock the user can't exit cleanly.
+        //     Floor varies by universe; ADV unknown → fail-open.
+        //   - Surveillance: GSM (any stage) + ASM Stage 2/3/4 are SEBI-
+        //     stricter regimes. Stage 1 ASM is informational and stays.
+        //   - F&O ban: positions over the 95% market-wide derivative
+        //     limit are vulnerable to forced intraday unwinds.
+        if (Number.isFinite(r.adv20) && r.adv20 < advFloor) { filterDropoff.adv++; return false; }
+        if (getExcludingSurveillance(r.symbol)) { filterDropoff.surveillance++; return false; }
+        if (fnoBanSet.has(bareNseSymbol(r.symbol))) { filterDropoff.fno++; return false; }
+        // P1.3 (May 2026): Promoter-pledge gate. > 30% of promoter stake
+        // pledged is a SEBI red flag (governance.js fetches the data; V2
+        // scorer already weights it but doesn't VETO). For a SEBI RA
+        // "Buy Now" recommendation we exclude entirely — over-pledged
+        // promoters can trigger forced sale of the pledged shares, which
+        // tanks the price independent of fundamentals.
+        const gov = getGovernance(r.symbol);
+        if (gov && Number.isFinite(gov.promoterPledge) && gov.promoterPledge > 0.30) {
+          filterDropoff.pledge++; return false;
+        }
+        filterDropoff.passed++;
         return true;
       };
 
@@ -2050,11 +2110,24 @@ app.get("/api/scan/:type", async (req, res, next) => {
       combinedScoreMode: COMBINED_SCORE_MODE,
       lastUpdated: new Date().toISOString(),
     };
+    // Diagnostic: expose filter drop-off stats when ?debug=1. Only set for
+    // buynow (the only path that uses baseFilter dropoff counters).
+    if (type === "buynow" && req.query.debug === "1" && filterDropoff) {
+      response.filterDropoff = filterDropoff;
+    }
 
     // High-conviction messaging: when strict filters (Phase 1) produce fewer
     // than 10 picks, communicate this as selectivity, not a gap.
     if (type === "buynow" && filtered.length < 10 && filtered.length > 0) {
       response.highConvictionMessage = `${filtered.length} high-conviction pick${filtered.length === 1 ? "" : "s"} found from ${results.length} scanned — only stocks with strong fundamentals (Deep Value or Quality Growth) and technical confirmation pass our filters.`;
+    }
+    // Zero-pick day: with SWS-weighted scoring under primary mode, some
+    // sessions genuinely produce no Buy Now candidates clearing the 65
+    // combined-score floor + verdict + R:R + earnings + sector gates. The
+    // SEBI-honest response is to say "no picks today" rather than lower
+    // the bar. Surface this prominently so the user knows the scanner ran.
+    if (type === "buynow" && filtered.length === 0) {
+      response.highConvictionMessage = `No Buy Now picks today. Scanner ran across ${results.length} stocks; none cleared every gate (combined score ≥ 65, fundamental verdict ∈ Quality Growth / Deep Value, R:R ≥ 1.5, outside the 3-trading-day earnings blackout, sector not in the excluded list). Mid-Term picks below may still be active.`;
     }
 
     // Attach the macro regime so the frontend can render the banner without
