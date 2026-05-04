@@ -6037,6 +6037,266 @@ function renderSWSOutsidePicks(picks) {
   </div>`;
 }
 
+// PR-5: what-if simulator panel. Slider + numeric input per row;
+// debounced POST to /api/portfolio/simulate-whatif; baseline-vs-scenario
+// metrics rendered side-by-side with delta arrows.
+//
+// Mutation rows = top 6 holdings by current value (the user's biggest
+// levers) + top 4 outside fresh picks (deploy candidates). Dynamic
+// add/remove not in v1 — keep the UI scannable.
+
+let _whatIfState = {
+  sessionId: null,
+  baseline: null,
+  scenario: null,
+  deltas: null,
+  warnings: [],
+  realisedTax: 0,
+  pendingTimer: null,
+  freshPicksByTicker: new Map(),
+};
+
+function renderSWSWhatIfPanel(report, sessionId) {
+  // Panel only renders when the analyze response carried a sessionId
+  // and the SWS engine produced a Tier A. Without sessionId the
+  // simulator endpoint can't read the cached holdings.
+  if (!sessionId) return "";
+  const tierA = report?.tiers?.A?.rows || [];
+  const tierC = report?.tiers?.C?.rows || [];
+  const outsidePicks = report?.outsidePicks;
+  const freshPicks = [
+    ...(outsidePicks?.defensive || []),
+    ...(outsidePicks?.growth || []),
+  ];
+
+  // Persist sessionId + freshPicks lookup for the slider handlers.
+  _whatIfState.sessionId = sessionId;
+  _whatIfState.freshPicksByTicker = new Map(freshPicks.map((p) => [p.ticker, p]));
+
+  // Top 6 holdings by current value — the user's biggest levers for
+  // trim. Tier A (already-flagged reductions) prioritised; falls
+  // through to Tier C if Tier A is short.
+  const trimCandidates = [...tierA, ...tierC]
+    .filter((h) => h.currentValue > 0 && h.sws?.ticker)
+    .sort((a, b) => b.currentValue - a.currentValue)
+    .slice(0, 6);
+
+  const deployCandidates = freshPicks.slice(0, 4);
+  if (trimCandidates.length === 0 && deployCandidates.length === 0) return "";
+
+  const rowSlider = (h, kind) => {
+    const ticker = h.sws?.ticker || h.ticker;
+    const cv = h.currentValue || 0;
+    // Slider step is a fixed ₹500 so the human can dial in
+    // round-number trims, AND so 0 is always a valid step boundary.
+    // min/max are then snapped to step multiples — without this, browsers
+    // snap value="0" to the closest valid step (e.g. -548 for a slider
+    // with min=-28380, step=568) and the simulator sees phantom mutations
+    // on every untouched row.
+    const STEP = 500;
+    const minMax = kind === "trim"
+      ? { min: -Math.ceil(cv / STEP) * STEP, max: 0 }
+      : { min: 0, max: Math.ceil(Math.max(50000, cv * 2) / STEP) * STEP };
+    const sectorChip = h.sws?.sector
+      ? `<span style="font-size:10px; color:var(--text-muted);">${swsEscapeAttr(h.sws.sector)}</span>`
+      : "";
+    return `<div style="padding:10px 0; border-top:1px solid #1a2238; display:grid; grid-template-columns:140px 1fr 110px; gap:10px; align-items:center;">
+      <div>
+        <div style="font-weight:600; font-size:12px;">${swsEscapeAttr(ticker)}</div>
+        <div style="display:flex; gap:6px; align-items:center; margin-top:2px;">
+          ${sectorChip}
+          ${h.sws?.v3_score != null ? `<span style="font-size:10px; color:var(--text-muted);">v3 ${h.sws.v3_score}</span>` : ""}
+        </div>
+        <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">${kind === "trim" ? "Holding" : "Fresh"}: ${inr(cv || 0)}</div>
+      </div>
+      <input type="range" min="${minMax.min}" max="${minMax.max}" step="${STEP}" value="0"
+        data-whatif-ticker="${swsEscapeAttr(ticker)}" data-whatif-kind="${kind}"
+        oninput="onWhatIfSlider(this)"
+        style="width:100%; cursor:pointer;" />
+      <input type="number" data-whatif-ticker-num="${swsEscapeAttr(ticker)}" placeholder="0" step="${STEP}"
+        oninput="onWhatIfNumberInput(this)"
+        style="width:100%; padding:6px 8px; background:var(--bg); border:1px solid #2a3349; border-radius:5px; color:var(--text); font-size:12px;" />
+    </div>`;
+  };
+
+  return `<div id="whatIfPanel" style="margin:24px 0; padding:18px 20px; background:linear-gradient(135deg, rgba(34,197,94,0.05), rgba(59,130,246,0.05)); border:1px solid rgba(34,197,94,0.2); border-radius:10px;">
+    <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:6px; flex-wrap:wrap;">
+      <div>
+        <div style="font-size:14px; font-weight:700; color:#86efac;">What-if simulator</div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Drag a slider to trim or deploy. Health, sector mix, β, illiquid % and realised tax recompute live.</div>
+      </div>
+      <button id="whatIfReset" onclick="resetWhatIf()" style="background:transparent; color:var(--text-muted); border:1px solid #2a3349; padding:5px 12px; border-radius:5px; font-size:11px; cursor:pointer;">Reset all</button>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:18px; margin-top:14px;">
+      <div style="background:rgba(0,0,0,0.18); border:1px solid #1a2238; border-radius:8px; padding:12px 14px;">
+        <div style="font-size:11px; font-weight:700; color:#fca5a5; letter-spacing:0.3px; margin-bottom:4px;">TRIM ▾</div>
+        <div style="font-size:10px; color:var(--text-muted); margin-bottom:6px;">Slide left to reduce a position</div>
+        ${trimCandidates.length === 0
+          ? `<div style="font-size:11px; color:var(--text-muted); padding:6px 0;">No trim candidates available.</div>`
+          : trimCandidates.map((h) => rowSlider(h, "trim")).join("")}
+      </div>
+      <div style="background:rgba(0,0,0,0.18); border:1px solid #1a2238; border-radius:8px; padding:12px 14px;">
+        <div style="font-size:11px; font-weight:700; color:#86efac; letter-spacing:0.3px; margin-bottom:4px;">DEPLOY ▴</div>
+        <div style="font-size:10px; color:var(--text-muted); margin-bottom:6px;">Slide right to add a fresh pick</div>
+        ${deployCandidates.length === 0
+          ? `<div style="font-size:11px; color:var(--text-muted); padding:6px 0;">No fresh picks. Enable OUTSIDE_PICKS=1 to surface candidates.</div>`
+          : deployCandidates.map((p) => rowSlider({ sws: { ticker: p.ticker, sector: p.sector, v3_score: p.v3_score }, currentValue: 0, ticker: p.ticker }, "deploy")).join("")}
+      </div>
+    </div>
+
+    <div id="whatIfResults" style="margin-top:18px; min-height:60px; padding:12px 14px; background:rgba(0,0,0,0.20); border:1px solid #1a2238; border-radius:8px;">
+      <div style="font-size:12px; color:var(--text-muted);">Move a slider to see the scenario preview.</div>
+    </div>
+  </div>`;
+}
+
+// Slider input handler. Snaps to -cv .. cv ranges set in markup; updates
+// the matching number input + debounces a POST to the simulator endpoint.
+function onWhatIfSlider(el) {
+  const ticker = el.dataset.whatifTicker;
+  const numEl = document.querySelector(`input[data-whatif-ticker-num="${ticker}"]`);
+  if (numEl) numEl.value = el.value;
+  scheduleWhatIfRecompute();
+}
+
+function onWhatIfNumberInput(el) {
+  const ticker = el.dataset.whatifTickerNum;
+  const sliderEl = document.querySelector(`input[type=range][data-whatif-ticker="${ticker}"]`);
+  if (sliderEl) sliderEl.value = el.value || "0";
+  scheduleWhatIfRecompute();
+}
+
+function scheduleWhatIfRecompute() {
+  if (_whatIfState.pendingTimer) clearTimeout(_whatIfState.pendingTimer);
+  _whatIfState.pendingTimer = setTimeout(runWhatIfRecompute, 250);
+}
+
+async function runWhatIfRecompute() {
+  if (!_whatIfState.sessionId) return;
+  // Collect mutations from all sliders. Filter |Δ| < ₹500 as effectively
+  // zero — HTML range steps may not divide cleanly, so a "rest at zero"
+  // slider can land at ₹100-200 due to step quantization. Without this
+  // filter the results panel shows phantom mutations on untouched rows.
+  const mutations = [];
+  const sliders = document.querySelectorAll("input[type=range][data-whatif-ticker]");
+  for (const sl of sliders) {
+    const v = Number(sl.value);
+    if (Number.isFinite(v) && Math.abs(v) >= 500) {
+      mutations.push({ ticker: sl.dataset.whatifTicker, deltaRupees: Math.round(v) });
+    }
+  }
+  // Build freshPicks list for the simulator (sector + market_cap context)
+  const freshPicks = Array.from(_whatIfState.freshPicksByTicker.values());
+
+  const resultsEl = document.getElementById("whatIfResults");
+  if (!resultsEl) return;
+  if (mutations.length === 0) {
+    resultsEl.innerHTML = `<div style="font-size:12px; color:var(--text-muted);">Move a slider to see the scenario preview.</div>`;
+    return;
+  }
+
+  resultsEl.innerHTML = `<div style="font-size:12px; color:var(--text-muted);">Computing scenario…</div>`;
+  try {
+    const res = await fetch("/api/portfolio/simulate-whatif", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sessionId: _whatIfState.sessionId, mutations, freshPicks }),
+    });
+    if (res.status === 404) {
+      resultsEl.innerHTML = `<div style="font-size:12px; color:#fde047;">Simulator endpoint disabled (server flag WHATIF_SIMULATOR=1 to enable).</div>`;
+      return;
+    }
+    const j = await res.json();
+    if (!res.ok) {
+      resultsEl.innerHTML = `<div style="font-size:12px; color:#fca5a5;">${swsEscapeAttr(j.error || "Simulation failed")}</div>`;
+      return;
+    }
+    _whatIfState.baseline = j.baseline;
+    _whatIfState.scenario = j.scenario;
+    _whatIfState.deltas = j.deltas;
+    _whatIfState.warnings = j.warnings || [];
+    _whatIfState.realisedTax = j.realisedTax || 0;
+    resultsEl.innerHTML = renderWhatIfResults(j);
+  } catch (err) {
+    resultsEl.innerHTML = `<div style="font-size:12px; color:#fca5a5;">Network error: ${swsEscapeAttr(err.message)}</div>`;
+  }
+}
+
+function renderWhatIfResults(out) {
+  const { baseline, scenario, deltas, realisedTax, warnings, mutationsApplied } = out;
+  const arrow = (n) => n > 0 ? "↑" : n < 0 ? "↓" : "—";
+  const colorFor = (metric, n) => {
+    // Direction-of-good differs by metric. Health up is good; illiquid up is bad.
+    const goodWhenUp = ["healthScore", "avgV3"];
+    const goodWhenDown = ["illiquidPct", "weightedBeta"];
+    if (n === 0) return "var(--text-muted)";
+    if (goodWhenUp.includes(metric)) return n > 0 ? "#86efac" : "#fca5a5";
+    if (goodWhenDown.includes(metric)) return n < 0 ? "#86efac" : "#fca5a5";
+    return n > 0 ? "#86efac" : "#fca5a5"; // neutral default
+  };
+  const fmt = (n, places = 1) => Number.isFinite(n) ? n.toFixed(places) : "—";
+
+  const metric = (label, metricKey, base, scen, suffix = "") => {
+    const d = deltas[metricKey];
+    return `<div style="padding:8px 10px; background:rgba(0,0,0,0.20); border-radius:5px;">
+      <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px;">${label}</div>
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-top:4px;">
+        <div style="font-size:13px;">${fmt(base)}${suffix}</div>
+        <div style="font-size:11px; color:var(--text-muted);">→</div>
+        <div style="font-size:14px; font-weight:700;">${fmt(scen)}${suffix}</div>
+      </div>
+      <div style="font-size:10px; font-weight:700; margin-top:2px; color:${colorFor(metricKey, d)};">${arrow(d)} ${d > 0 ? "+" : ""}${fmt(d)}${suffix}</div>
+    </div>`;
+  };
+
+  const sectorRows = Object.entries(deltas.sectorMix || {})
+    .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))
+    .slice(0, 5)
+    .map(([sector, d]) => `<div style="font-size:11px; line-height:1.5;">
+      <span>${swsEscapeAttr(sector)}</span>
+      <strong style="color:${d > 0 ? '#86efac' : '#fca5a5'}; margin-left:6px;">${d > 0 ? "+" : ""}${fmt(d)}pp</strong>
+    </div>`).join("");
+
+  return `
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:8px; margin-bottom:10px;">
+      ${metric("Health score", "healthScore", baseline.healthScore, scenario.healthScore)}
+      ${metric("Avg v3", "avgV3", baseline.avgV3, scenario.avgV3)}
+      ${metric("Largest position", "largestPositionPct", baseline.largestPositionPct, scenario.largestPositionPct, "%")}
+      ${metric("Illiquid (5d+)", "illiquidPct", baseline.illiquidPct, scenario.illiquidPct, "%")}
+      ${baseline.weightedBeta != null && scenario.weightedBeta != null
+        ? metric("Weighted β", "weightedBeta", baseline.weightedBeta, scenario.weightedBeta)
+        : ""}
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
+      <div>
+        <div style="font-size:11px; font-weight:700; color:var(--text-muted); letter-spacing:0.3px; margin-bottom:4px;">Sector mix shift (top 5)</div>
+        ${sectorRows || `<div style="font-size:11px; color:var(--text-muted);">No sector changes.</div>`}
+      </div>
+      <div>
+        <div style="font-size:11px; font-weight:700; color:#fde047; letter-spacing:0.3px; margin-bottom:4px;">Realised tax cost</div>
+        <div style="font-size:18px; font-weight:700;">${inr(realisedTax || 0)}</div>
+        <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">${(mutationsApplied || []).filter((m) => m.kind === "trim" || m.kind === "full-exit").length} trim / exit mutation(s)</div>
+      </div>
+    </div>
+    ${warnings.length > 0
+      ? `<div style="margin-top:10px; padding:8px 10px; background:rgba(250,204,21,0.08); border:1px solid rgba(250,204,21,0.25); border-radius:5px; font-size:11px; color:#fde047;">
+          ${warnings.map((w) => `<div>${swsEscapeAttr(w)}</div>`).join("")}
+        </div>`
+      : ""}
+  `;
+}
+
+function resetWhatIf() {
+  document.querySelectorAll("[data-whatif-ticker], [data-whatif-ticker-num]").forEach((el) => {
+    el.value = el.type === "range" ? "0" : "";
+  });
+  const resultsEl = document.getElementById("whatIfResults");
+  if (resultsEl) resultsEl.innerHTML = `<div style="font-size:12px; color:var(--text-muted);">Move a slider to see the scenario preview.</div>`;
+  _whatIfState.scenario = null;
+  _whatIfState.deltas = null;
+}
+
 function renderSWSAnalyzerReport(report, elapsedMs) {
   const root = document.getElementById("analyzerReport");
   if (!root) return;
@@ -6091,6 +6351,7 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
     ${renderSWSTierA(tiers.A)}
     ${renderSWSTierB(baskets)}
     ${renderSWSOutsidePicks(outsidePicks)}
+    ${renderSWSWhatIfPanel(report, _optimizerState.sessionId || null)}
     ${renderSWSTierC(tiers.C)}
     ${renderSWSTierD(tiers.D)}
     ${renderSWSSectorOverlay(sectorOverlay)}
