@@ -100,7 +100,7 @@ async function main() {
 
   // Collect unique tickers from the lists where the blended score matters
   // most — the broad Top-30 plus the curated buckets users actually scan.
-  const SECTIONS_TO_ENRICH = ["top_ranked_30", "best_to_buy_now", "quality_growth", "smallcap_gems", "midterm", "dividend_aristocrats"];
+  const SECTIONS_TO_ENRICH = ["top_ranked_30_v3", "best_to_buy_now", "quality_growth", "smallcap_gems", "midterm", "dividend_aristocrats"];
   const seen = new Map();
   for (const key of SECTIONS_TO_ENRICH) {
     for (const card of (sections[key] || [])) {
@@ -154,17 +154,6 @@ async function main() {
       }
       touched++;
     }
-  }
-
-  // Re-rank top_ranked_30 by v3 when present, falling back to v2 otherwise.
-  // Only re-ranks within the existing 30 — we don't pull new tickers in
-  // (would require enriching the full universe).
-  if (Array.isArray(sections.top_ranked_30) && sections.top_ranked_30.length) {
-    sections.top_ranked_30.sort((a, b) => {
-      const sa = (a.v3_score_100 != null ? a.v3_score_100 : a.v2_score) || 0;
-      const sb = (b.v3_score_100 != null ? b.v3_score_100 : b.v2_score) || 0;
-      return sb - sa;
-    });
   }
 
   picks.enrich_meta = {
