@@ -7607,10 +7607,43 @@ app.get("/api/sws-picks", (req, res) => {
   const data = readJsonSafe(SWS_PATHS.picksLatest);
   if (!data) return res.status(404).json({ error: "no_picks_yet", hint: "Run /sws-scan-shard 1/2/3 in Claude to start the initial scan." });
   if (data.sections) {
-    for (const items of Object.values(data.sections)) {
+    // PR 2.7 — pure-numeric BSE codes were leaking into Avoid + Deep Value
+    // alongside NSE symbols. Filter them at the response boundary so the fix
+    // lands without waiting for the offline pipeline to re-run.
+    const isPureBSEcode = (t) => typeof t === "string" && /^\d+$/.test(t);
+    // PR 2.6 — dividend list value gate (upside ≥ 0 OR snowflake.valuation
+    // ≥ 4). Same response-time defence — covers a stale picks-latest.json
+    // that was written before the categoriseStock change took effect.
+    const passesDividendGate = (it) => {
+      const upside = Number(it?.upside_pct);
+      const valSnow = Number((it?.snowflake || {}).valuation);
+      return (Number.isFinite(upside) && upside >= 0) || (Number.isFinite(valSnow) && valSnow >= 4);
+    };
+    for (const [key, items] of Object.entries(data.sections)) {
       if (!Array.isArray(items)) continue;
-      for (const it of items) {
+      // Filter once, in-place — keeps the per-section count fields the UI
+      // reads (it computes counts from .length).
+      let filtered = items.filter((it) => it && it.ticker && !isPureBSEcode(it.ticker));
+      if (key === "dividend_aristocrats") filtered = filtered.filter(passesDividendGate);
+      data.sections[key] = filtered;
+      for (const it of filtered) {
         if (it && it.ticker) it.nifty500 = NIFTY500_SYMBOLS.has(`${it.ticker}.NS`);
+        // PR 2.3 — back-fill the new alias fields when the cached JSON
+        // predates the pickCardFields change. UI prefers these names so the
+        // composite-vs-valuation distinction renders even on stale snapshots.
+        if (it && it.composite_verdict == null && it.v3_verdict != null) {
+          it.composite_verdict = it.v3_verdict;
+        }
+        if (it && it.valuation_band == null) {
+          const u = Number(it.upside_pct);
+          if (Number.isFinite(u)) {
+            it.valuation_band =
+              u >= 25 ? "DEEP_DISCOUNT" :
+              u >= 10 ? "DISCOUNT" :
+              u >= -5 ? "FAIR" :
+              u >= -20 ? "PREMIUM" : "EXPENSIVE";
+          }
+        }
       }
     }
   }
@@ -7655,18 +7688,25 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
   // carries the Yahoo-sourced last_quarter_result. The other sections pin
   // it null so picking any-old-section's card would suppress the badge in
   // the modal even when we have the data.
+  //
+  // Same scan also collects every section that contains this ticker so the
+  // modal can render a "In sections: …" banner (PR 2.11) — gives the user
+  // a quick read on whether the stock is also a Top 30 / Deep Value /
+  // Quality Growth pick rather than re-discovering it section by section.
   const picks = readJsonSafe(SWS_PATHS.picksLatest);
   let card = null;
+  const sectionMemberships = [];
   if (picks && picks.sections) {
     const upcoming = picks.sections.upcoming_earnings;
-    if (Array.isArray(upcoming)) {
-      card = upcoming.find((c) => c.ticker === ticker) || null;
+    if (Array.isArray(upcoming) && upcoming.find((c) => c.ticker === ticker)) {
+      card = upcoming.find((c) => c.ticker === ticker);
     }
-    if (!card) {
-      for (const items of Object.values(picks.sections)) {
-        if (!Array.isArray(items)) continue;
-        const found = items.find((c) => c.ticker === ticker);
-        if (found) { card = found; break; }
+    for (const [key, items] of Object.entries(picks.sections)) {
+      if (!Array.isArray(items)) continue;
+      const found = items.find((c) => c.ticker === ticker);
+      if (found) {
+        sectionMemberships.push(key);
+        if (!card) card = found;
       }
     }
   }
@@ -7704,6 +7744,25 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
     }
   }
 
+  // PR 2.3 — back-fill alias fields when the cached card predates the
+  // pickCardFields change. Mirrors the /api/sws-picks back-fill so the modal
+  // can show composite_verdict + valuation_band even on stale snapshots.
+  if (card) {
+    if (card.composite_verdict == null && card.v3_verdict != null) {
+      card.composite_verdict = card.v3_verdict;
+    }
+    if (card.valuation_band == null) {
+      const u = Number(card.upside_pct);
+      if (Number.isFinite(u)) {
+        card.valuation_band =
+          u >= 25 ? "DEEP_DISCOUNT" :
+          u >= 10 ? "DISCOUNT" :
+          u >= -5 ? "FAIR" :
+          u >= -20 ? "PREMIUM" : "EXPENSIVE";
+      }
+    }
+  }
+
   // Freshness indicator — use parsed_at from the JSON content. fs.statSync
   // mtime is unreliable on Vercel: serverless bundles pin every file's mtime
   // to a fixed 2018-10-20 epoch for reproducible builds, which would render
@@ -7720,6 +7779,10 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
     card,
     surveillance,
     file_mtime: mtime,
+    // PR 2.11 — picks-section membership; the modal renders a top banner
+    // listing every curated section this ticker shows up in. Empty array
+    // when on-demand-scored / not curated.
+    section_memberships: sectionMemberships,
   });
 });
 

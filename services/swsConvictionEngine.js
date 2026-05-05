@@ -105,13 +105,71 @@ function _convictionBand(netDelta) {
 // Position-context modifiers — fills the legacy LOSS_DEEP_CUT gap. Returns
 // either a forced action (string) or null. These run AFTER the conviction
 // engine has settled; they're hard guardrails.
-function _positionGuardrail({ pnlPercent, sws_v3, positionWeight }) {
+//
+// PR 2.1 / 2.2 (May 2026): Drawdown alone no longer forces EXIT. The earlier
+// rule "pnl < -40 → EXIT regardless of current score" surfaced exits on
+// names SWS still rated TOP_PICK with active +30% momentum (INOXWIND v3=67).
+// New rule requires BOTH a deep drawdown AND a structural-weakness signal
+// before forcing EXIT — at least one of:
+//   • v3 score < 50 (composite has weakened)
+//   • snowflake total < 14 (SWS pillars degraded)
+//   • forward earnings growth < -10% (de-rating in fiscal block)
+//   • independent crosscheck score < 50 (fundamentalsV2 confirms weakness)
+// Drawdown without structural confirmation degrades to Reduction-50% and a
+// "observe before exit" note rather than forcing the user out at the bottom.
+//
+// The disposition-effect tier was also too aggressive (TCS pnl=-30 v3=62 got
+// Reduction-50% even though crosscheck and snow were strong). Lowered v3
+// ceiling to 50 and added a "snow OR crosscheck weak" gate so the rule fires
+// only when fundamentals also flag weakness.
+function _positionGuardrail({ pnlPercent, sws_v3, sws_snow, fwdGrowth, positionWeight, crosscheck }) {
   const pnl = num(pnlPercent, 0);
   const v3 = num(sws_v3, 50);
+  const snow = num(sws_snow, 18);
+  const fwd = num(fwdGrowth, null);
+  const indep = num(crosscheck?.independent_score, null);
+  const indepWeak = indep != null && indep < 50;
   const pw = num(positionWeight, 0);
-  if (pnl < -40) return { action: "EXIT", reason: `Deep loss ${pnl.toFixed(1)}% — thesis broken regardless of current score.` };
-  if (pnl < -30 && v3 < 65) return { action: "Reduction-50%", reason: `Loss ${pnl.toFixed(1)}% with v3 ${v3.toFixed(0)} — disposition-effect override.` };
-  if (pnl < -25 && v3 < 55) return { action: "Reduction-25-33%", reason: `Loss ${pnl.toFixed(1)}% with v3 ${v3.toFixed(0)} — partial trim, free capital.` };
+
+  const structurallyWeak =
+    v3 < 50
+    || snow < 14
+    || (fwd != null && fwd < -10)
+    || indepWeak;
+
+  // Catastrophic drawdown — trim is mandatory; EXIT only when fundamentals also weak.
+  if (pnl < -40 && structurallyWeak) {
+    const tags = [`v3 ${v3.toFixed(0)}`, `snow ${snow}/30`];
+    if (fwd != null && fwd < -10) tags.push(`fwd ${fwd.toFixed(1)}%`);
+    if (indepWeak) tags.push(`indep ${indep.toFixed(0)}`);
+    return {
+      action: "EXIT",
+      reason: `Deep loss ${pnl.toFixed(1)}% with structural weakness (${tags.join(", ")}) — thesis broken.`,
+    };
+  }
+  if (pnl < -40) {
+    return {
+      action: "Reduction-50%",
+      reason: `Drawdown ${pnl.toFixed(1)}% but fundamentals intact (v3 ${v3.toFixed(0)}, snow ${snow}/30) — partial trim, observe before exit.`,
+    };
+  }
+
+  // Disposition-effect override — only fires when crosscheck or snowflake
+  // also flag weakness. Prevents trim on quality compounders that are mid-correction.
+  if (pnl < -30 && v3 < 50 && (snow < 18 || indepWeak)) {
+    const why = indepWeak ? `independent score ${indep.toFixed(0)}` : `snow ${snow}/30`;
+    return {
+      action: "Reduction-50%",
+      reason: `Loss ${pnl.toFixed(1)}% with v3 ${v3.toFixed(0)} and ${why} — disposition-effect override.`,
+    };
+  }
+  if (pnl < -25 && v3 < 45 && (snow < 16 || indepWeak)) {
+    return {
+      action: "Reduction-25-33%",
+      reason: `Loss ${pnl.toFixed(1)}% with v3 ${v3.toFixed(0)} — partial trim, free capital.`,
+    };
+  }
+
   if (pw > 15) return { action: "Reduction-25-33%", reason: `Position ${pw.toFixed(1)}% of book — single-name concentration risk.` };
   return null;
 }
@@ -158,10 +216,16 @@ export function computeRecommendationV2({
   let guardrailReason = null;
 
   // Step 2 — position guardrail (loss-deep-cut + single-name risk).
+  // Snowflake total and fwd growth come from the same scored object as
+  // sws_v3, so they're sourced from position_ctx (set by swsHoldingEngine)
+  // OR fallback to the fiscal block this function already receives.
   const guardrail = _positionGuardrail({
     pnlPercent: position_ctx?.pnlPercent,
     sws_v3,
+    sws_snow: position_ctx?.snowflake_total ?? num(fiscal?.snowflake_total, null),
+    fwdGrowth: num(fiscal?.earnings_growth_pct, null),
     positionWeight: position_ctx?.positionWeight,
+    crosscheck,
   });
   if (guardrail) {
     // Guardrail beats layered action only when it would be MORE bearish

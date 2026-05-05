@@ -104,6 +104,19 @@ export function verdictV3FromScore(score) {
   return "AVOID";
 }
 
+// PR 2.3 — `valuation_band` is a SEPARATE signal from the composite-score
+// verdict. Mirror of services/swsScoring.js::valuationBandFromUpside; keep
+// the two implementations in lockstep so the picks JSON written by the
+// offline pipeline matches what the live API emits.
+export function valuationBandFromUpside(upside) {
+  if (upside == null || !Number.isFinite(upside)) return null;
+  if (upside >= 25) return "DEEP_DISCOUNT";
+  if (upside >= 10) return "DISCOUNT";
+  if (upside >= -5) return "FAIR";
+  if (upside >= -20) return "PREMIUM";
+  return "EXPENSIVE";
+}
+
 // ---------- v2 score: multi-factor with risk overlay ----------
 //
 // v1 `composite_score_100` is a fundamentals-only roll-up. v2 sits on top of
@@ -366,11 +379,23 @@ export function categoriseStock(stock) {
     cats.push("midterm");
   }
 
-  // Dividend aristocrats: SWS dividend pillar + sustainable payout + real yield.
-  if (divSnow >= 5 && divPayout < 70 && divYield >= 1.5) cats.push("dividend_aristocrats");
+  // Dividend aristocrats: SWS dividend pillar + sustainable payout + real
+  // yield, AND a value floor (upside ≥ 0 OR valuation snowflake ≥ 4).
+  // PR 2.6 — without the value floor the list surfaced OVERVALUED +
+  // negative-upside names just because their dividend pillar was strong.
+  if (
+    divSnow >= 5 &&
+    divPayout < 70 &&
+    divYield >= 1.5 &&
+    (upside >= 0 || valSnow >= 4)
+  ) {
+    cats.push("dividend_aristocrats");
+  }
 
-  // Smallcap gems: market cap < ₹50,000cr + strong snowflake + meaningful upside.
-  if (mcap > 0 && mcap < 5e11 && snowTotal >= 22 && hasUpside && upside >= 15) {
+  // Smallcap gems: true smallcap (mcap < ₹15,000cr, NSE rank 251+) + strong
+  // snowflake + meaningful upside. The previous 5e11 (₹50,000cr) threshold
+  // surfaced mid-caps under the smallcap label.
+  if (mcap > 0 && mcap < 1.5e11 && snowTotal >= 22 && hasUpside && upside >= 15) {
     cats.push("smallcap_gems");
   }
 
@@ -492,6 +517,11 @@ function pickCardFields(stock) {
     v3_breakdown: stock.v3_breakdown,
     v3_verdict: stock.v3_verdict,
     verdict: stock.verdict,
+    // PR 2.3 — explicit aliases. Composite (multi-factor) and valuation
+    // (price-vs-FV) are two SEPARATE signals; the UI keeps them as two
+    // distinct badges so users never see them collapsed into one.
+    composite_verdict: stock.v3_verdict,
+    valuation_band: valuationBandFromUpside(reconciled.upside_pct),
     snowflake_total: ov.snowflake_total,
     snowflake: ov.snowflake,
     current_price_inr: ov.current_price_inr,
@@ -547,7 +577,14 @@ export function buildLeaderboard(scoredStocks) {
   // Sort once, descending by v3 — canonical across every section except
   // upcoming_earnings (which re-sorts by date below). Card headlines render
   // v3, so the section rank order matches the number the user sees.
-  const ordered = [...scoredStocks].sort((a, b) => (b.v3_score_100 || 0) - (a.v3_score_100 || 0));
+  //
+  // PR 2.7 — drop pure-numeric BSE codes (e.g. "538992") at the universe
+  // boundary. They were leaking into Avoid + Deep Value lists alongside
+  // proper NSE symbols and confusing readers.
+  const isPureBSEcode = (t) => typeof t === "string" && /^\d+$/.test(t);
+  const ordered = [...scoredStocks]
+    .filter((s) => !isPureBSEcode(s.ticker))
+    .sort((a, b) => (b.v3_score_100 || 0) - (a.v3_score_100 || 0));
 
   // Hygiene gate for the universe-wide Top-30. Market cap ≥ ₹500cr (skip
   // illiquid micro-caps that need a different analysis frame); exclude GSM

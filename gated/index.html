@@ -1328,6 +1328,12 @@
       background: linear-gradient(90deg, rgba(245,158,11,0.08), rgba(15,23,42,0.3));
       border-color: rgba(245,158,11,0.30);
     }
+    .macro-banner.severity-degraded {
+      background: linear-gradient(90deg, rgba(234,179,8,0.12), rgba(15,23,42,0.3));
+      border-color: rgba(234,179,8,0.45);
+      color: #fcd34d;
+    }
+    .macro-banner.severity-degraded .macro-banner-title { color: #fcd34d; }
     .macro-banner-header {
       display: flex;
       align-items: center;
@@ -2278,6 +2284,59 @@
       letter-spacing: 0.05em;
       margin-top: 4px;
     }
+    /* PR 2.3 — valuation pill below the composite-verdict label. Outlined
+       so it visually reads as a distinct second signal, not a duplicate
+       of the composite verdict above it. */
+    .sws-modal-valband-pill {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 2px 8px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      text-transform: uppercase;
+      background: transparent;
+    }
+    /* PR 2.11 — section-membership banner at the top of the SWS modal.
+       Lists every curated picks section this ticker shows up in so the user
+       can immediately see whether a stock is also Top 30 / Deep Value /
+       Quality Growth / etc., instead of re-discovering the overlap. */
+    .sws-modal-sections-banner {
+      margin-top: 14px;
+      padding: 10px 14px;
+      background: rgba(96,165,250,0.08);
+      border: 1px solid rgba(96,165,250,0.25);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .sws-modal-sections-banner .label {
+      font-size: 10px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+    .sws-modal-section-chips {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .sws-modal-section-chip {
+      display: inline-block;
+      padding: 3px 9px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 999px;
+      background: rgba(96,165,250,0.15);
+      color: #93c5fd;
+      border: 1px solid rgba(96,165,250,0.35);
+      white-space: nowrap;
+    }
     .sws-modal-section {
       margin-top: 18px;
       padding-top: 14px;
@@ -2766,6 +2825,21 @@
     .sws-pick-stat { display: inline-flex; align-items: center; gap: 4px; }
     .sws-pick-stat-label { color: var(--text-muted); display: inline-flex; align-items: center; gap: 2px; }
     .sws-pick-stat-snow { margin-left: auto; color: var(--text-muted); }
+    /* PR 2.3 — small "valuation band" chip next to the upside %. Sits inline so
+       cards stay compact, but uses an outlined pill style so it reads as a
+       distinct second signal, not a duplicate of the composite verdict. */
+    .sws-pick-valband-chip {
+      display: inline-block;
+      padding: 1px 6px;
+      margin-left: 4px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      text-transform: uppercase;
+      background: transparent;
+    }
     .sws-pick-card-narrative { font-size: 11px; color: var(--text-muted); margin-top: 8px; line-height: 1.4; }
     .sws-pick-earnings-row { font-size: 11px; color: var(--gold); margin-top: 6px; }
     .sws-pick-card-link { margin-top: 8px; }
