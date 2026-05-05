@@ -11,9 +11,10 @@
 #   4. Wait for shards
 #   5. Parse raw API output → scoring-compatible deep/<TICKER>.json
 #   6. Run scoring (sws-scoring.mjs)
-#   7. Optionally narrate (if ANTHROPIC_API_KEY set)
-#   8. Generate PDF
-#   9. Write last-refresh.json
+#   7. Backfill last-quarter beat/miss on upcoming-earnings cards (Yahoo Finance)
+#   8. Optionally narrate (if ANTHROPIC_API_KEY set)
+#   9. Generate PDF
+#  10. Write last-refresh.json
 #
 # Usage:
 #   ./scripts/sws-refresh-api.sh                       # full universe
@@ -163,6 +164,12 @@ echo "${PARSE_OUT}" | tail -5 | sed 's/^/[parser] /'
 echo "[refresh-api] running scoring..."
 SCORING_OUT="$(node scripts/sws-scoring.mjs 2>&1 || true)"
 echo "${SCORING_OUT}" | tail -12 | sed 's/^/[scoring] /'
+
+# ---------- 7. Backfill last-quarter beat/miss ----------
+
+echo "[refresh-api] backfilling earnings beat/miss..."
+BEAT_OUT="$(node scripts/sws-fetch-earnings-beat.mjs 2>&1 || true)"
+echo "${BEAT_OUT}" | tail -3 | sed 's/^/[earnings-beat] /'
 
 # ---------- 8. Narrate (if API key) ----------
 

@@ -80,6 +80,7 @@ You are the SWS watcher. Check whether all 3 shards have completed:
 
 If ALL 3 have `complete: true`:
   - Run `node /Users/mayanktaluja/Desktop/claude/stock-platform/scripts/sws-scoring.mjs`
+  - Run `node /Users/mayanktaluja/Desktop/claude/stock-platform/scripts/sws-fetch-earnings-beat.mjs`
   - Run `python3 /Users/mayanktaluja/Desktop/claude/stock-platform/scripts/generate-sws-picks-pdf.py`
   - Then disable this watcher task by replying with: "All 3 shards complete. Picks + PDF generated. Watcher should be disabled — please call mcp__scheduled-tasks__update_scheduled_task with taskId=sws-watcher and enabled=false."
   - Exit.
