@@ -2059,13 +2059,26 @@ function renderMacroBanner(regime) {
     const headlines = regime?.headlineCount ?? 0;
     const stalenessMs = regime?.staleness ?? null;
     const staleHours = stalenessMs != null ? Math.round(stalenessMs / 3600000) : null;
+    const quotaUntil = regime?.quotaLimitedUntil ?? null;
+
+    let bannerTitle = "&#9888; Macro classifier degraded";
+    let bannerReasoning = `${escapeHtml(reasoning || "Macro feed unavailable.")} Picks below are running without macro tilt &mdash; treat sector recommendations as best-effort until the classifier recovers.`;
+
+    if (quotaUntil && quotaUntil > Date.now()) {
+      const resumeStr = new Date(quotaUntil).toLocaleString("en-IN", {
+        timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", hour12: false,
+      });
+      bannerTitle = "&#9203; Macro classifier paused (Groq quota)";
+      bannerReasoning = `Daily token quota reached &mdash; ${staleHours != null ? `last classification ${staleHours}h ago` : "showing last known classification"}. Resumes automatically at ${resumeStr} IST.`;
+    }
+
     banner.className = "macro-banner severity-degraded";
     banner.innerHTML = `
       <div class="macro-banner-header">
-        <div class="macro-banner-title">&#9888; Macro classifier degraded</div>
+        <div class="macro-banner-title">${bannerTitle}</div>
         <div class="macro-banner-meta">Headlines: ${headlines} &middot; Confidence: 0%${staleHours != null ? ` &middot; Last update ${staleHours}h ago` : ""}</div>
       </div>
-      <div class="macro-banner-reasoning">${escapeHtml(reasoning || "Macro feed unavailable.")} Picks below are running without macro tilt &mdash; treat sector recommendations as best-effort until the classifier recovers.</div>
+      <div class="macro-banner-reasoning">${bannerReasoning}</div>
     `;
     banner.style.display = "block";
     return;

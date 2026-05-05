@@ -115,7 +115,7 @@ import { fetchStockNews, enrichStockNews } from "./stockNews.js";
 import { generateNarrative, enrichStockNarratives } from "./stockNarrative.js";
 import { dailyReturns as computeDailyReturns } from "./riskMetrics.js";
 import multer from "multer";
-import { classifyRegime, computeMacroDelta, defaultCalmRegime, normalizeSector, REGIMES, SECTORS, withOpenAIRetry } from "./macroRegime.js";
+import { classifyRegime, computeMacroDelta, defaultCalmRegime, getGroqQuotaState, normalizeSector, REGIMES, SECTORS, withOpenAIRetry } from "./macroRegime.js";
 import OpenAI from "openai";
 
 // Lazy OpenAI client for server.js (same pattern as macroRegime.js)
@@ -178,11 +178,34 @@ const portfolioCache = new NodeCache({ stdTTL: 30, checkperiod: 15 });
 // enrichment pipeline. 30-minute TTL is plenty for an interactive session;
 // users tweaking past that just trigger a fresh analyze.
 const analyzerCache = new NodeCache({ stdTTL: 1800, checkperiod: 300 });
-// Macro regime — one global object refreshed every 15 minutes. Contains the
+// Macro regime — one global object refreshed hourly. Contains the
 // LLM-classified market regime (war/rate/oil/policy/calm) plus sector-level
 // impact scores used by the Buy Now scanner to tilt recommendations.
-const macroRegimeCache = new NodeCache({ stdTTL: 900, checkperiod: 60 });
+// 1-hour cadence keeps daily Groq token usage well under the 100K TPD limit
+// (~24 calls/day × ~2K tokens = ~50K). Macro signals change on hour/day
+// timescales, so 1h freshness is acceptable.
+const macroRegimeCache = new NodeCache({ stdTTL: 3600, checkperiod: 120 });
 const MACRO_CACHE_KEY = "macro_regime";
+
+// Last successful classification — preserved across NodeCache expiries so
+// quota-limited refreshes can return real data instead of falling back to
+// CALM. Pre-warmed from .macro-regime-cache.json on startup; rewritten on
+// every successful classification.
+let lastGoodMacroRegime = null;
+const MACRO_REGIME_DISK_PATH = path.join(__dirnameForEnv, ".macro-regime-cache.json");
+(function loadLastGoodMacroRegime() {
+  try {
+    if (fs.existsSync(MACRO_REGIME_DISK_PATH)) {
+      const parsed = JSON.parse(fs.readFileSync(MACRO_REGIME_DISK_PATH, "utf-8"));
+      if (parsed && typeof parsed.regime === "string" && parsed.generatedAt) {
+        lastGoodMacroRegime = parsed;
+        console.log(`[MACRO] Loaded last-good regime from disk: ${parsed.regime} (${parsed.generatedAt})`);
+      }
+    }
+  } catch (e) {
+    console.warn("[MACRO] Could not load .macro-regime-cache.json:", e.message);
+  }
+})();
 // In-memory ring buffer of the last 5 regime classifications + the headlines
 // that produced them. Exposed via /api/macro/debug for audit/debugging.
 const macroHistory = [];
@@ -5490,6 +5513,22 @@ async function refreshMacroRegime() {
 }
 
 async function _doRefreshMacroRegime() {
+  // Idempotency guard: if Groq's daily quota is active, skip the LLM call
+  // entirely and extend the NodeCache TTL so we don't hammer the API every
+  // hour during a multi-hour quota block. Repeated calls during the window
+  // return the same cached classification.
+  const quotaState = getGroqQuotaState();
+  if (quotaState.limited) {
+    const existing = macroRegimeCache.get(MACRO_CACHE_KEY);
+    const fallback = lastGoodMacroRegime || existing;
+    if (fallback) {
+      const ttlSec = Math.ceil((quotaState.retryAfterMs + 30_000) / 1000);
+      macroRegimeCache.set(MACRO_CACHE_KEY, fallback, ttlSec);
+      console.warn(`[MACRO] Groq quota active — returning cached ${fallback.regime}, next attempt after ${new Date(quotaState.until).toISOString()}`);
+      return { ...fallback, quotaLimitedUntil: quotaState.until };
+    }
+  }
+
   try {
     const headlines = await fetchMacroHeadlines();
     const meta = headlines.meta || { sourceHealth: {}, tierCoverage: { "A+": 0, "A": 0, "B": 0 }, fallbacksUsed: [] };
@@ -5527,12 +5566,30 @@ async function _doRefreshMacroRegime() {
       `[MACRO] Regime=${regime.regime} sev=${regime.severity} conf=${regime.confidence.toFixed(2)} ` +
       `sectors=${regime.sectorImpacts.length} headlines=${headlines.length}`
     );
+
+    // Persist last-good regime to disk so it survives server restarts during
+    // a quota window. Fire-and-forget; atomic via tmp+rename.
+    lastGoodMacroRegime = regime;
+    Promise.resolve().then(() => {
+      try {
+        const tmp = `${MACRO_REGIME_DISK_PATH}.${process.pid}.tmp`;
+        fs.writeFileSync(tmp, JSON.stringify(regime), "utf-8");
+        fs.renameSync(tmp, MACRO_REGIME_DISK_PATH);
+      } catch (e) {
+        console.warn("[MACRO] Failed to persist regime to disk:", e.message);
+      }
+    });
+
     return regime;
   } catch (err) {
     console.error("[MACRO] refreshMacroRegime failed:", err.message);
-    // Keep whatever was previously cached. If nothing cached, fall back to calm.
+    // Prefer the last good real classification over synthetic CALM.
     const existing = macroRegimeCache.get(MACRO_CACHE_KEY);
-    if (existing) return existing;
+    const fallback = lastGoodMacroRegime || existing;
+    if (fallback) {
+      macroRegimeCache.set(MACRO_CACHE_KEY, fallback);
+      return fallback;
+    }
     const calm = { ...defaultCalmRegime(), reasoning: `Refresh failed: ${err.message}` };
     macroRegimeCache.set(MACRO_CACHE_KEY, calm);
     return calm;
