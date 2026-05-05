@@ -1877,11 +1877,8 @@
     }
     .warming-banner.visible { display: block; }
 
-    /* SEBI compliance banner — persistent, sits above the tab bar.
+    /* Disclaimer banner — persistent, sits above the tab bar.
        Muted styling on purpose: visible without being alarmist. */
-    /* Phase 8B: compact one-line disclaimer strip. Full language kept via
-       the expand chevron — keeps SEBI RA 15(2) compliance without the
-       visual dominance of the old yellow block. */
     .sebi-banner {
       background: transparent;
       border: 0;
@@ -1921,102 +1918,6 @@
       .sebi-banner strong { white-space: normal; }
     }
 
-    /* SEBI Phase 0: first-run acknowledgement modal. Shown once per
-       user per compliance-text version (version bumped in app.js when
-       disclaimer language changes materially). localStorage-backed so
-       returning users aren't nagged. Full-bleed overlay; modal body
-       scrolls on small viewports. */
-    .sebi-modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(4, 5, 8, 0.82);
-      backdrop-filter: blur(6px);
-      z-index: 9999;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .sebi-modal-overlay.show { display: flex; }
-    .sebi-modal {
-      max-width: 560px;
-      width: 100%;
-      max-height: 85vh;
-      overflow-y: auto;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-top: 3px solid var(--gold);
-      border-radius: var(--card-radius);
-      padding: 28px 28px 22px;
-      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
-      color: var(--text-primary);
-    }
-    .sebi-modal-title {
-      font-family: var(--font-serif);
-      font-size: 22px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      margin-bottom: 6px;
-      color: var(--text-primary);
-    }
-    .sebi-modal-subtitle {
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-size: 13px;
-      color: var(--gold);
-      margin-bottom: 20px;
-    }
-    .sebi-modal ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 20px;
-    }
-    .sebi-modal ul li {
-      position: relative;
-      padding: 10px 0 10px 22px;
-      font-size: 13px;
-      line-height: 1.55;
-      color: var(--text-secondary);
-      border-top: 1px solid var(--border-soft);
-    }
-    .sebi-modal ul li:first-child { border-top: 0; }
-    .sebi-modal ul li::before {
-      content: "";
-      position: absolute;
-      left: 4px;
-      top: 18px;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--gold);
-      opacity: 0.7;
-    }
-    .sebi-modal ul li strong { color: var(--text-primary); font-weight: 600; }
-    .sebi-modal-footer {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 12px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
-    }
-    .sebi-modal-accept {
-      background: var(--gold);
-      border: 0;
-      color: #141212;
-      padding: 10px 18px;
-      font-weight: 600;
-      font-size: 13px;
-      letter-spacing: 0.02em;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .sebi-modal-accept:hover { background: var(--gold-deep); }
-    .sebi-modal-meta {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-right: auto;
-    }
 
     /* NSE surveillance warning banner — shown on stock detail when the
        symbol is under ASM or GSM. Loud red strip, non-dismissible, sits
@@ -2437,6 +2338,23 @@
       color: #fca5a5;
       text-transform: uppercase;
       margin-left: 8px;
+    }
+    /* Thin-coverage badge — shown when data_completeness_pct < 60.
+       Tells the user the score had to be computed against partial inputs
+       so missing fields aren't silently treated as zero. */
+    .sws-thin-coverage-badge {
+      display: inline-block;
+      padding: 3px 7px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      background: rgba(250, 204, 21, 0.10);
+      border: 1px solid rgba(250, 204, 21, 0.32);
+      color: #fde047;
+      text-transform: uppercase;
+      margin-left: 8px;
+      cursor: help;
     }
     /* Last-quarter EPS-vs-consensus badge on upcoming-earnings cards.
        Class names (.beat/.miss/.inline) match the JSON values emitted by
@@ -3012,11 +2930,9 @@
     <!-- Stock Detail View -->
     <div class="stock-detail" id="stockDetail"></div>
 
-    <!-- SEBI compliance: persistent disclaimer banner visible above every tab.
-         Addresses RA Regulation 15(2): "fair, balanced, not misleading".
-         Short-form here with a link to the full disclaimer section below. -->
+    <!-- Persistent disclaimer banner visible above every tab. -->
     <div class="sebi-banner" role="note">
-      <strong>Educational content only.</strong> StarBhai is not a SEBI-registered investment adviser. All scores and picks are algorithmic signals for research &mdash; not buy/sell recommendations. Past performance does not guarantee future returns.
+      <strong>Educational content only.</strong> All scores and picks are algorithmic signals for personal research &mdash; not buy/sell recommendations. Past performance does not guarantee future returns. Consult a SEBI-registered investment adviser before acting.
     </div>
 
     <!-- Global macro regime banner — visible on every tab. Populated by renderMacroBanner(). Hidden when CALM. -->
@@ -3754,7 +3670,7 @@
         <h2 id="analyzerIntakeTitle" style="margin:0; font-size:20px; font-weight:700; letter-spacing:-0.01em;">Suitability intake</h2>
         <button id="analyzerIntakeClose" type="button" aria-label="Close intake" style="background:transparent; border:0; color:var(--text-muted); font-size:22px; line-height:1; cursor:pointer; padding:0 6px;">&times;</button>
       </div>
-      <p style="margin:0 0 18px; font-size:12.5px; color:var(--text-muted); line-height:1.5;">SEBI's IA Reg Schedule III + RA Reg 9(b) require a suitability check before any portfolio recommendation. Five questions, one minute. Saved across runs &mdash; you only fill this once unless something material changes.</p>
+      <p style="margin:0 0 18px; font-size:12.5px; color:var(--text-muted); line-height:1.5;">A short suitability check anchors the analyzer to your risk profile and horizon. Five questions, one minute. Saved across runs &mdash; you only fill this once unless something material changes.</p>
       <form id="analyzerIntakeForm" style="display:flex; flex-direction:column; gap:18px;"></form>
       <div id="analyzerIntakeError" style="display:none; margin-top:14px; padding:10px 12px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:6px; color:#fca5a5; font-size:12.5px;"></div>
       <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:18px;">
