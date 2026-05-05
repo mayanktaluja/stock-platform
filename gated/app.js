@@ -9670,14 +9670,10 @@ async function loadPicks() {
 function renderPicksEmptyState() {
   return `
     <div style="padding:32px; border:1px dashed #2a3550; border-radius:8px; text-align:center;">
-      <h3 style="margin-top:0;color:var(--text-primary);">No SWS scan has been run yet</h3>
+      <h3 style="margin-top:0;color:var(--text-primary);">No SWS scan data available</h3>
       <p style="color:var(--text-muted); margin:12px 0 20px 0; max-width:680px; margin-left:auto; margin-right:auto;">
-        Click <strong>Quick refresh</strong> or <strong>Full refresh</strong> above to start. The scan is driven by 3 parallel Claude sessions
-        scraping every NSE/BSE listing on Simply Wall Street with built-in subscription protection (rate caps, jitter, panic-stop on any block signal).
-        Wall-clock: ~5 hrs for Quick, ~3 days for Full. The data file lives at <code>data/sws/picks-latest.json</code>.
-      </p>
-      <p style="color:var(--text-muted); font-size:12px;">
-        After clicking, open 3 terminal windows, run <code>claude</code>, then <code>/sws-scan-shard 1</code> / <code>2</code> / <code>3</code>.
+        Run the SWS refresh pipeline from the CLI to populate this tab.
+        The data file lives at <code>data/sws/picks-latest.json</code>.
       </p>
     </div>
   `;
