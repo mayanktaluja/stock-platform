@@ -8,7 +8,7 @@ import { randomUUID, createHmac, timingSafeEqual } from "node:crypto";
 import dotenv from "dotenv";
 const __filenameForEnv = fileURLToPath(import.meta.url);
 const __dirnameForEnv = path.dirname(__filenameForEnv);
-dotenv.config({ path: path.join(__dirnameForEnv, ".env") });
+dotenv.config({ path: path.join(__dirnameForEnv, ".env"), override: true });
 
 import express from "express";
 import cors from "cors";
