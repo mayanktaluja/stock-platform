@@ -34,7 +34,12 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(updateClock, 1000);
   loadMacroRegime(); // global: shown on every tab
   setInterval(loadMacroRegime, 15 * 60 * 1000); // refresh every 15 minutes
-  switchTab('picks');
+  // Ticker lives in the persistent header above the tabs, so it must load
+  // independently of whichever tab the user lands on. Server caches /api/market
+  // for 30s; a 60s refresh keeps the indices fresh without hammering upstreams.
+  loadMarketData();
+  setInterval(loadMarketData, 60 * 1000);
+  switchTab('news');
   setupSearch();
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
 });
@@ -5568,9 +5573,13 @@ function swsHoldingRow(h) {
     if (!Number.isFinite(r) || r <= 0) return "";
     return `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">${inr(r)}</div>`;
   })();
+  const trim = h.recentTrimInfo;
+  const trimChip = trim
+    ? ` <span title="Trimmed ${trim.daysAgo === 0 ? "today" : trim.daysAgo + "d ago"} — informational; today's signal still applies." style="margin-left:4px; padding:1px 5px; background:rgba(168,85,247,0.15); color:#c4b5fd; border-radius:3px; font-size:9px; font-weight:700; letter-spacing:0.3px;">TRIMMED ${trim.daysAgo === 0 ? "TODAY" : trim.daysAgo + "d"}</span>`
+    : "";
   return `<tr style="border-top:1px solid #2a3349; cursor:pointer;" onclick="openStockDetailModal('${tk}','mf-overlap')">
     <td style="padding:10px 12px;">
-      <div style="font-weight:600;">${tk} ${swsSurveillanceChip(sws.surveillance)}</div>
+      <div style="font-weight:600;">${tk} ${swsSurveillanceChip(sws.surveillance)}${trimChip}</div>
       <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(name)}${sws.sector ? " · " + swsEscapeAttr(sws.sector) : ""}</div>
     </td>
     <td style="padding:10px 12px;">${swsActionBadge(h.action)}${rupeesInline}</td>
@@ -5609,7 +5618,7 @@ function swsConvictionBadge(rec, fallbackProxy) {
   const layerCount = rec?.net_delta != null
     ? `Δ${rec.net_delta > 0 ? "+" : ""}${rec.net_delta}`
     : "";
-  return `<span title="Net layer delta from cross-check + catalyst + India-risk votes" style="display:inline-block; padding:2px 7px; border-radius:4px; background:${c.bg}; border:1px solid ${c.border}; color:${c.text}; font-size:10px; font-weight:700; letter-spacing:0.3px;">${conviction}${layerCount ? " · " + layerCount : ""}</span>`;
+  return `<span title="Net layer delta — positive escalates SWS action in its direction (1 rung max); for HOLD, the sign of layer-vote consensus picks bullish/bearish promotion. Negative softens by 1 rung." style="display:inline-block; padding:2px 7px; border-radius:4px; background:${c.bg}; border:1px solid ${c.border}; color:${c.text}; font-size:10px; font-weight:700; letter-spacing:0.3px;">${conviction}${layerCount ? " · " + layerCount : ""}</span>`;
 }
 
 // Peer-rotation chip — clickable, opens stock detail modal for the peer.
@@ -5667,63 +5676,6 @@ function swsSnowflakeFull(snow) {
     }).join("")}
   </div>
   <div style="text-align:center; margin-top:6px; font-size:11px; color:var(--text-muted);">Snowflake total <strong style="color:#93c5fd;">${snow.total ?? "—"}/30</strong></div>`;
-}
-
-// Tax-scenarios table: shows the four ladder rungs side-by-side with
-// gross proceeds, gain, tax cost, net keep, and regime. Highlights the
-// rung that matches the recommended action so the user can see the
-// "this is the engine's call" alongside the alternatives.
-function swsTaxScenariosTable(taxScenarios, currentAction) {
-  if (!Array.isArray(taxScenarios) || taxScenarios.length === 0) return "";
-  // Map action label → rung %. The ladder uses 25/33/50/66/100; legacy
-  // labels approximate to the closest standard rung.
-  const rungOfAction = {
-    "Reduction-25%": 25, "Reduction-25-33%": 33, "Reduction-33%": 33,
-    "Reduction-50%": 50, "Reduction-66%": 66,
-    "EXIT-staged": 50, "EXIT-now": 100, "EXIT": 100,
-  };
-  const recommendedRung = rungOfAction[currentAction] ?? null;
-  const regimeBadge = (regime) => {
-    if (regime === "ltcg") return `<span style="font-size:9px; padding:1px 5px; background:rgba(34,197,94,0.10); color:#86efac; border-radius:3px; letter-spacing:0.3px;">LTCG 12.5%</span>`;
-    if (regime === "stcg") return `<span style="font-size:9px; padding:1px 5px; background:rgba(250,204,21,0.10); color:#fde047; border-radius:3px; letter-spacing:0.3px;">STCG 20%</span>`;
-    if (regime === "loss") return `<span style="font-size:9px; padding:1px 5px; background:rgba(107,114,128,0.10); color:#9ca3af; border-radius:3px; letter-spacing:0.3px;">LOSS · carry-fwd</span>`;
-    if (regime?.startsWith("slab_")) return `<span style="font-size:9px; padding:1px 5px; background:rgba(239,68,68,0.10); color:#fca5a5; border-radius:3px; letter-spacing:0.3px;">SLAB ${regime.replace("slab_", "")}%</span>`;
-    return `<span style="font-size:9px; color:var(--text-muted);">—</span>`;
-  };
-  const rows = taxScenarios.map((sc) => {
-    const isRec = recommendedRung === sc.trimPct;
-    return `<tr style="${isRec ? "background:rgba(250,204,21,0.06);" : ""}">
-      <td style="padding:6px 10px; font-weight:${isRec ? 700 : 500}; color:${isRec ? "#fde047" : "var(--text)"};">
-        ${sc.trimPct}%${isRec ? ' <span style="font-size:9px; color:#fde047;">← engine pick</span>' : ""}
-      </td>
-      <td style="padding:6px 10px; text-align:right;">${inr(sc.grossProceedsRupees)}</td>
-      <td style="padding:6px 10px; text-align:right; color:${sc.gainRupees >= 0 ? '#86efac' : '#f87171'};">${sc.gainRupees >= 0 ? "+" : ""}${inr(sc.gainRupees)}</td>
-      <td style="padding:6px 10px; text-align:right;">${sc.taxRupees > 0 ? inr(sc.taxRupees) : "—"}</td>
-      <td style="padding:6px 10px; text-align:right; font-weight:600;">${inr(sc.netProceedsRupees)}</td>
-      <td style="padding:6px 10px;">${regimeBadge(sc.regime)}</td>
-    </tr>`;
-  }).join("");
-  // Holding-period note from any scenario (they all share the same purchase date)
-  const sample = taxScenarios[0] || {};
-  const periodNote = sample.daysHeld != null
-    ? `${sample.daysHeld} days held · ${sample.isLongTerm ? "long-term (LTCG)" : "short-term (STCG)"}`
-    : "purchase date unknown — STCG assumed";
-  return `<div style="margin-top:10px;">
-    <div style="font-size:11px; font-weight:700; color:#fde047; margin-bottom:6px; letter-spacing:0.4px; text-transform:uppercase;">Tax scenarios per ladder rung <span style="font-weight:500; color:var(--text-muted); text-transform:none; letter-spacing:0;">· ${periodNote}</span></div>
-    <table style="width:100%; border-collapse:collapse; font-size:11px;">
-      <thead>
-        <tr style="font-size:9px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted); border-bottom:1px solid #1f2937;">
-          <th style="padding:6px 10px; text-align:left;">Trim</th>
-          <th style="padding:6px 10px; text-align:right;">Gross ₹</th>
-          <th style="padding:6px 10px; text-align:right;">Gain ₹</th>
-          <th style="padding:6px 10px; text-align:right;">Tax ₹</th>
-          <th style="padding:6px 10px; text-align:right;">Net keep</th>
-          <th style="padding:6px 10px;">Regime</th>
-        </tr>
-      </thead>
-      <tbody>${rows}</tbody>
-    </table>
-  </div>`;
 }
 
 // Catalyst calendar — renders pending earnings + analyst PT actions +
@@ -5825,7 +5777,6 @@ function swsReasonRow(h) {
       ${swsTopPeerChip(h)}
       ${swsPeerSubstitutes(sws.peer_substitute)}
     </div>
-    ${swsTaxScenariosTable(h.taxScenarios, h.action)}
     ${swsAuditTrailDetails(h.audit)}
   </details>`;
 }
@@ -5931,27 +5882,27 @@ function renderSWSTierB(baskets) {
 function renderSWSTierC(tier) {
   const rows = tier?.rows || [];
   if (rows.length === 0) return "";
-  const cooledCount = rows.filter((h) => h.recentlyTrimmedReason).length;
-  const cooledHeader = cooledCount > 0
-    ? ` <span style="margin-left:8px; padding:2px 7px; background:rgba(168,85,247,0.15); color:#c4b5fd; border-radius:3px; font-size:10px; font-weight:700; letter-spacing:0.3px;">${cooledCount} RECENTLY TRIMMED</span>`
+  const recentTrimCount = rows.filter((h) => h.recentTrimInfo).length;
+  const recentHeader = recentTrimCount > 0
+    ? ` <span style="margin-left:8px; padding:2px 7px; background:rgba(168,85,247,0.15); color:#c4b5fd; border-radius:3px; font-size:10px; font-weight:700; letter-spacing:0.3px;">${recentTrimCount} RECENTLY TRIMMED</span>`
     : "";
   return `<div style="margin-bottom:22px;">
-    <div style="font-size:14px; font-weight:700; margin-bottom:10px;">Tier C · Hold as-is <span style="color:var(--text-muted); font-size:12px; font-weight:500;">(${rows.length})</span>${cooledHeader}</div>
+    <div style="font-size:14px; font-weight:700; margin-bottom:10px;">Tier C · Hold as-is <span style="color:var(--text-muted); font-size:12px; font-weight:500;">(${rows.length})</span>${recentHeader}</div>
     <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:6px 0;">
       ${rows.map((h, i) => {
         const sws = h.sws || {};
-        const cooled = !!h.recentlyTrimmedReason;
-        const cooledBadge = cooled
+        const trim = h.recentTrimInfo;
+        const trimBadge = trim
           ? `<span style="margin-left:6px; padding:2px 6px; background:rgba(168,85,247,0.15); color:#c4b5fd; border-radius:3px; font-size:10px; font-weight:700; letter-spacing:0.3px;">RECENTLY TRIMMED</span>`
           : "";
-        const cooledSubline = cooled
-          ? `<div style="margin-top:4px; font-size:11px; color:#c4b5fd; line-height:1.4;">${swsEscapeAttr(h.recentlyTrimmedReason)}${h.originalAction ? ` <span style="color:var(--text-muted);">(engine wanted ${swsEscapeAttr(h.originalAction)} — suppressed)</span>` : ""}</div>`
+        const trimSubline = trim
+          ? `<div style="margin-top:4px; font-size:11px; color:#c4b5fd; line-height:1.4;">Trimmed ${trim.source === "fresh" && trim.trimmedPct ? trim.trimmedPct + "% " : ""}${trim.daysAgo === 0 ? "today" : trim.daysAgo + "d ago"} — informational; today's signal still applies.</div>`
           : "";
         return `<div style="padding:8px 14px; border-top:${i > 0 ? '1px solid #1a2238' : 'none'}; display:flex; flex-direction:column; gap:0; cursor:pointer;" onclick="openStockDetailModal('${sws.ticker}','mf-overlap')">
           <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
             <div>
               <strong style="font-size:13px;">${sws.ticker}</strong>
-              ${cooledBadge}
+              ${trimBadge}
               <span style="font-size:11px; color:var(--text-muted); margin-left:8px;">${swsEscapeAttr(sws.name || "")} · ${swsEscapeAttr(sws.sector || "—")}</span>
             </div>
             <div style="display:flex; align-items:center; gap:10px; font-size:11px;">
@@ -5960,7 +5911,7 @@ function renderSWSTierC(tier) {
               <span style="color:${pctColor(h.pnlPercent)};">${h.pnlPercent != null ? (h.pnlPercent >= 0 ? "+" : "") + h.pnlPercent + "%" : "—"}</span>
             </div>
           </div>
-          ${cooledSubline}
+          ${trimSubline}
         </div>`;
       }).join("")}
     </div>

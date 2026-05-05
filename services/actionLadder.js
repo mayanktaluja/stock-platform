@@ -100,7 +100,7 @@ const LADDER_TO_LEGACY = {
 };
 
 export function isLadderV2Enabled() {
-  return process.env.SWS_LADDER_V2 === "1";
+  return process.env.SWS_LADDER_V2 !== "0";
 }
 
 /**
@@ -117,7 +117,7 @@ export function isLadderV2Enabled() {
  * both are on.
  */
 export function isLadderV3Enabled() {
-  return process.env.SWS_LADDER_V3 === "1";
+  return process.env.SWS_LADDER_V3 !== "0";
 }
 
 // ════════════════════════════════════════════════════════════════════════

@@ -174,17 +174,36 @@ function _positionGuardrail({ pnlPercent, sws_v3, sws_snow, fwdGrowth, positionW
   return null;
 }
 
-// Translate net layer delta + SWS action into v2 action.
-function _resolveAction({ swsAction, netDelta }) {
+// When SWS emits HOLD, escalation direction is decided by the SIGN of
+// per-layer consensus — not just netDelta magnitude. Three bearish layers
+// → Reduction-25-33%; three bullish → Top-up-modest. Mixed leans bullish
+// (matches retail bias toward adding under FV) and only fires Top-up if
+// netDelta is at least +2; otherwise stays HOLD. Returns null if not HOLD.
+function signedHoldEscalate({ swsAction, netDelta, layerVotes }) {
+  if (swsAction !== "HOLD" || !layerVotes) return null;
+  const signSum = Math.sign(layerVotes.crosscheck) +
+                  Math.sign(layerVotes.catalyst) +
+                  Math.sign(layerVotes.indianRisk);
+  if (netDelta <= -2 && signSum <= -2) return "Reduction-25-33%";
+  if (netDelta >= 2) return "Top-up-modest";
+  return null;
+}
+
+// Translate net layer delta + SWS action into v2 action. Bidirectional:
+// strong bearish consensus on a HOLD escalates to Reduction-25-33%; strong
+// bullish consensus escalates to Top-up-modest. For non-HOLD actions, the
+// escalation/softening uses the action's existing direction.
+function _resolveAction({ swsAction, netDelta, layerVotes }) {
   const bullish = _isBullishAction(swsAction);
   const bearish = _isBearishAction(swsAction);
+
+  const holdEscalation = signedHoldEscalate({ swsAction, netDelta, layerVotes });
+  if (holdEscalation) return holdEscalation;
+
   if (netDelta <= -2) {
     return _softenTowardHold(swsAction);
   }
   if (netDelta >= 2) {
-    if (swsAction === "HOLD") {
-      return "Top-up-modest";
-    }
     if (bullish && swsAction !== "STRONG Top-up") return _bumpToward(swsAction, "bullish");
     if (bearish && swsAction !== "EXIT") return _bumpToward(swsAction, "bearish");
   }
@@ -211,7 +230,7 @@ export function computeRecommendationV2({
   const conviction = _convictionBand(netDelta);
 
   // Step 1 — translate net delta into a layered action.
-  let action = _resolveAction({ swsAction: sws_action, netDelta });
+  let action = _resolveAction({ swsAction: sws_action, netDelta, layerVotes });
   let actionSource = action === sws_action ? "sws-confirmed" : "layer-adjusted";
   let guardrailReason = null;
 

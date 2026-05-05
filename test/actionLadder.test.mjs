@@ -33,13 +33,18 @@ import {
   LADDER_V2_TOPUP_ACTIONS,
 } from "../services/actionLadder.js";
 
-// promoteToLadderV2 is gated by SWS_LADDER_V2=1. The test sets the env
-// for the duration of its block and restores it after, so the rest of
-// the suite runs in default state.
+// promoteToLadderV2 is gated by SWS_LADDER_V2=1. The block below tests the
+// V2 categorical matrix specifically, so we force V3 OFF inside the wrapper
+// — V3 became default-on (2026-05-06) and otherwise takes precedence.
 const SAVED_FLAG = process.env.SWS_LADDER_V2;
+const SAVED_V3_PRE = process.env.SWS_LADDER_V3;
 function withFlagOn(fn) {
   process.env.SWS_LADDER_V2 = "1";
-  try { fn(); } finally { process.env.SWS_LADDER_V2 = SAVED_FLAG; }
+  process.env.SWS_LADDER_V3 = "0";
+  try { fn(); } finally {
+    process.env.SWS_LADDER_V2 = SAVED_FLAG;
+    process.env.SWS_LADDER_V3 = SAVED_V3_PRE;
+  }
 }
 
 let pass = 0;
@@ -295,12 +300,23 @@ console.log("\npickTopUpRung\n");
 
 console.log("\npromoteToLadderV2 (flag off)\n");
 {
-  const r = promoteToLadderV2({
-    legacyAction: "Reduction-50%", v3: 18, snow_total: 8,
-    position_weight: 18, sector_weight: 20, upside: -10, risks_count: 2,
-    surveillance: null, pnlPercent: -25,
-  });
-  assert("flag off → no-op promotion", r.action === "Reduction-50%" && r.ladderV2 === false, r);
+  // Both flags must be explicitly "0" to disable — V2 and V3 are default-on
+  // (2026-05-06). Force off here so the no-op assertion still holds.
+  const SAVED_V2 = process.env.SWS_LADDER_V2;
+  const SAVED_V3 = process.env.SWS_LADDER_V3;
+  process.env.SWS_LADDER_V2 = "0";
+  process.env.SWS_LADDER_V3 = "0";
+  try {
+    const r = promoteToLadderV2({
+      legacyAction: "Reduction-50%", v3: 18, snow_total: 8,
+      position_weight: 18, sector_weight: 20, upside: -10, risks_count: 2,
+      surveillance: null, pnlPercent: -25,
+    });
+    assert("flag off → no-op promotion", r.action === "Reduction-50%" && r.ladderV2 === false, r);
+  } finally {
+    process.env.SWS_LADDER_V2 = SAVED_V2;
+    process.env.SWS_LADDER_V3 = SAVED_V3;
+  }
 }
 
 console.log("\npromoteToLadderV2 (flag on)\n");
