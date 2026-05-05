@@ -248,6 +248,21 @@ export function verdictV3FromScore(score) {
   return "AVOID";
 }
 
+// PR 2.3 — `valuation_band` is a SEPARATE signal from the composite-score
+// verdict. Composite (TOP_PICK/STRONG/…) describes overall multi-factor
+// quality; `valuation_band` describes price vs AnalystConsensus FV ONLY.
+// Surfacing both prevents the contradiction users complained about
+// (HEROMOTOCO showing `verdict=OVERVALUED` and `v3_verdict=TOP_PICK` under a
+// single "Verdict" UI label).
+export function valuationBandFromUpside(upside) {
+  if (upside == null || !Number.isFinite(upside)) return null;
+  if (upside >= 25) return "DEEP_DISCOUNT";
+  if (upside >= 10) return "DISCOUNT";
+  if (upside >= -5) return "FAIR";
+  if (upside >= -20) return "PREMIUM";
+  return "EXPENSIVE";
+}
+
 // v3-aware categorisation — mirror of scripts/sws-scoring.mjs::categoriseStock.
 // Gates use stock.v3_verdict and snowflake pillars instead of v1's verdict
 // labels and the forward-earnings-growth field, which is null for ~98% of
@@ -279,8 +294,23 @@ export function categoriseStock(stock) {
   if (["TOP_PICK", "STRONG"].includes(v3Verdict) && healthSnow >= 5 && futureSnow >= 4) cats.push("quality_growth");
   const positiveMomentum = (ret1y != null && ret1y > 0) || (ret3m != null && ret3m > 5);
   if (["TOP_PICK", "STRONG", "ACCEPTABLE"].includes(v3Verdict) && positiveMomentum && hasUpside && upside >= 15 && futureSnow >= 3) cats.push("midterm");
-  if (divSnow >= 5 && divPayout < 70 && divYield >= 1.5) cats.push("dividend_aristocrats");
-  if (mcap > 0 && mcap < 5e11 && snowTotal >= 22 && hasUpside && upside >= 15) cats.push("smallcap_gems");
+  // PR 2.6 — dividend list now requires a value floor. Without it the section
+  // surfaced OVERVALUED + negative-upside names (NATIONALUM −5.9%, etc.) just
+  // because their dividend snowflake was strong. The value gate (upside ≥ 0
+  // OR valuation snowflake ≥ 4) keeps the list anchored to "good payers AND
+  // not crazy expensive".
+  if (
+    divSnow >= 5 &&
+    divPayout < 70 &&
+    divYield >= 1.5 &&
+    (upside >= 0 || valSnow >= 4)
+  ) {
+    cats.push("dividend_aristocrats");
+  }
+  // True smallcap gate — 1.5e11 (₹15,000 cr) aligns with NSE smallcap (rank
+  // 251+). The earlier 5e11 (₹50,000 cr) threshold mislabelled mid-caps as
+  // smallcap, which contradicted the section header.
+  if (mcap > 0 && mcap < 1.5e11 && snowTotal >= 22 && hasUpside && upside >= 15) cats.push("smallcap_gems");
   if (insiderBuys >= 1) cats.push("insider_buying");
   if (nextEarnings) {
     const days = Math.ceil((new Date(nextEarnings + "T00:00:00Z") - new Date()) / 86400000);
@@ -345,6 +375,13 @@ export function pickCardFields(stock) {
     v3_breakdown: stock.v3_breakdown,
     v3_verdict: stock.v3_verdict,
     verdict: stock.verdict,
+    // PR 2.3 — explicitly named aliases. UI prefers these over the legacy
+    // `verdict` / `v3_verdict` fields so the two signals can never be
+    // collapsed into a single ambiguous badge:
+    //   composite_verdict: multi-factor quality (TOP_PICK / STRONG / …)
+    //   valuation_band:    price vs AnalystConsensus FV (DISCOUNT / FAIR / …)
+    composite_verdict: stock.v3_verdict,
+    valuation_band: valuationBandFromUpside(ov.upside_pct),
     snowflake_total: ov.snowflake_total,
     snowflake: ov.snowflake,
     current_price_inr: ov.current_price_inr,
@@ -359,7 +396,18 @@ export function pickCardFields(stock) {
 }
 
 export function buildLeaderboard(scoredStocks) {
-  const ordered = [...scoredStocks].sort((a, b) => (b.composite_score_100 || 0) - (a.composite_score_100 || 0));
+  // PR 2.5 — single canonical v3 sort (was previously: v1 composite for the
+  // base list, v2 re-sort for top_ranked_30, v3 verdict for category gates —
+  // three score versions across one function). Every section now reads from
+  // `ordered`, which is v3-descending; top_ranked_30 slices from the same
+  // list instead of building its own v2 sort.
+  //
+  // PR 2.7 — drop pure-numeric BSE codes (e.g. "538992") at the universe
+  // boundary so they never appear in any section.
+  const isPureBSEcode = (t) => typeof t === "string" && /^\d+$/.test(t);
+  const ordered = [...scoredStocks]
+    .filter((s) => !isPureBSEcode(s.ticker))
+    .sort((a, b) => (b.v3_score_100 || 0) - (a.v3_score_100 || 0));
 
   const bestToBuy = ordered
     .filter((s) => (s.overview?.risks?.length ?? 0) === 0 && (s.overview?.snowflake_total ?? 0) >= 18)
@@ -380,8 +428,7 @@ export function buildLeaderboard(scoredStocks) {
     });
 
   const MIN_MCAP_INR = 5_000_000_000;
-  const orderedV2 = [...scoredStocks].sort((a, b) => (b.v2_score_100 || 0) - (a.v2_score_100 || 0));
-  const top30 = orderedV2
+  const top30 = ordered
     .filter((s) => {
       const mcap = num(s.overview?.market_cap_inr, 0);
       if (mcap < MIN_MCAP_INR) return false;

@@ -139,10 +139,24 @@ function classifyBasket(rec) {
   const snow = rec.snowflake;
   if (!snow) return null;
   const beta = num(rec.beta, null);
-  const upside = num(rec.upside_pct, 0);
+  const upsideRaw = rec.upside_pct;
+  const hasUpside = upsideRaw != null && Number.isFinite(upsideRaw);
+  const upside = num(upsideRaw, 0);
   const v3Verdict = rec.v3_verdict || rec.verdict;
   const v3Score = num(rec.v3_score, 0);
   const risksFlag = rec.v2_breakdown?.risks_flag === true;
+
+  // PR 2.4 — fresh-pick basket gate: require upside ≥ 5% to FV. Holdings
+  // (source: holding) keep flowing through their per-stock action ladder,
+  // which already enforces upside floors per rung; fresh picks bypass that
+  // ladder, so the gate is applied here. Without this, the analyzer was
+  // surfacing BSOFT (-17.5%), NAVNETEDUL (-19.2%), NATIONALUM (-5.9%) as
+  // "fresh top-up" suggestions despite the engine itself saying they're
+  // already above fair value.
+  const isFresh = rec.source === "fresh";
+  if (isFresh && (!hasUpside || upside < 5)) {
+    return { defensive: false, growth: false };
+  }
 
   const passesDefensive =
     snow.financial_health >= 4 &&

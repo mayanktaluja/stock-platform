@@ -2057,7 +2057,34 @@ function renderMacroBanner(regime) {
   const banner = document.getElementById("macroRegimeBanner");
   if (!banner) return;
 
-  if (!regime || (regime.regime === "CALM" && regime.severity <= 1)) {
+  // Degraded-classifier check runs FIRST. When the OpenAI quota is exceeded
+  // (or the news fetch is broken), the regime API returns a synthetic CALM
+  // with confidence=0 / headlineCount=0 plus an error string in `reasoning`.
+  // The old early-return below would treat that as a no-op and silently
+  // serve picks with macroBoost=0 — i.e., the user couldn't tell the macro
+  // tilt was off. Surface a yellow degraded banner instead.
+  const reasoning = String(regime?.reasoning || "");
+  const degraded = !regime
+    || regime.confidence === 0
+    || regime.headlineCount === 0
+    || /classifier error|quota|429|fetch failed|unavailable/i.test(reasoning);
+  if (degraded) {
+    const headlines = regime?.headlineCount ?? 0;
+    const stalenessMs = regime?.staleness ?? null;
+    const staleHours = stalenessMs != null ? Math.round(stalenessMs / 3600000) : null;
+    banner.className = "macro-banner severity-degraded";
+    banner.innerHTML = `
+      <div class="macro-banner-header">
+        <div class="macro-banner-title">&#9888; Macro classifier degraded</div>
+        <div class="macro-banner-meta">Headlines: ${headlines} &middot; Confidence: 0%${staleHours != null ? ` &middot; Last update ${staleHours}h ago` : ""}</div>
+      </div>
+      <div class="macro-banner-reasoning">${escapeHtml(reasoning || "Macro feed unavailable.")} Picks below are running without macro tilt &mdash; treat sector recommendations as best-effort until the classifier recovers.</div>
+    `;
+    banner.style.display = "block";
+    return;
+  }
+
+  if (regime.regime === "CALM" && regime.severity <= 1) {
     banner.style.display = "none";
     return;
   }
@@ -9427,7 +9454,7 @@ const PICKS_SECTIONS = [
   { key: "quality_growth", term_id: "section_quality_growth", emoji: "🌱", label: "🌱 Quality Growth", chip_label: "Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
   { key: "midterm", term_id: "section_midterm", emoji: "⚡", label: "⚡ Midterm Picks (3-12 months)", chip_label: "Midterm", subtitle: "Trend-following — momentum already on side, with FV upside ≥ 15% remaining." },
   { key: "dividend_aristocrats", term_id: "section_dividend_aristocrats", emoji: "💰", label: "💰 Dividend Aristocrats", chip_label: "Dividend", subtitle: "Sustainable payers: Dividend pillar ≥ 5, payout < 70%, yield ≥ 1.5%." },
-  { key: "smallcap_gems", term_id: "section_smallcap_gems", emoji: "🔍", label: "🔍 Smallcap/Midcap Hidden Gems", chip_label: "Smallcap Gems", subtitle: "Smaller-cap quality: mcap < ₹50,000cr + Snowflake ≥ 22 + upside ≥ 15%." },
+  { key: "smallcap_gems", term_id: "section_smallcap_gems", emoji: "🔍", label: "🔍 Smallcap Hidden Gems", chip_label: "Smallcap Gems", subtitle: "True smallcap quality: mcap < ₹15,000cr (NSE rank 251+) + Snowflake ≥ 22 + upside ≥ 15%." },
   { key: "insider_buying", term_id: "section_insider_buying", emoji: "👁", label: "👁 Insider Buying", chip_label: "Insider", subtitle: "Material insider / MD buys in last 90 days. Data field not yet captured." },
   { key: "upcoming_earnings", term_id: "section_upcoming_earnings", emoji: "📅", label: "📅 Upcoming Earnings (next 30 days)", chip_label: "Earnings", subtitle: "Catalyst calendar — sorted by results date. Avoid initiating right before; useful pre-results setups for holdings." },
   { key: "avoid", term_id: "section_avoid", emoji: "⚠", label: "⚠ Avoid List", chip_label: "Avoid", subtitle: "v3 AVOID — cross-check against your portfolio every refresh." },
@@ -9958,15 +9985,26 @@ function renderPickCard(s, sectionKey, rank = null) {
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
   const scoreColor = pickScoreColor(headlineRaw);
   const scoreTermId = s.v3_score_100 != null ? "v3_composite_score" : "combined_score";
-  // Prefer v3_verdict (TOP_PICK/STRONG/ACCEPTABLE/WATCH/AVOID) when v3 is the
-  // headline score; fall back to v1's verdict labels for stocks scored only
-  // under v1/v2.
-  const verdict = (s.v3_score_100 != null ? s.v3_verdict : s.verdict) || "—";
+  // Composite verdict (multi-factor quality band): TOP_PICK/STRONG/ACCEPTABLE/WATCH/AVOID
+  // when v3 is the headline; legacy v1 labels otherwise.
+  const verdict = (s.v3_score_100 != null ? (s.composite_verdict || s.v3_verdict) : s.verdict) || "—";
   const verdictColor = {
     TOP_PICK: "var(--gold)", STRONG: "var(--green)", ACCEPTABLE: "var(--cyan)", WATCH: "var(--text-muted)", AVOID: "var(--red)",
     DEEP_VALUE: "var(--gold)", QUALITY_GROWTH: "var(--green)", FAIR_VALUE: "var(--cyan)", FULLY_VALUED: "var(--text-muted)", OVERVALUED: "var(--red)",
   }[verdict] || "var(--text-muted)";
   const verdictTermId = verdictIdFromLabel(verdict);
+  // PR 2.3 — valuation_band is a SEPARATE signal (price vs AnalystConsensus FV).
+  // Show it as a small chip next to the upside %, so a user can see at a glance
+  // that e.g. v3=70 TOP_PICK + valuation PREMIUM ≠ "buy without thinking".
+  const valBand = s.valuation_band || null;
+  const valBandLabel = valBand ? valBand.replace(/_/g, " ") : "";
+  const valBandColor = {
+    DEEP_DISCOUNT: "var(--gold)", DISCOUNT: "var(--green)", FAIR: "var(--cyan)",
+    PREMIUM: "var(--text-muted)", EXPENSIVE: "var(--red)",
+  }[valBand] || "var(--text-muted)";
+  const valBandChip = valBand
+    ? `<span class="sws-pick-valband-chip" style="color:${valBandColor};border-color:${valBandColor};" title="Price vs AnalystConsensus fair value">${valBandLabel}</span>`
+    : "";
   const surv = s.v2_breakdown?.surveillance;
   // Surveillance badge — when a flag is present, hook it to the glossary.
   // Native title is preserved as a fallback for keyboard-only users; the
@@ -10015,7 +10053,7 @@ function renderPickCard(s, sectionKey, rank = null) {
       <div class="sws-pick-card-stats">
         <div class="sws-pick-stat"><span class="sws-pick-stat-label">Px</span> ${fmtInr(s.current_price_inr)}</div>
         <div class="sws-pick-stat"><span class="sws-pick-stat-label">FV${infoIcon("analyst_fair_value")}</span> ${fmtInr(s.fair_value_inr)}</div>
-        <div class="sws-pick-stat" style="color:${upsideColor};">${upside}${infoIcon("upside_pct")}</div>
+        <div class="sws-pick-stat" style="color:${upsideColor};">${upside}${infoIcon("upside_pct")}${valBandChip ? " " + valBandChip : ""}</div>
         <div class="sws-pick-stat sws-pick-stat-snow"><span class="sws-pick-stat-label">Snow${infoIcon("snowflake_score")}</span> ${sn}/30</div>
       </div>
       <div class="sws-pick-card-narrative">${(s.narrative && s.narrative.card_one_line) || s.one_line || ""}</div>
@@ -10142,7 +10180,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 function renderSwsModal(data) {
-  const { ticker, deep, card, surveillance, file_mtime } = data;
+  const { ticker, deep, card, surveillance, file_mtime, section_memberships } = data;
   const ov = (deep && deep.overview) || {};
   const card_ = card || {};
   const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)}t` : v >= 1e9 ? `₹${(v / 1e9).toFixed(1)}b` : v >= 1e7 ? `₹${(v / 1e7).toFixed(0)}cr` : `₹${v.toLocaleString("en-IN")}`;
@@ -10151,11 +10189,24 @@ function renderSwsModal(data) {
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
   const scoreColor = pickScoreColor(headlineRaw);
   const scoreLabel = card_.v3_score_100 != null ? "v3" : (card_.v2_score != null ? "v2" : "score");
-  const verdict = (card_.v3_score_100 != null ? card_.v3_verdict : card_.verdict) || "—";
+  // Composite verdict (multi-factor quality band) — TOP_PICK / STRONG / …
+  const verdict = (card_.v3_score_100 != null ? (card_.composite_verdict || card_.v3_verdict) : card_.verdict) || "—";
   const verdictColor = {
     TOP_PICK: "var(--gold)", STRONG: "var(--green)", ACCEPTABLE: "var(--cyan)", WATCH: "var(--text-muted)", AVOID: "var(--red)",
     DEEP_VALUE: "var(--gold)", QUALITY_GROWTH: "var(--green)", FAIR_VALUE: "var(--cyan)", FULLY_VALUED: "var(--text-muted)", OVERVALUED: "var(--red)",
   }[verdict] || "var(--text-muted)";
+  // PR 2.3 — valuation_band is a SEPARATE signal (price vs AnalystConsensus FV).
+  // Surfaces alongside (NEVER instead of) the composite verdict so users can
+  // see, e.g., a TOP_PICK that's currently EXPENSIVE.
+  const valBand = card_.valuation_band || null;
+  const valBandLabel = valBand ? valBand.replace(/_/g, " ") : "";
+  const valBandColor = {
+    DEEP_DISCOUNT: "var(--gold)", DISCOUNT: "var(--green)", FAIR: "var(--cyan)",
+    PREMIUM: "var(--text-muted)", EXPENSIVE: "var(--red)",
+  }[valBand] || "var(--text-muted)";
+  const valBandPill = valBand
+    ? `<div class="sws-modal-valband-pill" style="color:${valBandColor};border-color:${valBandColor};" title="Price vs AnalystConsensus fair value">${valBandLabel}</div>`
+    : "";
   const survBadge = surveillance ? `<span class="sws-surveillance-badge" title="NSE ${surveillance.list} surveillance flag (${surveillance.timeframe || "—"})">${surveillance.list}</span>` : "";
   const fresh = pickFreshnessPill(deep && deep.parsed_at);
   const sn = ov.snowflake || {};
@@ -10331,6 +10382,41 @@ function renderSwsModal(data) {
       <div style="font-size:11px;color:var(--text-muted);">Loading live engine…</div>
     </div>`;
 
+  // PR 2.11 — section-membership banner. Uses the same labels/emojis defined
+  // in PICKS_SECTIONS so chip-nav and modal stay in lockstep. `avoid` and
+  // `upcoming_earnings` are informational rather than buy-list signals — we
+  // surface them only when they're the SOLE membership, otherwise users would
+  // see e.g. "💎 Deep Value · ⚠ Avoid" which is incoherent (the avoid filter
+  // captures different stocks than deep_value, but a stock in both makes the
+  // page nervous; it'll be clearer once 2.8/2.9 land separately).
+  const INFORMATIONAL_KEYS = new Set(["avoid", "upcoming_earnings"]);
+  const sectionLabelByKey = (() => {
+    const m = {};
+    if (Array.isArray(PICKS_SECTIONS)) {
+      for (const s of PICKS_SECTIONS) m[s.key] = { label: s.chip_label, emoji: s.emoji };
+      // top_ranked_30_v3 is the API key; PICKS_SECTIONS uses the same key.
+      if (m.top_ranked_30_v3) m.top_ranked_30 = m.top_ranked_30_v3;
+    }
+    return m;
+  })();
+  const memberships = Array.isArray(section_memberships) ? section_memberships : [];
+  const buyListMemberships = memberships.filter((k) => !INFORMATIONAL_KEYS.has(k));
+  const sectionsBannerHtml = (() => {
+    if (memberships.length === 0) return "";
+    const keysToRender = buyListMemberships.length ? buyListMemberships : memberships;
+    const chips = keysToRender.map((key) => {
+      const meta = sectionLabelByKey[key];
+      const display = meta ? `${meta.emoji} ${meta.label}` : key;
+      return `<span class="sws-modal-section-chip">${escapeHtml(display)}</span>`;
+    }).join("");
+    if (!chips) return "";
+    return `
+      <div class="sws-modal-sections-banner" role="note" aria-label="Picks-section membership">
+        <span class="label">In sections:</span>
+        <span class="sws-modal-section-chips">${chips}</span>
+      </div>`;
+  })();
+
   return `
     <div class="sws-modal-hero">
       <div style="flex:1;min-width:0;">
@@ -10347,8 +10433,11 @@ function renderSwsModal(data) {
       <div class="sws-modal-score">
         <div class="score-value" style="color:${scoreColor};">${score}</div>
         <div class="score-label" style="color:${verdictColor};">${verdict.replace(/_/g, " ")}</div>
+        ${valBandPill}
       </div>
     </div>
+
+    ${sectionsBannerHtml}
 
     ${barsHtml ? `
     <div class="sws-modal-section">

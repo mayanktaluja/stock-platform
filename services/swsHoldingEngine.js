@@ -251,6 +251,14 @@ function scoreBandAction({ v3, snow, upside, position_weight, sector_weight, ris
 
   if (v3 < 40) return { action: "HOLD", band: "ACCEPTABLE" };
 
+  // PR 2.4 — every Top-up rung now requires a positive upside-to-AnalystFV.
+  // Previously the STRONG and TOP_PICK Top-up-modest paths fell through with
+  // no upside floor, so we'd recommend doubling down on already-overvalued
+  // names (SUZLON Top-up-100% on +15.6% upside but verdict OVERVALUED;
+  // HDFCBANK Top-up-25% on +13.4% upside; BSOFT/NAVNETEDUL fresh top-up at
+  // negative upside). When a Top-up rung's upside floor isn't met we fall
+  // through to HOLD instead of a different rung — never push capital into a
+  // position whose price is at or above estimated fair value.
   if (v3 < 50) {
     if (position_weight <= 8 && sector_weight <= 25 && upside >= 5) {
       return { action: "Top-up-modest", band: "ACCEPTABLE-PLUS" };
@@ -262,16 +270,22 @@ function scoreBandAction({ v3, snow, upside, position_weight, sector_weight, ris
     if (upside >= 15 && risks_count === 0 && position_weight <= 6) {
       return { action: "Top-up", band: "STRONG" };
     }
-    if (position_weight <= 8 && sector_weight <= 25) {
+    if (position_weight <= 8 && sector_weight <= 25 && upside >= 5) {
       return { action: "Top-up-modest", band: "STRONG" };
     }
     return { action: "HOLD", band: "STRONG" };
   }
 
-  if (position_weight <= 5 && sector_weight <= 20 && upside >= 10) {
+  // v3 ≥ 65 (TOP_PICK band) — STRONG Top-up tightened from upside ≥ 10 to
+  // ≥ 15 so the most aggressive rung (Top-up-100% via ladder-v2) only fires
+  // on a clear discount.
+  if (position_weight <= 5 && sector_weight <= 20 && upside >= 15) {
     return { action: "STRONG Top-up", band: "TOP_PICK" };
   }
-  return { action: "Top-up-modest", band: "TOP_PICK" };
+  if (upside >= 5) {
+    return { action: "Top-up-modest", band: "TOP_PICK" };
+  }
+  return { action: "HOLD", band: "TOP_PICK" };
 }
 
 function buildSWSReasons({ scored, snow, fiscal, action, band, reconciled }) {
@@ -442,6 +456,10 @@ export function scoreHolding(holding, portfolioContext = {}) {
           positionWeight: num(holding.positionWeight, 0),
           sectorWeight: num(portfolioContext.sectorWeights?.[scored.sector] ?? holding.sectorWeight, 0),
           pnlPercent: num(holding.pnlPercent, 0),
+          // Pass the scored snowflake total so the position guardrail can
+          // require structural weakness alongside drawdown before forcing EXIT
+          // (PR 2.1 — replaces the unconditional pnl<-40 → EXIT rule).
+          snowflake_total: snow?.total ?? null,
         },
         fiscal,
       });

@@ -267,6 +267,15 @@ export function buildIntake(raw) {
   if (!raw || typeof raw !== "object") {
     return { ok: false, error: "No intake answers provided.", missing: ["all"] };
   }
+  // Tolerant input: GET /api/portfolio/intake advertises the 3 risk-profile
+  // questions inside a `_riskProfile` subform, so a client posting the
+  // documented shape sends them nested. Accept either the flat shape (the
+  // canonical one used by the existing UI) or the nested `_riskProfile` /
+  // `riskProfile` envelope. Flat keys win when both are present.
+  const rpEnvelope = (raw._riskProfile && typeof raw._riskProfile === "object")
+    ? raw._riskProfile
+    : (raw.riskProfile && typeof raw.riskProfile === "object" ? raw.riskProfile : null);
+
   const missing = [];
   const fresh = Number(raw.freshCapitalInr);
   if (!Number.isFinite(fresh) || fresh < 0) missing.push("freshCapitalInr");
@@ -278,9 +287,9 @@ export function buildIntake(raw) {
   // Risk profile — score using the existing 3-question helper. Returns
   // null when any of the 3 sub-questions is missing.
   const rpAnswers = {
-    horizon: raw.horizon,
-    loss_tolerance: raw.loss_tolerance,
-    age_bracket: raw.age_bracket,
+    horizon: raw.horizon ?? rpEnvelope?.horizon,
+    loss_tolerance: raw.loss_tolerance ?? rpEnvelope?.loss_tolerance,
+    age_bracket: raw.age_bracket ?? rpEnvelope?.age_bracket,
   };
   const scored = scoreRiskProfile(rpAnswers);
   if (!scored) {
