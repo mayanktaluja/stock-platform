@@ -14,6 +14,138 @@ try {
 export const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 export const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinite(v) ? v : fallback);
 
+// Schema/scoring versions emitted in picks-latest.json so external readers
+// (UI, audit consumers, partner dashboards) can detect a model migration.
+// Bump PICKS_SCHEMA_VERSION on a breaking field rename; bump
+// PICKS_SCORING_VERSION when the scoring math changes (weights, gates,
+// imputation rules).
+export const PICKS_SCHEMA_VERSION = "picks-latest-v2";
+export const PICKS_SCORING_VERSION = "sws-v3-100pt-2026-05";
+
+// 13 input fields the scoring engine looks at. Track which were populated
+// so we can flag thin-coverage names rather than silently scoring missing
+// inputs as zero (which biases the composite toward the 40-50 band).
+const _COMPLETENESS_FIELDS = 13;
+export function dataCompletenessPct(stock) {
+  const ov = stock.overview || {};
+  const sn = ov.snowflake || {};
+  const r = ov.returns_pct || {};
+  const isFin = (v) => typeof v === "number" && Number.isFinite(v);
+  const populated = [
+    isFin(sn.financial_health ?? sn.health),
+    isFin(sn.future ?? sn.future_growth),
+    isFin(sn.valuation ?? sn.value),
+    isFin(sn.past ?? sn.past_performance),
+    isFin(sn.dividends ?? sn.dividend),
+    isFin(ov.upside_pct),
+    isFin(r["1Y"]),
+    isFin(r["3M"]),
+    isFin(r["1M"]),
+    isFin(ov.net_margin_pct),
+    isFin(ov.multiples?.pe),
+    isFin(ov.dividend?.yield_pct),
+    isFin(ov.market_cap_inr),
+  ].filter(Boolean).length;
+  return Math.round((populated / _COMPLETENESS_FIELDS) * 100);
+}
+
+// Lite counter-thesis emitter for the static picks file. The full conviction
+// engine (services/swsCounterThesis.js) needs holding-level layer outputs we
+// don't compute in the universe scan; this builder works with the inputs the
+// picks pipeline already has — overview, snowflake, v3 breakdown.
+//
+// Always emit something — silence is a worse compliance posture than a
+// generic note. SEBI-style analyst convention: name 2-4 specific opposing
+// signals + 2-4 observable falsification triggers.
+export function buildPickCounterThesis(stock) {
+  const ov = stock.overview || {};
+  const sn = ov.snowflake || {};
+  const v3 = stock.v3_breakdown || {};
+  const verdict = stock.v3_verdict || "WATCH";
+  const isBull = verdict === "TOP_PICK" || verdict === "STRONG";
+  const isBear = verdict === "AVOID";
+
+  const opposing = [];
+  if (isBull) {
+    const risksCount = (ov.risks || []).length;
+    if (risksCount >= 4) opposing.push(`${risksCount} flagged risks in SWS profile`);
+    if (v3.surveillance) opposing.push(`stock is on NSE ${v3.surveillance.list} surveillance`);
+    if (v3.fv_imputed) opposing.push(`fair-value upside imputed (no SWS analyst FV) — score may overstate price-vs-FV cushion`);
+    const valSnow = num(sn.valuation ?? sn.value, 6);
+    if (valSnow <= 2) opposing.push(`valuation pillar weak (${valSnow}/6) despite overall ${verdict}`);
+    if (num(ov.upside_pct, 0) < 0) opposing.push(`current price already above SWS analyst FV (${num(ov.upside_pct, 0).toFixed(1)}%)`);
+    const ret1m = num((ov.returns_pct || {})["1M"], null);
+    if (ret1m != null && ret1m > 25) opposing.push(`+${ret1m.toFixed(1)}% in 1M — momentum chase risk`);
+    if (ov.next_earnings_date) {
+      const days = Math.ceil((new Date(ov.next_earnings_date + "T00:00:00Z") - new Date()) / 86400000);
+      if (days >= 0 && days <= 14) opposing.push(`earnings in ${days}d — binary event`);
+    }
+  } else if (isBear) {
+    if (num(ov.snowflake_total, 0) >= 18) opposing.push(`snowflake ${ov.snowflake_total}/30 still solid despite AVOID verdict`);
+    if (num(ov.upside_pct, 0) >= 30) opposing.push(`+${num(ov.upside_pct, 0).toFixed(1)}% to SWS FV — discount may price the negatives in`);
+    const insiderBuys = (ov.insider_activity || []).filter((x) => x?.direction === "buy").length;
+    if (insiderBuys >= 1) opposing.push(`${insiderBuys} insider buy(s) on file`);
+    if ((ov.recent_analyst_revisions || []).some((r) => r.direction === "increased")) opposing.push(`recent analyst PT raise — broker view diverges`);
+    const ret1y = num((ov.returns_pct || {})["1Y"], null);
+    if (ret1y != null && ret1y > 20) opposing.push(`+${ret1y.toFixed(1)}% over 1Y — trend is up despite verdict`);
+  } else {
+    if (num(ov.snowflake_total, 0) >= 22) opposing.push(`snowflake ${ov.snowflake_total}/30 above ACCEPTABLE cut`);
+    if ((ov.risks || []).length >= 4) opposing.push(`${(ov.risks || []).length} flagged risks weigh against any optimistic read`);
+  }
+
+  const text = opposing.length === 0
+    ? `No strong opposing signal in the layer outputs — single-source view; verify thesis independently before acting.`
+    : opposing.join("; ") + ".";
+
+  const triggers = [];
+  if (isBull) {
+    triggers.push("next quarterly result misses estimates");
+    triggers.push("a new India-risk overlay materialises (ASM/GSM, promoter pledge spike)");
+    if (num(ov.upside_pct, 0) > 20) triggers.push(`upside vs SWS FV compresses below 5% (currently ${num(ov.upside_pct, 0).toFixed(1)}%)`);
+    else triggers.push("snowflake total drops by ≥ 4 points on next refresh");
+  } else if (isBear) {
+    triggers.push("next quarterly result beats consensus by ≥ 10%");
+    triggers.push("a new analyst PT is raised by ≥ 15%");
+    if (v3.surveillance) triggers.push(`NSE removes the ${v3.surveillance.list} surveillance flag`);
+    else triggers.push("snowflake total rebounds above 22 on next refresh");
+  } else {
+    triggers.push("a material catalyst lands in the next 30 days (PT raise / beat / surveillance change)");
+    triggers.push("v3 score moves into TOP_PICK (≥60) or AVOID (<22) on next refresh");
+  }
+
+  return {
+    verdict_bias: isBull ? "bullish" : isBear ? "bearish" : "neutral",
+    text,
+    falsification_trigger: triggers,
+  };
+}
+
+// Slim per-pick audit blob. Captures the inputs that drove the score so a
+// compliance-style review can reconstruct the verdict from the static file
+// without hitting the live API. Adds ~250 bytes per pick.
+export function buildPickAuditTrail(stock) {
+  const ov = stock.overview || {};
+  const r = ov.returns_pct || {};
+  return {
+    scoring_version: PICKS_SCORING_VERSION,
+    inputs_used: {
+      snowflake_total: ov.snowflake_total ?? null,
+      upside_pct: ov.upside_pct ?? null,
+      returns_1y: r["1Y"] ?? null,
+      returns_3m: r["3M"] ?? null,
+      returns_1m: r["1M"] ?? null,
+      risks_count: (ov.risks || []).length,
+      surveillance: stock.v2_breakdown?.surveillance || null,
+      market_cap_inr: ov.market_cap_inr ?? null,
+    },
+    imputations: {
+      fv_imputed: stock.v3_breakdown?.fv_imputed || false,
+      momentum_imputed: stock.v3_breakdown?.momentum_imputed || false,
+    },
+    categories_assigned: stock.categories || [],
+  };
+}
+
 // Insider counter mirrors scripts/sws-scoring.mjs production behavior so the
 // portfolio analyzer and the picks-latest scorer stay numerically identical.
 export function _countInsiderBuys(stock) {
@@ -392,6 +524,14 @@ export function pickCardFields(stock) {
     last_quarter_result: ov.last_quarter_result,
     one_line: shortReason(stock),
     data_freshness_at: stock.parsed_at || null,
+    // % of 13 input fields the scorer had to work with. UI flags <60 as
+    // "thin coverage" so missing inputs don't get silently scored as zero.
+    data_completeness_pct: dataCompletenessPct(stock),
+    // Balanced rationale — the case against the call + observable events
+    // that would reverse it. Always emitted (never null).
+    counter_thesis: buildPickCounterThesis(stock),
+    // Per-pick audit blob — slim, self-contained, ~250 bytes.
+    audit_trail: buildPickAuditTrail(stock),
   };
 }
 

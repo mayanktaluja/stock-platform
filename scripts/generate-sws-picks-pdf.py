@@ -181,7 +181,7 @@ def cover_page(picks):
     ))
     items.append(Spacer(1, 24))
     items.append(Paragraph(
-        "<b>Disclaimer</b> — Research material for personal use of a SEBI-registered analyst. Not personalised investment "
+        "<b>Disclaimer</b> — Educational research material for personal use. Not personalised investment "
         "advice. Past performance is not indicative of future results. Verify all data on the issuer's exchange filings "
         "before any trade. The Simply Wall Street snowflake and analyst price targets are third-party model outputs; "
         "they reflect SWS's view at the moment of capture, not absolute truth.",
