@@ -15,13 +15,10 @@
  * headlines, caller owns caching.
  */
 
-import OpenAI from "openai";
+import Anthropic from "@anthropic-ai/sdk";
 import { checkBudget, recordUsage } from "./openaiBudget.js";
 
-// Model used for regime classification. Matches the Poker Hand Reviewer
-// tool so a single OPENAI_API_KEY works for both projects. Override via the
-// MACRO_MODEL env var if you want to run a different OpenAI model.
-const MACRO_MODEL = process.env.MACRO_MODEL || "gpt-5.4";
+const MACRO_MODEL = process.env.MACRO_MODEL || "claude-haiku-4-5-20251001";
 
 // ──────────────────── Enums ────────────────────
 
@@ -241,25 +238,18 @@ export function defaultCalmRegime() {
 
 // ──────────────────── LLM client (lazy) ────────────────────
 
-let _openai = null;
-function getOpenAI() {
-  if (_openai) return _openai;
-  if (!process.env.OPENAI_API_KEY) return null;
-  _openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  return _openai;
+let _anthropic = null;
+function getAnthropic() {
+  if (_anthropic) return _anthropic;
+  if (!process.env.ANTHROPIC_API_KEY) return null;
+  _anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  return _anthropic;
 }
 
 /**
- * Retry wrapper for OpenAI calls. Handles transient failures like 429
+ * Retry wrapper for LLM calls. Handles transient failures like 429
  * (rate-limit), 500, 502, 503, and network errors with exponential backoff.
  * Returns the successful result or re-throws the last error after 3 attempts.
- *
- * Why this matters for prediction quality: without retry, a single OpenAI
- * incident (429 during peak hours, brief 503 from their infra) causes
- * classifyRegime and classifyBatchWithLLM to silently return fallback CALM
- * regimes and neutral sentiment. With retry, we absorb short outages and
- * preserve the real classification.
- *
  * Delays: 1s, 4s, 15s (enough to ride out most brief spikes).
  */
 export async function withOpenAIRetry(fn, { label = "openai", maxAttempts = 3 } = {}) {
@@ -300,9 +290,9 @@ export async function classifyRegime(headlines) {
     return { ...defaultCalmRegime(), reasoning: "No headlines provided." };
   }
 
-  const client = getOpenAI();
+  const client = getAnthropic();
   if (!client) {
-    return { ...defaultCalmRegime(), reasoning: "LLM unavailable (no OPENAI_API_KEY)." };
+    return { ...defaultCalmRegime(), reasoning: "LLM unavailable (no ANTHROPIC_API_KEY)." };
   }
 
   // Cap headlines to stay under token budget — keep the 40 most recent.
@@ -316,31 +306,29 @@ export async function classifyRegime(headlines) {
   // without regime tilt until next month.
   const budget = checkBudget();
   if (!budget.allowed) {
-    console.warn(`[MACRO] Monthly OpenAI cap hit ($${budget.spent.toFixed(2)} / $${budget.cap}). Falling back to CALM regime.`);
-    return { ...defaultCalmRegime(), reasoning: "OpenAI monthly cap hit — using CALM fallback." };
+    console.warn(`[MACRO] Monthly LLM cap hit ($${budget.spent.toFixed(2)} / $${budget.cap}). Falling back to CALM regime.`);
+    return { ...defaultCalmRegime(), reasoning: "LLM monthly cap hit — using CALM fallback." };
   }
 
   try {
     const response = await withOpenAIRetry(
-      () => client.chat.completions.create({
+      () => client.messages.create({
         model: MACRO_MODEL,
         temperature: 0,
-        max_completion_tokens: 1200,
-        messages: [
-          { role: "system", content: system },
-          { role: "user", content: userMessage },
-        ],
+        max_tokens: 1200,
+        system,
+        messages: [{ role: "user", content: userMessage }],
       }),
       { label: "MACRO" }
     );
 
-    const text = (response.choices?.[0]?.message?.content || "").trim();
+    const text = (response.content?.[0]?.text || "").trim();
     if (!text) throw new Error("Empty LLM response");
 
     const usage = response.usage || {};
     recordUsage({
-      inputTokens: usage.prompt_tokens || 0,
-      outputTokens: usage.completion_tokens || 0,
+      inputTokens: usage.input_tokens || 0,
+      outputTokens: usage.output_tokens || 0,
       label: "macro",
     });
 
