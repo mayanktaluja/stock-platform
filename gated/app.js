@@ -9465,6 +9465,11 @@ let picksStatusPollTimer = null;
 // without re-fetching. Set on every successful loadPicks().
 let currentPicksData = null;
 
+// Per-section "Show all" override (in-memory only — resets on reload, matching
+// picksSearchQuery's ephemeral convention). Holds section.key strings whose
+// soft cap is currently bypassed.
+const picksExpandedSections = new Set();
+
 // Universe filter for the picks tab. "all" (default) shows everything;
 // "nifty500" hides any item whose ticker isn't in the Nifty 500 list
 // (server tags each item with `nifty500: boolean` at request time).
@@ -9687,6 +9692,17 @@ function syncPicksChipActiveStates() {
   });
 }
 
+// Flip the "show all rows" override for one section. Stops propagation so the
+// click doesn't also fire the section-header collapse handler. Triggers a
+// full re-render via renderPicks(currentPicksData) — render is fast and the
+// alternative (DOM mutation) would duplicate the rendering logic.
+function togglePicksExpandAll(sectionKey, ev) {
+  if (ev) { ev.stopPropagation(); ev.preventDefault(); }
+  if (picksExpandedSections.has(sectionKey)) picksExpandedSections.delete(sectionKey);
+  else picksExpandedSections.add(sectionKey);
+  if (currentPicksData) renderPicks(currentPicksData);
+}
+
 // Click handler for a section header in the SWS Picks tab. Toggles the
 // .collapsed class and persists.
 function togglePicksSection(headerEl, ev) {
@@ -9843,9 +9859,14 @@ function renderPicks(data) {
   // persistent collapse state so matches are immediately visible.
   const forceExpand = !!picksSearchQuery;
   const sectionsHtml = visibleSections.map(({ section, items }) => {
-    const cap = PICKS_INLINE_CAP[section.key] ?? PICKS_INLINE_DEFAULT_CAP;
+    const defaultCap = PICKS_INLINE_CAP[section.key] ?? PICKS_INLINE_DEFAULT_CAP;
+    const expanded = picksExpandedSections.has(section.key);
+    const cap = expanded ? items.length : defaultCap;
     const sliced = items.slice(0, cap);
-    const overflow = items.length > cap ? items.length - cap : 0;
+    // hidden = how many would be hidden under the default cap. Drives whether
+    // the toggle is meaningful at all — and stays > 0 even after expansion so
+    // the user can collapse back.
+    const hidden = items.length - defaultCap;
     const isHero = section.key === "top_ranked_30_v3";
     const isCollapsed = !forceExpand && isPicksSectionCollapsed(collapsedState, section.key);
     const tip = section.term_id ? infoIcon(section.term_id) : "";
@@ -9869,7 +9890,7 @@ function renderPicks(data) {
           <div class="stock-cards sws-pick-grid">
             ${sliced.map((s, i) => renderPickCard(s, section.key, isHero ? i + 1 : null)).join("")}
           </div>
-          ${overflow ? `<div class="sws-pick-overflow">… and ${overflow} more · refine filters or open the PDF for the full list</div>` : ""}
+          ${hidden > 0 ? `<div class="sws-pick-overflow">${expanded ? `Showing all <strong>${items.length}</strong> · ` : `… and <strong>${hidden}</strong> more · `}<button type="button" class="sws-pick-overflow-btn" onclick="togglePicksExpandAll('${section.key}', event)">${expanded ? `Show top ${defaultCap} ↑` : `Show all (${items.length}) ↓`}</button>${expanded ? "" : ` · or open the PDF for the full list`}</div>` : ""}
         </div>
       </div>`;
   }).join("");
