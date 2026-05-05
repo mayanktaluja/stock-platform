@@ -247,11 +247,29 @@ function getGroq() {
   return _groq;
 }
 
+// Groq TPD quota state — set by withOpenAIRetry when a long-duration 429
+// (>120s wait) is detected. These indicate a per-day token cap, not a
+// transient spike. Callers can check getGroqQuotaState() before calling.
+let groqQuotaUntil = 0;
+
+export function getGroqQuotaState() {
+  const now = Date.now();
+  if (now >= groqQuotaUntil) {
+    return { limited: false, retryAfterMs: 0, until: groqQuotaUntil };
+  }
+  return { limited: true, retryAfterMs: groqQuotaUntil - now, until: groqQuotaUntil };
+}
+
 /**
  * Retry wrapper for LLM calls. Handles transient failures like 429
  * (rate-limit), 500, 502, 503, and network errors with exponential backoff.
  * Returns the successful result or re-throws the last error after 3 attempts.
  * Delays: 1s, 4s, 15s (enough to ride out most brief spikes).
+ *
+ * When a 429 carries a "Please try again in Xm Ys" message and the parsed
+ * wait is >120s, treats it as a daily-quota event: records groqQuotaUntil
+ * and re-throws immediately so callers can fall back to cached data instead
+ * of burning the remaining retries.
  */
 export async function withOpenAIRetry(fn, { label = "openai", maxAttempts = 3 } = {}) {
   const delays = [1000, 4000, 15000];
@@ -268,6 +286,24 @@ export async function withOpenAIRetry(fn, { label = "openai", maxAttempts = 3 } 
         err?.code === "ECONNRESET" || err?.code === "ETIMEDOUT" || err?.code === "ENOTFOUND" ||
         /network|timeout|socket|fetch failed/i.test(err?.message || "");
       if (!isTransient || attempt === maxAttempts - 1) throw err;
+
+      // Long-duration 429 = daily quota window, not a rate spike. Don't burn
+      // the remaining retries waiting 20s when the quota clears in 10+ min.
+      if (status === 429) {
+        const m = (err?.message || "").match(/please try again in (?:(\d+)m)?(\d+(?:\.\d+)?)s/i);
+        if (m) {
+          const waitMs = (parseInt(m[1] || "0", 10) * 60 + parseFloat(m[2])) * 1000;
+          if (waitMs > 120_000) {
+            groqQuotaUntil = Date.now() + waitMs;
+            console.warn(
+              `[${label}] Groq TPD quota — skipping retries, quota clears at ` +
+              `${new Date(groqQuotaUntil).toISOString()} (~${Math.ceil(waitMs / 60000)}m).`
+            );
+            throw err;
+          }
+        }
+      }
+
       const delay = delays[attempt];
       console.warn(`[${label}] Attempt ${attempt + 1}/${maxAttempts} failed (${status || err.code || err.message}), retrying in ${delay}ms`);
       await new Promise((r) => setTimeout(r, delay));
