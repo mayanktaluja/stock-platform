@@ -45,7 +45,7 @@ let _v3Universe = null;       // { mtimeMs, data: { r1m, r3m, r1y } }
 // When the file is missing (first-ever boot before any refresh), return null
 // and v3 momentum will neutral-impute — score stays usable, just less
 // calibrated, with breakdown.momentum_imputed = true so callers can detect.
-function _loadV3Universe() {
+export function loadV3Universe() {
   let stat;
   try { stat = fs.statSync(V3_UNIVERSE_PATH); } catch { return null; }
   if (_v3Universe && _v3Universe.mtimeMs === stat.mtimeMs) return _v3Universe.data;
@@ -354,7 +354,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
     };
   }
 
-  const universe = _loadV3Universe();
+  const universe = loadV3Universe();
   const scored = scoreStock(deep, { universe });
   const snow = pickSnowflake(scored);
   const fiscal = scored.fiscal || {};
