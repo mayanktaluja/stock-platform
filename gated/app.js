@@ -31,11 +31,9 @@ window.RA_CONFIG = { raMode: false, arn: null, analystName: null, firm: null, di
 document.addEventListener("DOMContentLoaded", () => {
   updateClock();
   setInterval(updateClock, 1000);
-  loadMarketData();
   loadMacroRegime(); // global: shown on every tab
   setInterval(loadMacroRegime, 15 * 60 * 1000); // refresh every 15 minutes
-  loadDashboard();
-  setRefreshInterval();
+  switchTab('picks');
   setupSearch();
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
 });
@@ -2364,10 +2362,14 @@ function switchTab(tab) {
     if (picksEl) picksEl.style.display = "block";
     loadPicks();
   } else {
-    // Default: scanner tab
-    const scanBtn = Array.from(tabs).find((t) => t.getAttribute("onclick")?.includes("scanner"));
-    if (scanBtn) scanBtn.classList.add("active");
-    dashEl.style.display = "block";
+    // Default: picks tab
+    const picksBtn = Array.from(tabs).find((t) => t.getAttribute("onclick")?.includes("picks"));
+    if (picksBtn) {
+      picksBtn.classList.add("active");
+      picksBtn.setAttribute("aria-selected", "true");
+    }
+    if (picksEl) picksEl.style.display = "block";
+    loadPicks();
   }
 }
 
@@ -10062,23 +10064,6 @@ function renderPickCard(s, sectionKey, rank = null) {
     </div>`;
 }
 
-async function triggerSwsRefresh(mode) {
-  const endpoint = mode === "quick" ? "/api/sws-refresh/quick"
-                : mode === "earnings" ? "/api/sws-refresh/earnings"
-                : "/api/sws-refresh/full";
-  try {
-    const res = await fetch(endpoint, { method: "POST", headers: { "content-type": "application/json" } });
-    const data = await res.json();
-    showPicksBanner("queued", `Refresh queued. ${data.next_step || ""}`);
-    pollPicksStatus();
-  } catch (e) {
-    showPicksBanner("error", `Failed to queue refresh: ${e.message}`);
-  }
-}
-
-function downloadSwsPdf() {
-  window.open("/api/sws-pdf/latest", "_blank");
-}
 
 function showPicksBanner(kind, msg) {
   const b = document.getElementById("picksStatusBanner");

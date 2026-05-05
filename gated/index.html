@@ -3024,13 +3024,13 @@
 
     <!-- Tab Bar -->
     <div class="tabs" id="mainTabs" role="tablist" style="margin-bottom:0;">
-      <button class="tab active" role="tab" aria-selected="true" onclick="switchTab('scanner')">Market Scanner</button>
+      <button class="tab active" role="tab" aria-selected="true" onclick="switchTab('picks')">SWS Picks</button>
+      <button class="tab" role="tab" aria-selected="false" onclick="switchTab('scanner')">Market Scanner</button>
       <button class="tab" role="tab" aria-selected="false" onclick="switchTab('fundamentals')">Fundamental Scanner</button>
       <button class="tab" role="tab" aria-selected="false" onclick="switchTab('news')">Market Intelligence</button>
       <button class="tab" role="tab" aria-selected="false" onclick="switchTab('sme')">Small-Cap Scanner</button>
       <button class="tab" role="tab" aria-selected="false" onclick="switchTab('track')">Track Record</button>
       <button class="tab" role="tab" aria-selected="false" onclick="switchTab('analyzer')">Portfolio Analyzer</button>
-      <button class="tab" role="tab" aria-selected="false" onclick="switchTab('picks')">SWS Picks</button>
     </div>
 
     <!-- Dashboard (Scanner Tab) -->
@@ -3711,10 +3711,6 @@
           <p id="picksMeta" style="font-size:11px; color:var(--text-muted); margin-top:6px;">Loading…</p>
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-          <button class="refresh-btn" onclick="triggerSwsRefresh('quick')" title="~5 hr · refreshes overview only for all stocks">Quick refresh</button>
-          <button class="refresh-btn" onclick="triggerSwsRefresh('earnings')" title="~15 min · only stocks with earnings in next 14 days">Earnings refresh</button>
-          <button class="refresh-btn" onclick="triggerSwsRefresh('full')" title="~3 days · full deep refresh of all 8 sub-tabs for every stock">Full refresh</button>
-          <button class="refresh-btn" onclick="downloadSwsPdf()" title="Top 50 picks as PDF">Download PDF</button>
         </div>
       </div>
 
