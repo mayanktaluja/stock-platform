@@ -76,7 +76,8 @@ import {
 } from "./governance.js";
 import { parsePortfolioFile, resolveUnmatchedLive } from "./portfolioParser.js";
 import { analyzeHolding, buildReport } from "./portfolioAnalyzer.js";
-import { scoreHolding as swsScoreHolding } from "./services/swsHoldingEngine.js";
+import { scoreHolding as swsScoreHolding, loadV3Universe } from "./services/swsHoldingEngine.js";
+import { scoreStock as swsScoreStock } from "./services/swsScoring.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
 import { buildSWSReport } from "./services/swsPortfolioAggregate.js";
 import { loadLastAnalyzerSnapshot, saveAnalyzerSnapshot } from "./portfolioStorage.js";
@@ -7667,6 +7668,39 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
         const found = items.find((c) => c.ticker === ticker);
         if (found) { card = found; break; }
       }
+    }
+  }
+
+  // Fallback: only ~894 of 5,439 deep-scraped stocks live in picks-latest.json
+  // (the curated leaderboard). For the rest, score on demand via the same
+  // primitive runFullScoring uses, so the modal's score ring + breakdown bars
+  // render for every ticker that has a deep JSON.
+  if (!card) {
+    try {
+      const universe = loadV3Universe();
+      const scored = swsScoreStock({ ...deep }, { universe });
+      const ov = deep.overview || {};
+      card = {
+        ticker,
+        name: deep.name,
+        sector: deep.sector,
+        score: scored.composite_score_100,
+        verdict: scored.verdict,
+        v2_score: scored.v2_score_100,
+        v2_breakdown: scored.v2_breakdown,
+        v3_score: scored.v3_score_100,
+        v3_score_100: scored.v3_score_100,
+        v3_breakdown: scored.v3_breakdown,
+        v3_verdict: scored.v3_verdict,
+        snowflake_total: ov.snowflake_total,
+        current_price_inr: ov.current_price_inr,
+        fair_value_inr: ov.fair_value_inr,
+        upside_pct: ov.upside_pct,
+        market_cap_inr: ov.market_cap_inr,
+        computed_on_demand: true,
+      };
+    } catch (e) {
+      console.warn(`[sws-stock] on-demand score failed for ${ticker}:`, e.message);
     }
   }
 
