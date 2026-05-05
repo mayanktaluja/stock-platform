@@ -15,10 +15,11 @@
  * headlines, caller owns caching.
  */
 
-import Anthropic from "@anthropic-ai/sdk";
+import OpenAI from "openai";
 import { checkBudget, recordUsage } from "./openaiBudget.js";
 
-const MACRO_MODEL = process.env.MACRO_MODEL || "claude-haiku-4-5-20251001";
+const MACRO_MODEL = process.env.MACRO_MODEL || "llama-3.3-70b-versatile";
+const GROQ_BASE_URL = "https://api.groq.com/openai/v1";
 
 // ──────────────────── Enums ────────────────────
 
@@ -238,12 +239,12 @@ export function defaultCalmRegime() {
 
 // ──────────────────── LLM client (lazy) ────────────────────
 
-let _anthropic = null;
-function getAnthropic() {
-  if (_anthropic) return _anthropic;
-  if (!process.env.ANTHROPIC_API_KEY) return null;
-  _anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-  return _anthropic;
+let _groq = null;
+function getGroq() {
+  if (_groq) return _groq;
+  if (!process.env.GROQ_API_KEY) return null;
+  _groq = new OpenAI({ apiKey: process.env.GROQ_API_KEY, baseURL: GROQ_BASE_URL });
+  return _groq;
 }
 
 /**
@@ -290,9 +291,9 @@ export async function classifyRegime(headlines) {
     return { ...defaultCalmRegime(), reasoning: "No headlines provided." };
   }
 
-  const client = getAnthropic();
+  const client = getGroq();
   if (!client) {
-    return { ...defaultCalmRegime(), reasoning: "LLM unavailable (no ANTHROPIC_API_KEY)." };
+    return { ...defaultCalmRegime(), reasoning: "LLM unavailable (no GROQ_API_KEY)." };
   }
 
   // Cap headlines to stay under token budget — keep the 40 most recent.
@@ -312,23 +313,26 @@ export async function classifyRegime(headlines) {
 
   try {
     const response = await withOpenAIRetry(
-      () => client.messages.create({
+      () => client.chat.completions.create({
         model: MACRO_MODEL,
         temperature: 0,
         max_tokens: 1200,
-        system,
-        messages: [{ role: "user", content: userMessage }],
+        response_format: { type: "json_object" },
+        messages: [
+          { role: "system", content: system },
+          { role: "user", content: userMessage },
+        ],
       }),
       { label: "MACRO" }
     );
 
-    const text = (response.content?.[0]?.text || "").trim();
+    const text = (response.choices?.[0]?.message?.content || "").trim();
     if (!text) throw new Error("Empty LLM response");
 
     const usage = response.usage || {};
     recordUsage({
-      inputTokens: usage.input_tokens || 0,
-      outputTokens: usage.output_tokens || 0,
+      inputTokens: usage.prompt_tokens || 0,
+      outputTokens: usage.completion_tokens || 0,
       label: "macro",
     });
 
