@@ -1075,7 +1075,8 @@
     }
 
     /* Dashboard Sections */
-    .dashboard { margin-top: 24px; }
+    .dashboard,
+    .tab-content { margin-top: 24px; }
 
     .dashboard-section {
       margin-bottom: 40px;
@@ -3209,10 +3210,9 @@
         </div>
       </div>
     </div>
-  </div>
 
     <!-- SME Scanner Tab -->
-    <div id="smeTab" style="display:none; padding-top:20px;">
+    <div id="smeTab" class="tab-content" style="display:none;">
       <!-- SME Header -->
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:20px; border-bottom:1px solid #1a2233;">
         <div>
@@ -3339,7 +3339,7 @@
     </div>
 
     <!-- Fundamental Scanner Tab -->
-    <div id="fundamentalsTab" style="display:none; padding-top:20px;">
+    <div id="fundamentalsTab" class="tab-content" style="display:none;">
       <!-- Fundamentals Header -->
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-wrap:wrap; gap:12px; padding-bottom:20px; border-bottom:1px solid #1a2233;">
         <div>
@@ -3433,7 +3433,7 @@
     </div>
 
     <!-- Track Record Tab -->
-    <div id="trackTab" style="display:none; padding-top:20px;">
+    <div id="trackTab" class="tab-content" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Track Record</h2>
@@ -3534,7 +3534,7 @@
     <!-- insights. Stateless — does not persist to the user's saved         -->
     <!-- portfolio.                                                          -->
     <!-- ═══════════════════════════════════════════════════════════════════ -->
-    <div id="analyzerTab" style="display:none; padding-top:20px;">
+    <div id="analyzerTab" class="tab-content" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Portfolio Analyzer</h2>
@@ -3644,7 +3644,7 @@
     </div>
 
     <!-- Portfolio Tab -->
-    <div id="portfolioTab" style="display:none; padding-top:20px;">
+    <div id="portfolioTab" class="tab-content" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">My Portfolio</h2>
@@ -3674,7 +3674,7 @@
     </div>
 
     <!-- News Tab -->
-    <div id="newsTab" style="display:none; padding-top:20px;">
+    <div id="newsTab" class="tab-content" style="display:none;">
       <div id="newsLoadingBanner" class="sws-loading-banner" hidden>Loading Market Intelligence…</div>
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
         <div>
@@ -3702,7 +3702,7 @@
     </div>
 
     <!-- SWS Picks Tab — categorised buy-list driven by Simply Wall Street deep-scrape -->
-    <div id="picksTab" style="display:none; padding-top:20px;">
+    <div id="picksTab" class="tab-content" style="display:none;">
       <div id="picksLoadingBanner" class="sws-loading-banner" hidden>Loading SWS Picks…</div>
       <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
         <div>
