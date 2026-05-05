@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = path.resolve(__dirname, "..");
+const repoRoot = process.env.SWS_REPO_ROOT_OVERRIDE || path.resolve(__dirname, "..");
 
 export const PATHS = {
   repoRoot,
