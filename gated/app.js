@@ -986,7 +986,7 @@ function renderStockDetail(data) {
             <div class="card">
               <div class="card-title">Market Cap${infoIcon('market_cap')}</div>
               <div class="card-value" style="font-size:16px;">${fs.marketCap ? formatMarketCap(fs.marketCap) : 'N/A'}</div>
-              <div class="card-sub">${fundamentals.breakdown.tier || ''}</div>
+              <div class="card-sub">${fundamentals.breakdown?.tier || ''}</div>
             </div>
             <div class="card">
               <div class="card-title">52W Position</div>
@@ -3549,7 +3549,7 @@ async function loadMarketNews(opts = {}) {
 
   try {
     // Fan out 7 endpoints in parallel — all secondary endpoints failure-soft
-    const [newsRes, verdictRes, marketRes, heatmapRes, fiiRes, portfolioRes, calendarRes] = await Promise.all([
+    const [newsRes, verdictRes, marketRes, heatmapRes, fiiRes, portfolioRes, calendarRes, foOiRes, catalystsRes] = await Promise.all([
       fetch("/api/news/market"),
       fetch("/api/market-verdict").catch(() => null),
       fetch("/api/market").catch(() => null),
@@ -3557,6 +3557,8 @@ async function loadMarketNews(opts = {}) {
       fetch("/api/fii-dii").catch(() => null),
       fetch("/api/portfolio").catch(() => null),
       fetch("/api/market-calendar").catch(() => null),
+      fetch("/api/fo/oi-screener").catch(() => null),
+      fetch("/api/catalysts/today").catch(() => null),
     ]);
     const data = await newsRes.json();
     const verdict = verdictRes && verdictRes.ok ? await verdictRes.json().catch(() => null) : null;
@@ -3565,6 +3567,8 @@ async function loadMarketNews(opts = {}) {
     const fiiDii = fiiRes && fiiRes.ok ? await fiiRes.json().catch(() => null) : null;
     const portfolio = portfolioRes && portfolioRes.ok ? await portfolioRes.json().catch(() => null) : null;
     const calendar = calendarRes && calendarRes.ok ? await calendarRes.json().catch(() => null) : null;
+    const foScreener = foOiRes && foOiRes.ok ? await foOiRes.json().catch(() => null) : null;
+    const catalysts = catalystsRes && catalystsRes.ok ? await catalystsRes.json().catch(() => null) : null;
 
     if (data.error) {
       container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">${escapeHtml(data.error)}</div></div>`;
@@ -3578,7 +3582,7 @@ async function loadMarketNews(opts = {}) {
     const updatedEl = document.getElementById("newsLastUpdated");
     if (updatedEl) updatedEl.textContent = `Updated: ${new Date(data.lastUpdated).toLocaleTimeString("en-IN")}`;
 
-    renderNewsPage(allMarketNews, _newsDigest, verdict, market, heatmap, fiiDii, portfolio, calendar);
+    renderNewsPage(allMarketNews, _newsDigest, verdict, market, heatmap, fiiDii, portfolio, calendar, foScreener, catalysts);
   } catch (err) {
     container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">Failed to load news. Try again.</div></div>`;
   } finally {
@@ -3587,7 +3591,7 @@ async function loadMarketNews(opts = {}) {
   }
 }
 
-function renderNewsPage(articles, digest, verdict, market, heatmap, fiiDii, portfolio, calendar) {
+function renderNewsPage(articles, digest, verdict, market, heatmap, fiiDii, portfolio, calendar, foScreener, catalysts) {
   const container = document.getElementById("newsContainer");
 
   if (!articles || articles.length === 0) {
@@ -3602,6 +3606,12 @@ function renderNewsPage(articles, digest, verdict, market, heatmap, fiiDii, port
 
   // ── Your Book Today (portfolio sliver — hidden when no holdings imported) ──
   html += renderPortfolioSliver(portfolio);
+
+  // ── F&O OI-Delta Swing Screener (3–10D positioning signal) ──
+  html += renderFoScreenerCard(foScreener);
+
+  // ── Catalysts Today (forward-looking corporate + macro events) ──
+  html += renderCatalystsCard(catalysts);
 
   // ── Today's Verdict (5-signal dashboard) ──
   if (verdict && verdict.signals) {
@@ -3996,6 +4006,275 @@ function renderCalendarCard(calendar) {
         </div>` : ""}
     </div>
   `;
+}
+
+// ── F&O OI-Delta Swing Screener ──
+//
+// Renders the 3-section tile (In Your Book / In Your Picks / Broader F&O)
+// inside Market Intelligence. Cards are read-only positioning signals over
+// a 3–10 day swing horizon — NOT buy/sell calls.
+//
+// Color map mirrors the existing CSS-vars in index.html. Decoupling is shown
+// as a co-fired cyan badge alongside the primary signal classification.
+function renderFoScreenerCard(payload) {
+  if (!payload || payload.status === "warming") {
+    // First run hasn't completed (or file missing) — render quiet placeholder
+    // rather than blank. Helps the user understand the tile exists.
+    return `
+      <div style="background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--card-radius);padding:16px 20px;margin-bottom:24px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-size:13px;font-weight:700;color:var(--text-primary);">F&amp;O OI-Delta Swing Screener</div>
+          <div style="font-size:11px;color:var(--text-muted);">Warming up — first refresh after 19:00 IST</div>
+        </div>
+      </div>`;
+  }
+
+  const sections = payload.sections || {};
+  const inBook = sections.inBook || [];
+  const inPicks = sections.inPicks || [];
+  const broader = sections.broader || [];
+  const total = inBook.length + inPicks.length + broader.length;
+  if (total === 0) return "";
+
+  const asOfStr = payload.asOf ? formatFoAsOf(payload.asOf) : "—";
+  const stats = payload.stats || {};
+  const freshnessLine =
+    payload.asOf && isStaleVsToday(payload.asOf)
+      ? `<span style="color:var(--yellow);">Yesterday's bhavcopy · today's not yet published</span>`
+      : `as of ${asOfStr} · NSE bhavcopy`;
+
+  const renderSection = (title, items, openByDefault) => {
+    if (!items || items.length === 0) return "";
+    const cards = items.map(renderFoTickerCard).join("");
+    return `
+      <details ${openByDefault ? "open" : ""} style="margin-bottom:12px;">
+        <summary style="cursor:pointer;list-style:none;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.02);display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;color:var(--text-primary);">
+          <span>${escapeHtml(title)} <span style="color:var(--text-muted);font-weight:500;">(${items.length})</span></span>
+          <span style="color:var(--text-muted);font-size:10px;">click to ${openByDefault ? "collapse" : "expand"}</span>
+        </summary>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;padding:10px 0 4px 0;">
+          ${cards}
+        </div>
+      </details>`;
+  };
+
+  const decoupledChip =
+    stats.decoupled > 0
+      ? `<span style="font-size:10px;background:rgba(34,211,238,0.12);color:var(--cyan);padding:2px 8px;border-radius:10px;border:1px solid rgba(34,211,238,0.3);margin-left:8px;">${stats.decoupled} decoupled</span>`
+      : "";
+
+  return `
+    <div style="background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--card-radius);padding:18px 22px;margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+        <div>
+          <div style="font-size:14px;font-weight:800;color:var(--text-primary);letter-spacing:-0.2px;">
+            F&amp;O OI-Delta Swing Screener
+            ${decoupledChip}
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:3px;">
+            ${freshnessLine} · ${stats.totalUniverse || "?"} F&amp;O underlyings · ${stats.withSignal || 0} with active signal
+          </div>
+        </div>
+      </div>
+      ${renderSection("In Your Book", inBook, true)}
+      ${renderSection("In Your Picks Universe", inPicks, false)}
+      ${renderSection(`Broader F&O Universe — top ${broader.length}`, broader, false)}
+      <div style="margin-top:10px;font-size:10px;color:var(--text-muted);line-height:1.5;">
+        Methodology: ${escapeHtml(payload.methodology || "")}
+      </div>
+    </div>`;
+}
+
+// Compact card variant for an individual F&O ticker — 3 rows: header,
+// metrics strip, 1-line interpretation. Smaller than the Scanner card.
+function renderFoTickerCard(stock) {
+  const signalConfig = {
+    long_buildup: { label: "Long Buildup", border: "var(--green)", arrow: "&#9650;" },
+    short_buildup: { label: "Short Buildup", border: "var(--red)", arrow: "&#9660;" },
+    long_unwinding: { label: "Long Unwinding", border: "rgba(248,113,113,0.6)", arrow: "&#9660;" },
+    short_covering: { label: "Short Covering", border: "rgba(52,211,153,0.6)", arrow: "&#9650;" },
+    neutral: { label: "Neutral", border: "var(--text-muted)", arrow: "&#9679;" },
+  };
+  const cfg = signalConfig[stock.signal] || signalConfig.neutral;
+
+  const oiPct = (stock.oiDeltaPct ?? 0).toFixed(1);
+  const pxPct = (stock.priceDeltaPct ?? 0).toFixed(2);
+  const oiSign = (stock.oiDeltaPct ?? 0) >= 0 ? "+" : "";
+  const pxSign = (stock.priceDeltaPct ?? 0) >= 0 ? "+" : "";
+  const oiColor = (stock.oiDeltaPct ?? 0) >= 0 ? "var(--green)" : "var(--red)";
+  const pxColor = (stock.priceDeltaPct ?? 0) >= 0 ? "var(--green)" : "var(--red)";
+
+  const volStr =
+    stock.volumeRatio == null
+      ? "—"
+      : `${stock.volumeRatio.toFixed(2)}&times;`;
+  const volBucket = stock.volumeBucket || "unknown";
+  const volColor =
+    volBucket === "confirmed"
+      ? "var(--green)"
+      : volBucket === "thin"
+        ? "var(--text-muted)"
+        : "var(--text-secondary)";
+
+  const decoupleBadge = stock.decoupled
+    ? `<span style="font-size:9px;background:rgba(34,211,238,0.15);color:var(--cyan);padding:1px 6px;border-radius:8px;border:1px solid rgba(34,211,238,0.4);margin-left:6px;text-transform:uppercase;letter-spacing:0.3px;">Decoupled</span>`
+    : "";
+
+  const sectorBadge = stock.portfolio?.sector
+    ? `<span style="font-size:10px;color:var(--text-muted);margin-left:6px;">${escapeHtml(stock.portfolio.sector)}</span>`
+    : "";
+
+  return `
+    <div style="background:var(--bg-primary);border:1px solid var(--border);border-left:3px solid ${cfg.border};border-radius:8px;padding:10px 12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <div>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--text-primary);">${escapeHtml(stock.underlying)}</span>
+          ${sectorBadge}
+          ${decoupleBadge}
+        </div>
+        <span style="font-size:11px;color:${cfg.border};font-weight:700;">${cfg.arrow} ${cfg.label}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:11px;margin-bottom:4px;">
+        <span style="color:var(--text-muted);">OI <span style="color:${oiColor};font-weight:700;">${oiSign}${oiPct}%</span></span>
+        <span style="color:var(--text-muted);">Px <span style="color:${pxColor};font-weight:700;">${pxSign}${pxPct}%</span></span>
+        <span style="color:var(--text-muted);">Vol <span style="color:${volColor};font-weight:700;">${volStr}</span></span>
+        <span style="color:var(--text-muted);">Score <span style="color:var(--gold);font-weight:700;">${stock.score ?? 0}</span></span>
+      </div>
+      <div style="font-size:11px;color:var(--text-secondary);line-height:1.4;">${escapeHtml(stock.interpretation || "")}</div>
+    </div>`;
+}
+
+function formatFoAsOf(ymd) {
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(ymd);
+  if (!m) return ymd;
+  return `${parseInt(m[3], 10)} ${months[parseInt(m[2], 10) - 1]}`;
+}
+
+function isStaleVsToday(asOfYmd) {
+  // Compute today's date in IST (so a 06:00 UTC screen-load matches the
+  // 11:30 IST publication day, not the prior calendar day).
+  const istMs = Date.now() + 5.5 * 3600 * 1000;
+  const ist = new Date(istMs);
+  const today = `${ist.getUTCFullYear()}-${String(ist.getUTCMonth() + 1).padStart(2, "0")}-${String(ist.getUTCDate()).padStart(2, "0")}`;
+  return asOfYmd < today;
+}
+
+// ── Catalysts Today ──
+//
+// Forward-looking events tile (corporate + macro). 4 sections: Your Book,
+// Your Picks, Broader (capped 12), Macro. Renders as a compact list with
+// "T+N days" countdown — different visual language from the F&O cards on
+// purpose (events are a list/timeline; OI signals are a grid).
+function renderCatalystsCard(payload) {
+  if (!payload || payload.status === "warming") {
+    return `
+      <div style="background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--card-radius);padding:16px 20px;margin-bottom:24px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-size:13px;font-weight:700;color:var(--text-primary);">Catalysts Today</div>
+          <div style="font-size:11px;color:var(--text-muted);">Refresh data first — run scripts/refresh-catalysts.mjs</div>
+        </div>
+      </div>`;
+  }
+
+  const sections = payload.sections || {};
+  const stats = payload.stats || {};
+  const inBook = sections.inBook || [];
+  const inPicks = sections.inPicks || [];
+  const broader = sections.broader || [];
+  const macro = sections.macro || [];
+  const total = inBook.length + inPicks.length + broader.length + macro.length;
+  if (total === 0) return "";
+
+  const renderEventRow = (ev, kind) => {
+    const dt = ev.date ? formatFoAsOf(ev.date) : "—";
+    const days = ev.daysFromToday;
+    const dayChip =
+      days == null
+        ? ""
+        : days === 0
+          ? `<span style="font-size:9px;background:rgba(251,191,36,0.18);color:var(--yellow);padding:1px 6px;border-radius:8px;border:1px solid rgba(251,191,36,0.4);text-transform:uppercase;letter-spacing:0.3px;font-weight:700;">Today</span>`
+          : `<span style="font-size:9px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">T+${days}d</span>`;
+
+    const categoryColor = kind === "macro"
+      ? "var(--cyan)"
+      : ev.category === "earnings" || ev.category === "earnings_dividend"
+        ? "var(--gold)"
+        : ev.category === "dividend"
+          ? "var(--green)"
+          : ev.category === "buyback" || ev.category === "bonus"
+            ? "var(--green)"
+            : "var(--text-secondary)";
+
+    if (kind === "macro") {
+      const tierBadge =
+        ev.tier === "A"
+          ? `<span style="font-size:9px;background:rgba(248,113,113,0.15);color:var(--red);padding:1px 6px;border-radius:8px;text-transform:uppercase;letter-spacing:0.3px;font-weight:700;">Tier A</span>`
+          : `<span style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.3px;">Tier ${escapeHtml(ev.tier || "B")}</span>`;
+      return `
+        <div style="display:grid;grid-template-columns:60px 1fr auto;gap:10px;padding:8px 10px;border-radius:6px;background:rgba(255,255,255,0.02);align-items:center;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);">${escapeHtml(dt)}</div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--text-primary);line-height:1.3;">${escapeHtml(ev.title)}</div>
+            ${ev.notes ? `<div style="font-size:10px;color:var(--text-secondary);margin-top:2px;line-height:1.4;">${escapeHtml(ev.notes)}</div>` : ""}
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">${tierBadge}${dayChip}</div>
+        </div>`;
+    }
+
+    const sectorBadge = ev.sector
+      ? `<span style="font-size:10px;color:var(--text-muted);margin-left:6px;">${escapeHtml(ev.sector)}</span>`
+      : "";
+    return `
+      <div style="display:grid;grid-template-columns:60px 1fr auto;gap:10px;padding:8px 10px;border-radius:6px;background:rgba(255,255,255,0.02);align-items:center;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);">${escapeHtml(dt)}</div>
+        <div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--text-primary);">${escapeHtml(ev.ticker)}</span>
+            <span style="font-size:11px;color:${categoryColor};font-weight:600;">${escapeHtml(ev.categoryLabel)}</span>
+            ${sectorBadge}
+          </div>
+          ${ev.company ? `<div style="font-size:10px;color:var(--text-secondary);margin-top:2px;">${escapeHtml(ev.company)}</div>` : ""}
+        </div>
+        <div>${dayChip}</div>
+      </div>`;
+  };
+
+  const renderSection = (title, items, kind, openByDefault) => {
+    if (!items || items.length === 0) return "";
+    const rows = items.map((ev) => renderEventRow(ev, kind)).join("");
+    return `
+      <details ${openByDefault ? "open" : ""} style="margin-bottom:10px;">
+        <summary style="cursor:pointer;list-style:none;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.02);display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;color:var(--text-primary);">
+          <span>${escapeHtml(title)} <span style="color:var(--text-muted);font-weight:500;">(${items.length})</span></span>
+          <span style="color:var(--text-muted);font-size:10px;">click to ${openByDefault ? "collapse" : "expand"}</span>
+        </summary>
+        <div style="display:flex;flex-direction:column;gap:4px;padding:8px 0 4px 0;">${rows}</div>
+      </details>`;
+  };
+
+  const truncatedNote = stats.truncatedBroader > 0
+    ? ` · +${stats.truncatedBroader} more not shown`
+    : "";
+
+  return `
+    <div style="background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--card-radius);padding:18px 22px;margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+        <div>
+          <div style="font-size:14px;font-weight:800;color:var(--text-primary);letter-spacing:-0.2px;">Catalysts Today</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:3px;">
+            Next ${payload.windows?.corporateDays || 10}D corporate events · next ${payload.windows?.macroDays || 21}D macro · ${stats.corpInWindow || 0} corp + ${stats.macroInWindow || 0} macro in window${truncatedNote}
+          </div>
+        </div>
+      </div>
+      ${renderSection("In Your Book", inBook, "corp", true)}
+      ${renderSection("Macro · India", macro, "macro", inBook.length === 0)}
+      ${renderSection("In Your Picks Universe", inPicks, "corp", false)}
+      ${renderSection("Broader Universe", broader, "corp", false)}
+      <div style="margin-top:10px;font-size:10px;color:var(--text-muted);line-height:1.5;">
+        Methodology: ${escapeHtml(payload.methodology || "")}
+      </div>
+    </div>`;
 }
 
 // ── FII / DII Flow card ──

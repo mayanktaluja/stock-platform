@@ -82,6 +82,13 @@ import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
 import { buildSWSReport } from "./services/swsPortfolioAggregate.js";
 import { loadLastAnalyzerSnapshot, saveAnalyzerSnapshot } from "./portfolioStorage.js";
 import { simulate as runWhatIfSimulation } from "./services/whatIfSimulator.js";
+import { runOnce as runFoScreener } from "./services/foScreener.js";
+import {
+  BhavcopyNotPublished,
+  BhavcopyBlocked,
+} from "./services/foBhavcopyFetcher.js";
+import { loadFoScreenerFromKV } from "./services/foKvStore.js";
+import { buildCatalystsPayload } from "./services/catalystsService.js";
 import {
   computeCombinedScore,
   lookupSwsScoreBulk,
@@ -3176,6 +3183,120 @@ app.get("/api/governance/:symbol", (req, res) => {
   const gov = getGovernance(req.params.symbol);
   if (!gov) return res.status(404).json({ error: "No governance record for symbol" });
   res.json({ symbol: req.params.symbol, ...gov });
+});
+
+// ─────────────────────────────────────────────────────────────────────
+// F&O OI-Delta Swing Screener — Market Intelligence tile
+// Data source: NSE F&O bhavcopy. Persistence: Vercel KV (prod) with disk
+// as boot-seed (committed oi-deltas-latest.json). Mirrors the
+// fundamentals.js disk+KV hybrid pattern.
+// ─────────────────────────────────────────────────────────────────────
+
+const FO_LATEST_PATH = path.join(__dirnameForEnv, "data", "nse-fo", "oi-deltas-latest.json");
+
+/**
+ * GET /api/fo/oi-screener
+ *
+ * Cache hierarchy (mirrors fundamentals): KV → disk seed → "warming".
+ * KV is the source of truth in production; disk is the boot seed bundled
+ * at deploy time. Local dev (no KV env vars) always falls through to disk.
+ *
+ * In-process cache keyed on KV-or-mtime so the cron's KV write or a fresh
+ * deploy is picked up without manual cache busts.
+ */
+let _foCache = { key: "", payload: null };
+app.get("/api/fo/oi-screener", async (req, res) => {
+  try {
+    // 1. Try KV first (production source of truth).
+    const kvPayload = await loadFoScreenerFromKV();
+    if (kvPayload) {
+      const kvKey = "kv:" + (kvPayload.fetchedAt || kvPayload.asOf || "");
+      if (_foCache.payload && _foCache.key === kvKey) return res.json(_foCache.payload);
+      _foCache = { key: kvKey, payload: kvPayload };
+      return res.json(kvPayload);
+    }
+
+    // 2. Fall back to committed disk seed.
+    if (!fs.existsSync(FO_LATEST_PATH)) {
+      return res.json({
+        status: "warming",
+        message: "F&O screener has not yet run. The nightly cron populates this after 19:00 IST.",
+      });
+    }
+    const stat = fs.statSync(FO_LATEST_PATH);
+    const diskKey = "disk:" + stat.mtimeMs;
+    if (_foCache.payload && _foCache.key === diskKey) return res.json(_foCache.payload);
+    const payload = JSON.parse(fs.readFileSync(FO_LATEST_PATH, "utf8"));
+    _foCache = { key: diskKey, payload };
+    res.json(payload);
+  } catch (err) {
+    console.error("[/api/fo/oi-screener] failed:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * GET /api/cron/refresh-fo-oi
+ *
+ * Vercel cron handler. Mirrors auth pattern of /api/cron/enrich-fundamentals
+ * (CRON_SECRET bearer token). Delegates to services/foScreener.js#runOnce,
+ * which fetches the bhavcopy, computes deltas, and persists to KV (+disk).
+ *
+ * Returns 200 with { ok:false, reason:"not_published" } when the bhavcopy
+ * hasn't been published yet — Vercel does NOT alert on this; the retry
+ * crons (19:45 + 20:30 IST) handle eventual publication.
+ *
+ * Manual testing: curl http://localhost:3000/api/cron/refresh-fo-oi
+ * (no auth header required in local dev because CRON_SECRET isn't set).
+ */
+app.get("/api/cron/refresh-fo-oi", async (req, res) => {
+  const cronSecret = process.env.CRON_SECRET;
+  if (cronSecret && req.headers.authorization !== `Bearer ${cronSecret}`) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  try {
+    const force = req.query.force === "1" || req.query.force === "true";
+    const date = typeof req.query.date === "string" ? req.query.date : undefined;
+    const result = await runFoScreener({ date, forceRefetch: force });
+    // Bust the in-process cache so the next /api/fo/oi-screener call sees
+    // the new payload without waiting for KV TTL or mtime tick.
+    _foCache = { key: "", payload: null };
+    res.json({ ok: true, ...result });
+  } catch (err) {
+    if (err instanceof BhavcopyNotPublished) {
+      return res.json({ ok: false, reason: "not_published", date: err.date });
+    }
+    if (err instanceof BhavcopyBlocked) {
+      return res.status(503).json({ ok: false, reason: "blocked", status: err.status });
+    }
+    console.error("[CRON] /api/cron/refresh-fo-oi failed:", err);
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/catalysts/today
+ *
+ * SWS-style persistence: reads committed JSON files (events-latest.json
+ * + macroCalendar.json), assembles 4 sections (in-book / in-picks /
+ * broader / macro), 5-min in-memory cache.
+ *
+ * Refresh flow: run scripts/refresh-catalysts.mjs locally → commit
+ * data/catalysts/events-latest.json → push. Vercel reads on cold start.
+ */
+const catalystsCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
+app.get("/api/catalysts/today", (req, res) => {
+  try {
+    const cacheKey = "catalysts_today";
+    const cached = catalystsCache.get(cacheKey);
+    if (cached) return res.json(cached);
+    const payload = buildCatalystsPayload();
+    catalystsCache.set(cacheKey, payload);
+    res.json(payload);
+  } catch (err) {
+    console.error("[/api/catalysts/today] failed:", err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 /**
