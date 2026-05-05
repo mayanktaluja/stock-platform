@@ -2361,6 +2361,14 @@ function switchTab(tab) {
   } else if (tab === "picks") {
     if (picksEl) picksEl.style.display = "block";
     loadPicks();
+  } else if (tab === "scanner") {
+    dashEl.style.display = "block";
+    if (!_scannerInitialized) {
+      _scannerInitialized = true;
+      loadMarketData();
+      loadDashboard();
+      setRefreshInterval();
+    }
   } else {
     // Default: picks tab
     const picksBtn = Array.from(tabs).find((t) => t.getAttribute("onclick")?.includes("picks"));
@@ -2372,6 +2380,8 @@ function switchTab(tab) {
     loadPicks();
   }
 }
+
+let _scannerInitialized = false;
 
 // ==================== PORTFOLIO ====================
 
