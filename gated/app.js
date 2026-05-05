@@ -2303,6 +2303,7 @@ function switchTab(tab) {
   const trackEl = document.getElementById("trackTab");
   const analyzerEl = document.getElementById("analyzerTab");
   const picksEl = document.getElementById("picksTab");
+  const watchEl = document.getElementById("watchlistTab");
 
   dashEl.style.display = "none";
   newsEl.style.display = "none";
@@ -2312,6 +2313,7 @@ function switchTab(tab) {
   if (trackEl) trackEl.style.display = "none";
   if (analyzerEl) analyzerEl.style.display = "none";
   if (picksEl) picksEl.style.display = "none";
+  if (watchEl) watchEl.style.display = "none";
   if (newsRefreshTimer) { clearInterval(newsRefreshTimer); newsRefreshTimer = null; }
 
   // Refresh the global macro banner on every tab switch. This is a cheap
@@ -2350,6 +2352,9 @@ function switchTab(tab) {
   } else if (tab === "picks") {
     if (picksEl) picksEl.style.display = "block";
     loadPicks();
+  } else if (tab === "watchlist") {
+    if (watchEl) watchEl.style.display = "block";
+    loadWatchlist();
   } else if (tab === "scanner") {
     dashEl.style.display = "block";
     if (!_scannerInitialized) {
@@ -4923,6 +4928,131 @@ function watchlistButton(symbol, name, sector) {
   // and unsaved states; aria-label gives screen readers a proper verb.
   const label = isSaved ? `Remove ${name || symbol} from watchlist` : `Add ${name || symbol} to watchlist`;
   return `<button type="button" class="watchlist-btn" data-watchlist-symbol="${symbol}" aria-pressed="${isSaved}" aria-label="${label}" onclick="event.stopPropagation(); toggleWatchlist('${symbol}', '${escapeHtml(name || '')}', '${escapeHtml(sector || '')}')" title="${isSaved ? 'Remove from watchlist' : 'Add to watchlist'}" style="cursor:pointer;background:transparent;border:none;padding:2px 4px;font-size:18px;color:${isSaved ? 'var(--gold)' : 'var(--text-muted)'};transition:color 0.15s;">${isSaved ? "★" : "☆"}</button>`;
+}
+
+async function loadWatchlist() {
+  const container = document.getElementById("watchlistContainer");
+  const meta = document.getElementById("watchlistMeta");
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="loading">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Loading watchlist…</div>
+    </div>`;
+
+  try {
+    const res = await fetch("/api/watchlist");
+    const data = await res.json();
+    const stocks = Array.isArray(data.stocks) ? data.stocks : [];
+
+    // Keep the in-memory Set in sync so star toggles elsewhere stay accurate
+    watchlist = new Set(stocks.map((s) => s.symbol));
+
+    if (meta) {
+      meta.textContent = stocks.length === 0
+        ? "No saved stocks yet."
+        : `${stocks.length} stock${stocks.length === 1 ? "" : "s"} on watch · live prices`;
+    }
+
+    if (stocks.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">&#9734;</div>
+          <div class="empty-text">Your watchlist is empty.</div>
+          <div style="font-size:12px; color:var(--text-muted); margin-top:8px;">
+            Tap the ☆ icon on any stock card (SWS Picks, scanners, or detail pages) to start tracking it here.
+          </div>
+        </div>`;
+      return;
+    }
+
+    // Sort by most-recently added first
+    const sorted = [...stocks].sort((a, b) => {
+      const ta = a.addedAt ? new Date(a.addedAt).getTime() : 0;
+      const tb = b.addedAt ? new Date(b.addedAt).getTime() : 0;
+      return tb - ta;
+    });
+
+    const rows = sorted.map((s) => {
+      const sym = s.symbol;
+      const name = s.name || sym;
+      const sector = s.sector || "";
+      const price = s.price;
+      const chg = s.change;
+      const chgPct = s.changePercent;
+      const hasPrice = price !== null && price !== undefined && !Number.isNaN(price);
+      const isPos = (chg ?? 0) >= 0;
+      const priceCell = hasPrice
+        ? `<span style="font-family:'JetBrains Mono',monospace;font-weight:600;">&#8377;${formatNumber(price)}</span>`
+        : `<span style="color:var(--text-muted);font-size:12px;">—</span>`;
+      const chgCell = (chg !== null && chg !== undefined && !Number.isNaN(chg))
+        ? `<span class="${isPos ? 'positive' : 'negative'}" style="font-family:'JetBrains Mono',monospace;font-size:12px;">${isPos ? '+' : ''}${chg.toFixed(2)} (${isPos ? '+' : ''}${(chgPct ?? 0).toFixed(2)}%)</span>`
+        : `<span style="color:var(--text-muted);font-size:12px;">—</span>`;
+
+      // Entry price snapshot (captured server-side at add-time). Older
+      // entries created before this column existed will be missing it —
+      // render as "—" rather than 0/NaN.
+      const addedPrice = s.addedPrice;
+      const hasAddedPrice = addedPrice !== null && addedPrice !== undefined && !Number.isNaN(addedPrice);
+      const addedPriceCell = hasAddedPrice
+        ? `<span style="font-family:'JetBrains Mono',monospace;">&#8377;${formatNumber(addedPrice)}</span>`
+        : `<span style="color:var(--text-muted);font-size:12px;">—</span>`;
+
+      // % move since the user starred it — only meaningful when both
+      // entry and live price are present.
+      let sinceAddedCell = `<span style="color:var(--text-muted);font-size:12px;">—</span>`;
+      if (hasAddedPrice && hasPrice && addedPrice > 0) {
+        const sincePct = ((price - addedPrice) / addedPrice) * 100;
+        const sincePos = sincePct >= 0;
+        sinceAddedCell = `<span class="${sincePos ? 'positive' : 'negative'}" style="font-family:'JetBrains Mono',monospace;font-size:12px;">${sincePos ? '+' : ''}${sincePct.toFixed(2)}%</span>`;
+      }
+
+      const addedLabel = s.addedAt
+        ? new Date(s.addedAt).toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "2-digit" })
+        : "—";
+      return `
+        <tr style="cursor:pointer;" onclick="loadStock('${sym}')">
+          <td style="padding:6px 4px;">${watchlistButton(sym, name, sector)}</td>
+          <td>
+            <div style="font-weight:600;">${escapeHtml(sym)}</div>
+            <div style="font-size:11px;color:var(--text-muted);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(name)}</div>
+          </td>
+          <td style="font-size:12px;color:var(--text-muted);">${escapeHtml(sector || "—")}</td>
+          <td style="text-align:right;">${addedPriceCell}</td>
+          <td style="text-align:right;">${priceCell}</td>
+          <td style="text-align:right;">${chgCell}</td>
+          <td style="text-align:right;">${sinceAddedCell}</td>
+          <td style="font-size:11px;color:var(--text-muted);text-align:right;">${addedLabel}</td>
+        </tr>`;
+    }).join("");
+
+    container.innerHTML = `
+      <div style="overflow-x:auto;">
+        <table class="signals-table" style="min-width:880px;">
+          <thead>
+            <tr>
+              <th style="width:36px;"></th>
+              <th>Stock</th>
+              <th>Sector</th>
+              <th style="text-align:right;">Added Price</th>
+              <th style="text-align:right;">Price</th>
+              <th style="text-align:right;">Day Change</th>
+              <th style="text-align:right;">Since Added</th>
+              <th style="text-align:right;">Added</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+  } catch (err) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">&#9888;</div>
+        <div class="empty-text">Failed to load watchlist.</div>
+      </div>`;
+    if (meta) meta.textContent = "Error loading watchlist.";
+  }
 }
 
 // ==================== STOCK COMPARISON ====================

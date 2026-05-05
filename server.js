@@ -6093,8 +6093,25 @@ app.post("/api/watchlist/add", express.json(), async (req, res) => {
   const { symbol, name, sector } = req.body || {};
   if (!symbol) return res.status(400).json({ error: "symbol required" });
   const storage = getWatchlistStorage();
-  const result = await storage.add({ symbol, name: name || symbol, sector: sector || null, addedAt: new Date().toISOString() });
-  res.json({ ok: true, ...result });
+
+  // Capture the price at add-time so the watchlist can show the user
+  // their entry-level reference and the move since saving. Server-side
+  // quote keeps the value trustworthy (client clock / stale data can't
+  // forge it). Failures are non-fatal — we still save the entry.
+  let addedPrice = null;
+  try {
+    const q = await fetchQuote(symbol);
+    if (q && typeof q.regularMarketPrice === "number") addedPrice = q.regularMarketPrice;
+  } catch { /* keep addedPrice null */ }
+
+  const result = await storage.add({
+    symbol,
+    name: name || symbol,
+    sector: sector || null,
+    addedAt: new Date().toISOString(),
+    addedPrice,
+  });
+  res.json({ ok: true, addedPrice, ...result });
 });
 
 app.post("/api/watchlist/remove", express.json(), async (req, res) => {
