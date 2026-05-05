@@ -5611,41 +5611,6 @@ async function getMacroRegime() {
 }
 
 /**
- * RA-mode config endpoint — surfaces the SEBI Research Analyst identity
- * + disclosure flags so the frontend can render the regulator-grade
- * banner and per-card disclosure pane.
- *
- * Set the following env vars to activate RA mode:
- *   RA_MODE         "true" to switch the SEBI banner from "Educational only"
- *                   to the RA-grade language.
- *   RA_ARN          SEBI Research Analyst registration number (e.g. INH00001234).
- *   RA_NAME         Analyst display name shown on cards.
- *   RA_FIRM         Firm / individual name shown on cards.
- *   RA_HAS_INTEREST "true" if analyst/family has financial interest in the
- *                   subject companies. Renders the §9(1)(iv) declaration.
- *   RA_HOLDS_GT_1PCT "true" if analyst holds >1% in the subject.
- *   RA_COMPENSATED  "true" if analyst received compensation from the subject.
- *
- * Best-effort and read-only — exposes only flags & display strings. Anyone
- * accessing /gated/* is already past the platform's auth, so this is safe.
- */
-app.get("/api/ra-config", (req, res) => {
-  const raMode = String(process.env.RA_MODE || "").toLowerCase() === "true";
-  res.json({
-    raMode,
-    arn: process.env.RA_ARN || null,
-    analystName: process.env.RA_NAME || null,
-    firm: process.env.RA_FIRM || null,
-    disclosures: {
-      financialInterest: String(process.env.RA_HAS_INTEREST || "").toLowerCase() === "true",
-      holdsOverOnePct: String(process.env.RA_HOLDS_GT_1PCT || "").toLowerCase() === "true",
-      compensated: String(process.env.RA_COMPENSATED || "").toLowerCase() === "true",
-    },
-    methodologyVersion: "combined-v1-2026-04",
-  });
-});
-
-/**
  * Macro regime endpoint — returns the current regime + staleness info.
  * Optional ?refresh=1 forces a recompute.
  */

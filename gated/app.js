@@ -22,11 +22,12 @@ const dashboard = document.getElementById("dashboard");
 
 // ==================== INITIALIZATION ====================
 
-// Frozen no-op RA config. The page-level RA-banner swap was removed by
-// user request; the per-card disclosure pane reads window.RA_CONFIG for
-// fallback strings and we leave it at safe defaults so the disclosure
-// pane shows "Research Analyst / Not configured" rather than throwing.
-window.RA_CONFIG = { raMode: false, arn: null, analystName: null, firm: null, disclosures: {}, methodologyVersion: null };
+// Methodology config consumed by the per-card "Methodology & risk parameters"
+// pane. RA-mode plumbing was removed by user request — the platform does not
+// hold itself out as a SEBI-registered analyst service. methodologyVersion is
+// the only field still read; the rest are kept as nulls so the pane degrades
+// gracefully if anything still references the old shape.
+window.RA_CONFIG = { methodologyVersion: null };
 
 document.addEventListener("DOMContentLoaded", () => {
   updateClock();
@@ -1029,7 +1030,7 @@ function renderStockDetail(data) {
             `;
           })()}
           ${fundamentals.scoredAt ? `
-            <div style="margin-top:10px;padding:8px 12px;border:1px solid var(--border-soft);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--text-muted);display:flex;gap:14px;flex-wrap:wrap;align-items:center;" title="SEBI Research Analyst record-keeping: this analytical verdict is reproducible from the inputs captured at the time of scoring.">
+            <div style="margin-top:10px;padding:8px 12px;border:1px solid var(--border-soft);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--text-muted);display:flex;gap:14px;flex-wrap:wrap;align-items:center;" title="Audit trail: this analytical verdict is reproducible from the inputs captured at the time of scoring.">
               <span><span style="color:var(--text-faint);">scored</span> ${new Date(fundamentals.scoredAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}</span>
               ${fundamentals.scorerVersion ? `<span><span style="color:var(--text-faint);">scorer</span> ${fundamentals.scorerVersion}</span>` : ''}
             </div>
@@ -1659,13 +1660,11 @@ function renderPortfolioChip(stock) {
   return `<span class="portfolio-chip" style="font-size:10px;padding:3px 8px;border-radius:6px;background:${bg};color:${color};border:1px solid ${border};font-weight:700;" title="${tip.replace(/"/g, "&quot;")}">${prefix} ${w.toFixed(1)}%${trail}</span>`;
 }
 
-// SEBI RA Reg 2014 §9 + 2025 amendment §6 — per-recommendation disclosure
-// pane. Renders a collapsed <details> block on every Buy Now / Mid-Term /
-// Sell card containing analyst + ARN, conflict declaration, holding
-// period, target/SL/R:R, score band, methodology weights, data-as-of,
-// and the standard SEBI disclaimer. Conviction-as-% is intentionally
-// not shown yet — that needs the score-band → realized-hit-rate map
-// from paperTrades history (P1.6).
+// Per-recommendation methodology pane. Renders a collapsed <details> block on
+// every Buy Now / Mid-Term / Sell card containing holding period, target/SL/
+// R:R, score band, timing observation, methodology weights and data-as-of.
+// No analyst-identity / RA-registration claims — this is internal research
+// tooling, not a published SEBI RA service.
 function convictionBandLabel(score, type) {
   const s = Number(score);
   if (!Number.isFinite(s)) return "—";
@@ -1688,13 +1687,6 @@ function holdingPeriodLabel(type) {
 
 function renderSebiDisclosure(stock, type) {
   const cfg = window.RA_CONFIG || {};
-  const arn = cfg.arn || "Not configured (set RA_ARN env)";
-  const analyst = cfg.analystName
-    ? `${cfg.analystName}${cfg.firm ? `, ${cfg.firm}` : ""}`
-    : "Research Analyst";
-  const interest = cfg.disclosures?.financialInterest ? "Yes" : "No";
-  const overOnePct = cfg.disclosures?.holdsOverOnePct ? "Yes" : "No";
-  const compensated = cfg.disclosures?.compensated ? "Yes" : "No";
 
   const score = type === "midterm" ? stock?.midTerm?.score : (stock?.score ?? stock?.adjustedScore);
   const band = convictionBandLabel(score, type);
@@ -1720,19 +1712,14 @@ function renderSebiDisclosure(stock, type) {
     ? `Tech ${Math.round(weights.tech * 100)}% · Fund ${Math.round((weights.fund || 0) * 100)}% · SWS ${Math.round((weights.sws || 0) * 100)}%`
     : "Tech + Fund (legacy 50/50)";
 
-  const conflictLine = (interest === "Yes" || overOnePct === "Yes" || compensated === "Yes")
-    ? `<strong style="color:#fbbf24;">Disclosed:</strong> Financial interest: ${interest} · Holding &gt; 1%: ${overOnePct} · Compensation from subject: ${compensated}`
-    : `Financial interest in subject: ${interest} · Holding &gt; 1%: ${overOnePct} · Compensation from subject: ${compensated}`;
-
   return `
     <details class="sebi-disclosure" onclick="event.stopPropagation()" style="margin-top:10px;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,0.015);">
       <summary style="cursor:pointer;list-style:none;padding:8px 12px;font-size:11px;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;gap:8px;">
-        <span style="font-family:'JetBrains Mono',monospace;color:var(--gold,#fbbf24);">SEBI</span>
-        <span>Disclosure &amp; methodology</span>
+        <span style="font-family:'JetBrains Mono',monospace;color:var(--gold,#fbbf24);">METHOD</span>
+        <span>Methodology &amp; risk parameters</span>
         <span style="margin-left:auto;font-weight:400;color:var(--text-muted);">${band} conviction · v=${methodVersion}</span>
       </summary>
       <div style="padding:10px 12px 12px;font-size:11px;color:var(--text-muted);line-height:1.6;border-top:1px solid var(--border);">
-        <div><strong style="color:var(--text-secondary);">Analyst:</strong> ${escapeHtml(analyst)} · <strong>ARN:</strong> ${escapeHtml(arn)}</div>
         <div><strong style="color:var(--text-secondary);">Holding period:</strong> ${holdPeriod}</div>
         <div><strong style="color:var(--text-secondary);">Risk parameters:</strong> ${slTgtLine}</div>
         <div><strong style="color:var(--text-secondary);">Score band:</strong> ${score != null ? Math.round(score) : "—"}/100 → ${band}${
@@ -1753,11 +1740,8 @@ function renderSebiDisclosure(stock, type) {
         ` : ""}
         <div><strong style="color:var(--text-secondary);">Methodology weights:</strong> ${weightsLine}</div>
         <div><strong style="color:var(--text-secondary);">Data as of:</strong> ${dataAsOfPretty}</div>
-        <div style="margin-top:6px;">${conflictLine}</div>
         <div style="margin-top:8px;font-style:italic;font-size:10px;">
-          Issued under SEBI (Research Analysts) Regulations, 2014. Investments in securities are subject to market risk;
-          read all related documents before investing. Past performance does not guarantee future returns.
-          This recommendation is made on the basis of the methodology stamped above and may be revised when inputs update.
+          Educational research only. Investments in securities are subject to market risk; read all related documents before investing. Past performance does not guarantee future returns. Methodology stamped above; signals may revise as inputs update.
         </div>
       </div>
     </details>
@@ -1784,7 +1768,7 @@ function renderMethodologyFooter(methodology) {
     <div class="methodology-footer" style="margin-top:18px;padding:10px 12px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:8px;font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;line-height:1.55;">
       <div><strong style="color:var(--text-secondary);">Combined Score</strong> · Tech ${wp.tech || 0}% · Fund ${wp.fund || 0}% · SWS ${wp.sws || 0}% · v=${methodology.version || "—"}</div>
       <div>Sources: ${sources} · SWS last refresh: ${refresh} (${methodology.swsScoredCount || 0} stocks)</div>
-      <div style="margin-top:4px;font-style:italic;">Educational analytics; not personalised investment advice. Past performance &ne; future returns. SEBI IA Reg 2013 / RA Reg 2014.</div>
+      <div style="margin-top:4px;font-style:italic;">Educational analytics; not personalised investment advice. Past performance &ne; future returns.</div>
     </div>`;
 }
 
@@ -2039,7 +2023,7 @@ function renderBuyNowHero(stock) {
       </div>
       ${renderCombinedScoreRow(stock)}
       <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);font-size:11px;color:var(--text-muted);">
-        Educational only. Not investment advice. StarBhai is not a SEBI-registered investment adviser.
+        Educational only. Not investment advice. Past performance does not guarantee future returns.
       </div>
     </div>
   `;
@@ -3741,7 +3725,7 @@ function renderNewsPage(articles, digest, verdict, market, heatmap, fiiDii, port
     </div>
   `;
 
-  // ── Compliance footer (mandatory per IA Reg 2013 / RA Reg 2014) ──
+  // ── Compliance footer — sources cited + general-commentary disclaimer ──
   html += renderComplianceFooter(_newsCompliance);
 
   container.innerHTML = html;
@@ -5628,34 +5612,6 @@ function swsConvictionBadge(rec, fallbackProxy) {
   return `<span title="Net layer delta from cross-check + catalyst + India-risk votes" style="display:inline-block; padding:2px 7px; border-radius:4px; background:${c.bg}; border:1px solid ${c.border}; color:${c.text}; font-size:10px; font-weight:700; letter-spacing:0.3px;">${conviction}${layerCount ? " · " + layerCount : ""}</span>`;
 }
 
-// Per-layer vote arrows — quick scan of which independent layers
-// confirmed/dissented from the SWS-band action.
-function swsLayerVoteIcons(rec) {
-  if (!rec || !rec.layer_votes) return "";
-  const icon = (v) => v > 0 ? "↑" : v < 0 ? "↓" : "→";
-  const color = (v) => v > 0 ? "#86efac" : v < 0 ? "#fca5a5" : "#94a3b8";
-  const layers = [
-    { k: "Cross-check", v: rec.layer_votes.crosscheck },
-    { k: "Catalyst",    v: rec.layer_votes.catalyst },
-    { k: "India-risk",  v: rec.layer_votes.indianRisk },
-  ];
-  return `<div style="margin:8px 0 0 0; display:inline-flex; gap:10px; font-size:11px;">
-    ${layers.map((l) => `<span title="${l.k} layer vote" style="color:${color(l.v)};">${l.k} ${icon(l.v)}</span>`).join("")}
-  </div>`;
-}
-
-// 3-paragraph analyst-style narrative from swsReasonNarrator. Renders
-// **bold** markdown inline + bullet glyphs on their own line.
-function swsNarrativeBlock(rec) {
-  if (!rec || !Array.isArray(rec.narrative_paragraphs)) return "";
-  return rec.narrative_paragraphs.map((p, i) => {
-    const html = swsEscapeAttr(p)
-      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-      .replace(/(•[^•\n]+)/g, '<div style="margin-top:4px;">$1</div>');
-    return `<p style="margin:${i === 0 ? "10px" : "12px"} 0 0 0; font-size:12px; line-height:1.55; color:var(--text);">${html}</p>`;
-  }).join("");
-}
-
 // Peer-rotation chip — clickable, opens stock detail modal for the peer.
 // Uses the top_peer field from peer_substitute.
 function swsTopPeerChip(holding) {
@@ -5770,19 +5726,6 @@ function swsTaxScenariosTable(taxScenarios, currentAction) {
   </div>`;
 }
 
-// Counter-thesis card. Pulled from v2_recommendation.counter_thesis. The
-// falsification trigger (what would prove this thesis wrong) is rendered
-// alongside per the SEBI-RA "what would change my mind" pattern.
-function swsCounterThesisCard(v2rec) {
-  if (!v2rec || !v2rec.counter_thesis) return "";
-  const ft = v2rec.falsification_trigger;
-  return `<div style="margin-top:10px; padding:8px 10px; background:rgba(168,85,247,0.06); border:1px solid rgba(168,85,247,0.18); border-radius:5px; font-size:11px;">
-    <div style="font-weight:700; color:#c4b5fd; margin-bottom:4px; letter-spacing:0.3px;">Counter-thesis</div>
-    <div style="line-height:1.5; color:var(--text);">${swsEscapeAttr(v2rec.counter_thesis)}</div>
-    ${ft ? `<div style="margin-top:6px; padding-top:6px; border-top:1px dashed rgba(168,85,247,0.2); color:var(--text-muted); font-style:italic;"><strong style="color:#c4b5fd; font-style:normal;">Falsification trigger:</strong> ${swsEscapeAttr(ft)}</div>` : ""}
-  </div>`;
-}
-
 // Catalyst calendar — renders pending earnings + analyst PT actions +
 // insider buys as a stacked list. Empty state is handled by the caller.
 function swsCatalystCalendar(catalyst) {
@@ -5861,20 +5804,8 @@ function swsReasonRow(h) {
       </div>`
     : "";
 
-  // Avoid duplicating narrative paragraphs in the bullet list. When the
-  // v2 conviction engine is active, h.reasons already CONTAINS the
-  // narrative paragraphs (set by swsHoldingEngine when v2-primary is on)
-  // and swsNarrativeBlock(rec) renders them in their own paragraph block.
-  // In that case, fall back to ladderRationale-only bullets, which give
-  // the user the rung-selection trace without repeating the narrative.
-  const hasV2Narrative = !!(rec && Array.isArray(rec.narrative_paragraphs) && rec.narrative_paragraphs.length > 0);
-  const bulletReasons = hasV2Narrative
-    ? (Array.isArray(h.ladderRationale) && h.ladderRationale.length > 0 ? h.ladderRationale : [])
-    : h.reasons;
-  const bulletList = bulletReasons.length > 0
-    ? `<ul style="margin:10px 0 0 0; padding-left:20px; font-size:12px; line-height:1.6;">
-        ${bulletReasons.map(r => `<li>${swsEscapeAttr(r)}</li>`).join("")}
-      </ul>`
+  const timingBox = h.timing && h.timing.reason
+    ? `<div style="font-size:11px; color:var(--text-muted); padding:6px 10px; background:rgba(0,0,0,0.2); border-radius:4px;"><strong style="color:var(--text);">Timing:</strong> ${swsEscapeAttr(h.timing.reason)}</div>`
     : "";
 
   return `<details style="margin-top:8px; background:rgba(255,255,255,0.02); border:1px solid #1f2937; border-radius:6px; padding:10px 14px;">
@@ -5884,23 +5815,15 @@ function swsReasonRow(h) {
       ${swsSurveillanceChip(sws.surveillance)}
       ${swsConvictionBadge(rec, h.convictionProxy)}
     </summary>
-    ${swsLayerVoteIcons(rec)}
-    ${swsNarrativeBlock(rec)}
     <div style="margin-top:12px;">
       ${fvLine}
       ${swsSnowflakeFull(sws.snowflake)}
     </div>
-    <div style="margin-top:12px; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px;">
-      <div>
-        ${bulletList}
-        ${h.timing && h.timing.reason ? `<div style="margin-top:8px; font-size:11px; color:var(--text-muted); padding:6px 10px; background:rgba(0,0,0,0.2); border-radius:4px;"><strong style="color:var(--text);">Timing:</strong> ${swsEscapeAttr(h.timing.reason)}</div>` : ""}
-      </div>
-      <div>
-        ${swsCounterThesisCard(rec)}
-        ${swsCatalystCalendar(sws.catalyst)}
-        ${swsTopPeerChip(h)}
-        ${swsPeerSubstitutes(sws.peer_substitute)}
-      </div>
+    <div style="margin-top:12px; display:flex; flex-direction:column; gap:10px;">
+      ${timingBox}
+      ${swsCatalystCalendar(sws.catalyst)}
+      ${swsTopPeerChip(h)}
+      ${swsPeerSubstitutes(sws.peer_substitute)}
     </div>
     ${swsTaxScenariosTable(h.taxScenarios, h.action)}
     ${swsAuditTrailDetails(h.audit)}
@@ -6771,7 +6694,7 @@ function notAdviceChip(mode = "default") {
   const style = mode === "inline"
     ? "display:inline-block; font-size:9px; font-weight:700; padding:2px 6px; margin-left:8px; border-radius:3px; background:rgba(250,204,21,0.10); color:#fde047; letter-spacing:0.4px; border:1px solid rgba(250,204,21,0.25); text-transform:uppercase; vertical-align:middle;"
     : "display:inline-block; font-size:10px; font-weight:700; padding:3px 8px; border-radius:4px; background:rgba(250,204,21,0.08); color:#fde047; letter-spacing:0.4px; border:1px solid rgba(250,204,21,0.2); text-transform:uppercase;";
-  return `<span style="${style}" title="StarBhai is not a SEBI-registered investment adviser. This is educational research — signals and observations, not personalised investment advice.">${text}</span>`;
+  return `<span style="${style}" title="Educational research — signals and observations, not personalised investment advice.">${text}</span>`;
 }
 
 // Data-freshness badge. `ageSec` is how old the quote cache might be;
@@ -10020,6 +9943,13 @@ function renderPickCard(s, sectionKey, rank = null) {
   const survBadge = surv
     ? `<span class="sws-surveillance-badge" data-term-id="nse_surveillance" tabindex="0" role="button" aria-label="NSE surveillance flag" title="NSE ${surv.list} surveillance flag (${surv.timeframe || "—"})">${surv.list}</span>`
     : "";
+  // Thin-coverage badge — surfaces when the scorer had < 60% of input fields.
+  // Without it, missing inputs silently scored as zero pull the composite
+  // toward the 40-50 band, which can mis-rank a thinly-covered name.
+  const cov = typeof s.data_completeness_pct === "number" ? s.data_completeness_pct : null;
+  const coverageBadge = (cov != null && cov < 60)
+    ? `<span class="sws-thin-coverage-badge" title="Only ${cov}% of the 13 SWS input fields were populated when this stock was scored — verify manually before acting.">Thin · ${cov}%</span>`
+    : "";
   const rankBadge = rank ? `<span class="sws-pick-rank">${rank}</span>` : "";
   const fresh = pickFreshnessPill(s.data_freshness_at);
 
@@ -10049,7 +9979,7 @@ function renderPickCard(s, sectionKey, rank = null) {
         <div class="sws-pick-card-id">
           ${rankBadge}
           <div class="sws-pick-card-id-text">
-            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
+            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${coverageBadge}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
             <div class="sws-pick-card-name">${s.name || ""}${fresh}</div>
           </div>
         </div>
