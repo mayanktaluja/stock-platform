@@ -23,7 +23,7 @@ import {
 } from "./actionLadder.js";
 import { bucketByDaysToExit } from "./liquidityTail.js";
 import { buildSnapshot as buildDiffSnapshot, diffSnapshots, snapshotByTicker } from "./analyzerDiff.js";
-import { applyPostTrimCooldown } from "./postTrimCooldown.js";
+import { annotateRecentTrims } from "./postTrimCooldown.js";
 
 // Lazy macro-regime import — only used for basket tilt; failing import
 // degrades gracefully (no tilt applied).
@@ -79,14 +79,6 @@ function buildTiers(scoredHoldings) {
   for (const h of scoredHoldings) {
     if (!h.swsCovered) {
       tierD.push({ ...h, watchReason: "No SWS data — verify ticker / treat as out-of-universe." });
-      continue;
-    }
-    // Cooldown softeners (action was Reduction-* but the user already
-    // trimmed) come through with action="HOLD" + recentlyTrimmedReason.
-    // Route them to Tier C so the user sees them as "no further action
-    // needed" with a clear badge — not as a fresh HOLD recommendation.
-    if (h.recentlyTrimmedReason) {
-      tierC.push(h);
       continue;
     }
     if (REDUCTION_ACTIONS.has(h.action)) {
@@ -605,15 +597,10 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
   const macroRegime = opts.macroRegime ?? null;
   const priorSnapshot = opts.priorSnapshot ?? null;
 
-  // Post-trim cooldown — softens any Reduction-* call on a holding the
-  // user already trimmed (qty drop ≥ 10% vs prior snapshot, or
-  // lastTrimmedAt within the cooldown window). The engine's underlying
-  // recommendation still rides through as `originalAction` on the row so
-  // the UI can show "engine wanted Reduction-25%, suppressed because you
-  // trimmed N days ago". Pure when priorSnapshot is null (first run /
-  // ANALYZER_DIFF off) — cooledCount = 0, holdings unchanged.
-  const cooled = applyPostTrimCooldown(scoredHoldings, priorSnapshot);
-  const effectiveHoldings = cooled.holdings;
+  // No cooldown — today's SWS signal is shown regardless of recent trims.
+  // Recent-trim metadata is attached as `recentTrimInfo` for an
+  // informational chip in the UI; it does NOT alter the action.
+  const effectiveHoldings = annotateRecentTrims(scoredHoldings, priorSnapshot);
 
   const tiers = buildTiers(effectiveHoldings);
   const baskets = buildBaskets({ scoredHoldings: effectiveHoldings, freshCapitalInr, freshPickLimit });
@@ -690,8 +677,5 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
       D: { label: "Watch (catalyst-driven)", rows: tiers.tierD },
     },
     sectorOverlay,
-    cooldownSummary: {
-      cooledCount: cooled.cooledCount,
-    },
   };
 }

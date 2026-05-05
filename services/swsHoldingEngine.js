@@ -30,7 +30,6 @@ import { findPeerSubstitutes } from "./swsPeerLayer.js";
 import { buildFallbackHolding } from "./swsCoverageFallback.js";
 import { buildAuditTrail } from "./swsAuditTrail.js";
 import { promoteToLadderV2, parseTrimPct, parseTopUpPct } from "./actionLadder.js";
-import { computeTaxScenarios, inferAssetClass } from "../taxEngine.js";
 import { computeTimingObservation as computeTimingObservationFromModule } from "./timingObservation.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -522,31 +521,13 @@ export function scoreHolding(holding, portfolioContext = {}) {
     finalReasons = [...ladderRationale, ...finalReasons];
   }
 
-  // ─── Tax scenarios for trim / exit actions ───────────────────────
-  // Compute realised-tax cost for each ladder rung (25/33/50/66/100%)
-  // so the UI can show "if you trim X% you keep ₹Y net, ₹Z LTCG/STCG
-  // tax". Skips top-ups + HOLD (no realisation event). Skips when
-  // current value ≤ 0 (deeply broken position with no proceeds to model).
-  // fyContext is supplied by the caller via portfolioContext to share
-  // the LTCG-budget remaining across every holding in the same request.
-  let taxScenarios = null;
-  const isTrimOrExit = parseTrimPct(promotedAction) > 0;
-  const investedAmt = num(holding.invested ?? (holding.avgPrice * holding.quantity), 0);
-  const currentAmt = num(holding.currentValue ?? (ov.current_price_inr * holding.quantity), 0);
-  if (isTrimOrExit && investedAmt > 0 && currentAmt > 0) {
-    try {
-      taxScenarios = computeTaxScenarios({
-        investedRupees: investedAmt,
-        currentValueRupees: currentAmt,
-        purchaseDate: holding.purchaseDate || null,
-        assetClass: inferAssetClass(holding),
-        fyContext: portfolioContext.fyContext || null,
-        today: portfolioContext.today || undefined,
-        taxSlabPct: portfolioContext.taxSlabPct,
-      });
-    } catch (err) {
-      console.warn(`[swsHoldingEngine] taxScenarios failed for ${scored.ticker}: ${err.message}`);
-    }
+  // Stale-data tag — SWS refreshes daily, so anything > 36h old gets a
+  // visible "verify before acting" note. Action remains whatever V3 emits;
+  // this is informational, not gating.
+  const dataAgeHours = dataFreshnessMs(scored) != null ? Math.round(dataFreshnessMs(scored) / 3600000) : null;
+  const staleData = Number.isFinite(dataAgeHours) && dataAgeHours > 36;
+  if (staleData) {
+    finalReasons = [`SWS data ${dataAgeHours}h old — verify before acting.`, ...finalReasons];
   }
 
   return {
@@ -616,10 +597,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
     // rupee impact at a glance, no clicking required.
     trimRupees,
     topUpRupees,
-    // Per-rung tax scenarios (₹ realised, gain, tax, net, LTCG/STCG regime)
-    // for the four trim percentages + full exit. Null on HOLD / top-up
-    // actions (no realisation event), or when invested/current value is 0.
-    taxScenarios,
+    staleData,
     reasons: finalReasons,
     timing,
     audit: buildAuditTrail({

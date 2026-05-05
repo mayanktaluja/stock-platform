@@ -236,7 +236,7 @@ export const INTAKE_QUESTIONS = [
   {
     id: "ltcgRealisedYtdRupees",
     label: "LTCG already realised this financial year (₹)",
-    helper: "Used so the per-rung tax block knows how much of your ₹1.25L FY exemption is still available.",
+    helper: "Used by the XIRR optimizer when sizing trims that hit the ₹1.25L FY LTCG exemption budget.",
     type: "numeric",
     min: 0,
     step: 5000,

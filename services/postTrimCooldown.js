@@ -1,34 +1,21 @@
-// Post-trim cooldown — suppress repeat Reduction-* calls on holdings the
-// user already trimmed.
+// Detect recent trims (qty drop ≥ 10% vs prior snapshot, or
+// `lastTrimmedAt` within N days) for **informational chip rendering only**.
+// Does NOT gate engine actions.
 //
-// Without this, a stateless action engine keeps re-issuing the same
-// "Reduction-25%" recommendation each run because its inputs (SWS verdict,
-// v3 score, PnL%) don't change just because the user executed the trim.
-// User actions in good faith would be met with the same instruction
-// tomorrow — Groundhog Day.
-//
-// Mechanism (two complementary triggers):
-//   1. Fresh-trim detection — currentQty <= priorQty * (1 - TRIM_PCT).
-//   2. Recent-trim memory   — priorSnapshot row carries lastTrimmedAt and
-//      it falls inside the cooldown window.
-//
-// When either trigger fires AND the engine wants a Reduction-*, the action
-// is overridden to HOLD with a `recentlyTrimmedReason` badge. Top-ups,
-// HOLDs and EXITs are never softened — the cooldown only suppresses
-// follow-up trims, not direction reversals or terminal sell calls.
+// User policy (2026-05-06): today's SWS signal must always be visible.
+// A holding the user trimmed yesterday still gets today's V3 rung —
+// the chip is a passive nudge, not a suppressor.
 
 import { snapshotByTicker } from "./analyzerDiff.js";
-import { ALL_REDUCTION_ACTIONS } from "./actionLadder.js";
 
 // Treat any qty drop ≥ 10% as a deliberate trim (anything smaller is
 // likely T+1 settlement noise, dividend re-investment, or a corporate
 // action like a split).
 const TRIM_DETECTION_PCT = 0.10;
 
-// Days the cooldown stays active after a detected trim. 14 calendar days
-// covers a typical "let the position settle, see how the next earnings
-// /catalyst lands" window without becoming a permanent trim suppressant.
-const COOLDOWN_DAYS = 14;
+// Look-back window for the informational chip. Past this, the trim is
+// considered "old news" and the chip stops rendering.
+const RECENT_TRIM_WINDOW_DAYS = 14;
 
 const MS_PER_DAY = 86400000;
 
@@ -40,14 +27,14 @@ function _daysSince(iso, now) {
 }
 
 /**
- * Decide whether a single holding is in cooldown right now.
+ * Decide whether a single holding was recently trimmed.
  *
- * Returns { inCooldown: boolean, trimmedPct: number|null,
+ * Returns { isRecent: boolean, trimmedPct: number|null,
  *          trimmedAt: string|null, daysAgo: number|null,
  *          source: "fresh"|"memory"|null }.
  */
-export function evaluateCooldown({ holding, priorRow, now = Date.now(), trimDetectionPct = TRIM_DETECTION_PCT, cooldownDays = COOLDOWN_DAYS }) {
-  const result = { inCooldown: false, trimmedPct: null, trimmedAt: null, daysAgo: null, source: null };
+export function detectFreshTrim({ holding, priorRow, now = Date.now(), trimDetectionPct = TRIM_DETECTION_PCT, windowDays = RECENT_TRIM_WINDOW_DAYS }) {
+  const result = { isRecent: false, trimmedPct: null, trimmedAt: null, daysAgo: null, source: null };
   if (!priorRow) return result;
 
   const curQty = Number.isFinite(holding?.quantity) ? holding.quantity : null;
@@ -57,7 +44,7 @@ export function evaluateCooldown({ holding, priorRow, now = Date.now(), trimDete
   if (curQty != null && priorQty != null && priorQty > 0 && curQty <= priorQty * (1 - trimDetectionPct)) {
     const trimmedFraction = (priorQty - curQty) / priorQty;
     return {
-      inCooldown: true,
+      isRecent: true,
       trimmedPct: Math.round(trimmedFraction * 100),
       trimmedAt: new Date(now).toISOString(),
       daysAgo: 0,
@@ -66,13 +53,10 @@ export function evaluateCooldown({ holding, priorRow, now = Date.now(), trimDete
   }
 
   // Trigger 2 — prior snapshot carried a lastTrimmedAt within the window.
-  // Useful when the user trims once, then re-runs the analyzer multiple
-  // times without trading further — the qty diff is zero, but the user
-  // shouldn't see fresh Reduction calls repeatedly.
   const daysAgo = _daysSince(priorRow.lastTrimmedAt, now);
-  if (daysAgo != null && daysAgo >= 0 && daysAgo <= cooldownDays) {
+  if (daysAgo != null && daysAgo >= 0 && daysAgo <= windowDays) {
     return {
-      inCooldown: true,
+      isRecent: true,
       trimmedPct: null,
       trimmedAt: priorRow.lastTrimmedAt,
       daysAgo: Math.round(daysAgo * 10) / 10,
@@ -84,44 +68,23 @@ export function evaluateCooldown({ holding, priorRow, now = Date.now(), trimDete
 }
 
 /**
- * Apply the cooldown across a list of scored holdings. Returns a new
- * array (does not mutate the input). For each holding in cooldown whose
- * action is a Reduction-*, replaces:
- *
- *   .action          -> "HOLD"
- *   .originalAction  -> the engine's pre-cooldown call
- *   .recentlyTrimmedReason -> human-readable badge text
- *   .cooldown        -> { source, trimmedPct, trimmedAt, daysAgo }
- *
- * Top-ups, EXITs and pre-existing HOLDs flow through untouched.
- *
- * @returns { holdings, cooledCount } — `cooledCount` is the number of
- *   reductions that got softened. The caller can surface this in the
- *   summary banner if it wants.
+ * Annotate scored holdings with `recentTrimInfo` metadata for UI chip
+ * rendering. Returns a new array (does not mutate inputs). The chip is
+ * informational only — `action` is never modified, so today's SWS
+ * recommendation always rides through.
  */
-export function applyPostTrimCooldown(scoredHoldings, priorSnapshot, opts = {}) {
+export function annotateRecentTrims(scoredHoldings, priorSnapshot, opts = {}) {
   const now = opts.now instanceof Date ? opts.now.getTime() : (opts.now || Date.now());
   const priorByTicker = snapshotByTicker(priorSnapshot);
-  let cooledCount = 0;
 
-  const holdings = (scoredHoldings || []).map((h) => {
+  return (scoredHoldings || []).map((h) => {
     const ticker = h?.sws?.ticker || h?.symbol || h?.ticker || null;
     const priorRow = ticker ? priorByTicker.get(ticker) : null;
-    const ev = evaluateCooldown({ holding: h, priorRow, now, trimDetectionPct: opts.trimDetectionPct, cooldownDays: opts.cooldownDays });
-    if (!ev.inCooldown) return h;
-    if (!ALL_REDUCTION_ACTIONS.has(h.action)) return h; // never soften top-ups / HOLD / EXIT
-    cooledCount++;
-
-    const reason = ev.source === "fresh"
-      ? `Trimmed ${ev.trimmedPct}% since last review — signal unchanged but you've already acted. Sit ${COOLDOWN_DAYS} days before re-evaluating.`
-      : `Trimmed ${ev.daysAgo}d ago — within ${COOLDOWN_DAYS}-day cooldown. Engine wants ${h.action} again but you already acted; observe before further trim.`;
-
+    const ev = detectFreshTrim({ holding: h, priorRow, now, trimDetectionPct: opts.trimDetectionPct, windowDays: opts.windowDays });
+    if (!ev.isRecent) return h;
     return {
       ...h,
-      action: "HOLD",
-      originalAction: h.action,
-      recentlyTrimmedReason: reason,
-      cooldown: {
+      recentTrimInfo: {
         source: ev.source,
         trimmedPct: ev.trimmedPct,
         trimmedAt: ev.trimmedAt,
@@ -129,8 +92,6 @@ export function applyPostTrimCooldown(scoredHoldings, priorSnapshot, opts = {}) 
       },
     };
   });
-
-  return { holdings, cooledCount };
 }
 
-export const _internals = { TRIM_DETECTION_PCT, COOLDOWN_DAYS };
+export const _internals = { TRIM_DETECTION_PCT, RECENT_TRIM_WINDOW_DAYS };

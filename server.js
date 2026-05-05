@@ -6941,9 +6941,6 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
         const pnlPercent = row.invested > 0 ? ((row.currentValue - row.invested) / row.invested) * 100 : 0;
         const rescored = swsScoreHolding(
           { ...row, positionWeight, sectorWeight, pnlPercent },
-          // fyContext flows through to scoreHolding's taxScenarios block.
-          // taxSlabPct uses the request-time slab (default 30%) so debt
-          // instruments get accurate slab-based math.
           // regimeSeverity + sectorImpactBySector feed the timing
           // observation module via portfolioContext — used to flag
           // sector-headwind situations as "Soft-no, closing-VWAP".

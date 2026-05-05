@@ -79,7 +79,7 @@ function _v2ToSwsSnowflake(v2pillars) {
 // position weight / sector weight at fallback time, so we map score-band
 // to a conservative ladder rung. Round-trip is deterministic.
 function _fallbackAction(v2score) {
-  const v2Mode = process.env.SWS_LADDER_V2 === "1";
+  const v2Mode = process.env.SWS_LADDER_V2 !== "0";
   if (v2score == null) return "HOLD";
   if (v2score >= 70) return v2Mode ? "Top-up-25%" : "Top-up-modest";
   if (v2score >= 55) return "HOLD";
