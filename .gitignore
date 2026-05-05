@@ -83,3 +83,10 @@ data/sws/api-queries.json
 data/sws/deep-api/
 data/sws/deep-api-parsed/
 data/sws/deep.scraper-backup/
+
+# F&O OI screener — runtime files (locks/logs/raw bhavcopy not committed).
+# oi-deltas-latest.json + history/ ARE committed as Vercel boot seed.
+data/nse-fo/pipeline.lock
+data/nse-fo/refresh.log
+data/nse-fo/oi-deltas-latest.json.tmp.*
+data/nse-fo/bhavcopy/
