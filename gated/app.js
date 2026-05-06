@@ -365,11 +365,14 @@ async function loadMarketData() {
           // seconds ago.
           const isGift = idx.symbol === "GIFTNIFTY";
           const lttLabel = isGift ? formatGiftNiftyLtt(idx.lastTradedAt) : "";
+          const giftChangeTitle = isGift
+            ? "% change vs NIFTY 50 previous close (leading-indicator convention)"
+            : "";
           return `
             <div class="ticker-item${isGift ? " ticker-gift" : ""}">
               <span class="ticker-name">${name}</span>
               <span class="ticker-price ${isPos ? "positive" : "negative"}">${formatNumber(idx.price)}</span>
-              <span class="ticker-change ${isPos ? "positive-bg" : "negative-bg"}">
+              <span class="ticker-change ${isPos ? "positive-bg" : "negative-bg"}"${giftChangeTitle ? ` title="${giftChangeTitle}"` : ""}>
                 ${isPos ? "+" : ""}${formatNumber(idx.change)}&nbsp;(${isPos ? "+" : ""}${idx.changePercent?.toFixed(2)}%)
               </span>
               ${lttLabel ? `<span class="ticker-ltt" title="GIFT Nifty last traded time on NSE IX">${lttLabel}</span>` : ""}
