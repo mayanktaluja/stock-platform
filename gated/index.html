@@ -1361,6 +1361,10 @@
       font-size: 11px;
       color: var(--text-muted);
       font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
     }
     .macro-banner-reasoning {
       font-size: 13px;
@@ -1397,6 +1401,40 @@
       color: var(--text-muted);
       letter-spacing: 0.2px;
     }
+    .macro-refresh-btn {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text-secondary);
+      cursor: pointer;
+      letter-spacing: 0.2px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+    }
+    .macro-refresh-btn:hover:not(:disabled) {
+      background: rgba(255,255,255,0.10);
+      color: var(--text-primary);
+      border-color: rgba(255,255,255,0.22);
+    }
+    .macro-refresh-btn:disabled {
+      cursor: progress;
+      opacity: 0.7;
+    }
+    .macro-refresh-spinner {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border: 1.5px solid currentColor;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: macro-spin 0.7s linear infinite;
+    }
+    @keyframes macro-spin { to { transform: rotate(360deg); } }
 
     /* Buy Now card macro badge */
     .macro-boost-badge {
