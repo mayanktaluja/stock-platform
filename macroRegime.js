@@ -20,6 +20,8 @@ import { checkBudget, recordUsage } from "./openaiBudget.js";
 
 const MACRO_MODEL = process.env.MACRO_MODEL || "llama-3.3-70b-versatile";
 const GROQ_BASE_URL = "https://api.groq.com/openai/v1";
+const MACRO_GEMINI_MODEL = process.env.MACRO_GEMINI_MODEL || "gemini-2.5-flash";
+const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/";
 
 // ──────────────────── Enums ────────────────────
 
@@ -239,7 +241,7 @@ export function defaultCalmRegime() {
 
 // ──────────────────── Heuristic classifier (last-resort fallback) ────────────────────
 //
-// Used only when ALL LLM providers (Groq + OpenAI) are exhausted. Less
+// Used only when ALL LLM providers (Groq + Gemini) are exhausted. Less
 // accurate than an LLM but deterministic, free, and never fails. Keeps the
 // macro banner functional through quota outages, deploy issues, or any
 // other LLM unavailability — the user explicitly asked for the classifier
@@ -375,6 +377,14 @@ function getGroq() {
   return _groq;
 }
 
+let _gemini = null;
+function getGeminiClient() {
+  if (_gemini) return _gemini;
+  if (!process.env.GEMINI_API_KEY) return null;
+  _gemini = new OpenAI({ apiKey: process.env.GEMINI_API_KEY, baseURL: GEMINI_BASE_URL });
+  return _gemini;
+}
+
 // Groq TPD quota state — set by withOpenAIRetry when a long-duration 429
 // (>120s wait) is detected. These indicate a per-day token cap, not a
 // transient spike. Callers can check getGroqQuotaState() before calling.
@@ -452,8 +462,13 @@ export async function withOpenAIRetry(fn, { label = "openai", maxAttempts = 3 } 
 /**
  * Run the LLM classification call against a specific provider.
  * Returns { regime, providerLabel } on success, throws on failure.
+ *
+ * extraParams lets a provider tweak the request — e.g. Gemini 2.5 Flash
+ * is a reasoning model whose internal "thinking tokens" eat into max_tokens
+ * and can produce empty content; passing reasoning_effort:"none" disables
+ * thinking and keeps the JSON output within the token budget.
  */
-async function runClassification({ client, model, label, trackBudget }, { system, userMessage, headlineCount }) {
+async function runClassification({ client, model, label, trackBudget, extraParams = {} }, { system, userMessage, headlineCount }) {
   const response = await withOpenAIRetry(
     () => client.chat.completions.create({
       model,
@@ -464,6 +479,7 @@ async function runClassification({ client, model, label, trackBudget }, { system
         { role: "system", content: system },
         { role: "user", content: userMessage },
       ],
+      ...extraParams,
     }),
     { label }
   );
@@ -493,49 +509,78 @@ async function runClassification({ client, model, label, trackBudget }, { system
  *
  * headlines: Array<{ title, source, sourceTier, publishedAt, url? }>
  *
- * Two-step fallback chain: Groq → keyword heuristic. Never throws.
- * Groq is free but capped at 100K TPD; when that's hit (or anytime Groq
- * fails), the heuristic produces a real regime from headline keywords so
- * the macro banner stays functional. Paid providers are deliberately not
- * in this chain — see #114 for the trade-offs.
+ * Three-step fallback chain: Groq → Gemini → keyword heuristic. Never throws.
+ * Both LLM providers run on free tiers (Groq 100K TPD, Gemini 1500 RPD on
+ * aistudio.google.com). When Groq is throttled or fails, Gemini takes over
+ * with the same prompt; if Gemini is unconfigured/throttled/fails too, the
+ * heuristic produces a real regime from headline keywords so the macro
+ * banner stays functional. Paid providers are deliberately not in this
+ * chain — see PR #114 for the trade-offs.
  */
 export async function classifyRegime(headlines) {
   if (!Array.isArray(headlines) || headlines.length === 0) {
     return { ...defaultCalmRegime(), reasoning: "No headlines provided." };
   }
 
-  const groqClient = getGroq();
   // Cap headlines to stay under token budget — keep the 40 most recent.
   const capped = headlines.slice(0, 40);
+  const promptCtx = {
+    system: buildSystemPrompt(),
+    userMessage: buildUserMessage(capped),
+    headlineCount: capped.length,
+  };
 
-  if (!groqClient) {
-    console.warn("[MACRO] No GROQ_API_KEY — using heuristic keyword classifier.");
-    return heuristicClassifyRegime(capped);
-  }
-
-  // Skip Groq if its TPD quota is currently exhausted — no point burning
-  // a network round-trip to get the same 429 we already know about.
+  // Step 1 — Groq (primary; fastest free LLM, 100K TPD).
+  const groqClient = getGroq();
   const groqQuota = getGroqQuotaState();
-  if (groqQuota.limited) {
-    console.log(`[MACRO] Groq quota active until ${new Date(groqQuota.until).toISOString()} — using heuristic.`);
-    return heuristicClassifyRegime(capped);
+  if (!groqClient) {
+    console.warn("[MACRO] No GROQ_API_KEY — trying Gemini.");
+  } else if (groqQuota.limited) {
+    // Skip Groq if its TPD quota is currently exhausted — no point burning
+    // a network round-trip to get the same 429 we already know about.
+    console.log(`[MACRO] Groq quota active until ${new Date(groqQuota.until).toISOString()} — trying Gemini.`);
+  } else {
+    try {
+      const regime = await runClassification(
+        { client: groqClient, model: MACRO_MODEL, label: "MACRO/groq", trackBudget: false },
+        promptCtx
+      );
+      regime.classifierProvider = "groq";
+      console.log(`[MACRO] Classification via groq: ${regime.regime} (sev ${regime.severity}, conf ${regime.confidence?.toFixed?.(2) ?? regime.confidence})`);
+      return regime;
+    } catch (err) {
+      console.warn(`[MACRO] Groq failed: ${err.message} — trying Gemini.`);
+    }
   }
 
-  const system = buildSystemPrompt();
-  const userMessage = buildUserMessage(capped);
-
-  try {
-    const regime = await runClassification(
-      { client: groqClient, model: MACRO_MODEL, label: "MACRO/groq", trackBudget: false },
-      { system, userMessage, headlineCount: capped.length }
-    );
-    regime.classifierProvider = "groq";
-    console.log(`[MACRO] Classification via groq: ${regime.regime} (sev ${regime.severity}, conf ${regime.confidence?.toFixed?.(2) ?? regime.confidence})`);
-    return regime;
-  } catch (err) {
-    console.warn(`[MACRO] Groq failed: ${err.message} — using heuristic keyword classifier.`);
-    return heuristicClassifyRegime(capped);
+  // Step 2 — Gemini (free secondary; 1500 RPD on aistudio.google.com).
+  const geminiClient = getGeminiClient();
+  if (!geminiClient) {
+    console.log("[MACRO] No GEMINI_API_KEY — using heuristic keyword classifier.");
+  } else {
+    try {
+      const regime = await runClassification(
+        {
+          client: geminiClient,
+          model: MACRO_GEMINI_MODEL,
+          label: "MACRO/gemini",
+          trackBudget: false,
+          // Gemini 2.5 is a reasoning model — disable thinking so the
+          // JSON output isn't starved by hidden reasoning tokens.
+          extraParams: { reasoning_effort: "none" },
+        },
+        promptCtx
+      );
+      regime.classifierProvider = "gemini";
+      console.log(`[MACRO] Classification via gemini: ${regime.regime} (sev ${regime.severity}, conf ${regime.confidence?.toFixed?.(2) ?? regime.confidence})`);
+      return regime;
+    } catch (err) {
+      console.warn(`[MACRO] Gemini failed: ${err.message} — using heuristic keyword classifier.`);
+    }
   }
+
+  // Step 3 — keyword heuristic (deterministic, no network, never fails).
+  return heuristicClassifyRegime(capped);
 }
 
 // ──────────────────── Prompt building ────────────────────
