@@ -1383,7 +1383,7 @@ app.get("/api/stock/:symbol", async (req, res) => {
       Math.min(100, Math.round(combinedScore + effectiveMacroBoost))
     );
 
-    // ── StarBhai long-term narrative + news ──
+    // ── Starbhai long-term narrative + news ──
     // Attach a structured 3-12 month thesis to longTerm. Both calls are
     // budget-aware (degrade to deterministic templates when the LLM cap is
     // hit) and cached 24h per symbol so repeat detail-page loads are free.
@@ -7392,7 +7392,7 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       enriched.push(...results);
     }
 
-    // 4b. StarBhai long-term narrative + news for each scored equity holding.
+    // 4b. Starbhai long-term narrative + news for each scored equity holding.
     //     Skip ETFs (instrumentType:"etf") — basket trackers don't get a
     //     fundamental thesis. Errors here are fail-soft so a flaky news
     //     source can't block the analyzer report. Concurrency 3 (matches
@@ -7678,7 +7678,7 @@ app.get("/", (req, res) => {
 // Only listen when running directly (not on Vercel)
 if (!process.env.VERCEL) {
   app.listen(PORT, async () => {
-    console.log(`\n  StarBhai · Indian Stock Intelligence`);
+    console.log(`\n  Starbhai · Indian Stock Intelligence`);
     console.log(`  ========================================`);
     console.log(`  Running on: http://localhost:${PORT}`);
     console.log(`  Market Status: ${isMarketOpen() ? "OPEN" : "CLOSED"}`);

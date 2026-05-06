@@ -84,7 +84,7 @@ async function fetchGoogleNews(query) {
   const url = `${RSS_BASE}?q=${q}&hl=en-IN&gl=IN&ceid=IN:en`;
   try {
     const res = await fetch(url, {
-      headers: { "User-Agent": "StarBhai-Analyzer/1.0" },
+      headers: { "User-Agent": "Starbhai-Analyzer/1.0" },
       signal: AbortSignal.timeout(15_000),
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);

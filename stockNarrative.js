@@ -1,5 +1,5 @@
 /**
- * StarBhai — long-term narrative engine for individual stocks.
+ * Starbhai — long-term narrative engine for individual stocks.
  *
  * Produces a structured 3–12 month thesis combining:
  *   • The pre-computed longTermOutlook() recommendation + score
@@ -31,7 +31,7 @@ const narrativeCache = new NodeCache({ stdTTL: 24 * 3600, checkperiod: 1800 });
 
 const NARRATIVE_MODEL = process.env.STOCK_NARRATIVE_MODEL || "gpt-5.4";
 
-const SYSTEM_PROMPT = `You are StarBhai, a SEBI-registered Research Analyst's structured-narrative engine for Indian equity LONG-TERM outlooks (3–12 month horizon).
+const SYSTEM_PROMPT = `You are Starbhai, a SEBI-registered Research Analyst's structured-narrative engine for Indian equity LONG-TERM outlooks (3–12 month horizon).
 
 INPUTS you receive:
   • Stock identity (symbol, name, sector, market-cap tier)

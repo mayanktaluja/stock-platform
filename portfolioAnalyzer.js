@@ -513,7 +513,7 @@ export function analyzeHolding(input) {
       displayAction: "ETF — priced only",
       actionColor: "gray",
       actionUrgency: "none",
-      actionReasoning: "Basket tracker — StarBhai scores single-stock fundamentals, which don't apply to ETFs. Priced here for portfolio-value and risk purposes.",
+      actionReasoning: "Basket tracker — Starbhai scores single-stock fundamentals, which don't apply to ETFs. Priced here for portfolio-value and risk purposes.",
       actionFactors: ["instrument_etf"],
       macroWarning: null,
       macroTailwind: null,
@@ -565,7 +565,7 @@ export function analyzeHolding(input) {
     // Report extras
     outlook,
     // Full long-term outlook block — recommendation, score, target, narrative,
-    // news. Surfaced so the UI can render the StarBhai thesis card on
+    // news. Surfaced so the UI can render the Starbhai thesis card on
     // analyzer holding cards (mirrors the stock detail page layout).
     longTerm: longTerm || null,
     redFlags,
@@ -1249,7 +1249,7 @@ export function buildReport(enrichedHoldings, unmatched, meta) {
     unmatched,
     warnings: meta?.warnings ?? [],
     disclaimer:
-      "This report is for educational and informational purposes only. StarBhai is NOT a " +
+      "This report is for educational and informational purposes only. Starbhai is NOT a " +
       "SEBI-registered investment adviser; nothing here constitutes personalised investment " +
       "advice. Past performance is not indicative of future results. Always consult a " +
       "SEBI-registered professional before acting on this analysis.",
