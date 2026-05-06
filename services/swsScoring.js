@@ -446,7 +446,7 @@ export function categoriseStock(stock) {
   if (insiderBuys >= 1) cats.push("insider_buying");
   if (nextEarnings) {
     const days = Math.ceil((new Date(nextEarnings + "T00:00:00Z") - new Date()) / 86400000);
-    if (days >= 0 && days <= 30) cats.push("upcoming_earnings");
+    if (days >= 0 && days <= 75) cats.push("upcoming_earnings");
   }
   // Avoid: v3 AVOID + mcap ≥ ₹500cr (filter illiquid micro-caps). Backstop
   // branch keeps genuinely terrible large-caps surfacing even if v3_verdict

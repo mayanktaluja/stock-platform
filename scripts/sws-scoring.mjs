@@ -531,7 +531,7 @@ export function categoriseStock(stock) {
   // Upcoming earnings — kept gated; next_earnings_date is not currently populated.
   if (nextEarnings) {
     const days = Math.ceil((new Date(nextEarnings + "T00:00:00Z") - new Date()) / 86400000);
-    if (days >= 0 && days <= 30) cats.push("upcoming_earnings");
+    if (days >= 0 && days <= 75) cats.push("upcoming_earnings");
   }
 
   // Avoid: v3 says AVOID + meaningful liquidity (mcap ≥ ₹500cr). The mcap
