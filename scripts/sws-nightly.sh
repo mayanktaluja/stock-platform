@@ -114,8 +114,13 @@ fi
 
 # ---- 3. Run scrape pipeline ----
 
-echo "[nightly] running scripts/sws-refresh-api.sh..."
-if ! bash scripts/sws-refresh-api.sh; then
+# SWS_AUTO_PR=0: suppress the inner script's own auto-PR. If left enabled,
+# sws-refresh-api.sh would commit the data on its own branch and switch the
+# working tree back to main, leaving stale picks-latest.json on disk and
+# tripping our scanned_recent sanity check below. Nightly handles its own
+# branch + commit + PR + auto-merge after the gate.
+echo "[nightly] running scripts/sws-refresh-api.sh (SWS_AUTO_PR=0; nightly creates the PR)..."
+if ! SWS_AUTO_PR=0 bash scripts/sws-refresh-api.sh; then
   echo "[nightly] sws-refresh-api.sh failed (exit $?)"
   send_mail "🚨 SWS nightly — scrape pipeline failed" "scripts/sws-refresh-api.sh exited non-zero at $(ts).
 
@@ -181,6 +186,10 @@ git add data/sws/deep/ \
         data/sws/last-refresh.json \
         data/sws/sws-scored-universe.json \
         data/sws/v3-universe-stats.json
+
+# Inner pipeline regenerates the daily picks PDF — ship it in this same PR
+# (previously the inner script's auto-PR added it; now we own that step).
+[ -d reports/sws-picks ] && git add reports/sws-picks/*.pdf 2>/dev/null
 
 # Build commit body from sanity-gate summary
 COMMIT_BODY=$(node --input-type=module -e '
