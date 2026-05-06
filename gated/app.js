@@ -5618,59 +5618,6 @@ function resetAnalyzer() {
   if (input) input.value = "";
 }
 
-// Persist a `savable` block (returned by /api/portfolio/analyze) as the
-// canonical portfolio. Surfaces inline status under the analyzer's
-// "Save as my portfolio" checkbox so the user sees confirmation without a
-// modal / toast. Caller decides whether to fire — checkbox state is
-// inspected at the call site, not here.
-async function saveAnalyzedPortfolio(savable) {
-  const statusEl = document.getElementById("analyzerSaveStatus");
-  const setStatus = (msg, kind) => {
-    if (!statusEl) return;
-    statusEl.textContent = msg;
-    statusEl.style.display = "block";
-    if (kind === "ok") {
-      statusEl.style.background = "rgba(52,211,153,0.1)";
-      statusEl.style.border = "1px solid rgba(52,211,153,0.3)";
-      statusEl.style.color = "#86efac";
-    } else if (kind === "err") {
-      statusEl.style.background = "rgba(239,68,68,0.1)";
-      statusEl.style.border = "1px solid rgba(239,68,68,0.3)";
-      statusEl.style.color = "#fca5a5";
-    } else {
-      statusEl.style.background = "rgba(255,255,255,0.04)";
-      statusEl.style.border = "1px solid #2a3349";
-      statusEl.style.color = "var(--text-muted)";
-    }
-  };
-
-  setStatus("Saving as portfolio…", "info");
-  try {
-    // Only include mutualFunds in the body when the upload itself contained
-    // MF rows — the server preserves saved MFs when the field is omitted.
-    const body = { stocks: savable.stocks || [] };
-    if (Array.isArray(savable.mutualFunds)) body.mutualFunds = savable.mutualFunds;
-    const res = await fetch("/api/portfolio", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    const data = await res.json();
-    if (!res.ok || !data.ok) {
-      throw new Error(data.error || `HTTP ${res.status}`);
-    }
-    setStatus(
-      `Saved ✓ ${data.stockCount} stock${data.stockCount === 1 ? "" : "s"}` +
-      (data.mfCount ? ` · ${data.mfCount} MF${data.mfCount === 1 ? "" : "s"}` : "") +
-      ". Market Intelligence sliver will pick this up on next refresh.",
-      "ok"
-    );
-  } catch (err) {
-    setStatus(`Save failed: ${err.message}. Your analysis is still here — try the checkbox again or use the import script.`, "err");
-    throw err;
-  }
-}
-
 async function analyzePortfolioFile(file) {
   const errEl = document.getElementById("analyzerUploadError");
   errEl.style.display = "none";
@@ -5725,14 +5672,6 @@ async function analyzePortfolioFile(file) {
       renderAnalyzerReport(data.report, data.elapsedMs);
     }
     setAnalyzerState("report");
-
-    // "Save as my portfolio" — if ticked, persist the parsed upload via
-    // POST /api/portfolio. This is fire-after-render so a failed save never
-    // hides the analysis the user is already looking at.
-    const saveToggle = document.getElementById("analyzerSaveAsPortfolio");
-    if (saveToggle && saveToggle.checked && data.savable) {
-      saveAnalyzedPortfolio(data.savable).catch(() => { /* status surfaces inline */ });
-    }
   } catch (err) {
     setAnalyzerState("upload");
     errEl.textContent = err.message;
@@ -6104,13 +6043,9 @@ function swsHoldingRow(h) {
     if (!Number.isFinite(r) || r <= 0) return "";
     return `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">${inr(r)}</div>`;
   })();
-  const trim = h.recentTrimInfo;
-  const trimChip = trim
-    ? ` <span title="Trimmed ${trim.daysAgo === 0 ? "today" : trim.daysAgo + "d ago"} — informational; today's signal still applies." style="margin-left:4px; padding:1px 5px; background:rgba(168,85,247,0.15); color:#c4b5fd; border-radius:3px; font-size:9px; font-weight:700; letter-spacing:0.3px;">TRIMMED ${trim.daysAgo === 0 ? "TODAY" : trim.daysAgo + "d"}</span>`
-    : "";
   return `<tr style="border-top:1px solid #2a3349; cursor:pointer;" onclick="openStockDetailModal('${tk}','mf-overlap')">
     <td style="padding:10px 12px;">
-      <div style="font-weight:600;">${tk} ${swsSurveillanceChip(sws.surveillance)}${trimChip}</div>
+      <div style="font-weight:600;">${tk} ${swsSurveillanceChip(sws.surveillance)}</div>
       <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(name)}${sws.sector ? " · " + swsEscapeAttr(sws.sector) : ""}</div>
     </td>
     <td style="padding:10px 12px;">${swsActionBadge(h.action)}${rupeesInline}</td>
@@ -6413,36 +6348,21 @@ function renderSWSTierB(baskets) {
 function renderSWSTierC(tier) {
   const rows = tier?.rows || [];
   if (rows.length === 0) return "";
-  const recentTrimCount = rows.filter((h) => h.recentTrimInfo).length;
-  const recentHeader = recentTrimCount > 0
-    ? ` <span style="margin-left:8px; padding:2px 7px; background:rgba(168,85,247,0.15); color:#c4b5fd; border-radius:3px; font-size:10px; font-weight:700; letter-spacing:0.3px;">${recentTrimCount} RECENTLY TRIMMED</span>`
-    : "";
   return `<div style="margin-bottom:22px;">
-    <div style="font-size:14px; font-weight:700; margin-bottom:10px;">Tier C · Hold as-is <span style="color:var(--text-muted); font-size:12px; font-weight:500;">(${rows.length})</span>${recentHeader}</div>
+    <div style="font-size:14px; font-weight:700; margin-bottom:10px;">Tier C · Hold as-is <span style="color:var(--text-muted); font-size:12px; font-weight:500;">(${rows.length})</span></div>
     <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:6px 0;">
       ${rows.map((h, i) => {
         const sws = h.sws || {};
-        const trim = h.recentTrimInfo;
-        const trimBadge = trim
-          ? `<span style="margin-left:6px; padding:2px 6px; background:rgba(168,85,247,0.15); color:#c4b5fd; border-radius:3px; font-size:10px; font-weight:700; letter-spacing:0.3px;">RECENTLY TRIMMED</span>`
-          : "";
-        const trimSubline = trim
-          ? `<div style="margin-top:4px; font-size:11px; color:#c4b5fd; line-height:1.4;">Trimmed ${trim.source === "fresh" && trim.trimmedPct ? trim.trimmedPct + "% " : ""}${trim.daysAgo === 0 ? "today" : trim.daysAgo + "d ago"} — informational; today's signal still applies.</div>`
-          : "";
-        return `<div style="padding:8px 14px; border-top:${i > 0 ? '1px solid #1a2238' : 'none'}; display:flex; flex-direction:column; gap:0; cursor:pointer;" onclick="openStockDetailModal('${sws.ticker}','mf-overlap')">
-          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-            <div>
-              <strong style="font-size:13px;">${sws.ticker}</strong>
-              ${trimBadge}
-              <span style="font-size:11px; color:var(--text-muted); margin-left:8px;">${swsEscapeAttr(sws.name || "")} · ${swsEscapeAttr(sws.sector || "—")}</span>
-            </div>
-            <div style="display:flex; align-items:center; gap:10px; font-size:11px;">
-              <span>v3 <strong>${sws.v3_score ?? "—"}</strong></span>
-              ${swsSnowflakeMini(sws.snowflake)}
-              <span style="color:${pctColor(h.pnlPercent)};">${h.pnlPercent != null ? (h.pnlPercent >= 0 ? "+" : "") + h.pnlPercent + "%" : "—"}</span>
-            </div>
+        return `<div style="padding:8px 14px; border-top:${i > 0 ? '1px solid #1a2238' : 'none'}; display:flex; justify-content:space-between; align-items:center; gap:10px; cursor:pointer;" onclick="openStockDetailModal('${sws.ticker}','mf-overlap')">
+          <div>
+            <strong style="font-size:13px;">${sws.ticker}</strong>
+            <span style="font-size:11px; color:var(--text-muted); margin-left:8px;">${swsEscapeAttr(sws.name || "")} · ${swsEscapeAttr(sws.sector || "—")}</span>
           </div>
-          ${trimSubline}
+          <div style="display:flex; align-items:center; gap:10px; font-size:11px;">
+            <span>v3 <strong>${sws.v3_score ?? "—"}</strong></span>
+            ${swsSnowflakeMini(sws.snowflake)}
+            <span style="color:${pctColor(h.pnlPercent)};">${h.pnlPercent != null ? (h.pnlPercent >= 0 ? "+" : "") + h.pnlPercent + "%" : "—"}</span>
+          </div>
         </div>`;
       }).join("")}
     </div>
@@ -6523,77 +6443,6 @@ function renderSWSMfSection(mfPositions) {
     </div>`;
   }
   return "";
-}
-
-// PR-4: "Since last review" diff banner. Renders only when prior
-// snapshot exists AND material changes were detected. First-run /
-// no-changes paths return empty string so the banner self-hides.
-function renderSWSDiffBanner(diff) {
-  if (!diff || !diff.hasChanges) return "";
-  const chip = (label, color) =>
-    `<span style="display:inline-block; padding:2px 8px; border-radius:4px; background:${color}22; color:${color}; font-size:11px; font-weight:700; letter-spacing:0.3px; margin-right:6px;">${label}</span>`;
-
-  const sections = [];
-
-  if (diff.healthChange && Math.abs(diff.healthChange.delta) >= 1) {
-    const hc = diff.healthChange;
-    const arrow = hc.delta > 0 ? "↑" : "↓";
-    const color = hc.delta > 0 ? "#86efac" : "#fca5a5";
-    sections.push(`<div style="margin-top:8px;">
-      <div style="font-size:11px; font-weight:700; color:#c4b5fd; margin-bottom:4px; letter-spacing:0.3px;">Portfolio Health</div>
-      <div style="font-size:12px; line-height:1.5;">${hc.prev} → <strong>${hc.current}</strong>/100 <span style="color:${color}; font-weight:700;">${arrow}${Math.abs(hc.delta)}</span></div>
-    </div>`);
-  }
-  if (diff.actionChanges.length > 0) {
-    sections.push(`<div style="margin-top:8px;">
-      <div style="font-size:11px; font-weight:700; color:#93c5fd; margin-bottom:4px; letter-spacing:0.3px;">Action changes (${diff.actionChanges.length})</div>
-      ${diff.actionChanges.slice(0, 6).map((c) =>
-        `<div style="font-size:12px; line-height:1.5;"><strong>${swsEscapeAttr(c.ticker)}</strong>: ${swsEscapeAttr(c.prevAction)} → <strong>${swsEscapeAttr(c.currentAction)}</strong></div>`
-      ).join("")}
-      ${diff.actionChanges.length > 6 ? `<div style="font-size:11px; color:var(--text-muted); margin-top:2px;">+${diff.actionChanges.length - 6} more</div>` : ""}
-    </div>`);
-  }
-  if (diff.scoreChanges.length > 0) {
-    sections.push(`<div style="margin-top:8px;">
-      <div style="font-size:11px; font-weight:700; color:#fde047; margin-bottom:4px; letter-spacing:0.3px;">Score shifts ≥ 5 pts (${diff.scoreChanges.length})</div>
-      ${diff.scoreChanges.slice(0, 6).map((c) => {
-        const arrow = c.delta > 0 ? "↑" : "↓";
-        const color = c.delta > 0 ? "#86efac" : "#fca5a5";
-        return `<div style="font-size:12px; line-height:1.5;"><strong>${swsEscapeAttr(c.ticker)}</strong>: ${c.prevScore} → ${c.currentScore} <span style="color:${color}; font-weight:700;">${arrow}${Math.abs(c.delta).toFixed(1)}</span></div>`;
-      }).join("")}
-    </div>`);
-  }
-  if (diff.newHoldings.length > 0) {
-    sections.push(`<div style="margin-top:8px;">
-      <div style="font-size:11px; font-weight:700; color:#86efac; margin-bottom:4px; letter-spacing:0.3px;">New holdings (${diff.newHoldings.length})</div>
-      <div style="font-size:12px; line-height:1.5;">${diff.newHoldings.map((n) => `<strong>${swsEscapeAttr(n.ticker)}</strong>`).join(", ")}</div>
-    </div>`);
-  }
-  if (diff.exitedHoldings.length > 0) {
-    sections.push(`<div style="margin-top:8px;">
-      <div style="font-size:11px; font-weight:700; color:#fca5a5; margin-bottom:4px; letter-spacing:0.3px;">Exited holdings (${diff.exitedHoldings.length})</div>
-      <div style="font-size:12px; line-height:1.5;">${diff.exitedHoldings.map((e) => `<strong>${swsEscapeAttr(e.ticker)}</strong>`).join(", ")}</div>
-    </div>`);
-  }
-  if (diff.surveillanceChanges.length > 0) {
-    sections.push(`<div style="margin-top:8px;">
-      <div style="font-size:11px; font-weight:700; color:#fdba74; margin-bottom:4px; letter-spacing:0.3px;">⚠ Surveillance changes (${diff.surveillanceChanges.length})</div>
-      ${diff.surveillanceChanges.map((s) => {
-        const prev = s.prev ? `${s.prev.list}${s.prev.stage ? `-${s.prev.stage}` : ""}` : "none";
-        const cur = s.current ? `${s.current.list}${s.current.stage ? `-${s.current.stage}` : ""}` : "none";
-        return `<div style="font-size:12px; line-height:1.5;"><strong>${swsEscapeAttr(s.ticker)}</strong>: ${prev} → ${cur}</div>`;
-      }).join("")}
-    </div>`);
-  }
-
-  return `<div style="background:linear-gradient(135deg, rgba(168,85,247,0.10), rgba(59,130,246,0.06)); border:1px solid rgba(168,85,247,0.30); border-radius:10px; padding:14px 18px; margin-bottom:18px;">
-    <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
-      <strong style="font-size:13px; color:#c4b5fd; letter-spacing:0.3px;">SINCE LAST REVIEW</strong>
-      <span style="font-size:11px; color:var(--text-muted);">${diff.prevAt ? new Date(diff.prevAt).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "—"}</span>
-    </div>
-    <div style="font-size:13px; line-height:1.5; color:var(--text);">${swsEscapeAttr(diff.summary)}</div>
-    ${sections.join("")}
-  </div>`;
 }
 
 // PR-4: portfolio liquidity-tail bucketing as a stacked bar. Buckets
@@ -6956,8 +6805,6 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
   const tiers = report.tiers || {};
   const baskets = tiers.B?.baskets || {};
   const sectorOverlay = report.sectorOverlay || [];
-  // PR-4 additions
-  const diff = report.diff || null;
   const liquidityTail = report.liquidityTail || null;
   const outsidePicks = report.outsidePicks || null;
 
@@ -6976,8 +6823,6 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
     </div>
 
     ${renderPortfolioHealthHero(snap.portfolioHealth)}
-
-    ${renderSWSDiffBanner(diff)}
 
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:18px;">
       ${swsKpiCard("Invested", inr(snap.totalInvested))}
@@ -7028,7 +6873,6 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
   const tiers = report.tiers || {};
   const baskets = tiers.B?.baskets || {};
   const sectorOverlay = report.sectorOverlay || [];
-  const diff = report.diff || null;
   const liquidityTail = report.liquidityTail || null;
   const outsidePicks = report.outsidePicks || null;
 
@@ -7116,8 +6960,6 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     ${heroBlock}
 
     ${renderPortfolioHealthHero(snap.portfolioHealth)}
-
-    ${renderSWSDiffBanner(diff)}
 
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:18px;">
       ${swsKpiCard("Money put in", inr(snap.totalInvested))}
