@@ -50,7 +50,7 @@ const METHODOLOGY = [
   `Volume confirmation: today's vol vs ${FO_CONFIG.VOLUME_AVG_DAYS}-session mean.`,
   `Decoupling co-flag: |OI Δ| ≥ ${FO_CONFIG.DECOUPLE_OI_MIN}% with |price Δ| < ${FO_CONFIG.DECOUPLE_PRICE_MAX}%.`,
   "Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency.",
-  "Educational analytics. Not investment advice.",
+  "Educational content only.",
 ].join(" ");
 
 function pad2(n) {

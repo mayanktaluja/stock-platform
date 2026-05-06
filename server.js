@@ -7263,7 +7263,7 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
           mfPositions,
           unmatched: parsed.unmatched || [],
           warnings: parsed.warnings || [],
-          disclaimer: "SWS Engine (Beta) · Educational analysis only. Verify live prices and risk before any transaction. SEBI-aligned tier classification; not personalised investment advice.",
+          disclaimer: "Educational content only.",
           // ANALYZER_UI_V2 flag — gated on env. Client renderSWSAnalyzerReport
           // dispatches to V2 (hero + glossary chips) when v2 is true. Legacy
           // path is at server.js ~6995. Both paths read the same env var.

@@ -1248,10 +1248,6 @@ export function buildReport(enrichedHoldings, unmatched, meta) {
     holdings: sorted.map(stripInternal),
     unmatched,
     warnings: meta?.warnings ?? [],
-    disclaimer:
-      "This report is for educational and informational purposes only. Starbhai is NOT a " +
-      "SEBI-registered investment adviser; nothing here constitutes personalised investment " +
-      "advice. Past performance is not indicative of future results. Always consult a " +
-      "SEBI-registered professional before acting on this analysis.",
+    disclaimer: "Educational content only.",
   };
 }
