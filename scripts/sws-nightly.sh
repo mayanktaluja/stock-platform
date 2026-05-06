@@ -33,7 +33,7 @@
 
 set -uo pipefail
 
-REPO_DIR="/Users/mayanktaluja/Desktop/claude/stock-platform"
+REPO_DIR="/Users/mayanktaluja/code/stock-platform"
 cd "${REPO_DIR}" || { echo "[nightly] cannot cd to ${REPO_DIR}"; exit 5; }
 
 LOG="data/sws/sws-nightly.log"
