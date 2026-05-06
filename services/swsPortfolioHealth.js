@@ -342,6 +342,6 @@ export function computePortfolioHealth(snapshot, scoredHoldings, opts = {}) {
     notes,
     asOf,
     methodologyNote:
-      "Weighted from SWS quality, valuation, diversification, risk and macro fit. Mental model only — not a recommendation.",
+      "Weighted from SWS quality, valuation, diversification, risk and macro fit. Educational content only.",
   };
 }

@@ -222,6 +222,6 @@ export function buildCatalystsPayload(options = {}) {
       macro: macroInWindow,
     },
     methodology:
-      "Corporate events from NSE Event Calendar (next " + NSE_WINDOW_DAYS + " days); macro from curated India calendar (next " + MACRO_WINDOW_DAYS + " days). Cross-referenced with portfolio + SWS picks. Educational analytics; not investment advice.",
+      "Corporate events from NSE Event Calendar (next " + NSE_WINDOW_DAYS + " days); macro from curated India calendar (next " + MACRO_WINDOW_DAYS + " days). Cross-referenced with portfolio + SWS picks. Educational content only.",
   };
 }
