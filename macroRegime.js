@@ -20,7 +20,7 @@ import { checkBudget, recordUsage } from "./openaiBudget.js";
 
 const MACRO_MODEL = process.env.MACRO_MODEL || "llama-3.3-70b-versatile";
 const GROQ_BASE_URL = "https://api.groq.com/openai/v1";
-const MACRO_GEMINI_MODEL = process.env.MACRO_GEMINI_MODEL || "gemini-2.0-flash";
+const MACRO_GEMINI_MODEL = process.env.MACRO_GEMINI_MODEL || "gemini-2.5-flash";
 const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/";
 
 // ──────────────────── Enums ────────────────────
@@ -462,8 +462,13 @@ export async function withOpenAIRetry(fn, { label = "openai", maxAttempts = 3 } 
 /**
  * Run the LLM classification call against a specific provider.
  * Returns { regime, providerLabel } on success, throws on failure.
+ *
+ * extraParams lets a provider tweak the request — e.g. Gemini 2.5 Flash
+ * is a reasoning model whose internal "thinking tokens" eat into max_tokens
+ * and can produce empty content; passing reasoning_effort:"none" disables
+ * thinking and keeps the JSON output within the token budget.
  */
-async function runClassification({ client, model, label, trackBudget }, { system, userMessage, headlineCount }) {
+async function runClassification({ client, model, label, trackBudget, extraParams = {} }, { system, userMessage, headlineCount }) {
   const response = await withOpenAIRetry(
     () => client.chat.completions.create({
       model,
@@ -474,6 +479,7 @@ async function runClassification({ client, model, label, trackBudget }, { system
         { role: "system", content: system },
         { role: "user", content: userMessage },
       ],
+      ...extraParams,
     }),
     { label }
   );
@@ -554,7 +560,15 @@ export async function classifyRegime(headlines) {
   } else {
     try {
       const regime = await runClassification(
-        { client: geminiClient, model: MACRO_GEMINI_MODEL, label: "MACRO/gemini", trackBudget: false },
+        {
+          client: geminiClient,
+          model: MACRO_GEMINI_MODEL,
+          label: "MACRO/gemini",
+          trackBudget: false,
+          // Gemini 2.5 is a reasoning model — disable thinking so the
+          // JSON output isn't starved by hidden reasoning tokens.
+          extraParams: { reasoning_effort: "none" },
+        },
         promptCtx
       );
       regime.classifierProvider = "gemini";
