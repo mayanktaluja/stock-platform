@@ -5064,18 +5064,16 @@ app.get("/api/market", async (req, res) => {
     // the rest of the page renders normally.
     const gift = await giftPromise;
     if (gift) {
-      // Rebase Gift Nifty's change vs NIFTY 50's previous close — that's
-      // the headline convention ("Gift Nifty up 0.4%" = implied NIFTY 50
-      // open). NSE IX's PERCHANGE is vs Gift Nifty's own prior CLOSE,
-      // which isn't what an Indian-equity dashboard wants. If NIFTY 50's
-      // prev close is missing we leave the raw NSE IX values alone so
-      // the pill never goes blank.
+      // Show Gift Nifty's premium/discount over the current NIFTY 50
+      // level — "how much higher/lower is Gift Nifty vs NIFTY 50 right
+      // now." Falls back to NIFTY 50's previous close when the live
+      // price isn't available (market closed, data gap).
       const nifty50 = indices.find((i) => i.symbol === "^NSEI");
-      const ref = nifty50?.previousClose;
+      const ref = nifty50?.price ?? nifty50?.previousClose;
       if (ref && Number.isFinite(ref) && ref > 0 && Number.isFinite(gift.price)) {
         gift.change = gift.price - ref;
         gift.changePercent = ((gift.price - ref) / ref) * 100;
-        gift.referencePrevClose = ref;
+        gift.referencePrice = ref;
         gift.referenceSymbol = "^NSEI";
       }
       indices.push(gift);
