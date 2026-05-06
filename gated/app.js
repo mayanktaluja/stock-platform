@@ -1,5 +1,5 @@
 /**
- * StarBhai · Indian Stock Intelligence — Frontend Application
+ * Starbhai · Indian Stock Intelligence — Frontend Application
  */
 
 // State
@@ -551,7 +551,7 @@ function surveillanceBanner(surveillance) {
       <div class="sv-icon">&#9888;</div>
       <div>
         <div class="sv-title">Under NSE ${list} surveillance${also}${stage ? `<span class="sv-stage">${stage}</span>` : ""}</div>
-        <div class="sv-body">${reason} This stock is <strong>excluded from StarBhai's Deep Value and Quality Growth surfaces</strong> as a compliance precaution. Analytical scores are still shown for reference — not as a recommendation.</div>
+        <div class="sv-body">${reason} This stock is <strong>excluded from Starbhai's Deep Value and Quality Growth surfaces</strong> as a compliance precaution. Analytical scores are still shown for reference — not as a recommendation.</div>
       </div>
     </div>
   `;
@@ -738,7 +738,7 @@ function selectV2PayloadForHexagon(scorerMode, fundamentals, shadowV2) {
   return null;
 }
 
-// ── StarBhai long-term narrative renderer ─────────────────────────────
+// ── Starbhai long-term narrative renderer ─────────────────────────────
 //
 // Shared between the stock detail page (Long-Term Outlook info-card) and
 // the Portfolio Analyzer holding cards. Renders a structured 3–12 month
@@ -785,7 +785,7 @@ function renderLongTermNarrative(longTerm) {
     <div class="lt-narrative" style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px;">
         <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);">
-          StarBhai Thesis${infoIcon('long_term_narrative')}
+          Starbhai Thesis${infoIcon('long_term_narrative')}
         </div>
         <span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.5px;${confColor};">
           ${escapeHtml(n.confidence || 'MEDIUM')} confidence

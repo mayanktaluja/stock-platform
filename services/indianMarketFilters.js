@@ -111,7 +111,7 @@ let _fnoBanInflight = null;  // Promise<Set<string>>
 async function fetchFnoBanFresh() {
   const res = await fetch(FNO_BAN_URL, {
     headers: {
-      "User-Agent": "Mozilla/5.0 (compatible; StarBhai/1.0)",
+      "User-Agent": "Mozilla/5.0 (compatible; Starbhai/1.0)",
       Accept: "text/csv,*/*",
     },
     redirect: "follow",

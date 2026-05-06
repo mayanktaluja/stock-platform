@@ -147,7 +147,7 @@ export function classifyInstrument({ isin, rawName, symbol }) {
  */
 function whyNotAnalysed(instrumentType) {
   switch (instrumentType) {
-    case "mf":   return "Mutual fund units — StarBhai's scoring engine is calibrated for listed equities. MF analysis requires NAV history and expense-ratio data we don't ingest.";
+    case "mf":   return "Mutual fund units — Starbhai's scoring engine is calibrated for listed equities. MF analysis requires NAV history and expense-ratio data we don't ingest.";
     case "etf":  return "ETF — tracks a basket, not a single company. Our fundamentals model (ROE, D/E, valuation vs. sector) doesn't apply.";
     case "bond": return "Debt instrument — yield-to-maturity + credit rating are the right lens, not equity scoring.";
     case "fno":  return "Futures or options contract — out of scope for a long-only holdings analyser.";

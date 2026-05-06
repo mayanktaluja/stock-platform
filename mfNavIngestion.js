@@ -118,7 +118,7 @@ async function fetchAmfiMaster({ force = false } = {}) {
   try {
     const res = await fetch(AMFI_URL, {
       redirect: "follow",
-      headers: { "User-Agent": "StarBhai-Analyzer/1.0" },
+      headers: { "User-Agent": "Starbhai-Analyzer/1.0" },
       signal: AbortSignal.timeout(20_000),
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -294,7 +294,7 @@ export async function fetchSchemeHistory(schemeCode) {
 
   try {
     const res = await fetch(`${MFAPI_BASE}/${schemeCode}`, {
-      headers: { "User-Agent": "StarBhai-Analyzer/1.0" },
+      headers: { "User-Agent": "Starbhai-Analyzer/1.0" },
       signal: AbortSignal.timeout(15_000),
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
