@@ -5978,6 +5978,70 @@ function swsKpiCard(label, valueHtml) {
   </div>`;
 }
 
+function renderPortfolioHealthHero(ph) {
+  if (!ph || !Number.isFinite(ph.score)) return "";
+  const color = ph.color || "#60a5fa";
+  const score = ph.score;
+  const grade = ph.grade || "—";
+  const band = ph.band || "";
+  const note = swsEscapeAttr(ph.methodologyNote || "");
+  const C = 238.76;
+  const offset = +(C * (1 - score / 100)).toFixed(2);
+  const ring = `<svg viewBox="0 0 92 92" width="92" height="92" style="display:block;">
+    <circle cx="46" cy="46" r="38" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"></circle>
+    <circle cx="46" cy="46" r="38" fill="none" stroke="${color}" stroke-width="8" stroke-linecap="round"
+      stroke-dasharray="${C}" stroke-dashoffset="${offset}"
+      transform="rotate(-90 46 46)"></circle>
+    <text x="46" y="49" text-anchor="middle" dominant-baseline="middle" style="font-size:24px; font-weight:700; fill:var(--text);">${score}</text>
+    <text x="46" y="68" text-anchor="middle" dominant-baseline="middle" style="font-size:10px; fill:var(--text-muted); letter-spacing:0.5px;">/ 100</text>
+  </svg>`;
+
+  const driverItem = (d) =>
+    `<div style="display:flex; align-items:center; gap:6px; font-size:12px; line-height:1.6;">
+      <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#22c55e;"></span>
+      <span style="color:var(--text); flex:1;">${swsEscapeAttr(d.label)}</span>
+      <span style="color:#86efac; font-weight:700; font-size:11px;">+${(+d.delta).toFixed(1)}</span>
+    </div>`;
+  const dragItem = (d) =>
+    `<div style="display:flex; align-items:center; gap:6px; font-size:12px; line-height:1.6;">
+      <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#ef4444;"></span>
+      <span style="color:var(--text); flex:1;">${swsEscapeAttr(d.label)}</span>
+      <span style="color:#fca5a5; font-weight:700; font-size:11px;">${(+d.delta).toFixed(1)}</span>
+    </div>`;
+
+  const driversHtml = (ph.topDrivers || []).length
+    ? (ph.topDrivers || []).map(driverItem).join("")
+    : `<div style="font-size:12px; color:var(--text-muted);">No material drivers</div>`;
+  const dragsHtml = (ph.topDrags || []).length
+    ? (ph.topDrags || []).map(dragItem).join("")
+    : `<div style="font-size:12px; color:var(--text-muted);">No material drags</div>`;
+
+  const notesHtml = (ph.notes && ph.notes.length)
+    ? `<div style="font-size:11px; color:var(--text-muted); margin-top:8px; line-height:1.5; font-style:italic;">${(ph.notes || []).map((n) => swsEscapeAttr(n)).join(" · ")}</div>`
+    : "";
+
+  return `<div class="ph-hero" style="background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid #2a3349; border-radius:10px; padding:16px 20px; margin-bottom:18px; display:flex; gap:20px; align-items:center; flex-wrap:wrap;">
+    <div title="${note}" style="display:flex; flex-direction:column; align-items:center; min-width:120px; cursor:help;">
+      ${ring}
+      <div style="margin-top:8px; display:flex; align-items:center; gap:6px;">
+        <span style="display:inline-block; padding:3px 9px; border-radius:4px; background:${color}22; color:${color}; font-size:13px; font-weight:700; letter-spacing:0.3px;">${grade}</span>
+        <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px;">${swsEscapeAttr(band)}</span>
+      </div>
+    </div>
+    <div style="flex:1; min-width:280px; display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:18px;">
+      <div>
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Portfolio Health · What's helping</div>
+        ${driversHtml}
+      </div>
+      <div>
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">What's hurting</div>
+        ${dragsHtml}
+      </div>
+    </div>
+    ${notesHtml ? `<div style="flex:1 1 100%;">${notesHtml}</div>` : ""}
+  </div>`;
+}
+
 function swsHoldingRow(h) {
   const sws = h.sws || {};
   const tk = sws.ticker || h.symbol || "—";
@@ -6425,6 +6489,16 @@ function renderSWSDiffBanner(diff) {
     `<span style="display:inline-block; padding:2px 8px; border-radius:4px; background:${color}22; color:${color}; font-size:11px; font-weight:700; letter-spacing:0.3px; margin-right:6px;">${label}</span>`;
 
   const sections = [];
+
+  if (diff.healthChange && Math.abs(diff.healthChange.delta) >= 1) {
+    const hc = diff.healthChange;
+    const arrow = hc.delta > 0 ? "↑" : "↓";
+    const color = hc.delta > 0 ? "#86efac" : "#fca5a5";
+    sections.push(`<div style="margin-top:8px;">
+      <div style="font-size:11px; font-weight:700; color:#c4b5fd; margin-bottom:4px; letter-spacing:0.3px;">Portfolio Health</div>
+      <div style="font-size:12px; line-height:1.5;">${hc.prev} → <strong>${hc.current}</strong>/100 <span style="color:${color}; font-weight:700;">${arrow}${Math.abs(hc.delta)}</span></div>
+    </div>`);
+  }
   if (diff.actionChanges.length > 0) {
     sections.push(`<div style="margin-top:8px;">
       <div style="font-size:11px; font-weight:700; color:#93c5fd; margin-bottom:4px; letter-spacing:0.3px;">Action changes (${diff.actionChanges.length})</div>
@@ -6856,6 +6930,8 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
       <button onclick="resetAnalyzer()" style="background:transparent; border:1px solid #2a3349; color:var(--text); padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px;">Re-upload</button>
     </div>
 
+    ${renderPortfolioHealthHero(snap.portfolioHealth)}
+
     ${renderSWSDiffBanner(diff)}
 
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:18px;">
@@ -6993,6 +7069,8 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     </div>
 
     ${heroBlock}
+
+    ${renderPortfolioHealthHero(snap.portfolioHealth)}
 
     ${renderSWSDiffBanner(diff)}
 
