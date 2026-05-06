@@ -123,6 +123,7 @@ import { generateNarrative, enrichStockNarratives } from "./stockNarrative.js";
 import { dailyReturns as computeDailyReturns } from "./riskMetrics.js";
 import multer from "multer";
 import { classifyRegime, computeMacroDelta, defaultCalmRegime, getGroqQuotaState, normalizeSector, REGIMES, SECTORS, withOpenAIRetry } from "./macroRegime.js";
+import { getMacroRegimeStorage } from "./services/macroRegimeStorage.js";
 import OpenAI from "openai";
 
 // Lazy OpenAI client for server.js (same pattern as macroRegime.js)
@@ -200,23 +201,21 @@ const MACRO_CACHE_KEY = "macro_regime";
 
 // Last successful classification — preserved across NodeCache expiries so
 // quota-limited refreshes can return real data instead of falling back to
-// CALM. Pre-warmed from .macro-regime-cache.json on startup; rewritten on
-// every successful classification.
+// CALM. Hydrated lazily from the KV/file storage adapter (see
+// services/macroRegimeStorage.js); rewritten on every successful classification.
 let lastGoodMacroRegime = null;
-const MACRO_REGIME_DISK_PATH = path.join(__dirnameForEnv, ".macro-regime-cache.json");
-(function loadLastGoodMacroRegime() {
-  try {
-    if (fs.existsSync(MACRO_REGIME_DISK_PATH)) {
-      const parsed = JSON.parse(fs.readFileSync(MACRO_REGIME_DISK_PATH, "utf-8"));
-      if (parsed && typeof parsed.regime === "string" && parsed.generatedAt) {
-        lastGoodMacroRegime = parsed;
-        console.log(`[MACRO] Loaded last-good regime from disk: ${parsed.regime} (${parsed.generatedAt})`);
-      }
-    }
-  } catch (e) {
-    console.warn("[MACRO] Could not load .macro-regime-cache.json:", e.message);
+const macroStorage = getMacroRegimeStorage();
+// Fire-and-forget initial hydrate. Subsequent reads also hit the storage
+// directly (see getMacroRegime), so this is purely an optimization.
+macroStorage.read().then((stored) => {
+  if (stored) {
+    lastGoodMacroRegime = stored;
+    macroRegimeCache.set(MACRO_CACHE_KEY, stored);
+    console.log(`[MACRO] Hydrated regime from storage: ${stored.regime} (${stored.generatedAt})`);
   }
-})();
+}).catch((e) => {
+  console.warn("[MACRO] Initial storage hydrate failed:", e.message);
+});
 // In-memory ring buffer of the last 5 regime classifications + the headlines
 // that produced them. Exposed via /api/macro/debug for audit/debugging.
 const macroHistory = [];
@@ -5639,19 +5638,34 @@ async function refreshMacroRegime() {
 
 async function _doRefreshMacroRegime() {
   // Idempotency guard: if Groq's daily quota is active, skip the LLM call
-  // entirely and extend the NodeCache TTL so we don't hammer the API every
-  // hour during a multi-hour quota block. Repeated calls during the window
-  // return the same cached classification.
+  // entirely. Repeated calls during the window return the same cached
+  // classification. Falls back to KV when the in-process cache is empty
+  // (cold-started Vercel instance during a quota window).
   const quotaState = getGroqQuotaState();
   if (quotaState.limited) {
     const existing = macroRegimeCache.get(MACRO_CACHE_KEY);
-    const fallback = lastGoodMacroRegime || existing;
+    let fallback = lastGoodMacroRegime || existing;
+    if (!fallback) {
+      try { fallback = await macroStorage.read(); } catch { fallback = null; }
+      if (fallback) lastGoodMacroRegime = fallback;
+    }
     if (fallback) {
       const ttlSec = Math.ceil((quotaState.retryAfterMs + 30_000) / 1000);
       macroRegimeCache.set(MACRO_CACHE_KEY, fallback, ttlSec);
       console.warn(`[MACRO] Groq quota active — returning cached ${fallback.regime}, next attempt after ${new Date(quotaState.until).toISOString()}`);
       return { ...fallback, quotaLimitedUntil: quotaState.until };
     }
+    // No fallback at all — return clean CALM with the quota flag so the UI
+    // shows the friendly "Paused (Groq quota)" banner instead of a raw error.
+    const calm = {
+      ...defaultCalmRegime(),
+      reasoning: "Macro classification temporarily paused — daily Groq limit reached. Will resume automatically.",
+      quotaLimitedUntil: quotaState.until,
+    };
+    // Short TTL so we retry shortly after the quota window clears; do NOT
+    // write to KV (we don't want to persist a non-classification globally).
+    macroRegimeCache.set(MACRO_CACHE_KEY, calm, 300);
+    return calm;
   }
 
   try {
@@ -5692,31 +5706,44 @@ async function _doRefreshMacroRegime() {
       `sectors=${regime.sectorImpacts.length} headlines=${headlines.length}`
     );
 
-    // Persist last-good regime to disk so it survives server restarts during
-    // a quota window. Fire-and-forget; atomic via tmp+rename.
+    // Persist to shared storage (KV in prod, file in dev) so other Vercel
+    // instances and future cold starts see the same classification.
+    // Fire-and-forget — never block the response on storage I/O.
     lastGoodMacroRegime = regime;
-    Promise.resolve().then(() => {
-      try {
-        const tmp = `${MACRO_REGIME_DISK_PATH}.${process.pid}.tmp`;
-        fs.writeFileSync(tmp, JSON.stringify(regime), "utf-8");
-        fs.renameSync(tmp, MACRO_REGIME_DISK_PATH);
-      } catch (e) {
-        console.warn("[MACRO] Failed to persist regime to disk:", e.message);
-      }
+    macroStorage.write(regime).catch((e) => {
+      console.warn("[MACRO] Failed to persist regime to storage:", e.message);
     });
 
     return regime;
   } catch (err) {
     console.error("[MACRO] refreshMacroRegime failed:", err.message);
-    // Prefer the last good real classification over synthetic CALM.
+    // Prefer the last good real classification. Check NodeCache, then
+    // module-cached lastGoodMacroRegime, then KV — any of these beats CALM.
     const existing = macroRegimeCache.get(MACRO_CACHE_KEY);
-    const fallback = lastGoodMacroRegime || existing;
+    let fallback = lastGoodMacroRegime || existing;
+    if (!fallback) {
+      try { fallback = await macroStorage.read(); } catch { fallback = null; }
+      if (fallback) lastGoodMacroRegime = fallback;
+    }
     if (fallback) {
       macroRegimeCache.set(MACRO_CACHE_KEY, fallback);
       return fallback;
     }
-    const calm = { ...defaultCalmRegime(), reasoning: `Refresh failed: ${err.message}` };
-    macroRegimeCache.set(MACRO_CACHE_KEY, calm);
+    // No fallback. Build a clean CALM — DO NOT embed the error message in
+    // reasoning (it leaks "429"/"quota" into the UI). If the failure was a
+    // quota event, surface quotaLimitedUntil so the UI shows the friendly
+    // paused banner. Cache with short TTL so the next try happens soon.
+    const isQuotaErr = /429|quota|rate limit/i.test(err.message || "");
+    const quotaUntil = getGroqQuotaState().until;
+    const calm = {
+      ...defaultCalmRegime(),
+      reasoning: isQuotaErr
+        ? "Macro classification temporarily paused — daily Groq limit reached. Will resume automatically."
+        : "Macro classification temporarily unavailable.",
+      ...(isQuotaErr && quotaUntil > Date.now() ? { quotaLimitedUntil: quotaUntil } : {}),
+    };
+    macroRegimeCache.set(MACRO_CACHE_KEY, calm, 300); // 5-minute TTL — DON'T pin failures for 24h
+    // Deliberately NOT writing failures to KV (would mask the real classification globally).
     return calm;
   }
 }
@@ -5781,14 +5808,28 @@ function pushMacroHistory(regime, headlines) {
 }
 
 /**
- * Get the current macro regime — lazy refresh if missing.
- * On Vercel serverless we use stale-while-revalidate: return cached immediately,
- * kick off a refresh in the background if the cache is stale.
+ * Get the current macro regime — three-tier cache:
+ *   1. NodeCache (in-process, fastest)
+ *   2. KV/file storage (shared across Vercel instances, persists across deploys)
+ *   3. Fresh classification (only when both caches miss)
+ *
+ * The KV layer is what stops cold-started Vercel instances from each
+ * independently hitting Groq's TPD limit. With KV populated, cold starts
+ * skip step 3 entirely.
  */
 async function getMacroRegime() {
   const cached = macroRegimeCache.get(MACRO_CACHE_KEY);
   if (cached) return cached;
-  // Nothing cached yet — fetch synchronously (first call only)
+
+  // NodeCache miss — try shared storage before burning a Groq call.
+  const stored = await macroStorage.read().catch(() => null);
+  if (stored) {
+    lastGoodMacroRegime = stored;
+    macroRegimeCache.set(MACRO_CACHE_KEY, stored);
+    return stored;
+  }
+
+  // Both caches empty — fetch synchronously (first call only).
   return await refreshMacroRegime();
 }
 
