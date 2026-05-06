@@ -185,13 +185,17 @@ const portfolioCache = new NodeCache({ stdTTL: 30, checkperiod: 15 });
 // enrichment pipeline. 30-minute TTL is plenty for an interactive session;
 // users tweaking past that just trigger a fresh analyze.
 const analyzerCache = new NodeCache({ stdTTL: 1800, checkperiod: 300 });
-// Macro regime — one global object refreshed hourly. Contains the
+// Macro regime — one global object, effectively daily-refreshed.
 // LLM-classified market regime (war/rate/oil/policy/calm) plus sector-level
 // impact scores used by the Buy Now scanner to tilt recommendations.
-// 1-hour cadence keeps daily Groq token usage well under the 100K TPD limit
-// (~24 calls/day × ~2K tokens = ~50K). Macro signals change on hour/day
-// timescales, so 1h freshness is acceptable.
-const macroRegimeCache = new NodeCache({ stdTTL: 3600, checkperiod: 120 });
+//
+// 24h TTL is intentional: Vercel runs N serverless instances each with its
+// own NodeCache, so a 1h TTL meant N×24 = up to ~72 Groq calls/day from
+// auto-refresh alone, which exhausted the 100K TPD quota during heavy use.
+// At 24h × ~2K tokens × N instances ≈ a few K/day. Users can force a
+// fresh classification anytime via the macro-banner refresh button
+// (which calls /api/macro/regime?refresh=1).
+const macroRegimeCache = new NodeCache({ stdTTL: 86400, checkperiod: 600 });
 const MACRO_CACHE_KEY = "macro_regime";
 
 // Last successful classification — preserved across NodeCache expiries so

@@ -33,7 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
   updateClock();
   setInterval(updateClock, 1000);
   loadMacroRegime(); // global: shown on every tab
-  setInterval(loadMacroRegime, 15 * 60 * 1000); // refresh every 15 minutes
+  // Hourly poll — server cache TTL is 24h, so polling more aggressively
+  // wouldn't yield fresher data. Users can force a refresh via the banner's
+  // refresh button.
+  setInterval(loadMacroRegime, 60 * 60 * 1000);
   // Ticker lives in the persistent header above the tabs, so it must load
   // independently of whichever tab the user lands on. Server caches /api/market
   // for 30s; a 60s refresh keeps the indices fresh without hammering upstreams.
@@ -268,9 +271,13 @@ function hideTooltip() {
 // Fetch + render the macro regime banner independently of any specific tab.
 // Sourced from /api/macro/regime so the banner is available even before the
 // first scanner/portfolio call completes.
-async function loadMacroRegime() {
+//
+// When force=true, hits ?refresh=1 to bypass the server cache and trigger a
+// fresh classification. Used by the manual refresh button.
+async function loadMacroRegime({ force = false } = {}) {
   try {
-    const res = await fetch("/api/macro/regime");
+    const url = force ? "/api/macro/regime?refresh=1" : "/api/macro/regime";
+    const res = await fetch(url);
     if (!res.ok) return;
     const regime = await res.json();
     renderMacroBanner(regime);
@@ -278,6 +285,27 @@ async function loadMacroRegime() {
     // Silent — the banner is additive, failure means no banner.
   }
 }
+
+// Manual refresh handler invoked by the banner's refresh button.
+// Shows a loading state while the server re-classifies, then re-renders.
+window.macroRefreshClick = async function macroRefreshClick(btn) {
+  if (!btn || btn.dataset.loading === "1") return;
+  btn.dataset.loading = "1";
+  const originalHTML = btn.innerHTML;
+  btn.innerHTML = '<span class="macro-refresh-spinner" aria-hidden="true"></span> Refreshing&hellip;';
+  btn.disabled = true;
+  try {
+    await loadMacroRegime({ force: true });
+  } finally {
+    // renderMacroBanner replaces innerHTML, so the button is gone — only
+    // restore on the off-chance the banner re-renders into the same DOM node.
+    if (document.body.contains(btn)) {
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      delete btn.dataset.loading;
+    }
+  }
+};
 
 function updateClock() {
   const now = new Date();
@@ -2076,7 +2104,10 @@ function renderMacroBanner(regime) {
     banner.innerHTML = `
       <div class="macro-banner-header">
         <div class="macro-banner-title">${bannerTitle}</div>
-        <div class="macro-banner-meta">Headlines: ${headlines} &middot; Confidence: 0%${staleHours != null ? ` &middot; Last update ${staleHours}h ago` : ""}</div>
+        <div class="macro-banner-meta">
+          <span>Headlines: ${headlines} &middot; Confidence: 0%${staleHours != null ? ` &middot; Last update ${staleHours}h ago` : ""}</span>
+          <button type="button" class="macro-refresh-btn" onclick="macroRefreshClick(this)" title="Force a fresh classification (uses Groq quota).">&#8635; Refresh</button>
+        </div>
       </div>
       <div class="macro-banner-reasoning">${bannerReasoning}</div>
     `;
@@ -2121,7 +2152,10 @@ function renderMacroBanner(regime) {
         <span>Market Regime${infoIcon('macro_regime')}:</span>
         <span class="macro-banner-regime-name">${escapeHtml(regimeName)}${infoIcon(regimeIdFromLabel(regime.regime))}</span>
       </div>
-      <div class="macro-banner-meta">Severity ${regime.severity}/5 &middot; Confidence ${confidencePct}%</div>
+      <div class="macro-banner-meta">
+        <span>Severity ${regime.severity}/5 &middot; Confidence ${confidencePct}%</span>
+        <button type="button" class="macro-refresh-btn" onclick="macroRefreshClick(this)" title="Force a fresh classification (uses Groq quota).">&#8635; Refresh</button>
+      </div>
     </div>
     ${regime.reasoning ? `<div class="macro-banner-reasoning">${escapeHtml(regime.reasoning)}</div>` : ""}
     ${sectorChips ? `<div class="macro-sector-chips">${sectorChips}</div>` : ""}
