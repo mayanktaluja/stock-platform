@@ -22,8 +22,6 @@ import {
   parseTrimPct,
 } from "./actionLadder.js";
 import { bucketByDaysToExit } from "./liquidityTail.js";
-import { buildSnapshot as buildDiffSnapshot, diffSnapshots, snapshotByTicker } from "./analyzerDiff.js";
-import { annotateRecentTrims } from "./postTrimCooldown.js";
 import { computePortfolioHealth } from "./swsPortfolioHealth.js";
 
 // Lazy macro-regime import — only used for basket tilt; failing import
@@ -596,44 +594,25 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
   const freshCapitalInr = opts.freshCapitalInr ?? null;
   const freshPickLimit = opts.freshPickLimit ?? 8;
   const macroRegime = opts.macroRegime ?? null;
-  const priorSnapshot = opts.priorSnapshot ?? null;
 
-  // No cooldown — today's SWS signal is shown regardless of recent trims.
-  // Recent-trim metadata is attached as `recentTrimInfo` for an
-  // informational chip in the UI; it does NOT alter the action.
-  const effectiveHoldings = annotateRecentTrims(scoredHoldings, priorSnapshot);
-
-  const tiers = buildTiers(effectiveHoldings);
-  const baskets = buildBaskets({ scoredHoldings: effectiveHoldings, freshCapitalInr, freshPickLimit });
-  const sectorOverlay = buildSectorOverlay(effectiveHoldings);
-  const snapshot = buildSnapshot(effectiveHoldings);
-  snapshot.portfolioHealth = computePortfolioHealth(snapshot, effectiveHoldings, {
+  const tiers = buildTiers(scoredHoldings);
+  const baskets = buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit });
+  const sectorOverlay = buildSectorOverlay(scoredHoldings);
+  const snapshot = buildSnapshot(scoredHoldings);
+  snapshot.portfolioHealth = computePortfolioHealth(snapshot, scoredHoldings, {
     macroRegime,
     asOf: new Date().toISOString(),
   });
 
   // PR-4: liquidity-tail bucketing — % of book in <1d / 1-5d / 5-10d /
   // >10d / no-data buckets via market-cap proxy + surveillance escalation.
-  const liquidityTail = bucketByDaysToExit(effectiveHoldings);
+  const liquidityTail = bucketByDaysToExit(scoredHoldings);
 
   // PR-4: outside-portfolio fresh picks — surface 10-12 candidates from
   // picks-latest.json (set-diffed against held tickers) when fresh
   // capital is available OR top-5 holdings dominate the book. Gated by
   // OUTSIDE_PICKS=1 env flag (returns { available: false } otherwise).
-  const outsidePicks = surfaceOutsidePicks({ scoredHoldings: effectiveHoldings, freshCapitalInr });
-
-  // PR-4: diff vs prior analyzer run. buildDiffSnapshot strips the heavy
-  // SWS payload to a per-row tuple (~100 bytes × N) so persisted state
-  // stays small. priorSnapshot is null on first run → diff returns
-  // hasChanges:false with the "first run" summary.
-  // Pass priorByTicker so lastTrimmedAt carries forward — cooldown
-  // memory persists across multiple runs without the user trimming again.
-  const priorByTicker = snapshotByTicker(priorSnapshot);
-  const diffSnapshot = buildDiffSnapshot(effectiveHoldings, {
-    priorByTicker,
-    portfolioHealth: snapshot.portfolioHealth,
-  });
-  const diff = diffSnapshots(priorSnapshot, diffSnapshot);
+  const outsidePicks = surfaceOutsidePicks({ scoredHoldings, freshCapitalInr });
 
   // Macro tilt — only applied to Tier B baskets (the recommendations
   // surface). The per-stock action grid (Tier A / C / D) shows the
@@ -652,13 +631,10 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
   // Sector-wipeout guard — flag any sector that would be left at zero
   // exposure if all reductions executed. Surfaces gap #7 from the real
   // portfolio diagnostic (CIPLA Reduction-50% leaves zero pharma).
-  // Reads from cooled holdings so cooldown-suppressed reductions don't
-  // count toward a "wipeout" (the user isn't planning to trim those
-  // again — the engine already deferred the call).
   const reductionTickers = new Set(
     tiers.tierA.map((h) => h.sws?.ticker || h.symbol).filter(Boolean),
   );
-  const sectorWipeouts = detectSectorWipeout({ scoredHoldings: effectiveHoldings, reductionTickers });
+  const sectorWipeouts = detectSectorWipeout({ scoredHoldings, reductionTickers });
 
   const picks = loadPicksLatest();
   const banner = {
@@ -672,12 +648,8 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
     engine: "sws",
     banner,
     snapshot,
-    diff,
     liquidityTail,
     outsidePicks,
-    // The lightweight snapshot to persist for next run's diff.
-    // Server.js writes this to portfolio.analyzerSnapshot post-render.
-    analyzerSnapshotForNextRun: diffSnapshot,
     tiers: {
       A: { label: "Reductions", rows: tiers.tierA, freedRupees: tiers.freedRupees, sector_wipeouts: sectorWipeouts },
       B: { label: "Top-ups (Two baskets + shared Core)", baskets },
