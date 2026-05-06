@@ -10826,7 +10826,7 @@ function renderSwsModal(data) {
   return `
     <div class="sws-modal-hero">
       <div style="flex:1;min-width:0;">
-        <h2 id="swsModalTitle">${ticker}${survBadge}</h2>
+        <h2 id="swsModalTitle">${ticker} ${watchlistButton(`${ticker}.NS`, card_.name || ticker, card_.sector || '')}${survBadge}</h2>
         <div style="font-size:13px;color:var(--text-muted);">${escapeHtml(card_.name || ticker)}${card_.sector ? ` · ${escapeHtml(card_.sector)}` : ""}${fresh}</div>
         <div style="display:flex;gap:14px;margin-top:10px;font-size:12px;flex-wrap:wrap;">
           <div><span style="color:var(--text-muted);">Price</span> ${fmtInr(ov.current_price_inr)}</div>
@@ -11051,7 +11051,7 @@ function renderLiveOnlySkeleton(ticker, sourceTab) {
   return `
     <div class="sws-modal-hero">
       <div style="flex:1;min-width:0;">
-        <h2 id="swsModalTitle">${escapeHtml(ticker)}${sourceLabel}</h2>
+        <h2 id="swsModalTitle">${escapeHtml(ticker)} ${watchlistButton(`${ticker}.NS`, ticker, '')}${sourceLabel}</h2>
         <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">Outside SWS deep-scrape universe — using live engine for analysis</div>
       </div>
     </div>
@@ -11140,7 +11140,7 @@ function renderLiveOnlyModal(ticker, data, sourceTab) {
   return `
     <div class="sws-modal-hero">
       <div style="flex:1;min-width:0;">
-        <h2 id="swsModalTitle">${escapeHtml(ticker)}${survBadge}${sourceLabel}</h2>
+        <h2 id="swsModalTitle">${escapeHtml(ticker)} ${watchlistButton(`${ticker}.NS`, quote.name || fundCore.name || ticker, fundCore.sector || '')}${survBadge}${sourceLabel}</h2>
         <div style="font-size:13px;color:var(--text-muted);">${escapeHtml(quote.name || fundCore.name || ticker)}${fundCore.sector ? ` · ${escapeHtml(fundCore.sector)}` : ""}</div>
         <div style="font-size:11px;color:var(--text-muted);margin-top:6px;">⚠ Outside SWS deep-scrape universe — analysis from independent live engine only (no Snowflake / fair-value / SWS rewards-risks)</div>
       </div>

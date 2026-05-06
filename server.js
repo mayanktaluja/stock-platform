@@ -186,17 +186,16 @@ const portfolioCache = new NodeCache({ stdTTL: 30, checkperiod: 15 });
 // enrichment pipeline. 30-minute TTL is plenty for an interactive session;
 // users tweaking past that just trigger a fresh analyze.
 const analyzerCache = new NodeCache({ stdTTL: 1800, checkperiod: 300 });
-// Macro regime — one global object, effectively daily-refreshed.
-// LLM-classified market regime (war/rate/oil/policy/calm) plus sector-level
-// impact scores used by the Buy Now scanner to tilt recommendations.
+// Macro regime — refreshed hourly. LLM-classified market regime
+// (war/rate/oil/policy/calm) plus sector-level impact scores used by the
+// Buy Now scanner to tilt recommendations.
 //
-// 24h TTL is intentional: Vercel runs N serverless instances each with its
-// own NodeCache, so a 1h TTL meant N×24 = up to ~72 Groq calls/day from
-// auto-refresh alone, which exhausted the 100K TPD quota during heavy use.
-// At 24h × ~2K tokens × N instances ≈ a few K/day. Users can force a
-// fresh classification anytime via the macro-banner refresh button
-// (which calls /api/macro/regime?refresh=1).
-const macroRegimeCache = new NodeCache({ stdTTL: 86400, checkperiod: 600 });
+// 1h TTL is safe to use again now that classifyRegime has a paid OpenAI
+// fallback (gpt-4o-mini): when Groq's free TPD quota is exhausted, the
+// classifier transparently switches to OpenAI instead of degrading. KV-
+// shared cache (services/macroRegimeStorage.js) means cold-started Vercel
+// instances hit the shared regime, not Groq.
+const macroRegimeCache = new NodeCache({ stdTTL: 3600, checkperiod: 120 });
 const MACRO_CACHE_KEY = "macro_regime";
 
 // Last successful classification — preserved across NodeCache expiries so
@@ -5637,37 +5636,10 @@ async function refreshMacroRegime() {
 }
 
 async function _doRefreshMacroRegime() {
-  // Idempotency guard: if Groq's daily quota is active, skip the LLM call
-  // entirely. Repeated calls during the window return the same cached
-  // classification. Falls back to KV when the in-process cache is empty
-  // (cold-started Vercel instance during a quota window).
-  const quotaState = getGroqQuotaState();
-  if (quotaState.limited) {
-    const existing = macroRegimeCache.get(MACRO_CACHE_KEY);
-    let fallback = lastGoodMacroRegime || existing;
-    if (!fallback) {
-      try { fallback = await macroStorage.read(); } catch { fallback = null; }
-      if (fallback) lastGoodMacroRegime = fallback;
-    }
-    if (fallback) {
-      const ttlSec = Math.ceil((quotaState.retryAfterMs + 30_000) / 1000);
-      macroRegimeCache.set(MACRO_CACHE_KEY, fallback, ttlSec);
-      console.warn(`[MACRO] Groq quota active — returning cached ${fallback.regime}, next attempt after ${new Date(quotaState.until).toISOString()}`);
-      return { ...fallback, quotaLimitedUntil: quotaState.until };
-    }
-    // No fallback at all — return clean CALM with the quota flag so the UI
-    // shows the friendly "Paused (Groq quota)" banner instead of a raw error.
-    const calm = {
-      ...defaultCalmRegime(),
-      reasoning: "Macro classification temporarily paused — daily Groq limit reached. Will resume automatically.",
-      quotaLimitedUntil: quotaState.until,
-    };
-    // Short TTL so we retry shortly after the quota window clears; do NOT
-    // write to KV (we don't want to persist a non-classification globally).
-    macroRegimeCache.set(MACRO_CACHE_KEY, calm, 300);
-    return calm;
-  }
-
+  // No quota fast-path: classifyRegime now has a provider chain
+  // (Groq → OpenAI → keyword heuristic) and never throws on LLM failure.
+  // The headline-fetch round-trip is cheap enough that we always do it
+  // and let classifyRegime decide which provider to use.
   try {
     const headlines = await fetchMacroHeadlines();
     const meta = headlines.meta || { sourceHealth: {}, tierCoverage: { "A+": 0, "A": 0, "B": 0 }, fallbacksUsed: [] };
