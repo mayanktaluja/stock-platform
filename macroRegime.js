@@ -285,16 +285,21 @@ export async function withOpenAIRetry(fn, { label = "openai", maxAttempts = 3 } 
         status === 429 || status === 500 || status === 502 || status === 503 || status === 504 ||
         err?.code === "ECONNRESET" || err?.code === "ETIMEDOUT" || err?.code === "ENOTFOUND" ||
         /network|timeout|socket|fetch failed/i.test(err?.message || "");
-      if (!isTransient || attempt === maxAttempts - 1) throw err;
 
-      // Long-duration 429 = daily quota window, not a rate spike. Don't burn
-      // the remaining retries waiting 20s when the quota clears in 10+ min.
+      // Always parse quota windows from 429s — even on the final retry — so
+      // groqQuotaUntil reflects the latest known wait time. Callers (the
+      // refresh function) check this state to decide whether to bother
+      // making the next call at all.
       if (status === 429) {
         const m = (err?.message || "").match(/please try again in (?:(\d+)m)?(\d+(?:\.\d+)?)s/i);
         if (m) {
           const waitMs = (parseInt(m[1] || "0", 10) * 60 + parseFloat(m[2])) * 1000;
+          // Any 429 with a parseable wait sets the quota window — protects
+          // against the next instance making another wasteful call.
+          groqQuotaUntil = Date.now() + waitMs;
+          // Long waits (>120s) = daily quota; short skipping the remaining
+          // retries since they'd all fail.
           if (waitMs > 120_000) {
-            groqQuotaUntil = Date.now() + waitMs;
             console.warn(
               `[${label}] Groq TPD quota — skipping retries, quota clears at ` +
               `${new Date(groqQuotaUntil).toISOString()} (~${Math.ceil(waitMs / 60000)}m).`
@@ -303,6 +308,8 @@ export async function withOpenAIRetry(fn, { label = "openai", maxAttempts = 3 } 
           }
         }
       }
+
+      if (!isTransient || attempt === maxAttempts - 1) throw err;
 
       const delay = delays[attempt];
       console.warn(`[${label}] Attempt ${attempt + 1}/${maxAttempts} failed (${status || err.code || err.message}), retrying in ${delay}ms`);
@@ -379,11 +386,12 @@ export async function classifyRegime(headlines) {
     const parsed = JSON.parse(jsonMatch[0]);
     return normalizeRegimeObject(parsed, capped.length);
   } catch (err) {
+    // Re-throw — the caller (_doRefreshMacroRegime) builds the user-facing
+    // fallback. Returning a synthetic CALM here would leak raw error text
+    // (including "429" / "quota" strings) into the UI's reasoning field,
+    // which the degraded-banner heuristic then matches and displays.
     console.error("[MACRO] classifyRegime failed:", err.message);
-    return {
-      ...defaultCalmRegime(),
-      reasoning: `Classifier error: ${err.message}`,
-    };
+    throw err;
   }
 }
 
