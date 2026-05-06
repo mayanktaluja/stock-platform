@@ -366,7 +366,7 @@ async function loadMarketData() {
           const isGift = idx.symbol === "GIFTNIFTY";
           const lttLabel = isGift ? formatGiftNiftyLtt(idx.lastTradedAt) : "";
           const giftChangeTitle = isGift
-            ? "% change vs NIFTY 50 previous close (leading-indicator convention)"
+            ? "% premium/discount vs current NIFTY 50"
             : "";
           return `
             <div class="ticker-item${isGift ? " ticker-gift" : ""}">
