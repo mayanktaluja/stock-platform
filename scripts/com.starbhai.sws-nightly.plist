@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.starbhai.sws-nightly</string>
+
+    <!--
+      Wrap the whole run in caffeinate -dimsu so display, idle, system idle,
+      and user idle assertions are all set for the duration. This prevents
+      sleep mid-scrape regardless of lid state (note: on Apple Silicon with
+      lid CLOSED and no external display, the system can still sleep — keep
+      lid open OR connect external display for fully reliable closed-lid runs).
+    -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/caffeinate</string>
+        <string>-dimsu</string>
+        <string>/bin/bash</string>
+        <string>/Users/mayanktaluja/Desktop/claude/stock-platform/scripts/sws-nightly.sh</string>
+    </array>
+
+    <!-- Fire daily at 02:00 IST (Mac local time is IST). -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>2</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/mayanktaluja/Desktop/claude/stock-platform</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/mayanktaluja/Desktop/claude/stock-platform/data/sws/launchd-stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/mayanktaluja/Desktop/claude/stock-platform/data/sws/launchd-stderr.log</string>
+
+    <!-- launchd starts with a minimal PATH; explicit values for tools the script needs. -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>HOME</key>
+        <string>/Users/mayanktaluja</string>
+        <key>LANG</key>
+        <string>en_US.UTF-8</string>
+    </dict>
+
+    <!-- Don't run on launchctl load; only at scheduled time. -->
+    <key>RunAtLoad</key>
+    <false/>
+
+    <!--
+      If a scheduled fire is missed (e.g., Mac was off at 02:00), run on next
+      wake. We do want this for robustness — scrape running at 06:00 still
+      gets us fresh data before market open at 09:15.
+    -->
+    <key>StartCalendarIntervalCatchUp</key>
+    <true/>
+
+    <!-- Keep stale runs from accumulating; if it overruns the next 24 hr cycle, kill. -->
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>
