@@ -1784,7 +1784,7 @@ function renderSebiDisclosure(stock, type) {
         <div><strong style="color:var(--text-secondary);">Methodology weights:</strong> ${weightsLine}</div>
         <div><strong style="color:var(--text-secondary);">Data as of:</strong> ${dataAsOfPretty}</div>
         <div style="margin-top:8px;font-style:italic;font-size:10px;">
-          Educational research only. Investments in securities are subject to market risk; read all related documents before investing. Past performance does not guarantee future returns. Methodology stamped above; signals may revise as inputs update.
+          Educational content only.
         </div>
       </div>
     </details>
@@ -1811,7 +1811,7 @@ function renderMethodologyFooter(methodology) {
     <div class="methodology-footer" style="margin-top:18px;padding:10px 12px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:8px;font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;line-height:1.55;">
       <div><strong style="color:var(--text-secondary);">Combined Score</strong> · Tech ${wp.tech || 0}% · Fund ${wp.fund || 0}% · SWS ${wp.sws || 0}% · v=${methodology.version || "—"}</div>
       <div>Sources: ${sources} · SWS last refresh: ${refresh} (${methodology.swsScoredCount || 0} stocks)</div>
-      <div style="margin-top:4px;font-style:italic;">Educational analytics; not personalised investment advice. Past performance &ne; future returns.</div>
+      <div style="margin-top:4px;font-style:italic;">Educational content only.</div>
     </div>`;
 }
 
@@ -2066,7 +2066,7 @@ function renderBuyNowHero(stock) {
       </div>
       ${renderCombinedScoreRow(stock)}
       <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);font-size:11px;color:var(--text-muted);">
-        Educational only. Not investment advice. Past performance does not guarantee future returns.
+        Educational content only.
       </div>
     </div>
   `;
@@ -2315,7 +2315,7 @@ function renderBuyNowCard(stock) {
       ${renderSebiDisclosure(stock, "buynow")}
       <div class="stock-card-footer">
         <span class="stock-card-direction direction-long">&#9650; STRONG SIGNAL</span>
-        <span class="edu-chip" aria-label="Educational only, not a buy recommendation">Educational only</span>
+        <span class="edu-chip" aria-label="Educational only">Educational only</span>
         <span style="font-size:11px; color:var(--text-muted);" title="Active scoring weights from the API methodology stamp.">${
           stock.combinedWeights && stock.combinedWeights.tech != null
             ? `Tech ${Math.round(stock.combinedWeights.tech * 100)}% · Fund ${Math.round((stock.combinedWeights.fund || 0) * 100)}% · SWS ${Math.round((stock.combinedWeights.sws || 0) * 100)}%`
@@ -3271,7 +3271,7 @@ async function loadSmeTrackRecord() {
               ${bucket.worstPick ? ` · worst: ${bucket.worstPick.symbol.replace(/\.NS$/, '')} (${bucket.worstPick.returnPct.toFixed(1)}%)` : ''}
             </div>
           </div>
-          <span class="edu-chip" aria-label="Past performance disclaimer">Past returns ≠ future</span>
+          <span class="edu-chip" aria-label="Educational only">Educational only</span>
         </div>
       </div>`;
   } catch {
@@ -3389,28 +3389,28 @@ function renderSmeCard(stock, category) {
     footer = `
       <div class="stock-card-footer">
         <span class="stock-card-direction direction-long">&#9650; MOMENTUM CLUSTER</span>
-        <span class="edu-chip" aria-label="Educational only">Educational &middot; not advice</span>
+        <span class="edu-chip" aria-label="Educational only">Educational only</span>
         <span style="font-size:12px;color:var(--text-muted);" title="Full technical analysis score (15+ indicators) adjusted for macro regime.">TA Score: ${buyNowScore}/100</span>
       </div>`;
   } else if (category === "volume") {
     footer = `
       <div class="stock-card-footer">
         <span class="stock-card-direction ${dirClass}">${stock.direction}</span>
-        <span class="edu-chip" aria-label="Educational only">Educational &middot; not advice</span>
+        <span class="edu-chip" aria-label="Educational only">Educational only</span>
         <span style="font-size:12px;color:var(--yellow);font-family:'JetBrains Mono',monospace;">Activity: ${stock.volatility}%</span>
       </div>`;
   } else if (category === "midterm") {
     footer = `
       <div class="stock-card-footer">
         <span class="stock-card-direction direction-long">SWING SETUP</span>
-        <span class="edu-chip" aria-label="Educational only">Educational &middot; not advice</span>
+        <span class="edu-chip" aria-label="Educational only">Educational only</span>
         <span style="font-size:12px;color:var(--text-muted);" title="3-factor momentum heuristic (30d / 1y / today). Lower rigour than the Momentum Cluster scanner which runs full technical analysis.">Momentum Score: ${stock.midtermScore}/100</span>
       </div>`;
   } else if (category === "sell") {
     footer = `
       <div class="stock-card-footer">
         <span class="stock-card-direction direction-short">&#9888; REVIEW &mdash; BEARISH</span>
-        <span class="edu-chip" aria-label="Educational only">Educational &middot; not advice</span>
+        <span class="edu-chip" aria-label="Educational only">Educational only</span>
         <span style="font-size:12px;color:var(--text-muted);" title="Bearish momentum heuristic — NOT a sell instruction. Oversold stocks sometimes bounce; distinguishing 'weak' from 'falling knife' requires additional analysis.">Momentum Score: ${stock.midtermScore}/100</span>
       </div>`;
   }
@@ -3660,7 +3660,7 @@ function renderNewsPage(digest, verdict, heatmap) {
         <div style="display:flex;flex-direction:column;gap:6px;">
           ${signalRows}
         </div>
-        <div style="margin-top:12px;font-size:10px;color:var(--text-muted);text-align:right;">5-signal composite · Score: ${verdict.score} · Not investment advice</div>
+        <div style="margin-top:12px;font-size:10px;color:var(--text-muted);text-align:right;">5-signal composite · Score: ${verdict.score} · Educational content only</div>
       </div>
     `;
   }
@@ -3727,7 +3727,7 @@ function renderNewsPage(digest, verdict, heatmap) {
           </div>
         ` : ""}
 
-        <div style="margin-top:14px;font-size:10px;color:var(--text-muted);text-align:right;">Composite of headlines + sectors + FII/DII · Not investment advice</div>
+        <div style="margin-top:14px;font-size:10px;color:var(--text-muted);text-align:right;">Composite of headlines + sectors + FII/DII · Educational content only</div>
       </div>
     `;
   }
@@ -4335,7 +4335,7 @@ function renderStockVerdictCard(sv) {
         <div style="display:flex;flex-direction:column;gap:4px;">
           ${signalRows}
         </div>
-        <div style="margin-top:10px;font-size:9px;color:var(--text-muted);text-align:right;">Stock + market composite · Not investment advice</div>
+        <div style="margin-top:10px;font-size:9px;color:var(--text-muted);text-align:right;">Stock + market composite · Educational content only</div>
       </div>
     </div>`;
 }
@@ -6269,11 +6269,11 @@ function notAdviceChip(mode = "default") {
   // that non-registered entities clearly distinguish research/education
   // from investment advice; this chip is the per-card enforcement of that
   // distinction so the disclaimer isn't just footer-only.
-  const text = "Educational · not advice";
+  const text = "Educational only";
   const style = mode === "inline"
     ? "display:inline-block; font-size:9px; font-weight:700; padding:2px 6px; margin-left:8px; border-radius:3px; background:rgba(250,204,21,0.10); color:#fde047; letter-spacing:0.4px; border:1px solid rgba(250,204,21,0.25); text-transform:uppercase; vertical-align:middle;"
     : "display:inline-block; font-size:10px; font-weight:700; padding:3px 8px; border-radius:4px; background:rgba(250,204,21,0.08); color:#fde047; letter-spacing:0.4px; border:1px solid rgba(250,204,21,0.2); text-transform:uppercase;";
-  return `<span style="${style}" title="Educational research — signals and observations, not personalised investment advice.">${text}</span>`;
+  return `<span style="${style}" title="Educational content only.">${text}</span>`;
 }
 
 // Data-freshness badge. `ageSec` is how old the quote cache might be;
