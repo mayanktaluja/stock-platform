@@ -223,7 +223,11 @@
       font-size: 22px;
       letter-spacing: -0.01em;
       white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
     }
+    .logo:hover { opacity: 0.85; }
+    .logo:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 4px; }
 
     .logo-icon {
       width: 30px;
@@ -2921,7 +2925,9 @@
   <!-- Header -->
   <header class="header">
     <div class="header-inner">
-      <div class="logo">
+      <div class="logo" role="button" tabindex="0" aria-label="StarBhai — go to home"
+           onclick="goHome()"
+           onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();goHome();}">
         <div class="logo-icon" aria-hidden="true">
           <svg viewBox="0 0 100 100" width="30" height="30">
             <polygon points="50,6 61.2,37.5 94.6,37.5 67.7,57 78.6,89.7 50,70 21.4,89.7 32.3,57 5.4,37.5 38.8,37.5"

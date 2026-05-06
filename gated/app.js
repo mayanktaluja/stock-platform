@@ -1416,6 +1416,14 @@ function showDashboard() {
   dashboard.style.display = "block";
 }
 
+function goHome() {
+  currentSymbol = null;
+  stockDetail.classList.remove("active");
+  stockDetail.innerHTML = "";
+  switchTab("news");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 /**
  * Phase 8A: Pick-depth toggle (Balanced ↔ Concentrated).
  *
