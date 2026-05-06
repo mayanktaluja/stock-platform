@@ -24,6 +24,7 @@ import {
 import { bucketByDaysToExit } from "./liquidityTail.js";
 import { buildSnapshot as buildDiffSnapshot, diffSnapshots, snapshotByTicker } from "./analyzerDiff.js";
 import { annotateRecentTrims } from "./postTrimCooldown.js";
+import { computePortfolioHealth } from "./swsPortfolioHealth.js";
 
 // Lazy macro-regime import — only used for basket tilt; failing import
 // degrades gracefully (no tilt applied).
@@ -606,6 +607,10 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
   const baskets = buildBaskets({ scoredHoldings: effectiveHoldings, freshCapitalInr, freshPickLimit });
   const sectorOverlay = buildSectorOverlay(effectiveHoldings);
   const snapshot = buildSnapshot(effectiveHoldings);
+  snapshot.portfolioHealth = computePortfolioHealth(snapshot, effectiveHoldings, {
+    macroRegime,
+    asOf: new Date().toISOString(),
+  });
 
   // PR-4: liquidity-tail bucketing — % of book in <1d / 1-5d / 5-10d /
   // >10d / no-data buckets via market-cap proxy + surveillance escalation.
@@ -624,7 +629,10 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
   // Pass priorByTicker so lastTrimmedAt carries forward — cooldown
   // memory persists across multiple runs without the user trimming again.
   const priorByTicker = snapshotByTicker(priorSnapshot);
-  const diffSnapshot = buildDiffSnapshot(effectiveHoldings, { priorByTicker });
+  const diffSnapshot = buildDiffSnapshot(effectiveHoldings, {
+    priorByTicker,
+    portfolioHealth: snapshot.portfolioHealth,
+  });
   const diff = diffSnapshots(priorSnapshot, diffSnapshot);
 
   // Macro tilt — only applied to Tier B baskets (the recommendations

@@ -35,6 +35,9 @@
  * @param {string} [opts.now]  ISO timestamp override (tests)
  * @param {number} [opts.trimDetectionPct]  qty-drop threshold to record
  *   a fresh trim (default 0.10 = 10%)
+ * @param {object} [opts.portfolioHealth]  current portfolio health block;
+ *   only score+grade are persisted (full driver/drag list stays in the
+ *   live snapshot to keep the diff snapshot ~100B/row)
  */
 export function buildSnapshot(scoredHoldings, opts = {}) {
   const priorByTicker = opts.priorByTicker instanceof Map
@@ -69,11 +72,15 @@ export function buildSnapshot(scoredHoldings, opts = {}) {
       lastTrimmedAt,
     };
   });
+  const ph = opts.portfolioHealth;
   return {
     generatedAt: now,
     holdingsCount: rows.length,
     totalValue: rows.reduce((s, r) => s + (Number(r.currentValue) || 0), 0),
     rows,
+    portfolioHealth: ph && Number.isFinite(ph.score)
+      ? { score: ph.score, grade: ph.grade || null }
+      : null,
   };
 }
 
@@ -109,6 +116,7 @@ const SCORE_CHANGE_THRESHOLD = 5;
  *   newHoldings: Array<{ ticker, action, v3Score }>,
  *   exitedHoldings: Array<{ ticker, prevAction, prevValue }>,
  *   surveillanceChanges: Array<{ ticker, prev, current }>,
+ *   healthChange: {prev, current, delta} | null,
  *   summary: string,
  * }}
  */
@@ -124,6 +132,7 @@ export function diffSnapshots(prev, current) {
       newHoldings: [],
       exitedHoldings: [],
       surveillanceChanges: [],
+      healthChange: null,
       summary: "First run — no prior snapshot to diff against.",
     };
   }
@@ -220,6 +229,19 @@ export function diffSnapshots(prev, current) {
     ? `Since last review: ${parts.join(", ")}.`
     : "No material changes since last review — the action grid below is identical.";
 
+  // Portfolio Health change — surfaces "Health: 68 → 72 (+4)" in the
+  // diff banner when both runs have a health score. Null when either side
+  // is missing (e.g. first run with persistence enabled).
+  const prevHealth = prev?.portfolioHealth?.score;
+  const curHealth = current?.portfolioHealth?.score;
+  const healthChange = (Number.isFinite(prevHealth) && Number.isFinite(curHealth))
+    ? {
+        prev: prevHealth,
+        current: curHealth,
+        delta: +(curHealth - prevHealth).toFixed(0),
+      }
+    : null;
+
   return {
     hasChanges,
     prevAt: prev.generatedAt || null,
@@ -229,6 +251,7 @@ export function diffSnapshots(prev, current) {
     newHoldings,
     exitedHoldings,
     surveillanceChanges,
+    healthChange,
     summary,
   };
 }
