@@ -590,10 +590,10 @@ window.GLOSSARY = {
   },
 
   section_upcoming_earnings: {
-    term: "Upcoming Earnings (next 30 days)",
+    term: "Upcoming Earnings (next 75 days)",
     category: "verdict",
-    short: "Stocks with results due in the next 30 days, sorted by date.",
-    full: "Catalyst calendar: every stock with an earnings date in the next month, sorted by proximity. Earnings are the single biggest scheduled price-mover for a stock — a beat on a high-quality name is often a 5–10% gap up; a miss on a richly-valued name is often a 10–20% gap down. Use this section to (a) avoid initiating on names reporting tomorrow, and (b) spot pre-results setups on high-conviction holdings.",
+    short: "Stocks with results due in the next 75 days, sorted by date.",
+    full: "Catalyst calendar: every stock with an earnings date in the next ~75 days, sorted by proximity. Earnings are the single biggest scheduled price-mover for a stock — a beat on a high-quality name is often a 5–10% gap up; a miss on a richly-valued name is often a 10–20% gap down. Use this section to (a) avoid initiating on names reporting tomorrow, and (b) spot pre-results setups on high-conviction holdings.",
   },
 
   section_avoid: {
