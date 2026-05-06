@@ -3638,18 +3638,6 @@ function renderNewsPage(articles, digest, verdict, market, heatmap, fiiDii, port
 
   let html = "";
 
-  // ── Pulse strip (live indices + breadth) ──
-  html += renderPulseStrip(market, heatmap);
-
-  // ── Your Book Today (portfolio sliver — hidden when no holdings imported) ──
-  html += renderPortfolioSliver(portfolio);
-
-  // ── F&O OI-Delta Swing Screener (3–10D positioning signal) ──
-  html += renderFoScreenerCard(foScreener);
-
-  // ── Catalysts Today (forward-looking corporate + macro events) ──
-  html += renderCatalystsCard(catalysts);
-
   // ── Today's Verdict (5-signal dashboard) ──
   if (verdict && verdict.signals) {
     const vc = verdict.verdictColor === "green" ? "var(--green)" : verdict.verdictColor === "red" ? "var(--red)" : "var(--yellow)";
@@ -3756,6 +3744,18 @@ function renderNewsPage(articles, digest, verdict, market, heatmap, fiiDii, port
       </div>
     `;
   }
+
+  // ── Pulse strip (live indices + breadth) ──
+  html += renderPulseStrip(market, heatmap);
+
+  // ── Your Book Today (portfolio sliver — hidden when no holdings imported) ──
+  html += renderPortfolioSliver(portfolio);
+
+  // ── F&O OI-Delta Swing Screener (3–10D positioning signal) ──
+  html += renderFoScreenerCard(foScreener);
+
+  // ── Catalysts Today (forward-looking corporate + macro events) ──
+  html += renderCatalystsCard(catalysts);
 
   // ── Calendar (NSE corporate events + macro / policy dates) ──
   html += renderCalendarCard(calendar);
