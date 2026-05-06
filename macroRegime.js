@@ -365,7 +365,7 @@ export function heuristicClassifyRegime(headlines) {
   };
 }
 
-// ──────────────────── LLM clients (lazy) ────────────────────
+// ──────────────────── LLM client (lazy) ────────────────────
 
 let _groq = null;
 function getGroq() {
@@ -373,19 +373,6 @@ function getGroq() {
   if (!process.env.GROQ_API_KEY) return null;
   _groq = new OpenAI({ apiKey: process.env.GROQ_API_KEY, baseURL: GROQ_BASE_URL });
   return _groq;
-}
-
-// OpenAI fallback — used when Groq's daily token quota is exhausted.
-// Without a fallback, hitting the free-tier 100K TPD knocks out the macro
-// classifier for hours; gpt-4o-mini is cheap (~$0.15/1M input) and
-// already covered by the openaiBudget.js circuit breaker.
-const OPENAI_FALLBACK_MODEL = process.env.MACRO_OPENAI_FALLBACK_MODEL || "gpt-4o-mini";
-let _openaiFallback = null;
-function getOpenAIFallback() {
-  if (_openaiFallback) return _openaiFallback;
-  if (!process.env.OPENAI_API_KEY) return null;
-  _openaiFallback = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  return _openaiFallback;
 }
 
 // Groq TPD quota state — set by withOpenAIRetry when a long-duration 429
@@ -506,10 +493,11 @@ async function runClassification({ client, model, label, trackBudget }, { system
  *
  * headlines: Array<{ title, source, sourceTier, publishedAt, url? }>
  *
- * Tries Groq first (free, primary). When Groq's daily TPD quota is hit,
- * falls back to OpenAI's gpt-4o-mini (cheap, ~$0.06 per refresh worst-case).
- * Throws if both providers fail — the caller (_doRefreshMacroRegime) is
- * responsible for building the user-facing fallback.
+ * Two-step fallback chain: Groq → keyword heuristic. Never throws.
+ * Groq is free but capped at 100K TPD; when that's hit (or anytime Groq
+ * fails), the heuristic produces a real regime from headline keywords so
+ * the macro banner stays functional. Paid providers are deliberately not
+ * in this chain — see #114 for the trade-offs.
  */
 export async function classifyRegime(headlines) {
   if (!Array.isArray(headlines) || headlines.length === 0) {
@@ -517,54 +505,37 @@ export async function classifyRegime(headlines) {
   }
 
   const groqClient = getGroq();
-  const openaiClient = getOpenAIFallback();
-  if (!groqClient && !openaiClient) {
-    return { ...defaultCalmRegime(), reasoning: "LLM unavailable (no GROQ_API_KEY or OPENAI_API_KEY)." };
-  }
-
   // Cap headlines to stay under token budget — keep the 40 most recent.
   const capped = headlines.slice(0, 40);
-  const system = buildSystemPrompt();
-  const userMessage = buildUserMessage(capped);
-  const ctx = { system, userMessage, headlineCount: capped.length };
 
-  // Build provider chain. Groq first (free); OpenAI as paid fallback.
+  if (!groqClient) {
+    console.warn("[MACRO] No GROQ_API_KEY — using heuristic keyword classifier.");
+    return heuristicClassifyRegime(capped);
+  }
+
   // Skip Groq if its TPD quota is currently exhausted — no point burning
   // a network round-trip to get the same 429 we already know about.
-  const providers = [];
   const groqQuota = getGroqQuotaState();
-  if (groqClient && !groqQuota.limited) {
-    providers.push({ client: groqClient, model: MACRO_MODEL, label: "MACRO/groq", trackBudget: false });
-  } else if (groqQuota.limited) {
-    console.log(`[MACRO] Skipping Groq — quota active until ${new Date(groqQuota.until).toISOString()}`);
-  }
-  if (openaiClient) {
-    // OpenAI fallback respects the monthly $20 cap from openaiBudget.js
-    const budget = checkBudget();
-    if (budget.allowed) {
-      providers.push({ client: openaiClient, model: OPENAI_FALLBACK_MODEL, label: "MACRO/openai", trackBudget: true });
-    } else {
-      console.warn(`[MACRO] OpenAI fallback skipped — monthly cap hit ($${budget.spent.toFixed(2)} / $${budget.cap}).`);
-    }
+  if (groqQuota.limited) {
+    console.log(`[MACRO] Groq quota active until ${new Date(groqQuota.until).toISOString()} — using heuristic.`);
+    return heuristicClassifyRegime(capped);
   }
 
-  for (const provider of providers) {
-    try {
-      const regime = await runClassification(provider, ctx);
-      regime.classifierProvider = provider.label.replace("MACRO/", "");
-      console.log(`[MACRO] Classification via ${regime.classifierProvider}: ${regime.regime} (sev ${regime.severity}, conf ${regime.confidence?.toFixed?.(2) ?? regime.confidence})`);
-      return regime;
-    } catch (err) {
-      console.warn(`[MACRO] ${provider.label} failed: ${err.message} — trying next provider if available`);
-    }
-  }
+  const system = buildSystemPrompt();
+  const userMessage = buildUserMessage(capped);
 
-  // All LLM providers exhausted. Fall through to the keyword heuristic so
-  // the macro banner stays functional. Caller never sees an error and the
-  // UI never shows the degraded state — exactly what the user asked for
-  // ("I want this to be working all the time").
-  console.warn("[MACRO] All LLM providers failed — using heuristic keyword classifier as final fallback.");
-  return heuristicClassifyRegime(capped);
+  try {
+    const regime = await runClassification(
+      { client: groqClient, model: MACRO_MODEL, label: "MACRO/groq", trackBudget: false },
+      { system, userMessage, headlineCount: capped.length }
+    );
+    regime.classifierProvider = "groq";
+    console.log(`[MACRO] Classification via groq: ${regime.regime} (sev ${regime.severity}, conf ${regime.confidence?.toFixed?.(2) ?? regime.confidence})`);
+    return regime;
+  } catch (err) {
+    console.warn(`[MACRO] Groq failed: ${err.message} — using heuristic keyword classifier.`);
+    return heuristicClassifyRegime(capped);
+  }
 }
 
 // ──────────────────── Prompt building ────────────────────

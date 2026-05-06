@@ -186,16 +186,18 @@ const portfolioCache = new NodeCache({ stdTTL: 30, checkperiod: 15 });
 // enrichment pipeline. 30-minute TTL is plenty for an interactive session;
 // users tweaking past that just trigger a fresh analyze.
 const analyzerCache = new NodeCache({ stdTTL: 1800, checkperiod: 300 });
-// Macro regime — refreshed hourly. LLM-classified market regime
+// Macro regime — refreshed every 2 hours. LLM-classified market regime
 // (war/rate/oil/policy/calm) plus sector-level impact scores used by the
 // Buy Now scanner to tilt recommendations.
 //
-// 1h TTL is safe to use again now that classifyRegime has a paid OpenAI
-// fallback (gpt-4o-mini): when Groq's free TPD quota is exhausted, the
-// classifier transparently switches to OpenAI instead of degrading. KV-
-// shared cache (services/macroRegimeStorage.js) means cold-started Vercel
-// instances hit the shared regime, not Groq.
-const macroRegimeCache = new NodeCache({ stdTTL: 3600, checkperiod: 120 });
+// 2h TTL is set so a single instance refreshing on every cycle stays well
+// under Groq's 100K TPD free-tier limit (12 calls/day × ~2K tokens =
+// ~24K tokens). KV-shared cache (services/macroRegimeStorage.js) means
+// cold-started Vercel instances hit the shared regime, not Groq, so
+// instance count doesn't multiply token usage. When Groq is genuinely
+// throttled the classifier falls back to a keyword heuristic — see
+// macroRegime.js#classifyRegime.
+const macroRegimeCache = new NodeCache({ stdTTL: 7200, checkperiod: 300 });
 const MACRO_CACHE_KEY = "macro_regime";
 
 // Last successful classification — preserved across NodeCache expiries so
