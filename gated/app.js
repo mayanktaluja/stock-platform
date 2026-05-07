@@ -2594,7 +2594,7 @@ function _renderUsersTable(users) {
         : `<tr><td colspan="3" style="padding:12px;color:var(--text-muted);text-align:center;">No visit log yet — first tracked visit will appear here.</td></tr>`;
       drilldown = `
         <tr>
-          <td colspan="6" style="padding:0;background:rgba(255,255,255,0.02);">
+          <td colspan="7" style="padding:0;background:rgba(255,255,255,0.02);">
             <div style="padding:12px 16px;">
               <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Visit log (most recent first)</div>
               <table style="width:100%;border-collapse:collapse;font-size:12px;">
@@ -2612,6 +2612,13 @@ function _renderUsersTable(users) {
         </tr>`;
     }
 
+    // stopPropagation so the download click doesn't also toggle the visit-log drilldown.
+    const portfolioCell = u.hasPortfolio
+      ? `<a href="/api/admin/users/${encodeURIComponent(u.sub)}/portfolio.xlsx" download
+            onclick="event.stopPropagation()"
+            style="color:#60a5fa;text-decoration:underline;font-size:12px;">XLSX</a>`
+      : '<span style="color:var(--text-muted);font-size:12px;">—</span>';
+
     return `
       <tr style="cursor:pointer;border-bottom:1px solid #1a2233;" onclick="_toggleUserRow('${_escHtml(u.sub)}')">
         <td style="padding:10px 12px;">${avatar}</td>
@@ -2623,6 +2630,7 @@ function _renderUsersTable(users) {
         <td style="padding:10px 12px;font-variant-numeric:tabular-nums;font-size:12px;color:var(--text-muted);">${_escHtml(_fmtIST(u.createdAt))}</td>
         <td style="padding:10px 12px;font-variant-numeric:tabular-nums;font-size:12px;">${_escHtml(_fmtIST(u.lastLoginAt))}</td>
         <td style="padding:10px 12px;font-variant-numeric:tabular-nums;text-align:right;">${visitCount}</td>
+        <td style="padding:10px 12px;text-align:right;">${portfolioCell}</td>
       </tr>
       ${drilldown}
     `;
@@ -2638,6 +2646,7 @@ function _renderUsersTable(users) {
           <th style="padding:10px 12px;font-weight:500;">First seen</th>
           <th style="padding:10px 12px;font-weight:500;">Last seen</th>
           <th style="padding:10px 12px;font-weight:500;text-align:right;">Visits</th>
+          <th style="padding:10px 12px;font-weight:500;text-align:right;">Portfolio</th>
         </tr>
       </thead>
       <tbody>${rows}</tbody>
