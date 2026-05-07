@@ -7192,6 +7192,11 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       const swsReport = buildSWSReport(scoredHoldings, {
         freshCapitalInr,
         freshPickLimit: 8,
+        // Pass the same regime that scoreHolding already used for the
+        // timing-observation hooks. buildSWSReport applies it to the
+        // Tier B baskets (existing macro tilt) AND to the Sector Gap
+        // Spotlight's Layer 3 tailwind detection.
+        macroRegime: cachedRegime,
       });
       swsTimings.aggregate_ms = Date.now() - aggT0;
 

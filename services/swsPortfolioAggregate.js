@@ -23,6 +23,13 @@ import {
 } from "./actionLadder.js";
 import { bucketByDaysToExit } from "./liquidityTail.js";
 import { computePortfolioHealth } from "./swsPortfolioHealth.js";
+import {
+  buildSectorContext,
+  scoreSectorFit,
+  selectSectorGapPicks,
+  buildPerfectFitReason,
+  PERFECT_FIT_FLOOR,
+} from "./swsSectorFit.js";
 
 // Lazy macro-regime import — only used for basket tilt; failing import
 // degrades gracefully (no tilt applied).
@@ -147,6 +154,29 @@ function classifyBasket(rec) {
   const isFresh = rec.source === "fresh";
   if (isFresh && (!hasUpside || upside < 5)) {
     return { defensive: false, growth: false };
+  }
+
+  // Tier B "Perfect Fit" floor — only applied to fresh picks (holdings
+  // already gate at the per-stock action ladder). Tightens what reaches
+  // the user-facing baskets to v3 ≥ 45, snowflake_total ≥ 16, upside ≥ 8%
+  // and a clean surveillance/risk profile. Without this, mid-quality
+  // picks (v3 30-45) leak into the basket grid and dilute the
+  // SEBI-analyst framing.
+  if (isFresh) {
+    const surveillanceClean =
+      rec.surveillance == null ||
+      rec.surveillance === "none" ||
+      rec.surveillance === false ||
+      rec.surveillance === "";
+    const passesPerfectFit =
+      v3Score >= PERFECT_FIT_FLOOR.v3 &&
+      num(snow.total, 0) >= PERFECT_FIT_FLOOR.snowflake_total &&
+      hasUpside && upside >= PERFECT_FIT_FLOOR.upside_pct &&
+      !risksFlag &&
+      surveillanceClean;
+    if (!passesPerfectFit) {
+      return { defensive: false, growth: false };
+    }
   }
 
   const passesDefensive =
@@ -373,7 +403,7 @@ function surfaceOutsidePicks({ scoredHoldings, freshCapitalInr, limit = 12 }) {
   };
 }
 
-function buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit }) {
+function buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit, sectorOverlay, macroRegime }) {
   const heldTickers = new Set(scoredHoldings.filter((h) => h.swsCovered).map((h) => h.sws.ticker));
 
   // Source 1: in-portfolio top-up candidates
@@ -384,6 +414,11 @@ function buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit }) {
   // Source 2: outside-portfolio fresh picks
   const picks = loadPicksLatest();
   const sections = picks?.sections || {};
+
+  // Sector context — drives the "perfect add for *this* portfolio" gating.
+  // Built once and reused for both the 3-basket grid filter and the new
+  // Sector Gap Spotlight basket.
+  const sectorCtx = buildSectorContext(sectorOverlay || [], picks, macroRegime || null);
   const seedGrowth = (sections.top_ranked_30 || []).filter((p) => !heldTickers.has(p.ticker));
   const seedDefensive = (sections.dividend_aristocrats || []).filter((p) => !heldTickers.has(p.ticker));
 
@@ -435,6 +470,18 @@ function buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit }) {
 
   // Combine and classify
   const combined = [...topupHoldings, ...freshRows];
+
+  // Attach sector-fit metadata to every row up-front so we can both gate
+  // overweight-sector fresh picks AND surface sector-fit reasons on rows
+  // that survive into the existing 3-basket grid.
+  let gatedOverweightSector = 0;
+  for (const row of combined) {
+    const fit = scoreSectorFit(row.sector, sectorCtx);
+    row._sectorFit = fit;
+    row.perfectFitScore = num(row.v3_score, 0) + (fit.score === -999 ? 0 : fit.score);
+    row.whyFit = buildPerfectFitReason(row, sectorCtx, fit);
+  }
+
   const passesDefensive = [];
   const passesGrowth = [];
   const passesBoth = [];
@@ -442,31 +489,79 @@ function buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit }) {
   for (const row of combined) {
     const c = classifyBasket(row);
     if (!c) continue;
+
+    // Sector-fit gating: drop fresh picks whose sector is already
+    // overweight (≥20% of book). Holdings are exempt — the user already
+    // owns them, and reducing/holding is the action ladder's job, not
+    // the basket selector's. The graceful fallback below relaxes this
+    // when a basket would otherwise be empty.
+    if (row.source === "fresh" && row._sectorFit?.gapType === "overweight") {
+      gatedOverweightSector++;
+      continue;
+    }
+
     if (c.defensive && c.growth) passesBoth.push(row);
     else if (c.defensive) passesDefensive.push(row);
     else if (c.growth) passesGrowth.push(row);
   }
 
-  // Sort each by v3_score desc (action engine uses v3 as authoritative)
-  const byV3 = (a, b) => num(b.v3_score, 0) - num(a.v3_score, 0);
-  passesDefensive.sort(byV3);
-  passesGrowth.sort(byV3);
-  passesBoth.sort(byV3);
+  // Sort each by perfectFitScore desc (= v3 + sector-fit bonus). A
+  // tailwind-missing-sector v3=50 candidate now beats a sector-saturated
+  // v3=70 candidate, exactly the point of the perfect-fit framing.
+  const byPerfectFit = (a, b) => num(b.perfectFitScore, 0) - num(a.perfectFitScore, 0);
+  passesDefensive.sort(byPerfectFit);
+  passesGrowth.sort(byPerfectFit);
+  passesBoth.sort(byPerfectFit);
 
   // Shared Core: top 3 from passesBoth
-  const core = passesBoth.slice(0, 3);
+  let core = passesBoth.slice(0, 3);
   const coreTickers = new Set(core.map((r) => r.ticker));
 
   // Each basket: prefer pure-bucket passes, then fall through to passesBoth (excluding core)
-  const defensive = [
+  let defensive = [
     ...passesDefensive,
     ...passesBoth.filter((r) => !coreTickers.has(r.ticker)),
   ].slice(0, freshPickLimit);
 
-  const growth = [
+  let growth = [
     ...passesGrowth,
     ...passesBoth.filter((r) => !coreTickers.has(r.ticker)),
   ].slice(0, freshPickLimit);
+
+  // Graceful fallback — if sector-fit gating left a basket nearly empty,
+  // re-include the overweight-sector candidates we skipped, but flag
+  // them so the UI shows "consider trimming first" copy. Better to
+  // surface something with an honest caveat than show a blank card.
+  const fallbackEmpty = (basketLen, label) => {
+    if (basketLen >= 3) return [];
+    const fallback = [];
+    for (const row of combined) {
+      if (row.source !== "fresh") continue;
+      if (row._sectorFit?.gapType !== "overweight") continue;
+      const c = classifyBasket(row);
+      if (!c) continue;
+      const matches =
+        label === "defensive" ? c.defensive :
+        label === "growth"    ? c.growth    :
+                                (c.defensive && c.growth);
+      if (!matches) continue;
+      fallback.push({
+        ...row,
+        whyFit: `${row._sectorFit.canonical || row.sector || ""} already heavy — consider trimming first`,
+      });
+    }
+    fallback.sort(byPerfectFit);
+    return fallback;
+  };
+  if (defensive.length < 3) defensive = [...defensive, ...fallbackEmpty(defensive.length, "defensive")].slice(0, freshPickLimit);
+  if (growth.length < 3)    growth    = [...growth,    ...fallbackEmpty(growth.length,    "growth")].slice(0, freshPickLimit);
+  if (core.length < 3)      core      = [...core,      ...fallbackEmpty(core.length,      "core")].slice(0, 3);
+
+  // New "Sector Gap Spotlight" basket — explicit "what your portfolio is
+  // missing". Independent of Defensive/Growth/Core; pulls from fresh
+  // picks whose sector is missing/underweight AND tailwind-favourable,
+  // capped at 1/sector for diversity.
+  const sectorGaps = selectSectorGapPicks(combined, sectorCtx, { limit: 5 });
 
   // ₹ allocation per basket (65% in-portfolio top-ups, 35% fresh picks)
   const basketBudget = freshCapitalInr ? Math.round(freshCapitalInr / 2) : null;
@@ -481,16 +576,43 @@ function buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit }) {
     return rows.map((r) => ({ ...r, suggested_inr: r.source === "holding" ? perHolding : perFresh }));
   };
 
+  // Surface the tailwind set so the UI's spotlight subtitle can name
+  // 1-2 sectors the user is missing — even when sectorGaps itself is
+  // empty (e.g. user holds all 6 structural sectors at non-zero weight).
+  const tailwindSummary = [];
+  for (const [sector, info] of sectorCtx.tailwind) {
+    if (sectorCtx.overweight.has(sector)) continue;
+    const currentPct = sectorCtx.byCanonical.get(sector) ?? 0;
+    tailwindSummary.push({
+      sector,
+      currentPct: +currentPct.toFixed(1),
+      tailwindScore: info.score,
+      gapType: currentPct === 0 ? "missing" : sectorCtx.underweight.has(sector) ? "underweight" : "healthy",
+      evidence: info.evidence,
+    });
+  }
+  tailwindSummary.sort((a, b) => {
+    // Missing+high-score first
+    const gapRank = (g) => g === "missing" ? 0 : g === "underweight" ? 1 : 2;
+    const ga = gapRank(a.gapType), gb = gapRank(b.gapType);
+    if (ga !== gb) return ga - gb;
+    return b.tailwindScore - a.tailwindScore;
+  });
+
   return {
     defensive: allocBasket(defensive),
     growth: allocBasket(growth),
     core: allocBasket(core),
+    sectorGaps: allocBasket(sectorGaps),
+    tailwindSummary,
     counts: {
       topup_in_portfolio: topupHoldings.length,
       fresh_picks_seed: freshRows.length,
       passes_defensive: passesDefensive.length,
       passes_growth: passesGrowth.length,
       passes_both: passesBoth.length,
+      gated_overweight_sector: gatedOverweightSector,
+      sector_gaps: sectorGaps.length,
     },
   };
 }
@@ -596,8 +718,17 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
   const macroRegime = opts.macroRegime ?? null;
 
   const tiers = buildTiers(scoredHoldings);
-  const baskets = buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit });
+  // sectorOverlay must be built before baskets — buildBaskets uses the
+  // overlay to compute sector-fit scores ("perfect add for *this*
+  // portfolio") and the new Sector Gap Spotlight basket.
   const sectorOverlay = buildSectorOverlay(scoredHoldings);
+  const baskets = buildBaskets({
+    scoredHoldings,
+    freshCapitalInr,
+    freshPickLimit,
+    sectorOverlay,
+    macroRegime,
+  });
   const snapshot = buildSnapshot(scoredHoldings);
   snapshot.portfolioHealth = computePortfolioHealth(snapshot, scoredHoldings, {
     macroRegime,
@@ -621,6 +752,7 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
     baskets.defensive = _applyMacroTilt(baskets.defensive, macroRegime);
     baskets.growth = _applyMacroTilt(baskets.growth, macroRegime);
     baskets.core = _applyMacroTilt(baskets.core, macroRegime);
+    baskets.sectorGaps = _applyMacroTilt(baskets.sectorGaps || [], macroRegime);
     baskets.macro_regime = {
       regime: macroRegime.regime || null,
       severity: macroRegime.severity || null,
@@ -652,7 +784,7 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
     outsidePicks,
     tiers: {
       A: { label: "Reductions", rows: tiers.tierA, freedRupees: tiers.freedRupees, sector_wipeouts: sectorWipeouts },
-      B: { label: "Top-ups (Two baskets + shared Core)", baskets },
+      B: { label: "Top-ups (Perfect-fit, sector-aware)", baskets },
       C: { label: "Hold as-is", rows: tiers.tierC },
       D: { label: "Watch (catalyst-driven)", rows: tiers.tierD },
     },
