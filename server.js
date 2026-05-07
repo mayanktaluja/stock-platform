@@ -2901,7 +2901,63 @@ app.get("/api/admin/users", async (req, res) => {
   if (!me || !me.isAdmin) return res.status(403).json({ error: "forbidden" });
   const all = await userStore.list();
   all.sort((a, b) => (b.lastLoginAt || 0) - (a.lastLoginAt || 0));
-  return res.json({ count: all.length, users: all });
+  // Annotate each user with a hasPortfolio flag so the admin Users tab can
+  // render an XLSX download link vs a disabled "—" without an N+1 client roundtrip.
+  const portfolioStore = getPortfolioStorage();
+  const users = await Promise.all(all.map(async (u) => {
+    let hasPortfolio = false;
+    try {
+      const p = await portfolioStore.read(u.sub);
+      hasPortfolio = !!(p && ((p.stocks && p.stocks.length) || (p.mutualFunds && p.mutualFunds.length)));
+    } catch { /* if storage hiccups, fall back to no-link */ }
+    return { ...u, hasPortfolio };
+  }));
+  return res.json({ count: users.length, users });
+});
+
+/**
+ * GET /api/admin/users/:sub/portfolio.xlsx
+ *
+ * Admin-only XLSX export of a single user's portfolio. Two sheets:
+ *   - Stocks       (one row per holding; columns mirror the persisted shape)
+ *   - Mutual Funds (one row per scheme)
+ *
+ * 404s when the target user doesn't exist or has an empty portfolio (matches
+ * the disabled "—" state on the client).
+ */
+app.get("/api/admin/users/:sub/portfolio.xlsx", async (req, res) => {
+  if (!AUTH_ENABLED) return res.status(401).json({ error: "auth-disabled" });
+  const meSub = req.user && req.user.sub;
+  if (!meSub) return res.status(401).json({ error: "unauthenticated" });
+  const userStore = getUserStorage();
+  const me = await userStore.read(meSub);
+  if (!me || !me.isAdmin) return res.status(403).json({ error: "forbidden" });
+
+  const targetSub = String(req.params.sub || "");
+  const target = await userStore.read(targetSub);
+  if (!target) return res.status(404).json({ error: "user-not-found" });
+  const portfolio = await getPortfolioStorage().read(targetSub);
+  const hasStocks = portfolio.stocks && portfolio.stocks.length;
+  const hasMFs = portfolio.mutualFunds && portfolio.mutualFunds.length;
+  if (!hasStocks && !hasMFs) return res.status(404).json({ error: "empty-portfolio" });
+
+  const xlsxMod = await import("xlsx");
+  const xlsx = xlsxMod.default || xlsxMod;
+  const wb = xlsx.utils.book_new();
+  if (hasStocks) {
+    xlsx.utils.book_append_sheet(wb, xlsx.utils.json_to_sheet(portfolio.stocks), "Stocks");
+  }
+  if (hasMFs) {
+    xlsx.utils.book_append_sheet(wb, xlsx.utils.json_to_sheet(portfolio.mutualFunds), "Mutual Funds");
+  }
+  const buf = xlsx.write(wb, { type: "buffer", bookType: "xlsx" });
+
+  const slug = String(target.email || target.name || target.sub)
+    .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "user";
+  const date = new Date().toISOString().slice(0, 10);
+  res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+  res.setHeader("Content-Disposition", `attachment; filename="portfolio-${slug}-${date}.xlsx"`);
+  return res.end(buf);
 });
 
 /**
