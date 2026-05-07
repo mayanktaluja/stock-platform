@@ -5922,50 +5922,6 @@ function renderSWSMfSection(mfPositions) {
   return "";
 }
 
-// PR-4: portfolio liquidity-tail bucketing as a stacked bar. Buckets
-// are <1d / 1-5d / 5-10d / >10d / no-data. Tooltip on each segment
-// shows the holdings inside it for drill-down.
-function renderSWSLiquidityTail(tail) {
-  if (!tail || tail.totalValue <= 0) return "";
-  const bucketMeta = [
-    { key: "<1d",     color: "#22c55e", label: "<1 day"   },
-    { key: "1-5d",    color: "#86efac", label: "1-5 days" },
-    { key: "5-10d",   color: "#fde047", label: "5-10 days" },
-    { key: ">10d",    color: "#fca5a5", label: ">10 days" },
-    { key: "no-data", color: "#9ca3af", label: "No data"   },
-  ];
-
-  const segments = bucketMeta
-    .filter((b) => tail.buckets[b.key] > 0)
-    .map((b) => {
-      const pct = tail.pct[b.key];
-      const tickers = (tail.tickersByBucket[b.key] || []).join(", ") || "—";
-      const tooltip = `${b.label} · ${pct}% (${tickers})`;
-      return `<div title="${swsEscapeAttr(tooltip)}" style="background:${b.color}; flex: ${pct} 0 0; min-width:${pct < 3 ? '12px' : '0'};"></div>`;
-    }).join("");
-
-  const legendRows = bucketMeta
-    .filter((b) => tail.buckets[b.key] > 0)
-    .map((b) => `<div style="display:flex; align-items:center; gap:6px; font-size:11px;">
-      <span style="display:inline-block; width:10px; height:10px; border-radius:2px; background:${b.color};"></span>
-      <span style="color:var(--text-muted);">${b.label}</span>
-      <strong style="color:var(--text);">${tail.pct[b.key]}%</strong>
-      <span style="color:var(--text-muted);">${inr(tail.buckets[b.key])}</span>
-    </div>`).join("");
-
-  return `<div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
-    <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
-      <div>
-        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">Liquidity tail</div>
-        <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">Estimated days-to-exit by holding · ₹${(tail.illiquidValue / 1e3).toFixed(1)}K (${tail.illiquidPct}%) sits in 5d+ buckets</div>
-      </div>
-    </div>
-    <div style="display:flex; height:14px; border-radius:4px; overflow:hidden; margin-bottom:10px;">${segments}</div>
-    <div style="display:flex; flex-wrap:wrap; gap:14px; row-gap:6px;">${legendRows}</div>
-    <div style="font-size:10px; color:var(--text-muted); margin-top:8px; line-height:1.5;" title="${swsEscapeAttr(tail.methodology)}">Hover bar segments to see which holdings sit in each bucket.</div>
-  </div>`;
-}
-
 // PR-4: outside-portfolio fresh picks block. Two columns (defensive +
 // growth) with the per-pick suggested ₹ and concentration-aware alloc%.
 function renderSWSOutsidePicks(picks) {
@@ -6021,7 +5977,6 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
   const tiers = report.tiers || {};
   const baskets = tiers.B?.baskets || {};
   const sectorOverlay = report.sectorOverlay || [];
-  const liquidityTail = report.liquidityTail || null;
   const outsidePicks = report.outsidePicks || null;
 
   const snapshotAt = banner.snapshot_at ? new Date(banner.snapshot_at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "—";
@@ -6048,8 +6003,6 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
       ${swsKpiCard("Avg v3 score", `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
       ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} SWS-covered)</span>`)}
     </div>
-
-    ${renderSWSLiquidityTail(liquidityTail)}
 
     <div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
       <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">Action mix</div>
@@ -6092,7 +6045,6 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
   const tiers = report.tiers || {};
   const baskets = tiers.B?.baskets || {};
   const sectorOverlay = report.sectorOverlay || [];
-  const liquidityTail = report.liquidityTail || null;
   const outsidePicks = report.outsidePicks || null;
 
   const snapshotAt = banner.snapshot_at ? new Date(banner.snapshot_at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "—";
@@ -6188,8 +6140,6 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
       ${swsKpiCard(`Avg overall score ${infoIcon("combined_score")}`, `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
       ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} covered)</span>`)}
     </div>
-
-    ${renderSWSLiquidityTail(liquidityTail)}
 
     <div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
       <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">Action mix</div>

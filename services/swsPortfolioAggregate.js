@@ -21,7 +21,6 @@ import {
   ALL_TOPUP_ACTIONS,
   parseTrimPct,
 } from "./actionLadder.js";
-import { bucketByDaysToExit } from "./liquidityTail.js";
 import { computePortfolioHealth } from "./swsPortfolioHealth.js";
 import {
   buildSectorContext,
@@ -735,10 +734,6 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
     asOf: new Date().toISOString(),
   });
 
-  // PR-4: liquidity-tail bucketing — % of book in <1d / 1-5d / 5-10d /
-  // >10d / no-data buckets via market-cap proxy + surveillance escalation.
-  const liquidityTail = bucketByDaysToExit(scoredHoldings);
-
   // PR-4: outside-portfolio fresh picks — surface 10-12 candidates from
   // picks-latest.json (set-diffed against held tickers) when fresh
   // capital is available OR top-5 holdings dominate the book. Gated by
@@ -796,7 +791,6 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
     engine: "sws",
     banner,
     snapshot,
-    liquidityTail,
     outsidePicks,
     tiers: {
       A: { label: "Reductions", rows: tiers.tierA, freedRupees: tiers.freedRupees, sector_wipeouts: sectorWipeouts },
