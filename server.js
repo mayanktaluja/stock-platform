@@ -4,7 +4,9 @@
 // otherwise make dotenv look in the wrong place).
 import path from "path";
 import { fileURLToPath } from "url";
-import { randomUUID, createHmac, timingSafeEqual } from "node:crypto";
+import { randomUUID, randomBytes, createHmac, createHash, timingSafeEqual } from "node:crypto";
+import { OAuth2Client } from "google-auth-library";
+import { getUserStorage } from "./userStorage.js";
 import dotenv from "dotenv";
 const __filenameForEnv = fileURLToPath(import.meta.url);
 const __dirnameForEnv = path.dirname(__filenameForEnv);
@@ -282,45 +284,90 @@ app.use("/api/portfolio", requireApiKey);
 app.use("/api/watchlist", requireApiKey);
 app.use("/api/stock/", stockDetailLimiter);
 
-// ── Login gate (single-user password protection) ──
+// ── Auth gate (Google OAuth) ──
 //
-// When STARBHAI_LOGIN_PASSWORD and STARBHAI_SESSION_SECRET are both set,
-// the entire UI + API is locked behind a single password. Sessions are
-// HMAC-signed cookies (no DB, no new deps). When either env var is unset
-// (local dev), the gate is a no-op — same convenience pattern as
-// requireApiKey above. /api/cron/* is always exempt so Vercel schedules
-// keep firing.
-const LOGIN_PASSWORD = process.env.STARBHAI_LOGIN_PASSWORD || "";
+// When STARBHAI_SESSION_SECRET, GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET
+// are all set, the entire UI + API is locked behind "Continue with Google".
+// Sessions are HMAC-signed cookies carrying the Google `sub` (no DB on
+// the hot path; user records live in Vercel KV / users.json — see
+// userStorage.js). When any env var is unset (local dev), the gate is
+// a no-op — same convenience pattern as requireApiKey above. The auth
+// routes themselves and /api/cron/* are always exempt.
 const SESSION_SECRET = process.env.STARBHAI_SESSION_SECRET || "";
 const SESSION_COOKIE = "starbhai_session";
 const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
-const LOGIN_ENABLED = !!(LOGIN_PASSWORD && SESSION_SECRET);
+const OAUTH_COOKIE = "starbhai_oauth";
+const OAUTH_TTL_MS = 10 * 60 * 1000; // 10 minutes — covers the consent round-trip
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || "";
+const GOOGLE_OAUTH_REDIRECT_URI = process.env.GOOGLE_OAUTH_REDIRECT_URI || "";
+const AUTH_ENABLED = !!(SESSION_SECRET && GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET && GOOGLE_OAUTH_REDIRECT_URI);
 
-function signSession(tsMs) {
-  const payload = String(tsMs);
+const oauthClient = AUTH_ENABLED
+  ? new OAuth2Client({
+      clientId: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      redirectUri: GOOGLE_OAUTH_REDIRECT_URI,
+    })
+  : null;
+
+// Distinct payload prefixes so a session token can never be replayed as
+// an oauth-state token (or vice versa) even if the HMAC secret leaks.
+const SESSION_PREFIX = "sess:";
+const OAUTH_PREFIX = "oauth:";
+
+function b64urlEncode(str) {
+  return Buffer.from(str, "utf8").toString("base64url");
+}
+function b64urlDecode(str) {
+  try { return Buffer.from(str, "base64url").toString("utf8"); }
+  catch { return null; }
+}
+
+function signPayload(prefix, obj) {
+  const payload = b64urlEncode(prefix + JSON.stringify(obj));
   const sig = createHmac("sha256", SESSION_SECRET).update(payload).digest("hex");
   return `${payload}.${sig}`;
 }
 
-function verifySession(token) {
-  if (!token || !LOGIN_ENABLED) return false;
+function verifyPayload(prefix, token, ttlMs) {
+  if (!token || !AUTH_ENABLED) return null;
   const idx = token.indexOf(".");
-  if (idx < 0) return false;
+  if (idx < 0) return null;
   const payload = token.slice(0, idx);
   const sig = token.slice(idx + 1);
   const expect = createHmac("sha256", SESSION_SECRET).update(payload).digest("hex");
-  if (sig.length !== expect.length) return false;
+  if (sig.length !== expect.length) return null;
   let sigBuf, expectBuf;
   try {
     sigBuf = Buffer.from(sig, "hex");
     expectBuf = Buffer.from(expect, "hex");
   } catch {
-    return false;
+    return null;
   }
-  if (sigBuf.length !== expectBuf.length || sigBuf.length === 0) return false;
-  if (!timingSafeEqual(sigBuf, expectBuf)) return false;
-  const ts = Number(payload);
-  return Number.isFinite(ts) && Date.now() - ts <= SESSION_TTL_MS;
+  if (sigBuf.length !== expectBuf.length || sigBuf.length === 0) return null;
+  if (!timingSafeEqual(sigBuf, expectBuf)) return null;
+  const decoded = b64urlDecode(payload);
+  if (!decoded || !decoded.startsWith(prefix)) return null;
+  let obj;
+  try { obj = JSON.parse(decoded.slice(prefix.length)); }
+  catch { return null; }
+  if (!obj || typeof obj.ts !== "number" || !Number.isFinite(obj.ts)) return null;
+  if (Date.now() - obj.ts > ttlMs) return null;
+  return obj;
+}
+
+function signSession(sub) {
+  return signPayload(SESSION_PREFIX, { sub, ts: Date.now() });
+}
+function verifySession(token) {
+  return verifyPayload(SESSION_PREFIX, token, SESSION_TTL_MS);
+}
+function signOAuthState({ state, verifier, returnTo }) {
+  return signPayload(OAUTH_PREFIX, { state, verifier, returnTo: returnTo || "/", ts: Date.now() });
+}
+function verifyOAuthState(token) {
+  return verifyPayload(OAUTH_PREFIX, token, OAUTH_TTL_MS);
 }
 
 function readCookie(req, name) {
@@ -333,57 +380,187 @@ function readCookie(req, name) {
   return null;
 }
 
-const loginAttemptLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5,
-  standardHeaders: "draft-7",
-  legacyHeaders: false,
-  message: { error: "Too many login attempts. Try again in 15 minutes." },
-});
-
-// Login + logout routes — registered BEFORE the gate so they're reachable
-// when the user has no session cookie yet.
-app.post("/api/login", loginAttemptLimiter, express.json(), (req, res) => {
-  if (!LOGIN_ENABLED) return res.status(500).json({ error: "login-not-configured" });
-  const pw = (req.body && req.body.password) || "";
-  const provided = Buffer.from(String(pw));
-  const expected = Buffer.from(LOGIN_PASSWORD);
-  const ok = provided.length === expected.length && timingSafeEqual(provided, expected);
-  if (!ok) return res.status(401).json({ error: "invalid" });
-  const token = signSession(Date.now());
+function buildCookie(name, value, maxAgeMs) {
+  // SameSite=Lax (NOT Strict). Strict drops the cookie on the redirect
+  // back from Google because it's a cross-site initiated nav, which
+  // would break the entire OAuth callback. Lax keeps top-level GET
+  // navigations working — exactly what OAuth needs.
   const flags = [
-    `${SESSION_COOKIE}=${token}`,
+    `${name}=${value}`,
     "Path=/",
     "HttpOnly",
-    "SameSite=Strict",
-    `Max-Age=${Math.floor(SESSION_TTL_MS / 1000)}`,
+    "SameSite=Lax",
+    `Max-Age=${Math.floor(maxAgeMs / 1000)}`,
   ];
   if (process.env.VERCEL) flags.push("Secure");
-  res.setHeader("Set-Cookie", flags.join("; "));
-  res.json({ ok: true });
+  return flags.join("; ");
+}
+
+function setSessionCookie(res, sub) {
+  res.setHeader("Set-Cookie", buildCookie(SESSION_COOKIE, signSession(sub), SESSION_TTL_MS));
+}
+function clearSessionCookie(res) {
+  res.setHeader("Set-Cookie", buildCookie(SESSION_COOKIE, "", 0));
+}
+function setOAuthCookie(res, token) {
+  res.setHeader("Set-Cookie", buildCookie(OAUTH_COOKIE, token, OAUTH_TTL_MS));
+}
+function clearOAuthCookie(res) {
+  res.setHeader("Set-Cookie", buildCookie(OAUTH_COOKIE, "", 0));
+}
+
+// Same-origin path validator — defends /api/auth/google?returnTo=...
+// against open-redirect abuse. Only same-origin paths starting with a
+// single "/" are accepted.
+function safeReturnTo(value) {
+  if (typeof value !== "string" || !value.startsWith("/")) return "/";
+  if (value.startsWith("//") || value.startsWith("/\\")) return "/";
+  return value;
+}
+
+// ── Auth routes — registered BEFORE the gate so they're reachable
+// when the user has no session cookie yet. ──
+
+// Backwards-compatible 410 stub for the removed password endpoint, so
+// browsers with a cached login.html tab don't 404 — they get a clean
+// signal that this auth path is gone. Drop in a follow-up cleanup PR.
+app.post("/api/login", express.json(), (_req, res) => {
+  res.status(410).json({ error: "password-login-removed", hint: "use /api/auth/google" });
+});
+
+app.get("/api/auth/google", (req, res) => {
+  if (!AUTH_ENABLED) return res.status(500).json({ error: "auth-not-configured" });
+  const state = randomBytes(32).toString("hex");
+  const verifier = randomBytes(32).toString("base64url");
+  const challenge = createHash("sha256").update(verifier).digest("base64url");
+  const returnTo = safeReturnTo(req.query.returnTo);
+
+  const stateToken = signOAuthState({ state, verifier, returnTo });
+  setOAuthCookie(res, stateToken);
+
+  const url = oauthClient.generateAuthUrl({
+    access_type: "online",
+    scope: ["openid", "email", "profile"],
+    state,
+    code_challenge: challenge,
+    code_challenge_method: "S256",
+    prompt: "select_account",
+  });
+  res.redirect(302, url);
+});
+
+app.get("/api/auth/google/callback", async (req, res) => {
+  if (!AUTH_ENABLED) return res.status(500).json({ error: "auth-not-configured" });
+  try {
+    const cookieToken = readCookie(req, OAUTH_COOKIE);
+    const oauth = verifyOAuthState(cookieToken);
+    if (!oauth) {
+      clearOAuthCookie(res);
+      return res.status(400).json({ error: "oauth-state-missing-or-expired" });
+    }
+    const { state: queryState, code, error: googleError } = req.query;
+    if (googleError) {
+      clearOAuthCookie(res);
+      return res.status(400).json({ error: "google-error", detail: String(googleError) });
+    }
+    if (!code || typeof code !== "string") {
+      clearOAuthCookie(res);
+      return res.status(400).json({ error: "missing-code" });
+    }
+    if (!queryState || queryState !== oauth.state) {
+      clearOAuthCookie(res);
+      return res.status(400).json({ error: "state-mismatch" });
+    }
+
+    const { tokens } = await oauthClient.getToken({
+      code,
+      codeVerifier: oauth.verifier,
+      redirect_uri: GOOGLE_OAUTH_REDIRECT_URI,
+    });
+    if (!tokens || !tokens.id_token) {
+      clearOAuthCookie(res);
+      return res.status(400).json({ error: "no-id-token" });
+    }
+    const ticket = await oauthClient.verifyIdToken({
+      idToken: tokens.id_token,
+      audience: GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    const validIssuers = ["accounts.google.com", "https://accounts.google.com"];
+    if (!payload || !validIssuers.includes(payload.iss)) {
+      clearOAuthCookie(res);
+      return res.status(400).json({ error: "bad-issuer" });
+    }
+    if (!payload.email_verified) {
+      clearOAuthCookie(res);
+      return res.status(403).json({ error: "email-not-verified" });
+    }
+    if (!payload.sub) {
+      clearOAuthCookie(res);
+      return res.status(400).json({ error: "no-sub" });
+    }
+
+    const userStore = getUserStorage();
+    await userStore.upsert(payload.sub, {
+      email: payload.email || "",
+      name: payload.name || "",
+      picture: payload.picture || "",
+    });
+
+    clearOAuthCookie(res);
+    setSessionCookie(res, payload.sub);
+    return res.redirect(302, safeReturnTo(oauth.returnTo));
+  } catch (err) {
+    clearOAuthCookie(res);
+    console.warn("[AUTH] callback failed:", err && err.message);
+    return res.status(400).json({ error: "callback-failed", detail: err && err.message });
+  }
+});
+
+app.get("/api/auth/me", async (req, res) => {
+  if (!AUTH_ENABLED) {
+    // Dev mode: gate is a no-op, treat caller as anonymous so the UI
+    // keeps the user menu hidden but doesn't crash.
+    return res.status(401).json({ error: "auth-disabled" });
+  }
+  const session = verifySession(readCookie(req, SESSION_COOKIE));
+  if (!session) return res.status(401).json({ error: "unauthenticated" });
+  const userStore = getUserStorage();
+  const record = await userStore.read(session.sub);
+  if (!record) return res.status(401).json({ error: "user-not-found" });
+  return res.json({
+    userId: record.sub,
+    email: record.email,
+    name: record.name,
+    picture: record.picture,
+    isAdmin: !!record.isAdmin,
+  });
 });
 
 app.post("/api/logout", (req, res) => {
-  const flags = [
-    `${SESSION_COOKIE}=`,
-    "Path=/",
-    "HttpOnly",
-    "SameSite=Strict",
-    "Max-Age=0",
-  ];
-  if (process.env.VERCEL) flags.push("Secure");
-  res.setHeader("Set-Cookie", flags.join("; "));
+  clearSessionCookie(res);
   res.json({ ok: true });
 });
 
 // The gate — must come BEFORE express.static so static assets (index.html,
 // app.js, etc.) are also protected.
+const AUTH_EXEMPT_PATHS = new Set([
+  "/login.html",
+  "/api/login",
+  "/api/logout",
+  "/api/auth/google",
+  "/api/auth/google/callback",
+  "/api/auth/me",
+]);
 app.use((req, res, next) => {
-  if (!LOGIN_ENABLED) return next();
-  if (req.path === "/login.html") return next();
-  if (req.path === "/api/login" || req.path === "/api/logout") return next();
+  if (!AUTH_ENABLED) return next();
+  if (AUTH_EXEMPT_PATHS.has(req.path)) return next();
   if (req.path.startsWith("/api/cron/")) return next();
-  if (verifySession(readCookie(req, SESSION_COOKIE))) return next();
+  const session = verifySession(readCookie(req, SESSION_COOKIE));
+  if (session) {
+    req.user = session; // {sub, ts} — downstream handlers can read req.user.sub
+    return next();
+  }
 
   const accept = req.headers.accept || "";
   if (req.method === "GET" && accept.includes("text/html")) {
