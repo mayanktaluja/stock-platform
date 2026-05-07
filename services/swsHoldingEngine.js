@@ -215,26 +215,27 @@ function evaluateHardOverrides({ scored, holding, snow, fiscal }) {
 // (p25≈21, p50≈29, p75≈39, p95≈59; max≈86). Each tier targets a
 // realistic share of the universe so the action engine fires usefully:
 //   <14 EXIT  (~bottom 8%)
-//   <22 Reduction tier  (~bottom 25%)
-//   <36 HOLD  (~middle 45%)
+//   <22 Reduction-50% legacy (~bottom 25%) — lets severity scale to 25/33/50/66
+//   <30 Reduction-25-33% legacy (~bottom 50%) — NEW band, was HOLD
+//   <40 HOLD  (~middle 25%)
 //   <55 Top-up tier  (~top 25%, sub-tiers by portfolio context)
 //   ≥55 STRONG Top-up tier  (~top 7%)
-// Bands match the v3 verdict labels (AVOID/WATCH/ACCEPTABLE/STRONG/TOP_PICK).
-// PR 7 calibration. The original universe-percentile bands fired
-// STRONG Top-up on ~30% of a real personal book (real-portfolio
-// diagnostic: 15 STRONG + 8 modest + 7 Top-up = 30 of 41 holdings = 73%
-// "add more"). On a pre-selected personal book, the v3 distribution is
-// shifted higher than the universe, so universe-percentile cutoffs
-// over-promote.
 //
-// New thresholds raise the bar on STRONG Top-up (≥65, was ≥55) and
-// require both upside AND positive momentum context for Top-up-modest in
-// the 45-65 band. Result on the sample: action mix shifts roughly to
-// 25-30% Top-up family, 50-55% HOLD, 15-20% Reduction — closer to the
-// expected balance for an aggressive long-horizon book that's been
-// rotated. Top-up flag still clears for genuine outliers (HAL, NETWEB,
-// HINDCOPPER, INOXWIND on the sample) — the calibration tightens
-// without breaking the signal direction.
+// AGGRESSIVE-TRIM RECALIBRATION (PR for #126 follow-up): widened the trim
+// band so a real retail book actually surfaces Reduction signals. Pre-change:
+// only stocks with v3<22 entered the trim path, and only those with
+// position_weight>10% started at Reduction-50% legacy — too narrow to fire
+// on a typical curated book where most positions are 2-6% weight.
+//
+// Three things changed here:
+//   • Reduction-50% legacy now fires uniformly for v3<22 (drop the pw split;
+//     the V3 severity model picks the specific rung from the full factor
+//     stack, no need for a position-weight pre-filter on the legacy label).
+//   • A new Reduction-25-33% band at v3<30 — the v3 22-30 range used to be
+//     HOLD-by-default regardless of P&L or sector concentration. Now severity
+//     decides whether it's a soft 25% trim, a 33%, or HOLD-after-severity
+//     when the factor stack adds up below the trim floor.
+//   • HOLD band shifts to v3 30-40 (was 22-40). Top-up bands unchanged.
 function scoreBandAction({ v3, snow, upside, position_weight, sector_weight, risks_count }) {
   // scoreBandAction always emits LEGACY labels. The ladder-v2 promotion
   // runs as a post-stage on the FINAL action (after the conviction
@@ -243,10 +244,16 @@ function scoreBandAction({ v3, snow, upside, position_weight, sector_weight, ris
   // both known, so granular rung selection sees the full factor stack.
   if (v3 < 14) return { action: "EXIT", band: "AVOID" };
 
-  if (v3 < 22) {
-    if (position_weight > 10) return { action: "Reduction-50%", band: "WATCH" };
-    return { action: "Reduction-25-33%", band: "WATCH" };
-  }
+  // Trim band — every v3<22 stock starts at Reduction-50% legacy and lets
+  // severity → rung pick the realised label. Position-weight no longer
+  // gates which legacy label we emit; severity has concentration baked in.
+  if (v3 < 22) return { action: "Reduction-50%", band: "WATCH" };
+
+  // NEW band — v3 22-30 enters the trim path at Reduction-25-33% legacy.
+  // The severity model decides whether it lands at Red-25, Red-33, or even
+  // Red-50 for chunky/losing positions. Below the 0.10 severity floor it
+  // falls through to HOLD via the V3 promoter's null path.
+  if (v3 < 30) return { action: "Reduction-25-33%", band: "WATCH-MILD" };
 
   if (v3 < 40) return { action: "HOLD", band: "ACCEPTABLE" };
 
@@ -485,6 +492,19 @@ export function scoreHolding(holding, portfolioContext = {}) {
   // is off, promoteToLadderV2 returns the input unchanged. The legacy
   // label is preserved on the output for consumers that don't read v2
   // labels yet.
+  //
+  // V4 (SWS_LADDER_V4=1) consumes the additional optional inputs below
+  // — pillars, daysHeld, 52W high/low, currentPrice, currentValue,
+  // lastAction. When V4 is off, these inputs are silently ignored. We
+  // pass them unconditionally so flipping the flag is a one-line change.
+  // currentValue is hoisted before the call so the V4 floor gate sees
+  // the same number used for trim/topUp ₹ rendering below.
+  const _currentValue = num(holding.currentValue ?? (ov.current_price_inr * holding.quantity), 0);
+  const _currentPrice = num(holding.currentPrice ?? ov.current_price_inr, null);
+  const _purchaseAt = holding.purchaseDate ? Date.parse(holding.purchaseDate) : NaN;
+  const _daysHeld = Number.isFinite(_purchaseAt)
+    ? Math.max(0, Math.floor((Date.now() - _purchaseAt) / (24 * 3600 * 1000)))
+    : null;
   const promotion = promoteToLadderV2({
     legacyAction: finalAction,
     v3: num(scored.v3_score_100, 0),
@@ -495,6 +515,14 @@ export function scoreHolding(holding, portfolioContext = {}) {
     risks_count,
     surveillance: scored.v2_breakdown?.surveillance || null,
     pnlPercent: num(holding.pnlPercent, 0),
+    // V4 inputs (silently ignored when SWS_LADDER_V4 is off)
+    pillars: snow,
+    daysHeld: _daysHeld,
+    fiftyTwoWeekHigh: num(holding.fiftyTwoWeekHigh, null),
+    fiftyTwoWeekLow:  num(holding.fiftyTwoWeekLow, null),
+    currentPrice:     _currentPrice,
+    currentValue:     _currentValue > 0 ? _currentValue : null,
+    materialDisclosure: false, // wire from a disclosure feed when one lands
   });
   const promotedAction = promotion.action;
   const ladderRationale = promotion.ladderRationale;
@@ -507,12 +535,12 @@ export function scoreHolding(holding, portfolioContext = {}) {
   const ladderSeverityComponents = promotion.severityComponents || null;
   // Per-rung ₹ realised — current value × trim/topup fraction. Lets the UI
   // show "Reduction-33% · ₹12,400 freed" inline next to the action badge.
-  // Null on HOLD or when current value is missing.
-  const _cv = num(holding.currentValue ?? (ov.current_price_inr * holding.quantity), 0);
+  // Null on HOLD or when current value is missing. Re-uses _currentValue
+  // computed above for the V4 position-floor gate.
   const trimFrac = parseTrimPct(promotedAction);
   const topUpFrac = parseTopUpPct(promotedAction);
-  const trimRupees = trimFrac > 0 && _cv > 0 ? Math.round(_cv * trimFrac) : null;
-  const topUpRupees = topUpFrac > 0 && _cv > 0 ? Math.round(_cv * topUpFrac) : null;
+  const trimRupees = trimFrac > 0 && _currentValue > 0 ? Math.round(_currentValue * trimFrac) : null;
+  const topUpRupees = topUpFrac > 0 && _currentValue > 0 ? Math.round(_currentValue * topUpFrac) : null;
 
   // When the ladder fires, prepend its rationale to the engine's reasons
   // so the UI can show the ladder logic (one bullet per step) ahead of
@@ -592,6 +620,10 @@ export function scoreHolding(holding, portfolioContext = {}) {
     // landed on a specific rung. Null on HOLD or when V3 didn't fire.
     ladderSeverity,
     ladderSeverityComponents,
+    // V4 surface: severityModel = "v4" when SWS_LADDER_V4=1 fired, otherwise
+    // undefined (V3/V2). Lets the dashboard badge "V4" alongside the rung
+    // and the diff-mode harness know which engine produced this action.
+    severityModel: promotion.severityModel,
     // ₹ realised for the chosen rung — `currentValue × trim_or_topup fraction`.
     // Surfaced inline as "Reduction-33% · ₹12,400" so the user sees the
     // rupee impact at a glance, no clicking required.
