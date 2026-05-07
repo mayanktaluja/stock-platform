@@ -7848,6 +7848,7 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
         fair_value_inr: ov.fair_value_inr,
         upside_pct: ov.upside_pct,
         market_cap_inr: ov.market_cap_inr,
+        sws_url: deep.sws_url || null,
         computed_on_demand: true,
       };
     } catch (e) {
