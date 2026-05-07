@@ -28,6 +28,68 @@ const dashboard = document.getElementById("dashboard");
 // gracefully if anything still references the old shape.
 window.RA_CONFIG = { methodologyVersion: null };
 
+// ==================== AUTH (header user menu) ====================
+//
+// Populates the avatar/name/email in the header from /api/auth/me, and
+// wires the dropdown + sign-out. The page-level gate already redirects
+// unauthenticated requests to /login.html, so a 401 here is just a
+// safety net (e.g. the cookie expired between page load and this fetch).
+const auth = {
+  async init() {
+    const menu = document.getElementById("userMenu");
+    if (!menu) return;
+    let me = null;
+    try {
+      const res = await fetch("/api/auth/me", { credentials: "same-origin" });
+      if (res.ok) me = await res.json();
+    } catch { /* offline; leave menu hidden */ }
+    if (!me || !me.userId) return;
+
+    const avatar = document.getElementById("userAvatar");
+    const nameEl = document.getElementById("userMenuName");
+    const emailEl = document.getElementById("userMenuEmail");
+    const trigger = document.getElementById("userMenuBtn");
+    const dropdown = document.getElementById("userMenuDropdown");
+    const signout = document.getElementById("userMenuSignout");
+
+    if (avatar && me.picture) avatar.src = me.picture;
+    if (avatar) avatar.alt = me.name || me.email || "Account";
+    if (nameEl) nameEl.textContent = me.name || me.email || "Signed in";
+    if (emailEl) emailEl.textContent = me.email || "";
+    menu.hidden = false;
+
+    const closeDropdown = () => {
+      if (dropdown) dropdown.hidden = true;
+      if (trigger) trigger.setAttribute("aria-expanded", "false");
+    };
+    const openDropdown = () => {
+      if (dropdown) dropdown.hidden = false;
+      if (trigger) trigger.setAttribute("aria-expanded", "true");
+    };
+
+    if (trigger && dropdown) {
+      trigger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (dropdown.hidden) openDropdown(); else closeDropdown();
+      });
+      document.addEventListener("click", (e) => {
+        if (!menu.contains(e.target)) closeDropdown();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeDropdown();
+      });
+    }
+
+    if (signout) {
+      signout.addEventListener("click", async () => {
+        try { await fetch("/api/logout", { method: "POST", credentials: "same-origin" }); }
+        catch { /* ignore — redirect anyway */ }
+        window.location.href = "/login.html";
+      });
+    }
+  },
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   updateClock();
   setInterval(updateClock, 1000);
@@ -44,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
   switchTab('news');
   setupSearch();
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
+  auth.init();
 });
 
 // ==================== ACCORDION SECTION TOGGLE ====================
