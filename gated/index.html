@@ -3098,6 +3098,8 @@
       <button class="tab" role="tab" aria-selected="false" onclick="switchTab('track')">Track Record</button>
       <button class="tab" role="tab" aria-selected="false" onclick="switchTab('analyzer')">Portfolio Analyzer</button>
       <button class="tab" role="tab" aria-selected="false" onclick="switchTab('watchlist')">Watchlist</button>
+      <!-- Admin-only. Hidden by default; auth.init() unhides for users with isAdmin=true. -->
+      <button class="tab" id="usersTabBtn" role="tab" aria-selected="false" hidden onclick="switchTab('users')">Users</button>
     </div>
 
     <!-- Dashboard (Scanner Tab) -->
@@ -3813,6 +3815,30 @@
         <div class="loading">
           <div class="loading-spinner"></div>
           <div class="loading-text">Loading watchlist…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin-only Users tab. Server enforces admin via /api/admin/users (403 for non-admins);
+         the tab button itself is unhidden client-side in auth.init() when me.isAdmin is true. -->
+    <div id="usersTab" class="tab-content" style="display:none;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
+        <div>
+          <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Users</h2>
+          <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Everyone who has signed in to the platform. Click a row to see that user's visit log.</p>
+          <p id="usersMeta" style="font-size:11px; color:var(--text-muted); margin-top:6px;">Loading…</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="refresh-btn" onclick="loadUsersList()" style="background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.3);color:#60a5fa;">
+            <span class="spin-icon">&#8635;</span> Refresh
+          </button>
+        </div>
+      </div>
+
+      <div id="usersTabContent">
+        <div class="loading">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">Loading users…</div>
         </div>
       </div>
     </div>

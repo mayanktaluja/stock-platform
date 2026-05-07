@@ -508,6 +508,9 @@ app.get("/api/auth/google/callback", async (req, res) => {
       email: payload.email || "",
       name: payload.name || "",
       picture: payload.picture || "",
+      ip: (req.headers["x-forwarded-for"] || "").split(",")[0].trim()
+        || (req.socket && req.socket.remoteAddress) || null,
+      ua: req.headers["user-agent"] || null,
     });
 
     clearOAuthCookie(res);
@@ -2879,6 +2882,26 @@ app.get("/api/cron/scan-precompute", scanPrecomputeHandler);
 app.get("/api/admin/warm-scan-cache", (req, res) => {
   req.query.warm = "true";
   return scanPrecomputeHandler(req, res);
+});
+
+/**
+ * GET /api/admin/users
+ *
+ * Admin-only directory of every user who has ever signed in. Sorted by
+ * lastLoginAt desc. The auth gate above sets req.user.sub for any
+ * authenticated request; this handler additionally checks the persisted
+ * isAdmin flag (computed from ADMIN_EMAILS) before returning data.
+ */
+app.get("/api/admin/users", async (req, res) => {
+  if (!AUTH_ENABLED) return res.status(401).json({ error: "auth-disabled" });
+  const sub = req.user && req.user.sub;
+  if (!sub) return res.status(401).json({ error: "unauthenticated" });
+  const userStore = getUserStorage();
+  const me = await userStore.read(sub);
+  if (!me || !me.isAdmin) return res.status(403).json({ error: "forbidden" });
+  const all = await userStore.list();
+  all.sort((a, b) => (b.lastLoginAt || 0) - (a.lastLoginAt || 0));
+  return res.json({ count: all.length, users: all });
 });
 
 /**
