@@ -80,7 +80,6 @@ import { scoreHolding as swsScoreHolding, loadV3Universe } from "./services/swsH
 import { scoreStock as swsScoreStock } from "./services/swsScoring.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
 import { buildSWSReport } from "./services/swsPortfolioAggregate.js";
-import { simulate as runWhatIfSimulation } from "./services/whatIfSimulator.js";
 import { runOnce as runFoScreener } from "./services/foScreener.js";
 import {
   BhavcopyNotPublished,
@@ -7527,62 +7526,6 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
   } catch (err) {
     console.error("Portfolio analyze error:", err.message, err.stack);
     res.status(500).json({ error: "Failed to analyze portfolio", details: err.message });
-  }
-});
-
-// PR-5: what-if simulator endpoint. Reuses the cached analyze session
-// (SWS-engine path only — legacy reports don't carry the per-row sws.*
-// payload the simulator depends on). Lets the UI ship slider mutations
-// without re-uploading the portfolio file or re-running the SWS engine.
-//
-// Body: { sessionId, mutations: [{ ticker, deltaRupees }, ...], freshPicks? }
-//
-// Response: full simulator output { baseline, scenario, deltas, realisedTax,
-// mutationsApplied, warnings } — UI renders side-by-side comparison.
-//
-// Gated by WHATIF_SIMULATOR=1 env flag (default off in dev). When the
-// flag is off, returns 404 so the UI can hide the panel cleanly.
-app.post("/api/portfolio/simulate-whatif", express.json(), async (req, res) => {
-  try {
-    if (process.env.WHATIF_SIMULATOR !== "1") {
-      return res.status(404).json({ error: "What-if simulator disabled (WHATIF_SIMULATOR=1 to enable)." });
-    }
-    const sessionId = String(req.body?.sessionId || "");
-    if (!sessionId) {
-      return res.status(400).json({ error: "Missing sessionId. Run /api/portfolio/analyze first." });
-    }
-    const cached = analyzerCache.get(sessionId);
-    if (!cached) {
-      return res.status(410).json({ error: "Session expired or not found. Re-run /api/portfolio/analyze." });
-    }
-    if (cached.engine !== "sws") {
-      return res.status(400).json({ error: "What-if simulator requires the SWS analyzer engine (?engine=sws)." });
-    }
-
-    const mutations = Array.isArray(req.body?.mutations) ? req.body.mutations : [];
-    const freshPicks = Array.isArray(req.body?.freshPicks) ? req.body.freshPicks : [];
-
-    // Build fyContext from the same LTCG-YTD that fed the original analyze
-    // call, so the simulator's tax math sees the same exemption budget.
-    const fyContext = swsBuildFyContext(
-      new Date(),
-      Number.isFinite(cached.ltcgRealisedYtdRupees) ? cached.ltcgRealisedYtdRupees : 0,
-      0,
-    );
-
-    const out = runWhatIfSimulation({
-      scoredHoldings: cached.holdings,
-      mutations,
-      freshPicks,
-      fyContext,
-      today: new Date(),
-      assetClass: "equity",
-    });
-
-    res.json({ ok: true, sessionId, ...out });
-  } catch (err) {
-    console.error("[WHATIF] error:", err.message, err.stack);
-    res.status(500).json({ error: "Simulation failed", details: err.message });
   }
 });
 
