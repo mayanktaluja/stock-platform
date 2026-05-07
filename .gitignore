@@ -88,6 +88,10 @@ data/sws/deep-api/
 data/sws/deep-api-parsed/
 data/sws/deep.scraper-backup/
 
+# Coverage gap analysis — sitemap cache is ~530 MB of static SWS XML,
+# regenerable via scripts/sws-probe-availability.mjs --refresh.
+data/coverage/sws-sitemap-cache/
+
 # F&O OI screener — runtime files (locks/logs/raw bhavcopy not committed).
 # oi-deltas-latest.json + history/ ARE committed as Vercel boot seed.
 data/nse-fo/pipeline.lock
