@@ -5340,34 +5340,47 @@ function swsKpiCard(label, valueHtml) {
   </div>`;
 }
 
+const HEALTH_VERDICT_PALETTE = {
+  HEALTHY:         { color: "#22c55e", label: "HEALTHY" },
+  GOOD:            { color: "#60a5fa", label: "GOOD" },
+  NEEDS_ATTENTION: { color: "#fbbf24", label: "NEEDS ATTENTION" },
+  AT_RISK:         { color: "#fb923c", label: "AT RISK" },
+  CRITICAL:        { color: "#ef4444", label: "CRITICAL" },
+};
+
 function renderPortfolioHealthHero(ph) {
   if (!ph || !Number.isFinite(ph.score)) return "";
   const color = ph.color || "#60a5fa";
   const score = ph.score;
   const grade = ph.grade || "—";
   const band = ph.band || "";
+  const verdict = ph.verdict || null;
+  const verdictMeta = verdict ? HEALTH_VERDICT_PALETTE[verdict] : null;
   const note = swsEscapeAttr(ph.methodologyNote || "");
   const C = 238.76;
   const offset = +(C * (1 - score / 100)).toFixed(2);
+  // The score number uses var(--text-primary) explicitly. The undefined
+  // var(--text) it used to reference fell through to the SVG default
+  // (black) and rendered invisibly on the dark page background.
   const ring = `<svg viewBox="0 0 92 92" width="92" height="92" style="display:block;">
     <circle cx="46" cy="46" r="38" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"></circle>
     <circle cx="46" cy="46" r="38" fill="none" stroke="${color}" stroke-width="8" stroke-linecap="round"
       stroke-dasharray="${C}" stroke-dashoffset="${offset}"
       transform="rotate(-90 46 46)"></circle>
-    <text x="46" y="49" text-anchor="middle" dominant-baseline="middle" style="font-size:24px; font-weight:700; fill:var(--text);">${score}</text>
+    <text x="46" y="49" text-anchor="middle" dominant-baseline="middle" style="font-size:24px; font-weight:700; fill:var(--text-primary, #EDEDED);">${score}</text>
     <text x="46" y="68" text-anchor="middle" dominant-baseline="middle" style="font-size:10px; fill:var(--text-muted); letter-spacing:0.5px;">/ 100</text>
   </svg>`;
 
   const driverItem = (d) =>
     `<div style="display:flex; align-items:center; gap:6px; font-size:12px; line-height:1.6;">
       <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#22c55e;"></span>
-      <span style="color:var(--text); flex:1;">${swsEscapeAttr(d.label)}</span>
+      <span style="color:var(--text-primary, #EDEDED); flex:1;">${swsEscapeAttr(d.label)}</span>
       <span style="color:#86efac; font-weight:700; font-size:11px;">+${(+d.delta).toFixed(1)}</span>
     </div>`;
   const dragItem = (d) =>
     `<div style="display:flex; align-items:center; gap:6px; font-size:12px; line-height:1.6;">
       <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#ef4444;"></span>
-      <span style="color:var(--text); flex:1;">${swsEscapeAttr(d.label)}</span>
+      <span style="color:var(--text-primary, #EDEDED); flex:1;">${swsEscapeAttr(d.label)}</span>
       <span style="color:#fca5a5; font-weight:700; font-size:11px;">${(+d.delta).toFixed(1)}</span>
     </div>`;
 
@@ -5382,13 +5395,42 @@ function renderPortfolioHealthHero(ph) {
     ? `<div style="font-size:11px; color:var(--text-muted); margin-top:8px; line-height:1.5; font-style:italic;">${(ph.notes || []).map((n) => swsEscapeAttr(n)).join(" · ")}</div>`
     : "";
 
+  // Verdict pill — sits next to the grade letter so the user reads the
+  // word ("AT RISK") instead of guessing what "D" maps to.
+  const verdictPill = verdictMeta
+    ? `<span style="display:inline-block; padding:3px 9px; border-radius:4px; background:${verdictMeta.color}22; color:${verdictMeta.color}; font-size:11px; font-weight:700; letter-spacing:0.4px; text-transform:uppercase;">${verdictMeta.label}</span>`
+    : "";
+
+  // Caps caution chip — surfaces when one or more hard caps clamped the
+  // score below the additive sum. We show the most-binding cap; the rest
+  // are listed in `notes`.
+  let capsHtml = "";
+  if (Array.isArray(ph.caps) && ph.caps.length > 0) {
+    const lowest = ph.caps.slice().sort((a, b) => a.capValue - b.capValue)[0];
+    const reasonText = swsEscapeAttr(lowest.reason || "Hard cap applied");
+    capsHtml = `<div style="margin-top:6px; padding:4px 9px; border-radius:4px; background:rgba(251,146,60,0.10); color:#fb923c; font-size:10px; font-weight:600; letter-spacing:0.3px; max-width:180px; line-height:1.35;" title="${reasonText}">Capped at ${lowest.capValue}: ${reasonText}</div>`;
+  }
+
+  // Component breakdown — single-line monospace audit trail so users can
+  // see all 7 contributions, not only the top-3 drivers/drags.
+  let breakdownHtml = "";
+  const cmp = ph.components;
+  if (cmp) {
+    const fmt = (v) => Math.round(+v ?? 0);
+    breakdownHtml = `<div style="flex:1 1 100%; padding-top:8px; border-top:1px solid rgba(255,255,255,0.04); margin-top:4px; font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono', monospace; letter-spacing:0.3px;">
+      Q ${fmt(cmp.quality)}/25 · Val ${fmt(cmp.valuation)}/15 · Div ${fmt(cmp.diversification)}/15 · Conc ${fmt(cmp.concentration)}/10 · Risk ${fmt(cmp.risk)}/15 · Loss ${fmt(cmp.lossControl)}/10 · Macro ${fmt(cmp.macro)}/10
+    </div>`;
+  }
+
   return `<div class="ph-hero" style="background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid #2a3349; border-radius:10px; padding:16px 20px; margin-bottom:18px; display:flex; gap:20px; align-items:center; flex-wrap:wrap;">
     <div title="${note}" style="display:flex; flex-direction:column; align-items:center; min-width:120px; cursor:help;">
       ${ring}
-      <div style="margin-top:8px; display:flex; align-items:center; gap:6px;">
+      <div style="margin-top:8px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; justify-content:center;">
         <span style="display:inline-block; padding:3px 9px; border-radius:4px; background:${color}22; color:${color}; font-size:13px; font-weight:700; letter-spacing:0.3px;">${grade}</span>
-        <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px;">${swsEscapeAttr(band)}</span>
+        ${verdictPill}
       </div>
+      <div style="margin-top:4px; font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px;">${swsEscapeAttr(band)}</div>
+      ${capsHtml}
     </div>
     <div style="flex:1; min-width:280px; display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:18px;">
       <div>
@@ -5400,6 +5442,7 @@ function renderPortfolioHealthHero(ph) {
         ${dragsHtml}
       </div>
     </div>
+    ${breakdownHtml}
     ${notesHtml ? `<div style="flex:1 1 100%;">${notesHtml}</div>` : ""}
   </div>`;
 }
