@@ -6887,7 +6887,7 @@ app.post("/api/portfolio", async (req, res) => {
 //   DELETE /api/risk-profile → soft-clear (lets the user retake the survey)
 // ═══════════════════════════════════════════════════════════════════════════
 
-import { scoreRiskProfile, RISK_PROFILE_QUESTIONS, INTAKE_QUESTIONS, buildIntake, hasCompleteIntake } from "./riskProfile.js";
+import { scoreRiskProfile, RISK_PROFILE_QUESTIONS } from "./riskProfile.js";
 
 app.get("/api/risk-profile", async (req, res) => {
   try {
@@ -6945,72 +6945,6 @@ app.delete("/api/risk-profile", async (req, res) => {
   }
 });
 
-// 5-question SEBI suitability intake — extends the 3-question risk
-// profile with fresh capital, transactional changes, focus stock, and
-// LTCG-YTD. Persisted to portfolio.intake + portfolio.riskProfile in
-// a single write so the analyzer's gate check sees both populated.
-//
-// GET    /api/portfolio/intake → { questions, present: bool, intake, riskProfile }
-// POST   /api/portfolio/intake → { ok: true, intake, riskProfile }
-// DELETE /api/portfolio/intake → soft-clear (lets the user retake)
-
-app.get("/api/portfolio/intake", async (req, res) => {
-  try {
-    const sub = userSub(req);
-    if (!sub) return res.status(401).json({ error: "auth-required" });
-    const portfolio = await readPortfolio(sub);
-    res.json({
-      questions: INTAKE_QUESTIONS,
-      present: hasCompleteIntake(portfolio),
-      intake: portfolio?.intake || null,
-      riskProfile: portfolio?.riskProfile || null,
-    });
-  } catch (err) {
-    console.error("[INTAKE] read error:", err.message);
-    res.status(500).json({ error: "Failed to read intake" });
-  }
-});
-
-app.post("/api/portfolio/intake", express.json(), async (req, res) => {
-  try {
-    const sub = userSub(req);
-    if (!sub) return res.status(401).json({ error: "auth-required" });
-    const built = buildIntake(req.body?.answers || req.body);
-    if (!built.ok) {
-      return res.status(400).json({
-        error: built.error,
-        missing: built.missing,
-        questions: INTAKE_QUESTIONS,
-      });
-    }
-    const portfolio = await readPortfolio(sub);
-    const next = {
-      ...portfolio,
-      intake: built.intake,
-      riskProfile: built.riskProfile,
-    };
-    await savePortfolio(sub, next);
-    res.json({ ok: true, intake: next.intake, riskProfile: next.riskProfile });
-  } catch (err) {
-    console.error("[INTAKE] save error:", err.message);
-    res.status(500).json({ error: "Failed to save intake" });
-  }
-});
-
-app.delete("/api/portfolio/intake", async (req, res) => {
-  try {
-    const sub = userSub(req);
-    if (!sub) return res.status(401).json({ error: "auth-required" });
-    const portfolio = await readPortfolio(sub);
-    const next = { ...portfolio, intake: null };
-    await savePortfolio(sub, next);
-    res.json({ ok: true });
-  } catch (err) {
-    console.error("[INTAKE] clear error:", err.message);
-    res.status(500).json({ error: "Failed to clear intake" });
-  }
-});
-
 // ═══════════════════════════════════════════════════════════════════════════
 // Portfolio Analyzer — SWS-powered deep analysis with per-user persistence.
 //
@@ -7032,30 +6966,18 @@ const portfolioUpload = multer({
 });
 
 // Load the user-context bits both /analyze and /analyze/rerun need:
-// saved MF holdings (analyzer-shape), risk profile, suitability intake,
-// and the intake-fallback values for freshCapital + LTCG-YTD.
+// saved MF holdings (analyzer-shape) + risk profile. freshCapital +
+// LTCG-YTD come from request body/query (defaults: null / 0).
 async function loadAnalyzerUserContext(sub, reqBody = {}, reqQuery = {}) {
   let mfHoldings = [];
   let savedRiskProfile = null;
-  let savedIntake = null;
-  let freshCapitalInr = Number.parseFloat(reqBody?.freshCapitalInr ?? reqQuery?.freshCapitalInr ?? "0") || null;
-  let ltcgRealisedYtdRupees = Number.parseFloat(reqBody?.ltcgRealisedYtd ?? reqQuery?.ltcgRealisedYtd ?? "0");
+  const freshCapitalInr = Number.parseFloat(reqBody?.freshCapitalInr ?? reqQuery?.freshCapitalInr ?? "0") || null;
+  const ltcgRealisedYtdRupees = Number.parseFloat(reqBody?.ltcgRealisedYtd ?? reqQuery?.ltcgRealisedYtd ?? "0");
 
   try {
     const saved = await readPortfolio(sub);
     if (saved && saved.riskProfile && saved.riskProfile.bucket) {
       savedRiskProfile = saved.riskProfile;
-    }
-    if (saved && saved.intake) {
-      savedIntake = saved.intake;
-      const reqHasFresh = reqBody?.freshCapitalInr != null || reqQuery?.freshCapitalInr != null;
-      if (!reqHasFresh && Number.isFinite(saved.intake.freshCapitalInr) && saved.intake.freshCapitalInr > 0) {
-        freshCapitalInr = saved.intake.freshCapitalInr;
-      }
-      const reqHasLtcg = reqBody?.ltcgRealisedYtd != null || reqQuery?.ltcgRealisedYtd != null;
-      if (!reqHasLtcg && Number.isFinite(saved.intake.ltcgRealisedYtdRupees) && saved.intake.ltcgRealisedYtdRupees > 0) {
-        ltcgRealisedYtdRupees = saved.intake.ltcgRealisedYtdRupees;
-      }
     }
     if (saved && Array.isArray(saved.mutualFunds)) {
       mfHoldings = saved.mutualFunds.map((m) => ({
@@ -7077,7 +6999,7 @@ async function loadAnalyzerUserContext(sub, reqBody = {}, reqQuery = {}) {
     console.warn("[ANALYZE] could not load saved MF holdings:", e.message);
   }
 
-  return { mfHoldings, savedRiskProfile, savedIntake, freshCapitalInr, ltcgRealisedYtdRupees };
+  return { mfHoldings, savedRiskProfile, freshCapitalInr, ltcgRealisedYtdRupees };
 }
 
 // Run the SWS scoring + report build against a parsed portfolio.
@@ -7279,37 +7201,9 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
     const optTaxSlabPct = Number.parseInt(req.body.taxSlabPct || req.query.taxSlabPct || "30", 10);
     const optAssumedHoldingMonths = Number.parseInt(req.body.assumedHoldingMonths || req.query.assumedHoldingMonths || "24", 10);
 
-    // SUITABILITY_GATE — when enabled, refuse the analyze if the user
-    // hasn't completed the 5-question SEBI intake. The UI catches the
-    // 412 Precondition Failed + opens the intake modal. After the user
-    // POSTs answers to /api/portfolio/intake, the gate clears.
-    //
-    // Default off in dev so the existing user flow keeps working;
-    // production sets SUITABILITY_GATE=1 once the modal is shipped.
-    if (process.env.SUITABILITY_GATE === "1") {
-      try {
-        const saved = await readPortfolio(sub);
-        if (!hasCompleteIntake(saved)) {
-          return res.status(412).json({
-            error: "Suitability intake not complete.",
-            hint: "POST /api/portfolio/intake with the 5 required answers, then retry the analyze.",
-            questions: INTAKE_QUESTIONS,
-            preconditionRequired: "intake",
-          });
-        }
-      } catch (err) {
-        // Read errors fall through — better to analyze than to hard-block
-        // on a transient KV/file glitch. The gate only enforces when we
-        // KNOW intake is missing.
-        console.warn("[ANALYZE] suitability gate read failed:", err.message);
-      }
-    }
-
-    // Pull saved MF holdings + risk profile + intake fallbacks from the
-    // user's stored portfolio. The helper also computes the effective
-    // freshCapitalInr / ltcgRealisedYtd (request value first, falling back
-    // to the persisted intake so the analyzer doesn't ask for capital +
-    // tax YTD on every run).
+    // Pull saved MF holdings + risk profile from the user's stored portfolio.
+    // freshCapitalInr + ltcgRealisedYtd come from the request body/query
+    // (defaults: null / 0 when absent).
     let { mfHoldings, savedRiskProfile, freshCapitalInr, ltcgRealisedYtdRupees } =
       await loadAnalyzerUserContext(sub, req.body, req.query);
 
