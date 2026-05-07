@@ -163,10 +163,24 @@ export function _reconcileFVUpside(ov) {
 
 const NARRATIVE_RED = /declin|structurally\s*weak|promoter\s*(exit|pledge|stake)|governance|tax-loss|fraud|sebi/i;
 
-function evaluateHardOverrides({ scored, holding, snow, fiscal }) {
+// SEBI-RA-grade hard overrides — three new risk-management overrides
+// (concentration cap, severe FV downside, multi-signal weakness) added on
+// top of the existing GSM / earnings-decline / fragile-balance / narrative-
+// flag rules. Each override emits a Reduction-50% legacy label; the V3
+// severity model then picks the specific rung from the full factor stack —
+// so a 42%-weight position lands on Red-66% via the pw>30 severity floor,
+// while a 27%-weight position lands on Red-50% via the pw>25 floor.
+//
+// Unlike the original first-match-wins design, this version COLLECTS every
+// firing override into the reasons[] array so the audit trail shows every
+// independent risk signal that confirmed the call. The action label remains
+// single-valued (Reduction-50% legacy or EXIT for GSM) — the V3 promoter
+// reads only `action`, but a SEBI RA reading the report sees all signals.
+export function evaluateHardOverrides({ scored, holding, snow, fiscal, position_weight, sector_weight, upside }) {
   const surveillance = scored.v2_breakdown?.surveillance || null;
-  const reasons = [];
 
+  // GSM surveillance is special — exits the holding entirely, not a partial
+  // trim. Returns immediately with a single regulatory reason.
   if (surveillance && surveillance.list === "GSM") {
     return { action: "EXIT", reasons: [`Listed on NSE GSM surveillance (${surveillance.timeframe || "—"}) — regulatory red flag, exit per SEBI-aligned framework.`] };
   }
@@ -174,41 +188,79 @@ function evaluateHardOverrides({ scored, holding, snow, fiscal }) {
   const pnl = num(holding.pnlPercent, 0);
   const snowTotal = snow.total;
   const fwdGrowth = num(fiscal.earnings_growth_pct, null);
+  const pw = num(position_weight, 0);
+  const sw = num(sector_weight, 0);
+  const up = Number.isFinite(upside) ? upside : null;
 
-  if (pnl < -20 && snowTotal <= 12 && (fwdGrowth == null || fwdGrowth <= 1)) {
-    return {
-      action: "Reduction-50%",
-      reasons: [`Loss-position trap: -${Math.abs(pnl).toFixed(1)}% with Snowflake ${snowTotal}/30${fwdGrowth != null ? ` and FY earnings growth ${fwdGrowth.toFixed(1)}%` : " and no forward growth visibility"} — disposition-effect override.`],
-    };
+  const reasons = [];
+
+  // ─── Override A: single-stock concentration cap ──────────────────
+  // SEBI RA risk-management observation: single-issuer concentration above
+  // a threshold is a portfolio-level risk independent of the issuer's
+  // fundamentals. Even a high-quality compounder at 40%+ weight is sizing
+  // imprudence, not stock-selection genius. Forces partial trim — the
+  // severity escalator (pw>30 → ≥0.55) then promotes to Red-66%.
+  if (pw > 35) {
+    reasons.push(`Position weight ${pw.toFixed(1)}% exceeds 35% concentration cap — single-name risk independent of fundamentals (SEBI RA risk-management observation).`);
+  } else if (pw > 25) {
+    reasons.push(`Position weight ${pw.toFixed(1)}% exceeds 25% concentration threshold — partial trim to restore single-name risk discipline.`);
   }
 
-  if (fwdGrowth != null && fwdGrowth < -10) {
-    return {
-      action: "Reduction-50%",
-      reasons: [`Earnings declining ${fwdGrowth.toFixed(1)}% YoY (fiscal block) — structurally weak, reduce exposure.`],
-    };
-  }
-
-  if (snow.financial_health <= 1 && (scored.overview?.multiples?.pe ?? 0) > 100) {
-    return {
-      action: "Reduction-50%",
-      reasons: [`Fragile balance sheet (Health ${snow.financial_health}/6) at extreme valuation (P/E ${scored.overview?.multiples?.pe?.toFixed?.(1) ?? "—"}x).`],
-    };
-  }
-
-  // Narrative-phrase fallback (rarely fires in current API-pipeline data because rewards/risks empty,
-  // but covered for older snapshots).
-  const risks = scored.overview?.risks || [];
-  for (const r of risks) {
-    if (NARRATIVE_RED.test(String(r))) {
-      return {
-        action: "Reduction-50%",
-        reasons: [`SWS narrative flag: "${String(r).slice(0, 120)}".`],
-      };
+  // ─── Override B: severe FV downside ──────────────────────────────
+  // AnalystConsensus FV is the published-research view; material divergence
+  // is a primary sell signal under SEBI RA Regulations 2014. Two rungs:
+  // (1) extreme overvaluation alone is sufficient (≤−45% to FV);
+  // (2) moderate overvaluation requires weak fundamentals as cross-check
+  //     (≤−30% to FV AND Snowflake ≤14/30).
+  if (up != null) {
+    if (up <= -45) {
+      reasons.push(`Trading ${Math.abs(up).toFixed(1)}% above AnalystConsensus FV — extreme overvaluation by published research consensus.`);
+    } else if (up <= -30 && snowTotal <= 14) {
+      reasons.push(`Trading ${Math.abs(up).toFixed(1)}% above AnalystConsensus FV with weak fundamentals (Snowflake ${snowTotal}/30) — overvaluation + thin fundamental support.`);
     }
   }
 
-  return null;
+  // ─── Override C: multi-signal weakness stack (replaces the prior narrow
+  // pnl<-20+snow≤12+no-fwd-growth rule). Any 2 of 4 independent risk
+  // signals firing is sufficient — each is separately observable, the
+  // four are independent (a healthy compounder won't trip two), and the
+  // 2-of-4 threshold is more permissive than the old 3-stacked rule
+  // without sacrificing rigor.
+  const signalLabels = [];
+  if (snowTotal <= 12) signalLabels.push(`Snowflake ${snowTotal}/30 (weak fundamentals)`);
+  if (up != null && up <= -20) signalLabels.push(`upside ${up.toFixed(1)}% to FV (overvalued)`);
+  if (pnl < -15) signalLabels.push(`drawdown ${pnl.toFixed(1)}% (material loss)`);
+  if (sw > 30) signalLabels.push(`sector weight ${sw.toFixed(1)}% (sector overweight)`);
+  if (signalLabels.length >= 2) {
+    reasons.push(`Multi-signal weakness — ${signalLabels.length} of 4 risk signals firing: ${signalLabels.join("; ")}.`);
+  }
+
+  // ─── Existing earnings-declining override (preserved) ────────────
+  if (fwdGrowth != null && fwdGrowth < -10) {
+    reasons.push(`Earnings declining ${fwdGrowth.toFixed(1)}% YoY (fiscal block) — structurally weak, reduce exposure.`);
+  }
+
+  // ─── Existing fragile-balance + extreme-PE override (preserved) ──
+  if (snow.financial_health <= 1 && (scored.overview?.multiples?.pe ?? 0) > 100) {
+    reasons.push(`Fragile balance sheet (Health ${snow.financial_health}/6) at extreme valuation (P/E ${scored.overview?.multiples?.pe?.toFixed?.(1) ?? "—"}x).`);
+  }
+
+  // ─── Existing narrative-red override (preserved) ─────────────────
+  // Rarely fires on current API-pipeline snapshots (rewards/risks empty)
+  // but covered for older snapshots and any future re-population.
+  const risksList = scored.overview?.risks || [];
+  for (const r of risksList) {
+    if (NARRATIVE_RED.test(String(r))) {
+      reasons.push(`SWS narrative flag: "${String(r).slice(0, 120)}".`);
+      break;
+    }
+  }
+
+  if (reasons.length === 0) return null;
+  // All firing overrides emit Reduction-50% legacy. The V3 severity model
+  // then picks the specific rung — Red-66% for pw>30 via the severity
+  // escalator, Red-50% otherwise.
+  return { action: "Reduction-50%", reasons };
 }
 
 // v3 score thresholds — calibrated to the v3 universe distribution
@@ -390,7 +442,10 @@ export function scoreHolding(holding, portfolioContext = {}) {
 
   const surveillance = scored.v2_breakdown?.surveillance || null;
 
-  const hard = evaluateHardOverrides({ scored, holding, snow, fiscal });
+  const hard = evaluateHardOverrides({
+    scored, holding, snow, fiscal,
+    position_weight, sector_weight, upside,
+  });
   let action, band, reasons;
   if (hard) {
     action = hard.action;
