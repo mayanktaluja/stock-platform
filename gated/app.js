@@ -58,6 +58,15 @@ const auth = {
     if (emailEl) emailEl.textContent = me.email || "";
     menu.hidden = false;
 
+    // Expose admin status so the Users tab can self-gate (server still
+    // enforces via /api/admin/users 403). Reveal the tab button only when
+    // the signed-in user is an admin — non-admins never see it in the DOM.
+    window.__starbhai_isAdmin = !!me.isAdmin;
+    if (me.isAdmin) {
+      const usersTabBtn = document.getElementById("usersTabBtn");
+      if (usersTabBtn) usersTabBtn.hidden = false;
+    }
+
     const closeDropdown = () => {
       if (dropdown) dropdown.hidden = true;
       if (trigger) trigger.setAttribute("aria-expanded", "false");
@@ -2424,6 +2433,7 @@ function switchTab(tab) {
   const analyzerEl = document.getElementById("analyzerTab");
   const picksEl = document.getElementById("picksTab");
   const watchEl = document.getElementById("watchlistTab");
+  const usersEl = document.getElementById("usersTab");
 
   dashEl.style.display = "none";
   newsEl.style.display = "none";
@@ -2434,6 +2444,7 @@ function switchTab(tab) {
   if (analyzerEl) analyzerEl.style.display = "none";
   if (picksEl) picksEl.style.display = "none";
   if (watchEl) watchEl.style.display = "none";
+  if (usersEl) usersEl.style.display = "none";
   if (newsRefreshTimer) { clearInterval(newsRefreshTimer); newsRefreshTimer = null; }
 
   // Refresh the global macro banner on every tab switch. This is a cheap
@@ -2476,6 +2487,13 @@ function switchTab(tab) {
   } else if (tab === "watchlist") {
     if (watchEl) watchEl.style.display = "block";
     loadWatchlist();
+  } else if (tab === "users") {
+    // Defence-in-depth: server enforces admin via 403 on /api/admin/users,
+    // but bail here too so a non-admin who somehow forces the URL doesn't
+    // see a half-rendered tab while the fetch is in flight.
+    if (!window.__starbhai_isAdmin) return;
+    if (usersEl) usersEl.style.display = "block";
+    loadUsersList();
   } else if (tab === "scanner") {
     dashEl.style.display = "block";
     if (!_scannerInitialized) {
@@ -2497,6 +2515,177 @@ function switchTab(tab) {
 }
 
 let _scannerInitialized = false;
+
+// ==================== USERS (admin) ====================
+//
+// Renders the admin Users tab. The tab itself is gated client-side
+// (auth.init unhides the button only for admins) but the real gate is
+// the server's 403 on /api/admin/users for non-admins. Layout follows
+// the watchlist/picks pattern: header + table + per-row drill-down for
+// the user's loginEvents history.
+
+const _usersExpanded = new Set();
+
+function _fmtIST(ts) {
+  if (!ts) return "—";
+  try {
+    return new Date(ts).toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      year: "numeric", month: "short", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", hour12: false,
+    });
+  } catch {
+    return new Date(ts).toISOString();
+  }
+}
+
+function _escHtml(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function _shortUA(ua) {
+  if (!ua) return "—";
+  const s = String(ua);
+  // Best-effort one-glance label. Keep raw UA in the tooltip so admins can
+  // copy it if they ever need the full string.
+  let label = "Unknown";
+  if (/iPhone|iPad/.test(s)) label = "iOS";
+  else if (/Android/.test(s)) label = "Android";
+  else if (/Macintosh/.test(s)) label = "macOS";
+  else if (/Windows/.test(s)) label = "Windows";
+  else if (/Linux/.test(s)) label = "Linux";
+  let browser = "";
+  if (/Edg\//.test(s)) browser = "Edge";
+  else if (/Chrome\//.test(s)) browser = "Chrome";
+  else if (/Firefox\//.test(s)) browser = "Firefox";
+  else if (/Safari\//.test(s)) browser = "Safari";
+  return browser ? `${label} · ${browser}` : label;
+}
+
+function _renderUsersTable(users) {
+  if (!users.length) {
+    return '<div style="padding:24px;text-align:center;color:var(--text-muted);">No users yet.</div>';
+  }
+  const rows = users.map((u) => {
+    const events = Array.isArray(u.loginEvents) ? u.loginEvents : [];
+    const visitCount = events.length;
+    const open = _usersExpanded.has(u.sub);
+    const adminBadge = u.isAdmin
+      ? '<span style="background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3);padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;">ADMIN</span>'
+      : "";
+    const avatar = u.picture
+      ? `<img src="${_escHtml(u.picture)}" alt="" style="width:32px;height:32px;border-radius:50%;object-fit:cover;" referrerpolicy="no-referrer">`
+      : '<div style="width:32px;height:32px;border-radius:50%;background:#1a2233;"></div>';
+
+    let drilldown = "";
+    if (open) {
+      const eventRows = events.length
+        ? [...events].reverse().map((ev) => `
+            <tr>
+              <td style="padding:6px 12px;font-variant-numeric:tabular-nums;">${_escHtml(_fmtIST(ev.ts))}</td>
+              <td style="padding:6px 12px;color:var(--text-muted);">${_escHtml(ev.ip || "—")}</td>
+              <td style="padding:6px 12px;color:var(--text-muted);" title="${_escHtml(ev.ua || "")}">${_escHtml(_shortUA(ev.ua))}</td>
+            </tr>`).join("")
+        : `<tr><td colspan="3" style="padding:12px;color:var(--text-muted);text-align:center;">No visit log yet — first tracked visit will appear here.</td></tr>`;
+      drilldown = `
+        <tr>
+          <td colspan="6" style="padding:0;background:rgba(255,255,255,0.02);">
+            <div style="padding:12px 16px;">
+              <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Visit log (most recent first)</div>
+              <table style="width:100%;border-collapse:collapse;font-size:12px;">
+                <thead>
+                  <tr style="text-align:left;color:var(--text-muted);border-bottom:1px solid #1a2233;">
+                    <th style="padding:6px 12px;font-weight:500;">When (IST)</th>
+                    <th style="padding:6px 12px;font-weight:500;">IP</th>
+                    <th style="padding:6px 12px;font-weight:500;">Device</th>
+                  </tr>
+                </thead>
+                <tbody>${eventRows}</tbody>
+              </table>
+            </div>
+          </td>
+        </tr>`;
+    }
+
+    return `
+      <tr style="cursor:pointer;border-bottom:1px solid #1a2233;" onclick="_toggleUserRow('${_escHtml(u.sub)}')">
+        <td style="padding:10px 12px;">${avatar}</td>
+        <td style="padding:10px 12px;">
+          <div style="font-weight:500;">${_escHtml(u.name || "—")}</div>
+          <div style="font-size:11px;color:var(--text-muted);">${_escHtml(u.email || "")}</div>
+        </td>
+        <td style="padding:10px 12px;">${adminBadge}</td>
+        <td style="padding:10px 12px;font-variant-numeric:tabular-nums;font-size:12px;color:var(--text-muted);">${_escHtml(_fmtIST(u.createdAt))}</td>
+        <td style="padding:10px 12px;font-variant-numeric:tabular-nums;font-size:12px;">${_escHtml(_fmtIST(u.lastLoginAt))}</td>
+        <td style="padding:10px 12px;font-variant-numeric:tabular-nums;text-align:right;">${visitCount}</td>
+      </tr>
+      ${drilldown}
+    `;
+  }).join("");
+
+  return `
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <thead>
+        <tr style="text-align:left;color:var(--text-muted);border-bottom:1px solid #1a2233;">
+          <th style="padding:10px 12px;font-weight:500;width:48px;"></th>
+          <th style="padding:10px 12px;font-weight:500;">User</th>
+          <th style="padding:10px 12px;font-weight:500;width:80px;">Role</th>
+          <th style="padding:10px 12px;font-weight:500;">First seen</th>
+          <th style="padding:10px 12px;font-weight:500;">Last seen</th>
+          <th style="padding:10px 12px;font-weight:500;text-align:right;">Visits</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+
+function _toggleUserRow(sub) {
+  if (_usersExpanded.has(sub)) _usersExpanded.delete(sub);
+  else _usersExpanded.add(sub);
+  loadUsersList({ silent: true, useCache: true });
+}
+
+let _usersCache = null;
+
+async function loadUsersList(opts = {}) {
+  const container = document.getElementById("usersTabContent");
+  const meta = document.getElementById("usersMeta");
+  if (!container) return;
+
+  // Re-render from cache (used by the row toggle so we don't refetch on every
+  // expand/collapse).
+  if (opts.useCache && _usersCache) {
+    container.innerHTML = _renderUsersTable(_usersCache);
+    return;
+  }
+
+  if (!opts.silent) {
+    container.innerHTML = '<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading users…</div></div>';
+    if (meta) meta.textContent = "Loading…";
+  }
+  try {
+    const res = await fetch("/api/admin/users", { credentials: "same-origin" });
+    if (res.status === 403) {
+      container.innerHTML = '<div style="padding:24px;text-align:center;color:#f87171;">Access denied. This view is admin-only.</div>';
+      if (meta) meta.textContent = "";
+      return;
+    }
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    _usersCache = data.users || [];
+    container.innerHTML = _renderUsersTable(_usersCache);
+    if (meta) meta.textContent = `${data.count} user${data.count === 1 ? "" : "s"} • click a row to see their visit log`;
+  } catch (err) {
+    container.innerHTML = `<div style="padding:24px;text-align:center;color:#f87171;">Failed to load users: ${_escHtml(err.message || err)}</div>`;
+    if (meta) meta.textContent = "";
+  }
+}
 
 // ==================== PORTFOLIO ====================
 

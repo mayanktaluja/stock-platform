@@ -21,6 +21,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const USERS_PATH = path.join(__dirname, "users.json");
 
 const userKey = (sub) => `user:${sub}`;
+const USER_KEY_PREFIX = "user:";
+
+// Cap on per-user login history. We store the most recent N events inline on
+// the user record so the admin drill-down can show "every visit" without an
+// extra round-trip. Older events fall off — high-frequency users would
+// otherwise bloat the record indefinitely.
+const MAX_LOGIN_EVENTS = 50;
 
 function parseAdminEmails() {
   const raw = process.env.ADMIN_EMAILS || "";
@@ -62,6 +69,8 @@ class FileUserStorage {
     const all = await this._readAll();
     const existing = all[sub] || null;
     const now = Date.now();
+    const event = { ts: now, ip: payload.ip || null, ua: payload.ua || null };
+    const priorEvents = (existing && Array.isArray(existing.loginEvents)) ? existing.loginEvents : [];
     const merged = {
       sub,
       email: payload.email || (existing && existing.email) || "",
@@ -70,10 +79,16 @@ class FileUserStorage {
       createdAt: existing && existing.createdAt ? existing.createdAt : now,
       lastLoginAt: now,
       isAdmin: computeIsAdmin(payload.email || (existing && existing.email)),
+      loginEvents: [...priorEvents, event].slice(-MAX_LOGIN_EVENTS),
     };
     all[sub] = merged;
     await this._writeAll(all);
     return merged;
+  }
+
+  async list() {
+    const all = await this._readAll();
+    return Object.values(all);
   }
 }
 
@@ -106,6 +121,8 @@ class KVUserStorage {
     if (!sub) throw new Error("upsert: sub is required");
     const existing = await this.read(sub);
     const now = Date.now();
+    const event = { ts: now, ip: payload.ip || null, ua: payload.ua || null };
+    const priorEvents = (existing && Array.isArray(existing.loginEvents)) ? existing.loginEvents : [];
     const merged = {
       sub,
       email: payload.email || (existing && existing.email) || "",
@@ -114,6 +131,7 @@ class KVUserStorage {
       createdAt: existing && existing.createdAt ? existing.createdAt : now,
       lastLoginAt: now,
       isAdmin: computeIsAdmin(payload.email || (existing && existing.email)),
+      loginEvents: [...priorEvents, event].slice(-MAX_LOGIN_EVENTS),
     };
     try {
       const kv = await this._getKV();
@@ -122,6 +140,21 @@ class KVUserStorage {
       console.warn("[USER:KV] write failed:", err.message);
     }
     return merged;
+  }
+
+  async list() {
+    try {
+      const kv = await this._getKV();
+      const keys = await kv.keys(`${USER_KEY_PREFIX}*`);
+      if (!keys.length) return [];
+      const records = await Promise.all(keys.map((k) => kv.get(k)));
+      return records
+        .filter(Boolean)
+        .map((r) => (typeof r === "string" ? JSON.parse(r) : r));
+    } catch (err) {
+      console.warn("[USER:KV] list failed:", err.message);
+      return [];
+    }
   }
 }
 
