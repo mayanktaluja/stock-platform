@@ -77,7 +77,10 @@ import {
   getGovernanceStatus,
 } from "./governance.js";
 import { parsePortfolioFile, resolveUnmatchedLive } from "./portfolioParser.js";
-import { analyzeHolding, buildReport } from "./portfolioAnalyzer.js";
+// `buildReport` is still used for MF-only aggregation in the SWS path —
+// the legacy stock-scorer (analyzeHolding) was removed when we made SWS
+// the only engine.
+import { buildReport } from "./portfolioAnalyzer.js";
 import { scoreHolding as swsScoreHolding, loadV3Universe } from "./services/swsHoldingEngine.js";
 import { scoreStock as swsScoreStock } from "./services/swsScoring.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
@@ -6421,6 +6424,7 @@ function formatQuote(q) {
 
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { getPortfolioStorage } from "./portfolioStorage.js";
+import { getAnalyzerStorage } from "./analyzerStorage.js";
 
 // Lazy @vercel/kv client for the portfolio response cache L2. Memoised
 // so we don't re-import on every request. Returns null when KV isn't
@@ -6437,12 +6441,27 @@ async function getKVClientForPortfolio() {
 // Adapter-based portfolio storage (file in dev, Vercel KV in prod) — see
 // portfolioStorage.js. Previously portfolio.json was written directly to
 // disk, which silently failed on Vercel's read-only filesystem.
-async function readPortfolio() {
-  return await getPortfolioStorage().read();
+//
+// As of the per-user portfolio PR, every read/write is scoped by sub
+// (Google subject claim). Callers MUST pass req.user?.sub through
+// userSub(req) — in production AUTH_ENABLED guarantees a value; in
+// local dev without OAuth configured the helper returns "_local_dev"
+// so the dev loop keeps working with a stable single-user namespace.
+async function readPortfolio(sub) {
+  return await getPortfolioStorage().read(sub);
 }
 
-async function savePortfolio(data) {
-  return await getPortfolioStorage().write(data);
+async function savePortfolio(sub, data) {
+  return await getPortfolioStorage().write(sub, data);
+}
+
+// Resolve the current request's user identifier for per-user storage.
+// Returns null if AUTH_ENABLED but no session — handler should 401.
+// Returns "_local_dev" when AUTH_ENABLED is false (dev without OAuth)
+// so endpoints don't crash on missing req.user.
+function userSub(req) {
+  if (req.user?.sub) return req.user.sub;
+  return AUTH_ENABLED ? null : "_local_dev";
 }
 
 // ==================== WATCHLIST ====================
@@ -6509,7 +6528,9 @@ app.post("/api/watchlist/remove", express.json(), async (req, res) => {
 /** GET portfolio — returns saved holdings + live prices */
 app.get("/api/portfolio", async (req, res) => {
   try {
-    const portfolio = await readPortfolio();
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
+    const portfolio = await readPortfolio(sub);
 
     if ((!portfolio.stocks || portfolio.stocks.length === 0) &&
         (!portfolio.mutualFunds || portfolio.mutualFunds.length === 0)) {
@@ -6827,6 +6848,8 @@ app.get("/api/portfolio", async (req, res) => {
 /** POST portfolio — save holdings from Groww scrape */
 app.post("/api/portfolio", async (req, res) => {
   try {
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
     const { stocks, mutualFunds } = req.body;
     // Preserve any other fields already on the portfolio (riskProfile etc.)
     // — POST /api/portfolio is the Groww-import endpoint and shouldn't wipe
@@ -6835,14 +6858,14 @@ app.post("/api/portfolio", async (req, res) => {
     // Distinguish "field omitted" from "field sent as empty array": only
     // overwrite when the client actually sent a value, so a stocks-only
     // post doesn't nuke saved MF holdings.
-    const existing = await readPortfolio();
+    const existing = await readPortfolio(sub);
     const data = {
       ...existing,
       stocks: stocks !== undefined ? stocks : (existing.stocks || []),
       mutualFunds: mutualFunds !== undefined ? mutualFunds : (existing.mutualFunds || []),
       lastUpdated: new Date().toISOString(),
     };
-    await savePortfolio(data);
+    await savePortfolio(sub, data);
     res.json({ ok: true, stockCount: data.stocks.length, mfCount: data.mutualFunds.length });
   } catch (err) {
     console.error("Portfolio save error:", err.message);
@@ -6868,7 +6891,9 @@ import { scoreRiskProfile, RISK_PROFILE_QUESTIONS, INTAKE_QUESTIONS, buildIntake
 
 app.get("/api/risk-profile", async (req, res) => {
   try {
-    const portfolio = await readPortfolio();
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
+    const portfolio = await readPortfolio(sub);
     const rp = portfolio?.riskProfile || null;
     res.json({
       questions: RISK_PROFILE_QUESTIONS,
@@ -6883,6 +6908,8 @@ app.get("/api/risk-profile", async (req, res) => {
 
 app.post("/api/risk-profile", express.json(), async (req, res) => {
   try {
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
     const answers = req.body?.answers || req.body;
     const scored = scoreRiskProfile(answers);
     if (!scored) {
@@ -6891,12 +6918,12 @@ app.post("/api/risk-profile", express.json(), async (req, res) => {
         questions: RISK_PROFILE_QUESTIONS,
       });
     }
-    const portfolio = await readPortfolio();
+    const portfolio = await readPortfolio(sub);
     const next = {
       ...portfolio,
       riskProfile: { ...scored, answers },
     };
-    await savePortfolio(next);
+    await savePortfolio(sub, next);
     res.json({ ok: true, riskProfile: next.riskProfile });
   } catch (err) {
     console.error("[RISK-PROFILE] save error:", err.message);
@@ -6906,9 +6933,11 @@ app.post("/api/risk-profile", express.json(), async (req, res) => {
 
 app.delete("/api/risk-profile", async (req, res) => {
   try {
-    const portfolio = await readPortfolio();
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
+    const portfolio = await readPortfolio(sub);
     const next = { ...portfolio, riskProfile: null };
-    await savePortfolio(next);
+    await savePortfolio(sub, next);
     res.json({ ok: true });
   } catch (err) {
     console.error("[RISK-PROFILE] clear error:", err.message);
@@ -6927,7 +6956,9 @@ app.delete("/api/risk-profile", async (req, res) => {
 
 app.get("/api/portfolio/intake", async (req, res) => {
   try {
-    const portfolio = await readPortfolio();
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
+    const portfolio = await readPortfolio(sub);
     res.json({
       questions: INTAKE_QUESTIONS,
       present: hasCompleteIntake(portfolio),
@@ -6942,6 +6973,8 @@ app.get("/api/portfolio/intake", async (req, res) => {
 
 app.post("/api/portfolio/intake", express.json(), async (req, res) => {
   try {
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
     const built = buildIntake(req.body?.answers || req.body);
     if (!built.ok) {
       return res.status(400).json({
@@ -6950,13 +6983,13 @@ app.post("/api/portfolio/intake", express.json(), async (req, res) => {
         questions: INTAKE_QUESTIONS,
       });
     }
-    const portfolio = await readPortfolio();
+    const portfolio = await readPortfolio(sub);
     const next = {
       ...portfolio,
       intake: built.intake,
       riskProfile: built.riskProfile,
     };
-    await savePortfolio(next);
+    await savePortfolio(sub, next);
     res.json({ ok: true, intake: next.intake, riskProfile: next.riskProfile });
   } catch (err) {
     console.error("[INTAKE] save error:", err.message);
@@ -6966,9 +6999,11 @@ app.post("/api/portfolio/intake", express.json(), async (req, res) => {
 
 app.delete("/api/portfolio/intake", async (req, res) => {
   try {
-    const portfolio = await readPortfolio();
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
+    const portfolio = await readPortfolio(sub);
     const next = { ...portfolio, intake: null };
-    await savePortfolio(next);
+    await savePortfolio(sub, next);
     res.json({ ok: true });
   } catch (err) {
     console.error("[INTAKE] clear error:", err.message);
@@ -6977,12 +7012,18 @@ app.delete("/api/portfolio/intake", async (req, res) => {
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Phase 5: Portfolio Analyzer — stateless upload + deep analysis.
+// Portfolio Analyzer — SWS-powered deep analysis with per-user persistence.
 //
-// This endpoint accepts a multipart file upload (Groww xlsx, Groww CSV,
-// Zerodha CSV, or generic CSV) and returns a full report WITHOUT touching
-// the user's saved portfolio. Stateless on purpose: the analyzer tab is
-// for analysis, not persistence.
+// POST /api/portfolio/analyze       — accepts a multipart file upload (Groww
+//                                     xlsx/CSV, Zerodha CSV, Upstox xlsx),
+//                                     parses + stores the holdings under the
+//                                     authenticated user's sub, then returns
+//                                     a fresh SWS analysis report.
+// POST /api/portfolio/analyze/rerun — recomputes the report against the
+//                                     user's last-stored holdings using
+//                                     current SWS data + live quotes.
+//                                     Called by the UI on every analyzer
+//                                     tab open so the report is always fresh.
 // ═══════════════════════════════════════════════════════════════════════════
 
 const portfolioUpload = multer({
@@ -6990,9 +7031,243 @@ const portfolioUpload = multer({
   limits: { fileSize: 2 * 1024 * 1024 }, // 2 MB is plenty for a holdings statement
 });
 
+// Load the user-context bits both /analyze and /analyze/rerun need:
+// saved MF holdings (analyzer-shape), risk profile, suitability intake,
+// and the intake-fallback values for freshCapital + LTCG-YTD.
+async function loadAnalyzerUserContext(sub, reqBody = {}, reqQuery = {}) {
+  let mfHoldings = [];
+  let savedRiskProfile = null;
+  let savedIntake = null;
+  let freshCapitalInr = Number.parseFloat(reqBody?.freshCapitalInr ?? reqQuery?.freshCapitalInr ?? "0") || null;
+  let ltcgRealisedYtdRupees = Number.parseFloat(reqBody?.ltcgRealisedYtd ?? reqQuery?.ltcgRealisedYtd ?? "0");
+
+  try {
+    const saved = await readPortfolio(sub);
+    if (saved && saved.riskProfile && saved.riskProfile.bucket) {
+      savedRiskProfile = saved.riskProfile;
+    }
+    if (saved && saved.intake) {
+      savedIntake = saved.intake;
+      const reqHasFresh = reqBody?.freshCapitalInr != null || reqQuery?.freshCapitalInr != null;
+      if (!reqHasFresh && Number.isFinite(saved.intake.freshCapitalInr) && saved.intake.freshCapitalInr > 0) {
+        freshCapitalInr = saved.intake.freshCapitalInr;
+      }
+      const reqHasLtcg = reqBody?.ltcgRealisedYtd != null || reqQuery?.ltcgRealisedYtd != null;
+      if (!reqHasLtcg && Number.isFinite(saved.intake.ltcgRealisedYtdRupees) && saved.intake.ltcgRealisedYtdRupees > 0) {
+        ltcgRealisedYtdRupees = saved.intake.ltcgRealisedYtdRupees;
+      }
+    }
+    if (saved && Array.isArray(saved.mutualFunds)) {
+      mfHoldings = saved.mutualFunds.map((m) => ({
+        name: m.name || m.schemeName,
+        rawName: m.name || m.schemeName,
+        isin: m.isin || null,
+        category: m.category || null,
+        subCategory: m.subCategory || null,
+        folio: m.folio || null,
+        instrumentType: "mf",
+        invested: Number(m.invested ?? m.investedValue ?? 0),
+        currentValue: Number(m.current ?? m.currentValue ?? m.invested ?? 0),
+        publishedXirrPct: Number.isFinite(Number(m.xirr)) ? Number(m.xirr) : null,
+        pnlPercent: Number.isFinite(Number(m.returns)) ? Number(m.returns) : null,
+        purchaseDate: m.firstPurchaseDate || m.purchaseDate || null,
+      }));
+    }
+  } catch (e) {
+    console.warn("[ANALYZE] could not load saved MF holdings:", e.message);
+  }
+
+  return { mfHoldings, savedRiskProfile, savedIntake, freshCapitalInr, ltcgRealisedYtdRupees };
+}
+
+// Run the SWS scoring + report build against a parsed portfolio.
+// `parsed` must have { holdings, mfHoldings, unmatched, warnings, source, summary }
+// in the same shape that parsePortfolioFile() returns. Both /analyze (with a
+// fresh upload) and /analyze/rerun (with stored holdings) call this helper —
+// extracting it prevents the two paths from drifting out of sync.
+async function runSWSAnalysis({
+  parsed,
+  mfHoldings,
+  savedRiskProfile,
+  optTaxSlabPct,
+  ltcgRealisedYtdRupees,
+  freshCapitalInr,
+}) {
+  const swsT0 = Date.now();
+  const swsTimings = {};
+
+  const equityHoldings = parsed.holdings.map((h) => {
+    const qty = Number(h.quantity) || 0;
+    const avg = Number(h.avgPrice) || 0;
+    return { ...h, quantity: qty, avgPrice: avg, invested: qty * avg };
+  });
+
+  // FY tax context — single source of truth for the LTCG-budget the user
+  // has remaining for this financial year. Built once per call, shared
+  // across every holding's tax scenarios so the exemption math is
+  // consistent (each holding sees the SAME remaining budget — they don't
+  // all "consume" it independently).
+  const fyContext = swsBuildFyContext(
+    new Date(),
+    Number.isFinite(ltcgRealisedYtdRupees) ? ltcgRealisedYtdRupees : 0,
+    0,
+  );
+
+  // First pass: pull SWS price + sector for every holding so we can
+  // compute portfolio-wide weights before action mapping. Second pass
+  // re-runs scoring with the real position/sector weights so action
+  // mapping (Reduction-50% on >10% positions, etc.) fires.
+  const firstPass = equityHoldings.map((h) =>
+    swsScoreHolding({ ...h, positionWeight: 0, sectorWeight: 0, pnlPercent: 0 }, { sectorWeights: {} }),
+  );
+
+  let totalInvested = 0;
+  let totalCurrent = 0;
+  const sectorCV = new Map();
+  const enrichedRows = firstPass.map((row) => {
+    // Price priority: SWS live > broker statement closing price > avg cost.
+    // Falling back to invested would falsely zero out the position.
+    const swsPrice = row.swsCovered ? Number(row.sws.current_price_inr) : null;
+    const brokerPrice = Number(row.closePrice) || 0;
+    const qty = Number(row.quantity) || 0;
+    const avg = Number(row.avgPrice) || 0;
+    const invested = qty * avg;
+    const livePrice = (swsPrice != null && Number.isFinite(swsPrice) && swsPrice > 0)
+      ? swsPrice
+      : (brokerPrice > 0 ? brokerPrice : null);
+    const priceSource = (swsPrice > 0) ? "sws" : (brokerPrice > 0 ? "broker" : "avg");
+    const currentValue = livePrice != null ? qty * livePrice : invested;
+    totalInvested += invested;
+    totalCurrent += currentValue;
+    // Sector resolution: prefer the curated stockList sector (consistent
+    // proper-case vocabulary) over the SWS deep-file sector to keep the
+    // overlay from fragmenting into duplicate buckets.
+    const sector = row.sector || (row.swsCovered ? row.sws.sector : null) || "Unclassified";
+    sectorCV.set(sector, (sectorCV.get(sector) || 0) + currentValue);
+    return { ...row, invested, currentValue, livePrice, priceSource, sector };
+  });
+
+  const sectorWeights = {};
+  for (const [sector, cv] of sectorCV.entries()) {
+    sectorWeights[sector] = totalCurrent > 0 ? (cv / totalCurrent) * 100 : 0;
+  }
+
+  // Macro regime — cached value from the same NodeCache that Market
+  // Intelligence + scanners populate. Empty cache → calm regime fallback.
+  const cachedRegime = macroRegimeCache.get(MACRO_CACHE_KEY) || defaultCalmRegime();
+  const regimeSeverity = Number(cachedRegime?.severity) || 0;
+  const sectorImpactBySector = {};
+  for (const sectorName of Object.keys(sectorWeights)) {
+    const hit = (cachedRegime?.sectorImpacts || []).find((s) => s.sector === sectorName);
+    sectorImpactBySector[sectorName] = hit?.impact ?? 0;
+  }
+
+  const scoredHoldings = enrichedRows.map((row) => {
+    const positionWeight = totalCurrent > 0 ? (row.currentValue / totalCurrent) * 100 : 0;
+    const sectorWeight = sectorWeights[row.sector] || 0;
+    const pnlPercent = row.invested > 0 ? ((row.currentValue - row.invested) / row.invested) * 100 : 0;
+    const rescored = swsScoreHolding(
+      { ...row, positionWeight, sectorWeight, pnlPercent },
+      { sectorWeights, fyContext, taxSlabPct: optTaxSlabPct, regimeSeverity, sectorImpactBySector },
+    );
+    return {
+      ...rescored,
+      invested: Math.round(row.invested),
+      currentValue: Math.round(row.currentValue),
+      pnlAmount: Math.round(row.currentValue - row.invested),
+      pnlPercent: Math.round(pnlPercent * 100) / 100,
+      positionWeight: Math.round(positionWeight * 100) / 100,
+      sectorWeight: Math.round(sectorWeight * 100) / 100,
+      livePrice: row.livePrice,
+    };
+  });
+
+  swsTimings.score_ms = Date.now() - swsT0;
+  const aggT0 = Date.now();
+  const swsReport = buildSWSReport(scoredHoldings, {
+    freshCapitalInr,
+    freshPickLimit: 8,
+    macroRegime: cachedRegime,
+  });
+  swsTimings.aggregate_ms = Date.now() - aggT0;
+
+  // MF enrichment: only enrich MFs from the upload (saved-portfolio MFs
+  // surface as raw reference rows).
+  let mfPositions = null;
+  const uploadedMfs = Array.isArray(parsed.mfHoldings) ? parsed.mfHoldings : [];
+  const mfT0 = Date.now();
+  if (uploadedMfs.length > 0) {
+    try {
+      await Promise.all([
+        enrichMfHoldings(uploadedMfs),
+        enrichMfNews(uploadedMfs, { openai: getOpenAI() }),
+        enrichLivePeers(uploadedMfs),
+      ]);
+      await enrichBenchmarkMetrics(uploadedMfs);
+      const mfReport = buildReport([], [], {
+        source: parsed.source,
+        mfHoldings: uploadedMfs,
+        riskProfile: savedRiskProfile,
+        warnings: [],
+      });
+      mfPositions = mfReport.mfPositions || null;
+    } catch (e) {
+      console.warn("[ANALYZE/SWS] MF enrichment failed:", e.message);
+    }
+  } else if (mfHoldings.length > 0) {
+    mfPositions = {
+      source: "saved-portfolio",
+      enriched: false,
+      riskProfile: savedRiskProfile,
+      holdings: mfHoldings.map((m) => ({
+        name: m.name,
+        category: m.category,
+        invested: m.invested,
+        currentValue: m.currentValue,
+        pnlPercent: m.pnlPercent,
+        publishedXirrPct: m.publishedXirrPct,
+      })),
+      note: "Saved-portfolio MFs shown without live AMFI/news enrichment.",
+    };
+  }
+  swsTimings.mf_ms = Date.now() - mfT0;
+  swsTimings.mf_count = uploadedMfs.length;
+  swsTimings.mf_saved_count = mfHoldings.length;
+
+  const sessionId = randomUUID();
+  analyzerCache.set(sessionId, {
+    engine: "sws",
+    holdings: scoredHoldings,
+    mfHoldings,
+    sectorAllocation: swsReport.sectorOverlay || [],
+    ltcgRealisedYtdRupees,
+    cachedAt: Date.now(),
+  });
+
+  return {
+    swsElapsedMs: Date.now() - swsT0,
+    swsTimings,
+    sessionId,
+    report: {
+      ...swsReport,
+      source: parsed.source,
+      asOfDate: parsed.summary?.asOfDate ?? null,
+      mfPositions,
+      unmatched: parsed.unmatched || [],
+      warnings: parsed.warnings || [],
+      disclaimer: "Educational content only.",
+      // ANALYZER_UI_V2 flag — gated on env. Client renderSWSAnalyzerReport
+      // dispatches to V2 (hero + glossary chips) when v2 is true.
+      ui: { v2: process.env.ANALYZER_UI_V2 === "1" },
+    },
+  };
+}
+
 app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, res) => {
   const t0 = Date.now();
   try {
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
     if (!req.file) {
       return res.status(400).json({ error: "Missing file upload (field name: file)" });
     }
@@ -7002,24 +7277,7 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
     // fallback for direct browser testing.
     const optPreset = String(req.body.preset || req.query.preset || "balanced");
     const optTaxSlabPct = Number.parseInt(req.body.taxSlabPct || req.query.taxSlabPct || "30", 10);
-    // ltcgRealisedYtdRupees + freshCapitalInr are declared with `let` so
-    // the saved-intake block below can fill them in when the request
-    // body doesn't supply explicit overrides. Explicit body/query still
-    // wins (we only fall back when the parsed value is null/0/NaN).
     const optAssumedHoldingMonths = Number.parseInt(req.body.assumedHoldingMonths || req.query.assumedHoldingMonths || "24", 10);
-    let ltcgRealisedYtdRupees = Number.parseFloat(req.body.ltcgRealisedYtd || req.query.ltcgRealisedYtd || "0");
-    // Engine selector — "sws" routes to the SWS-first recommendation engine
-    // (data/sws/deep + Tier A/B/C/D action grid + defensive/growth/core
-    // baskets + per-holding snowflake/conviction/counter-thesis/catalyst
-    // /surveillance layers). Anything else falls through to the legacy
-    // Yahoo+OpenAI per-stock enrichment path.
-    //
-    // Default flipped to "sws" as part of PR-1; ANALYZER_ENGINE_DEFAULT env
-    // var provides instant rollback ("legacy") without a code change. Per-
-    // request `?engine=legacy` still works for one-off comparisons.
-    const engineDefault = String(process.env.ANALYZER_ENGINE_DEFAULT || "sws").toLowerCase();
-    const engine = String(req.body.engine || req.query.engine || engineDefault).toLowerCase();
-    let freshCapitalInr = Number.parseFloat(req.body.freshCapitalInr || req.query.freshCapitalInr || "0") || null;
 
     // SUITABILITY_GATE — when enabled, refuse the analyze if the user
     // hasn't completed the 5-question SEBI intake. The UI catches the
@@ -7030,7 +7288,7 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
     // production sets SUITABILITY_GATE=1 once the modal is shipped.
     if (process.env.SUITABILITY_GATE === "1") {
       try {
-        const saved = await readPortfolio();
+        const saved = await readPortfolio(sub);
         if (!hasCompleteIntake(saved)) {
           return res.status(412).json({
             error: "Suitability intake not complete.",
@@ -7047,56 +7305,13 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       }
     }
 
-    // Pull saved MF holdings + risk profile from the user's stored portfolio
-    // so the analyzer can compute a true book-wide XIRR (not stock-only)
-    // and tag per-fund recs with risk-profile alignment.
-    // This is read-only — nothing is persisted by the analyze endpoint.
-    let mfHoldings = [];
-    let savedRiskProfile = null;
-    let savedIntake = null;
-    try {
-      const saved = await readPortfolio();
-      if (saved && saved.riskProfile && saved.riskProfile.bucket) {
-        savedRiskProfile = saved.riskProfile;
-      }
-      // Intake fallback values — when the request body didn't supply
-      // freshCapitalInr / ltcgRealisedYtd, the persisted intake fills
-      // them in (so the analyzer doesn't ask for capital and tax YTD on
-      // every run). Explicit query/body still wins.
-      if (saved && saved.intake) {
-        savedIntake = saved.intake;
-        const reqHasFresh = req.body.freshCapitalInr != null || req.query.freshCapitalInr != null;
-        if (!reqHasFresh && Number.isFinite(saved.intake.freshCapitalInr) && saved.intake.freshCapitalInr > 0) {
-          freshCapitalInr = saved.intake.freshCapitalInr;
-        }
-        const reqHasLtcg = req.body.ltcgRealisedYtd != null || req.query.ltcgRealisedYtd != null;
-        if (!reqHasLtcg && Number.isFinite(saved.intake.ltcgRealisedYtdRupees) && saved.intake.ltcgRealisedYtdRupees > 0) {
-          ltcgRealisedYtdRupees = saved.intake.ltcgRealisedYtdRupees;
-        }
-      }
-      if (saved && Array.isArray(saved.mutualFunds)) {
-        // Saved-MF schema (from Groww import): name / category / type /
-        // invested / current / returns (%) / xirr (%). No purchaseDate, no
-        // ISIN — the optimizer will fall back to assumedHoldingMonths and
-        // back-solve the xirr field into a synthetic flow.
-        mfHoldings = saved.mutualFunds.map((m) => ({
-          name: m.name || m.schemeName,
-          rawName: m.name || m.schemeName,
-          isin: m.isin || null,
-          category: m.category || null,
-          subCategory: m.subCategory || null,
-          folio: m.folio || null,
-          instrumentType: "mf",
-          invested: Number(m.invested ?? m.investedValue ?? 0),
-          currentValue: Number(m.current ?? m.currentValue ?? m.invested ?? 0),
-          publishedXirrPct: Number.isFinite(Number(m.xirr)) ? Number(m.xirr) : null,
-          pnlPercent: Number.isFinite(Number(m.returns)) ? Number(m.returns) : null,
-          purchaseDate: m.firstPurchaseDate || m.purchaseDate || null,
-        }));
-      }
-    } catch (e) {
-      console.warn("[ANALYZE] could not load saved MF holdings:", e.message);
-    }
+    // Pull saved MF holdings + risk profile + intake fallbacks from the
+    // user's stored portfolio. The helper also computes the effective
+    // freshCapitalInr / ltcgRealisedYtd (request value first, falling back
+    // to the persisted intake so the analyzer doesn't ask for capital +
+    // tax YTD on every run).
+    let { mfHoldings, savedRiskProfile, freshCapitalInr, ltcgRealisedYtdRupees } =
+      await loadAnalyzerUserContext(sub, req.body, req.query);
 
     // 1. Parse the upload and resolve symbols
     let parsed;
@@ -7167,6 +7382,21 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       source: parsed.source,
       parsedAt: new Date().toISOString(),
     };
+
+    // Persist the parsed holdings (NOT the report) so the rerun endpoint
+    // can recompute fresh analysis on every Portfolio Analyzer tab open.
+    // Per-user, keyed by sub. Failures here are non-fatal — analysis still
+    // returns; we just lose the "remember this upload" benefit.
+    try {
+      await getAnalyzerStorage().write(sub, {
+        holdings: savable.stocks,
+        mfHoldings: savable.mutualFunds,
+        uploadedAt: savable.parsedAt,
+        sourceFile: req.file.originalname || null,
+      });
+    } catch (e) {
+      console.warn("[ANALYZE] analyzer-cache write failed:", e.message);
+    }
 
     // Only hard-fail when the parser found literally nothing — not when
     // it found rows but classified them all as non-equity (MF/ETF/F&O).
@@ -7247,467 +7477,112 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       });
     }
 
-    // ============================================================
-    // SWS Engine (Beta) — short-circuits the legacy enrichment path.
-    // Reads data/sws/deep/{TICKER}.json for each equity holding,
-    // scores via the SWS composite + v2 model, and returns a
-    // Tier A/B/C/D action grid. MFs/ETFs use the existing path.
-    // ============================================================
-    if (engine === "sws") {
-      const swsT0 = Date.now();
-      const swsTimings = {};
-
-      const equityHoldings = parsed.holdings.map((h) => {
-        const qty = Number(h.quantity) || 0;
-        const avg = Number(h.avgPrice) || 0;
-        return { ...h, quantity: qty, avgPrice: avg, invested: qty * avg };
-      });
-
-      // FY tax context — single source of truth for the LTCG-budget the
-      // user has remaining for this financial year. Built once per
-      // /analyze call, shared across every holding's tax scenarios so
-      // the exemption math is consistent (each holding sees the SAME
-      // remaining budget — they don't all "consume" it independently).
-      // PR-3 brings the intake gate that asks the user for ltcgRealisedYtd;
-      // until then the request body / query carries the value with a
-      // 0 default (full exemption available).
-      const fyContext = swsBuildFyContext(new Date(), Number.isFinite(ltcgRealisedYtdRupees) ? ltcgRealisedYtdRupees : 0, 0);
-
-      // First pass: pull SWS price + sector for every holding so we can
-      // compute portfolio-wide weights before action mapping. Second pass
-      // below re-runs scoring with the real position/sector weights so
-      // action mapping (Reduction-50% on >10% positions, etc.) fires.
-      const firstPass = equityHoldings.map((h) =>
-        swsScoreHolding({ ...h, positionWeight: 0, sectorWeight: 0, pnlPercent: 0 }, { sectorWeights: {} })
-      );
-
-      let totalInvested = 0;
-      let totalCurrent = 0;
-      const sectorCV = new Map();
-      const enrichedRows = firstPass.map((row) => {
-        // Price priority: SWS live > broker statement closing price > avg cost.
-        // SWS price can be null on tickers where the API didn't return a quote;
-        // the broker xlsx always carries a closing price for the statement
-        // date, so we use that as the truth-source for current value when SWS
-        // is unavailable. Falling back to invested would falsely zero out the
-        // position (livePrice=0 → -100% P&L).
-        const swsPrice = row.swsCovered ? Number(row.sws.current_price_inr) : null;
-        const brokerPrice = Number(row.closePrice) || 0;
-        const qty = Number(row.quantity) || 0;
-        const avg = Number(row.avgPrice) || 0;
-        const invested = qty * avg;
-        const livePrice = (swsPrice != null && Number.isFinite(swsPrice) && swsPrice > 0)
-          ? swsPrice
-          : (brokerPrice > 0 ? brokerPrice : null);
-        const priceSource = (swsPrice > 0) ? "sws" : (brokerPrice > 0 ? "broker" : "avg");
-        const currentValue = livePrice != null ? qty * livePrice : invested;
-        totalInvested += invested;
-        totalCurrent += currentValue;
-        // Sector resolution: prefer the curated stockList sector (consistent
-        // proper-case vocabulary like "Energy"/"Banking"/"IT") over the SWS
-        // deep-file sector, which has inconsistent casing and synonyms
-        // ("energy"/"banks"/"automobiles") that fragment the overlay into
-        // duplicate buckets. SWS sector is only used when stockList has
-        // none. Most SWS deep JSONs lack the sector field anyway (~65%),
-        // so this preference also fixes the "65% Unclassified" collapse.
-        const sector = row.sector || (row.swsCovered ? row.sws.sector : null) || "Unclassified";
-        sectorCV.set(sector, (sectorCV.get(sector) || 0) + currentValue);
-        return { ...row, invested, currentValue, livePrice, priceSource, sector };
-      });
-
-      const sectorWeights = {};
-      for (const [sector, cv] of sectorCV.entries()) {
-        sectorWeights[sector] = totalCurrent > 0 ? (cv / totalCurrent) * 100 : 0;
-      }
-
-      // Macro regime fetch — uses cached value from the same NodeCache
-      // that Market Intelligence + scanners populate. Graceful: empty
-      // cache + classifyRegime failure → calm regime, severity 0, no
-      // headwind/tailwind nudges in timing observations.
-      const cachedRegime = macroRegimeCache.get(MACRO_CACHE_KEY) || defaultCalmRegime();
-      const regimeSeverity = Number(cachedRegime?.severity) || 0;
-      // Pre-compute sector impacts once so scoreHolding doesn't re-derive
-      // them per row — the macroRegime sectorImpacts list is small (~20
-      // canonical sectors) so a single pass + map is cheap.
-      const sectorImpactBySector = {};
-      for (const sectorName of Object.keys(sectorWeights)) {
-        const hit = (cachedRegime?.sectorImpacts || []).find((s) => s.sector === sectorName);
-        sectorImpactBySector[sectorName] = hit?.impact ?? 0;
-      }
-
-      const scoredHoldings = enrichedRows.map((row) => {
-        const positionWeight = totalCurrent > 0 ? (row.currentValue / totalCurrent) * 100 : 0;
-        const sectorWeight = sectorWeights[row.sector] || 0;
-        const pnlPercent = row.invested > 0 ? ((row.currentValue - row.invested) / row.invested) * 100 : 0;
-        const rescored = swsScoreHolding(
-          { ...row, positionWeight, sectorWeight, pnlPercent },
-          // regimeSeverity + sectorImpactBySector feed the timing
-          // observation module via portfolioContext — used to flag
-          // sector-headwind situations as "Soft-no, closing-VWAP".
-          {
-            sectorWeights,
-            fyContext,
-            taxSlabPct: optTaxSlabPct,
-            regimeSeverity,
-            sectorImpactBySector,
-          },
-        );
-        return {
-          ...rescored,
-          invested: Math.round(row.invested),
-          currentValue: Math.round(row.currentValue),
-          pnlAmount: Math.round(row.currentValue - row.invested),
-          pnlPercent: Math.round(pnlPercent * 100) / 100,
-          positionWeight: Math.round(positionWeight * 100) / 100,
-          sectorWeight: Math.round(sectorWeight * 100) / 100,
-          livePrice: row.livePrice,
-        };
-      });
-
-      swsTimings.score_ms = Date.now() - swsT0;
-      const aggT0 = Date.now();
-      const swsReport = buildSWSReport(scoredHoldings, {
-        freshCapitalInr,
-        freshPickLimit: 8,
-        // Pass the same regime that scoreHolding already used for the
-        // timing-observation hooks. buildSWSReport applies it to the
-        // Tier B baskets (existing macro tilt) AND to the Sector Gap
-        // Spotlight's Layer 3 tailwind detection.
-        macroRegime: cachedRegime,
-      });
-      swsTimings.aggregate_ms = Date.now() - aggT0;
-
-      // MF enrichment: only enrich MFs from the upload (saved-portfolio MFs
-      // surface as raw reference rows; users wanting full MF analysis can
-      // switch to the legacy engine).
-      let mfPositions = null;
-      const uploadedMfs = Array.isArray(parsed.mfHoldings) ? parsed.mfHoldings : [];
-      const mfT0 = Date.now();
-      if (uploadedMfs.length > 0) {
-        try {
-          await Promise.all([
-            enrichMfHoldings(uploadedMfs),
-            enrichMfNews(uploadedMfs, { openai: getOpenAI() }),
-            enrichLivePeers(uploadedMfs),
-          ]);
-          await enrichBenchmarkMetrics(uploadedMfs);
-          const mfReport = buildReport([], [], {
-            source: parsed.source,
-            mfHoldings: uploadedMfs,
-            riskProfile: savedRiskProfile,
-            warnings: [],
-          });
-          mfPositions = mfReport.mfPositions || null;
-        } catch (e) {
-          console.warn("[ANALYZE/SWS] MF enrichment failed:", e.message);
-        }
-      } else if (mfHoldings.length > 0) {
-        mfPositions = {
-          source: "saved-portfolio",
-          enriched: false,
-          riskProfile: savedRiskProfile,
-          holdings: mfHoldings.map((m) => ({
-            name: m.name,
-            category: m.category,
-            invested: m.invested,
-            currentValue: m.currentValue,
-            pnlPercent: m.pnlPercent,
-            publishedXirrPct: m.publishedXirrPct,
-          })),
-          note: "Saved-portfolio MFs shown without live AMFI/news enrichment in SWS engine. Switch to Legacy engine for full MF analysis.",
-        };
-      }
-      swsTimings.mf_ms = Date.now() - mfT0;
-      swsTimings.mf_count = uploadedMfs.length;
-      swsTimings.mf_saved_count = mfHoldings.length;
-
-      const sessionId = randomUUID();
-      analyzerCache.set(sessionId, {
-        engine: "sws",
-        holdings: scoredHoldings,
-        mfHoldings,
-        sectorAllocation: swsReport.sectorOverlay || [],
-        ltcgRealisedYtdRupees,
-        cachedAt: Date.now(),
-      });
-
-      return res.json({
-        ok: true,
-        elapsedMs: Date.now() - t0,
-        swsElapsedMs: Date.now() - swsT0,
-        swsTimings,
-        sessionId,
-        report: {
-          ...swsReport,
-          source: parsed.source,
-          asOfDate: parsed.summary?.asOfDate ?? null,
-          mfPositions,
-          unmatched: parsed.unmatched || [],
-          warnings: parsed.warnings || [],
-          disclaimer: "Educational content only.",
-          // ANALYZER_UI_V2 flag — gated on env. Client renderSWSAnalyzerReport
-          // dispatches to V2 (hero + glossary chips) when v2 is true. Legacy
-          // path is at server.js ~6995. Both paths read the same env var.
-          ui: { v2: process.env.ANALYZER_UI_V2 === "1" },
-        },
-        savable,
-      });
-    }
-    // ============================================================
-
-    // 2. Fetch live macro regime once for the whole portfolio
-    let macroRegime = null;
-    try { macroRegime = await getMacroRegime(); }
-    catch { macroRegime = defaultCalmRegime(); }
-
-    // 2b. Fetch Nifty 50 historical once — feeds beta + stress-test
-    //     computations in portfolioAnalyzer. Failure here is non-fatal;
-    //     we just skip the risk block.
-    let benchReturns = [];
-    let benchSymbol = "^NSEI";
-    try {
-      const benchHist = await fetchHistorical(benchSymbol, "1y");
-      if (benchHist && benchHist.length >= 30) {
-        const benchCloses = benchHist.map((d) => d.close).filter((c) => Number.isFinite(c));
-        benchReturns = computeDailyReturns(benchCloses);
-      }
-    } catch (e) {
-      console.warn(`Benchmark history fetch failed (${benchSymbol}):`, e.message);
-    }
-
-    // 3. Earnings calendar for catalyst-nearby flagging
-    const earningsMap = new Map();
-    try {
-      let events = catalystCache.get("nse_events");
-      if (!events) {
-        events = await fetchNseEventCalendar();
-        if (events && events.length > 0) catalystCache.set("nse_events", events);
-      }
-      if (events) {
-        const now = Date.now();
-        const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
-        for (const e of events) {
-          if (!/financial result/i.test(e.purpose)) continue;
-          const d = new Date(e.date).getTime();
-          if (isNaN(d)) continue;
-          if (d - now >= 0 && d - now <= sevenDaysMs) {
-            earningsMap.set(e.symbol + ".NS", { date: e.date, purpose: e.purpose });
-          }
-        }
-      }
-    } catch { /* silent */ }
-
-    // 4. Enrich each holding — batches of 8 with 250ms spacing (same pattern
-    //    as the scanner endpoint to respect upstream rate limits and the 60s
-    //    Vercel timeout).
-    const BATCH_SIZE = 8;
-    const enriched = [];
-    for (let i = 0; i < parsed.holdings.length; i += BATCH_SIZE) {
-      if (Date.now() - t0 > 50_000) {
-        // Vercel 60s guard — stop enriching and report what we have
-        parsed.warnings.push("Analysis aborted early due to timeout; report covers first " +
-          enriched.length + " of " + parsed.holdings.length + " holdings.");
-        break;
-      }
-      const batch = parsed.holdings.slice(i, i + BATCH_SIZE);
-      const results = await Promise.all(batch.map(async (h) => {
-        try {
-          const [quote, historical] = await Promise.all([
-            fetchQuote(h.symbol),
-            // Pull 1y of history (vs the default 6mo) so beta/vol/VaR
-            // have a meaningful sample. Still cached, so no extra cost
-            // after the first portfolio of the day.
-            fetchHistorical(h.symbol, "1y"),
-          ]);
-          if (!quote || !historical || historical.length < 30) {
-            return { holding: h, quote, historical: null, analysis: null, fundamentals: null, midTerm: null, longTerm: null };
-          }
-          const analysis = analyzeStock(historical, quote);
-          const closes = historical.map((d) => d.close);
-          const midTerm = midTermAnalysis(analysis, quote, closes);
-          const dma200 = historical.length >= 200
-            ? closes.slice(-200).reduce((s, v) => s + v, 0) / 200 : null;
-          const fundSnap = getFundamentals(h.symbol);
-          const fundamentalResult = fundSnap ? scoreForResponse(fundSnap, dma200).primary : null;
-          const longTerm = longTermOutlook(analysis, quote, fundamentalResult, dma200);
-          return {
-            holding: h,
-            quote,
-            historical,
-            analysis,
-            fundamentals: fundamentalResult
-              ? { ...fundamentalResult, snapshot: fundSnap }
-              : null,
-            midTerm,
-            longTerm,
-          };
-        } catch (err) {
-          return { holding: h, error: err.message };
-        }
-      }));
-      enriched.push(...results);
-    }
-
-    // 4b. Starbhai long-term narrative + news for each scored equity holding.
-    //     Skip ETFs (instrumentType:"etf") — basket trackers don't get a
-    //     fundamental thesis. Errors here are fail-soft so a flaky news
-    //     source can't block the analyzer report. Concurrency 3 (matches
-    //     mfNews enrichment).
-    try {
-      const equityEntries = enriched.filter(
-        (e) => e.holding?.instrumentType !== "etf" && e.longTerm,
-      );
-      if (equityEntries.length > 0) {
-        const CONCURRENCY = 3;
-        let cursor = 0;
-        async function narrativeWorker() {
-          while (cursor < equityEntries.length) {
-            const idx = cursor++;
-            const entry = equityEntries[idx];
-            try {
-              const news = await fetchStockNews({
-                symbol: entry.holding.symbol,
-                name: entry.holding.name,
-                openai: getOpenAI(),
-              });
-              entry.longTerm.news = news;
-              entry.longTerm.narrative = await generateNarrative({
-                symbol: entry.holding.symbol,
-                name: entry.holding.name,
-                sector: entry.holding.sector,
-                marketCapTier: entry.fundamentals?.breakdown?.tier || null,
-                longTerm: entry.longTerm,
-                fundamentals: entry.fundamentals,
-                news,
-                macroRegime,
-                openai: getOpenAI(),
-              });
-            } catch (err) {
-              console.warn(`[ANALYZE] narrative failed for ${entry.holding.symbol}:`, err.message);
-            }
-          }
-        }
-        await Promise.all(Array.from({ length: CONCURRENCY }, narrativeWorker));
-      }
-    } catch (e) {
-      console.warn("[ANALYZE] stock news/narrative enrichment failed:", e.message);
-    }
-
-    // 5. Compute total invested for positionWeight calculation
-    const totalInvested = enriched.reduce((s, e) => s + e.holding.avgPrice * e.holding.quantity, 0);
-
-    // 6. Sector weights (as % of current portfolio value, fallback to invested)
-    const sectorValues = new Map();
-    for (const e of enriched) {
-      const v = (e.quote?.regularMarketPrice ?? e.holding.avgPrice) * e.holding.quantity;
-      sectorValues.set(e.holding.sector, (sectorValues.get(e.holding.sector) || 0) + v);
-    }
-    const portfolioValue = [...sectorValues.values()].reduce((s, v) => s + v, 0);
-
-    // 7. Run the per-holding analyzer
-    const reportEntries = enriched.map((e) => {
-      const invested = e.holding.avgPrice * e.holding.quantity;
-      const positionWeight = totalInvested > 0 ? (invested / totalInvested) * 100 : 0;
-      const sectorWeight = portfolioValue > 0
-        ? ((sectorValues.get(e.holding.sector) || 0) / portfolioValue) * 100
-        : 0;
-      const macroInfo = computeMacroDelta(macroRegime, e.holding.sector);
-
-      return analyzeHolding({
-        symbol: e.holding.symbol,
-        name: e.holding.name,
-        sector: e.holding.sector,
-        isin: e.holding.isin,
-        rawName: e.holding.rawName,
-        matchType: e.holding.matchType,
-        // Pass instrument type through so ETFs get the price-only path
-        instrumentType: e.holding.instrumentType,
-        scored: e.holding.scored,
-        quantity: e.holding.quantity,
-        avgPrice: e.holding.avgPrice,
-        purchaseDate: e.holding.purchaseDate || null,
-        sourceRow: e.holding.sourceRow,
-        quote: e.quote,
-        analysis: e.analysis,
-        fundamentals: e.fundamentals,
-        midTerm: e.midTerm,
-        longTerm: e.longTerm,
-        macroInfo,
-        earningsNearby: earningsMap.get(e.holding.symbol) || null,
-        positionWeight,
-        sectorWeight,
-        historical: e.historical || null,
-        benchReturns,
-      });
-    });
-
-    // 7b. Phase 2 + 3 + 5 + Improvement #1: AMFI metrics + per-fund news +
-    //     live peers in parallel; benchmark TRI alpha sequenced after (alpha
-    //     needs h.metrics from enrichMfHoldings). Same graceful pattern as
-    //     the MF-only path above.
-    try {
-      await Promise.all([
-        enrichMfHoldings(mfHoldings),
-        enrichMfNews(mfHoldings, { openai: getOpenAI() }),
-        enrichLivePeers(mfHoldings),
-      ]);
-      await enrichBenchmarkMetrics(mfHoldings);
-    } catch (e) {
-      console.warn("[ANALYZE] AMFI/news/peers/benchmark enrichment failed (mixed path):", e.message);
-    }
-
-    // 8. Aggregate
-    const report = buildReport(reportEntries, parsed.unmatched, {
-      source: parsed.source,
-      parseSummary: parsed.summary,
-      regime: macroRegime
-        ? { id: macroRegime.regimeId || macroRegime.label, label: macroRegime.label, severity: macroRegime.severity }
-        : null,
-      warnings: parsed.warnings,
-      asOfDate: parsed.summary?.asOfDate ?? null,
-      benchReturns,
-      benchSymbol,
-      // XIRR Optimizer inputs — saved MFs + per-request preset/tax options
+    // SWS Engine — the only engine. Helper handles scoring + report build.
+    // Shared with POST /api/portfolio/analyze/rerun so the two paths can't
+    // drift.
+    const swsResult = await runSWSAnalysis({
+      parsed,
       mfHoldings,
-      // Priority 3: same as MF-only path above. recommendBook tags each
-      // per-fund rec with risk-profile alignment when present.
-      riskProfile: savedRiskProfile,
-      optimizerPreset: optPreset,
-      taxSlabPct: optTaxSlabPct,
-      assumedHoldingMonths: optAssumedHoldingMonths,
+      savedRiskProfile,
+      optTaxSlabPct,
       ltcgRealisedYtdRupees,
+      freshCapitalInr,
     });
 
-    // Cache the heavy state so the optimize endpoint can re-run runXirrOptimizer
-    // against the same enriched holdings under different presets / tax-slab /
-    // assumed-holding-months — without redoing the 30s enrichment pipeline.
-    // Sessions live 30min (see analyzerCache stdTTL above).
-    const sessionId = randomUUID();
-    analyzerCache.set(sessionId, {
-      holdings: report.holdings || reportEntries,
-      mfHoldings,
-      sectorAllocation: report.sectorAllocation || [],
-      ltcgRealisedYtdRupees,
-      cachedAt: Date.now(),
-    });
-    if (report.optimizer) report.optimizer.sessionId = sessionId;
-
-    // ANALYZER_UI_V2 flag — opt-in to the simplified analyzer UI (hero +
-    // glossary chips + collapsed advanced sections). Default OFF in dev so
-    // the existing flow keeps working. Production sets ANALYZER_UI_V2=1
-    // once the V2 path has soaked. Client dispatches on `report.ui.v2`.
-    report.ui = { v2: process.env.ANALYZER_UI_V2 === "1" };
-
-    res.json({
+    return res.json({
       ok: true,
       elapsedMs: Date.now() - t0,
-      sessionId,
-      report,
+      ...swsResult,
       savable,
     });
   } catch (err) {
     console.error("Portfolio analyze error:", err.message, err.stack);
     res.status(500).json({ error: "Failed to analyze portfolio", details: err.message });
+  }
+});
+
+// Rerun analysis against the user's last-uploaded holdings — no file
+// required. The UI calls this on every Portfolio Analyzer tab open so
+// the report is always fresh against current SWS data + live quotes.
+// 404s when the user has no stored upload (caller falls back to the
+// upload zone).
+app.post("/api/portfolio/analyze/rerun", express.json(), async (req, res) => {
+  const t0 = Date.now();
+  try {
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
+
+    const stored = await getAnalyzerStorage().read(sub);
+    if (!stored || !Array.isArray(stored.holdings) || stored.holdings.length === 0) {
+      return res.status(404).json({ error: "no-stored-portfolio" });
+    }
+
+    const optTaxSlabPct = Number.parseInt(req.body?.taxSlabPct || req.query?.taxSlabPct || "30", 10);
+
+    let { mfHoldings, savedRiskProfile, freshCapitalInr, ltcgRealisedYtdRupees } =
+      await loadAnalyzerUserContext(sub, req.body || {}, req.query || {});
+
+    // Stored upload MFs (when the user originally uploaded a Groww MF
+    // export) win over saved-portfolio MFs — same precedence as the
+    // upload handler's "upload is the source of truth for MFs" rule.
+    const storedUploadMfs = Array.isArray(stored.mfHoldings) ? stored.mfHoldings : [];
+    if (storedUploadMfs.length > 0) {
+      mfHoldings = storedUploadMfs.map((m) => ({
+        name: m.name || null,
+        rawName: m.name || null,
+        isin: m.isin || null,
+        category: m.category || null,
+        subCategory: m.subCategory || null,
+        folio: m.folio || null,
+        instrumentType: "mf",
+        invested: Number(m.invested ?? 0),
+        currentValue: Number(m.current ?? m.invested ?? 0),
+        publishedXirrPct: Number.isFinite(Number(m.xirr)) ? Number(m.xirr) : null,
+        pnlPercent: Number.isFinite(Number(m.returns)) ? Number(m.returns) : null,
+        purchaseDate: m.purchaseDate || null,
+      }));
+    }
+
+    // Synthesize the parsed-shape object the SWS pipeline expects.
+    // Stored holdings were already symbol-resolved at upload time, so we
+    // skip the live NSE resolution step.
+    const parsed = {
+      holdings: stored.holdings.map((h) => ({
+        symbol: h.symbol,
+        name: h.name,
+        quantity: Number(h.quantity) || 0,
+        avgPrice: Number(h.avgPrice) || 0,
+        sector: h.sector || null,
+        isin: h.isin || null,
+        purchaseDate: h.purchaseDate || null,
+        instrumentType: h.instrumentType || "stock",
+      })),
+      mfHoldings: storedUploadMfs.length > 0 ? mfHoldings : null,
+      unmatched: [],
+      warnings: [],
+      source: "rerun:" + (stored.sourceFile || "stored"),
+      summary: { asOfDate: stored.uploadedAt || null },
+    };
+
+    const swsResult = await runSWSAnalysis({
+      parsed,
+      mfHoldings,
+      savedRiskProfile,
+      optTaxSlabPct,
+      ltcgRealisedYtdRupees,
+      freshCapitalInr,
+    });
+
+    return res.json({
+      ok: true,
+      elapsedMs: Date.now() - t0,
+      uploadedAt: stored.uploadedAt,
+      sourceFile: stored.sourceFile,
+      ...swsResult,
+    });
+  } catch (err) {
+    console.error("Portfolio rerun error:", err.message, err.stack);
+    res.status(500).json({ error: "Failed to rerun analysis", details: err.message });
   }
 });
 

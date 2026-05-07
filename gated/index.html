@@ -3631,18 +3631,12 @@
             Max 2 MB. File is analyzed in-memory and never saved to disk.
           </div>
         </div>
-        <div id="analyzerEngineToggle" style="margin-top:12px; padding:10px 14px; background:var(--panel); border:1px solid #2a3349; border-radius:8px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-          <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-size:13px;">
-            <input type="checkbox" id="useSWSEngine" style="width:16px; height:16px; cursor:pointer;" />
-            <span>
-              <strong>Use SWS Engine (Beta)</strong>
-              <span style="color:var(--text-muted); font-size:12px;"> &mdash; instant SEBI-aligned action grid (Tier A/B/C/D) powered by Simply Wall St data.</span>
-            </span>
-          </label>
-          <div id="analyzerEngineFreshCapital" style="display:none; gap:8px; align-items:center; font-size:12px;">
+        <div style="margin-top:12px; padding:10px 14px; background:var(--panel); border:1px solid #2a3349; border-radius:8px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+          <div id="analyzerEngineFreshCapital" style="display:flex; gap:8px; align-items:center; font-size:12px;">
             <label style="color:var(--text-muted);">Fresh capital &#8377;</label>
             <input type="number" id="analyzerFreshCapital" min="0" step="10000" placeholder="0" style="width:120px; padding:6px 8px; background:var(--bg); border:1px solid #2a3349; border-radius:6px; color:var(--text); font-size:12px;" />
           </div>
+          <span style="color:var(--text-muted); font-size:11px; margin-left:auto;">Powered by SWS data &middot; SEBI-aligned action grid</span>
         </div>
         <div id="analyzerUploadError" style="display:none; margin-top:12px; padding:12px 16px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:8px; color:#fca5a5; font-size:13px;"></div>
       </div>

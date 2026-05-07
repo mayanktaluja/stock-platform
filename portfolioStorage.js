@@ -1,18 +1,16 @@
 /**
- * Portfolio Storage Adapter
+ * Portfolio Storage Adapter — per-user
  *
- * Two interchangeable backends (same pattern as watchlistStorage.js,
- * paperTradesStorage.js):
- *   1. FILE storage (local dev): JSON object at portfolio.json
- *   2. VERCEL KV storage (prod): single key `portfolio:data`
+ * Two interchangeable backends (same pattern as userStorage.js,
+ * watchlistStorage.js, paperTradesStorage.js):
+ *   1. FILE storage (local dev): JSON map at portfolios.json keyed by sub.
+ *   2. VERCEL KV storage (prod): one key per user, `portfolio:data:{sub}`.
  *
  * Auto-selects based on KV_REST_API_URL env var presence.
  *
- * WHY THIS EXISTS: the previous code wrote portfolio.json directly to disk.
- * On Vercel the filesystem is read-only, so every `POST /api/portfolio` in
- * production silently dropped the payload and the next import was lost.
- * This adapter routes writes to Vercel KV in production, keeping dev/disk
- * behaviour unchanged.
+ * Per-key (not single-hash) on KV so each lookup is O(1) and we never
+ * load every user to read one. The signature requires `sub` on every
+ * call — the caller is responsible for sourcing it from req.user.sub.
  */
 
 import { readFileSync, writeFileSync, existsSync } from "fs";
@@ -20,8 +18,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PORTFOLIO_PATH = path.join(__dirname, "portfolio.json");
-const KV_KEY = "portfolio:data";
+const PORTFOLIOS_PATH = path.join(__dirname, "portfolios.json");
+const portfolioKey = (sub) => `portfolio:data:${sub}`;
 
 const EMPTY = { stocks: [], mutualFunds: [], lastUpdated: null };
 
@@ -30,14 +28,28 @@ const EMPTY = { stocks: [], mutualFunds: [], lastUpdated: null };
 class FilePortfolioStorage {
   constructor() { this.name = "file"; }
 
-  async read() {
-    if (!existsSync(PORTFOLIO_PATH)) return { ...EMPTY };
-    try { return JSON.parse(readFileSync(PORTFOLIO_PATH, "utf-8")); }
-    catch { return { ...EMPTY }; }
+  async _readAll() {
+    if (!existsSync(PORTFOLIOS_PATH)) return {};
+    try { return JSON.parse(readFileSync(PORTFOLIOS_PATH, "utf-8")); }
+    catch { return {}; }
   }
 
-  async write(data) {
-    writeFileSync(PORTFOLIO_PATH, JSON.stringify(data, null, 2), "utf-8");
+  async _writeAll(map) {
+    writeFileSync(PORTFOLIOS_PATH, JSON.stringify(map, null, 2), "utf-8");
+    return true;
+  }
+
+  async read(sub) {
+    if (!sub) return { ...EMPTY };
+    const all = await this._readAll();
+    return all[sub] || { ...EMPTY };
+  }
+
+  async write(sub, data) {
+    if (!sub) throw new Error("write: sub is required");
+    const all = await this._readAll();
+    all[sub] = data;
+    await this._writeAll(all);
     return true;
   }
 }
@@ -54,10 +66,11 @@ class KVPortfolioStorage {
     return this._kv;
   }
 
-  async read() {
+  async read(sub) {
+    if (!sub) return { ...EMPTY };
     try {
       const kv = await this._getKV();
-      const data = await kv.get(KV_KEY);
+      const data = await kv.get(portfolioKey(sub));
       if (!data) return { ...EMPTY };
       return typeof data === "string" ? JSON.parse(data) : data;
     } catch (err) {
@@ -66,10 +79,11 @@ class KVPortfolioStorage {
     }
   }
 
-  async write(data) {
+  async write(sub, data) {
+    if (!sub) throw new Error("write: sub is required");
     try {
       const kv = await this._getKV();
-      await kv.set(KV_KEY, data);
+      await kv.set(portfolioKey(sub), data);
       return true;
     } catch (err) {
       console.warn("[PORTFOLIO:KV] write failed:", err.message);
@@ -89,4 +103,3 @@ export function getPortfolioStorage() {
   console.log(`[PORTFOLIO] Using ${_storage.name} storage`);
   return _storage;
 }
-
