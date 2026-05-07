@@ -7047,17 +7047,27 @@ async function runSWSAnalysis({
   let totalCurrent = 0;
   const sectorCV = new Map();
   const enrichedRows = firstPass.map((row) => {
-    // Price priority: SWS live > broker statement closing price > avg cost.
-    // Falling back to invested would falsely zero out the position.
-    const swsPrice = row.swsCovered ? Number(row.sws.current_price_inr) : null;
+    // Price priority: SWS live > fundamentals.json fallback > broker closing
+    // price > avg cost. The fallback path (post-demerger / freshly-listed
+    // names like TMCV/TMPV) populates row.sws.current_price_inr from
+    // fundamentals.json even when swsCovered is false — using it here keeps
+    // /analyze and /rerun consistent (the broker close price isn't persisted,
+    // so /rerun loses it after refresh).
+    const swsCoveredPrice = row.swsCovered ? Number(row.sws?.current_price_inr) : null;
+    const fallbackPrice = (!row.swsCovered && row.sws?.current_price_inr != null)
+      ? Number(row.sws.current_price_inr)
+      : null;
     const brokerPrice = Number(row.closePrice) || 0;
     const qty = Number(row.quantity) || 0;
     const avg = Number(row.avgPrice) || 0;
     const invested = qty * avg;
-    const livePrice = (swsPrice != null && Number.isFinite(swsPrice) && swsPrice > 0)
-      ? swsPrice
-      : (brokerPrice > 0 ? brokerPrice : null);
-    const priceSource = (swsPrice > 0) ? "sws" : (brokerPrice > 0 ? "broker" : "avg");
+    const pickFinite = (n) => (n != null && Number.isFinite(n) && n > 0) ? n : null;
+    const livePrice = pickFinite(swsCoveredPrice)
+      ?? pickFinite(fallbackPrice)
+      ?? (brokerPrice > 0 ? brokerPrice : null);
+    const priceSource = pickFinite(swsCoveredPrice) ? "sws"
+      : pickFinite(fallbackPrice) ? "fallback"
+      : (brokerPrice > 0 ? "broker" : "avg");
     const currentValue = livePrice != null ? qty * livePrice : invested;
     totalInvested += invested;
     totalCurrent += currentValue;
@@ -7253,6 +7263,12 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
         name: h.name,
         quantity: h.quantity,
         avgPrice: h.avgPrice,
+        // Persist closePrice so /analyze/rerun has the same broker-statement
+        // fallback when SWS doesn't cover a ticker (e.g. recently-demerged
+        // names like TMCV/TMPV). Without it, /analyze and /rerun diverge:
+        // /analyze uses the broker close, /rerun falls back to invested
+        // cost (P&L = 0), shifting totals on every refresh.
+        closePrice: h.closePrice ?? null,
         sector: h.sector || null,
         isin: h.isin || null,
         purchaseDate: h.purchaseDate || null,
@@ -7446,6 +7462,10 @@ app.post("/api/portfolio/analyze/rerun", express.json(), async (req, res) => {
         name: h.name,
         quantity: Number(h.quantity) || 0,
         avgPrice: Number(h.avgPrice) || 0,
+        // Restore closePrice — older saved records may not have it, in
+        // which case the SWS fallback path (fundamentals.json snapshot
+        // price) still keeps /analyze and /rerun in sync.
+        closePrice: Number.isFinite(Number(h.closePrice)) ? Number(h.closePrice) : null,
         sector: h.sector || null,
         isin: h.isin || null,
         purchaseDate: h.purchaseDate || null,
