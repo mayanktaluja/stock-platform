@@ -6003,8 +6003,12 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
       <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">Action mix</div>
       <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
         ${Object.entries(snap.actionMix || {}).map(([action, n]) => `
-          ${swsActionBadge(action)}
-          <span style="font-size:13px; color:var(--text-muted); margin-right:8px;">×${n}</span>
+          <button type="button" onclick="openActionListModal('${swsEscapeAttr(action)}')"
+            title="Click to see all ${n} ${swsEscapeAttr(action)} stock${n === 1 ? "" : "s"}"
+            style="background:transparent; border:0; padding:0; margin:0; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+            ${swsActionBadge(action)}
+            <span style="font-size:13px; color:var(--text-muted); margin-right:8px;">×${n}</span>
+          </button>
         `).join("")}
       </div>
     </div>
@@ -6139,8 +6143,12 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
       <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">Action mix</div>
       <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
         ${Object.entries(snap.actionMix || {}).map(([action, n]) => `
-          ${swsActionBadge(action)}
-          <span style="font-size:13px; color:var(--text-muted); margin-right:8px;">×${n}</span>
+          <button type="button" onclick="openActionListModal('${swsEscapeAttr(action)}')"
+            title="Click to see all ${n} ${swsEscapeAttr(action)} stock${n === 1 ? "" : "s"}"
+            style="background:transparent; border:0; padding:0; margin:0; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+            ${swsActionBadge(action)}
+            <span style="font-size:13px; color:var(--text-muted); margin-right:8px;">×${n}</span>
+          </button>
         `).join("")}
       </div>
     </div>
@@ -9559,10 +9567,123 @@ function closeSwsModal() {
 // Esc-to-close — bound once at module load.
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
+    const actionBackdrop = document.getElementById("actionListModalBackdrop");
+    if (actionBackdrop && actionBackdrop.classList.contains("open")) {
+      closeActionListModal();
+      return;
+    }
     const backdrop = document.getElementById("swsModalBackdrop");
     if (backdrop && backdrop.classList.contains("open")) closeSwsModal();
   }
 });
+
+// ==================== ACTION LIST MODAL ====================
+//
+// Click handler for the Action Mix pills in the Portfolio Analyzer.
+// Reads holdingsByAction off the cached report and renders a list of
+// every stock that landed in that action bucket. Each row reuses the
+// existing swsHoldingRow renderer so the table format mirrors Tier A.
+
+const ACTION_HELP_TEXT = {
+  HOLD: "These stocks scored well enough to keep without action. No buying or selling needed.",
+  EXIT: "Full exit recommended — score and outlook no longer support a position.",
+  "EXIT-now": "Sell the entire position now — flagged for immediate exit.",
+  "EXIT-staged": "Sell half today; the second half is contingent on a confirmation break.",
+  Reduction: "Trim the position to free up capital for stronger ideas.",
+  "Top-up": "Add to the position — the engine sees a favourable risk/reward.",
+};
+
+function actionHelpText(action) {
+  if (!action) return "";
+  if (ACTION_HELP_TEXT[action]) return ACTION_HELP_TEXT[action];
+  if (action.startsWith("Reduction-")) return ACTION_HELP_TEXT.Reduction;
+  if (action.startsWith("Top-up")) return ACTION_HELP_TEXT["Top-up"];
+  if (action.startsWith("EXIT")) return ACTION_HELP_TEXT.EXIT;
+  return "";
+}
+
+function openActionListModal(action) {
+  if (!action) return;
+  const backdrop = document.getElementById("actionListModalBackdrop");
+  const body = document.getElementById("actionListModalBody");
+  if (!backdrop || !body) return;
+
+  const report = _analyzerCache?.report || null;
+  const rows = report?.holdingsByAction?.[action] || [];
+  const isReduction = action === "EXIT" || action.startsWith("EXIT-") || action.startsWith("Reduction-");
+  const freedCol = isReduction
+    ? `<th style="padding:10px 12px; text-align:right;">Freed ₹</th>`
+    : "";
+  const explainer = actionHelpText(action);
+
+  const tableHtml = rows.length === 0
+    ? `<div style="padding:30px 16px; text-align:center; font-size:13px; color:var(--text-muted);">No stocks under this action.</div>`
+    : `<div style="overflow-x:auto; border:1px solid #2a3349; border-radius:8px; background:var(--panel);">
+         <table style="width:100%; border-collapse:collapse; font-size:13px;">
+           <thead>
+             <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+               <th style="padding:10px 12px;">Stock</th>
+               <th style="padding:10px 12px;">Action</th>
+               <th style="padding:10px 12px;">v3 score</th>
+               <th style="padding:10px 12px;">Snowflake</th>
+               <th style="padding:10px 12px;">Position</th>
+               <th style="padding:10px 12px; text-align:right;">P&amp;L</th>
+               ${freedCol}
+               <th style="padding:10px 12px;">Timing</th>
+             </tr>
+           </thead>
+           <tbody data-action-list-rows>
+             ${rows.map(swsHoldingRow).join("")}
+           </tbody>
+         </table>
+       </div>`;
+
+  // swsHoldingRow renders a Freed ₹ <td> on every row. For non-reduction
+  // actions we drop that column header above; the cell is hidden via a
+  // post-render CSS adjustment so the table doesn't shear.
+  const hideFreedCellCss = isReduction
+    ? ""
+    : `<style>#actionListModalBody [data-action-list-rows] tr td:nth-child(7){display:none;}</style>`;
+
+  body.innerHTML = `
+    ${hideFreedCellCss}
+    <div style="padding:6px 4px 16px;">
+      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:6px;">
+        <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">Stocks marked</div>
+        ${swsActionBadge(action)}
+        <div style="font-size:13px; color:var(--text-muted);">×${rows.length}</div>
+      </div>
+      ${explainer ? `<div style="font-size:12px; color:var(--text-muted); line-height:1.5;">${swsEscapeAttr(explainer)}</div>` : ""}
+    </div>
+    ${tableHtml}
+  `;
+
+  // Wire row clicks to chain into the per-stock deep-dive modal. The
+  // existing swsHoldingRow already has onclick="openStockDetailModal(...)";
+  // we close THIS modal first so the two backdrops don't stack.
+  const tbody = body.querySelector("[data-action-list-rows]");
+  if (tbody) {
+    tbody.addEventListener("click", () => {
+      // Close on the next tick so the row's own onclick (openStockDetailModal)
+      // has already fired and switched focus to the detail modal.
+      setTimeout(closeActionListModal, 0);
+    }, { capture: true });
+  }
+
+  backdrop.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeActionListModal() {
+  const backdrop = document.getElementById("actionListModalBackdrop");
+  if (backdrop) backdrop.classList.remove("open");
+  // Only release the body scroll lock if the per-stock detail modal isn't
+  // also open (it owns the lock in that case).
+  const swsBackdrop = document.getElementById("swsModalBackdrop");
+  if (!swsBackdrop || !swsBackdrop.classList.contains("open")) {
+    document.body.style.overflow = "";
+  }
+}
 
 function renderSwsModal(data) {
   const { ticker, deep, card, surveillance, file_mtime, section_memberships } = data;
