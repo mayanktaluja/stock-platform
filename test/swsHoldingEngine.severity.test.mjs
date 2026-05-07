@@ -48,14 +48,19 @@ console.log("\ncomputeTrimSeverity — case 1: healthy stock\n");
   assert("rung = null (HOLD path)", rung(r.severity) === null, r.severity);
 }
 
-console.log("\ncomputeTrimSeverity — case 2: mild WATCH (Reduction-33%)\n");
+console.log("\ncomputeTrimSeverity — case 2: mild WATCH (Reduction-50% under aggressive recalibration)\n");
 {
   const r = computeTrimSeverity({
     v3: 20, position_weight: 4, sector_weight: 15,
     conviction: "MEDIUM", surveillance: null, pnlPercent: -10, risks_count: 0,
   });
+  // Aggressive-trim recalibration: weakness weight 0.30→0.35 + drawdown
+  // 0.10→0.15 + lowered Red-50% threshold 0.45→0.35 means a typical mild-
+  // WATCH 4% position with -10% pnl now lands at Red-50%, not Red-33%.
+  // This is the desired behaviour — the user reported earlier calibration
+  // never surfaced Red-50% on real retail books.
   assert("severity in [0.30, 0.45)", r.severity >= 0.30 && r.severity < 0.45, r.severity);
-  assert("rung = Reduction-33%", rung(r.severity) === "Reduction-33%", rung(r.severity));
+  assert("rung = Reduction-50%", rung(r.severity) === "Reduction-50%", rung(r.severity));
 }
 
 console.log("\ncomputeTrimSeverity — case 3: concentrated weak (Reduction-66%)\n");

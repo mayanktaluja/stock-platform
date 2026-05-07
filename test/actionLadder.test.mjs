@@ -509,14 +509,18 @@ console.log("\ncomputeTrimSeverity\n");
   assert("rationale produces 8 lines", r.rationale.length === 8, r.rationale.length);
 }
 
-// Mild WATCH-band stock — typical retail holding hitting 33% in V2.
+// Mild WATCH-band stock — typical retail holding. Under aggressive-trim
+// recalibration this case now lands at Reduction-50% (was Red-33%) — the
+// boosted weakness/drawdown weights + lowered rung thresholds intentionally
+// pull weak-fundamental losing positions one rung harder. This is the
+// behavioural target of the calibration change.
 {
   const r = computeTrimSeverity({
     v3: 20, position_weight: 4, sector_weight: 15,
     conviction: "MEDIUM", surveillance: null, pnlPercent: -10, risks_count: 0,
   });
-  assert("mild WATCH severity in 0.25..0.40 band", r.severity >= 0.25 && r.severity < 0.45, r.severity);
-  assert("mild WATCH → Reduction-33%", severityToTrimRung(r.severity) === "Reduction-33%", severityToTrimRung(r.severity));
+  assert("mild WATCH severity in 0.30..0.45 band", r.severity >= 0.30 && r.severity < 0.50, r.severity);
+  assert("mild WATCH → Reduction-50%", severityToTrimRung(r.severity) === "Reduction-50%", severityToTrimRung(r.severity));
 }
 
 // Concentrated weak name — should escalate above 33%.
@@ -556,20 +560,24 @@ console.log("\ncomputeTrimSeverity\n");
     severityToTrimRung(0.95, { gsmStage3Plus: true }));
 }
 
-// Boundary mappings — rung edges must be deterministic.
+// Boundary mappings — rung edges must be deterministic. Aggressive-trim
+// recalibration shifted every band one rung lower so the same severity
+// score produces a harder action (the user wants more Red-50%, not more
+// HOLD). The boundary table below is the calibration-of-record; if it
+// drifts, expect downstream UI tests to need updating in lockstep.
 console.log("\nseverityToTrimRung boundaries\n");
-assert("0.14 → null (below trim floor)",       severityToTrimRung(0.14) === null,            severityToTrimRung(0.14));
-assert("0.15 → Reduction-25%",                 severityToTrimRung(0.15) === "Reduction-25%", severityToTrimRung(0.15));
-assert("0.29 → Reduction-25%",                 severityToTrimRung(0.29) === "Reduction-25%", severityToTrimRung(0.29));
-assert("0.30 → Reduction-33%",                 severityToTrimRung(0.30) === "Reduction-33%", severityToTrimRung(0.30));
-assert("0.44 → Reduction-33%",                 severityToTrimRung(0.44) === "Reduction-33%", severityToTrimRung(0.44));
-assert("0.45 → Reduction-50%",                 severityToTrimRung(0.45) === "Reduction-50%", severityToTrimRung(0.45));
-assert("0.59 → Reduction-50%",                 severityToTrimRung(0.59) === "Reduction-50%", severityToTrimRung(0.59));
-assert("0.60 → Reduction-66%",                 severityToTrimRung(0.60) === "Reduction-66%", severityToTrimRung(0.60));
-assert("0.74 → Reduction-66%",                 severityToTrimRung(0.74) === "Reduction-66%", severityToTrimRung(0.74));
-assert("0.75 → EXIT-staged",                   severityToTrimRung(0.75) === "EXIT-staged",   severityToTrimRung(0.75));
-assert("0.89 → EXIT-staged",                   severityToTrimRung(0.89) === "EXIT-staged",   severityToTrimRung(0.89));
-assert("0.90 → EXIT-now",                      severityToTrimRung(0.90) === "EXIT-now",      severityToTrimRung(0.90));
+assert("0.09 → null (below trim floor)",       severityToTrimRung(0.09) === null,            severityToTrimRung(0.09));
+assert("0.10 → Reduction-25%",                 severityToTrimRung(0.10) === "Reduction-25%", severityToTrimRung(0.10));
+assert("0.21 → Reduction-25%",                 severityToTrimRung(0.21) === "Reduction-25%", severityToTrimRung(0.21));
+assert("0.22 → Reduction-33%",                 severityToTrimRung(0.22) === "Reduction-33%", severityToTrimRung(0.22));
+assert("0.34 → Reduction-33%",                 severityToTrimRung(0.34) === "Reduction-33%", severityToTrimRung(0.34));
+assert("0.35 → Reduction-50%",                 severityToTrimRung(0.35) === "Reduction-50%", severityToTrimRung(0.35));
+assert("0.49 → Reduction-50%",                 severityToTrimRung(0.49) === "Reduction-50%", severityToTrimRung(0.49));
+assert("0.50 → Reduction-66%",                 severityToTrimRung(0.50) === "Reduction-66%", severityToTrimRung(0.50));
+assert("0.64 → Reduction-66%",                 severityToTrimRung(0.64) === "Reduction-66%", severityToTrimRung(0.64));
+assert("0.65 → EXIT-staged",                   severityToTrimRung(0.65) === "EXIT-staged",   severityToTrimRung(0.65));
+assert("0.84 → EXIT-staged",                   severityToTrimRung(0.84) === "EXIT-staged",   severityToTrimRung(0.84));
+assert("0.85 → EXIT-now",                      severityToTrimRung(0.85) === "EXIT-now",      severityToTrimRung(0.85));
 assert("1.00 → EXIT-now",                      severityToTrimRung(1.00) === "EXIT-now",      severityToTrimRung(1.00));
 
 // Determinism — same inputs ⇒ same severity.
@@ -628,9 +636,11 @@ withV3On(() => {
   assert("V3 promotion returns ladderV2=true", r.ladderV2 === true, r.ladderV2);
   assert("V3 promotion populates severity", typeof r.severity === "number" && r.severity >= 0 && r.severity <= 1, r.severity);
   assert("V3 promotion populates rationale array", Array.isArray(r.ladderRationale) && r.ladderRationale.length >= 8, r.ladderRationale?.length);
-  // For these mild factors severity should be in 0.20-0.40 → Reduction-25% or Reduction-33%
-  assert("V3 mild WATCH → 25% or 33%",
-    r.action === "Reduction-25%" || r.action === "Reduction-33%", r.action);
+  // Aggressive-trim recalibration: severity 0.40-0.50 lands Red-50%.
+  // (Was Red-25% or Red-33% under the old calibration; the harder rung
+  // is the intended behaviour for v3=19 + LOW conviction + losing position.)
+  assert("V3 mild WATCH → Red-50% (aggressive)",
+    r.action === "Reduction-50%", r.action);
 
   // Concentrated position should escalate.
   const r2 = promoteToLadderV2({
