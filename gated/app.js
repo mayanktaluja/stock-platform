@@ -2469,6 +2469,7 @@ function switchTab(tab) {
   } else if (tab === "analyzer") {
     if (analyzerEl) analyzerEl.style.display = "block";
     initPortfolioAnalyzer();
+    loadAnalyzerOnTabOpen();
   } else if (tab === "picks") {
     if (picksEl) picksEl.style.display = "block";
     loadPicks();
@@ -4865,18 +4866,10 @@ function initPortfolioAnalyzer() {
   const input = document.getElementById("analyzerFileInput");
   const browseBtn = document.getElementById("analyzerBrowseBtn");
   const dropArea = document.getElementById("analyzerDropArea");
-  const engineToggle = document.getElementById("useSWSEngine");
   const freshCapitalWrap = document.getElementById("analyzerEngineFreshCapital");
 
-  if (engineToggle) {
-    const saved = localStorage.getItem("analyzer_engine");
-    engineToggle.checked = saved !== "legacy";
-    if (freshCapitalWrap) freshCapitalWrap.style.display = engineToggle.checked ? "flex" : "none";
-    engineToggle.addEventListener("change", () => {
-      localStorage.setItem("analyzer_engine", engineToggle.checked ? "sws" : "legacy");
-      if (freshCapitalWrap) freshCapitalWrap.style.display = engineToggle.checked ? "flex" : "none";
-    });
-  }
+  // SWS is the only engine — always show fresh-capital input.
+  if (freshCapitalWrap) freshCapitalWrap.style.display = "flex";
 
   browseBtn.addEventListener("click", () => input.click());
   input.addEventListener("change", (e) => {
@@ -4933,22 +4926,15 @@ async function analyzePortfolioFile(file) {
   }
 
   setAnalyzerState("analyzing");
-  const engineToggle = document.getElementById("useSWSEngine");
-  const useSws = !!(engineToggle && engineToggle.checked);
-  document.getElementById("analyzerProgressText").textContent = useSws
-    ? `Scoring ${file.name} via SWS Engine…`
-    : `Analyzing ${file.name}…`;
+  document.getElementById("analyzerProgressText").textContent = `Scoring ${file.name} via SWS Engine…`;
 
   try {
     const fd = new FormData();
     fd.append("file", file);
     fd.append("taxSlabPct", String(_optimizerState.taxSlabPct));
     fd.append("preset", _optimizerState.preset);
-    if (useSws) {
-      fd.append("engine", "sws");
-      const fresh = Number(document.getElementById("analyzerFreshCapital")?.value || 0);
-      if (Number.isFinite(fresh) && fresh > 0) fd.append("freshCapitalInr", String(fresh));
-    }
+    const fresh = Number(document.getElementById("analyzerFreshCapital")?.value || 0);
+    if (Number.isFinite(fresh) && fresh > 0) fd.append("freshCapitalInr", String(fresh));
     const res = await fetch("/api/portfolio/analyze", { method: "POST", body: fd });
 
     // 412 Precondition Failed → SUITABILITY_GATE blocked the analyze
@@ -4959,7 +4945,7 @@ async function analyzePortfolioFile(file) {
       setAnalyzerState("upload");
       openAnalyzerIntake({
         questions: blocked.questions || null,
-        afterSave: () => analyzeUploadedFile(file),
+        afterSave: () => analyzePortfolioFile(file),
       });
       return;
     }
@@ -4970,16 +4956,97 @@ async function analyzePortfolioFile(file) {
     }
     _optimizerState.sessionId = data.sessionId || data.report?.optimizer?.sessionId || null;
     _optimizerState.optimizer = data.report?.optimizer || null;
-    if (data.report?.engine === "sws") {
-      renderSWSAnalyzerReport(data.report, data.elapsedMs);
-    } else {
-      renderAnalyzerReport(data.report, data.elapsedMs);
-    }
+    renderSWSAnalyzerReport(data.report, data.elapsedMs);
     setAnalyzerState("report");
+    // Cache the freshly-computed report so a tab-switch within 60s
+    // skips the rerun API call (frontend rate-limit per the plan).
+    _analyzerCache = {
+      report: data.report,
+      elapsedMs: data.elapsedMs,
+      uploadedAt: data.savable?.parsedAt || new Date().toISOString(),
+      sourceFile: file.name,
+      cachedAt: Date.now(),
+    };
   } catch (err) {
     setAnalyzerState("upload");
     errEl.textContent = err.message;
     errEl.style.display = "block";
+  }
+}
+
+// In-memory cache of the most recent rerun result. The plan calls for
+// auto-rerun on every analyzer tab open, but flipping between tabs in
+// rapid succession would hammer the 5–10s endpoint — so we render from
+// this cache when it's fresh (<60s) and only hit the API otherwise.
+let _analyzerCache = null;
+const ANALYZER_CACHE_TTL_MS = 60_000;
+
+// Called on every analyzer tab open. Always tries to render a fresh
+// report against the user's last-uploaded holdings; falls back to the
+// upload zone when the user has no stored portfolio (404).
+async function loadAnalyzerOnTabOpen() {
+  // Cache hit (<60s old) — re-render instantly without an API call.
+  if (_analyzerCache && (Date.now() - _analyzerCache.cachedAt) < ANALYZER_CACHE_TTL_MS) {
+    renderSWSAnalyzerReport(_analyzerCache.report, _analyzerCache.elapsedMs);
+    setAnalyzerState("report");
+    return;
+  }
+
+  setAnalyzerState("analyzing");
+  const progressEl = document.getElementById("analyzerProgressText");
+  if (progressEl) progressEl.textContent = "Analyzing your portfolio with fresh SWS data…";
+
+  try {
+    const res = await fetch("/api/portfolio/analyze/rerun", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify({
+        taxSlabPct: _optimizerState.taxSlabPct,
+        preset: _optimizerState.preset,
+      }),
+    });
+
+    if (res.status === 404) {
+      // No stored portfolio yet — show the upload zone as today.
+      _analyzerCache = null;
+      setAnalyzerState("upload");
+      return;
+    }
+    if (res.status === 401) {
+      _analyzerCache = null;
+      setAnalyzerState("upload");
+      const errEl = document.getElementById("analyzerUploadError");
+      if (errEl) {
+        errEl.textContent = "Please sign in to view your portfolio analysis.";
+        errEl.style.display = "block";
+      }
+      return;
+    }
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error + (data.hint ? `\n\nHint: ${data.hint}` : ""));
+    }
+
+    _optimizerState.sessionId = data.sessionId || data.report?.optimizer?.sessionId || null;
+    _optimizerState.optimizer = data.report?.optimizer || null;
+    renderSWSAnalyzerReport(data.report, data.elapsedMs);
+    setAnalyzerState("report");
+    _analyzerCache = {
+      report: data.report,
+      elapsedMs: data.elapsedMs,
+      uploadedAt: data.uploadedAt || null,
+      sourceFile: data.sourceFile || null,
+      cachedAt: Date.now(),
+    };
+  } catch (err) {
+    setAnalyzerState("upload");
+    const errEl = document.getElementById("analyzerUploadError");
+    if (errEl) {
+      errEl.textContent = `Couldn't load your portfolio: ${err.message}. Try uploading it again.`;
+      errEl.style.display = "block";
+    }
   }
 }
 
@@ -6141,10 +6208,9 @@ function resetWhatIf() {
 }
 
 function renderSWSAnalyzerReport(report, elapsedMs) {
-  // ANALYZER_UI_V2 dispatcher for the SWS path. Default user flow uses
-  // ANALYZER_ENGINE_DEFAULT=sws so this is the primary surface for the
-  // simplification — adds a hero card + glossary chips on technical KPI
-  // labels. Sub-renderers (TierA/B/C/D, MfSection, etc.) are unchanged
+  // ANALYZER_UI_V2 dispatcher for the SWS path — the only path now.
+  // Adds a hero card + glossary chips on technical KPI labels when V2
+  // is on. Sub-renderers (TierA/B/C/D, MfSection, etc.) are unchanged
   // because they're already progressively disclosed.
   if (report?.ui?.v2) return renderSWSAnalyzerReportV2(report, elapsedMs);
 
@@ -6346,28 +6412,6 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
       ${swsEscapeAttr(report.disclaimer || "")}
     </div>
   `;
-}
-
-function renderAnalyzerReport(report, elapsedMs) {
-  // ANALYZER_UI_V2 dispatcher — when the server set report.ui.v2 = true
-  // (env ANALYZER_UI_V2=1), route to the simplified renderer. Old code
-  // path stays untouched for instant rollback (set env=0, no redeploy).
-  if (report?.ui?.v2) return renderAnalyzerReportV2(report, elapsedMs);
-
-  renderAnalyzerSummary(report, elapsedMs);
-  renderAnalyzerPortfolioActions(report);
-  // Priority 3 + 2: render risk-profile card + asset-allocation gap card
-  // BEFORE the per-fund grid. SEBI-RAs lead with allocation, then drill
-  // into individual funds.
-  renderAnalyzerRiskProfile(report.mfPositions?.riskProfile);
-  renderAnalyzerAssetAllocation(report.mfPositions?.assetAllocation, report.mfPositions?.riskProfile);
-  renderAnalyzerMfPositions(report.mfPositions);
-  renderAnalyzerRiskBlock(report);
-  renderAnalyzerOptimizer(report.optimizer);
-  renderAnalyzerUrgent(report);
-  renderAnalyzerHoldings(report);
-  renderAnalyzerUnmatched(report);
-  renderAnalyzerDisclaimer(report);
 }
 
 // Small reusable "Not SEBI advice" chip for every decision surface. Keeps
@@ -6793,7 +6837,7 @@ function mfConfidencePill(conf) {
 //
 // Soft-gated. If the user has no profile, renders a single-card CTA with
 // the 3 questions inline; submitting POSTs to /api/risk-profile and then
-// re-runs renderAnalyzerReport with the latest report.
+// re-runs renderSWSAnalyzerReport with the latest report.
 //
 // If the user HAS a profile, renders a compact bucket chip + edit link.
 // The per-fund cards downstream consume `factors.riskAlignment` to chip
@@ -7837,20 +7881,6 @@ function renderAnalyzerDisclaimer(report) {
 // function lives next to its V1 counterpart so a follow-up PR can delete
 // the V1 path cleanly after a 2-week soak.
 // ════════════════════════════════════════════════════════════════════════
-
-function renderAnalyzerReportV2(report, elapsedMs) {
-  renderAnalyzerSummaryV2(report, elapsedMs);
-  renderAnalyzerPortfolioActions(report);  // V1 — already lean
-  renderAnalyzerRiskProfileV2(report.mfPositions?.riskProfile);
-  renderAnalyzerAssetAllocationV2(report.mfPositions?.assetAllocation, report.mfPositions?.riskProfile);
-  renderAnalyzerMfPositionsV2(report.mfPositions);
-  renderAnalyzerRiskBlockV2(report);
-  renderAnalyzerOptimizerV2(report.optimizer);
-  renderAnalyzerUrgent(report);            // V1 — already lean
-  renderAnalyzerHoldingsV2(report);
-  renderAnalyzerUnmatched(report);         // V1 — already lean
-  renderAnalyzerDisclaimer(report);        // V1 — canonical
-}
 
 // Hero copy helpers — guarded against null/NaN inputs so V2 never renders
 // "NaN%" or "undefined" on edge cases (empty book, missing risk block).
