@@ -3863,6 +3863,16 @@
     </div>
   </div>
 
+  <!-- Action Mix list modal — populated by openActionListModal(action) when the user clicks an Action Mix pill in the analyzer -->
+  <div id="actionListModalBackdrop" class="sws-modal-backdrop" role="dialog" aria-modal="true" onclick="if(event.target===this)closeActionListModal()">
+    <div class="sws-modal" style="max-width:1040px;">
+      <button class="sws-modal-close" onclick="closeActionListModal()" aria-label="Close action list">×</button>
+      <div class="sws-modal-body" id="actionListModalBody">
+        <!-- Filled by openActionListModal() -->
+      </div>
+    </div>
+  </div>
+
   <!-- Shared glossary tooltip element — positioned dynamically by JS -->
   <div id="starbhaiTooltip" role="tooltip" aria-hidden="true"></div>
 

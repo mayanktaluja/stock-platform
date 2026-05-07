@@ -776,6 +776,22 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
     coverage_text: `${snapshot.coveredCount}/${snapshot.holdingsCount} holdings have SWS data`,
   };
 
+  // Group every scored holding by its action so the Action Mix pills in
+  // the UI can open a per-action stock list. Tier B baskets gate top-up
+  // holdings through classifyBasket — so a holding can be counted in
+  // actionMix without surfacing in any visible tier table. This map is
+  // the source of truth for "show me the N stocks marked X".
+  const freedByTicker = new Map(
+    tiers.tierA.map((h) => [h.sws?.ticker || h.symbol, h.freedRupees]),
+  );
+  const holdingsByAction = {};
+  for (const h of scoredHoldings) {
+    if (!h.action) continue;
+    const tk = h.sws?.ticker || h.symbol;
+    const enriched = { ...h, freedRupees: freedByTicker.get(tk) ?? null };
+    (holdingsByAction[h.action] ||= []).push(enriched);
+  }
+
   return {
     engine: "sws",
     banner,
@@ -788,6 +804,7 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
       C: { label: "Hold as-is", rows: tiers.tierC },
       D: { label: "Watch (catalyst-driven)", rows: tiers.tierD },
     },
+    holdingsByAction,
     sectorOverlay,
   };
 }
