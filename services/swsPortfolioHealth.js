@@ -1,11 +1,17 @@
-// Portfolio Health Score (0–100) — SWS-weighted composite with macro overlay.
+// Portfolio Health Score (0–100) — earned-points composite with macro overlay.
+//
+// SEBI-style framing: the score is fully *earned* from zero across seven
+// components (Quality 25 + Valuation 15 + Diversification 15 +
+// Concentration 10 + Risk 15 + Loss control 10 + Macro 10 = 100), then
+// clamped by hard caps for severe red flags (large concentration,
+// surveillance, pledge, aggregate loss).
 //
 // Reads from:
 //   • snapshot (output of buildSnapshot in swsPortfolioAggregate) — totals,
 //     holdingsCount, coveredCount, sector distribution (computed locally).
 //   • scoredHoldings[] — output of swsHoldingEngine.scoreHolding(); each row
 //     carries h.sws (snowflake/v3/upside/surveillance/indianRisk), h.action,
-//     h.positionWeight, h.sector, h.pnlPercent, h.swsCovered.
+//     h.positionWeight, h.sector, h.pnlPercent, h.swsCovered, h.currentValue.
 //   • opts.macroRegime (optional) — passed through to macroRegime.computeMacroDelta.
 //
 // Pure function. No I/O, no globals.
@@ -38,8 +44,15 @@ function bandFromScore(score) {
   return { grade: "E", band: "Action Required", color: "#ef4444" };
 }
 
+function verdictFromScore(score) {
+  if (score >= 80) return "HEALTHY";
+  if (score >= 65) return "GOOD";
+  if (score >= 50) return "NEEDS_ATTENTION";
+  if (score >= 35) return "AT_RISK";
+  return "CRITICAL";
+}
+
 // Sector weights from holdings → Map<sector, weightFraction>.
-// Weights sum to 1 (or ~1 if total currentValue > 0).
 function sectorWeights(scoredHoldings) {
   const bySector = new Map();
   let total = 0;
@@ -88,16 +101,16 @@ function weightedAvg(scoredHoldings, getValue) {
 
 // ─── Component computations ──────────────────────────────────────────
 
-// Quality: weighted avg v3_score → +0..35 mapped 0→0, 50→17.5, 100→35.
+// Quality: weighted avg v3_score → 0..25. Linear map 0→0, 50→12.5, 100→25.
 function _quality(scoredHoldings) {
   const avg = weightedAvg(scoredHoldings, (h) => (h.swsCovered ? num(h.sws?.v3_score, null) : null));
   if (avg == null) return { delta: 0, avg: null };
-  return { delta: +mapRange(avg, 0, 100, 0, 35).toFixed(2), avg: +avg.toFixed(1) };
+  return { delta: +mapRange(avg, 0, 100, 0, 25).toFixed(2), avg: +avg.toFixed(1) };
 }
 
-// Valuation: weighted avg upside_pct, capped [-20, +30] → +0..15. Piecewise
-// so the midpoint (fair value, 0% upside) lands at 7.5 — discount half is
-// [0..7.5], premium half is [7.5..15], which mirrors the user-facing spec.
+// Valuation: weighted avg upside_pct → 0..15 (piecewise). Fair value (0%)
+// lands at the midpoint 7.5; deep discount (≥+30%) → 15; deep premium
+// (≤-20%) → 0.
 function _valuation(scoredHoldings) {
   const avg = weightedAvg(scoredHoldings, (h) => (h.swsCovered ? num(h.sws?.upside_pct, null) : null));
   if (avg == null) return { delta: 0, avg: null };
@@ -107,7 +120,7 @@ function _valuation(scoredHoldings) {
   return { delta: +delta.toFixed(2), avg: +avg.toFixed(1) };
 }
 
-// Diversification: (1 − HHI_sector) × 15.
+// Diversification: (1 − HHI_sector) × 15 → 0..15.
 function _diversification(scoredHoldings) {
   const w = sectorWeights(scoredHoldings);
   if (w.size === 0) return { delta: 0, hhi: null, sectorCount: 0 };
@@ -116,22 +129,24 @@ function _diversification(scoredHoldings) {
   return { delta, hhi: +h.toFixed(3), sectorCount: w.size };
 }
 
-// Concentration: top1 / top3 thresholds, summed and clamped to [-10, 0].
+// Concentration: stepped on top-1 single-position weight → 0..10.
+//   ≤8% → 10, ≤12% → 7, ≤18% → 4, ≤25% → 1, >25% → 0.
 function _concentration(scoredHoldings) {
   const top1 = topNConcentration(scoredHoldings, 1);
   const top3 = topNConcentration(scoredHoldings, 3);
-  let delta = 0;
-  if (top1 > 35) delta -= 6;
-  else if (top1 > 25) delta -= 3;
-  if (top3 > 70) delta -= 4;
-  else if (top3 > 60) delta -= 2;
-  delta = clamp(delta, -10, 0);
+  let delta;
+  if (top1 <= 8) delta = 10;
+  else if (top1 <= 12) delta = 7;
+  else if (top1 <= 18) delta = 4;
+  else if (top1 <= 25) delta = 1;
+  else delta = 0;
   return { delta, top1: +top1.toFixed(1), top3: +top3.toFixed(1) };
 }
 
-// Risk: per-holding action + surveillance + pledge contributions, clamped to [-10, 0].
+// Risk: starts at 15 (no flags), deducts per per-holding action /
+// surveillance / pledge flag, floors at 0. Full 15 = clean book.
 function _risk(scoredHoldings) {
-  let delta = 0;
+  let delta = 15;
   let exitCount = 0;
   let reductionCount = 0;
   let surveillanceCount = 0;
@@ -139,10 +154,10 @@ function _risk(scoredHoldings) {
   for (const h of scoredHoldings) {
     const action = h.action;
     if (action === "EXIT" || action === "EXIT-now") {
-      delta -= 3;
+      delta -= 4;
       exitCount++;
     } else if (action === "EXIT-staged") {
-      delta -= 2;
+      delta -= 3;
       exitCount++;
     } else if (action === "Reduction-66%") {
       delta -= 2;
@@ -154,31 +169,30 @@ function _risk(scoredHoldings) {
 
     const surv = h.sws?.surveillance || h.sws?.indianRisk?.surveillance || null;
     if (surv?.list === "GSM") {
-      delta -= 3;
+      delta -= 4;
       surveillanceCount++;
     } else if (surv?.list === "ASM") {
       delta -= 1;
       surveillanceCount++;
     }
 
-    // promoter_pledge is a fraction (0..1) on indianRisk.governance_snapshot.
     const pledge = num(h.sws?.indianRisk?.governance_snapshot?.promoter_pledge, null);
     if (pledge != null && pledge > 0.30) {
-      delta -= 2;
+      delta -= 3;
       pledgeCount++;
     } else if (pledge != null && pledge > 0.10) {
       delta -= 1;
       pledgeCount++;
     }
   }
-  delta = clamp(delta, -10, 0);
+  delta = clamp(delta, 0, 15);
   return { delta, exitCount, reductionCount, surveillanceCount, pledgeCount };
 }
 
-// Macro: Σ over holdings of computeMacroDelta(regime, sector) × positionWeight.
-// positionWeight is in %, so divide by 100 before summing. Clamped to [-10, +10].
+// Macro: weighted sector tilt → 0..10. Neutral macro (no regime) = 5.
+// Full tailwind across the book → 10; full headwind → 0.
 function _macro(scoredHoldings, macroRegime) {
-  if (!macroRegime || !_computeMacroDelta) return { delta: 0, regime: null };
+  if (!macroRegime || !_computeMacroDelta) return { delta: 5, regime: null, weightedDelta: 0 };
   let weightedDelta = 0;
   for (const h of scoredHoldings) {
     const sector = h.sector || (h.swsCovered ? h.sws?.sector : null);
@@ -189,25 +203,118 @@ function _macro(scoredHoldings, macroRegime) {
     if (!tilt || !Number.isFinite(tilt.delta)) continue;
     weightedDelta += tilt.delta * (wPct / 100);
   }
-  const delta = +clamp(weightedDelta, -10, 10).toFixed(2);
-  return { delta, regime: macroRegime.regime || null };
+  // weightedDelta is in [-10..+10]. Map 0 → 5, +10 → 10, -10 → 0.
+  const delta = +clamp(5 + weightedDelta / 2, 0, 10).toFixed(2);
+  return { delta, regime: macroRegime.regime || null, weightedDelta: +weightedDelta.toFixed(2) };
 }
 
-// P&L drag: > 50% of holdings in red → -5; > 35% → -2.
-function _pnl(scoredHoldings) {
-  if (scoredHoldings.length === 0) return { delta: 0, redCount: 0, redRatio: 0 };
-  let red = 0;
+// Loss control: % of book *value* in red positions → 0..10 (stepped).
+// ≤10% → 10, ≤25% → 7, ≤40% → 4, ≤55% → 1, >55% → 0.
+function _lossControl(scoredHoldings) {
+  if (scoredHoldings.length === 0) return { delta: 0, redValuePct: 0, redCount: 0 };
+  let totalValue = 0;
+  let redValue = 0;
+  let redCount = 0;
   for (const h of scoredHoldings) {
-    if (num(h.pnlPercent, 0) < 0) red++;
+    const cv = num(h.currentValue, 0);
+    if (cv <= 0) continue;
+    totalValue += cv;
+    if (num(h.pnlPercent, 0) < 0) {
+      redValue += cv;
+      redCount++;
+    }
   }
-  const ratio = red / scoredHoldings.length;
-  let delta = 0;
-  if (ratio > 0.50) delta = -5;
-  else if (ratio > 0.35) delta = -2;
-  return { delta, redCount: red, redRatio: +ratio.toFixed(2) };
+  const ratio = totalValue > 0 ? redValue / totalValue : 0;
+  let delta;
+  if (ratio <= 0.10) delta = 10;
+  else if (ratio <= 0.25) delta = 7;
+  else if (ratio <= 0.40) delta = 4;
+  else if (ratio <= 0.55) delta = 1;
+  else delta = 0;
+  return { delta, redValuePct: +(ratio * 100).toFixed(1), redCount };
 }
 
-// Coverage taper. SWS-derived components scale by max(0.6, covered/total).
+// Aggregate P&L (value-weighted) — only used for cap detection.
+function _aggregatePnLPct(scoredHoldings) {
+  let totalCurrent = 0;
+  let totalInvested = 0;
+  for (const h of scoredHoldings) {
+    const cv = num(h.currentValue, 0);
+    const pnlPct = num(h.pnlPercent, 0);
+    if (cv <= 0 || !Number.isFinite(pnlPct)) continue;
+    const denom = 1 + pnlPct / 100;
+    if (denom <= 0) continue;
+    const inv = cv / denom;
+    if (!Number.isFinite(inv) || inv <= 0) continue;
+    totalCurrent += cv;
+    totalInvested += inv;
+  }
+  if (totalInvested <= 0) return null;
+  return ((totalCurrent - totalInvested) / totalInvested) * 100;
+}
+
+// Hard caps — clamp the additive score for severe red flags. Lowest cap
+// wins when multiple fire.
+function _computeCaps(scoredHoldings) {
+  const caps = [];
+
+  const top1 = topNConcentration(scoredHoldings, 1);
+  if (top1 > 40) {
+    caps.push({ rule: "top1>40", capValue: 55, reason: `Top holding ${top1.toFixed(0)}% of book` });
+  } else if (top1 > 30) {
+    caps.push({ rule: "top1>30", capValue: 65, reason: `Top holding ${top1.toFixed(0)}% of book` });
+  }
+
+  const aggPnL = _aggregatePnLPct(scoredHoldings);
+  if (aggPnL != null && aggPnL < -25) {
+    caps.push({ rule: "aggPnL<-25", capValue: 70, reason: `Aggregate P&L ${aggPnL.toFixed(1)}%` });
+  }
+
+  const secW = sectorWeights(scoredHoldings);
+  let maxSecWeight = 0;
+  let maxSecName = "";
+  for (const [name, w] of secW) {
+    if (w > maxSecWeight) {
+      maxSecWeight = w;
+      maxSecName = name;
+    }
+  }
+  if (maxSecWeight > 0.55) {
+    caps.push({
+      rule: "sector>55",
+      capValue: 70,
+      reason: `${maxSecName} ${(maxSecWeight * 100).toFixed(0)}% of book`,
+    });
+  }
+
+  const gsmHolding = scoredHoldings.find((h) => {
+    const surv = h.sws?.surveillance || h.sws?.indianRisk?.surveillance || null;
+    return surv?.list === "GSM";
+  });
+  if (gsmHolding) {
+    const tk = gsmHolding.sws?.ticker || gsmHolding.symbol || "?";
+    caps.push({ rule: "gsm", capValue: 70, reason: `${tk} on GSM surveillance` });
+  }
+
+  for (const h of scoredHoldings) {
+    const pledge = num(h.sws?.indianRisk?.governance_snapshot?.promoter_pledge, null);
+    const wPct = num(h.positionWeight, 0);
+    if (pledge != null && pledge > 0.30 && wPct > 5) {
+      const tk = h.sws?.ticker || h.symbol || "?";
+      caps.push({
+        rule: "pledge>30+w>5",
+        capValue: 75,
+        reason: `${tk} pledge ${(pledge * 100).toFixed(0)}%, weight ${wPct.toFixed(0)}%`,
+      });
+      break;
+    }
+  }
+
+  return caps;
+}
+
+// Coverage taper. SWS-derived components (quality, valuation) scale by
+// max(0.6, covered/total).
 function _coverageFactor(scoredHoldings) {
   if (scoredHoldings.length === 0) return 1;
   const covered = scoredHoldings.filter((h) => h.swsCovered).length;
@@ -230,7 +337,7 @@ function _diversificationLabel(d) {
   return `Sector spread (HHI ${d.hhi.toFixed(2)}, ${d.sectorCount} sectors)`;
 }
 function _concentrationLabel(c) {
-  if (c.top1 > 35) return `Top-1 concentration ${c.top1.toFixed(0)}%`;
+  if (c.top1 > 25) return `Top-1 concentration ${c.top1.toFixed(0)}%`;
   if (c.top3 > 60) return `Top-3 concentration ${c.top3.toFixed(0)}%`;
   return `Concentration (top-1 ${c.top1.toFixed(0)}%, top-3 ${c.top3.toFixed(0)}%)`;
 }
@@ -244,18 +351,18 @@ function _riskLabel(r) {
 }
 function _macroLabel(m) {
   if (!m.regime) return "Macro neutral";
-  return m.delta >= 0 ? `Macro tailwind (${m.regime})` : `Macro headwind (${m.regime})`;
+  return m.weightedDelta >= 0 ? `Macro tailwind (${m.regime})` : `Macro headwind (${m.regime})`;
 }
-function _pnlLabel(p) {
-  if (p.redRatio === 0) return "All holdings green";
-  return `${Math.round(p.redRatio * 100)}% of book in red`;
+function _lossControlLabel(l) {
+  if (l.redValuePct === 0) return "All holdings green";
+  return `${Math.round(l.redValuePct)}% of book in red`;
 }
 
 // ─── Public API ──────────────────────────────────────────────────────
 
 /**
- * Compute the Portfolio Health Score (0–100) with grade band, components,
- * and ranked driver/drag lists.
+ * Compute the Portfolio Health Score (0–100) with grade band, verdict,
+ * components, hard caps, and ranked driver/drag lists.
  *
  * @param {object} snapshot  output of buildSnapshot (read for totals, not strictly required)
  * @param {Array}  scoredHoldings  per-holding rows from scoreHolding()
@@ -276,49 +383,71 @@ export function computePortfolioHealth(snapshot, scoredHoldings, opts = {}) {
   const c = _concentration(scoredHoldings);
   const r = _risk(scoredHoldings);
   const m = _macro(scoredHoldings, macroRegime);
-  const p = _pnl(scoredHoldings);
+  const l = _lossControl(scoredHoldings);
   const cov = _coverageFactor(scoredHoldings);
 
-  // Coverage taper applies only to SWS-derived components.
+  // Coverage taper applies only to SWS-derived signals (quality, valuation).
+  // Risk flags (action/surveillance/pledge) are independent of SWS coverage,
+  // and concentration/diversification/loss-control/macro come from book
+  // structure or independent feeds.
   const qScaled = +(q.delta * cov).toFixed(2);
   const vScaled = +(v.delta * cov).toFixed(2);
-  const rScaled = +(r.delta * cov).toFixed(2);
 
-  const base = 60;
-  const raw = base + qScaled + vScaled + d.delta + c.delta + rScaled + m.delta + p.delta;
+  // Earned-points sum (no base — score is fully earned from zero).
+  const summed = qScaled + vScaled + d.delta + c.delta + r.delta + l.delta + m.delta;
+  let raw = clamp(summed, 0, 100);
+
+  // Hard caps for severe red flags.
+  const caps = _computeCaps(scoredHoldings);
+  let capAppliedAt = null;
+  if (caps.length > 0) {
+    const lowest = Math.min(...caps.map((cap) => cap.capValue));
+    if (raw > lowest) {
+      capAppliedAt = lowest;
+      raw = lowest;
+    }
+  }
+
   const score = clamp(Math.round(raw), 0, 100);
   const { grade, band, color } = bandFromScore(score);
+  const verdict = verdictFromScore(score);
 
-  // Build the per-component contribution list (sorted by abs delta).
+  // Build per-component contribution list. Drivers/drags are computed
+  // relative to each component's mid-point so the user sees "what's
+  // helping vs hurting" relative to a balanced book, not just absolute pts.
   const contribs = [
-    { key: "quality",         label: _qualityLabel(q),         delta: qScaled },
-    { key: "valuation",       label: _valuationLabel(v),       delta: vScaled },
-    { key: "diversification", label: _diversificationLabel(d), delta: d.delta },
-    { key: "concentration",   label: _concentrationLabel(c),   delta: c.delta },
-    { key: "risk",            label: _riskLabel(r),            delta: rScaled },
-    { key: "macro",           label: _macroLabel(m),           delta: m.delta },
-    { key: "pnl",             label: _pnlLabel(p),             delta: p.delta },
-  ];
+    { key: "quality",         label: _qualityLabel(q),         earned: qScaled,  mid: 12.5 },
+    { key: "valuation",       label: _valuationLabel(v),       earned: vScaled,  mid: 7.5 },
+    { key: "diversification", label: _diversificationLabel(d), earned: d.delta,  mid: 7.5 },
+    { key: "concentration",   label: _concentrationLabel(c),   earned: c.delta,  mid: 5 },
+    { key: "risk",            label: _riskLabel(r),            earned: r.delta,  mid: 12 },
+    { key: "macro",           label: _macroLabel(m),           earned: m.delta,  mid: 5 },
+    { key: "lossControl",     label: _lossControlLabel(l),     earned: l.delta,  mid: 7 },
+  ].map((row) => ({ ...row, delta: +(row.earned - row.mid).toFixed(2) }));
 
   const topDrivers = contribs
-    .filter((x) => x.delta > 0.5)
+    .filter((x) => x.delta >= 1.0)
     .sort((a, b) => b.delta - a.delta)
     .slice(0, 3)
     .map((x) => ({ label: x.label, delta: +x.delta.toFixed(1) }));
 
   const topDrags = contribs
-    .filter((x) => x.delta < -0.5)
+    .filter((x) => x.delta <= -1.0)
     .sort((a, b) => a.delta - b.delta)
     .slice(0, 3)
     .map((x) => ({ label: x.label, delta: +x.delta.toFixed(1) }));
 
-  // Edge-case explanatory notes appended to the driver list as a soft signal.
+  // Edge-case explanatory notes.
   const notes = [];
   if (scoredHoldings.length === 1) {
     notes.push("Single-holding book — diversification scored 0 by definition.");
   }
-  if (cov <= 0.6 && cov < (scoredHoldings.filter((h) => h.swsCovered).length / scoredHoldings.length || 0) + 0.001) {
-    notes.push("No SWS coverage — score reflects diversification and P&L only.");
+  const coveredCount = scoredHoldings.filter((h) => h.swsCovered).length;
+  if (cov <= 0.6 && coveredCount / scoredHoldings.length < 0.6) {
+    notes.push("Low SWS coverage — quality and valuation tapered.");
+  }
+  if (capAppliedAt != null) {
+    notes.push(`Score capped at ${capAppliedAt}: ${caps.map((x) => x.reason).join("; ")}`);
   }
 
   return {
@@ -326,15 +455,17 @@ export function computePortfolioHealth(snapshot, scoredHoldings, opts = {}) {
     grade,
     band,
     color,
+    verdict,
+    caps: caps.length ? caps : undefined,
+    capAppliedAt,
     components: {
-      base,
       quality: qScaled,
       valuation: vScaled,
       diversification: d.delta,
       concentration: c.delta,
-      risk: rScaled,
+      risk: r.delta,
+      lossControl: l.delta,
       macro: m.delta,
-      pnl: p.delta,
       coverageFactor: +cov.toFixed(2),
     },
     topDrivers,
@@ -342,6 +473,6 @@ export function computePortfolioHealth(snapshot, scoredHoldings, opts = {}) {
     notes,
     asOf,
     methodologyNote:
-      "Weighted from SWS quality, valuation, diversification, risk and macro fit. Educational content only.",
+      "Earned-points health: Quality 25 + Valuation 15 + Diversification 15 + Concentration 10 + Risk 15 + Loss control 10 + Macro 10. Hard caps for outsized concentration, GSM surveillance, pledged equity, or aggregate losses. Educational content only.",
   };
 }
