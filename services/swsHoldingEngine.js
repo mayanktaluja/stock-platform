@@ -31,6 +31,7 @@ import { buildFallbackHolding } from "./swsCoverageFallback.js";
 import { buildAuditTrail } from "./swsAuditTrail.js";
 import { promoteToLadderV2, parseTrimPct, parseTopUpPct } from "./actionLadder.js";
 import { computeTimingObservation as computeTimingObservationFromModule } from "./timingObservation.js";
+import { gateActionByTier, getLiquidityTier } from "./swsTierGate.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEEP_DIR = path.resolve(__dirname, "..", "data", "sws", "deep");
@@ -579,8 +580,20 @@ export function scoreHolding(holding, portfolioContext = {}) {
     currentValue:     _currentValue > 0 ? _currentValue : null,
     materialDisclosure: false, // wire from a disclosure feed when one lands
   });
-  const promotedAction = promotion.action;
-  const ladderRationale = promotion.ladderRationale;
+  // Liquidity-tier gate — runs AFTER ladder promotion so it sees the final
+  // rung label (Top-up-25%, STRONG Top-up, etc.). Suppresses every buy-side
+  // action when the stock sits on a restricted BSE group (Z surveillance,
+  // T trade-to-trade, X/XT low-liquidity, M/MS/MT SME, P/R/IP transient).
+  // No-op for NSE main-board, BSE A/B (high/medium liquidity), and stocks
+  // we can't classify (unknown) — preserves existing behaviour.
+  const _tierGated = gateActionByTier(
+    promotion.action,
+    getLiquidityTier(scored.ticker || holding?.symbol || holding?.ticker)
+  );
+  const promotedAction = _tierGated.action;
+  const ladderRationale = _tierGated.downgraded
+    ? [_tierGated.reason, ...(promotion.ladderRationale || [])]
+    : promotion.ladderRationale;
   const ladderV2 = promotion.ladderV2;
   const convictionProxy = promotion.conviction;
   const legacyAction = promotion.legacyAction;

@@ -163,6 +163,32 @@ Inspect data/sws/picks-latest.json and data/sws/last-refresh.json. If false alar
   exit 7
 fi
 
+# ---- 4b. Coverage drift check ----
+#
+# Re-derives the NSE+BSE active equity ground truth and reports any drift
+# in our SWS universe coverage. Non-blocking: a transient NSE/BSE master
+# fetch failure or a real gap that opens up (new IPO, NSE rebalance) gets
+# surfaced via mail + PR body but does NOT fail the nightly. Coverage is
+# self-healing — Step 4 of the coverage plan re-merges via PR when the
+# operator decides.
+echo "[nightly] running coverage-gap-analysis (non-blocking)..."
+COVERAGE_OUT=$(node scripts/coverage-gap-analysis.mjs --refresh-sme 2>&1) || true
+
+# Pull the headline numbers from the freshly-written JSON. If the script
+# couldn't run (e.g. NSE blocked us, BSE master missing) leave the line
+# empty rather than tripping on a missing file.
+COVERAGE_LINE=$(node --input-type=module -e '
+import {readFileSync, existsSync} from "fs";
+const p = "data/coverage/coverage_gap.json";
+if (!existsSync(p)) { console.log(""); process.exit(0); }
+try {
+  const g = JSON.parse(readFileSync(p, "utf-8"));
+  const drift = (g.unmatched > 50 && g.actionableCount > 0) ? " ⚠️ drift" : "";
+  console.log(`coverage: ${g.matched}/${g.groundTruthCount} (${g.coveragePct}%), gap=${g.unmatched}, sws-extras=${g.swsExtrasCount}${drift}`);
+} catch (e) { console.log(""); }
+' 2>/dev/null)
+echo "[nightly] ${COVERAGE_LINE:-coverage: <unavailable>}"
+
 # ---- 5. Commit + push ----
 
 CHANGED_FILES=$(git status --short data/sws/deep/ data/sws/picks-latest.json data/sws/last-refresh.json data/sws/sws-scored-universe.json data/sws/v3-universe-stats.json 2>/dev/null | wc -l | tr -d ' ')
@@ -192,7 +218,7 @@ git add data/sws/deep/ \
 [ -d reports/sws-picks ] && git add reports/sws-picks/*.pdf 2>/dev/null
 
 # Build commit body from sanity-gate summary
-COMMIT_BODY=$(node --input-type=module -e '
+COMMIT_BODY=$(COVERAGE_LINE="${COVERAGE_LINE}" node --input-type=module -e '
 import {readFileSync} from "fs";
 const lr = JSON.parse(readFileSync("data/sws/last-refresh.json","utf-8"));
 const picks = JSON.parse(readFileSync("data/sws/picks-latest.json","utf-8"));
@@ -204,6 +230,7 @@ const lines = [
   `- duration: ${lr.duration_seconds}s`,
   `- sections: top30=${sc.top_ranked_30_v3?.length}, best_to_buy_now=${sc.best_to_buy_now?.length}, deep_value=${sc.deep_value?.length}, quality_growth=${sc.quality_growth?.length}, midterm=${sc.midterm?.length}, dividend_aristocrats=${sc.dividend_aristocrats?.length}, smallcap_gems=${sc.smallcap_gems?.length}, upcoming_earnings=${sc.upcoming_earnings?.length}, avoid=${sc.avoid?.length}`,
 ];
+if (process.env.COVERAGE_LINE) lines.push(`- ${process.env.COVERAGE_LINE}`);
 console.log(lines.join("\n"));
 ' 2>/dev/null)
 
