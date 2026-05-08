@@ -574,6 +574,10 @@ app.use((req, res, next) => {
   if (!AUTH_ENABLED) return next();
   if (AUTH_EXEMPT_PATHS.has(req.path)) return next();
   if (req.path.startsWith("/api/cron/")) return next();
+  // Track-record bootstrap endpoints have their own MACRO_OVERRIDE_TOKEN
+  // gate inside the handler — they intentionally bypass the session gate
+  // so a one-shot curl can seed Vercel KV without an interactive login.
+  if (req.path === "/api/track/migrate" || req.path === "/api/track/snapshot-sws-now") return next();
   const session = verifySession(readCookie(req, SESSION_COOKIE));
   if (session) {
     req.user = session; // {sub, ts} — downstream handlers can read req.user.sub
