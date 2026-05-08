@@ -47,7 +47,7 @@ function normHeader(s) {
  * Dates in broker exports are almost always DD-MM (India). We prefer
  * that interpretation over US MM-DD when the format is ambiguous.
  */
-function toIsoDate(v) {
+export function toIsoDate(v) {
   if (v == null) return null;
   if (typeof v === "number") {
     // Excel serial: days since 1899-12-30

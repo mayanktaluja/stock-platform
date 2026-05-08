@@ -76,7 +76,7 @@ import {
   getGovernanceSnapshot,
   getGovernanceStatus,
 } from "./governance.js";
-import { parsePortfolioFile, resolveUnmatchedLive } from "./portfolioParser.js";
+import { parsePortfolioFile, resolveUnmatchedLive, toIsoDate } from "./portfolioParser.js";
 // `buildReport` is still used for MF-only aggregation in the SWS path —
 // the legacy stock-scorer (analyzeHolding) was removed when we made SWS
 // the only engine.
@@ -84,7 +84,17 @@ import { buildReport } from "./portfolioAnalyzer.js";
 import { scoreHolding as swsScoreHolding, loadV3Universe } from "./services/swsHoldingEngine.js";
 import { scoreStock as swsScoreStock } from "./services/swsScoring.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
-import { buildSWSReport } from "./services/swsPortfolioAggregate.js";
+import { buildSWSReport, surfaceOutsidePicks } from "./services/swsPortfolioAggregate.js";
+import { getPortfolioHistoryStorage } from "./portfolioHistoryStorage.js";
+import { getRecommendationLedgerStorage } from "./recommendationLedgerStorage.js";
+import {
+  buildSnapshot as memBuildSnapshot,
+  deriveOpenRecs as memDeriveOpenRecs,
+  reconcileRecommendations as memReconcile,
+  buildIssuedEvents as memBuildIssued,
+  applyReconcileToOpenRecs as memApplyReconcileToOpenRecs,
+  applyMemoryToReport as memApplyToReport,
+} from "./services/recommendationMemory.js";
 import { runOnce as runFoScreener } from "./services/foScreener.js";
 import {
   BhavcopyNotPublished,
@@ -7259,6 +7269,7 @@ async function runSWSAnalysis({
     swsElapsedMs: Date.now() - swsT0,
     swsTimings,
     sessionId,
+    _scoredHoldings: scoredHoldings,
     report: {
       ...swsReport,
       source: parsed.source,
@@ -7271,6 +7282,148 @@ async function runSWSAnalysis({
       // dispatches to V2 (hero + glossary chips) when v2 is true.
       ui: { v2: process.env.ANALYZER_UI_V2 === "1" },
     },
+  };
+}
+
+// Wire the recommendation-memory pipeline into the analyzer response.
+//
+// On a fresh upload (isRerun=false): build the canonical snapshot, run the
+// reconciler against the previous snapshot, classify execution events, build
+// fresh ISSUED events with suppression, decorate the report, then persist
+// snapshot + ledger (snapshot first — see plan §atomicity).
+//
+// On a rerun (isRerun=true): no reconciliation, no writes. Just apply the
+// open-rec map to the report so suppression badges / pending markers render
+// correctly without re-emitting acks the user has already seen.
+async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sourceFile, isRerun }) {
+  const historyStore = getPortfolioHistoryStorage();
+  const ledgerStore = getRecommendationLedgerStorage();
+  let history, ledger;
+  try {
+    [history, ledger] = await Promise.all([
+      historyStore.read(sub),
+      ledgerStore.read(sub),
+    ]);
+  } catch (e) {
+    console.warn("[MEMORY] read failed — treating as first-upload:", e.message);
+    history = { snapshots: [] };
+    ledger = { events: [] };
+  }
+
+  const rawAsOf = parsed?.summary?.asOfDate ?? null;
+  let asOfDateIso = rawAsOf ? toIsoDate(rawAsOf) : null;
+  let asOfDateInferred = false;
+  if (!asOfDateIso) {
+    asOfDateIso = String(uploadedAtIso).slice(0, 10);
+    asOfDateInferred = true;
+  }
+
+  const newSnap = memBuildSnapshot({
+    asOfDateIso,
+    asOfDateInferred,
+    uploadedAtIso,
+    parsed,
+    scoredHoldings: swsResult._scoredHoldings || [],
+    sourceFile,
+    history,
+  });
+
+  // Rerun path: suppression-only, no writes.
+  if (isRerun) {
+    const openRecs = memDeriveOpenRecs(ledger.events);
+    memApplyToReport(swsResult.report, {
+      newSnap,
+      prevSnap: history.snapshots[0] || null,
+      openRecsBeforeReconcile: openRecs,
+      reconcileEvents: [],
+      issuedEvents: [],
+      suppressedCandidateRecIds: new Set(),
+      supersedeMap: new Map(),
+      isBackdated: newSnap.backdated,
+      historySnapshots: history.snapshots,
+    });
+    return { newSnap, persisted: false };
+  }
+
+  // Backdated: persist for audit, skip reconciliation. The reconciler going
+  // backwards in time would emit nonsense events.
+  if (newSnap.backdated) {
+    memApplyToReport(swsResult.report, {
+      newSnap,
+      prevSnap: history.snapshots[0] || null,
+      openRecsBeforeReconcile: new Map(),
+      reconcileEvents: [],
+      issuedEvents: [],
+      suppressedCandidateRecIds: new Set(),
+      supersedeMap: new Map(),
+      isBackdated: true,
+      historySnapshots: history.snapshots,
+    });
+    try { await historyStore.appendSnapshot(sub, newSnap); }
+    catch (e) { console.warn("[MEMORY] history append (backdated) failed:", e.message); }
+    return { newSnap, persisted: true, backdated: true };
+  }
+
+  // Forward-dated full reconciliation.
+  const openRecsBefore = memDeriveOpenRecs(ledger.events);
+  const { events: reconcileEvents } = memReconcile({
+    prevSnap: history.snapshots[0] || null,
+    newSnap,
+    openRecs: openRecsBefore,
+    historySnapshots: history.snapshots,
+  });
+
+  const openRecsAfter = memApplyReconcileToOpenRecs(openRecsBefore, reconcileEvents);
+  const { events: issuedEvents, suppressedCandidateRecIds, supersedeMap } = memBuildIssued({
+    scoredHoldings: swsResult._scoredHoldings || [],
+    newSnap,
+    openRecsAfterReconcile: openRecsAfter,
+  });
+
+  memApplyToReport(swsResult.report, {
+    newSnap,
+    prevSnap: history.snapshots[0] || null,
+    openRecsBeforeReconcile: openRecsBefore,
+    reconcileEvents,
+    issuedEvents,
+    suppressedCandidateRecIds,
+    supersedeMap,
+    isBackdated: false,
+    historySnapshots: history.snapshots,
+  });
+
+  // Freed-capital deployment basket. Bypasses the OUTSIDE_PICKS env gate
+  // because for executed-trim flows the user has actual rupees to redeploy.
+  try {
+    if (swsResult.report.freedCapital?.significant) {
+      const picks = surfaceOutsidePicks({
+        scoredHoldings: swsResult._scoredHoldings || [],
+        freshCapitalInr: swsResult.report.freedCapital.totalRupeesFreed,
+        limit: 6,
+        forceEnabled: true,
+      });
+      swsResult.report.freedCapitalPicks = picks;
+    }
+  } catch (e) {
+    console.warn("[MEMORY] freed-capital picks failed:", e.message);
+  }
+
+  // Atomic order: snapshot before ledger. If ledger append fails after a
+  // successful snapshot, the next upload's reconciler re-derives the same
+  // events from the snapshot pair and emits them then.
+  try { await historyStore.appendSnapshot(sub, newSnap); }
+  catch (e) { console.warn("[MEMORY] history append failed:", e.message); }
+  try {
+    const merged = [...reconcileEvents, ...issuedEvents];
+    if (merged.length > 0) await ledgerStore.appendEvents(sub, merged);
+  } catch (e) { console.warn("[MEMORY] ledger append failed:", e.message); }
+
+  return {
+    newSnap,
+    persisted: true,
+    backdated: false,
+    reconcileCount: reconcileEvents.length,
+    issuedCount: issuedEvents.length,
   };
 }
 
@@ -7478,6 +7631,23 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       freshCapitalInr,
     });
 
+    // Recommendation-memory pipeline: reconcile against prior snapshot,
+    // build acks for executed recs, surface freed capital, persist new
+    // snapshot + ledger events. Failure here is non-fatal — analysis
+    // still returns; we just lose the memory layer for this cycle.
+    try {
+      await applyAnalyzerMemory({
+        sub,
+        parsed,
+        swsResult,
+        uploadedAtIso: savable.parsedAt,
+        sourceFile: req.file.originalname || null,
+        isRerun: false,
+      });
+    } catch (e) {
+      console.warn("[ANALYZE] memory pipeline failed:", e.message);
+    }
+
     return res.json({
       ok: true,
       elapsedMs: Date.now() - t0,
@@ -7565,6 +7735,22 @@ app.post("/api/portfolio/analyze/rerun", express.json(), async (req, res) => {
       ltcgRealisedYtdRupees,
       freshCapitalInr,
     });
+
+    // Memory pipeline (rerun-mode): suppression-only, no writes. Reads the
+    // existing ledger so the response carries `recRegistry` for the UI to
+    // render "still pending" / "superseded" badges on already-issued recs.
+    try {
+      await applyAnalyzerMemory({
+        sub,
+        parsed,
+        swsResult,
+        uploadedAtIso: stored.uploadedAt || new Date().toISOString(),
+        sourceFile: stored.sourceFile || null,
+        isRerun: true,
+      });
+    } catch (e) {
+      console.warn("[RERUN] memory pipeline failed:", e.message);
+    }
 
     return res.json({
       ok: true,
