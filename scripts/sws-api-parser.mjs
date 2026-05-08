@@ -481,14 +481,21 @@ function extractIndustryBenchmarks(api) {
 }
 
 // ────────── News / activity extraction ──────────
-
-// Walk a small set of plausible response paths for SWS's `getCompanyUpdates`
-// (or whatever the live-captured news op is named). The `companyActivityFields`
-// fragment SWS uses in its frontend wraps each activity record as
-// `{ time, type, data: { __typename, ...activitySpecific } }` — but the
-// containing list is sometimes a Relay `edges[].node` and sometimes a flat
-// array. Returning the first non-empty hit keeps the parser working across
-// minor schema rewrites without an api-queries.json reshuffle.
+//
+// Primary source: the REST endpoint /dashboard/company<canonicalUrl> — the
+// SWS frontend's own data feed for the "Recent News & Updates" section.
+// Captured via Chrome MCP on 2026-05-09. Returns ~100 records mixing four
+// types:
+//   {type:"event"}            — corporate actions (headline, situation,
+//                               key_dev_type, announcement_date)
+//   {type:"brief"}            — analyst-style commentary (title, outcome,
+//                               description, name)
+//   {type:"narrative"|"narrative-update"} — SWS-published narratives
+//                               (title, content, author_*, url)
+//
+// Fallback path: a GraphQL operation if any future SWS schema change exposes
+// per-company activity through a public op. Kept as a forward-compat shim;
+// today this branch never matches because no such op exists.
 const NEWS_OP_NAMES = [
   "getCompanyUpdates",
   "getCompanyActivity",
@@ -572,15 +579,67 @@ function shapeActivity(record) {
   };
 }
 
+// REST endpoint records (the primary path) come pre-typed and pre-flattened.
+// Each record is `{activity_id, type, date, headline|title, situation|description, ...}`
+// where `type` is already lowercase ("event"|"brief"|"narrative"|"narrative-update").
+// Dates are unix-ms or ISO; coerce to ISO consistently.
+function shapeRestActivity(rec) {
+  if (!rec || typeof rec !== "object") return null;
+  const type = rec.type ? String(rec.type).toLowerCase() : null;
+  // Date — REST returns unix-ms in `date` and `announcement_date`. Numbers
+  // and ISO strings are both possible; Date.parse handles both.
+  const rawDate = rec.announcement_date ?? rec.date ?? null;
+  let date = null;
+  if (rawDate != null) {
+    const ms = typeof rawDate === "number" ? rawDate : Date.parse(rawDate);
+    if (Number.isFinite(ms)) date = new Date(ms).toISOString();
+  }
+  // Title precedence by type:
+  //   event → headline
+  //   brief → title
+  //   narrative*-* → title
+  // Fall through gracefully if a record doesn't follow the convention.
+  const title = rec.headline || rec.title || rec.name || null;
+  // Body: events use `situation`, briefs use `description`, narratives use
+  // `content`, articles use `excerpt`. Cap at 800 chars to keep deep JSON small.
+  let body = rec.situation || rec.description || rec.content || rec.excerpt || rec.outcome_name || null;
+  if (typeof body === "string" && body.length > 800) body = body.slice(0, 800);
+  if (typeof body !== "string") body = null;
+  return {
+    id: rec.activity_id || rec.event_id || rec.uuid || null,
+    type,
+    date,
+    title,
+    body,
+    keyDevTypeId: rec.key_dev_type != null ? String(rec.key_dev_type) : null,
+    source_url: rec.url || null,
+    raw_subtype: type === "event" ? "EventActivity"
+                : type === "brief" ? "BriefActivity"
+                : (type || null),
+  };
+}
+
 function extractNews(api) {
+  // ── Primary: REST /dashboard/company endpoint
+  const restEvents = api?.rest?.dashboard_company?.data?.events?.data;
+  if (Array.isArray(restEvents) && restEvents.length) {
+    const cutoff = Date.now() - 180 * 86400 * 1000;
+    return restEvents
+      .map(shapeRestActivity)
+      .filter((n) => n && n.title && n.date)
+      .filter((n) => {
+        const t = Date.parse(n.date);
+        return Number.isFinite(t) ? t >= cutoff : true;
+      })
+      .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
+      .slice(0, 30);
+  }
+  // ── Fallback: GraphQL activity (forward-compat; not currently used)
   const arr = findActivityArray(api);
   if (!arr.length) return [];
   const shaped = arr
     .map(shapeActivity)
     .filter((n) => n && n.date && n.title);
-  // DESC by date, cap 30, drop entries older than 180 days. Keeping the cap
-  // here (not at the API layer) lets the live capture fetch with a higher
-  // limit without bloating the deep JSON on disk.
   const cutoff = Date.now() - 180 * 86400 * 1000;
   return shaped
     .filter((n) => {

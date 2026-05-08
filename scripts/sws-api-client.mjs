@@ -32,15 +32,13 @@ const UNIVERSE_PATH = path.join(REPO_ROOT, "data/sws/universe.json");
 
 // GraphQL operations we want.
 //
-// `getCompanyUpdates` is the news/activity operation — captures Brief
-// (analyst-style commentary) + Event (corporate actions, key developments)
-// records per company. The exact operationName + variables shape are confirmed
-// from a live browser capture via scripts/sws-api-research.mjs; if SWS uses a
-// different operationName, update this entry AND the matching opVars binding
-// + parser source path. The op is OPTIONAL — sws-api-extract-queries.mjs
-// includes it only when the live capture saw it, and the per-stock fetch
-// silently skips when the query string isn't in api-queries.json (existing
-// `queries.operations[op]` filter at line ~295).
+// News intentionally NOT here: live browser capture confirmed that SWS does
+// NOT expose per-company activity through a public GraphQL operation. The
+// only `updates(activityTypes: [Brief, Event])` GraphQL fragment in their
+// frontend bundle is for the portfolio-level page (`limit: 1`) and is
+// embedded in `getPortfolio` — useless for our per-stock feed. The actual
+// per-company news / events / briefs come from the REST endpoint
+// `/dashboard/company<canonicalUrl>` — see TARGET_REST_ENDPOINTS below.
 export const TARGET_OPERATIONS = [
   "CompanySummary",
   "getNarrativeValuation",
@@ -49,7 +47,6 @@ export const TARGET_OPERATIONS = [
   "getCompanyDividends",
   "getCompanyPeers",
   "NarrativeValuationHistory",
-  "getCompanyUpdates",
 ];
 
 // REST endpoints (path templates). All GET (the captures showed GET; the
@@ -83,6 +80,26 @@ export const TARGET_REST_ENDPOINTS = [
     method: "GET",
     pathBuilder: ({ companyId }) =>
       `/api/competitors/${companyId}?include=score%2Cscore.snowflake&version=2.0`,
+  },
+  // News / events / activity feed. Live capture (Chrome MCP, 2026-05-09)
+  // showed SWS frontend pulls company-page news via:
+  //   GET https://simplywall.st/dashboard/company<canonicalUrl>
+  // and renders `data.events.data[]` as the on-page "Recent News & Updates"
+  // section. Returns ~100 records per stock spanning multiple years, mixed:
+  //   {type:"event"}            — corporate actions (headline, situation,
+  //                               key_dev_type, announcement_date)
+  //   {type:"brief"}            — analyst-style commentary (title, outcome,
+  //                               description, name)
+  //   {type:"narrative"|"narrative-update"} — SWS-published narratives
+  //                               (title, content, author_*)
+  // No query params or special headers needed; auth flows through the same
+  // browser-context cookies as every other call. The parser reads from
+  // api.rest.dashboard_company.data.events.data — see extractNews() in
+  // sws-api-parser.mjs.
+  {
+    name: "dashboard_company",
+    method: "GET",
+    pathBuilder: ({ canonicalUrl }) => `/dashboard/company${canonicalUrl}`,
   },
 ];
 
@@ -300,18 +317,6 @@ export async function fetchStockData(client, { ticker, canonicalUrl }) {
     getCompanyDividends: { id: companyId },
     getCompanyPeers: { id: companyId },
     NarrativeValuationHistory: { id: companyId },
-    // News/activity: 30 most recent Brief + Event records (~90 days for active
-    // large-caps; tail stocks return fewer naturally). The shape `{ id, input }`
-    // matches the `companyActivityFields` fragment seen in SWS's `getPortfolio`
-    // query. If the live capture (Phase 1) shows a different param shape — e.g.
-    // a bare `companyId` or a `canonicalUrl` — update here. The existing merge
-    // pattern at line ~300 (`{ ...sampleVars, ...(opVars[op] || {}) }`) means
-    // any extra fields the live capture's sampleVariables include also flow
-    // through automatically.
-    getCompanyUpdates: {
-      id: companyId,
-      input: { offset: 0, limit: 30, activityTypes: ["Brief", "Event"] },
-    },
   };
   const queries = loadQueries();
   const remainingOps = TARGET_OPERATIONS.filter(
