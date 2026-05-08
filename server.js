@@ -103,6 +103,12 @@ import {
 import { loadFoScreenerFromKV } from "./services/foKvStore.js";
 import { buildCatalystsPayload } from "./services/catalystsService.js";
 import {
+  loadEarningsSnapshot,
+  loadEarningsStats,
+  filterEvents,
+  findEventBySymbol,
+} from "./services/earnings/earningsWatchService.js";
+import {
   computeCombinedScore,
   lookupSwsScoreBulk,
   getMethodology,
@@ -3572,6 +3578,137 @@ app.get("/api/catalysts/today", (req, res) => {
     res.json(payload);
   } catch (err) {
     console.error("[/api/catalysts/today] failed:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * Earnings Watch — admin-only. Upcoming-results dashboard.
+ *
+ * Reads the JSON snapshot produced by scripts/refresh-earnings.mjs.
+ * No NSE calls happen here (that pipeline runs locally and commits
+ * JSON, see nse.js:76-83 for the Vercel-IP-block rationale).
+ *
+ * Three GET endpoints + one cron-flush:
+ *   GET /api/earnings/upcoming           — full snapshot (filtered)
+ *   GET /api/earnings/upcoming/stats     — header chip counts
+ *   GET /api/earnings/:symbol            — single-card detail
+ *   GET /api/cron/refresh-earnings       — flushes the in-process cache
+ *
+ * Admin gate mirrors main's pattern (see /api/admin/users): the
+ * outer auth middleware populates req.user.sub; we resolve the user
+ * record via getUserStorage and check `isAdmin` (computed from
+ * ADMIN_EMAILS at login time). Non-admin sessions get 403; the SPA
+ * also hides the tab via auth.init() so unauthorised users don't
+ * see the surface.
+ */
+const earningsCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
+
+async function requireEarningsAdmin(req, res) {
+  if (!AUTH_ENABLED) {
+    // Local dev: same behaviour as the existing admin routes —
+    // bypass the gate so the workflow stays unblocked.
+    return true;
+  }
+  const sub = req.user && req.user.sub;
+  if (!sub) {
+    res.status(401).json({ error: "unauthenticated" });
+    return false;
+  }
+  const userStore = getUserStorage();
+  const me = await userStore.read(sub);
+  if (!me || !me.isAdmin) {
+    res.status(403).json({ error: "forbidden" });
+    return false;
+  }
+  return true;
+}
+
+function loadCachedEarningsSnapshot() {
+  const cached = earningsCache.get("earnings_snapshot");
+  if (cached) return cached;
+  const snap = loadEarningsSnapshot();
+  earningsCache.set("earnings_snapshot", snap);
+  return snap;
+}
+
+app.get("/api/earnings/upcoming", async (req, res) => {
+  if (!(await requireEarningsAdmin(req, res))) return;
+  try {
+    const snap = loadCachedEarningsSnapshot();
+    const events = filterEvents(snap.events, {
+      days: req.query.days,
+      symbol: req.query.symbol,
+      tag: req.query.tag,
+      hasTags: req.query.hasTags,
+    });
+    res.json({
+      schema_version: snap.schema_version,
+      built_at: snap.built_at,
+      upstream_fetched_at: snap.upstream_fetched_at,
+      window_days: snap.window_days,
+      today_iso: snap.today_iso,
+      event_count: events.length,
+      total_event_count: snap.event_count,
+      events,
+      missing: snap._missing === true,
+    });
+  } catch (err) {
+    console.error("[/api/earnings/upcoming] failed:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/api/earnings/upcoming/stats", async (req, res) => {
+  if (!(await requireEarningsAdmin(req, res))) return;
+  try {
+    const cacheKey = "earnings_stats";
+    const cached = earningsCache.get(cacheKey);
+    if (cached) return res.json(cached);
+    const stats = loadEarningsStats();
+    earningsCache.set(cacheKey, stats);
+    res.json(stats);
+  } catch (err) {
+    console.error("[/api/earnings/upcoming/stats] failed:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * Vercel cron entry — flushes the in-process read cache so the next
+ * /api/earnings/* request reads the latest committed JSON. Does NOT
+ * call NSE (the actual NSE fetchers must run from a local machine).
+ * Public endpoint by design; harmless if hit by a non-admin since
+ * it just dumps a cache.
+ */
+app.get("/api/cron/refresh-earnings", (req, res) => {
+  earningsCache.flushAll();
+  res.json({
+    ok: true,
+    flushed: true,
+    note: "Earnings snapshot itself is built locally + committed; this route only flushes the in-process read cache.",
+  });
+});
+
+app.get("/api/earnings/:symbol", async (req, res) => {
+  if (!(await requireEarningsAdmin(req, res))) return;
+  try {
+    const snap = loadCachedEarningsSnapshot();
+    const event = findEventBySymbol(snap, req.params.symbol);
+    if (!event) {
+      return res.status(404).json({
+        error: "not_found",
+        symbol: String(req.params.symbol || "").toUpperCase(),
+      });
+    }
+    res.json({
+      schema_version: snap.schema_version,
+      built_at: snap.built_at,
+      window_days: snap.window_days,
+      event,
+    });
+  } catch (err) {
+    console.error("[/api/earnings/:symbol] failed:", err);
     res.status(500).json({ error: err.message });
   }
 });

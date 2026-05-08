@@ -65,6 +65,8 @@ const auth = {
     if (me.isAdmin) {
       const usersTabBtn = document.getElementById("usersTabBtn");
       if (usersTabBtn) usersTabBtn.hidden = false;
+      const earningsTabBtn = document.getElementById("earningsTabBtn");
+      if (earningsTabBtn) earningsTabBtn.hidden = false;
     }
 
     const closeDropdown = () => {
@@ -2434,6 +2436,7 @@ function switchTab(tab) {
   const picksEl = document.getElementById("picksTab");
   const watchEl = document.getElementById("watchlistTab");
   const usersEl = document.getElementById("usersTab");
+  const earningsEl = document.getElementById("earningsTab");
 
   dashEl.style.display = "none";
   newsEl.style.display = "none";
@@ -2445,6 +2448,7 @@ function switchTab(tab) {
   if (picksEl) picksEl.style.display = "none";
   if (watchEl) watchEl.style.display = "none";
   if (usersEl) usersEl.style.display = "none";
+  if (earningsEl) earningsEl.style.display = "none";
   if (newsRefreshTimer) { clearInterval(newsRefreshTimer); newsRefreshTimer = null; }
 
   // Refresh the global macro banner on every tab switch. This is a cheap
@@ -2494,6 +2498,12 @@ function switchTab(tab) {
     if (!window.__starbhai_isAdmin) return;
     if (usersEl) usersEl.style.display = "block";
     loadUsersList();
+  } else if (tab === "earnings") {
+    // Defence-in-depth: same pattern as users tab. Server enforces via
+    // /api/earnings/* 403 for non-admins; bail here too.
+    if (!window.__starbhai_isAdmin) return;
+    if (earningsEl) earningsEl.style.display = "block";
+    if (typeof loadEarningsWatch === "function") loadEarningsWatch();
   } else if (tab === "scanner") {
     dashEl.style.display = "block";
     if (!_scannerInitialized) {
@@ -10420,6 +10430,15 @@ async function openStockDetailModal(symbolOrTicker, sourceTab) {
     // Live-only path: /api/sws-stock 404'd. Render from /api/stock alone.
     body.innerHTML = renderLiveOnlySkeleton(ticker, sourceTab);
     fetchAndRenderLiveOnlyDetail(ticker, yahooSymbol, sourceTab);
+  }
+
+  // Earnings Watch (admin-only): if this stock has an upcoming-result
+  // event in the next 14 days, fold the prediction + price band +
+  // playbook + recent announcements + deal flow into the same modal.
+  // The injector silently no-ops on 403/404 so non-admin users (or
+  // stocks without an upcoming result) see the modal unchanged.
+  if (typeof window.injectEarningsPreviewIntoModal === "function") {
+    window.injectEarningsPreviewIntoModal(ticker);
   }
 }
 
