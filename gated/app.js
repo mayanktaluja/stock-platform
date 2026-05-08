@@ -5962,6 +5962,177 @@ function renderSWSOutsidePicks(picks) {
   </div>`;
 }
 
+function swsFormatDateShort(iso) {
+  if (!iso) return "—";
+  const m = String(iso).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!m) return swsEscapeAttr(String(iso));
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const mi = parseInt(m[2], 10) - 1;
+  return `${months[mi] || m[2]} ${parseInt(m[3], 10)}`;
+}
+
+function swsRenderBackdatedNotice(report) {
+  if (!report?.backdated) return "";
+  const backAs = report.backdatedAsOf || "—";
+  const latestAs = report.latestKnownAsOf || "—";
+  return `
+    <div style="background:rgba(250,204,21,0.06); border:1px solid rgba(250,204,21,0.30); border-radius:10px; padding:14px 18px; margin-bottom:18px; display:flex; align-items:flex-start; gap:12px;">
+      <div style="font-size:18px; line-height:1;">⏪</div>
+      <div>
+        <div style="font-size:13px; font-weight:700; color:#fde047;">Backdated upload</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-top:4px; line-height:1.55;">
+          This statement is dated <strong>${swsEscapeAttr(backAs)}</strong>, before your last review on <strong>${swsEscapeAttr(latestAs)}</strong>.
+          Showing analysis only — your recommendation history was <em>not</em> updated.
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function swsRenderMemoryHeader(report) {
+  const acks = Array.isArray(report?.executionAcks) ? report.executionAcks : [];
+  const registry = report?.recRegistry || {};
+  const pendingEntries = Object.values(registry).filter((r) => r && r.isPending && !r.isSuperseded);
+  if (acks.length === 0 && pendingEntries.length === 0) return "";
+
+  const memSt = report?.memoryStatus || {};
+  const sinceLabel = memSt.prevAsOfDateIso ? `since your last review (${swsEscapeAttr(memSt.prevAsOfDateIso)})` : "since your last review";
+
+  const ackCards = acks.map((a) => {
+    const isPartial = a.type === "EXECUTED_PARTIAL";
+    const isOver = a.type === "EXECUTED_OVER";
+    const tone = isPartial ? "yellow" : "green";
+    const bg = tone === "green" ? "rgba(34,197,94,0.06)" : "rgba(250,204,21,0.05)";
+    const border = tone === "green" ? "rgba(34,197,94,0.35)" : "rgba(250,204,21,0.30)";
+    const accent = tone === "green" ? "#86efac" : "#fde047";
+    const glyph = isPartial ? "◑" : (isOver ? "✓✓" : "✓");
+    const rawSym = a.symbol || a.isin || "—";
+    const sym = swsEscapeAttr(rawSym.replace?.(/\.NS$/, "") || rawSym);
+    const action = swsEscapeAttr(a.action || "");
+    const flaggedHuman = swsFormatDateShort(a.issuedAsOf);
+    const freedRupees = Number.isFinite(a.rupeesFreed) && a.rupeesFreed > 0 ? `<strong style="color:${accent};">${inr(a.rupeesFreed)}</strong> freed.` : "";
+    const headline = isPartial
+      ? `<strong>${sym}</strong> — partial action against the <em>${action}</em> flag from ${flaggedHuman}.`
+      : (isOver
+          ? `<strong>${sym}</strong> — went beyond the <em>${action}</em> flag from ${flaggedHuman}. ${freedRupees}`
+          : `<strong>${sym}</strong> — closed the <em>${action}</em> flag from ${flaggedHuman}. ${freedRupees}`);
+    const remainingNote = (isPartial && Number.isFinite(a.remainingPct) && a.remainingPct > 0)
+      ? `<div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Residual ~${(a.remainingPct * 100).toFixed(0)}% may re-emerge in this review's action list.</div>`
+      : "";
+    return `
+      <div style="background:${bg}; border:1px solid ${border}; border-radius:8px; padding:10px 14px; display:flex; gap:10px; align-items:flex-start;">
+        <div style="font-size:18px; line-height:1; color:${accent};">${glyph}</div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-size:13px; line-height:1.5; color:var(--text);">${headline}</div>
+          ${remainingNote}
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  const pendingChips = pendingEntries.map((r) => {
+    const orig = swsEscapeAttr(r.originalAction || "");
+    const rawTicker = r.symbol || (r.isin || "").replace(/^SYM:/, "") || "";
+    const sym = swsEscapeAttr(rawTicker.replace(/\.NS$/, "") || "—");
+    const reviews = r.escalationCount > 1 ? ` · ${r.escalationCount} reviews` : "";
+    const flaggedHuman = swsFormatDateShort(r.originalAsOf);
+    return `
+      <span title="First flagged on ${swsEscapeAttr(r.originalAsOf || "")}. Condition still triggers."
+            style="display:inline-flex; align-items:center; gap:6px; background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.30); border-radius:14px; padding:4px 10px; font-size:11px; color:#bfdbfe; line-height:1.3;">
+        <strong>${sym}</strong>
+        <span style="color:var(--text-muted);">${orig}</span>
+        <span style="color:var(--text-muted);">· flagged ${flaggedHuman}${reviews}</span>
+      </span>
+    `;
+  }).join("");
+
+  const ackBlock = acks.length > 0 ? `
+    <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">
+      Since your last review${memSt.prevAsOfDateIso ? ` <span style="color:var(--text);">(${swsEscapeAttr(memSt.prevAsOfDateIso)})</span>` : ""}
+    </div>
+    <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:${pendingEntries.length > 0 ? "14px" : "0"};">
+      ${ackCards}
+    </div>
+  ` : "";
+
+  const pendingBlock = pendingEntries.length > 0 ? `
+    <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">
+      Still pending from earlier reviews
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:6px;">
+      ${pendingChips}
+    </div>
+    <div style="font-size:11px; color:var(--text-muted); margin-top:8px; line-height:1.5;">
+      These flags are repeated in this review's action list because the underlying condition still trips. Acting on them ${sinceLabel} would close them.
+    </div>
+  ` : "";
+
+  return `
+    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
+      ${ackBlock}
+      ${pendingBlock}
+    </div>
+  `;
+}
+
+function swsRenderFreedCapitalBanner(report) {
+  const fc = report?.freedCapital;
+  if (!fc || !fc.significant) return "";
+  const picks = report?.freedCapitalPicks;
+  const total = inr(fc.totalRupeesFreed || 0);
+  const count = fc.count || 0;
+  const picksAvailable = picks && picks.available !== false && Array.isArray(picks.picks);
+  const picksList = picksAvailable ? picks.picks.slice(0, 6) : [];
+
+  const pickCards = picksList.map((p) => {
+    const ticker = swsEscapeAttr(p.ticker || p.symbol || "—");
+    const name = swsEscapeAttr(p.name || p.companyName || "");
+    const score = Number.isFinite(p.v3_score_100) ? p.v3_score_100
+                : Number.isFinite(p.score) ? p.score : null;
+    const allocation = Number.isFinite(p.suggestedAllocationInr) ? inr(p.suggestedAllocationInr) : null;
+    const reason = swsEscapeAttr(p.reason || p.section || "");
+    return `
+      <div style="background:var(--bg); border:1px solid #2a3349; border-radius:8px; padding:10px 12px; min-width:190px; flex:1 1 190px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+          <div style="font-size:13px; font-weight:700; color:var(--text);">${ticker}</div>
+          ${score != null ? `<div style="font-size:11px; color:#86efac;">${score}/100</div>` : ""}
+        </div>
+        ${name ? `<div style="font-size:11px; color:var(--text-muted); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</div>` : ""}
+        ${reason ? `<div style="font-size:10px; color:var(--text-muted); margin-top:6px; text-transform:uppercase; letter-spacing:0.4px;">${reason}</div>` : ""}
+        ${allocation ? `<div style="font-size:11px; color:#bbf7d0; margin-top:6px;">Sized: ${allocation}</div>` : ""}
+      </div>
+    `;
+  }).join("");
+
+  const picksSection = picksAvailable && picksList.length > 0 ? `
+    <div style="margin-top:14px;">
+      <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">
+        Top deployment candidates ${notAdviceChip("inline")}
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        ${pickCards}
+      </div>
+    </div>
+  ` : (picks && picks.reason ? `
+    <div style="font-size:11px; color:var(--text-muted); margin-top:8px;">${swsEscapeAttr(picks.reason)}</div>
+  ` : "");
+
+  return `
+    <div style="background:linear-gradient(135deg, rgba(34,197,94,0.10), rgba(96,165,250,0.04)); border:1px solid rgba(34,197,94,0.30); border-radius:10px; padding:14px 18px; margin-bottom:18px;">
+      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+        <div style="font-size:22px;">💸</div>
+        <div style="flex:1; min-width:200px;">
+          <div style="font-size:14px; font-weight:700; color:#86efac;">${total} freed since your last review</div>
+          <div style="font-size:12px; color:var(--text-muted); margin-top:3px;">
+            From ${count} executed action${count === 1 ? "" : "s"}. Educational picks below — sizing and ordering are personal decisions.
+          </div>
+        </div>
+      </div>
+      ${picksSection}
+    </div>
+  `;
+}
+
 function renderSWSAnalyzerReport(report, elapsedMs) {
   // ANALYZER_UI_V2 dispatcher for the SWS path — the only path now.
   // Adds a hero card + glossary chips on technical KPI labels when V2
@@ -5992,6 +6163,10 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
       </div>
       <button onclick="resetAnalyzer()" style="background:transparent; border:1px solid #2a3349; color:var(--text); padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px;">Re-upload</button>
     </div>
+
+    ${swsRenderBackdatedNotice(report)}
+    ${swsRenderMemoryHeader(report)}
+    ${swsRenderFreedCapitalBanner(report)}
 
     ${renderPortfolioHealthHero(snap.portfolioHealth)}
 
@@ -6127,6 +6302,10 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
       </div>
       <button onclick="resetAnalyzer()" style="background:transparent; border:1px solid #2a3349; color:var(--text); padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px;">Re-upload</button>
     </div>
+
+    ${swsRenderBackdatedNotice(report)}
+    ${swsRenderMemoryHeader(report)}
+    ${swsRenderFreedCapitalBanner(report)}
 
     ${heroBlock}
 
