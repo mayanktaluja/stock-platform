@@ -4185,10 +4185,26 @@ function rsiLabel(rsi) {
 // ==================== TRACK RECORD (PAPER-TRADE TRACKER) ====================
 
 const TRACK_TYPE_LABELS = {
+  // SWS picks — primary source of truth, snapshotted on every pipeline run
+  sws_top30_v3: "SWS · Top 30 (v3)",
+  sws_best_buynow: "SWS · Best to Buy Now",
+  sws_deep_value: "SWS · Deep Value",
+  sws_quality_growth: "SWS · Quality Growth",
+  sws_midterm: "SWS · Mid-term",
+  sws_dividend_aristocrats: "SWS · Dividend Aristocrats",
+  sws_smallcap_gems: "SWS · Small-Cap Gems",
+  sws_insider_buying: "SWS · Insider Buying",
+  sws_upcoming_earnings: "SWS · Upcoming Earnings",
+  sws_avoid: "SWS · Avoid (sell signal)",
+  // Legacy scanners — preserved for historical continuity
   buynow_nifty100: "Buy Now (Nifty 100)",
   smallcap_buynow: "Small-Cap Buy Now",
   fundamental_deep_value: "Fundamental Deep Value",
 };
+
+// Types whose semantics invert "beats Nifty" — a win means the pick
+// under-performed the index, as we predicted.
+const TRACK_SHORT_TYPES = new Set(["sws_avoid"]);
 
 async function loadTrackRecord(forceBust = false) {
   const filterEl = document.getElementById("trackFilter");
@@ -4477,15 +4493,22 @@ function renderTrackBreakdown(groupMap, title, subtitle, labelMap = null) {
     .sort(([, a], [, b]) => (b.beatsNiftyRate ?? 0) - (a.beatsNiftyRate ?? 0))
     .map(([key, perf]) => {
       const label = labelMap?.[key] || key;
+      const isShort = TRACK_SHORT_TYPES.has(key);
+      // For short types, "win" means avg return is NEGATIVE — flip the colour
       const winColor = perf.winRate >= 55 ? "#22c55e" : perf.winRate >= 45 ? "#eab308" : "#ef4444";
       const beatsColor = perf.beatsNiftyRate == null
         ? "var(--text-muted)"
         : perf.beatsNiftyRate >= 55 ? "#22c55e"
         : perf.beatsNiftyRate >= 45 ? "#eab308" : "#ef4444";
-      const avgColor = perf.avgReturn >= 0 ? "#22c55e" : "#ef4444";
+      const avgColor = isShort
+        ? (perf.avgReturn <= 0 ? "#22c55e" : "#ef4444")
+        : (perf.avgReturn >= 0 ? "#22c55e" : "#ef4444");
+      const shortBadge = isShort
+        ? `<span title="Sell signal — win = pick under-performed Nifty 50" style="display:inline-block;margin-left:8px;padding:1px 6px;border-radius:4px;background:rgba(239,68,68,0.15);color:#fca5a5;font-size:9px;font-weight:800;letter-spacing:0.4px;">SELL SIGNAL</span>`
+        : "";
       return `
         <div style="display:grid;grid-template-columns:1fr auto auto auto auto;gap:14px;align-items:center;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);font-size:12px;">
-          <div style="font-weight:700;">${escapeHtml(label)}</div>
+          <div style="font-weight:700;">${escapeHtml(label)}${shortBadge}</div>
           <div style="font-family:'JetBrains Mono',monospace;color:var(--text-muted);">n=${perf.total}</div>
           <div style="font-family:'JetBrains Mono',monospace;color:${winColor};font-weight:700;min-width:60px;text-align:right;">Win ${perf.winRate}%</div>
           <div style="font-family:'JetBrains Mono',monospace;color:${avgColor};font-weight:700;min-width:80px;text-align:right;">${perf.avgReturn >= 0 ? '+' : ''}${perf.avgReturn}%</div>
