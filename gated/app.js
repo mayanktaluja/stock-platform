@@ -9580,6 +9580,52 @@ function pickFreshnessPill(parsedAtIso) {
   return `<span class="sws-freshness-pill${cls}" title="Deep-scrape parsed ${new Date(parsedAtIso).toLocaleString()}">${label}</span>`;
 }
 
+// Section-membership badges — driven by `section_status` stamped on each
+// per-section stock by scripts/sws-stamp-section-status.mjs. "Newly Added"
+// appears the first nightly a stock enters a section; "Trending" appears when
+// rank gain crosses a section-size-aware threshold (and never on AVOID, where
+// climbing the list is not a buy signal). On AVOID, the "newly added" badge
+// is relabeled to "Newly Flagged" so the framing matches a sell-side list.
+function humanPickSection(sectionKey) {
+  const sec = PICKS_SECTIONS.find((s) => s.key === sectionKey);
+  return sec ? (sec.chip_label || sec.label || sectionKey) : sectionKey;
+}
+
+function formatPickPriorScanTooltip(iso) {
+  if (!iso) return "previous scan";
+  try {
+    return new Date(iso).toLocaleString("en-IN", {
+      day: "numeric", month: "short", year: "numeric",
+      hour: "numeric", minute: "2-digit",
+    });
+  } catch {
+    return iso;
+  }
+}
+
+function renderPickStatusBadges(stock, sectionKey) {
+  const ss = stock && stock.section_status;
+  if (!ss) return "";
+  const isAvoid = sectionKey === "avoid";
+  const sectionLabel = humanPickSection(sectionKey);
+  const priorTip = formatPickPriorScanTooltip(ss.prior_scanned_at);
+  const parts = [];
+  if (ss.newly_added) {
+    if (isAvoid) {
+      const tip = `Newly flagged for avoidance in this scan. Was not in the Avoid List in the previous scan (${priorTip}).`;
+      parts.push(`<span class="sws-pick-badge sws-pick-badge--flagged" title="${escapeHtml(tip)}">Newly Flagged</span>`);
+    } else {
+      const tip = `Newly added to ${sectionLabel} in this scan. Was not in this list in the previous scan (${priorTip}).`;
+      parts.push(`<span class="sws-pick-badge sws-pick-badge--new" title="${escapeHtml(tip)}">New</span>`);
+    }
+  }
+  if (ss.trending && Number.isFinite(ss.rank_delta) && ss.rank_delta > 0) {
+    const tip = `Climbed ${ss.rank_delta} rank${ss.rank_delta === 1 ? "" : "s"} in ${sectionLabel} since the previous scan (${priorTip}).`;
+    parts.push(`<span class="sws-pick-badge sws-pick-badge--trending" title="${escapeHtml(tip)}">↑${ss.rank_delta}</span>`);
+  }
+  return parts.join("");
+}
+
 function renderPickCard(s, sectionKey, rank = null) {
   const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)}t` : v >= 1e9 ? `₹${(v / 1e9).toFixed(1)}b` : v >= 1e7 ? `₹${(v / 1e7).toFixed(0)}cr` : `₹${v.toLocaleString("en-IN")}`;
   const upside = s.upside_pct != null ? `${s.upside_pct > 0 ? "+" : ""}${s.upside_pct.toFixed(1)}%` : "—";
@@ -9626,6 +9672,7 @@ function renderPickCard(s, sectionKey, rank = null) {
   const coverageBadge = (cov != null && cov < 60)
     ? `<span class="sws-thin-coverage-badge" title="Only ${cov}% of the 13 SWS input fields were populated when this stock was scored — verify manually before acting.">Thin · ${cov}%</span>`
     : "";
+  const statusBadges = renderPickStatusBadges(s, sectionKey);
   const rankBadge = rank ? `<span class="sws-pick-rank">${rank}</span>` : "";
   const fresh = pickFreshnessPill(s.data_freshness_at);
 
@@ -9655,7 +9702,7 @@ function renderPickCard(s, sectionKey, rank = null) {
         <div class="sws-pick-card-id">
           ${rankBadge}
           <div class="sws-pick-card-id-text">
-            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${coverageBadge}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
+            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${coverageBadge}${statusBadges}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
             <div class="sws-pick-card-name">${s.name || ""}${fresh}</div>
           </div>
         </div>

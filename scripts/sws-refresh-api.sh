@@ -188,6 +188,17 @@ else
   echo "[refresh-api] no ANTHROPIC_API_KEY → skipping narrate (deterministic one-liners)"
 fi
 
+# ---------- 8.5. Stamp section_status (newly added / trending) ----------
+# Diffs current picks-latest.json against picks-previous.json (last run's final
+# file, post-narrate) and stamps `section_status` on every per-section stock.
+# Must run AFTER narrate — narrate rewrites picks-latest in place and would
+# otherwise drop the badge fields. See scripts/sws-section-status.mjs for the
+# threshold table and AVOID carve-out.
+
+echo "[refresh-api] stamping section status (newly added / trending)..."
+STAMP_OUT="$(node scripts/sws-stamp-section-status.mjs 2>&1 || true)"
+echo "${STAMP_OUT}" | tail -5 | sed 's/^/[stamp] /'
+
 # ---------- 9. PDF ----------
 
 echo "[refresh-api] generating PDF..."

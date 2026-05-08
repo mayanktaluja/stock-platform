@@ -83,6 +83,25 @@ def fmt_pct(v):
     return f"{sign}{n:.1f}%"
 
 
+def status_suffix(s, section_key=None):
+    """Render section_status as a small bracketed suffix next to the ticker.
+
+    [NEW] when a stock newly entered a buy-side section since the previous scan.
+    [FLAGGED] when a stock newly entered the AVOID section (sell-side framing).
+    [↑N] when a stock climbed N ranks within the same section, where N crosses
+    the section-size-aware threshold defined in scripts/sws-section-status.mjs.
+    Returns "" when no badge applies (or section_status is missing).
+    """
+    ss = s.get("section_status") or {}
+    parts = []
+    if ss.get("newly_added"):
+        parts.append("[FLAGGED]" if section_key == "avoid" else "[NEW]")
+    rd = ss.get("rank_delta")
+    if ss.get("trending") and isinstance(rd, (int, float)) and rd > 0:
+        parts.append(f"[↑{int(rd)}]")
+    return (" " + " ".join(parts)) if parts else ""
+
+
 def load_data():
     with open(PICKS_LATEST, "r", encoding="utf-8") as f:
         picks = json.load(f)
@@ -199,7 +218,7 @@ def leaderboard_table(picks):
     for i, s in enumerate(picks.get("sections", {}).get("best_to_buy_now", [])[:25], 1):
         rows.append([
             str(i),
-            s.get("ticker", "—"),
+            s.get("ticker", "—") + status_suffix(s, "best_to_buy_now"),
             (s.get("sector") or "—")[:18],
             fmt_inr(s.get("current_price_inr")),
             fmt_inr(s.get("fair_value_inr")),
@@ -228,7 +247,7 @@ def leaderboard_table(picks):
 
 def stock_page(s, deep):
     items = []
-    items.append(Paragraph(f"{s.get('ticker')} — {s.get('name', '')}", H2))
+    items.append(Paragraph(f"{s.get('ticker')}{status_suffix(s)} — {s.get('name', '')}", H2))
     items.append(Paragraph(f"{s.get('sector') or '—'} · score <b>{s.get('score', 0):.1f}/100</b> · {(s.get('verdict') or '').replace('_', ' ')}", META))
     items.append(Spacer(1, 8))
 
@@ -358,7 +377,7 @@ def section_appendix(picks):
         rows = [["Ticker", "Sector", "Score", "Upside", "One-line"]]
         for s in arr[:80]:
             rows.append([
-                s.get("ticker", "—"),
+                s.get("ticker", "—") + status_suffix(s, key),
                 (s.get("sector") or "—")[:14],
                 f"{s.get('score', 0):.1f}",
                 fmt_pct(s.get("upside_pct")),
