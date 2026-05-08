@@ -281,8 +281,8 @@ function pickToBasketRow(pick) {
 // allocation to dilute single-name risk.
 //
 // Gated by OUTSIDE_PICKS=1 env flag per PR-4 plan.
-function surfaceOutsidePicks({ scoredHoldings, freshCapitalInr, limit = 12 }) {
-  if (process.env.OUTSIDE_PICKS !== "1") {
+export function surfaceOutsidePicks({ scoredHoldings, freshCapitalInr, limit = 12, forceEnabled = false }) {
+  if (!forceEnabled && process.env.OUTSIDE_PICKS !== "1") {
     return { available: false, reason: "OUTSIDE_PICKS feature flag disabled" };
   }
 
