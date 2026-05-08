@@ -2890,6 +2890,26 @@
       text-transform: uppercase;
       background: transparent;
     }
+    /* Section-membership badges — see scripts/sws-section-status.mjs.
+       Outlined pill style mirrors sws-pick-valband-chip so the per-card visual
+       grammar stays consistent. Colour split: cyan = informational (new buy-side
+       entry), gold = promoted (climbed ranks), red = newly flagged on AVOID. */
+    .sws-pick-badge {
+      display: inline-block;
+      padding: 1px 6px;
+      margin-left: 4px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      text-transform: uppercase;
+      background: transparent;
+      cursor: help;
+    }
+    .sws-pick-badge--new      { color: var(--cyan); border-color: var(--cyan); }
+    .sws-pick-badge--trending { color: var(--gold); border-color: var(--gold); }
+    .sws-pick-badge--flagged  { color: var(--red);  border-color: var(--red); }
     .sws-pick-card-narrative { font-size: 11px; color: var(--text-muted); margin-top: 8px; line-height: 1.4; }
     .sws-pick-earnings-row { font-size: 11px; color: var(--gold); margin-top: 6px; }
     .sws-pick-card-link { margin-top: 8px; }
