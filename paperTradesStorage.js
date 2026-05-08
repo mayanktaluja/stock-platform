@@ -21,6 +21,7 @@
  * BOTH backends implement the same async interface:
  *   async readAll(): Promise<Trade[]>           — all trades, newest-first
  *   async append(trades: Trade[]): Promise<{written, skipped}>
+ *   async updateById(patches: Array<{id, ...fields}>): Promise<{updated, missing}>
  *   async hasToday(type: string): Promise<boolean>
  *   async getStats(): Promise<{exists, lineCount, oldest, newest}>
  *   async clear(): Promise<void>                — wipes all trades (dev only)
@@ -88,6 +89,32 @@ class FileStorage {
   async hasToday(type, todayKey) {
     const trades = await this.readAll();
     return trades.some((e) => e.dateKey === todayKey && e.type === type);
+  }
+
+  /**
+   * Apply a list of `{ id, ...fields }` patches to existing trades. The JSONL
+   * file isn't natively editable, so we rewrite the whole file with patches
+   * merged in by id. O(n) write per call — fine while the file stays small.
+   */
+  async updateById(patches) {
+    if (!Array.isArray(patches) || patches.length === 0) {
+      return { updated: 0, missing: 0 };
+    }
+    const trades = await this.readAll();
+    if (trades.length === 0) return { updated: 0, missing: patches.length };
+    const patchById = new Map(patches.filter((p) => p && p.id).map((p) => [p.id, p]));
+    let updated = 0;
+    for (const t of trades) {
+      const patch = patchById.get(t.id);
+      if (!patch) continue;
+      Object.assign(t, patch);
+      updated++;
+      patchById.delete(t.id);
+    }
+    if (updated === 0) return { updated: 0, missing: patches.length };
+    const lines = trades.map((t) => JSON.stringify(t)).join("\n") + "\n";
+    writeFileSync(this.path, lines, "utf-8");
+    return { updated, missing: patchById.size };
   }
 
   async getStats() {
@@ -202,6 +229,39 @@ class VercelKVStorage {
   async hasToday(type, todayKey) {
     const trades = await this.readAll();
     return trades.some((e) => e.dateKey === todayKey && e.type === type);
+  }
+
+  /**
+   * Apply patches to existing entries by id. KV's sorted-set members are
+   * the JSON blobs themselves, so we have to remove the old member and add
+   * the patched one back at the same score (snapshotAt timestamp).
+   */
+  async updateById(patches) {
+    if (!Array.isArray(patches) || patches.length === 0) {
+      return { updated: 0, missing: 0 };
+    }
+    try {
+      const kv = await this._getKV();
+      const trades = await this.readAll();
+      const patchById = new Map(patches.filter((p) => p && p.id).map((p) => [p.id, p]));
+      let updated = 0;
+      for (const t of trades) {
+        const patch = patchById.get(t.id);
+        if (!patch) continue;
+        const oldBlob = JSON.stringify(t);
+        const merged = { ...t, ...patch };
+        const newBlob = JSON.stringify(merged);
+        const score = new Date(merged.snapshotAt).getTime();
+        await kv.zrem(KV_KEY, oldBlob);
+        await kv.zadd(KV_KEY, { score, member: newBlob });
+        updated++;
+        patchById.delete(t.id);
+      }
+      return { updated, missing: patchById.size };
+    } catch (err) {
+      console.warn("[PAPERTRADES:KV] updateById failed:", err.message);
+      return { updated: 0, missing: patches.length, error: err.message };
+    }
   }
 
   async getStats() {

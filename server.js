@@ -157,6 +157,8 @@ import {
   groupAndAggregate,
   getStorageStats,
   getISTDateKey,
+  snapshotAndCloseSwsPicks,
+  SWS_SECTION_TO_TYPE,
 } from "./paperTrades.js";
 import {
   bucketTradesByScoreBand,
@@ -6437,6 +6439,52 @@ app.post("/api/track/migrate", express.json({ limit: "5mb" }), async (req, res) 
     });
   } catch (err) {
     console.error("[PAPERTRADES] Migration failed:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * POST /api/track/snapshot-sws-now
+ *
+ * Reads the current data/sws/picks-latest.json and snapshots every section
+ * into the trade log + closes any prior open trades whose section dropped
+ * them. Used for first-deploy bootstrap and manual re-syncs when the
+ * pipeline hook missed a run.
+ *
+ * Token-gated identically to /api/track/migrate so random Vercel callers
+ * can't poison the trade log.
+ */
+app.post("/api/track/snapshot-sws-now", async (req, res) => {
+  const envToken = process.env.MACRO_OVERRIDE_TOKEN;
+  const queryToken = req.query.token;
+  const isLocal = !process.env.VERCEL;
+  const tokenOk = envToken && queryToken && queryToken === envToken;
+  if (!isLocal && !tokenOk) {
+    return res.status(403).json({ error: "Requires MACRO_OVERRIDE_TOKEN. Set the env var on Vercel and pass ?token=..." });
+  }
+  try {
+    const picksPath = path.join(__dirname, "data", "sws", "picks-latest.json");
+    if (!fs.existsSync(picksPath)) {
+      return res.status(404).json({ error: "picks-latest.json not found — run the SWS pipeline first." });
+    }
+    const picks = JSON.parse(fs.readFileSync(picksPath, "utf-8"));
+    const niftyQuote = await fetchQuote("^NSEI").catch(() => null);
+    const niftyPrice = niftyQuote?.regularMarketPrice ?? null;
+    const result = await snapshotAndCloseSwsPicks(picks, {
+      snapshotAt: picks.scanned_at,
+      niftyPrice,
+      rationale: "Manual snapshot via /api/track/snapshot-sws-now",
+    });
+    // Bust the track-history cache so the UI sees the new entries on next load
+    trackCache.flushAll();
+    res.json({
+      scannedAt: picks.scanned_at,
+      sections: Object.keys(SWS_SECTION_TO_TYPE).filter((k) => Array.isArray(picks.sections?.[k]) && picks.sections[k].length).length,
+      niftyPrice,
+      ...result,
+    });
+  } catch (err) {
+    console.error("[PAPERTRADES] /api/track/snapshot-sws-now failed:", err.message);
     res.status(500).json({ error: err.message });
   }
 });

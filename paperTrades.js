@@ -146,30 +146,47 @@ export async function hasSnapshotToday(type) {
 /**
  * Compute forward return metrics for a single trade given its current price.
  * Pure function — no I/O.
+ *
+ * If `trade.closedAt` is set the trade is closed (the section dropped it on
+ * that date) — we use `trade.closingPrice` and `trade.niftyAtClose` instead
+ * of the live price, and `daysHeld` measures the realised holding window.
+ *
+ * For "short" types (e.g. `sws_avoid` — picks we told the user to avoid) the
+ * win condition is inverted: alpha = niftyReturn − pickReturn, so beatsNifty
+ * means "the avoided pick under-performed Nifty as predicted."
  */
 export function computeReturns(trade, currentPrice, currentNifty = null) {
-  if (!trade.priceAtSnapshot || !currentPrice) {
-    return { error: "missing_price" };
-  }
-  const returnPct = ((currentPrice - trade.priceAtSnapshot) / trade.priceAtSnapshot) * 100;
+  if (!trade.priceAtSnapshot) return { error: "missing_price" };
+
+  const isClosed = !!trade.closedAt && trade.closingPrice != null;
+  const exitPrice = isClosed ? trade.closingPrice : currentPrice;
+  const exitNifty = isClosed ? trade.niftyAtClose : currentNifty;
+  if (!exitPrice) return { error: "missing_price" };
+
+  const returnPct = ((exitPrice - trade.priceAtSnapshot) / trade.priceAtSnapshot) * 100;
+  const endTimestamp = isClosed ? new Date(trade.closedAt).getTime() : Date.now();
   const daysHeld = Math.max(
     0,
-    Math.floor((Date.now() - new Date(trade.snapshotAt).getTime()) / 86400000)
+    Math.floor((endTimestamp - new Date(trade.snapshotAt).getTime()) / 86400000)
   );
 
   let niftyReturnPct = null;
   let alpha = null;
   let beatsNifty = null;
-  if (trade.niftyAtSnapshot && currentNifty) {
-    niftyReturnPct = ((currentNifty - trade.niftyAtSnapshot) / trade.niftyAtSnapshot) * 100;
-    alpha = returnPct - niftyReturnPct;
+  if (trade.niftyAtSnapshot && exitNifty) {
+    niftyReturnPct = ((exitNifty - trade.niftyAtSnapshot) / trade.niftyAtSnapshot) * 100;
+    // Avoid-list semantics: a pick we said to avoid "wins" when it
+    // under-performs Nifty, so alpha is signed in the opposite direction.
+    const isShort = trade.type === "sws_avoid";
+    alpha = isShort ? (niftyReturnPct - returnPct) : (returnPct - niftyReturnPct);
     beatsNifty = alpha > 0;
   }
 
   return {
-    currentPrice,
+    currentPrice: exitPrice,
     returnPct: parseFloat(returnPct.toFixed(2)),
     daysHeld,
+    closed: isClosed,
     niftyReturnPct: niftyReturnPct != null ? parseFloat(niftyReturnPct.toFixed(2)) : null,
     alpha: alpha != null ? parseFloat(alpha.toFixed(2)) : null,
     beatsNifty,
@@ -239,6 +256,229 @@ export function groupAndAggregate(tradesWithReturns, attribute) {
     result[key] = aggregatePerformance(trades);
   }
   return result;
+}
+
+// ──────────────────── SWS multi-section snapshot ────────────────────
+
+/**
+ * Map a picks-latest.json section key to the trade-log type used by the
+ * Track Record tab. Order of this map is also the display order in the UI
+ * filter dropdown — flagship sections first.
+ */
+export const SWS_SECTION_TO_TYPE = {
+  top_ranked_30_v3: "sws_top30_v3",
+  best_to_buy_now: "sws_best_buynow",
+  deep_value: "sws_deep_value",
+  quality_growth: "sws_quality_growth",
+  midterm: "sws_midterm",
+  dividend_aristocrats: "sws_dividend_aristocrats",
+  smallcap_gems: "sws_smallcap_gems",
+  insider_buying: "sws_insider_buying",
+  upcoming_earnings: "sws_upcoming_earnings",
+  avoid: "sws_avoid",
+};
+
+/**
+ * Convert a picks-latest.json entry into the shape `buildTradeEntry` expects.
+ * SWS uses `ticker` (no exchange suffix) + INR-suffixed price/cap fields; we
+ * append `.NS` so live-price lookups via Yahoo work the same way they do for
+ * the legacy scanner picks.
+ */
+export function swsPickToTradeShape(swsPick) {
+  if (!swsPick || !swsPick.ticker) return null;
+  return {
+    symbol: `${swsPick.ticker}.NS`,
+    name: swsPick.name || swsPick.ticker,
+    sector: swsPick.sector || null,
+    price: swsPick.current_price_inr ?? null,
+    score: swsPick.v3_score_100 ?? swsPick.v2_score ?? swsPick.score ?? 0,
+    recommendation: swsPick.composite_verdict || swsPick.v3_verdict || swsPick.verdict || null,
+  };
+}
+
+/**
+ * Snapshot every section of a picks-latest.json document into the trade log.
+ * One pass over `picksData.sections`, applying the SWS→scanner-shape adapter
+ * and calling `snapshotPicks` per type. Empty sections are no-ops.
+ *
+ * `context.snapshotAt` should be the picks file's own `scanned_at` so the
+ * recommendation timestamp matches the file the user actually saw — that's
+ * the SEBI-defensible "moment of recommendation."
+ *
+ * Returns { written, skipped, perSection } for logging.
+ */
+export async function snapshotSwsAllSections(picksData, context = {}) {
+  if (!picksData || !picksData.sections) {
+    return { written: 0, skipped: 0, perSection: {} };
+  }
+  const snapshotAt = context.snapshotAt || picksData.scanned_at || new Date().toISOString();
+  const totals = { written: 0, skipped: 0, perSection: {} };
+
+  for (const [sectionKey, type] of Object.entries(SWS_SECTION_TO_TYPE)) {
+    const items = picksData.sections[sectionKey];
+    if (!Array.isArray(items) || items.length === 0) continue;
+    const picks = items.map(swsPickToTradeShape).filter(Boolean);
+    if (picks.length === 0) continue;
+    const result = await snapshotPicks(picks, type, { ...context, snapshotAt });
+    totals.written += result.written || 0;
+    totals.skipped += result.skipped || 0;
+    totals.perSection[type] = result;
+  }
+  return totals;
+}
+
+/**
+ * Build a `{ type → Set<symbol> }` map from a picks-latest.json document.
+ * Used by `closeExitedSwsTrades` to figure out which prior trades dropped
+ * out of their section since the last snapshot.
+ */
+export function buildSwsTickerIndex(picksData) {
+  const index = {};
+  if (!picksData || !picksData.sections) return index;
+  for (const [sectionKey, type] of Object.entries(SWS_SECTION_TO_TYPE)) {
+    const items = picksData.sections[sectionKey];
+    if (!Array.isArray(items)) continue;
+    index[type] = new Set(
+      items
+        .filter((it) => it && it.ticker)
+        .map((it) => `${it.ticker}.NS`)
+    );
+  }
+  return index;
+}
+
+/**
+ * Close any open SWS trades whose section no longer carries them in
+ * `picksData`. Reads all trades, computes closures, persists patches via
+ * the storage adapter's updateById.
+ *
+ * `priceBySymbol` is the snapshot of section prices to use as the close
+ * price (typically the prior section's last `current_price_inr`). When a
+ * symbol isn't in the map we skip closing it — better to leave it open
+ * than fabricate a price.
+ *
+ * Returns { closed, missingPrice } for logging.
+ */
+export async function closeExitedSwsTrades(picksData, context = {}) {
+  if (!picksData) return { closed: 0, missingPrice: 0 };
+  const allTrades = await readAllTrades();
+  if (allTrades.length === 0) return { closed: 0, missingPrice: 0 };
+
+  // Only consider SWS types — legacy buynow/smallcap/fundamental have their
+  // own snapshot lifecycle and shouldn't be closed by an SWS pipeline run.
+  const swsTypes = new Set(Object.values(SWS_SECTION_TO_TYPE));
+  const swsTrades = allTrades.filter((t) => swsTypes.has(t.type));
+  if (swsTrades.length === 0) return { closed: 0, missingPrice: 0 };
+
+  const tickerIndex = buildSwsTickerIndex(picksData);
+  const closures = computeTradeClosures(swsTrades, tickerIndex, {
+    closedAt: context.snapshotAt || picksData.scanned_at || new Date().toISOString(),
+    niftyAtClose: context.niftyPrice ?? null,
+    priceBySymbol: context.priceBySymbol || {},
+  });
+  if (closures.length === 0) return { closed: 0, missingPrice: 0 };
+  const storage = getStorage();
+  const result = await storage.updateById(closures);
+  return { closed: result.updated || 0, missingPrice: 0, ...result };
+}
+
+/**
+ * Build a price map `{ "TICKER.NS": price }` from the entries we just
+ * snapshotted — these prices are the most recent observation for each
+ * ticker and so the natural close price for any (type, symbol) that
+ * dropped out of its section in this same pipeline run.
+ */
+export function priceMapFromPicksData(picksData) {
+  const out = {};
+  if (!picksData || !picksData.sections) return out;
+  for (const items of Object.values(picksData.sections)) {
+    if (!Array.isArray(items)) continue;
+    for (const it of items) {
+      if (!it || !it.ticker) continue;
+      const key = `${it.ticker}.NS`;
+      if (out[key] == null && it.current_price_inr != null) {
+        out[key] = Number(it.current_price_inr);
+      }
+    }
+  }
+  return out;
+}
+
+/**
+ * High-level convenience: snapshot all sections + close any prior trades
+ * that dropped out. The pipeline hook and the live endpoint both call this.
+ */
+export async function snapshotAndCloseSwsPicks(picksData, context = {}) {
+  const priceBySymbol = priceMapFromPicksData(picksData);
+  // Close exited trades FIRST so today's re-entries don't get closed by
+  // accident (a ticker that left and re-joined a section in the same run
+  // would otherwise be closed at the new snapshot's own price, alpha=0).
+  // Walking close-then-snapshot, the new entry is appended after closing.
+  const closeResult = await closeExitedSwsTrades(picksData, { ...context, priceBySymbol });
+  const snapshotResult = await snapshotSwsAllSections(picksData, context);
+  return { snapshot: snapshotResult, close: closeResult };
+}
+
+// ──────────────────── Trade closing (exit model) ────────────────────
+
+/**
+ * Close any trades whose section no longer contains them. After each new
+ * SWS snapshot, the picks that *dropped out* of a section since the prior
+ * snapshot represent realised exits — the recommendation surface stopped
+ * carrying them, so the track record should freeze their return at that
+ * moment instead of pretending we still hold them forever.
+ *
+ * For each (type, symbol) in `previousOpenTrades` that's not in
+ * `currentTickersByType`, mark the most recent open entry as closed at
+ * `closeContext.snapshotAt` using the current section's price (or the live
+ * Nifty price passed in).
+ *
+ * Returns the array of closing patches: `[{ id, closedAt, closingPrice, niftyAtClose }, ...]`.
+ * Persistence is the caller's responsibility — the storage adapters don't
+ * yet support partial updates, so we attach a special `__close__: true`
+ * envelope and the storage layer treats it as an update on `id` match.
+ */
+export function computeTradeClosures(allTrades, currentTickersByType, closeContext) {
+  if (!Array.isArray(allTrades) || !currentTickersByType) return [];
+  const closeAt = closeContext.closedAt || new Date().toISOString();
+  const closeAtMs = new Date(closeAt).getTime();
+  const niftyAtClose = closeContext.niftyAtClose ?? null;
+  // Group open trades by (type, symbol). Only consider trades that were
+  // *already open* at closeAt — a snapshot can never retroactively close a
+  // trade that was created by a later snapshot (matters for the git-history
+  // backfill, which replays revisions out of wall-clock order vs storage).
+  const openByKey = new Map();
+  for (const t of allTrades) {
+    if (t.closedAt) continue;
+    if (t.snapshotAt && new Date(t.snapshotAt).getTime() > closeAtMs) continue;
+    const key = `${t.type}|${t.symbol}`;
+    const arr = openByKey.get(key) || [];
+    arr.push(t);
+    openByKey.set(key, arr);
+  }
+  const closures = [];
+  for (const [key, trades] of openByKey) {
+    const [type, symbol] = key.split("|");
+    // Only close trades for types we just snapshotted
+    const stillIn = currentTickersByType[type];
+    if (!stillIn) continue;
+    if (stillIn.has(symbol)) continue; // still in section → still open
+    // Use the close price from the context map if available, else fall back
+    // to the trade's snapshot price (the entry was never re-priced — better
+    // than no exit at all).
+    const closingPrice = (closeContext.priceBySymbol || {})[symbol] ?? null;
+    if (closingPrice == null) continue; // cannot close without a price
+    // Close every still-open entry for this (type, symbol) — usually one
+    for (const t of trades) {
+      closures.push({
+        id: t.id,
+        closedAt: closeAt,
+        closingPrice,
+        niftyAtClose,
+      });
+    }
+  }
+  return closures;
 }
 
 // ──────────────────── File stats ────────────────────

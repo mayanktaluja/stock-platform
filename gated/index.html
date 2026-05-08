@@ -3507,16 +3507,30 @@
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Track Record</h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">
-            Forward returns on every Buy Now / Small-Cap / Fundamental pick — measured against the Nifty 50 benchmark.
+            Forward returns on every SWS pick — measured against the Nifty 50 benchmark. Snapshots taken when each pipeline run publishes <code style="font-size:11px;">picks-latest.json</code>; positions are closed when a section drops them.
             <span id="trackOldestSnapshot" style="color:var(--yellow);"></span>
           </p>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
           <select id="trackFilter" class="refresh-select" onchange="loadTrackRecord()">
             <option value="all">All categories</option>
-            <option value="buynow_nifty100">Buy Now (Nifty 100)</option>
-            <option value="smallcap_buynow">Small-Cap Buy Now</option>
-            <option value="fundamental_deep_value">Fundamental Deep Value</option>
+            <optgroup label="SWS picks (primary)">
+              <option value="sws_top30_v3">Top 30 (v3 score)</option>
+              <option value="sws_best_buynow">Best to Buy Now</option>
+              <option value="sws_deep_value">Deep Value</option>
+              <option value="sws_quality_growth">Quality Growth</option>
+              <option value="sws_midterm">Mid-term</option>
+              <option value="sws_dividend_aristocrats">Dividend Aristocrats</option>
+              <option value="sws_smallcap_gems">Small-Cap Gems</option>
+              <option value="sws_insider_buying">Insider Buying</option>
+              <option value="sws_upcoming_earnings">Upcoming Earnings</option>
+              <option value="sws_avoid">Avoid (sell signal)</option>
+            </optgroup>
+            <optgroup label="Legacy scanners">
+              <option value="buynow_nifty100">Buy Now (Nifty 100)</option>
+              <option value="smallcap_buynow">Small-Cap Buy Now</option>
+              <option value="fundamental_deep_value">Fundamental Deep Value</option>
+            </optgroup>
           </select>
           <button class="refresh-btn" onclick="loadTrackRecord(true)">
             <span class="spin-icon">&#8635;</span> Refresh
@@ -3528,9 +3542,9 @@
       <!-- About this tab -->
       <div style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.22); border-radius:8px; padding:10px 14px; margin-bottom:24px; font-size:12px; color:var(--text-secondary); line-height:1.6;">
         <strong style="color:#60a5fa;">ⓘ How this works:</strong>
-        Every time you open the scanners, the platform records the top picks with the price + macro regime at that moment.
-        The forward return shown here is the % change from snapshot price to current price, compared against how the Nifty 50 moved over the same period.
-        <strong style="color:#86efac;">Beats Nifty</strong> means the pick generated <em>alpha</em> — outperformed the index. Aim for ≥55% beats-Nifty rate over 30+ days to validate the platform's signals.
+        Every SWS pipeline run (which writes <code style="font-size:11px;">data/sws/picks-latest.json</code>) snapshots all 10 sections — Top 30, Best Buy Now, Deep Value, Quality Growth, Mid-term, Dividend Aristocrats, Small-Cap Gems, Insider Buying, Upcoming Earnings, and Avoid — into the trade log, with the file's own <code style="font-size:11px;">scanned_at</code> as the recommendation timestamp.
+        Forward return is the % change from snapshot price to current price (or to the close price, when a section drops the ticker), compared against how the Nifty 50 moved over the same window.
+        <strong style="color:#86efac;">Beats Nifty</strong> means the pick generated <em>alpha</em> — outperformed the index. The <strong style="color:#fca5a5;">Avoid</strong> list inverts: a "win" is the pick <em>under-performing</em> Nifty, as we predicted. Aim for ≥55% beats-Nifty rate over 30+ days to validate the platform's signals.
       </div>
 
       <!-- Aggregate metric cards -->

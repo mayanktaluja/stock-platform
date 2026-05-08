@@ -26,6 +26,7 @@ import path from "node:path";
 import "dotenv/config";
 import Anthropic from "@anthropic-ai/sdk";
 import { PATHS, MODELS } from "./sws-config.mjs";
+import { snapshotAndCloseSwsPicks } from "../paperTrades.js";
 
 // ---------- Static system prompt (cached) ----------
 
@@ -304,6 +305,22 @@ async function main() {
   console.log(`Tokens — uncached input: ${totals.input}, output: ${totals.output}, cache reads: ${totals.cacheRead}, cache writes: ${totals.cacheWrite}`);
   console.log(`Cache hit rate (input side): ${(cacheHitRate * 100).toFixed(1)}%`);
   console.log(`Wrote: ${PATHS.picksLatest}`);
+
+  // Track-record snapshot: capture every section into the paper-trade log,
+  // and close any prior open trades whose section dropped them. The picks
+  // file's own scanned_at is the SEBI-defensible "moment of recommendation"
+  // — same timestamp the user sees in the UI.
+  try {
+    const trackResult = await snapshotAndCloseSwsPicks(picksData, {
+      snapshotAt: picksData.scanned_at,
+      rationale: "Auto-snapshot from sws-narrate-picks pipeline",
+    });
+    const ws = trackResult.snapshot || {};
+    const wc = trackResult.close || {};
+    console.log(`Track-record: snapshot wrote=${ws.written || 0} skipped=${ws.skipped || 0}; closed=${wc.closed || 0} positions`);
+  } catch (e) {
+    console.warn(`Track-record snapshot failed (non-fatal): ${e.message}`);
+  }
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });
