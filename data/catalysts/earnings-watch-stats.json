@@ -1,0 +1,72 @@
+{
+  "schema_version": "earnings-watch-stats-v4",
+  "built_at": "2026-05-08T22:46:06.349Z",
+  "today_iso": "2026-05-09",
+  "window_days": 14,
+  "upstream_event_count": 380,
+  "upstream_fetched_at": "2026-05-05T23:42:31.281Z",
+  "event_count": 220,
+  "bucket_by_days": {
+    "d0": 14,
+    "d1to3": 82,
+    "d4to7": 73,
+    "d8to14": 51
+  },
+  "signals": {
+    "by_data_quality": {
+      "HIGH": 79,
+      "MEDIUM": 138,
+      "LOW": 3
+    },
+    "by_pre_runup": {
+      "spike": 50,
+      "smooth": 30,
+      "lagging": 62,
+      "neutral": 78
+    },
+    "sector_count": 23,
+    "top_sectors": [
+      {
+        "sector": "Materials",
+        "count": 51
+      },
+      {
+        "sector": "Capital Goods",
+        "count": 31
+      },
+      {
+        "sector": "Diversified Financials",
+        "count": 17
+      },
+      {
+        "sector": "Consumer Durables",
+        "count": 16
+      },
+      {
+        "sector": "Pharmaceuticals & Biotech",
+        "count": 16
+      }
+    ]
+  },
+  "predictions": {
+    "by_verdict": {
+      "BEAT": 86,
+      "INLINE": 123,
+      "MISS": 8,
+      "INSUFFICIENT_DATA": 3
+    },
+    "avg_confidence_pct": 57,
+    "confidence_cap_pct": 65,
+    "predictor_version": "earnings-predict-v1-2026-05"
+  },
+  "playbooks": {
+    "tradable_count": 217,
+    "by_highlighted_branch": {
+      "RAISE": 92,
+      "MAINTAIN": 75,
+      "CUT": 50,
+      "none": 3
+    },
+    "playbook_version": "earnings-playbook-v1-2026-05"
+  }
+}

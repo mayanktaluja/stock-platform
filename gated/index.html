@@ -3120,6 +3120,9 @@
       <button class="tab" role="tab" aria-selected="false" onclick="switchTab('watchlist')">Watchlist</button>
       <!-- Admin-only. Hidden by default; auth.init() unhides for users with isAdmin=true. -->
       <button class="tab" id="usersTabBtn" role="tab" aria-selected="false" hidden onclick="switchTab('users')">Users</button>
+      <!-- Admin-only. Hidden by default; auth.init() unhides for users with isAdmin=true.
+           Server-side: /api/earnings/* is also gated to isAdmin. -->
+      <button class="tab" id="earningsTabBtn" role="tab" aria-selected="false" hidden onclick="switchTab('earnings')">Earnings Watch</button>
     </div>
 
     <!-- Dashboard (Scanner Tab) -->
@@ -3853,6 +3856,51 @@
       </div>
     </div>
 
+    <!-- Earnings Watch Tab — admin-only. Upcoming quarterly result events
+         with predicted BEAT/INLINE/MISS, confidence, and post-result T+1
+         trading playbook. Spine of the tab: data/catalysts/earnings-watch-
+         latest.json (refreshed by scripts/refresh-earnings.mjs locally and
+         committed; see nse.js:76-83 for the Vercel-IP-block rationale).
+         The tab button itself is hidden by default and unhidden in
+         auth.init() when me.isAdmin === true. Server enforces via
+         /api/earnings/* 403 for non-admins. -->
+    <div id="earningsTab" class="tab-content" style="display:none;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
+        <div>
+          <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Earnings Watch</h2>
+          <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Upcoming Indian quarterly results — calendar, signals, and (post-result) a T+1 trading playbook. Click any row for the full detail panel.</p>
+          <p id="earningsMeta" style="font-size:11px; color:var(--text-muted); margin-top:6px;">Loading…</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="refresh-btn" onclick="loadEarningsWatch()" style="background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.3);color:#fbbf24;">
+            <span class="spin-icon">&#8635;</span> Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Earnings-specific compliance ribbon. The global SEBI banner above
+           the tab bar covers the platform-wide disclaimer; this ribbon adds
+           the binary-event caveat that's specific to result trading. -->
+      <div style="background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.2); border-radius:6px; padding:10px 14px; margin-bottom:18px; font-size:12px; color:#fcd34d; line-height:1.55;">
+        <strong>Earnings are binary events.</strong> Pre-result predictions are algorithmic signals derived from public data (calendar, news, fundamentals, momentum, peer reactions). Confidence reflects model agreement, not certainty. Position sizing and stop-loss discipline are personal — this surface is research, not a buy/sell call.
+      </div>
+
+      <!-- Stats strip — fed by /api/earnings/upcoming/stats. -->
+      <div id="earningsStatsStrip" style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px;"></div>
+
+      <!-- Filter bar — days, verdict, quality, runup, sector, symbol. -->
+      <div id="earningsFilterBar" style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:18px;"></div>
+
+      <!-- Card grid (one card per upcoming event). Renderer ships in
+           gated/earnings.js to keep app.js below 12k lines. -->
+      <div id="earningsCardGrid">
+        <div class="loading">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">Loading upcoming results…</div>
+        </div>
+      </div>
+    </div>
+
     <!-- Admin-only Users tab. Server enforces admin via /api/admin/users (403 for non-admins);
          the tab button itself is unhidden client-side in auth.init() when me.isAdmin is true. -->
     <div id="usersTab" class="tab-content" style="display:none;">
@@ -3916,5 +3964,8 @@
        when sws.v2_recommendation is present in the API response). Loaded AFTER
        app.js so the v1 globals exist before patching. -->
   <script src="swsV2Render.js"></script>
+  <!-- Earnings Watch tab — loadEarningsWatch + renderers. Loaded after app.js
+       so it can reuse switchTab and openStockDetailModal globals. -->
+  <script src="earnings.js" defer></script>
 </body>
 </html>
