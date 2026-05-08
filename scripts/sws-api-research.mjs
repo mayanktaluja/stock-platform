@@ -145,11 +145,33 @@ async function captureStock(page, ticker, runId) {
   await sleep(30000);
 
   // Try clicking sub-tab buttons via text-based locator (more reliable than URL guessing).
-  const tabLabels = ["Valuation", "Future Growth", "Past Performance", "Financial Health", "Dividend", "Management", "Ownership"];
+  // News-related labels appended at the end — SWS's company-page nav doesn't
+  // always expose a dedicated news tab (the underlying `updates(...)` GraphQL
+  // call usually fires on initial overview load), but the click attempt is
+  // cheap and harmless if the label is absent (caught by the try/catch).
+  // Adding "News", "Recent News", "Updates", "Activity" covers the variants
+  // we've seen in SWS frontend strings; we capture whichever one resolves.
+  const tabLabels = [
+    "Valuation",
+    "Future Growth",
+    "Past Performance",
+    "Financial Health",
+    "Dividend",
+    "Management",
+    "Ownership",
+    "News",
+    "Recent News",
+    "Updates",
+    "Activity",
+  ];
   for (const label of tabLabels) {
     console.log(`[research]   tab: ${label}`);
     try {
-      const tab = page.getByRole("tab", { name: label }).or(page.getByRole("link", { name: label })).first();
+      const tab = page
+        .getByRole("tab", { name: label })
+        .or(page.getByRole("link", { name: label }))
+        .or(page.getByRole("button", { name: label }))
+        .first();
       await tab.click({ timeout: 5000 });
     } catch (e) {
       console.log(`[research]     ${label} click skipped: ${e.message.split("\n")[0]}`);

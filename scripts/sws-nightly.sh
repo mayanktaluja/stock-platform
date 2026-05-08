@@ -129,6 +129,22 @@ $(tail -50 data/sws/refresh-api.log 2>/dev/null)"
   exit 6
 fi
 
+# ---- 3b. News refresh (~3 min, lightweight, NON-FATAL) ----
+#
+# Captures SWS Brief + Event activity for picks ∪ portfolio ∪ watchlist
+# (~300 stocks). Augments data/sws/deep/<TICKER>.json with a `news[]` array
+# and writes data/sws/news-latest.json for the PDF + dashboard.
+#
+# Failure here MUST NOT block the nightly: news is enrichment, not core.
+# A SWS rate-limit during the news pass shouldn't trash a successful main
+# scrape. We log the failure and continue to the sanity gate as if news
+# wasn't run (the PDF and dashboard both render gracefully when news is
+# absent or stale).
+echo "[nightly] running news refresh (sws-news-scrape.mjs)..."
+if ! node scripts/sws-news-scrape.mjs 2>&1 | sed 's/^/[news] /'; then
+  echo "[nightly] news refresh failed — non-fatal, continuing to sanity gate"
+fi
+
 # ---- 4. Sanity gate ----
 
 echo "[nightly] running sanity gate..."

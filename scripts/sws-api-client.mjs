@@ -31,6 +31,16 @@ const QUERIES_PATH = path.join(REPO_ROOT, "data/sws/api-queries.json");
 const UNIVERSE_PATH = path.join(REPO_ROOT, "data/sws/universe.json");
 
 // GraphQL operations we want.
+//
+// `getCompanyUpdates` is the news/activity operation — captures Brief
+// (analyst-style commentary) + Event (corporate actions, key developments)
+// records per company. The exact operationName + variables shape are confirmed
+// from a live browser capture via scripts/sws-api-research.mjs; if SWS uses a
+// different operationName, update this entry AND the matching opVars binding
+// + parser source path. The op is OPTIONAL — sws-api-extract-queries.mjs
+// includes it only when the live capture saw it, and the per-stock fetch
+// silently skips when the query string isn't in api-queries.json (existing
+// `queries.operations[op]` filter at line ~295).
 export const TARGET_OPERATIONS = [
   "CompanySummary",
   "getNarrativeValuation",
@@ -39,6 +49,7 @@ export const TARGET_OPERATIONS = [
   "getCompanyDividends",
   "getCompanyPeers",
   "NarrativeValuationHistory",
+  "getCompanyUpdates",
 ];
 
 // REST endpoints (path templates). All GET (the captures showed GET; the
@@ -289,6 +300,18 @@ export async function fetchStockData(client, { ticker, canonicalUrl }) {
     getCompanyDividends: { id: companyId },
     getCompanyPeers: { id: companyId },
     NarrativeValuationHistory: { id: companyId },
+    // News/activity: 30 most recent Brief + Event records (~90 days for active
+    // large-caps; tail stocks return fewer naturally). The shape `{ id, input }`
+    // matches the `companyActivityFields` fragment seen in SWS's `getPortfolio`
+    // query. If the live capture (Phase 1) shows a different param shape — e.g.
+    // a bare `companyId` or a `canonicalUrl` — update here. The existing merge
+    // pattern at line ~300 (`{ ...sampleVars, ...(opVars[op] || {}) }`) means
+    // any extra fields the live capture's sampleVariables include also flow
+    // through automatically.
+    getCompanyUpdates: {
+      id: companyId,
+      input: { offset: 0, limit: 30, activityTypes: ["Brief", "Event"] },
+    },
   };
   const queries = loadQueries();
   const remainingOps = TARGET_OPERATIONS.filter(

@@ -480,6 +480,128 @@ function extractIndustryBenchmarks(api) {
   return Object.keys(out).length ? out : null;
 }
 
+// ────────── News / activity extraction ──────────
+
+// Walk a small set of plausible response paths for SWS's `getCompanyUpdates`
+// (or whatever the live-captured news op is named). The `companyActivityFields`
+// fragment SWS uses in its frontend wraps each activity record as
+// `{ time, type, data: { __typename, ...activitySpecific } }` — but the
+// containing list is sometimes a Relay `edges[].node` and sometimes a flat
+// array. Returning the first non-empty hit keeps the parser working across
+// minor schema rewrites without an api-queries.json reshuffle.
+const NEWS_OP_NAMES = [
+  "getCompanyUpdates",
+  "getCompanyActivity",
+  "getCompanyNews",
+  "CompanyUpdates",
+];
+const NEWS_LIST_KEYS = ["updates", "activity", "activities", "news", "feed"];
+
+function pickFirstArray(node, keys) {
+  if (!node || typeof node !== "object") return null;
+  for (const k of keys) {
+    const v = node[k];
+    if (Array.isArray(v) && v.length) return v;
+    if (v && typeof v === "object" && Array.isArray(v.edges) && v.edges.length) {
+      return v.edges.map((e) => (e && e.node) || e).filter(Boolean);
+    }
+  }
+  return null;
+}
+
+function findActivityArray(api) {
+  const gql = api?.graphql || {};
+  for (const opName of NEWS_OP_NAMES) {
+    const root = gql[opName];
+    if (!root) continue;
+    // Try Company.<listKey>, then root.<listKey>, then walk one extra level.
+    const candidates = [root.Company, root.company, root, root.data].filter(Boolean);
+    for (const c of candidates) {
+      const arr = pickFirstArray(c, NEWS_LIST_KEYS);
+      if (arr) return arr;
+    }
+  }
+  return [];
+}
+
+// Best-effort field mapping. SWS's BriefActivity vs EventActivity carry slightly
+// different field names; coerce to one consistent schema. `record` here is the
+// already-unwrapped activity object (post Relay unwrap); `record.data` holds
+// the type-specific payload when SWS wraps `{ time, type, data }`, otherwise
+// the fields live directly on `record`.
+function shapeActivity(record) {
+  if (!record || typeof record !== "object") return null;
+  const inner = (record.data && typeof record.data === "object") ? record.data : record;
+  const __typename = inner.__typename || record.__typename || null;
+  const isBrief = __typename === "BriefActivity" || record.type === "Brief";
+  const isEvent = __typename === "EventActivity" || record.type === "Event";
+  const type = isBrief ? "brief" : isEvent ? "event" : (record.type || null);
+
+  // Date: prefer the activity wrapper's `time` (always present), fall back to
+  // event-specific announcementDate, then any *Date / *At field on the inner.
+  const rawDate =
+    record.time ||
+    inner.announcementDate ||
+    inner.announcedAt ||
+    inner.publishedAt ||
+    inner.createdAt ||
+    inner.updatedAt ||
+    null;
+  let date = null;
+  if (rawDate) {
+    const d = new Date(rawDate);
+    date = Number.isNaN(d.getTime()) ? String(rawDate) : d.toISOString();
+  }
+
+  // Title: BriefActivity uses `title`, EventActivity also exposes `title`
+  // (aliased from `headline` in the fragment). Fall back to `headline`/`name`.
+  const title = inner.title || inner.headline || inner.name || null;
+
+  // Body: EventActivity has `situation`, BriefActivity has `outcome`.
+  const body = inner.situation || inner.outcome || inner.summary || null;
+
+  return {
+    id: record.id || inner.id || null,
+    type,
+    date,
+    title,
+    body,
+    keyDevTypeId: inner.keyDevTypeId || null,
+    source_url: inner.url || inner.sourceUrl || null,
+    raw_subtype: __typename,
+  };
+}
+
+function extractNews(api) {
+  const arr = findActivityArray(api);
+  if (!arr.length) return [];
+  const shaped = arr
+    .map(shapeActivity)
+    .filter((n) => n && n.date && n.title);
+  // DESC by date, cap 30, drop entries older than 180 days. Keeping the cap
+  // here (not at the API layer) lets the live capture fetch with a higher
+  // limit without bloating the deep JSON on disk.
+  const cutoff = Date.now() - 180 * 86400 * 1000;
+  return shaped
+    .filter((n) => {
+      const t = Date.parse(n.date);
+      return Number.isFinite(t) ? t >= cutoff : true;
+    })
+    .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
+    .slice(0, 30);
+}
+
+function recentNewsCount(news, days = 30) {
+  if (!Array.isArray(news) || !news.length) return 0;
+  const cutoff = Date.now() - days * 86400 * 1000;
+  let n = 0;
+  for (const item of news) {
+    const t = Date.parse(item.date);
+    if (Number.isFinite(t) && t >= cutoff) n++;
+  }
+  return n;
+}
+
 // Gross margin extraction was attempted but the SWS API consistently reports
 // grossProfit == revenue (with cogs == null) for the entire Indian-stock
 // universe — a data limitation, not a parser bug. Computing margin from
@@ -505,6 +627,7 @@ export function parseStock(api, opts = {}) {
   const insiderPct = extractInsiderOwnershipPct(api);
   const dividendInfo = extractDividendInfo(api);
   const marketCap = extractMarketCap(api);
+  const news = extractNews(api);
 
   const out = {
     ticker: api.ticker || info.ticker_symbol,
@@ -556,6 +679,11 @@ export function parseStock(api, opts = {}) {
       // otherwise. Source: nse.js::fetchNseEventCalendar (cached to
       // data/sws/nse-event-calendar.json by sws-fetch-nse-calendar.mjs).
       next_earnings_date: nseCalendar?.get?.((api.ticker || "").toUpperCase())?.date || null,
+      // Number of news/activity items in the last 30 days. The full list lives
+      // on out.news (top-level) — this scalar is the cheap signal for the
+      // scoring/UI layer to badge a stock as "fresh news this month" without
+      // pulling the full array.
+      recent_news_count: recentNewsCount(news, 30),
       // last_quarter_result (beat/miss/inline) requires post-result analyst
       // commentary which neither the SWS capture nor the NSE feed surfaces.
       // Left null until a separate result-tracker pipeline lands.
@@ -578,6 +706,13 @@ export function parseStock(api, opts = {}) {
     // under Vercel's serverless size limit. Re-add as targeted extractors
     // (specific scalar fields) when downstream code actually reads them.
     indices: [info.exchange_symbol || info.exchange_symbol_filtered].filter(Boolean),
+
+    // SWS news/activity items (Brief + Event), sorted DESC by date, capped at
+    // 30 entries within the last 180 days. Empty array when the news GraphQL
+    // op wasn't captured for this stock or the company has no recent activity.
+    // Surface: stock-detail modal "Recent news" section, daily PDF "What's
+    // new this week" section, narration. See extractNews() above for shape.
+    news,
 
     _api_raw_path: `data/sws/deep-api/${api.ticker}.json`,
   };
