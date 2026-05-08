@@ -7592,6 +7592,25 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       console.warn("[ANALYZE] analyzer-cache write failed:", e.message);
     }
 
+    // Also mirror into portfolioStorage so the admin Users tab can render
+    // the XLSX download link and /api/admin/users/:sub/portfolio.xlsx can
+    // serve a real export. The analyzer was previously the only upload
+    // path, so without this the admin store stayed empty for every user.
+    // Preserve any other fields already on the portfolio (riskProfile etc.)
+    // and only overwrite mutualFunds when the upload actually contained MFs
+    // — a stocks-only Groww export should not wipe a saved MF list.
+    try {
+      const existing = await readPortfolio(sub);
+      await savePortfolio(sub, {
+        ...existing,
+        stocks: savable.stocks,
+        mutualFunds: uploadHasMfs ? savable.mutualFunds : (existing.mutualFunds || []),
+        lastUpdated: savable.parsedAt,
+      });
+    } catch (e) {
+      console.warn("[ANALYZE] portfolio-store write failed:", e.message);
+    }
+
     // Only hard-fail when the parser found literally nothing — not when
     // it found rows but classified them all as non-equity (MF/ETF/F&O).
     // In the latter case, return a minimal report so the UI can still
