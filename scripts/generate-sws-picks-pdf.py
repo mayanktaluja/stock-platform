@@ -31,6 +31,9 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PICKS_LATEST = os.path.join(REPO_ROOT, "data", "sws", "picks-latest.json")
 DEEP_DIR = os.path.join(REPO_ROOT, "data", "sws", "deep")
 OUTPUT_DIR = os.path.join(REPO_ROOT, "reports", "sws-picks")
+# Aggregate news feed produced by scripts/sws-news-scrape.mjs.
+# Optional — when missing, the "What's new this week" section is skipped.
+NEWS_LATEST = os.path.join(REPO_ROOT, "data", "sws", "news-latest.json")
 
 DARK_BG = colors.HexColor("#0f1724")
 GREEN = colors.HexColor("#34d399")
@@ -116,6 +119,30 @@ def load_data():
                 except Exception:
                     pass
     return picks, deep
+
+
+def load_news_aggregate():
+    # Returns the news-latest.json dict or None if the file doesn't exist /
+    # can't be parsed. The PDF gracefully skips the news section in that case
+    # — the news scrape is enrichment, not a hard dependency.
+    if not os.path.isfile(NEWS_LATEST):
+        return None
+    try:
+        with open(NEWS_LATEST, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
+def _format_news_date(iso):
+    # Compact human-readable date for narrow PDF cells (e.g. "12 May").
+    if not iso:
+        return ""
+    try:
+        d = datetime.fromisoformat(str(iso).replace("Z", "+00:00"))
+        return d.strftime("%d %b")
+    except Exception:
+        return str(iso)[:10]
 
 
 def cover_page(picks):
@@ -317,6 +344,20 @@ def stock_page(s, deep):
                 items.append(Paragraph(f"⚠ {r}", BODY))
             items.append(Spacer(1, 6))
 
+        # Recent news (top 3) — appears only when sws-news-scrape.mjs has
+        # populated the deep file's `news` array. Brief = analyst-style
+        # commentary, Event = corporate actions / key developments.
+        news = full.get("news") if isinstance(full.get("news"), list) else []
+        if news:
+            items.append(Paragraph("Recent news", H3))
+            for n in news[:3]:
+                date_part = _format_news_date(n.get("date"))
+                title = (n.get("title") or "").strip()
+                badge = "Event" if n.get("type") == "event" else "Brief"
+                line = f"<b>{date_part}</b> · <i>{badge}</i> · {title}"
+                items.append(Paragraph(line, BODY))
+            items.append(Spacer(1, 6))
+
         # Forward growth + earnings calendar
         fg = ov.get("dividend") or {}
         fund_rows = []
@@ -350,6 +391,68 @@ def stock_page(s, deep):
     items.append(Paragraph(one_line_text, SMALL))
     if s.get("sws_url"):
         items.append(Paragraph(f"Source: {s['sws_url']}", SMALL))
+    items.append(PageBreak())
+    return items
+
+
+def whats_new_section(news_agg, picks):
+    # Cross-portfolio chronological news feed. Limits to picks-set tickers so
+    # the PDF stays focused on stocks the report actually covers; an item from
+    # a holding outside the picks (rare) gets surfaced via the per-stock-page
+    # "Recent news" block instead. Skipped entirely when news-latest.json is
+    # missing or empty — keeps existing PDF output unchanged on hosts that
+    # haven't run sws-news-scrape.mjs yet.
+    if not news_agg or not isinstance(news_agg.get("items"), list):
+        return []
+    items_in = news_agg["items"]
+    if not items_in:
+        return []
+
+    # Restrict to the picks set so this section isn't polluted by holdings or
+    # watchlist stocks that aren't covered elsewhere in the report.
+    pick_tickers = set()
+    for arr in (picks.get("sections") or {}).values():
+        if isinstance(arr, list):
+            for s in arr:
+                if s.get("ticker"):
+                    pick_tickers.add(s["ticker"])
+    filtered = [it for it in items_in if it.get("ticker") in pick_tickers]
+    if not filtered:
+        return []
+    # Top 30, already sorted DESC at write time.
+    filtered = filtered[:30]
+
+    items = []
+    items.append(Paragraph("What's new this week", H2))
+    items.append(Paragraph(
+        f"Recent corporate actions and analyst-flagged briefs across the picks set "
+        f"(window: {news_agg.get('window_days', 30)} days, "
+        f"{len(filtered)} of {len(items_in)} items shown).",
+        META,
+    ))
+    items.append(Spacer(1, 6))
+
+    rows = [["Date", "Ticker", "Type", "Headline"]]
+    for n in filtered:
+        rows.append([
+            _format_news_date(n.get("date")),
+            n.get("ticker", "—"),
+            "Event" if n.get("type") == "event" else "Brief",
+            (n.get("title") or "")[:90],
+        ])
+    t = Table(rows, colWidths=[0.7 * inch, 0.85 * inch, 0.55 * inch, 4.2 * inch])
+    t.setStyle(TableStyle([
+        ("FONT", (0, 0), (-1, 0), "Helvetica-Bold", 8),
+        ("FONT", (0, 1), (-1, -1), "Helvetica", 8),
+        ("BACKGROUND", (0, 0), (-1, 0), HEADER_BG),
+        ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+        ("ALIGN", (0, 1), (0, -1), "LEFT"),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+        ("TOPPADDING", (0, 0), (-1, -1), 3),
+        ("ROWBACKGROUNDS", (0, 1), (-1, -1), [LIGHT, colors.white]),
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+    ]))
+    items.append(t)
     items.append(PageBreak())
     return items
 
@@ -404,6 +507,7 @@ def main():
         print(f"ERROR: {PICKS_LATEST} not found. Run scoring first: node scripts/sws-scoring.mjs", file=sys.stderr)
         sys.exit(2)
     picks, deep = load_data()
+    news_agg = load_news_aggregate()
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     out_path = os.path.join(OUTPUT_DIR, f"Top-50-Buy-Now-{date.today().isoformat()}.pdf")
     doc = SimpleDocTemplate(
@@ -415,6 +519,7 @@ def main():
 
     story = []
     story.extend(cover_page(picks))
+    story.extend(whats_new_section(news_agg, picks))
     story.extend(leaderboard_table(picks))
 
     # Top-50 stock pages — use union of best_to_buy_now (top 25) + top of other categories to fill 50
