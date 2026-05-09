@@ -146,36 +146,27 @@ if ! node scripts/sws-news-scrape.mjs 2>&1 | sed 's/^/[news] /'; then
 fi
 
 # ---- 4. Sanity gate ----
+#
+# Layered checks (L1 run integrity, L2 coverage, L3 data sanity, L6 picks
+# coherence) live in scripts/sws-sanity-gate.mjs. Exit 0 = ship, exit 1 =
+# block push. Full machine-readable report at data/sws/_sanity/_latest.json.
 
 echo "[nightly] running sanity gate..."
-GATE_OUT=$(node --input-type=module -e '
-import {readFileSync} from "fs";
-const lr = JSON.parse(readFileSync("data/sws/last-refresh.json","utf-8"));
-const picks = JSON.parse(readFileSync("data/sws/picks-latest.json","utf-8"));
-const sc = picks.sections || {};
-const checks = {
-  scored_count_ok:       (lr.scored_count ?? picks.scored_count ?? 0) >= 5000,
-  top_ranked_30_ok:      (sc.top_ranked_30_v3?.length ?? 0) === 30,
-  best_to_buy_now_ok:    (sc.best_to_buy_now?.length ?? 0) >= 20,
-  upcoming_earnings_ok:  (sc.upcoming_earnings?.length ?? 0) >= 50,
-  no_failed_shards:      (lr.shards_failed ?? 0) === 0,
-  scanned_recent:        (Date.now() - new Date(picks.scanned_at).getTime()) < 1000*60*60*6,
-  news_populated_ok:     (lr.news_populated_count ?? 0) >= 1000,
-};
-const pass = Object.values(checks).every(v => v);
-console.log(JSON.stringify({pass, checks, summary: {scored: lr.scored_count, top30: sc.top_ranked_30_v3?.length, btbn: sc.best_to_buy_now?.length, earnings: sc.upcoming_earnings?.length, news_stocks: lr.news_populated_count ?? 0, news_items: lr.news_items_total ?? 0}}, null, 2));
-process.exit(pass ? 0 : 1);
-' 2>&1)
+GATE_OUT=$(node scripts/sws-sanity-gate.mjs 2>&1)
 GATE_RC=$?
 echo "${GATE_OUT}" | sed 's/^/[gate] /'
 
+# Single-line summary suitable for commit body / PR title.
+SANITY_SUMMARY=$(echo "${GATE_OUT}" | grep -E '^\[sanity-gate\] verdict=' | head -1 | sed 's/^\[sanity-gate\] //')
+
 if [ ${GATE_RC} -ne 0 ]; then
   echo "[nightly] sanity gate FAILED — refusing to push"
-  send_mail "🚨 SWS nightly — sanity gate failed" "Scrape completed but sanity gate REJECTED the output at $(ts). Data NOT pushed to prod.
+  send_mail "🚨 SWS nightly — sanity gate failed (${SANITY_SUMMARY:-no summary})" "Scrape completed but sanity gate REJECTED the output at $(ts). Data NOT pushed to prod.
 
 Gate output:
 ${GATE_OUT}
 
+Full report: data/sws/_sanity/_latest.json
 Inspect data/sws/picks-latest.json and data/sws/last-refresh.json. If false alarm, push manually."
   exit 7
 fi
@@ -235,8 +226,8 @@ git add data/sws/deep/ \
 [ -d reports/sws-picks ] && git add reports/sws-picks/*.pdf 2>/dev/null
 
 # Build commit body from sanity-gate summary
-COMMIT_BODY=$(COVERAGE_LINE="${COVERAGE_LINE}" node --input-type=module -e '
-import {readFileSync} from "fs";
+COMMIT_BODY=$(COVERAGE_LINE="${COVERAGE_LINE}" SANITY_SUMMARY="${SANITY_SUMMARY}" node --input-type=module -e '
+import {readFileSync, existsSync} from "fs";
 const lr = JSON.parse(readFileSync("data/sws/last-refresh.json","utf-8"));
 const picks = JSON.parse(readFileSync("data/sws/picks-latest.json","utf-8"));
 const sc = picks.sections || {};
@@ -247,7 +238,25 @@ const lines = [
   `- duration: ${lr.duration_seconds}s`,
   `- sections: top30=${sc.top_ranked_30_v3?.length}, best_to_buy_now=${sc.best_to_buy_now?.length}, deep_value=${sc.deep_value?.length}, quality_growth=${sc.quality_growth?.length}, midterm=${sc.midterm?.length}, dividend_aristocrats=${sc.dividend_aristocrats?.length}, smallcap_gems=${sc.smallcap_gems?.length}, upcoming_earnings=${sc.upcoming_earnings?.length}, avoid=${sc.avoid?.length}`,
 ];
+if (process.env.SANITY_SUMMARY) lines.push(`- sanity: ${process.env.SANITY_SUMMARY}`);
 if (process.env.COVERAGE_LINE) lines.push(`- ${process.env.COVERAGE_LINE}`);
+// Surface any WARN findings inline so reviewers see them in the PR body.
+try {
+  const sp = "data/sws/_sanity/_latest.json";
+  if (existsSync(sp)) {
+    const r = JSON.parse(readFileSync(sp, "utf-8"));
+    if (r.warn_count > 0) {
+      lines.push(``, `Sanity warnings (${r.warn_count}):`);
+      for (const [layer, info] of Object.entries(r.layers || {})) {
+        for (const c of info.checks || []) {
+          if (!c.ok && c.severity === "WARN") {
+            lines.push(`- ${layer}/${c.name}`);
+          }
+        }
+      }
+    }
+  }
+} catch {}
 console.log(lines.join("\n"));
 ' 2>/dev/null)
 
@@ -321,13 +330,28 @@ fi
 # ---- 7. Mail success summary ----
 
 ELAPSED=$(($(date +%s) - START_EPOCH))
-send_mail "✅ SWS auto-refresh OK — ${RUN_LABEL} IST ($((ELAPSED/60))m)" "SWS refresh completed at $(ts) in $((ELAPSED/60))m $((ELAPSED%60))s.
+
+# Subject reflects sanity verdict so the operator can see at a glance whether
+# any layered checks raised a warning (push happened, but worth a look).
+MAIL_SUBJECT_PREFIX="✅ SWS auto-refresh OK"
+if echo "${SANITY_SUMMARY:-}" | grep -q 'verdict=WARN'; then
+  MAIL_SUBJECT_PREFIX="⚠️ SWS auto-refresh OK with warnings"
+fi
+
+send_mail "${MAIL_SUBJECT_PREFIX} — ${RUN_LABEL} IST ($((ELAPSED/60))m)" "SWS refresh completed at $(ts) in $((ELAPSED/60))m $((ELAPSED%60))s.
 
 Fire: ${RUN_LABEL} IST
 PR: ${PR_URL}
 Branch: ${BRANCH} (deleted on merge)
 
 ${COMMIT_BODY}
+
+---
+Sanity gate output:
+${GATE_OUT}
+
+Full sanity report: data/sws/_sanity/_latest.json
+---
 
 Vercel will redeploy main once CI green. Production data should be fresh shortly."
 
