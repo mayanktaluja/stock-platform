@@ -5018,7 +5018,7 @@ async function loadWatchlist() {
         ? new Date(s.addedAt).toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "2-digit" })
         : "—";
       return `
-        <tr style="cursor:pointer;" onclick="loadStock('${sym}')">
+        <tr style="cursor:pointer;" onclick="openStockDetailModal('${sym}','watchlist')">
           <td style="padding:6px 4px;">${watchlistButton(sym, name, sector)}</td>
           <td>
             <div style="font-weight:600;">${escapeHtml(sym)}</div>
