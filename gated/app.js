@@ -2584,6 +2584,13 @@ function _renderUsersTable(users) {
   const rows = users.map((u) => {
     const events = Array.isArray(u.loginEvents) ? u.loginEvents : [];
     const visitCount = events.length;
+    // sessionCount is server-derived; for legacy records that pre-date
+    // session tracking, fall back to the login-event count so the column
+    // isn't empty.
+    const sessionCount = (typeof u.sessionCount === "number")
+      ? u.sessionCount
+      : events.length;
+    const lastSeenAt = u.lastSeenAt || u.lastLoginAt;
     const open = _usersExpanded.has(u.sub);
     const adminBadge = u.isAdmin
       ? '<span style="background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3);padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;">ADMIN</span>'
@@ -2604,7 +2611,7 @@ function _renderUsersTable(users) {
         : `<tr><td colspan="3" style="padding:12px;color:var(--text-muted);text-align:center;">No visit log yet — first tracked visit will appear here.</td></tr>`;
       drilldown = `
         <tr>
-          <td colspan="7" style="padding:0;background:rgba(255,255,255,0.02);">
+          <td colspan="8" style="padding:0;background:rgba(255,255,255,0.02);">
             <div style="padding:12px 16px;">
               <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Visit log (most recent first)</div>
               <table style="width:100%;border-collapse:collapse;font-size:12px;">
@@ -2638,8 +2645,9 @@ function _renderUsersTable(users) {
         </td>
         <td style="padding:10px 12px;">${adminBadge}</td>
         <td style="padding:10px 12px;font-variant-numeric:tabular-nums;font-size:12px;color:var(--text-muted);">${_escHtml(_fmtIST(u.createdAt))}</td>
-        <td style="padding:10px 12px;font-variant-numeric:tabular-nums;font-size:12px;">${_escHtml(_fmtIST(u.lastLoginAt))}</td>
-        <td style="padding:10px 12px;font-variant-numeric:tabular-nums;text-align:right;">${visitCount}</td>
+        <td style="padding:10px 12px;font-variant-numeric:tabular-nums;font-size:12px;" title="Last activity (any authenticated request)">${_escHtml(_fmtIST(lastSeenAt))}</td>
+        <td style="padding:10px 12px;font-variant-numeric:tabular-nums;text-align:right;" title="Total OAuth logins (cookie expires every 30 days)">${visitCount}</td>
+        <td style="padding:10px 12px;font-variant-numeric:tabular-nums;text-align:right;" title="Distinct visits — new session counted after 30+ min idle gap">${sessionCount}</td>
         <td style="padding:10px 12px;text-align:right;">${portfolioCell}</td>
       </tr>
       ${drilldown}
@@ -2655,7 +2663,8 @@ function _renderUsersTable(users) {
           <th style="padding:10px 12px;font-weight:500;width:80px;">Role</th>
           <th style="padding:10px 12px;font-weight:500;">First seen</th>
           <th style="padding:10px 12px;font-weight:500;">Last seen</th>
-          <th style="padding:10px 12px;font-weight:500;text-align:right;">Visits</th>
+          <th style="padding:10px 12px;font-weight:500;text-align:right;" title="Total OAuth logins">Visits</th>
+          <th style="padding:10px 12px;font-weight:500;text-align:right;" title="Distinct platform visits — new session after 30+ min idle">Sessions</th>
           <th style="padding:10px 12px;font-weight:500;text-align:right;">Portfolio</th>
         </tr>
       </thead>
