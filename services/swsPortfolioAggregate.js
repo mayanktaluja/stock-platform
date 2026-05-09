@@ -74,7 +74,23 @@ function _reductionRupees(holding) {
   return cv * parseTrimPct(holding.action);
 }
 
-function buildTiers(scoredHoldings) {
+// Detects "shell" SWS deep entries — the file exists (so swsCovered is
+// true and the engine produces a score) but the underlying snapshot has
+// no fundamentals signal: every Snowflake pillar is zero AND every
+// valuation multiple is null. Real example: post-demerger tickers like
+// TMCV.NS where SWS lists the security but hasn't populated pillars or
+// multiples yet. Without this check the action ladder reads v3≈17 /
+// snow=0 as a deeply weak holding and emits a Reduction — which is the
+// engine punishing the user for an SWS coverage gap, not a thesis call.
+export function _isSwsDataTooThinToReduce(h) {
+  const snowTotal = num(h?.sws?.snowflake?.total ?? h?.sws?.snowflake_total, 0);
+  const m = h?.sws?.multiples || {};
+  const allMultiplesNull =
+    m.pe == null && m.ps == null && m.pb == null && m.ev_ebitda == null;
+  return snowTotal === 0 && allMultiplesNull;
+}
+
+export function buildTiers(scoredHoldings) {
   const tierA = []; // Reductions
   const tierC = []; // HOLD
   const tierD = []; // Watch (HOLD with weak signal — borderline)
@@ -84,6 +100,13 @@ function buildTiers(scoredHoldings) {
   for (const h of scoredHoldings) {
     if (!h.swsCovered) {
       tierD.push({ ...h, watchReason: "No SWS data — verify ticker / treat as out-of-universe." });
+      continue;
+    }
+    if (REDUCTION_ACTIONS.has(h.action) && _isSwsDataTooThinToReduce(h)) {
+      tierD.push({
+        ...h,
+        watchReason: "Insufficient SWS coverage (Snowflake 0/30, no fundamentals) — too thin to recommend reduction. Hand-watch.",
+      });
       continue;
     }
     if (REDUCTION_ACTIONS.has(h.action)) {
