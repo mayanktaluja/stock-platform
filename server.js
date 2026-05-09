@@ -165,7 +165,15 @@ import {
   getISTDateKey,
   snapshotAndCloseSwsPicks,
   SWS_SECTION_TO_TYPE,
+  ALL_SECTION_TYPES,
 } from "./paperTrades.js";
+import { snapshotTrackRecordSections } from "./services/trackRecord/sectionSnapshotter.js";
+import { resolveOpenHorizons } from "./services/trackRecord/forwardReturnsResolver.js";
+import {
+  buildAllSectionScorecards,
+  latestTopForType,
+  SECTION_LABELS,
+} from "./services/trackRecord/sectionScorecard.js";
 import {
   bucketTradesByScoreBand,
   getConvictionPct,
@@ -6457,6 +6465,10 @@ app.get("/api/track/history", async (req, res) => {
     const byType = groupAndAggregate(tradesWithReturns, "type");
     const byRegime = groupAndAggregate(tradesWithReturns, "regimeAtSnapshot");
     const bySector = groupAndAggregate(tradesWithReturns, "sector");
+    // V2 — per-section forward-return scorecard at 1m/3m/6m/12m horizons.
+    // Only V2-shape trades (with `returns_by_horizon`) feed this; legacy
+    // trades fall through to the byType / vs-Nifty live-price path above.
+    const bySectionScorecard = buildAllSectionScorecards(trades);
 
     const response = {
       trades: tradesWithReturns,
@@ -6464,6 +6476,7 @@ app.get("/api/track/history", async (req, res) => {
       byType,
       byRegime,
       bySector,
+      bySectionScorecard,
       currentNifty,
       totalCount: tradesWithReturns.length,
       uniqueSymbols: uniqueSymbols.length,
@@ -6639,6 +6652,120 @@ app.post("/api/track/snapshot-sws-now", async (req, res) => {
     });
   } catch (err) {
     console.error("[PAPERTRADES] /api/track/snapshot-sws-now failed:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * GET /api/track/sections
+ *
+ * V2 SEBI-RA-grade scorecard endpoint. Returns one entry per Track-Record
+ * section with: latest top-10 picks, multi-horizon scorecard (1m/3m/6m/12m
+ * for stocks; T+1 for earnings), and side label. Powers the new section
+ * grid below the headline metrics on the Track Record tab.
+ */
+app.get("/api/track/sections", async (req, res) => {
+  try {
+    const cacheKey = "track_sections";
+    if (!req.query.bust) {
+      const cached = trackCache.get(cacheKey);
+      if (cached) { res.set("X-Cache", "HIT"); return res.json(cached); }
+    }
+    const trades = await readAllTrades();
+    const scorecards = buildAllSectionScorecards(trades);
+    const sections = Object.keys(ALL_SECTION_TYPES).map((type) => {
+      const card = scorecards[type] || { side: ALL_SECTION_TYPES[type], n_total: 0, horizons: {} };
+      const top = latestTopForType(trades, type, 10);
+      return {
+        type,
+        label: SECTION_LABELS[type] || type,
+        side: card.side,
+        n_total: card.n_total,
+        latest_top10: top.map((t) => ({
+          symbol: t.symbol,
+          name: t.name,
+          sector: t.sector,
+          section_rank: t.section_rank,
+          dateKey: t.dateKey,
+          score: t.scoreAtSnapshot,
+          cap_band: t.cap_band,
+          benchmark_proxy: t.benchmark_proxy,
+        })),
+        scorecard_by_horizon: card.horizons,
+      };
+    });
+    const response = {
+      sections,
+      lastComputedAt: new Date().toISOString(),
+      todayKey: getISTDateKey(),
+    };
+    trackCache.set(cacheKey, response);
+    res.set("X-Cache", "MISS");
+    res.json(response);
+  } catch (err) {
+    console.error("[PAPERTRADES] /api/track/sections failed:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * POST /api/cron/snapshot-track-record
+ *
+ * Daily cron that snapshots the top-10 from every non-SWS Track-Record
+ * section (SWS sections auto-snapshot inside the SWS pipeline). CRON_SECRET-
+ * gated identically to scan-precompute.
+ *
+ * Sequenced after the data-refresh crons land at 04:01 UTC. Default cron
+ * schedule: 30 4 * * * (10:00 IST).
+ */
+app.all("/api/cron/snapshot-track-record", async (req, res) => {
+  const cronSecret = process.env.CRON_SECRET;
+  const provided = req.headers["x-cron-secret"] || req.query.cron_secret;
+  const isLocal = !process.env.VERCEL;
+  if (!isLocal && cronSecret && provided !== cronSecret) {
+    return res.status(403).json({ error: "Bad CRON_SECRET" });
+  }
+  try {
+    const niftyQuote = await fetchQuote("^NSEI").catch(() => null);
+    const niftyPrice = niftyQuote?.regularMarketPrice ?? null;
+    const baseUrl = req.headers["x-forwarded-host"]
+      ? `https://${req.headers["x-forwarded-host"]}`
+      : `http://localhost:${PORT}`;
+    const result = await snapshotTrackRecordSections({
+      baseUrl,
+      niftyPrice,
+      regime: macroRegimeCache.get(MACRO_CACHE_KEY) || defaultCalmRegime(),
+      rationale: "Daily Track Record snapshot (cron)",
+    });
+    trackCache.flushAll();
+    res.json(result);
+  } catch (err) {
+    console.error("[PAPERTRADES] /api/cron/snapshot-track-record failed:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * POST /api/cron/resolve-forward-returns
+ *
+ * Daily cron that resolves any horizons whose anniversary has arrived.
+ * Idempotent — already-closed rows are skipped. CRON_SECRET-gated.
+ *
+ * Default schedule: 0 5 * * * (10:30 IST), one hour after the snapshot cron.
+ */
+app.all("/api/cron/resolve-forward-returns", async (req, res) => {
+  const cronSecret = process.env.CRON_SECRET;
+  const provided = req.headers["x-cron-secret"] || req.query.cron_secret;
+  const isLocal = !process.env.VERCEL;
+  if (!isLocal && cronSecret && provided !== cronSecret) {
+    return res.status(403).json({ error: "Bad CRON_SECRET" });
+  }
+  try {
+    const result = await resolveOpenHorizons({ todayIso: new Date().toISOString() });
+    trackCache.flushAll();
+    res.json(result);
+  } catch (err) {
+    console.error("[PAPERTRADES] /api/cron/resolve-forward-returns failed:", err.message);
     res.status(500).json({ error: err.message });
   }
 });

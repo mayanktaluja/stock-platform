@@ -4233,6 +4233,10 @@ async function loadTrackRecord(forceBust = false) {
   const tableEl = document.getElementById("trackHistoryTable");
   const updatedEl = document.getElementById("trackLastUpdated");
 
+  // V2 — kick off the per-section scorecard fetch in parallel. It paints
+  // independently of the headline metrics and trade list.
+  loadTrackSections(forceBust);
+
   try {
     const res = await fetch(url);
     const data = await res.json();
@@ -4642,6 +4646,126 @@ function renderStockVerdictCard(sv) {
         <div style="margin-top:10px;font-size:9px;color:var(--text-muted);text-align:right;">Stock + market composite · Educational content only</div>
       </div>
     </div>`;
+}
+
+// ==================== TRACK RECORD — SECTION GRID (V2) ====================
+//
+// Renders one card per pick-producing section with side badge, latest top-10
+// picks, and forward-return scorecard at the user-chosen horizon. Reads
+// /api/track/sections once per loadTrackRecord call; the horizon selector
+// only re-renders from the cached payload.
+
+let _trackSectionsCache = null;
+
+function _trackHorizonValue() {
+  const sel = document.getElementById("trackHorizonSelector");
+  return sel?.value || "3m";
+}
+
+function _trackSparkline(values, opts = {}) {
+  if (!Array.isArray(values) || values.length < 2) return "";
+  const w = opts.width || 80;
+  const h = opts.height || 20;
+  const stroke = opts.stroke || "#60a5fa";
+  let min = Math.min(...values);
+  let max = Math.max(...values);
+  if (min === max) { min -= 1; max += 1; }
+  const span = max - min;
+  const pts = values.map((v, i) => {
+    const x = (i / (values.length - 1)) * w;
+    const y = h - ((v - min) / span) * h;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(" ");
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="overflow:visible;">
+    <polyline points="${pts}" fill="none" stroke="${stroke}" stroke-width="1.5"/>
+  </svg>`;
+}
+
+function _scorecardCellsHTML(scorecardByHorizon, primaryHorizon) {
+  const horizons = Object.keys(scorecardByHorizon || {});
+  if (horizons.length === 0) return '<div style="font-size:11px; color:var(--text-muted); padding:6px 0;">No data yet</div>';
+  // Earnings sections only have t1; render a single strip.
+  if (horizons.length === 1 && horizons[0] === "t1") {
+    const c = scorecardByHorizon.t1;
+    const hr = c.hit_rate_pct;
+    const colour = hr == null ? "var(--text-muted)" : hr >= 55 ? "#22c55e" : hr >= 45 ? "#eab308" : "#ef4444";
+    return `<div style="display:flex; gap:8px; align-items:baseline; padding:6px 0; font-size:12px;">
+      <span style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em;">T+1 Hit-Rate</span>
+      <span style="color:${colour}; font-weight:700; font-size:16px;">${hr != null ? hr + "%" : "—"}</span>
+      <span style="color:var(--text-muted); font-size:11px;">n=${c.n_resolved}/${c.n_resolved + c.n_open}</span>
+    </div>`;
+  }
+  // Standard 1m/3m/6m/12m grid. Highlight the primary horizon.
+  return `<div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; padding:6px 0;">
+    ${["1m", "3m", "6m", "12m"].map((h) => {
+      const c = scorecardByHorizon[h] || {};
+      const isPrimary = h === primaryHorizon;
+      const hr = c.hit_rate_pct;
+      const ma = c.mean_alpha_pct;
+      const hrColour = hr == null ? "var(--text-muted)" : hr >= 55 ? "#22c55e" : hr >= 45 ? "#eab308" : "#ef4444";
+      const maColour = ma == null ? "var(--text-muted)" : ma > 0 ? "#22c55e" : "#ef4444";
+      const bg = isPrimary ? "rgba(96,165,250,0.08)" : "transparent";
+      const border = isPrimary ? "1px solid rgba(96,165,250,0.3)" : "1px solid #1a2233";
+      return `<div style="background:${bg}; border:${border}; border-radius:6px; padding:6px 4px; text-align:center;">
+        <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em;">${h}</div>
+        <div style="color:${hrColour}; font-weight:700; font-size:14px; margin-top:2px;">${hr != null ? hr + "%" : "—"}</div>
+        <div style="color:${maColour}; font-size:10px; margin-top:1px;">${ma != null ? (ma > 0 ? "+" : "") + ma + "%" : "—"}</div>
+        <div style="color:var(--text-muted); font-size:9px; margin-top:2px;">n=${c.n_resolved ?? 0}</div>
+      </div>`;
+    }).join("")}
+  </div>`;
+}
+
+function _sectionCardHTML(section, primaryHorizon) {
+  const sideColour = section.side === "SHORT" ? "#ef4444" : "#22c55e";
+  const sideBg = section.side === "SHORT" ? "rgba(239,68,68,0.12)" : "rgba(34,197,94,0.12)";
+  // The horizon picked for the sparkline matches the user-selected horizon
+  // for stock sections; earnings sections fall back to t1.
+  const sparkHorizon = primaryHorizon in (section.scorecard_by_horizon || {}) ? primaryHorizon : "t1";
+  const sparkSlot = section.scorecard_by_horizon?.[sparkHorizon];
+  const cumPct = sparkSlot?.since_inception_cum_pct;
+  // Top-10 chips
+  const chips = (section.latest_top10 || []).slice(0, 10).map((p) => {
+    const sym = (p.symbol || "").replace(/\.NS$/, "");
+    return `<span onclick="openStockDetail('${escapeHtml(p.symbol)}')" style="display:inline-block; padding:2px 7px; background:rgba(96,165,250,0.08); border:1px solid rgba(96,165,250,0.25); border-radius:4px; color:#93c5fd; font-size:11px; font-weight:600; cursor:pointer; margin:2px 3px 2px 0;">${escapeHtml(sym)}</span>`;
+  }).join("");
+  return `<div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:14px; display:flex; flex-direction:column; gap:8px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+      <div style="font-size:12px; font-weight:700; color:var(--text-primary); line-height:1.3;">${escapeHtml(section.label)}</div>
+      <span style="display:inline-block; padding:2px 7px; border-radius:4px; background:${sideBg}; color:${sideColour}; font-size:9px; font-weight:800; letter-spacing:0.06em;">${section.side}</span>
+    </div>
+    <div style="font-size:10px; color:var(--text-muted);">
+      ${section.n_total} total snapshots · cum α (${sparkHorizon}): ${cumPct != null ? `<span style="color:${cumPct >= 0 ? '#22c55e' : '#ef4444'}; font-weight:600;">${cumPct >= 0 ? '+' : ''}${cumPct}%</span>` : "—"}
+    </div>
+    <div style="border-top:1px solid #1a2233; padding-top:6px; min-height:44px;">${chips || '<span style="font-size:11px; color:var(--text-muted);">No latest snapshot</span>'}</div>
+    ${_scorecardCellsHTML(section.scorecard_by_horizon, primaryHorizon)}
+  </div>`;
+}
+
+window.__trackRenderSectionGrid = function() {
+  const grid = document.getElementById("trackSectionGrid");
+  if (!grid) return;
+  if (!_trackSectionsCache || !Array.isArray(_trackSectionsCache.sections)) {
+    grid.innerHTML = `<div class="empty-state"><div class="empty-text">No section data yet — run the daily snapshot cron or trigger /api/cron/snapshot-track-record manually.</div></div>`;
+    return;
+  }
+  const horizon = _trackHorizonValue();
+  grid.innerHTML = _trackSectionsCache.sections.map((s) => _sectionCardHTML(s, horizon)).join("");
+};
+
+async function loadTrackSections(forceBust = false) {
+  try {
+    const url = `/api/track/sections${forceBust ? "?bust=1" : ""}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    _trackSectionsCache = await res.json();
+    window.__trackRenderSectionGrid();
+  } catch (err) {
+    const grid = document.getElementById("trackSectionGrid");
+    if (grid) {
+      grid.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">Section scorecard load failed: ${escapeHtml(err.message)}</div></div>`;
+    }
+  }
 }
 
 // ==================== NEWS HEADLINE RENDERER ====================
