@@ -160,9 +160,10 @@ const checks = {
   upcoming_earnings_ok:  (sc.upcoming_earnings?.length ?? 0) >= 50,
   no_failed_shards:      (lr.shards_failed ?? 0) === 0,
   scanned_recent:        (Date.now() - new Date(picks.scanned_at).getTime()) < 1000*60*60*6,
+  news_populated_ok:     (lr.news_populated_count ?? 0) >= 1000,
 };
 const pass = Object.values(checks).every(v => v);
-console.log(JSON.stringify({pass, checks, summary: {scored: lr.scored_count, top30: sc.top_ranked_30_v3?.length, btbn: sc.best_to_buy_now?.length, earnings: sc.upcoming_earnings?.length}}, null, 2));
+console.log(JSON.stringify({pass, checks, summary: {scored: lr.scored_count, top30: sc.top_ranked_30_v3?.length, btbn: sc.best_to_buy_now?.length, earnings: sc.upcoming_earnings?.length, news_stocks: lr.news_populated_count ?? 0, news_items: lr.news_items_total ?? 0}}, null, 2));
 process.exit(pass ? 0 : 1);
 ' 2>&1)
 GATE_RC=$?
