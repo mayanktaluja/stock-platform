@@ -23,6 +23,55 @@
 
 import crypto from "crypto";
 import { getStorage } from "./paperTradesStorage.js";
+import { classifyCapBand } from "./services/trackRecord/capBandClassifier.js";
+
+// ──────────────────── Section registry (V2 — multi-source) ────────────────────
+//
+// Every section the Track Record covers, side-tagged. The first 10 keys are
+// SWS picks (already auto-snapshotted by snapshotAndCloseSwsPicks); the rest
+// are scanner + earnings sections owned by services/trackRecord/sectionSnapshotter.js.
+// `side` decides return-sign convention used in computeReturns.
+
+export const ALL_SECTION_TYPES = {
+  // SWS — LONG
+  sws_top30_v3: "LONG",
+  sws_best_buynow: "LONG",
+  sws_deep_value: "LONG",
+  sws_quality_growth: "LONG",
+  sws_dividend_aristocrats: "LONG",
+  sws_smallcap_gems: "LONG",
+  sws_insider_buying: "LONG",
+  sws_midterm: "LONG",
+  sws_upcoming_earnings: "LONG",
+  // SWS — SHORT (avoid list)
+  sws_avoid: "SHORT",
+  // Scanners
+  scanner_buynow_top10: "LONG",
+  scanner_midterm_top10: "LONG",
+  scanner_sell_top10: "SHORT",
+  // Earnings (T+1 horizon only)
+  earnings_beat_top10: "LONG",
+  earnings_miss_top10: "SHORT",
+};
+
+/**
+ * Side ('LONG' | 'SHORT') for a given trade type. Falls back to LONG for
+ * legacy types not in the registry — matches the historical default.
+ */
+export function inferSideFromType(type) {
+  return ALL_SECTION_TYPES[type] || "LONG";
+}
+
+// Top-N to capture per section. Locked at 10 by product spec.
+export const SECTION_TOP_N = 10;
+
+// SEBI-RA convention: forward returns reported at 1m / 3m / 6m / 12m.
+// Earnings sections measure T+1 instead — handled by the resolver.
+export const STANDARD_HORIZONS = ["1m", "3m", "6m", "12m"];
+export const EARNINGS_HORIZONS = ["t1"];
+
+const HORIZON_DAYS = { "1m": 30, "3m": 91, "6m": 183, "12m": 365 };
+export function horizonDays(h) { return HORIZON_DAYS[h] || null; }
 
 // ──────────────────── Storage wrappers ────────────────────
 // Thin async wrappers so callers don't need to know about the adapter layer.
@@ -67,7 +116,8 @@ export function getISTDateKey(date = new Date()) {
  *
  * @param {object} pick - the scanner stock object
  * @param {string} type - "buynow_nifty100" | "smallcap_buynow" | "fundamental_deep_value" | etc
- * @param {object} context - { regime, niftyPrice, snapshotAt, rationale }
+ * @param {object} context - { regime, niftyPrice, snapshotAt, rationale,
+ *   section_rank, market_cap_inr, target_horizons }
  */
 export function buildTradeEntry(pick, type, context) {
   const symbol = pick.symbol || pick.snapshot?.symbol;
@@ -82,6 +132,28 @@ export function buildTradeEntry(pick, type, context) {
     .update(`${dateKey}|${type}|${symbol}`)
     .digest("hex")
     .slice(0, 16);
+
+  // V2 fields: side, cap-band, benchmark proxy, multi-horizon scaffold.
+  // Earnings sections only measure T+1; everything else uses 1m/3m/6m/12m.
+  const side = inferSideFromType(type);
+  const marketCapInr = Number(
+    pick.market_cap_inr ?? pick.marketCap ?? context.market_cap_inr ?? 0
+  ) || null;
+  const capBand = classifyCapBand(marketCapInr);
+  const horizons = Array.isArray(context.target_horizons)
+    ? context.target_horizons
+    : (type.startsWith("earnings_") ? EARNINGS_HORIZONS : STANDARD_HORIZONS);
+  const returnsByHorizon = {};
+  for (const h of horizons) {
+    returnsByHorizon[h] = {
+      exit_date: null,
+      exit_price: null,
+      return_pct: null,
+      benchmark_return_pct: null,
+      alpha_pct: null,
+      status: "open",
+    };
+  }
 
   return {
     id,
@@ -108,6 +180,18 @@ export function buildTradeEntry(pick, type, context) {
     // Verdict / recommendation labels for context
     recommendationAtSnapshot: pick.recommendation || pick.verdict || null,
     rationale: context.rationale || null,
+    // V2 — SEBI-RA-grade per-section track record
+    side,
+    section_rank: Number.isFinite(context.section_rank) ? context.section_rank : null,
+    cap_band: capBand,
+    benchmark_proxy: capBand
+      ? (capBand === "large" ? "nifty50_tri"
+        : capBand === "mid" ? "midcap150_tri"
+        : "smallcap250_tri")
+      : "nifty50_tri",
+    market_cap_inr_at_snapshot: marketCapInr,
+    target_horizons: horizons,
+    returns_by_horizon: returnsByHorizon,
   };
 }
 
@@ -175,9 +259,10 @@ export function computeReturns(trade, currentPrice, currentNifty = null) {
   let beatsNifty = null;
   if (trade.niftyAtSnapshot && exitNifty) {
     niftyReturnPct = ((exitNifty - trade.niftyAtSnapshot) / trade.niftyAtSnapshot) * 100;
-    // Avoid-list semantics: a pick we said to avoid "wins" when it
-    // under-performs Nifty, so alpha is signed in the opposite direction.
-    const isShort = trade.type === "sws_avoid";
+    // Side semantics: a SHORT pick "wins" when it under-performs the
+    // benchmark — alpha is signed in the opposite direction.
+    const side = trade.side || inferSideFromType(trade.type);
+    const isShort = side === "SHORT";
     alpha = isShort ? (niftyReturnPct - returnPct) : (returnPct - niftyReturnPct);
     beatsNifty = alpha > 0;
   }
@@ -293,6 +378,8 @@ export function swsPickToTradeShape(swsPick) {
     price: swsPick.current_price_inr ?? null,
     score: swsPick.v3_score_100 ?? swsPick.v2_score ?? swsPick.score ?? 0,
     recommendation: swsPick.composite_verdict || swsPick.v3_verdict || swsPick.verdict || null,
+    // Pass m-cap through so buildTradeEntry can route to the right TRI proxy.
+    market_cap_inr: swsPick.market_cap_inr ?? null,
   };
 }
 
@@ -317,9 +404,17 @@ export async function snapshotSwsAllSections(picksData, context = {}) {
   for (const [sectionKey, type] of Object.entries(SWS_SECTION_TO_TYPE)) {
     const items = picksData.sections[sectionKey];
     if (!Array.isArray(items) || items.length === 0) continue;
-    const picks = items.map(swsPickToTradeShape).filter(Boolean);
+    // V2 — cap each section to the top SECTION_TOP_N picks. Sections like
+    // top_ranked_30_v3 carry 30 entries; the SEBI-RA scorecard only tracks
+    // the headline top 10 to match what users see on the picks tab.
+    const sliced = items.slice(0, SECTION_TOP_N);
+    const picks = sliced.map(swsPickToTradeShape).filter(Boolean);
     if (picks.length === 0) continue;
-    const result = await snapshotPicks(picks, type, { ...context, snapshotAt });
+    const entries = picks
+      .map((p, idx) => buildTradeEntry(p, type, { ...context, snapshotAt, section_rank: idx + 1 }))
+      .filter(Boolean);
+    if (entries.length === 0) continue;
+    const result = await appendTrades(entries);
     totals.written += result.written || 0;
     totals.skipped += result.skipped || 0;
     totals.perSection[type] = result;
