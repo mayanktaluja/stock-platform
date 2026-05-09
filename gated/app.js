@@ -3424,7 +3424,7 @@ function renderFundamentalCard(scored, category) {
       </div>
       <div class="stock-card-metric">
         <div class="metric-label">Market Cap${infoIcon('market_cap')}</div>
-        <div class="metric-value" style="font-size:11px;">${snap.marketCapCr ? formatMarketCap(snap.marketCap) : 'N/A'}</div>
+        <div class="metric-value" style="font-size:11px;">${snap.marketCap ? formatMarketCap(snap.marketCap) : 'N/A'}</div>
       </div>
       <div class="stock-card-metric">
         <div class="metric-label">Sector</div>
@@ -3469,7 +3469,7 @@ function renderFundamentalCard(scored, category) {
       <div class="stock-card-reasoning" style="margin-top:12px;">${escapeHtml(scored.reasoning)}</div>
       <div class="stock-card-footer">
         <span style="font-size:11px;color:var(--text-muted);">
-          ${snap.marketCapCr ? formatMarketCap(snap.marketCap) : ''}
+          ${snap.marketCap ? formatMarketCap(snap.marketCap) : ''}
         </span>
         <span style="font-size:11px;color:var(--text-muted);">
           ${escapeHtml((snap.industry || '').slice(0, 30))}
@@ -9637,7 +9637,7 @@ function renderPickStatusBadges(stock, sectionKey) {
 }
 
 function renderPickCard(s, sectionKey, rank = null) {
-  const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)}t` : v >= 1e9 ? `₹${(v / 1e9).toFixed(1)}b` : v >= 1e7 ? `₹${(v / 1e7).toFixed(0)}cr` : `₹${v.toLocaleString("en-IN")}`;
+  const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)} L Cr` : v >= 1e7 ? `₹${(v / 1e7).toFixed(v >= 1e10 ? 0 : 2)} Cr` : `₹${v.toLocaleString("en-IN")}`;
   const upside = s.upside_pct != null ? `${s.upside_pct > 0 ? "+" : ""}${s.upside_pct.toFixed(1)}%` : "—";
   const upsideColor = s.upside_pct == null ? "var(--text-muted)" : s.upside_pct >= 0 ? "var(--green)" : "var(--red)";
   const sn = s.snowflake_total ?? "—";
@@ -9947,10 +9947,11 @@ function closeActionListModal() {
 }
 
 function renderSwsModal(data) {
-  const { ticker, deep, card, surveillance, file_mtime, section_memberships } = data;
+  const { ticker, deep, card, surveillance, file_mtime, section_memberships, fundamentals_fallback } = data;
   const ov = (deep && deep.overview) || {};
   const card_ = card || {};
-  const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)}t` : v >= 1e9 ? `₹${(v / 1e9).toFixed(1)}b` : v >= 1e7 ? `₹${(v / 1e7).toFixed(0)}cr` : `₹${v.toLocaleString("en-IN")}`;
+  const fb = fundamentals_fallback || {};
+  const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)} L Cr` : v >= 1e7 ? `₹${(v / 1e7).toFixed(v >= 1e10 ? 0 : 2)} Cr` : `₹${v.toLocaleString("en-IN")}`;
   const fmtPct = (v, d = 2) => v == null ? "—" : `${v >= 0 ? "+" : ""}${Number(v).toFixed(d)}%`;
   const headlineRaw = card_.v3_score_100 != null ? card_.v3_score_100 : (card_.v2_score != null ? card_.v2_score : card_.score);
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
@@ -10046,8 +10047,11 @@ function renderSwsModal(data) {
   const benchHtml = (ib && sectorLabel) ? (() => {
     const fmtFrac = (v) => v != null ? `${(v * 100).toFixed(1)}%` : "—";
     const fmtMult = (v) => v != null ? `${v.toFixed(1)}x` : "—";
+    const clampMult = (v) => (v == null || !Number.isFinite(Number(v)) || v < -500 || v > 500) ? null : v;
     const ownNetMargin = ov.net_margin_pct != null ? ov.net_margin_pct / 100 : null;
-    const ownPe = mult.pe;
+    // Sanity-clamp P/E (SWS occasionally publishes a stale 4-digit value, e.g.
+    // INFY = 1440x). Falls back to the fundamentals.json snapshot.
+    const ownPe = clampMult(mult.pe) ?? clampMult(fb.pe);
     // Future revenue growth — we don't have a per-stock equivalent, but show
     // the sector benchmark on its own.
     const cells = [
@@ -10071,25 +10075,40 @@ function renderSwsModal(data) {
     </div>`;
   })() : "";
 
-  // Quick stats
+  // Quick stats — SWS first, fundamentals.json as fallback. Sanity clamps
+  // suppress obviously-bad values (e.g. INFY P/E = 1440 from a stale SWS row)
+  // by treating them as null so they fall through to the fallback.
   const pastPerf = (deep && deep.past_performance) || {};
   const finHealth = (deep && deep.financial_health) || {};
   const ownership = (deep && deep.ownership) || {};
   const mgmt = (deep && deep.management) || {};
+  const sane = (v, lo, hi) => (v == null || !Number.isFinite(Number(v)) || Number(v) < lo || Number(v) > hi) ? null : Number(v);
+  const pickVal = (...vals) => { for (const v of vals) { if (v != null && Number.isFinite(Number(v))) return Number(v); } return null; };
+  const peVal = pickVal(sane(mult.pe, -500, 500), sane(fb.pe, -500, 500));
+  const pbVal = pickVal(sane(mult.pb, 0, 100), sane(fb.pb, 0, 100));
+  const psVal = pickVal(sane(mult.ps, 0, 100), sane(fb.ps, 0, 100));
+  const epsVal = pickVal(ov.eps, fb.eps);
+  const roeVal = pickVal(sane(pastPerf.roe_pct, -200, 500), sane(fb.roe_pct, -200, 500));
+  const roceVal = pickVal(sane(pastPerf.roce_pct, -200, 500), sane(fb.roce_pct, -200, 500));
+  const deVal = pickVal(sane(ov.debt_to_equity_pct, 0, 2000), sane(fb.debt_to_equity_pct, 0, 2000));
+  const intCoverVal = pickVal(finHealth.interest_cover_x, fb.interest_cover_x);
+  const netMarginVal = pickVal(sane(ov.net_margin_pct, -200, 200), sane(fb.net_margin_pct, -200, 200));
+  const divYieldVal = pickVal(sane(ov.dividend?.yield_pct, 0, 30), sane(fb.dividend_yield_pct, 0, 30));
+  const payoutVal = pickVal(sane(ov.dividend?.payout_pct, 0, 200), sane(fb.payout_pct, 0, 200));
   const stats = [
-    ["P/E", mult.pe != null ? `${mult.pe.toFixed(1)}x` : "—"],
-    ["P/B", mult.pb != null ? `${mult.pb.toFixed(2)}x` : "—"],
-    ["P/S", mult.ps != null ? `${mult.ps.toFixed(1)}x` : "—"],
-    ["EPS", ov.eps != null ? `₹${ov.eps.toFixed(2)}` : "—"],
-    ["ROE", pastPerf.roe_pct != null ? `${pastPerf.roe_pct.toFixed(1)}%` : "—"],
-    ["ROCE", pastPerf.roce_pct != null ? `${pastPerf.roce_pct.toFixed(1)}%` : "—"],
-    ["D/E", ov.debt_to_equity_pct != null ? `${ov.debt_to_equity_pct.toFixed(1)}%` : "—"],
+    ["P/E", peVal != null ? `${peVal.toFixed(1)}x` : "—"],
+    ["P/B", pbVal != null ? `${pbVal.toFixed(2)}x` : "—"],
+    ["P/S", psVal != null ? `${psVal.toFixed(1)}x` : "—"],
+    ["EPS", epsVal != null ? `₹${epsVal.toFixed(2)}` : "—"],
+    ["ROE", roeVal != null ? `${roeVal.toFixed(1)}%` : "—"],
+    ["ROCE", roceVal != null ? `${roceVal.toFixed(1)}%` : "—"],
+    ["D/E", deVal != null ? `${deVal.toFixed(1)}%` : "—"],
     ["Debt cover", finHealth.debt_cover_pct != null ? `${finHealth.debt_cover_pct.toFixed(1)}%` : "—"],
-    ["Interest cover", finHealth.interest_cover_x != null ? `${finHealth.interest_cover_x.toFixed(1)}x` : "—"],
-    ["Net margin", ov.net_margin_pct != null ? `${ov.net_margin_pct.toFixed(1)}%` : "—"],
+    ["Interest cover", intCoverVal != null ? `${intCoverVal.toFixed(1)}x` : "—"],
+    ["Net margin", netMarginVal != null ? `${netMarginVal.toFixed(1)}%` : "—"],
     ["Beta", ov.beta != null ? ov.beta.toFixed(2) : "—"],
-    ["Div yield", ov.dividend?.yield_pct != null ? `${ov.dividend.yield_pct.toFixed(2)}%` : "—"],
-    ["Payout", ov.dividend?.payout_pct != null ? `${ov.dividend.payout_pct.toFixed(0)}%` : "—"],
+    ["Div yield", divYieldVal != null ? `${divYieldVal.toFixed(2)}%` : "—"],
+    ["Payout", payoutVal != null ? `${payoutVal.toFixed(0)}%` : "—"],
     ["Insider %", ownership.insider_pct != null ? `${ownership.insider_pct.toFixed(1)}%` : "—"],
     ["CEO tenure", mgmt.ceo_tenure_years != null ? `${mgmt.ceo_tenure_years.toFixed(1)} yr` : "—"],
   ];
@@ -10219,7 +10238,11 @@ function renderSwsModal(data) {
           <div><span style="color:var(--text-muted);">Fair value</span> ${fmtInr(ov.fair_value_inr)}</div>
           <div><span style="color:var(--text-muted);">Upside</span> <span style="color:${ov.upside_pct == null ? "var(--text-muted)" : ov.upside_pct >= 0 ? "var(--green)" : "var(--red)"};">${fmtPct(ov.upside_pct, 1)}</span></div>
           <div><span style="color:var(--text-muted);">Mcap</span> ${fmtInr(ov.market_cap_inr)}</div>
-          <div><span style="color:var(--text-muted);">52w</span> ${ov.fifty_two_week ? `${fmtInr(ov.fifty_two_week.low)}–${fmtInr(ov.fifty_two_week.high)}` : "—"}</div>
+          <div><span style="color:var(--text-muted);">52w</span> ${(() => {
+            const lo = ov.fifty_two_week?.low ?? fb.week52_low_inr;
+            const hi = ov.fifty_two_week?.high ?? fb.week52_high_inr;
+            return (lo != null && hi != null) ? `${fmtInr(lo)}–${fmtInr(hi)}` : "—";
+          })()}</div>
         </div>
       </div>
       <div class="sws-modal-score">
@@ -10503,7 +10526,7 @@ function renderLiveOnlyModal(ticker, data, sourceTab) {
   const combined = analysis.combinedScore;
   const reco = analysis.recommendation;
 
-  const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)}t` : v >= 1e9 ? `₹${(v / 1e9).toFixed(1)}b` : v >= 1e7 ? `₹${(v / 1e7).toFixed(0)}cr` : `₹${Number(v).toLocaleString("en-IN")}`;
+  const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)} L Cr` : v >= 1e7 ? `₹${(v / 1e7).toFixed(v >= 1e10 ? 0 : 2)} Cr` : `₹${Number(v).toLocaleString("en-IN")}`;
   const sourceLabel = sourceTab ? `<span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.5px;background:rgba(96,165,250,0.15);color:#60a5fa;margin-left:8px;">${escapeHtml(sourceTab)}</span>` : "";
 
   const survBadge = surv ? `<span class="sws-surveillance-badge" title="NSE ${surv.list} surveillance flag (${surv.timeframe || "—"})">${escapeHtml(surv.list)}</span>` : "";
