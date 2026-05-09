@@ -18,6 +18,11 @@ node_modules/
 .macro-regime-cache.json
 .macro-regime-cache.json.*.tmp
 
+# Per-run sanity reports — track only _latest.json for ops visibility,
+# the timestamped per-run reports balloon and aren't worth committing.
+data/sws/_sanity/*
+!data/sws/_sanity/_latest.json
+
 # User data — contains real portfolio holdings
 portfolio.json
 

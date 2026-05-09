@@ -1,0 +1,468 @@
+{
+  "run_id": "2026-05-09T16-25-32-730Z",
+  "generated_at": "2026-05-09T21:49:46.713Z",
+  "verdict": "FAIL",
+  "block_count": 1,
+  "warn_count": 2,
+  "pass_count": 27,
+  "total_checks": 30,
+  "summary_line": "verdict=FAIL · scored=5517 · top30=30 · blocks=1 · warns=2",
+  "layers": {
+    "L1_run_integrity": {
+      "pass": 11,
+      "warn": 1,
+      "block": 1,
+      "checks": [
+        {
+          "layer": "L1_run_integrity",
+          "name": "last_refresh_present",
+          "severity": "BLOCK",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "layer": "L1_run_integrity",
+          "name": "shards_failed_zero",
+          "severity": "BLOCK",
+          "ok": true,
+          "detail": {
+            "shards_failed": 0
+          }
+        },
+        {
+          "layer": "L1_run_integrity",
+          "name": "scrape_not_skipped",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "scrape_skipped": false
+          }
+        },
+        {
+          "layer": "L1_run_integrity",
+          "name": "scored_count_threshold",
+          "severity": "BLOCK",
+          "ok": true,
+          "detail": {
+            "scored_count": 5517,
+            "threshold": 5000
+          }
+        },
+        {
+          "layer": "L1_run_integrity",
+          "name": "scored_count_strong_threshold",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "scored_count": 5517,
+            "threshold": 5400
+          }
+        },
+        {
+          "layer": "L1_run_integrity",
+          "name": "duration_within_bounds",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "duration_seconds": 14045,
+            "max": 21600
+          }
+        },
+        {
+          "layer": "L1_run_integrity",
+          "name": "panic_flag_absent",
+          "severity": "BLOCK",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "layer": "L1_run_integrity",
+          "name": "news_populated_threshold",
+          "severity": "BLOCK",
+          "ok": false,
+          "detail": {
+            "threshold": 1000
+          }
+        },
+        {
+          "layer": "L1_run_integrity",
+          "name": "news_populated_strong_threshold",
+          "severity": "WARN",
+          "ok": false,
+          "detail": {
+            "threshold": 1500
+          }
+        },
+        {
+          "layer": "L1_run_integrity",
+          "name": "picks_recent",
+          "severity": "BLOCK",
+          "ok": true,
+          "detail": {
+            "age_hours": 5.41,
+            "threshold": 6
+          }
+        },
+        {
+          "layer": "L1_run_integrity",
+          "name": "section_top30",
+          "severity": "BLOCK",
+          "ok": true,
+          "detail": {
+            "count": 30
+          }
+        },
+        {
+          "layer": "L1_run_integrity",
+          "name": "section_best_to_buy_now",
+          "severity": "BLOCK",
+          "ok": true,
+          "detail": {
+            "count": 25,
+            "threshold": 20
+          }
+        },
+        {
+          "layer": "L1_run_integrity",
+          "name": "section_upcoming_earnings",
+          "severity": "BLOCK",
+          "ok": true,
+          "detail": {
+            "count": 93,
+            "threshold": 50
+          }
+        }
+      ]
+    },
+    "L2_coverage_audit": {
+      "pass": 7,
+      "warn": 0,
+      "block": 0,
+      "checks": [
+        {
+          "layer": "L2_coverage_audit",
+          "name": "universe_present",
+          "severity": "BLOCK",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "layer": "L2_coverage_audit",
+          "name": "coverage_within_tolerance",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "missing_count": 2,
+            "tolerance": 5,
+            "sample": [
+              "513687",
+              "532911"
+            ]
+          }
+        },
+        {
+          "layer": "L2_coverage_audit",
+          "name": "fresh_pct_threshold",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "fresh_pct": 99.87,
+            "threshold": 95,
+            "fresh_count": 5510,
+            "total": 5517
+          }
+        },
+        {
+          "layer": "L2_coverage_audit",
+          "name": "stale_pct_threshold",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "stale_pct": 0.13,
+            "warn_at": 5,
+            "sample": [
+              "512065",
+              "512345",
+              "531913",
+              "538537",
+              "MM",
+              "SASTASUNDR",
+              "VISASTEEL"
+            ]
+          }
+        },
+        {
+          "layer": "L2_coverage_audit",
+          "name": "unparsed_files",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "unparsed_count": 0
+          }
+        },
+        {
+          "layer": "L2_coverage_audit",
+          "name": "failed_log_size_reasonable",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "failed_count": 25,
+            "threshold": 100
+          }
+        },
+        {
+          "layer": "L2_coverage_audit",
+          "name": "failed_tickers_retried",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "still_failing_count": 0,
+            "sample": []
+          }
+        }
+      ]
+    },
+    "L3_data_sanity": {
+      "pass": 2,
+      "warn": 1,
+      "block": 0,
+      "checks": [
+        {
+          "layer": "L3_data_sanity",
+          "name": "scored_universe_present",
+          "severity": "BLOCK",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "layer": "L3_data_sanity",
+          "name": "deep_dir_walkable",
+          "severity": "BLOCK",
+          "ok": true,
+          "detail": {
+            "deep_files_scanned": 5517,
+            "read_errors": 0
+          }
+        },
+        {
+          "layer": "L3_data_sanity",
+          "name": "insane_value_rate",
+          "severity": "WARN",
+          "ok": false,
+          "detail": {
+            "insane_pct": 1.359,
+            "insane_ticker_pct": 1.015,
+            "insane_finding_count": 75,
+            "insane_unique_tickers": 56,
+            "warn_at": 0.1,
+            "block_at": 0.5,
+            "sample": [
+              {
+                "ticker": "505685",
+                "field": "dividend_yield_pct",
+                "value": 460.796387317
+              },
+              {
+                "ticker": "ABFRL",
+                "field": "pe",
+                "value": 80666720748.9
+              },
+              {
+                "ticker": "AEQUS",
+                "field": "pe",
+                "value": 137439508580.55002
+              },
+              {
+                "ticker": "ALLCARGO",
+                "field": "pe",
+                "value": 9641092361.76
+              },
+              {
+                "ticker": "ALLCARGO",
+                "field": "payout_pct",
+                "value": 108106030560.00002
+              },
+              {
+                "ticker": "ARVINDFASN",
+                "field": "pe",
+                "value": 61489357839.450005
+              },
+              {
+                "ticker": "ARVINDFASN",
+                "field": "payout_pct",
+                "value": 21385278240.000004
+              },
+              {
+                "ticker": "AURUM",
+                "field": "pe",
+                "value": 13588511638.52
+              },
+              {
+                "ticker": "AURUM",
+                "field": "payout_pct",
+                "value": 23020970700
+              },
+              {
+                "ticker": "BIRET",
+                "field": "payout_pct",
+                "value": 308.1375563850676
+              },
+              {
+                "ticker": "BIRLANU",
+                "field": "pe",
+                "value": 12008127567.6
+              },
+              {
+                "ticker": "BIRLANU",
+                "field": "payout_pct",
+                "value": 28278371250
+              },
+              {
+                "ticker": "BSE_500285",
+                "field": "pe",
+                "value": 21350131893.08
+              },
+              {
+                "ticker": "BSE_523696",
+                "field": "dividend_yield_pct",
+                "value": 68.7210667008
+              },
+              {
+                "ticker": "CHEMPLASTS",
+                "field": "pe",
+                "value": 38191367599.700005
+              },
+              {
+                "ticker": "DEVYANI",
+                "field": "pe",
+                "value": 146066377039.77
+              },
+              {
+                "ticker": "DIAMONDYD",
+                "field": "pe",
+                "value": 24129308322.05
+              },
+              {
+                "ticker": "DIAMONDYD",
+                "field": "payout_pct",
+                "value": 1195526350
+              },
+              {
+                "ticker": "EMBASSY",
+                "field": "payout_pct",
+                "value": 414.9021958989216
+              },
+              {
+                "ticker": "EQUITASBNK",
+                "field": "pe",
+                "value": 82686106726.65001
+              },
+              {
+                "ticker": "EQUITASBNK",
+                "field": "payout_pct",
+                "value": 114128511700
+              },
+              {
+                "ticker": "ETERNAL",
+                "field": "pe",
+                "value": 643.7770765027321
+              },
+              {
+                "ticker": "FIRSTCRY",
+                "field": "pe",
+                "value": 122827953880.56
+              },
+              {
+                "ticker": "FUSION",
+                "field": "pe",
+                "value": 35099835256.35
+              },
+              {
+                "ticker": "GMRAIRPORT",
+                "field": "pe",
+                "value": 1069835443456.6399
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "L6_picks_coherence": {
+      "pass": 7,
+      "warn": 0,
+      "block": 0,
+      "checks": [
+        {
+          "layer": "L6_picks_coherence",
+          "name": "picks_present",
+          "severity": "BLOCK",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "layer": "L6_picks_coherence",
+          "name": "picks_in_scored",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "missing_count": 0,
+            "sample": []
+          }
+        },
+        {
+          "layer": "L6_picks_coherence",
+          "name": "picks_have_deep_file",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "missing_count": 0,
+            "sample": []
+          }
+        },
+        {
+          "layer": "L6_picks_coherence",
+          "name": "top30_sorted_desc",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "layer": "L6_picks_coherence",
+          "name": "top30_above_threshold",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "threshold": 60,
+            "violations": 0,
+            "sample": []
+          }
+        },
+        {
+          "layer": "L6_picks_coherence",
+          "name": "no_duplicate_picks",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "dupes_count": 0,
+            "sample": []
+          }
+        },
+        {
+          "layer": "L6_picks_coherence",
+          "name": "top_picks_clean",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "insane_top_picks": []
+          }
+        }
+      ]
+    }
+  },
+  "inputs": {
+    "scored_count": 5517,
+    "universe_size": 5517,
+    "finished_at": "2026-05-09T16:25:32.730Z",
+    "pipeline_status": "success"
+  }
+}
