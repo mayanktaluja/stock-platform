@@ -552,6 +552,12 @@ app.get("/api/auth/me", async (req, res) => {
   const userStore = getUserStorage();
   const record = await userStore.read(session.sub);
   if (!record) return res.status(401).json({ error: "user-not-found" });
+  // /api/auth/me is exempt from the gate middleware (which is where the
+  // gate's heartbeat lives), so touch here too — this is the canonical
+  // page-load ping from the SPA.
+  userStore.touch(session.sub).catch((err) => {
+    console.warn("[USER:TOUCH] failed:", err && err.message);
+  });
   return res.json({
     userId: record.sub,
     email: record.email,
@@ -587,6 +593,13 @@ app.use((req, res, next) => {
   const session = verifySession(readCookie(req, SESSION_COOKIE));
   if (session) {
     req.user = session; // {sub, ts} — downstream handlers can read req.user.sub
+    // Fire-and-forget heartbeat. The store's touch() is debounced (5 min)
+    // and only bumps sessionCount when the gap exceeds 30 min — so most
+    // requests are a no-op. Distinct from loginEvents (OAuth callbacks
+    // only): captures returning users on a still-valid session cookie.
+    getUserStorage().touch(session.sub).catch((err) => {
+      console.warn("[USER:TOUCH] failed:", err && err.message);
+    });
     return next();
   }
 

@@ -29,6 +29,65 @@ const USER_KEY_PREFIX = "user:";
 // otherwise bloat the record indefinitely.
 const MAX_LOGIN_EVENTS = 50;
 
+// A "session" ends after this much inactivity. Next authenticated request
+// after the gap counts as a new session. 30 min matches Google Analytics
+// default and our intuition for "they came back to use the platform".
+const SESSION_GAP_MS = 30 * 60 * 1000;
+
+// Skip the touch() write if lastSeenAt was bumped within this window.
+// Keeps the gate middleware cheap — most authenticated requests don't
+// hit storage. New sessions still write because gap > SESSION_GAP_MS
+// implies gap > TOUCH_DEBOUNCE_MS.
+const TOUCH_DEBOUNCE_MS = 5 * 60 * 1000;
+
+// Migration helper. Old records (pre-session-tracking) have no sessionCount;
+// seed it from loginEvents.length so the column shows something useful right
+// away rather than 0 for every existing user.
+function _seedSessionCount(existing) {
+  if (existing && typeof existing.sessionCount === "number") return existing.sessionCount;
+  if (existing && Array.isArray(existing.loginEvents)) return existing.loginEvents.length;
+  return 0;
+}
+
+// Shared merge for the OAuth-callback path. A login is by definition a new
+// session, so sessionCount always +1 here.
+function _mergeOnLogin(existing, sub, payload, now) {
+  const event = { ts: now, ip: payload.ip || null, ua: payload.ua || null };
+  const priorEvents = (existing && Array.isArray(existing.loginEvents)) ? existing.loginEvents : [];
+  return {
+    sub,
+    email: payload.email || (existing && existing.email) || "",
+    name: payload.name || (existing && existing.name) || "",
+    picture: payload.picture || (existing && existing.picture) || "",
+    createdAt: existing && existing.createdAt ? existing.createdAt : now,
+    lastLoginAt: now,
+    lastSeenAt: now,
+    sessionCount: _seedSessionCount(existing) + 1,
+    isAdmin: computeIsAdmin(payload.email || (existing && existing.email)),
+    loginEvents: [...priorEvents, event].slice(-MAX_LOGIN_EVENTS),
+  };
+}
+
+// Shared logic for the heartbeat (touch) path. Returns { write, record }:
+//   - write=false if the touch is debounced (existing returned unchanged).
+//   - write=true with the updated record otherwise — sessionCount bumps
+//     only when gap > SESSION_GAP_MS.
+function _computeTouch(existing, now) {
+  if (!existing) return { write: false, record: null };
+  const lastSeenAt = existing.lastSeenAt || existing.lastLoginAt || 0;
+  const gap = now - lastSeenAt;
+  if (gap < TOUCH_DEBOUNCE_MS) return { write: false, record: existing };
+  const isNewSession = gap > SESSION_GAP_MS;
+  return {
+    write: true,
+    record: {
+      ...existing,
+      lastSeenAt: now,
+      sessionCount: _seedSessionCount(existing) + (isNewSession ? 1 : 0),
+    },
+  };
+}
+
 function parseAdminEmails() {
   const raw = process.env.ADMIN_EMAILS || "";
   return raw
@@ -67,23 +126,20 @@ class FileUserStorage {
   async upsert(sub, payload) {
     if (!sub) throw new Error("upsert: sub is required");
     const all = await this._readAll();
-    const existing = all[sub] || null;
-    const now = Date.now();
-    const event = { ts: now, ip: payload.ip || null, ua: payload.ua || null };
-    const priorEvents = (existing && Array.isArray(existing.loginEvents)) ? existing.loginEvents : [];
-    const merged = {
-      sub,
-      email: payload.email || (existing && existing.email) || "",
-      name: payload.name || (existing && existing.name) || "",
-      picture: payload.picture || (existing && existing.picture) || "",
-      createdAt: existing && existing.createdAt ? existing.createdAt : now,
-      lastLoginAt: now,
-      isAdmin: computeIsAdmin(payload.email || (existing && existing.email)),
-      loginEvents: [...priorEvents, event].slice(-MAX_LOGIN_EVENTS),
-    };
+    const merged = _mergeOnLogin(all[sub] || null, sub, payload, Date.now());
     all[sub] = merged;
     await this._writeAll(all);
     return merged;
+  }
+
+  async touch(sub) {
+    if (!sub) return null;
+    const all = await this._readAll();
+    const { write, record } = _computeTouch(all[sub] || null, Date.now());
+    if (!write) return record;
+    all[sub] = record;
+    await this._writeAll(all);
+    return record;
   }
 
   async list() {
@@ -120,19 +176,7 @@ class KVUserStorage {
   async upsert(sub, payload) {
     if (!sub) throw new Error("upsert: sub is required");
     const existing = await this.read(sub);
-    const now = Date.now();
-    const event = { ts: now, ip: payload.ip || null, ua: payload.ua || null };
-    const priorEvents = (existing && Array.isArray(existing.loginEvents)) ? existing.loginEvents : [];
-    const merged = {
-      sub,
-      email: payload.email || (existing && existing.email) || "",
-      name: payload.name || (existing && existing.name) || "",
-      picture: payload.picture || (existing && existing.picture) || "",
-      createdAt: existing && existing.createdAt ? existing.createdAt : now,
-      lastLoginAt: now,
-      isAdmin: computeIsAdmin(payload.email || (existing && existing.email)),
-      loginEvents: [...priorEvents, event].slice(-MAX_LOGIN_EVENTS),
-    };
+    const merged = _mergeOnLogin(existing, sub, payload, Date.now());
     try {
       const kv = await this._getKV();
       await kv.set(userKey(sub), merged);
@@ -140,6 +184,20 @@ class KVUserStorage {
       console.warn("[USER:KV] write failed:", err.message);
     }
     return merged;
+  }
+
+  async touch(sub) {
+    if (!sub) return null;
+    const existing = await this.read(sub);
+    const { write, record } = _computeTouch(existing, Date.now());
+    if (!write) return record;
+    try {
+      const kv = await this._getKV();
+      await kv.set(userKey(sub), record);
+    } catch (err) {
+      console.warn("[USER:KV] touch write failed:", err.message);
+    }
+    return record;
   }
 
   async list() {
