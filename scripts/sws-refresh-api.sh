@@ -208,7 +208,7 @@ echo "${PDF_OUT}" | tail -3 | sed 's/^/[pdf] /'
 # ---------- 10. Summary ----------
 
 node --input-type=module - <<EOF
-import {writeFileSync, readFileSync, existsSync} from "fs";
+import {writeFileSync, readFileSync, readdirSync, existsSync} from "fs";
 let scoredCount = 0, sectionsCount = {};
 if (existsSync("data/sws/picks-latest.json")) {
   const p = JSON.parse(readFileSync("data/sws/picks-latest.json", "utf-8"));
@@ -230,6 +230,28 @@ for (const sid of [1, 2, 3]) {
     };
   }
 }
+// News population stats — read every deep/<T>.json once, count stocks with
+// non-empty \`news\` (Brief + Event from /dashboard/company REST endpoint,
+// extracted by sws-api-parser.mjs). Surfaces silent breakage of the news
+// endpoint: if SWS changes shape, deep files quietly revert to news: []
+// and the gate in sws-nightly.sh refuses to push.
+let newsPopulatedCount = 0, newsItemsTotal = 0, deepFilesScanned = 0;
+try {
+  const dir = "data/sws/deep";
+  if (existsSync(dir)) {
+    for (const f of readdirSync(dir)) {
+      if (!f.endsWith(".json")) continue;
+      deepFilesScanned++;
+      try {
+        const d = JSON.parse(readFileSync(dir + "/" + f, "utf-8"));
+        if (Array.isArray(d.news) && d.news.length > 0) {
+          newsPopulatedCount++;
+          newsItemsTotal += d.news.length;
+        }
+      } catch {}
+    }
+  }
+} catch {}
 const summary = {
   finished_at: new Date().toISOString(),
   pipeline: "api",
@@ -239,12 +261,15 @@ const summary = {
   scored_count: scoredCount,
   sections_count: sectionsCount,
   per_shard_progress: progress,
+  news_populated_count: newsPopulatedCount,
+  news_items_total: newsItemsTotal,
+  deep_files_scanned: deepFilesScanned,
   pipeline_status: ${SCRAPE_SKIPPED}
     ? "skipped_scrape_already_running"
     : (${FAIL} > 0 ? "partial" : "success"),
 };
 writeFileSync("${SUMMARY}", JSON.stringify(summary, null, 2));
-console.log("[refresh-api] summary written: scored=" + scoredCount + " shards=" + JSON.stringify(progress));
+console.log("[refresh-api] summary written: scored=" + scoredCount + " news_stocks=" + newsPopulatedCount + " news_items=" + newsItemsTotal + " shards=" + JSON.stringify(progress));
 EOF
 
 echo "=== refresh-api complete: $(ts) elapsed=${ELAPSED}s ==="
