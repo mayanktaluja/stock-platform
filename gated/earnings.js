@@ -1024,7 +1024,7 @@
       const stillActive = document.querySelector("#mainTabs .tab.active");
       if (!stillActive) window.switchTab("picks");
     }
-    if (reason) console.info(`[earnings] tab hidden: ${reason}`);
+    if (reason) console.debug(`[earnings] tab hidden: ${reason}`);
   }
 
   function checkAdminAndMaybeHide() {

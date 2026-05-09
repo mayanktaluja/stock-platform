@@ -8324,6 +8324,39 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
   // Surveillance — same regulatory overlay used by /api/stock
   const surveillance = getSurveillanceFlag(ticker);
 
+  // Fundamentals fallback — SWS scrape misses ~50% of P/B, EPS, ROE, ROCE,
+  // D/E, interest cover, and 52w range universe-wide. We already maintain a
+  // separate fundamentals.json (NSE + Yahoo enrichment) keyed by `<TICKER>.NS`
+  // — pass a curated subset back so the modal renderer can backfill the
+  // quick-stats grid when SWS has nulls. Fields are normalised into the same
+  // shape SWS uses (ratios as percentages, not fractions; multiples as `x`).
+  const fundFallback = (() => {
+    try {
+      const f = getFundamentals(`${ticker}.NS`);
+      if (!f) return null;
+      const pct = (v) => (v == null ? null : Number(v) * 100);
+      return {
+        pe: f.pe ?? null,
+        pb: f.priceToBook ?? null,
+        ps: null, // not on the snapshot
+        eps: f.trailingEps ?? null,
+        roe_pct: pct(f.roe),
+        roce_pct: null, // not separately tracked
+        debt_to_equity_pct: pct(f.debtToEquity),
+        interest_cover_x: f.interestCoverage ?? null,
+        net_margin_pct: pct(f.profitMargin),
+        beta: null, // not on this snapshot
+        dividend_yield_pct: pct(f.dividendYield),
+        payout_pct: pct(f.payoutRatio),
+        market_cap_inr: f.marketCap ?? null,
+        week52_high_inr: f.week52High ?? null,
+        week52_low_inr: f.week52Low ?? null,
+      };
+    } catch {
+      return null;
+    }
+  })();
+
   res.json({
     ticker,
     deep,
@@ -8334,6 +8367,7 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
     // listing every curated section this ticker shows up in. Empty array
     // when on-demand-scored / not curated.
     section_memberships: sectionMemberships,
+    fundamentals_fallback: fundFallback,
   });
 });
 
