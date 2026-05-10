@@ -268,14 +268,23 @@ function extractDividendInfo(api) {
   if (!div) return {};
   const events = Array.isArray(div.dividends) ? div.dividends : [];
   const latest = events.length ? events[0] : null;
-  const yieldPct = typeof latest?.annualizedYield === "number" ? latest.annualizedYield : null;
+  const rawYield = typeof latest?.annualizedYield === "number" ? latest.annualizedYield : null;
+  // Clamp to gate-sane range (0-50%). SWS occasionally ships stock-dividend
+  // events with bps-scaled or stale yields (e.g. ticker 505685 = 460.8%).
+  // Same upper bound the sanity gate's SANE.dividend_yield_pct enforces.
+  const yieldPct = rawYield != null && rawYield >= 0 && rawYield <= 50 ? rawYield : null;
   const annualizedDividend = typeof latest?.annualizedDividend === "number" ? latest.annualizedDividend : null;
   // Compute payout from annualizedDividend / EPS.
   // EPS comes from fiscal data (netIncome / shares) since direct EPS isn't always in the capture.
   const fd = extractFiscalData(api);
   const shares = extractSharesOutstanding(api);
   const eps = fd?.latest_eps || (fd?.latest_net_income && shares && shares > 0 ? fd.latest_net_income / shares : null);
-  const payoutPct = annualizedDividend && eps && eps > 0 ? (annualizedDividend / eps) * 100 : null;
+  // Floor EPS at 1 paisa — below that the ratio is meaningless and explodes
+  // (e.g. ALLCARGO with eps≈1e-9 produced payout_pct=1.08e11). Then clamp
+  // to the same range the gate's SANE.payout_pct enforces.
+  const MIN_EPS_FOR_RATIO = 0.01;
+  const rawPayout = annualizedDividend && eps && eps > MIN_EPS_FOR_RATIO ? (annualizedDividend / eps) * 100 : null;
+  const payoutPct = rawPayout != null && rawPayout >= 0 && rawPayout <= 200 ? rawPayout : null;
   return {
     yield_pct: yieldPct,
     payout_pct: payoutPct,
@@ -374,8 +383,14 @@ function extractMultiples(api) {
   const eps =
     fd?.latest_eps ||
     (fd?.latest_net_income && shares && shares > 0 ? fd.latest_net_income / shares : null);
+  // Floor EPS at 1 paisa — below that price/eps explodes (ABFRL, GMRAIRPORT
+  // produced PE of 8e10, 1e12). Then clamp to the same range the gate's
+  // SANE.pe enforces (0 < pe < 500). Same MIN_EPS_FOR_RATIO as
+  // extractDividendInfo — keep them in sync if changed.
+  const MIN_EPS_FOR_RATIO = 0.01;
+  const rawPE = price && eps && eps > MIN_EPS_FOR_RATIO ? price / eps : null;
   return {
-    pe: price && eps && eps > 0 ? price / eps : null,
+    pe: rawPE != null && rawPE > 0 && rawPE < 500 ? rawPE : null,
     ps: mc && fd?.latest_revenue && fd.latest_revenue > 0 ? mc / fd.latest_revenue : null,
     // PB needs book_value which isn't in our capture — leave null
     pb: null,
