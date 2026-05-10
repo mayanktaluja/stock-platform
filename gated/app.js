@@ -10211,6 +10211,13 @@ function renderSwsModal(data) {
   // Quick stats — SWS first, fundamentals.json as fallback. Sanity clamps
   // suppress obviously-bad values (e.g. INFY P/E = 1440 from a stale SWS row)
   // by treating them as null so they fall through to the fallback.
+  //
+  // Rows whose value is null (data not available from any source) are filtered
+  // out before render — see the .filter(([,v]) => v != null) in the grid below.
+  // ROE / ROCE / D/E / Debt cover / Interest cover / Beta / CEO tenure are
+  // currently unavailable from the API capture (`sws-api-parser.mjs` doesn't
+  // extract them and the underlying GraphQL ops don't surface them either);
+  // those rows will appear once a future parser change populates them.
   const pastPerf = (deep && deep.past_performance) || {};
   const finHealth = (deep && deep.financial_health) || {};
   const ownership = (deep && deep.ownership) || {};
@@ -10220,7 +10227,15 @@ function renderSwsModal(data) {
   const peVal = pickVal(sane(mult.pe, -500, 500), sane(fb.pe, -500, 500));
   const pbVal = pickVal(sane(mult.pb, 0, 100), sane(fb.pb, 0, 100));
   const psVal = pickVal(sane(mult.ps, 0, 100), sane(fb.ps, 0, 100));
-  const epsVal = pickVal(ov.eps, fb.eps);
+  // EPS: parser writes overview.latest_eps (rarely populated — SWS yearly
+  // time series usually returns eps:null). Fall back to net_income / shares
+  // when those are present, matching the same derivation extractMultiples()
+  // uses internally for PE. Same 0.01 floor to suppress paisa-level EPS
+  // that would otherwise look spurious.
+  const derivedEps = (ov.latest_net_income && ov.shares_outstanding && ov.shares_outstanding > 0)
+    ? ov.latest_net_income / ov.shares_outstanding
+    : null;
+  const epsVal = pickVal(sane(ov.latest_eps, 0.01, 1e6), sane(derivedEps, 0.01, 1e6), sane(fb.eps, 0.01, 1e6));
   const roeVal = pickVal(sane(pastPerf.roe_pct, -200, 500), sane(fb.roe_pct, -200, 500));
   const roceVal = pickVal(sane(pastPerf.roce_pct, -200, 500), sane(fb.roce_pct, -200, 500));
   const deVal = pickVal(sane(ov.debt_to_equity_pct, 0, 2000), sane(fb.debt_to_equity_pct, 0, 2000));
@@ -10228,22 +10243,28 @@ function renderSwsModal(data) {
   const netMarginVal = pickVal(sane(ov.net_margin_pct, -200, 200), sane(fb.net_margin_pct, -200, 200));
   const divYieldVal = pickVal(sane(ov.dividend?.yield_pct, 0, 30), sane(fb.dividend_yield_pct, 0, 30));
   const payoutVal = pickVal(sane(ov.dividend?.payout_pct, 0, 200), sane(fb.payout_pct, 0, 200));
+  const betaVal = sane(ov.beta, -10, 10);
+  const debtCoverVal = sane(finHealth.debt_cover_pct, 0, 1e6);
+  // Parser key: ownership.insider_ownership_pct. The legacy modal read
+  // ownership.insider_pct, which never existed in the API-parser output.
+  const insiderVal = sane(ownership.insider_ownership_pct ?? ownership.insider_pct, 0, 100);
+  const ceoTenureVal = sane(mgmt.ceo_tenure_years, 0, 100);
   const stats = [
-    ["P/E", peVal != null ? `${peVal.toFixed(1)}x` : "—"],
-    ["P/B", pbVal != null ? `${pbVal.toFixed(2)}x` : "—"],
-    ["P/S", psVal != null ? `${psVal.toFixed(1)}x` : "—"],
-    ["EPS", epsVal != null ? `₹${epsVal.toFixed(2)}` : "—"],
-    ["ROE", roeVal != null ? `${roeVal.toFixed(1)}%` : "—"],
-    ["ROCE", roceVal != null ? `${roceVal.toFixed(1)}%` : "—"],
-    ["D/E", deVal != null ? `${deVal.toFixed(1)}%` : "—"],
-    ["Debt cover", finHealth.debt_cover_pct != null ? `${finHealth.debt_cover_pct.toFixed(1)}%` : "—"],
-    ["Interest cover", intCoverVal != null ? `${intCoverVal.toFixed(1)}x` : "—"],
-    ["Net margin", netMarginVal != null ? `${netMarginVal.toFixed(1)}%` : "—"],
-    ["Beta", ov.beta != null ? ov.beta.toFixed(2) : "—"],
-    ["Div yield", divYieldVal != null ? `${divYieldVal.toFixed(2)}%` : "—"],
-    ["Payout", payoutVal != null ? `${payoutVal.toFixed(0)}%` : "—"],
-    ["Insider %", ownership.insider_pct != null ? `${ownership.insider_pct.toFixed(1)}%` : "—"],
-    ["CEO tenure", mgmt.ceo_tenure_years != null ? `${mgmt.ceo_tenure_years.toFixed(1)} yr` : "—"],
+    ["P/E", peVal != null ? `${peVal.toFixed(1)}x` : null],
+    ["P/B", pbVal != null ? `${pbVal.toFixed(2)}x` : null],
+    ["P/S", psVal != null ? `${psVal.toFixed(1)}x` : null],
+    ["EPS", epsVal != null ? `₹${epsVal.toFixed(2)}` : null],
+    ["ROE", roeVal != null ? `${roeVal.toFixed(1)}%` : null],
+    ["ROCE", roceVal != null ? `${roceVal.toFixed(1)}%` : null],
+    ["D/E", deVal != null ? `${deVal.toFixed(1)}%` : null],
+    ["Debt cover", debtCoverVal != null ? `${debtCoverVal.toFixed(1)}%` : null],
+    ["Interest cover", intCoverVal != null ? `${intCoverVal.toFixed(1)}x` : null],
+    ["Net margin", netMarginVal != null ? `${netMarginVal.toFixed(1)}%` : null],
+    ["Beta", betaVal != null ? betaVal.toFixed(2) : null],
+    ["Div yield", divYieldVal != null ? `${divYieldVal.toFixed(2)}%` : null,],
+    ["Payout", payoutVal != null ? `${payoutVal.toFixed(0)}%` : null],
+    ["Insider %", insiderVal != null ? `${insiderVal.toFixed(1)}%` : null],
+    ["CEO tenure", ceoTenureVal != null ? `${ceoTenureVal.toFixed(1)} yr` : null],
   ];
 
   // Returns strip
@@ -10403,12 +10424,16 @@ function renderSwsModal(data) {
 
     ${benchHtml}
 
-    <div class="sws-modal-section">
+    ${(() => {
+      const visibleStats = stats.filter(([, v]) => v != null);
+      if (!visibleStats.length) return "";
+      return `<div class="sws-modal-section">
       <h4>Quick stats</h4>
       <div class="sws-modal-grid">
-        ${stats.map(([l, v]) => `<div class="sws-stat-cell"><div class="stat-label">${l}</div><div class="stat-value">${v}</div></div>`).join("")}
+        ${visibleStats.map(([l, v]) => `<div class="sws-stat-cell"><div class="stat-label">${l}</div><div class="stat-value">${v}</div></div>`).join("")}
       </div>
-    </div>
+    </div>`;
+    })()}
 
     ${retsHtml}
     ${rewardsRisksHtml}
