@@ -10323,21 +10323,25 @@ function renderSwsModal(data) {
   const newsItems = Array.isArray(deep?.news) ? deep.news.slice(0, 8) : [];
   const newsHtml = newsItems.length ? `
     <div class="sws-modal-section">
-      <h4>Recent news (${newsItems.length})</h4>
-      <ul class="sws-bullet-list" style="font-size:12px;line-height:1.55;">
-        ${newsItems.map((n) => {
-          const date = (n.date || "").slice(0, 10);
-          const typeBadge = n.type === "event"
-            ? `<span style="display:inline-block;padding:1px 6px;border-radius:3px;margin-right:4px;font-size:9px;background:rgba(34,211,238,0.12);color:var(--cyan);text-transform:uppercase;letter-spacing:0.5px;">${escapeHtml(n.keyDevTypeId || "event")}</span>`
-            : `<span style="display:inline-block;padding:1px 6px;border-radius:3px;margin-right:4px;font-size:9px;background:rgba(251,191,36,0.12);color:#fbbf24;text-transform:uppercase;letter-spacing:0.5px;">brief</span>`;
-          return `<li style="margin:6px 0;">
-            <span style="color:var(--text-muted);font-size:10px;margin-right:6px;">${escapeHtml(date)}</span>
-            ${typeBadge}
-            <span style="color:var(--text-primary);">${escapeHtml(n.title || "")}</span>
-            ${n.body ? `<div style="margin-top:2px;font-size:11px;color:var(--text-secondary);line-height:1.5;">${escapeHtml(n.body)}</div>` : ""}
-          </li>`;
-        }).join("")}
-      </ul>
+      <details>
+        <summary style="cursor:pointer;list-style:revert;">
+          <h4 style="display:inline;margin:0;">Recent news (${newsItems.length})</h4>
+        </summary>
+        <ul class="sws-bullet-list" style="font-size:12px;line-height:1.55;margin-top:10px;">
+          ${newsItems.map((n) => {
+            const date = (n.date || "").slice(0, 10);
+            const typeBadge = n.type === "event"
+              ? `<span style="display:inline-block;padding:1px 6px;border-radius:3px;margin-right:4px;font-size:9px;background:rgba(34,211,238,0.12);color:var(--cyan);text-transform:uppercase;letter-spacing:0.5px;">${escapeHtml(n.keyDevTypeId || "event")}</span>`
+              : `<span style="display:inline-block;padding:1px 6px;border-radius:3px;margin-right:4px;font-size:9px;background:rgba(251,191,36,0.12);color:#fbbf24;text-transform:uppercase;letter-spacing:0.5px;">brief</span>`;
+            return `<li style="margin:6px 0;">
+              <span style="color:var(--text-muted);font-size:10px;margin-right:6px;">${escapeHtml(date)}</span>
+              ${typeBadge}
+              <span style="color:var(--text-primary);">${escapeHtml(n.title || "")}</span>
+              ${n.body ? `<div style="margin-top:2px;font-size:11px;color:var(--text-secondary);line-height:1.5;">${escapeHtml(n.body)}</div>` : ""}
+            </li>`;
+          }).join("")}
+        </ul>
+      </details>
     </div>` : "";
 
   // Live overlay placeholder (filled by fetchAndRenderSwsLiveOverlay)
