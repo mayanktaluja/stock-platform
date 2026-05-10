@@ -19,7 +19,7 @@
 #
 # Env:
 #   SWS_NIGHTLY_DRY_RUN=1      # alt to --dry-run flag
-#   SWS_NIGHTLY_SKIP_BATTERY=1 # don't bail when on battery
+#   SWS_NIGHTLY_SKIP_BATTERY=0 # re-enable bail-out when on battery (default: skip the check)
 #   SWS_NIGHTLY_AUTO_MERGE=1   # default: enable --auto on PR (set =0 to hold for manual review)
 #
 # Exit codes:
@@ -72,8 +72,11 @@ Delete data/sws/panic-stop.flag once reviewed to allow next run."
   exit 3
 fi
 
-# Battery check: pmset wake doesn't guarantee AC is connected at run time
-if [ "${SWS_NIGHTLY_SKIP_BATTERY:-0}" != "1" ]; then
+# Battery check: pmset wake doesn't guarantee AC is connected at run time.
+# Default is to PROCEED on battery (skip=1) — the daily ship-to-prod pipeline
+# must not silently no-op just because the laptop happens to be unplugged.
+# Set SWS_NIGHTLY_SKIP_BATTERY=0 to re-enable the bail-out.
+if [ "${SWS_NIGHTLY_SKIP_BATTERY:-1}" != "1" ]; then
   if pmset -g batt | head -2 | grep -q "Battery Power"; then
     echo "[nightly] running on battery — skipping run to avoid mid-job sleep"
     send_mail "⚠️ SWS nightly skipped — laptop on battery" "Mac was on battery at $(ts). Plug in before next 02:00 IST run.
