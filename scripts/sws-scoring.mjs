@@ -760,12 +760,14 @@ export function buildLeaderboard(scoredStocks) {
   // Universe-wide top 30 by v3 composite — canonical headline section.
   const top30 = ordered.filter(hygiene).slice(0, 30).map(pickCardFields);
 
-  // Best Fundamentals — pure 5-pillar sum (max 74), descending. Same hygiene
-  // gate as Top 30. Ship 100 so the UI can expand past the inline cap of 30.
+  // Best Fundamentals — matches the score-breakdown modal's "Fundamentals 74"
+  // line exactly: 5 SWS pillars + AnalystConsensus FV upside (max 74 label,
+  // theoretical max 86 when FV upside is at +12). Same hygiene gate as Top
+  // 30. Ship 100 so the UI can expand past the inline cap of 30.
   const fundamentalsSum = (s) => {
     const b = s.v3_breakdown || {};
     return (b.pts_health || 0) + (b.pts_future || 0) + (b.pts_valuation || 0)
-         + (b.pts_past || 0) + (b.pts_dividends || 0);
+         + (b.pts_past || 0) + (b.pts_dividends || 0) + (b.pts_fv_upside || 0);
   };
   const bestFundamentals = [...scoredStocks]
     .filter((s) => !isPureBSEcode(s.ticker))
