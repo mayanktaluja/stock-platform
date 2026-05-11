@@ -568,15 +568,27 @@ export function buildLeaderboard(scoredStocks) {
     });
 
   const MIN_MCAP_INR = 5_000_000_000;
-  const top30 = ordered
-    .filter((s) => {
-      const mcap = num(s.overview?.market_cap_inr, 0);
-      if (mcap < MIN_MCAP_INR) return false;
-      const surv = s.v2_breakdown?.surveillance;
-      if (surv && surv.list === "GSM") return false;
-      return true;
-    })
-    .slice(0, 30)
+  const hygiene = (s) => {
+    const mcap = num(s.overview?.market_cap_inr, 0);
+    if (mcap < MIN_MCAP_INR) return false;
+    const surv = s.v2_breakdown?.surveillance;
+    if (surv && surv.list === "GSM") return false;
+    return true;
+  };
+  const top30 = ordered.filter(hygiene).slice(0, 30).map(pickCardFields);
+
+  // Best Fundamentals — pure 5-pillar sum (max 74), descending. Same hygiene
+  // gate as Top 30. Ship 100 so the UI can expand past the inline cap of 30.
+  const fundamentalsSum = (s) => {
+    const b = s.v3_breakdown || {};
+    return (b.pts_health || 0) + (b.pts_future || 0) + (b.pts_valuation || 0)
+         + (b.pts_past || 0) + (b.pts_dividends || 0);
+  };
+  const bestFundamentals = [...scoredStocks]
+    .filter((s) => !isPureBSEcode(s.ticker))
+    .filter(hygiene)
+    .sort((a, b) => fundamentalsSum(b) - fundamentalsSum(a))
+    .slice(0, 100)
     .map(pickCardFields);
 
   return {
@@ -584,6 +596,7 @@ export function buildLeaderboard(scoredStocks) {
     best_to_buy_now: bestToBuy,
     deep_value: cat("deep_value"),
     quality_growth: cat("quality_growth"),
+    best_fundamentals: bestFundamentals,
     midterm: cat("midterm"),
     dividend_aristocrats: cat("dividend_aristocrats"),
     smallcap_gems: cat("smallcap_gems"),
