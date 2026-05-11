@@ -101,8 +101,19 @@ test("isDbConfigured matches DATABASE_URL presence", () => {
   }
 });
 
-test("LIVE: beginRun → upsertCompanySnapshot → finaliseRun cycle", { skip: !LIVE }, async () => {
-  process.env.SWS_DB_DUAL_WRITE = "1"; // force-enable for this test
+// LIVE test pollutes the canonical run (finaliseRun flips is_canonical),
+// so it MUST run against a scratch DB — not production. Gate by an
+// explicit URL match: refuse to run if DATABASE_URL points at the
+// pooler currently serving production. The cleanup at the end restores
+// the prior canonical run if the test ran on prod by mistake (defensive).
+const SCRATCH_DB = process.env.SWS_TEST_SCRATCH_DB === "1";
+
+test("LIVE: beginRun → upsertCompanySnapshot → finaliseRun cycle", { skip: !LIVE || !SCRATCH_DB }, async () => {
+  process.env.SWS_DB_DUAL_WRITE = "1";
+
+  // Capture the pre-existing canonical so we can restore at end.
+  const priorCanonical = await dal.getCanonicalRunId();
+
   const runId = await dal.beginRun({ pipeline: "test" });
   assert.ok(runId, "beginRun returned null");
 
@@ -127,9 +138,27 @@ test("LIVE: beginRun → upsertCompanySnapshot → finaliseRun cycle", { skip: !
   const canonical = await dal.getCanonicalRunId();
   assert.equal(canonical, runId, "newly finalised run should be canonical");
 
-  // Sector momentum query — single SQL aggregate.
   const sm = await dal.getSectorMomentumAsync();
   assert.ok(sm.map instanceof Map);
+
+  // Restore the prior canonical so production data isn't left in a
+  // half-state. Drops the test run as well.
+  if (priorCanonical && priorCanonical !== runId) {
+    const { Pool } = await import("pg");
+    const pool = new Pool({
+      connectionString: process.env.DATABASE_URL_UNPOOLED,
+      max: 1,
+    });
+    try {
+      await pool.query("BEGIN");
+      await pool.query("UPDATE sws_runs SET is_canonical = false WHERE id = $1", [runId]);
+      await pool.query("UPDATE sws_runs SET is_canonical = true WHERE id = $1", [priorCanonical]);
+      await pool.query("DELETE FROM sws_runs WHERE id = $1", [runId]);
+      await pool.query("COMMIT");
+    } finally {
+      await pool.end();
+    }
+  }
 
   await closeDb();
 });

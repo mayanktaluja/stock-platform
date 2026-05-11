@@ -15,6 +15,7 @@
 
 import * as jsonBackend from "./jsonBackend.js";
 import * as sqlBackend from "./sqlBackend.js";
+import * as dbCache from "./dbCache.js";
 import { isDbConfigured } from "../../db/client.js";
 
 // Env flags are read FRESH on every check so tests + pipeline shells can
@@ -45,47 +46,75 @@ export function isDualWriteEnabled() {
 }
 
 // ── Reads (sync) — Phase 1+ ─────────────────────────────────────────────
-// These remain sync even after Phase 4 activation. The SQL backend
-// provides async siblings (see exports at the bottom of this file)
-// which Phase 4 will route here once consumers are updated to await.
+// These stay sync. When SWS_READ_FROM_DB=1 and the in-memory dbCache has
+// fresh data (populated by `await warmUp(...)`), reads serve from there;
+// otherwise they fall through to the JSON backend. The dbCache fallback
+// means callers never have to await individual lookups.
+
+function fromDbOr(cacheRead, jsonRead) {
+  if (dbCache.isEnabled()) {
+    const v = cacheRead();
+    if (v != null) return v;
+  }
+  return jsonRead();
+}
 
 export function getStockByTicker(ticker) {
-  return _backend.getStockByTicker(ticker);
+  return fromDbOr(
+    () => dbCache.readStockByTicker(ticker),
+    () => _backend.getStockByTicker(ticker),
+  );
 }
 
 export function listDeepTickers() {
+  if (dbCache.isEnabled()) {
+    const cached = dbCache.readDeepTickers();
+    if (cached.length) return cached;
+  }
   return _backend.listDeepTickers();
 }
 
 export function getScoredUniverse() {
-  return _backend.getScoredUniverse();
+  return fromDbOr(dbCache.readScoredUniverse, () => _backend.getScoredUniverse());
 }
 
 export function getUniverseIndex() {
-  return _backend.getUniverseIndex();
+  return fromDbOr(dbCache.readUniverseIndex, () => _backend.getUniverseIndex());
 }
 
 export function getUniverseIndexMtime() {
+  if (dbCache.isEnabled()) {
+    const m = dbCache.readUniverseIndexMtime();
+    if (m != null) return m;
+  }
   return _backend.getUniverseIndexMtime?.() ?? null;
 }
 
 export function getV3UniverseStats() {
-  return _backend.getV3UniverseStats();
+  return fromDbOr(dbCache.readV3UniverseStats, () => _backend.getV3UniverseStats());
 }
 
 export function getPicksLatest() {
-  return _backend.getPicksLatest();
+  return fromDbOr(dbCache.readPicksLatest, () => _backend.getPicksLatest());
 }
 
 export function getLastRefresh() {
-  return _backend.getLastRefresh();
+  return fromDbOr(dbCache.readLastRefresh, () => _backend.getLastRefresh());
 }
 
 export function getShardProgressApi(n) {
-  return _backend.getShardProgressApi(n);
+  return fromDbOr(
+    () => dbCache.readShardProgressApi(n),
+    () => _backend.getShardProgressApi(n),
+  );
 }
 
 export function getAllShardProgressApi() {
+  if (dbCache.isEnabled()) {
+    const cached = dbCache.readAllShardProgressApi();
+    // If any shard has data from cache, prefer cache; else fall back.
+    if (cached.some((s) => s.done_count != null)) return cached;
+  }
   return _backend.getAllShardProgressApi();
 }
 
@@ -93,14 +122,33 @@ export function getAllShardProgressApi() {
 // Phase 4 SQL backend replaces the O(5,517) deep-file scan with one SQL
 // aggregate. See sqlBackend.getSectorMomentum.
 export function getSectorMomentum() {
-  return _backend.getSectorMomentum();
+  return fromDbOr(dbCache.readSectorMomentum, () => _backend.getSectorMomentum());
 }
 
 export function invalidateAll() {
   if (typeof _backend.invalidateAll === "function") _backend.invalidateAll();
   if (isDbConfigured()) {
     sqlBackend.invalidateAll();
+    dbCache.invalidateAll();
   }
+}
+
+// ── Warmup (async) — populates the in-memory cache that backs sync reads
+//    when SWS_READ_FROM_DB=1. No-op otherwise so callers can be unconditional. ──
+
+export async function warmUp(opts = {}) {
+  if (!dbCache.isEnabled()) return;
+  return dbCache.warmUp(opts);
+}
+
+export async function warmUpEssentials() {
+  if (!dbCache.isEnabled()) return;
+  return dbCache.warmUpEssentials();
+}
+
+export async function warmUpSnapshots(tickers) {
+  if (!dbCache.isEnabled()) return;
+  return dbCache.warmUpSnapshots(tickers);
 }
 
 // Path constants — used by a few callers that still need raw paths during

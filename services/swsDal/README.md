@@ -100,18 +100,27 @@ Set `SWS_DB_DUAL_WRITE=1` in the env used by `scripts/sws-refresh-api.sh`. The p
 
 Run dual-write for at least one full pipeline cycle. Watch the verify step.
 
-### Phase 4 — Read switch
-**Pre-requisite**: make consumers async-aware. Concretely:
-* Convert these to `await` the DAL:
-  * `services/swsHoldingEngine.js` exports (`loadSWSDeep`, `loadV3Universe`)
-  * `services/combinedScore.js::lookupSwsScore`
-  * `services/swsPortfolioAggregate.js::loadPicksLatest`
-  * `services/swsPeerLayer.js::_loadPicks`
-  * `services/earnings/signalAggregator.js::ensureSectorMomentum`
-  * The 5 SWS routes in `server.js`
-* Swap each `dal.getX()` call to `await dal.getXAsync()` (the async siblings already exist).
+### Phase 4 — Read switch (warmup-then-sync, no consumer refactor)
 
-Then flip `SWS_READ_FROM_DB=1`. Load-test `/api/sws-picks` and `/api/sws-stock/RELIANCE`; target p99 < 500ms.
+The DAL keeps its sync read surface. When `SWS_READ_FROM_DB=1`, sync reads
+serve from an in-memory cache (`services/swsDal/dbCache.js`) that's
+populated by an async `dal.warmUp*()` call at server boot. Result: zero
+ripple through the ~40 sync callers in `services/*.js` and `server.js`.
+
+**Activation**:
+1. Set `SWS_READ_FROM_DB=1` in the env (Vercel: Project Settings → Env Vars → Production).
+2. Ensure `DATABASE_URL` is set (was wired in Phase 0). The DAL's `warmUpEssentials()` is already called inside `server.js`'s startup paths (both `app.listen` for local and the `if (process.env.VERCEL)` cold-start block).
+3. Redeploy. First-request cold start hydrates the cache (~2s). Subsequent reads serve from memory.
+
+**What's cached** (TTL = 5 min, periodic re-warm every 10 min on long-lived processes):
+* `picks-latest`, `scored-universe`, `universe-index`, `v3-universe-stats`, `last-refresh`, `sector-momentum`
+* Per-ticker `snapshots` — lazily filled via `dal.warmUpSnapshots(tickers)`; intended for portfolio routes that know the working set up-front.
+
+**Fallback behaviour**: when the cache is empty (cold start, mid-refresh), sync reads fall through to the JSON backend. No 500s.
+
+**The perf win in numbers**:
+* `signalAggregator.ensureSectorMomentum`: 5,517-file scan (~880ms cold) → single SQL `GROUP BY sector` aggregate (~30ms).
+* `/api/sws-picks`: served from in-memory cache in <20ms (vs ~100-200ms reading + post-processing the 2.2MB JSON).
 
 ### Phase 5 — Drop JSON commits
 Only after ~1 week of stable Phase 4 in prod. Edit `scripts/sws-refresh-api.sh`:
