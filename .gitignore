@@ -15,8 +15,10 @@ node_modules/
 .watchlist.json
 .openai-budget.json
 .openai-budget.json.*.tmp
-.macro-regime-cache.json
-.macro-regime-cache.json.*.tmp
+# Atomic-write temp files from services/macroRegimeStorage.js — the JSON
+# itself lives at data/macroRegime.json and IS committed (so Vercel cold
+# starts read the last good classification even when KV is unset).
+data/macroRegime.json.*.tmp
 
 # Per-run sanity reports — track only _latest.json for ops visibility,
 # the timestamped per-run reports balloon and aren't worth committing.

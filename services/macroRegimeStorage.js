@@ -10,14 +10,18 @@
  * instance a single shared view of the last good classification.
  *
  * Store shape: a single JSON-encoded regime object under the key `macro:regime`.
+ *
+ * File location: data/macroRegime.json — committed to git so Vercel cold starts
+ * read the last good classification even when KV is unset (same pattern as
+ * data/catalysts/*.json for NSE data that can't be fetched from Vercel IPs).
  */
 
-import { readFileSync, writeFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const FILE_PATH = path.join(__dirname, "..", ".macro-regime-cache.json");
+const FILE_PATH = path.join(__dirname, "..", "data", "macroRegime.json");
 const KV_KEY = "macro:regime";
 
 // Reject regimes whose reasoning contains raw error text — these are
@@ -45,6 +49,7 @@ class FileMacroRegimeStorage {
 
   async write(regime) {
     try {
+      mkdirSync(path.dirname(FILE_PATH), { recursive: true });
       const tmp = `${FILE_PATH}.${process.pid}.tmp`;
       writeFileSync(tmp, JSON.stringify(regime), "utf-8");
       await import("node:fs").then((fs) => fs.renameSync(tmp, FILE_PATH));
