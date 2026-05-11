@@ -11,31 +11,14 @@
 //   2. swsPortfolioAggregate basket builder + UI surface peer chips
 //      next to Reduction calls ("trim ANGELONE → rotate to BSE").
 
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { num } from "./swsScoring.js";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PICKS_LATEST = path.resolve(__dirname, "..", "data", "sws", "picks-latest.json");
-
-let _picksCache = null;
-function _loadPicks() {
-  let stat;
-  try { stat = fs.statSync(PICKS_LATEST); } catch { return null; }
-  if (_picksCache && _picksCache.mtimeMs === stat.mtimeMs) return _picksCache.data;
-  try {
-    const raw = JSON.parse(fs.readFileSync(PICKS_LATEST, "utf-8"));
-    _picksCache = { mtimeMs: stat.mtimeMs, data: raw };
-    return raw;
-  } catch { return null; }
-}
+import { getPicksLatest } from "./swsDal/index.js";
 
 // Build a flat candidate pool from all sections of picks-latest. We
 // dedupe on ticker and prefer the highest v3 record when the same name
 // shows up in multiple sections (e.g. top_ranked_30 + quality_growth).
 function _buildCandidatePool() {
-  const picks = _loadPicks();
+  const picks = getPicksLatest();
   if (!picks?.sections) return [];
   const byTicker = new Map();
   for (const sectionRows of Object.values(picks.sections)) {

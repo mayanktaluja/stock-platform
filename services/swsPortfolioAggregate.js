@@ -10,12 +10,10 @@
 // Output: { tiers: { A, B, C, D }, baskets: { defensive, growth, core },
 //           sectorOverlay, snapshot, banner }
 
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { num } from "./swsScoring.js";
 import { loadSWSDeep, pickSnowflake, scoreHolding, _reconcileFVUpside } from "./swsHoldingEngine.js";
 import { detectSectorWipeout } from "./swsPeerLayer.js";
+import { getPicksLatest, listDeepTickers } from "./swsDal/index.js";
 import {
   ALL_REDUCTION_ACTIONS,
   ALL_TOPUP_ACTIONS,
@@ -39,23 +37,9 @@ try {
   if (typeof mod.computeMacroDelta === "function") _computeMacroDelta = mod.computeMacroDelta;
 } catch {}
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PICKS_LATEST = path.resolve(__dirname, "..", "data", "sws", "picks-latest.json");
-const DEEP_DIR = path.resolve(__dirname, "..", "data", "sws", "deep");
-
-let _picksCache = null;
-function loadPicksLatest() {
-  try {
-    const stat = fs.statSync(PICKS_LATEST);
-    if (_picksCache && _picksCache.mtimeMs === stat.mtimeMs) return _picksCache.data;
-    const raw = fs.readFileSync(PICKS_LATEST, "utf-8");
-    const data = JSON.parse(raw);
-    _picksCache = { mtimeMs: stat.mtimeMs, data };
-    return data;
-  } catch {
-    return null;
-  }
-}
+// loadPicksLatest is a thin alias over the DAL for callsite readability;
+// DEEP_DIR walk has been replaced by dal.listDeepTickers() below.
+const loadPicksLatest = getPicksLatest;
 
 // Action sets from actionLadder cover both legacy (EXIT / Reduction-50% /
 // Reduction-25-33% / Top-up-modest / Top-up / STRONG Top-up) and ladder-v2
@@ -452,11 +436,10 @@ function buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit, sectorO
   if (seedDefensive.length < freshPickLimit) {
     let scanned = 0;
     try {
-      const files = fs.readdirSync(DEEP_DIR).filter((f) => f.endsWith(".json"));
-      for (const f of files) {
+      const tickers = listDeepTickers();
+      for (const ticker of tickers) {
         if (scanned >= 200) break; // soft cap to keep this quick
         scanned++;
-        const ticker = f.replace(/\.json$/, "");
         if (heldTickers.has(ticker) || candidatePicks.has(ticker)) continue;
         const deep = loadSWSDeep(ticker);
         if (!deep) continue;

@@ -81,6 +81,19 @@ fi
 
 trap 'node scripts/sws-deep-scrape.mjs release-pipeline-lock >/dev/null 2>&1 || true' EXIT
 
+# ---------- 2b. Phase 3 dual-write: open a new sws_runs row ----------
+# No-op when SWS_DB_DUAL_WRITE != 1 OR DATABASE_URL is unset. Pipeline
+# child scripts read SWS_RUN_ID from env and mirror writes via the DAL.
+if [ "${SWS_DB_DUAL_WRITE:-0}" = "1" ]; then
+  SWS_RUN_ID="$(node scripts/sws-pipeline-begin.mjs 2>/dev/null || true)"
+  export SWS_RUN_ID
+  if [ -n "${SWS_RUN_ID}" ]; then
+    echo "[refresh-api] DB run started: ${SWS_RUN_ID}"
+  else
+    echo "[refresh-api] DB dual-write enabled but begin returned empty — proceeding without DAL writes"
+  fi
+fi
+
 # ---------- 3. Detect already-running API shards ----------
 
 LIVE_SHARDS="$(ps -A -o command= | \
@@ -273,6 +286,18 @@ console.log("[refresh-api] summary written: scored=" + scoredCount + " news_stoc
 EOF
 
 echo "=== refresh-api complete: $(ts) elapsed=${ELAPSED}s ==="
+
+# ---------- 9b. Phase 3 dual-write: finalise + verify ----------
+# Promotes the run to is_canonical=true in a transaction, then diffs the
+# DB rows against the on-disk JSON. Any drift exits non-zero and the
+# auto-PR step below sees FAIL=1 and skips.
+if [ "${SWS_DB_DUAL_WRITE:-0}" = "1" ] && [ -n "${SWS_RUN_ID:-}" ] && [ "${FAIL}" -eq 0 ]; then
+  node scripts/sws-pipeline-finalise.mjs "${SWS_RUN_ID}" 2>&1 | sed 's/^/[finalise] /' || true
+  echo "[refresh-api] verify-db-vs-json (50 random tickers) …"
+  if ! node scripts/sws-verify-db-vs-json.mjs --count 50 --run-id "${SWS_RUN_ID}" 2>&1 | tail -20 | sed 's/^/[verify] /'; then
+    echo "[refresh-api] WARN — DB/JSON drift detected; auto-PR continues but watch for regressions"
+  fi
+fi
 
 # Release the pipeline lock now — data work is done and the auto-PR step
 # below invokes `git push`, whose pre-push hook runs `npm test`, which

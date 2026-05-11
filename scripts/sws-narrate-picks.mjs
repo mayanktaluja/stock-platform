@@ -27,6 +27,10 @@ import "dotenv/config";
 import Anthropic from "@anthropic-ai/sdk";
 import { PATHS, MODELS } from "./sws-config.mjs";
 import { snapshotAndCloseSwsPicks } from "../paperTrades.js";
+import * as dal from "../services/swsDal/index.js";
+import { closeDb } from "../db/client.js";
+
+const RUN_ID = process.env.SWS_RUN_ID || null;
 
 // ---------- Static system prompt (cached) ----------
 
@@ -277,6 +281,9 @@ async function main() {
     try {
       const { narrative, usage } = await narrateOnePick(client, pick, sectionKeys);
       const touched = applyNarrativeAcrossSections(picksData, pick.ticker, narrative);
+      if (RUN_ID && dal.isDualWriteEnabled()) {
+        await dal.applyNarrativeAcrossSections(RUN_ID, pick.ticker, narrative);
+      }
       totals.input += usage.input_tokens || 0;
       totals.output += usage.output_tokens || 0;
       totals.cacheRead += usage.cache_read_input_tokens || 0;
@@ -321,6 +328,8 @@ async function main() {
   } catch (e) {
     console.warn(`Track-record snapshot failed (non-fatal): ${e.message}`);
   }
+
+  if (RUN_ID && dal.isDualWriteEnabled()) await closeDb();
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

@@ -83,6 +83,7 @@ import { parsePortfolioFile, resolveUnmatchedLive, toIsoDate } from "./portfolio
 import { buildReport } from "./portfolioAnalyzer.js";
 import { scoreHolding as swsScoreHolding, loadV3Universe } from "./services/swsHoldingEngine.js";
 import { scoreStock as swsScoreStock } from "./services/swsScoring.js";
+import * as swsDal from "./services/swsDal/index.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
 import { buildSWSReport, surfaceOutsidePicks } from "./services/swsPortfolioAggregate.js";
 import { getPortfolioHistoryStorage } from "./portfolioHistoryStorage.js";
@@ -8283,7 +8284,7 @@ function readJsonSafe(p, fallback = null) {
 // sibling of picks-latest.json (atomic write). Mirrors the nifty500 injection
 // pattern used by /api/sws-picks.
 app.get("/api/sws-universe", (req, res) => {
-  const data = readJsonSafe(SWS_PATHS.scoredUniverse);
+  const data = swsDal.getScoredUniverse();
   if (!data) return res.status(404).json({ error: "no_universe_yet", hint: "Run `node scripts/sws-build-scored-universe.mjs` to backfill, or wait for the next refresh." });
   if (Array.isArray(data.stocks)) {
     for (const it of data.stocks) {
@@ -8294,7 +8295,7 @@ app.get("/api/sws-universe", (req, res) => {
 });
 
 app.get("/api/sws-picks", (req, res) => {
-  const data = readJsonSafe(SWS_PATHS.picksLatest);
+  const data = swsDal.getPicksLatest();
   if (!data) return res.status(404).json({ error: "no_picks_yet", hint: "Run /sws-scan-shard 1/2/3 in Claude to start the initial scan." });
   if (data.sections) {
     // PR 2.7 — pure-numeric BSE codes were leaking into Avoid + Deep Value
@@ -8339,20 +8340,8 @@ app.get("/api/sws-picks", (req, res) => {
   }
   // last_refresh: canonical pipeline-finish stamp; per-shard progress fills in
   // when a refresh is mid-flight or last-refresh.json is stale.
-  data.last_refresh = readJsonSafe(SWS_PATHS.lastRefresh);
-  data.shard_progress_api = [1, 2, 3].map((n) => {
-    const p = readJsonSafe(SWS_PATHS.progressApi(n));
-    if (!p) return { id: n };
-    return {
-      id: n,
-      done_count: p.done_count || 0,
-      next_local_index: p.next_local_index || 0,
-      last_ticker: p.last_ticker || null,
-      last_run_at: p.last_run_at || null,
-      today_count: p.today_count || 0,
-      today_date: p.today_date || null,
-    };
-  });
+  data.last_refresh = swsDal.getLastRefresh();
+  data.shard_progress_api = swsDal.getAllShardProgressApi();
   res.json(data);
 });
 
@@ -8369,8 +8358,7 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
   if (!ticker || !/^[A-Z0-9&\-]+$/.test(ticker)) {
     return res.status(400).json({ error: "invalid_ticker" });
   }
-  const fp = path.join(SWS_PATHS.deepDir, `${ticker}.json`);
-  const deep = readJsonSafe(fp);
+  const deep = swsDal.getStockByTicker(ticker);
   if (!deep) return res.status(404).json({ error: "no_deep_data", ticker });
 
   // Find the leaderboard card (v2 score + breakdown live there). Prefer the
@@ -8383,7 +8371,7 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
   // modal can render a "In sections: …" banner (PR 2.11) — gives the user
   // a quick read on whether the stock is also a Top 30 / Deep Value /
   // Quality Growth pick rather than re-discovering it section by section.
-  const picks = readJsonSafe(SWS_PATHS.picksLatest);
+  const picks = swsDal.getPicksLatest();
   let card = null;
   const sectionMemberships = [];
   if (picks && picks.sections) {
@@ -8519,7 +8507,7 @@ app.get("/api/sws-scan/status", (req, res) => {
   const now = Date.now();
   const RECENT_MS = 5 * 60 * 1000;
   const shards = [1, 2, 3].map((n) => {
-    const p = readJsonSafe(SWS_PATHS.progressApi(n));
+    const p = swsDal.getShardProgressApi(n);
     if (!p) return { id: n, started: false };
     const recent = p.last_run_at && (now - new Date(p.last_run_at).getTime()) < RECENT_MS;
     return {
