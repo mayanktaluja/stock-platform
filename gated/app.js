@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // for 30s; a 60s refresh keeps the indices fresh without hammering upstreams.
   loadMarketData();
   setInterval(loadMarketData, 60 * 1000);
-  switchTab('news');
+  switchTab('picks');
   setupSearch();
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
   auth.init();
@@ -1493,7 +1493,7 @@ function goHome() {
   currentSymbol = null;
   stockDetail.classList.remove("active");
   stockDetail.innerHTML = "";
-  switchTab("news");
+  switchTab("picks");
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
