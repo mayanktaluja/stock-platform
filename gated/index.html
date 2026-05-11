@@ -2487,6 +2487,23 @@
       margin-left: 8px;
       cursor: help;
     }
+    /* Fundamentals badge — shown only on Best Fundamentals section cards.
+       Surfaces the 5-pillar subtotal (max 74) the section is sorted on so
+       the user can see the ranking number without opening the detail modal. */
+    .sws-fund-badge {
+      display: inline-block;
+      padding: 3px 7px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      background: rgba(74, 222, 128, 0.10);
+      border: 1px solid rgba(74, 222, 128, 0.32);
+      color: #86efac;
+      font-variant-numeric: tabular-nums;
+      margin-left: 8px;
+      cursor: help;
+    }
     /* Last-quarter EPS-vs-consensus badge on upcoming-earnings cards.
        Class names (.beat/.miss/.inline) match the JSON values emitted by
        scripts/sws-fetch-earnings-beat.mjs verbatim — no string conversion in
