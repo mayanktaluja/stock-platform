@@ -7980,7 +7980,7 @@ const PICKS_SECTIONS = [
   { key: "best_to_buy_now", term_id: "section_best_to_buy_now", emoji: "🎯", label: "🎯 Best Stocks to Buy Now", chip_label: "Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks. Use for fresh capital today." },
   { key: "deep_value", term_id: "section_deep_value", emoji: "💎", label: "💎 Deep Value", chip_label: "Deep Value", subtitle: "Quality + cheap. TOP_PICK names trading at ≥ 20% discount to consensus FV." },
   { key: "quality_growth", term_id: "section_quality_growth", emoji: "🌱", label: "🌱 Quality Growth", chip_label: "Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
-  { key: "best_fundamentals", term_id: "section_best_fundamentals", emoji: "🧱", label: "🧱 Best Fundamentals", chip_label: "Fundamentals", subtitle: "Pure 5-pillar fundamentals ranking — Health + Future + Valuation + Past + Dividends (max 74). Ignores momentum and FV-upside. Same hygiene gate as Top 30 (mcap ≥ ₹500cr, no GSM)." },
+  { key: "best_fundamentals", term_id: "section_best_fundamentals", emoji: "🧱", label: "🧱 Best Fundamentals", chip_label: "Fundamentals", subtitle: "Pure 5-pillar fundamentals ranking out of 100 — Health + Future + Valuation + Past + Dividends, normalised from the raw 0–74 pillar sum. Ignores momentum and FV-upside. Same hygiene gate as Top 30 (mcap ≥ ₹500cr, no GSM)." },
   { key: "midterm", term_id: "section_midterm", emoji: "⚡", label: "⚡ Midterm Picks (3-12 months)", chip_label: "Midterm", subtitle: "Trend-following — momentum already on side, with FV upside ≥ 15% remaining." },
   { key: "dividend_aristocrats", term_id: "section_dividend_aristocrats", emoji: "💰", label: "💰 Dividend Aristocrats", chip_label: "Dividend", subtitle: "Sustainable payers: Dividend pillar ≥ 5, payout < 70%, yield ≥ 1.5%." },
   { key: "smallcap_gems", term_id: "section_smallcap_gems", emoji: "🔍", label: "🔍 Smallcap Hidden Gems", chip_label: "Smallcap Gems", subtitle: "True smallcap quality: mcap < ₹15,000cr (NSE rank 251+) + Snowflake ≥ 22 + upside ≥ 15%." },
@@ -8593,14 +8593,17 @@ function renderPickCard(s, sectionKey, rank = null) {
     ? `<span class="sws-thin-coverage-badge" title="Only ${cov}% of the 13 SWS input fields were populated when this stock was scored — verify manually before acting.">Thin · ${cov}%</span>`
     : "";
   // Fundamentals badge — only on the Best Fundamentals section so the ranking
-  // number (Health + Future + Valuation + Past + Dividends, max 74) is visible
-  // on the card itself rather than buried in the detail modal.
+  // number (Health + Future + Valuation + Past + Dividends) is visible on the
+  // card itself rather than buried in the detail modal. The raw pillar sum is
+  // 0–74; we normalise to 0–100 here for a more intuitive display. Linear
+  // scaling preserves the section's sort order.
   let fundBadge = "";
   if (sectionKey === "best_fundamentals" && s.v3_breakdown) {
     const b = s.v3_breakdown;
-    const fundTotal = (b.pts_health || 0) + (b.pts_future || 0) + (b.pts_valuation || 0)
+    const fundSum74 = (b.pts_health || 0) + (b.pts_future || 0) + (b.pts_valuation || 0)
                     + (b.pts_past || 0) + (b.pts_dividends || 0);
-    fundBadge = `<span class="sws-fund-badge" title="Fundamentals score: Health + Future + Valuation + Past + Dividends (max 74)">F ${fundTotal.toFixed(1)}/74</span>`;
+    const fundScore100 = (fundSum74 / 74) * 100;
+    fundBadge = `<span class="sws-fund-badge" title="Fundamentals score, normalised to 100: Health + Future + Valuation + Past + Dividends (raw pillar sum out of 74, scaled to 0–100)">F ${fundScore100.toFixed(1)}/100</span>`;
   }
   const statusBadges = renderPickStatusBadges(s, sectionKey);
   const rankBadge = rank ? `<span class="sws-pick-rank">${rank}</span>` : "";
