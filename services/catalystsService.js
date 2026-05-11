@@ -18,12 +18,12 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { getPicksLatest } from "./swsDal/index.js";
 
 const ROOT = process.cwd();
 const NSE_EVENTS_PATH = path.join(ROOT, "data", "catalysts", "events-latest.json");
 const MACRO_CAL_PATH = path.join(ROOT, "data", "macroCalendar.json");
 const PORTFOLIO_PATH = path.join(ROOT, "portfolio.json");
-const PICKS_PATH = path.join(ROOT, "data", "sws", "picks-latest.json");
 
 const NSE_WINDOW_DAYS = 10; // corp events: next 10 days
 const MACRO_WINDOW_DAYS = 21; // macro events: next 3 weeks (longer for planning)
@@ -85,7 +85,7 @@ function loadPortfolioTickers() {
 }
 
 function loadPicksTickers() {
-  const picks = readJsonSafe(PICKS_PATH);
+  const picks = getPicksLatest();
   if (!picks) return new Map();
   const out = new Map();
   const seen = new WeakSet();

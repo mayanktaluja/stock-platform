@@ -31,6 +31,11 @@
  * a week of clean runs confirms they're rarely tripped.
  */
 
+import * as dal from "../services/swsDal/index.js";
+import { closeDb } from "../db/client.js";
+
+const RUN_ID = process.env.SWS_RUN_ID || null;
+
 import {
   readFileSync, existsSync, readdirSync, writeFileSync, mkdirSync, copyFileSync,
 } from "fs";
@@ -531,6 +536,16 @@ function main() {
   }
   lines.push(`[sanity-gate] report: ${reportPath}`);
   console.log(lines.join("\n"));
+
+  // Phase 3 dual-write: mirror the report to Postgres. Verdict + counts
+  // become queryable for the Vercel UI; full layers blob stays in JSONB.
+  if (RUN_ID && dal.isDualWriteEnabled()) {
+    dal.recordSanityReport(RUN_ID, report)
+      .then(() => closeDb())
+      .catch((e) => console.warn(`[sanity-gate] DAL write failed: ${e.message}`))
+      .finally(() => process.exit(blocks.length > 0 ? 1 : 0));
+    return;
+  }
 
   process.exit(blocks.length > 0 ? 1 : 0);
 }

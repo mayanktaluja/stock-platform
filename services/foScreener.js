@@ -36,13 +36,13 @@ import {
   restoreFoHistoryFromKVToDisk,
 } from "./foKvStore.js";
 import { FO_CONFIG } from "./foConfig.js";
+import { getPicksLatest } from "./swsDal/index.js";
 
 const ROOT = process.cwd();
 const FO_DIR = path.join(ROOT, "data", "nse-fo");
 const BHAVCOPY_DIR = path.join(FO_DIR, "bhavcopy");
 const LATEST_PATH = path.join(FO_DIR, "oi-deltas-latest.json");
 const PORTFOLIO_PATH = path.join(ROOT, "portfolio.json");
-const PICKS_PATH = path.join(ROOT, "data", "sws", "picks-latest.json");
 
 const METHODOLOGY = [
   "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms);",
@@ -123,7 +123,7 @@ function loadPortfolioTickers() {
  * Sections vary over time; flatten everything that looks like a stock card.
  */
 function loadPicksTickers() {
-  const picks = readJsonSafe(PICKS_PATH);
+  const picks = getPicksLatest();
   if (!picks) return new Set();
   const out = new Set();
   const seen = new WeakSet();

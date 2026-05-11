@@ -39,11 +39,10 @@ import {
   loadDealsRolling,
   buildPerSymbolDealIndex,
 } from "./nseBulkBlockIngester.js";
+import * as dal from "../swsDal/index.js";
 
 const ROOT = process.cwd();
-const SWS_DEEP_DIR = path.join(ROOT, "data", "sws", "deep");
 const FUNDAMENTALS_HISTORY_PATH = path.join(ROOT, "fundamentalsHistory.json");
-const PICKS_LATEST_PATH = path.join(ROOT, "data", "sws", "picks-latest.json");
 
 // ────────── Tiny utilities ──────────
 
@@ -65,10 +64,6 @@ function readJsonSafe(p) {
  * stockList drops .BO/.NS for display. Centralise the conversions
  * so a single place owns the mismatch.
  */
-function swsDeepPath(symbol) {
-  return path.join(SWS_DEEP_DIR, `${symbol.toUpperCase()}.json`);
-}
-
 function nsSymbol(symbol) {
   if (typeof symbol !== "string") return null;
   return symbol.toUpperCase().endsWith(".NS")
@@ -97,7 +92,7 @@ export function buildAggregatorContext(opts = {}) {
     opts.fundamentalsHistory ?? readJsonSafe(FUNDAMENTALS_HISTORY_PATH) ?? { stocks: {} };
 
   const picksLatest =
-    opts.picksLatest ?? readJsonSafe(PICKS_LATEST_PATH) ?? { sections: {} };
+    opts.picksLatest ?? dal.getPicksLatest() ?? { sections: {} };
 
   // picks-latest-v2 is sectioned (top_ranked, deep_value, quality_growth,
   // upcoming_earnings, avoid, …). We need two lookups:
@@ -131,10 +126,9 @@ export function buildAggregatorContext(opts = {}) {
     }
   }
 
-  // Default disk reader; tests can swap it for a mock.
+  // Default reader pulls through the DAL; tests can swap it for a mock.
   const readSwsDeep =
-    opts.readSwsDeep ??
-    ((symbol) => readJsonSafe(swsDeepPath(symbol)));
+    opts.readSwsDeep ?? ((symbol) => dal.getStockByTicker(symbol));
 
   // ── Milestone D inputs ──
   // NSE corporate announcements (rolling 30 days) and bulk/block
@@ -176,43 +170,15 @@ export function buildAggregatorContext(opts = {}) {
  */
 export function ensureSectorMomentum(ctx) {
   if (ctx._sectorMomentumMap) return ctx._sectorMomentumMap;
-
-  const acc = new Map(); // sector -> { sum, n }
-  let scanned = 0;
-  if (fs.existsSync(SWS_DEEP_DIR)) {
-    let entries;
-    try {
-      entries = fs.readdirSync(SWS_DEEP_DIR);
-    } catch {
-      entries = [];
-    }
-    for (const file of entries) {
-      if (!file.endsWith(".json")) continue;
-      let stock;
-      try {
-        stock = JSON.parse(fs.readFileSync(path.join(SWS_DEEP_DIR, file), "utf8"));
-      } catch {
-        continue;
-      }
-      scanned += 1;
-      const sector = stock?.sector;
-      const ret1m = num(stock?.overview?.returns_pct?.["1M"]);
-      if (!sector || ret1m == null) continue;
-      const e = acc.get(sector) || { sum: 0, n: 0 };
-      e.sum += ret1m;
-      e.n += 1;
-      acc.set(sector, e);
-    }
-  }
-
-  const out = new Map();
-  for (const [sector, { sum, n }] of acc.entries()) {
-    if (n < 3) continue; // demand at least 3 stocks per sector for stability
-    out.set(sector, { avg_1m_pct: pct(sum / n), sample_size: n });
-  }
-  ctx._sectorMomentumMap = out;
+  // Delegated to swsDal. In Phase 1 this is still an O(5,517) deep-file scan
+  // behind the DAL — same cost, just a different file path. Phase 4 swaps
+  // the backend for a single `SELECT sector, avg(returns_1m_pct) ... GROUP
+  // BY sector` query, dropping this from seconds to milliseconds. The DAL
+  // already applies the n<3 minimum-sample filter that lived here.
+  const { map, scanned } = dal.getSectorMomentum();
+  ctx._sectorMomentumMap = map;
   ctx._sectorMomentumScannedFiles = scanned;
-  return out;
+  return map;
 }
 
 // ────────── Per-event aggregation ──────────

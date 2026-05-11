@@ -55,9 +55,11 @@ data/sws/combined-shadow-diff.json
 # persist to KV / S3 / equivalent for SEBI 5-yr retention.
 data/audit/
 
-# Scratch/test scripts at repo root (kept local, not shipped)
-test-*.mjs
-test-*.js
+# Scratch/test scripts at repo root (kept local, not shipped). Anchored to
+# repo root so legitimate fixtures like services/swsDal/test-fixtures.js
+# aren't swept up.
+/test-*.mjs
+/test-*.js
 
 # Ad-hoc personal notes / overnight build summaries (kept local, not shipped)
 MORNING_SUMMARY_*.md

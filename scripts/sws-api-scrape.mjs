@@ -26,6 +26,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import * as dal from "../services/swsDal/index.js";
+
+const DB_FLUSH_INTERVAL = 50;
+
 import {
   createClient,
   fetchStockData,
@@ -245,6 +249,12 @@ async function main() {
 
       progress.next_local_index = i + 1;
       saveProgress(shardId, progress);
+
+      // Phase 3 dual-write: DB-flush every 50 ticks (not per-tick — Neon
+      // compute-hour budget). Falls back silently if writes are off.
+      if (dal.isDualWriteEnabled() && progress.done_count % DB_FLUSH_INTERVAL === 0) {
+        dal.upsertShardProgress(shardId, progress).catch(() => {});
+      }
 
       // Pacing: jittered short sleep between stocks
       const interMs = randInt(INTER_STOCK_MIN_MS, INTER_STOCK_MAX_MS);

@@ -28,10 +28,9 @@ import { fileURLToPath } from "node:url";
 import { loadSWSDeep } from "./swsHoldingEngine.js";
 import { scoreStock } from "./swsScoring.js";
 import { buildFallbackHolding } from "./swsCoverageFallback.js";
+import * as dal from "./swsDal/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const SWS_UNIVERSE_PATH = path.resolve(__dirname, "..", "data", "sws", "sws-scored-universe.json");
-const SWS_LAST_REFRESH_PATH = path.resolve(__dirname, "..", "data", "sws", "last-refresh.json");
 
 export const METHODOLOGY_VERSION = "combined-v1-2026-04";
 
@@ -82,57 +81,10 @@ const SOURCES = Object.freeze([
   "Simply Wall St",
 ]);
 
-// ─────────────────────── Bulk universe cache ───────────────────────
-// Mirrors the _loadV3Universe pattern in swsHoldingEngine.js: read once,
-// cache against file mtime, invalidate transparently when the daily SWS
-// refresh writes a new universe file.
-let _universeCache = null;
-let _refreshCache = null;
-
-function _loadUniverseIndex() {
-  let stat;
-  try {
-    stat = fs.statSync(SWS_UNIVERSE_PATH);
-  } catch {
-    return null;
-  }
-  if (_universeCache && _universeCache.mtimeMs === stat.mtimeMs) {
-    return _universeCache.byTicker;
-  }
-  try {
-    const raw = JSON.parse(fs.readFileSync(SWS_UNIVERSE_PATH, "utf-8"));
-    const stocks = Array.isArray(raw) ? raw : raw.stocks || [];
-    const byTicker = new Map();
-    for (const s of stocks) {
-      if (!s || !s.ticker) continue;
-      byTicker.set(String(s.ticker).toUpperCase(), s);
-    }
-    _universeCache = { mtimeMs: stat.mtimeMs, byTicker, generatedAt: raw.generated_at || null };
-    return byTicker;
-  } catch (err) {
-    console.warn(`[combinedScore] universe load failed: ${err.message}`);
-    return null;
-  }
-}
-
-function _loadLastRefresh() {
-  let stat;
-  try {
-    stat = fs.statSync(SWS_LAST_REFRESH_PATH);
-  } catch {
-    return null;
-  }
-  if (_refreshCache && _refreshCache.mtimeMs === stat.mtimeMs) {
-    return _refreshCache.data;
-  }
-  try {
-    const data = JSON.parse(fs.readFileSync(SWS_LAST_REFRESH_PATH, "utf-8"));
-    _refreshCache = { mtimeMs: stat.mtimeMs, data };
-    return data;
-  } catch {
-    return null;
-  }
-}
+// Universe index + last-refresh both flow through the SWS DAL. Caching,
+// mtime invalidation, and (Phase 4+) the Postgres backend live there.
+const _loadUniverseIndex = () => dal.getUniverseIndex();
+const _loadLastRefresh = () => dal.getLastRefresh();
 
 // Strip Yahoo-style suffix; portfolioParser surfaces tickers as RELIANCE.NS,
 // SWS files key on bare RELIANCE. Mirrors _swsKey() in swsHoldingEngine.js.
@@ -171,7 +123,7 @@ export function lookupSwsScore(symbol) {
         compositeScore: hit.score ?? null,
         v1Verdict: hit.verdict ?? null,
         source: "primary",
-        mtime: _universeCache?.mtimeMs ?? null,
+        mtime: dal.getUniverseIndexMtime(),
       };
     }
   }
@@ -261,7 +213,7 @@ export function lookupSwsScoreBulk(symbols) {
         compositeScore: hit.score ?? null,
         v1Verdict: hit.verdict ?? null,
         source: "primary",
-        mtime: _universeCache?.mtimeMs ?? null,
+        mtime: dal.getUniverseIndexMtime(),
       });
       continue;
     }

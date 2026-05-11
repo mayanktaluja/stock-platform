@@ -17,10 +17,8 @@
 // so narrative-phrase hard overrides are replaced with structured-data overrides
 // pulled from the `fiscal` and `overview.snowflake` blocks.
 
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { scoreStock, num } from "./swsScoring.js";
+import * as dal from "./swsDal/index.js";
 import { crosscheckHolding } from "./swsLayerCrosscheck.js";
 import { extractCatalystSignals } from "./swsCatalystLayer.js";
 import { extractIndianRiskSignals } from "./swsIndianRiskLayer.js";
@@ -33,55 +31,16 @@ import { promoteToLadderV2, parseTrimPct, parseTopUpPct } from "./actionLadder.j
 import { computeTimingObservation as computeTimingObservationFromModule } from "./timingObservation.js";
 import { gateActionByTier, getLiquidityTier } from "./swsTierGate.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DEEP_DIR = path.resolve(__dirname, "..", "data", "sws", "deep");
-const V3_UNIVERSE_PATH = path.resolve(__dirname, "..", "data", "sws", "v3-universe-stats.json");
-
-const _deepCache = new Map(); // key -> { mtimeMs, data }
-let _v3Universe = null;       // { mtimeMs, data: { r1m, r3m, r1y } }
-
-// Load the v3 universe-stats snapshot written by runFullScoring. Cached
-// against file mtime so a fresh refresh propagates without a server restart.
-// When the file is missing (first-ever boot before any refresh), return null
-// and v3 momentum will neutral-impute — score stays usable, just less
-// calibrated, with breakdown.momentum_imputed = true so callers can detect.
+// V3-universe and per-ticker deep loads now go through services/swsDal.
+// Backwards-compatible re-exports — many modules import these names; the
+// underlying caching, file paths, and ticker normalisation live in the DAL
+// (see services/swsDal/jsonBackend.js).
 export function loadV3Universe() {
-  let stat;
-  try { stat = fs.statSync(V3_UNIVERSE_PATH); } catch { return null; }
-  if (_v3Universe && _v3Universe.mtimeMs === stat.mtimeMs) return _v3Universe.data;
-  try {
-    const raw = JSON.parse(fs.readFileSync(V3_UNIVERSE_PATH, "utf-8"));
-    const data = { r1m: raw.r1m || [], r3m: raw.r3m || [], r1y: raw.r1y || [] };
-    _v3Universe = { mtimeMs: stat.mtimeMs, data };
-    return data;
-  } catch {
-    return null;
-  }
-}
-
-// SWS deep files are keyed by the bare NSE symbol (e.g. HDFCBANK.json), but
-// portfolioParser surfaces tickers with a Yahoo-style suffix (HDFCBANK.NS,
-// some ETFs as .BO). Strip those before file lookup. Ampersand symbols
-// (ARE&M.json) are preserved as-is.
-function _swsKey(ticker) {
-  if (!ticker) return null;
-  let k = String(ticker).trim();
-  k = k.replace(/\.(NS|BO|BSE|NSE)$/i, "");
-  return k;
+  return dal.getV3UniverseStats();
 }
 
 export function loadSWSDeep(ticker) {
-  const key = _swsKey(ticker);
-  if (!key) return null;
-  const fp = path.join(DEEP_DIR, `${key}.json`);
-  let stat;
-  try { stat = fs.statSync(fp); } catch { return null; }
-  const cached = _deepCache.get(key);
-  if (cached && cached.mtimeMs === stat.mtimeMs) return cached.data;
-  const raw = fs.readFileSync(fp, "utf-8");
-  const data = JSON.parse(raw);
-  _deepCache.set(key, { mtimeMs: stat.mtimeMs, data });
-  return data;
+  return dal.getStockByTicker(ticker);
 }
 
 export function pickSnowflake(deep) {
