@@ -118,7 +118,15 @@ else
   # the wrapper still runs score+PDF on stale data (silent no-op cron). Only
   # the cursor is rewound — done_count / today_count / today_date / started_at
   # are preserved. Safe — we hold the pipeline lock, and LIVE_SHARDS is empty.
-  node --input-type=module - <<'EOF'
+  #
+  # SWS_RESUME=1 skips this reset so a prior partial scrape (e.g. interrupted
+  # by `launchctl unload`) can continue from its saved next_local_index
+  # instead of restarting at 0. Use only when the local progress-api-*.json
+  # files reflect the actual state of data/sws/deep-api/.
+  if [ "${SWS_RESUME:-0}" = "1" ]; then
+    echo "[refresh-api] SWS_RESUME=1 — skipping reset, shards will continue from saved next_local_index"
+  else
+    node --input-type=module - <<'EOF'
 import {readFileSync, writeFileSync, existsSync} from "fs";
 for (const sid of [1, 2, 3]) {
   const fp = `data/sws/progress-api-${sid}.json`;
@@ -130,6 +138,7 @@ for (const sid of [1, 2, 3]) {
   console.log(`[refresh-api] reset shard ${sid}: next_local_index ${before} → 0`);
 }
 EOF
+  fi
 
   for SHARD in 1 2 3; do
     : > "data/sws/refresh-api-shard-${SHARD}.log"

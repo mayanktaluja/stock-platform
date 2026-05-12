@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+#
+# Resume the SWS nightly cron + Phase 5 reminder after a pause.
+# Reverse of: launchctl unload ~/Library/LaunchAgents/com.starbhai.sws-*.plist
+#
+# Usage: sws-resume      (alias defined in ~/.zshrc)
+#        bash /Users/mayanktaluja/code/stock-platform/scripts/sws-resume-nightly.sh
+
+set -e
+
+NIGHTLY=~/Library/LaunchAgents/com.starbhai.sws-nightly.plist
+REMINDER=~/Library/LaunchAgents/com.starbhai.sws-phase5-reminder.plist
+
+# Idempotent: unload first in case they're already loaded, then load.
+launchctl unload "$NIGHTLY" 2>/dev/null || true
+launchctl unload "$REMINDER" 2>/dev/null || true
+launchctl load -w "$NIGHTLY"
+launchctl load -w "$REMINDER"
+
+echo "── SWS launchd jobs resumed ──"
+launchctl list | grep starbhai
+echo
+echo "Next nightly fire: 02:00 IST (or 16:30 IST, whichever is sooner)"
+echo "Phase 5 reminder:  09:00 IST daily check (fires email on 2026-05-18)"
