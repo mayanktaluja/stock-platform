@@ -1,16 +1,15 @@
 #!/usr/bin/env node
 /**
- * CLI entrypoint for fundamentals enrichment.
+ * CLI entrypoint for fundamentals enrichment — the only enrichment entrypoint.
  *
  * Run:
  *   node scripts/enrich-fundamentals.mjs
  *
- * The heavy lifting lives in ../enrichFundamentals.js — this file is just the
- * file-I/O wrapper for local development. In production (Vercel), the same
- * module is called from /api/cron/enrich-fundamentals which writes the result
- * to Vercel KV instead of back to fundamentals.json on disk.
- *
- * Safe to re-run — existing metrics are overwritten with fresh data.
+ * The heavy lifting lives in ../enrichFundamentals.js — this file is the
+ * file-I/O wrapper. Reads fundamentals.json on disk, enriches each snapshot
+ * via Yahoo Finance, and writes the result back to fundamentals.json so the
+ * next deploy ships it. Safe to re-run — existing metrics are overwritten
+ * with fresh data.
  */
 
 import { readFileSync, writeFileSync, existsSync } from "fs";

@@ -1,16 +1,13 @@
 /**
  * Fundamentals Enrichment Module
  *
- * Reusable core for the fundamentals enrichment pipeline. Used by both:
- *   1. scripts/enrich-fundamentals.mjs — the CLI entrypoint for local dev
- *      (reads/writes fundamentals.json on disk)
- *   2. /api/cron/enrich-fundamentals — the Vercel cron endpoint that runs
- *      every Sunday pre-market and writes the enriched snapshot to Vercel KV
- *
- * The critical constraint: Vercel cron functions have a 60-second max duration.
- * 112 stocks × 250ms serial = 28s, plus network + Yahoo auth = ~40s. This
- * module runs calls in batches of 4 parallel requests to bring the wall-clock
- * time down to ~15s, with comfortable margin inside the 60s ceiling.
+ * Reusable core for the fundamentals enrichment pipeline. Consumed by:
+ *   • scripts/enrich-fundamentals.mjs — the CLI entrypoint that reads/writes
+ *     fundamentals.json on disk; the result rides into prod via the daily
+ *     local-cron + commit + auto-merge pipeline.
+ *   • scripts/refresh-fundamentals.mjs — the NSE re-scraper, which preserves
+ *     the fields named in `ENRICHED_FIELDS` so a plain re-scrape doesn't
+ *     wipe Yahoo-sourced metrics.
  *
  * Data source: Yahoo Finance via the `yahoo-finance2` package.
  *

@@ -29,10 +29,6 @@ import {
   categoriseBatch,
   getSnapshotGeneratedAt,
   getSnapshotEnrichedAt,
-  getSnapshotSource,
-  loadFundamentalsFromDisk,
-  primeFundamentalsFromKV,
-  saveFundamentalsToKV,
 } from "./fundamentals.js";
 // Phase 2 / Phase 4: V2 scorer infrastructure.
 //
@@ -53,12 +49,6 @@ import {
   isV2Primary,
   isV1Only,
 } from "./scorerMode.js";
-// Path to fundamentals.json for the dev-mode disk fallback in the enrichment
-// cron endpoint. In production (Vercel) the filesystem is read-only so we
-// write to Vercel KV instead; see saveFundamentalsToKV in fundamentals.js.
-// fs imports (readFileSync/writeFileSync/existsSync) are below in this file
-// and hoisted by ES module semantics.
-const FUNDAMENTALS_PATH_SERVER = path.join(__dirnameForEnv, "fundamentals.json");
 import { buildPortfolioIntelligence, computePortfolioCombinedScore } from "./portfolioIntelligence.js";
 import {
   buildSurveillance,
@@ -1882,7 +1872,7 @@ app.get("/api/cron/warm-caches", async (req, res) => {
  *   • If the fetch returns zero flagged stocks (likely NSE outage), we do
  *     NOT overwrite an existing non-empty snapshot — better to serve a
  *     slightly stale warning banner than to silently clear all warnings.
- *   • Secret-gated via CRON_SECRET, same pattern as enrich-fundamentals.
+ *   • Secret-gated via CRON_SECRET, same pattern as refresh-governance.
  *
  * Cadence: daily at 04:00 IST (set in vercel.json). NSE publishes both
  * lists once per trading day around 18:00 IST; a 04:00 run the next morning
@@ -5629,14 +5619,6 @@ if (!process.env.VERCEL) {
 
     await nseWarmup();
 
-    // Prime the fundamentals in-memory cache from Vercel KV if configured.
-    // No-op in local dev (no KV env vars) — the sync disk fallback handles
-    // that case on the first getFundamentals() call. This is the ONE async
-    // path that loads from KV; every subsequent read is served from cache.
-    primeFundamentalsFromKV().catch((e) =>
-      console.warn("[FUNDAMENTALS] KV prime failed at startup:", e.message)
-    );
-
     // Prime the surveillance (ASM/GSM) snapshot. Same pattern — no-op locally.
     primeSurveillanceFromKV().catch((e) =>
       console.warn("[SURVEILLANCE] KV prime failed at startup:", e.message)
@@ -5675,18 +5657,15 @@ if (!process.env.VERCEL) {
 
 // On Vercel (serverless) the app.listen block above never runs — each cold
 // start imports this module and handles a single request through the
-// exported `app`. We still need the fundamentals cache primed from KV on
-// that path, so do it here at the module top level. Top-level await is
-// supported because package.json has "type": "module". Timeout after 2s so
-// a KV outage doesn't block cold starts indefinitely.
+// exported `app`. We still need the surveillance/governance caches primed
+// from KV on that path, so do it here at the module top level. Top-level
+// await is supported because package.json has "type": "module". Each prime
+// is timeout-raced so a KV outage doesn't block cold starts indefinitely.
+//
+// Fundamentals do NOT prime from KV — they're loaded lazily from the
+// `fundamentals.json` shipped in the deploy by `scripts/refresh-fundamentals.mjs`.
 if (process.env.VERCEL) {
-  await Promise.race([
-    primeFundamentalsFromKV().catch((e) =>
-      console.warn("[FUNDAMENTALS] KV prime failed on cold start:", e.message)
-    ),
-    new Promise((resolve) => setTimeout(resolve, 2000)),
-  ]);
-  // Same guard for surveillance — KV outage mustn't block cold start.
+  // Surveillance prime — KV outage mustn't block cold start.
   await Promise.race([
     primeSurveillanceFromKV().catch((e) =>
       console.warn("[SURVEILLANCE] KV prime failed on cold start:", e.message)
