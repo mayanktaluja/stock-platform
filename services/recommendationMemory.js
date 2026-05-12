@@ -270,16 +270,33 @@ export function detectCorporateActions(prevByKey, newByKey) {
 
 // ────────────────────── Ratio classifier ──────────────────────
 
-function classifyByRatio({ recId, ratio, qtyDelta, sourceSnapshot, recommendedPct, at }) {
+// Pull the at-execution snapshot fields off the originating ISSUED event. The
+// cooldown gate's material-change detector reads these to decide whether the
+// thesis worsened enough to bypass the cooldown. Forwarding (not re-deriving)
+// keeps the closed-event audit trail self-contained.
+function executionContextFromIssued(issued) {
+  if (!issued) return {};
+  return {
+    actionAtExecution: issued.action || null,
+    severityAtExecution: Number.isFinite(issued.severity) ? Number(issued.severity) : null,
+    scoreAtExecution: Number.isFinite(issued.scoreAtIssue) ? Number(issued.scoreAtIssue) : null,
+    factorsAtExecution: Array.isArray(issued.factors) ? issued.factors.slice() : [],
+    convictionAtExecution: issued.convictionAtIssue || null,
+    surveillanceAtExecution: issued.surveillanceAtIssue || null,
+  };
+}
+
+function classifyByRatio({ recId, ratio, qtyDelta, sourceSnapshot, recommendedPct, at, issued }) {
   if (ratio < RATIO_PARTIAL_LOWER) return null;
+  const ctx = executionContextFromIssued(issued);
   if (ratio < RATIO_EXECUTED_LOWER) {
     const remainingPct = Math.max(0, recommendedPct - recommendedPct * ratio);
-    return { type: "EXECUTED_PARTIAL", recId, at, ratio, qtyDelta, remainingPct, sourceSnapshot };
+    return { type: "EXECUTED_PARTIAL", recId, at, ratio, qtyDelta, remainingPct, sourceSnapshot, ...ctx };
   }
   if (ratio <= RATIO_EXECUTED_UPPER) {
-    return { type: "EXECUTED", recId, at, ratio, qtyDelta, sourceSnapshot };
+    return { type: "EXECUTED", recId, at, ratio, qtyDelta, sourceSnapshot, ...ctx };
   }
-  return { type: "EXECUTED_OVER", recId, at, ratio, qtyDelta, sourceSnapshot };
+  return { type: "EXECUTED_OVER", recId, at, ratio, qtyDelta, sourceSnapshot, ...ctx };
 }
 
 // ────────────────────── Condition-still-fires check ──────────────────────
@@ -424,7 +441,7 @@ export function reconcileRecommendations({
           const ratio = pctReduced / recommendedPct;
           const ev = classifyByRatio({
             recId: rec.recId, ratio, qtyDelta: -reduced,
-            sourceSnapshot, recommendedPct, at,
+            sourceSnapshot, recommendedPct, at, issued,
           });
           if (ev) {
             events.push(ev);
@@ -436,7 +453,7 @@ export function reconcileRecommendations({
           const ratio = pctAdded / recommendedPct;
           const ev = classifyByRatio({
             recId: rec.recId, ratio, qtyDelta: added,
-            sourceSnapshot, recommendedPct, at,
+            sourceSnapshot, recommendedPct, at, issued,
           });
           if (ev) {
             events.push(ev);
@@ -454,6 +471,7 @@ export function reconcileRecommendations({
             ratio: 1 / Math.max(0.01, recommendedPct),
             qtyDelta: -(Number(issued.qtyAtIssue) || 0),
             sourceSnapshot,
+            ...executionContextFromIssued(issued),
           });
           continue;
         }
@@ -496,6 +514,218 @@ export function reconcileRecommendations({
   return { events };
 }
 
+// ────────────────────── Post-execution cooldown gate ──────────────────────
+//
+// The bug this gate fixes: severity is a pure function of the current factor
+// stack. Trimming 25% barely moves any input (position weight nudges down,
+// nothing else changes), so the same severity computes the same rung on the
+// next snapshot. Before this gate, the open-rec suppressor would block the
+// duplicate ISSUED — but only while the prior rec was OPEN. The moment an
+// EXECUTED event closes the prior rec, the suppressor lets a fresh ISSUED
+// through and the user sees "Reduction-25%" on the same name 24 hours after
+// already trimming it.
+//
+// A SEBI-RA does not re-call the same trim two days in a row. They let the
+// action settle and re-evaluate only if the thesis materially worsened. This
+// gate implements that policy.
+
+// Cooldown windows in calendar days, keyed by the action that was executed.
+// Mild trims (25/33%) get 7 days — about 5 trading sessions, enough for one
+// weekly news cycle. Moderate trims (50%+) get 14 days because the trim was
+// bigger and the position is already smaller — less urgency to re-trim.
+// EXIT-now has no cooldown because the position is closed; the same symbol
+// can be re-bought later under a different thesis (handled as a fresh rec).
+const COOLDOWN_DAYS_BY_ACTION = {
+  "Reduction-25%": 7,
+  "Reduction-33%": 7,
+  "Reduction-50%": 14,
+  "Reduction-66%": 14,
+  "EXIT-staged": 14,
+  "EXIT-now": 0,
+  "Top-up-25%": 7,
+  "Top-up-33%": 7,
+  "Top-up-50%": 14,
+  "Top-up-100%": 14,
+  // Legacy fallbacks
+  "EXIT": 0,
+  "TRIM": 7,
+  "SELL": 0,
+  "BOOK_PROFIT": 14,
+  "CUT_LOSS": 0,
+  "ADD": 7,
+  "STRONG_ADD": 14,
+  "Top-up-modest": 7,
+  "Top-up": 14,
+  "STRONG Top-up": 14,
+  "Reduction-50%/legacy": 14,
+  "Reduction-25-33%": 7,
+};
+
+// Material-change thresholds. Each one independently bypasses the cooldown
+// when triggered — the rationale being that a SEBI-RA absolutely WOULD re-
+// call a trim if the underlying thesis worsened materially since the prior
+// trade. Values intentionally conservative; first PR tunes via telemetry.
+const MATERIAL_V3_DROP_PTS = 5;        // sell-side: V3 fell ≥ 5 points
+const MATERIAL_V3_RISE_PTS = 5;        // topup-side: V3 climbed ≥ 5 points
+const MATERIAL_SEVERITY_RISE = 0.10;   // either direction: severity moved ≥ 10pp
+const MATERIAL_SEVERITY_FLOOR = 0.50;  // either direction: severity ≥ 0.50 always re-fires
+
+function daysBetweenIso(laterIso, earlierIso) {
+  if (!laterIso || !earlierIso) return null;
+  const a = Date.parse(laterIso);
+  const b = Date.parse(earlierIso);
+  if (!Number.isFinite(a) || !Number.isFinite(b)) return null;
+  return (a - b) / (1000 * 60 * 60 * 24);
+}
+
+function isoDateAfter(baseIso, days) {
+  const t = Date.parse(baseIso);
+  if (!Number.isFinite(t)) return null;
+  return new Date(t + days * 24 * 60 * 60 * 1000).toISOString();
+}
+
+/**
+ * Detect whether the thesis has materially moved since the EXECUTED event.
+ * Returns null when the situation is roughly unchanged (cooldown should hold)
+ * or a string `bypassReason` when the gate should let a fresh ISSUED through.
+ *
+ * Asymmetric by direction:
+ *   sell-side  bypass: V3 dropped ≥5pts, severity rose ≥10pp, severity ≥0.50,
+ *                      or new GSM/ASM surveillance where there was none.
+ *   topup-side bypass: V3 climbed ≥5pts, severity rose ≥10pp, severity ≥0.50.
+ *
+ * Inputs that are null on the EXECUTED event (e.g. legacy events written
+ * before this PR) cause the corresponding check to be skipped — the gate
+ * conservatively keeps the cooldown active when it lacks a baseline.
+ */
+export function detectMaterialChange({ candidate, executedEvent, direction }) {
+  if (!candidate || !executedEvent) return null;
+
+  const scoreNow = Number.isFinite(candidate.combinedScore) ? Number(candidate.combinedScore)
+                 : Number.isFinite(candidate.score) ? Number(candidate.score)
+                 : null;
+  const scoreAtExec = Number.isFinite(executedEvent.scoreAtExecution)
+                    ? Number(executedEvent.scoreAtExecution) : null;
+  const severityNow = Number.isFinite(candidate.severity) ? Number(candidate.severity) : null;
+  const severityAtExec = Number.isFinite(executedEvent.severityAtExecution)
+                       ? Number(executedEvent.severityAtExecution) : null;
+
+  if (severityNow != null && severityNow >= MATERIAL_SEVERITY_FLOOR) {
+    return `severity_floor_${(severityNow * 100).toFixed(0)}pp`;
+  }
+  if (severityNow != null && severityAtExec != null
+      && severityNow - severityAtExec >= MATERIAL_SEVERITY_RISE) {
+    return `severity_rise_${((severityNow - severityAtExec) * 100).toFixed(0)}pp`;
+  }
+
+  if (direction === "sell") {
+    if (scoreNow != null && scoreAtExec != null && scoreAtExec - scoreNow >= MATERIAL_V3_DROP_PTS) {
+      return `v3_drop_${(scoreAtExec - scoreNow).toFixed(0)}pt`;
+    }
+    const newSurv = candidate.surveillance?.list || null;
+    const oldSurv = executedEvent.surveillanceAtExecution?.list || null;
+    if (newSurv && !oldSurv) return `new_surveillance_${newSurv}`;
+    const newStage = Number(candidate.surveillance?.stage) || 0;
+    const oldStage = Number(executedEvent.surveillanceAtExecution?.stage) || 0;
+    if (newSurv && newSurv === oldSurv && newStage > oldStage) {
+      return `surveillance_stage_${oldStage}_to_${newStage}`;
+    }
+  } else if (direction === "topup") {
+    if (scoreNow != null && scoreAtExec != null && scoreNow - scoreAtExec >= MATERIAL_V3_RISE_PTS) {
+      return `v3_rise_${(scoreNow - scoreAtExec).toFixed(0)}pt`;
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Index closed executed events by `${symKey}|${direction}` so the gate can
+ * find the most-recent action on each (symbol, direction) pair in O(1).
+ * Direction is derived from `actionAtExecution` (forwarded from the ISSUED
+ * event). Events without that field are skipped — they predate this PR and
+ * we can't tell direction from `qtyDelta` alone in the partial-execution
+ * case where qty can be 0 (full close).
+ */
+export function indexClosedExecutedEvents(events) {
+  const byKeyDir = new Map();
+  for (const e of events || []) {
+    if (e.type !== "EXECUTED" && e.type !== "EXECUTED_PARTIAL" && e.type !== "EXECUTED_OVER") continue;
+    const action = e.actionAtExecution;
+    if (!action) continue;
+    const dir = actionDirection(action);
+    if (dir === "neutral") continue;
+    // We don't have symbol on the EXECUTED event directly — the recId encodes
+    // it. recId format: `${symKey}|${shortHash(sig)}|${asOfDateIso}`.
+    const symKey = String(e.recId).split("|")[0];
+    if (!symKey) continue;
+    const key = `${symKey}|${dir}`;
+    const list = byKeyDir.get(key) || [];
+    list.push(e);
+    byKeyDir.set(key, list);
+  }
+  // Sort each bucket newest-first by `at`.
+  for (const list of byKeyDir.values()) {
+    list.sort((a, b) => (a.at < b.at ? 1 : a.at > b.at ? -1 : 0));
+  }
+  return byKeyDir;
+}
+
+/**
+ * The cooldown gate. Returns one of:
+ *   - { gated: false }                     — pass-through; emit ISSUED normally
+ *   - { gated: true,  cooldownEntry }      — suppress; record in cooldownPanel
+ *   - { gated: false, bypassReason: "…" }  — pass-through with a deterioration badge
+ *
+ * `mostRecentExecuted` is the latest EXECUTED/EXECUTED_PARTIAL/EXECUTED_OVER
+ * on the same (symbolKey, direction). When absent or older than the window
+ * we never gate. When present and within the window we check material change;
+ * if found, bypass with reason; if not, gate with cooldownEntry.
+ */
+export function applyCooldownGate({ candidate, mostRecentExecuted, direction, now }) {
+  if (!mostRecentExecuted) return { gated: false };
+  const actionAtExec = mostRecentExecuted.actionAtExecution || null;
+  const windowDays = actionAtExec ? COOLDOWN_DAYS_BY_ACTION[actionAtExec] : null;
+  if (!Number.isFinite(windowDays) || windowDays <= 0) return { gated: false };
+
+  const nowIso = (now instanceof Date ? now : new Date()).toISOString();
+  const ageDays = daysBetweenIso(nowIso, mostRecentExecuted.at);
+  if (ageDays == null || ageDays >= windowDays) return { gated: false };
+
+  const bypassReason = detectMaterialChange({ candidate, executedEvent: mostRecentExecuted, direction });
+  if (bypassReason) {
+    return { gated: false, bypassReason, executedEvent: mostRecentExecuted };
+  }
+
+  const cooldownUntil = isoDateAfter(mostRecentExecuted.at, windowDays);
+  return {
+    gated: true,
+    cooldownEntry: {
+      symbol: candidate.symbol || null,
+      isin: candidate.isin || null,
+      executedAt: mostRecentExecuted.at,
+      executedOn: mostRecentExecuted.sourceSnapshot,
+      executedAction: actionAtExec,
+      executedRatio: Number.isFinite(mostRecentExecuted.ratio) ? Number(mostRecentExecuted.ratio) : null,
+      cooldownUntil,
+      cooldownWindowDays: windowDays,
+      candidateAction: candidate.action || candidate.recommendation || null,
+      candidateDirection: direction,
+      severityAtExecution: Number.isFinite(mostRecentExecuted.severityAtExecution)
+                         ? Number(mostRecentExecuted.severityAtExecution) : null,
+      scoreAtExecution: Number.isFinite(mostRecentExecuted.scoreAtExecution)
+                      ? Number(mostRecentExecuted.scoreAtExecution) : null,
+      severityNow: Number.isFinite(candidate.severity) ? Number(candidate.severity) : null,
+      scoreNow: Number.isFinite(candidate.combinedScore) ? Number(candidate.combinedScore)
+              : Number.isFinite(candidate.score) ? Number(candidate.score) : null,
+    },
+  };
+}
+
+function isCooldownGateEnabled() {
+  return process.env.SWS_COOLDOWN_GATE !== "0";
+}
+
 // ────────────────────── Issued-events builder + suppression ──────────────────────
 
 /**
@@ -514,11 +744,14 @@ export function buildIssuedEvents({
   scoredHoldings,
   newSnap,
   openRecsAfterReconcile,
+  ledgerEvents = [],
+  reconcileEvents = [],
   now = new Date(),
 }) {
   const events = [];
   const suppressedCandidateRecIds = new Set();
   const supersedeMap = new Map();
+  const cooldownEntries = [];
   const at = now.toISOString();
   const sourceSnapshot = newSnap.asOfDateIso;
 
@@ -530,6 +763,15 @@ export function buildIssuedEvents({
     if (!openBySymKey.has(k)) openBySymKey.set(k, []);
     openBySymKey.get(k).push(rec);
   }
+
+  // The gate considers BOTH historic ledger events AND the current pass's
+  // reconcile events. Today's reconciler may have just emitted an EXECUTED
+  // that closes a same-direction rec on this symbol; we need it visible to
+  // the gate before the issuer mints a duplicate.
+  const cooldownGateEnabled = isCooldownGateEnabled();
+  const closedByKeyDir = cooldownGateEnabled
+    ? indexClosedExecutedEvents([...ledgerEvents, ...reconcileEvents])
+    : new Map();
 
   for (const h of (scoredHoldings || [])) {
     const action = h.action || h.recommendation || "HOLD";
@@ -582,6 +824,33 @@ export function buildIssuedEvents({
 
     if (suppressed) continue;
 
+    // Post-execution cooldown gate. Runs only when no open-rec suppression
+    // already filtered the candidate — the open-rec path already handles the
+    // "active rec already pending on this symbol" case. The gate's job is
+    // strictly the "you executed yesterday, give it time to settle" case.
+    let bypassReason = null;
+    if (cooldownGateEnabled) {
+      const bucket = closedByKeyDir.get(`${symKey}|${candidateDir}`);
+      const mostRecentExecuted = bucket && bucket.length > 0 ? bucket[0] : null;
+      const gate = applyCooldownGate({
+        candidate: h,
+        mostRecentExecuted,
+        direction: candidateDir,
+        now,
+      });
+      if (gate.gated) {
+        suppressedCandidateRecIds.add(candidateRecId);
+        cooldownEntries.push({
+          ...gate.cooldownEntry,
+          candidateRecId,
+          symKey,
+          factors,
+        });
+        continue;
+      }
+      if (gate.bypassReason) bypassReason = gate.bypassReason;
+    }
+
     for (const { id, reason } of supersededOpenIds) {
       events.push({
         type: "SUPERSEDED",
@@ -618,10 +887,22 @@ export function buildIssuedEvents({
       scoreAtIssue: Number.isFinite(h.combinedScore) ? Number(h.combinedScore)
                    : Number.isFinite(h.score) ? Number(h.score)
                    : null,
+      // Captured for the cooldown gate's material-change detector. The
+      // EXECUTED event forwards these unchanged so a later analyzer run
+      // can compare "current factor stack" vs "factor stack at execution"
+      // without re-deriving from snapshots.
+      convictionAtIssue: typeof h.conviction === "string" ? h.conviction : null,
+      surveillanceAtIssue: h.surveillance && (h.surveillance.list || h.surveillance.stage)
+        ? { list: h.surveillance.list || null, stage: Number(h.surveillance.stage) || 0 }
+        : null,
+      // Non-null when the cooldown gate detected a material change since
+      // the prior execution and let the candidate through. The UI keys off
+      // this to render the "Re-flag · deterioration" badge.
+      bypassReason: bypassReason || null,
     });
   }
 
-  return { events, suppressedCandidateRecIds, supersedeMap };
+  return { events, suppressedCandidateRecIds, supersedeMap, cooldownEntries };
 }
 
 // ────────────────────── Memory → report decoration ──────────────────────
@@ -705,6 +986,7 @@ export function applyMemoryToReport(report, {
   issuedEvents,
   suppressedCandidateRecIds,
   supersedeMap,
+  cooldownEntries = [],
   isBackdated,
   historySnapshots = [],
 }) {
@@ -745,6 +1027,57 @@ export function applyMemoryToReport(report, {
     };
   }
 
+  // Cooldown-suppressed rows go into a dedicated panel rather than the
+  // recRegistry, because they're keyed differently: recRegistry tracks
+  // OPEN recs (PENDING action awaiting execution), the cooldown panel
+  // tracks CLOSED recs (already executed, awaiting re-evaluation).
+  // The UI renders them as a separate "Recently actioned" section.
+  const cooldownPanel = {
+    rows: (cooldownEntries || []).map((e) => ({
+      symbol: e.symbol || null,
+      isin: e.isin || null,
+      symKey: e.symKey || null,
+      executedOn: e.executedOn || null,
+      executedAt: e.executedAt || null,
+      executedAction: e.executedAction || null,
+      cooldownUntil: e.cooldownUntil || null,
+      cooldownWindowDays: e.cooldownWindowDays || null,
+      candidateAction: e.candidateAction || null,
+      candidateDirection: e.candidateDirection || null,
+      severityAtExecution: e.severityAtExecution,
+      scoreAtExecution: e.scoreAtExecution,
+      severityNow: e.severityNow,
+      scoreNow: e.scoreNow,
+    })),
+  };
+
+  // Cooldown-aware lookup the UI can use to mark holding rows as
+  // "isCooldown" without iterating the panel.
+  const cooldownBySymKey = {};
+  for (const row of cooldownPanel.rows) {
+    if (row.symKey) cooldownBySymKey[row.symKey] = row;
+  }
+  for (const row of cooldownPanel.rows) {
+    if (!recRegistry[row.symKey]) {
+      recRegistry[row.symKey] = {
+        recId: null,
+        symbol: row.symbol,
+        isin: row.isin,
+        isPending: false,
+        isSuperseded: false,
+        supersededBy: null,
+        originalAsOf: row.executedOn,
+        originalAction: row.executedAction,
+        escalationCount: 0,
+        isCooldown: true,
+        cooldownUntil: row.cooldownUntil,
+      };
+    } else {
+      recRegistry[row.symKey].isCooldown = true;
+      recRegistry[row.symKey].cooldownUntil = row.cooldownUntil;
+    }
+  }
+
   report.executionAcks = acks;
   report.freedCapital = freed;
   report.backdated = false;
@@ -753,8 +1086,11 @@ export function applyMemoryToReport(report, {
     openRecCount: openRecsBeforeReconcile.size,
     asOfDateIso: newSnap.asOfDateIso,
     prevAsOfDateIso: prevSnap?.asOfDateIso || null,
+    cooldownGateEnabled: isCooldownGateEnabled(),
+    cooldownActiveCount: cooldownPanel.rows.length,
   };
   report.recRegistry = recRegistry;
+  report.cooldownPanel = cooldownPanel;
   return report;
 }
 

@@ -27,10 +27,21 @@
  *                                          reductionPct?, addPct?, severity?,
  *                                          trimRupees?, topUpRupees?, factors,
  *                                          reasoning?, sourceSnapshot,
- *                                          qtyAtIssue, weightAtIssue?, scoreAtIssue? }
- *     | { type: "EXECUTED",                recId, at, ratio, qtyDelta, sourceSnapshot }
- *     | { type: "EXECUTED_PARTIAL",        recId, at, ratio, qtyDelta, remainingPct, sourceSnapshot }
- *     | { type: "EXECUTED_OVER",           recId, at, ratio, qtyDelta, sourceSnapshot }
+ *                                          qtyAtIssue, weightAtIssue?, scoreAtIssue?,
+ *                                          convictionAtIssue?, surveillanceAtIssue?,
+ *                                          bypassReason? }
+ *     | { type: "EXECUTED",                recId, at, ratio, qtyDelta, sourceSnapshot,
+ *                                          actionAtExecution?, severityAtExecution?,
+ *                                          scoreAtExecution?, factorsAtExecution?,
+ *                                          convictionAtExecution?, surveillanceAtExecution? }
+ *     | { type: "EXECUTED_PARTIAL",        recId, at, ratio, qtyDelta, remainingPct, sourceSnapshot,
+ *                                          actionAtExecution?, severityAtExecution?,
+ *                                          scoreAtExecution?, factorsAtExecution?,
+ *                                          convictionAtExecution?, surveillanceAtExecution? }
+ *     | { type: "EXECUTED_OVER",           recId, at, ratio, qtyDelta, sourceSnapshot,
+ *                                          actionAtExecution?, severityAtExecution?,
+ *                                          scoreAtExecution?, factorsAtExecution?,
+ *                                          convictionAtExecution?, surveillanceAtExecution? }
  *     | { type: "SUPERSEDED",              recId, at, bySupersedingRecId, reason, sourceSnapshot }
  *     | { type: "RESOLVED_NATURAL",        recId, at, reason, sourceSnapshot }
  *     | { type: "RESOLVED_THESIS_INVERTED",recId, at, scoreDelta, sourceSnapshot }

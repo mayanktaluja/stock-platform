@@ -5128,10 +5128,16 @@ async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sour
   });
 
   const openRecsAfter = memApplyReconcileToOpenRecs(openRecsBefore, reconcileEvents);
-  const { events: issuedEvents, suppressedCandidateRecIds, supersedeMap } = memBuildIssued({
+  const { events: issuedEvents, suppressedCandidateRecIds, supersedeMap, cooldownEntries } = memBuildIssued({
     scoredHoldings: swsResult._scoredHoldings || [],
     newSnap,
     openRecsAfterReconcile: openRecsAfter,
+    // Post-execution cooldown gate needs both the historic ledger AND the
+    // current pass's reconcile events. The reconciler may have just emitted
+    // an EXECUTED that closes a same-direction rec — the gate needs to see
+    // that fresh event before the issuer mints a duplicate ISSUED.
+    ledgerEvents: ledger.events,
+    reconcileEvents,
   });
 
   memApplyToReport(swsResult.report, {
@@ -5142,6 +5148,7 @@ async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sour
     issuedEvents,
     suppressedCandidateRecIds,
     supersedeMap,
+    cooldownEntries,
     isBackdated: false,
     historySnapshots: history.snapshots,
   });
