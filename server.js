@@ -228,6 +228,10 @@ macroStorage.read().then((stored) => {
     lastGoodMacroRegime = stored;
     macroRegimeCache.set(MACRO_CACHE_KEY, stored);
     console.log(`[MACRO] Hydrated regime from storage: ${stored.regime} (${stored.generatedAt})`);
+  } else {
+    // Empty hydrate is observable in prod logs — without it, a missing
+    // bundle file or empty KV looks the same as a successful "no-op" hydrate.
+    console.log(`[MACRO] Initial storage hydrate returned no usable regime (storage=${macroStorage.name}) — first request will trigger live classification`);
   }
 }).catch((e) => {
   console.warn("[MACRO] Initial storage hydrate failed:", e.message);

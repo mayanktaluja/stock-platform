@@ -37,14 +37,30 @@ function isUsableRegime(parsed) {
 }
 
 class FileMacroRegimeStorage {
-  constructor() { this.name = "file"; }
+  constructor() { this.name = "file"; this._loggedMissing = false; }
 
   async read() {
-    if (!existsSync(FILE_PATH)) return null;
+    if (!existsSync(FILE_PATH)) {
+      // Log once per process so prod logs reveal whether the committed
+      // data/macroRegime.json made it into the Vercel bundle. Repeating
+      // every read() call would flood logs.
+      if (!this._loggedMissing) {
+        console.warn(`[MACRO:FILE] cache file not found at ${FILE_PATH} — banner will rely on live classification or remain hidden`);
+        this._loggedMissing = true;
+      }
+      return null;
+    }
     try {
       const parsed = JSON.parse(readFileSync(FILE_PATH, "utf-8"));
-      return isUsableRegime(parsed) ? parsed : null;
-    } catch { return null; }
+      if (!isUsableRegime(parsed)) {
+        console.warn(`[MACRO:FILE] cache file at ${FILE_PATH} parsed but rejected as unusable (regime=${parsed?.regime}, generatedAt=${parsed?.generatedAt})`);
+        return null;
+      }
+      return parsed;
+    } catch (err) {
+      console.warn(`[MACRO:FILE] read failed at ${FILE_PATH}: ${err.message}`);
+      return null;
+    }
   }
 
   async write(regime) {
