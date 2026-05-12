@@ -118,7 +118,60 @@ document.addEventListener("DOMContentLoaded", () => {
   setupSearch();
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
   auth.init();
+  // Snapshot freshness banner — surfaces when any underlying fixture
+  // (fundamentals, surveillance, governance, picks-latest, macro) is older
+  // than its source-specific staleness threshold. Polled once at boot, then
+  // hourly. Silent when everything is fresh.
+  loadSnapshotHealth();
+  setInterval(loadSnapshotHealth, 60 * 60 * 1000);
 });
+
+// ==================== SNAPSHOT HEALTH BANNER ====================
+//
+// Reads /api/health/snapshots and renders a thin warning bar above the
+// macro-regime banner when any data source is stale. The actual data
+// (fundamentals, surveillance, etc.) still renders — the banner just makes
+// the user aware that what they're looking at may be a few days behind.
+//
+// Why this matters: the cron at /api/cron/refresh-{surveillance,governance}
+// originates NSE traffic that Vercel's datacenter IPs can't reach, so the
+// prod cron silently no-ops. Without a banner, users have no way to know
+// they're seeing 19-day-old fundamentals.
+
+async function loadSnapshotHealth() {
+  let health;
+  try {
+    const res = await fetch("/api/health/snapshots", { credentials: "same-origin" });
+    if (!res.ok) return; // 401 in dev when auth gate is half-set; silent fail is fine
+    health = await res.json();
+  } catch { return; }
+  const banner = document.getElementById("snapshotHealthBanner");
+  if (!banner) return; // banner element may not be in older HTML cuts
+  if (!health || !health.anyStale) {
+    banner.hidden = true;
+    return;
+  }
+  const labels = {
+    fundamentals: "Fundamentals",
+    surveillance: "Surveillance (ASM/GSM)",
+    governance: "Governance (shareholding)",
+    picks_latest: "SWS picks",
+    macro_regime: "Macro regime",
+  };
+  const parts = health.staleKeys.map((k) => {
+    const s = health.snapshots[k];
+    const label = labels[k] || k;
+    if (s.age_hours == null) return `${label} (no data)`;
+    const days = s.age_hours >= 48 ? `${Math.round(s.age_hours / 24)}d` : `${Math.round(s.age_hours)}h`;
+    return `${label} (${days} old)`;
+  });
+  banner.innerHTML = `
+    <span style="font-weight:600;">⚠ Stale data:</span>
+    <span style="opacity:0.9;">${parts.join(" · ")}</span>
+    <span style="opacity:0.7;margin-left:8px;font-size:11px;">Values may not reflect today's market — underlying refresh has not run.</span>
+  `;
+  banner.hidden = false;
+}
 
 // ==================== GLOSSARY TOOLTIP SYSTEM ====================
 //

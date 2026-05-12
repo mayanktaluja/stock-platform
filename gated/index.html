@@ -3133,6 +3133,20 @@
       <strong>Educational content only.</strong>
     </div>
 
+    <!-- Snapshot freshness banner — surfaces when fundamentals / surveillance /
+         governance / picks-latest / macro are older than their freshness budgets.
+         Populated by loadSnapshotHealth() in app.js. Silent (hidden) when fresh. -->
+    <div id="snapshotHealthBanner" hidden role="note" style="
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      background: linear-gradient(90deg, rgba(224,176,96,0.10), rgba(224,176,96,0.04));
+      border: 1px solid rgba(224,176,96,0.35);
+      border-radius: 8px;
+      color: #E0B060;
+      font-size: 13px;
+      line-height: 1.5;
+    "></div>
+
     <!-- Global macro regime banner — visible on every tab. Populated by renderMacroBanner(). Hidden when CALM. -->
     <div id="macroRegimeBanner" class="macro-banner" style="display:none; margin-bottom: 16px;"></div>
 
