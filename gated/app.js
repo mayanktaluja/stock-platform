@@ -7980,6 +7980,7 @@ const PICKS_SECTIONS = [
   { key: "best_to_buy_now", term_id: "section_best_to_buy_now", emoji: "🎯", label: "🎯 Best Stocks to Buy Now", chip_label: "Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks. Use for fresh capital today." },
   { key: "deep_value", term_id: "section_deep_value", emoji: "💎", label: "💎 Deep Value", chip_label: "Deep Value", subtitle: "Quality + cheap. TOP_PICK names trading at ≥ 20% discount to consensus FV." },
   { key: "quality_growth", term_id: "section_quality_growth", emoji: "🌱", label: "🌱 Quality Growth", chip_label: "Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
+  { key: "best_fundamentals", term_id: "section_best_fundamentals", emoji: "🧱", label: "🧱 Best Fundamentals", chip_label: "Fundamentals", subtitle: "Ranked by the score-breakdown modal's 'Fundamentals 74' line — 5 SWS pillars (Health + Future + Valuation + Past + Dividends) + AnalystConsensus FV upside, rescaled to 0–100 for the card badge. Ignores momentum and safety overlay. Same hygiene gate as Top 30 (mcap ≥ ₹500cr, no GSM)." },
   { key: "midterm", term_id: "section_midterm", emoji: "⚡", label: "⚡ Midterm Picks (3-12 months)", chip_label: "Midterm", subtitle: "Trend-following — momentum already on side, with FV upside ≥ 15% remaining." },
   { key: "dividend_aristocrats", term_id: "section_dividend_aristocrats", emoji: "💰", label: "💰 Dividend Aristocrats", chip_label: "Dividend", subtitle: "Sustainable payers: Dividend pillar ≥ 5, payout < 70%, yield ≥ 1.5%." },
   { key: "smallcap_gems", term_id: "section_smallcap_gems", emoji: "🔍", label: "🔍 Smallcap Hidden Gems", chip_label: "Smallcap Gems", subtitle: "True smallcap quality: mcap < ₹15,000cr (NSE rank 251+) + Snowflake ≥ 22 + upside ≥ 15%." },
@@ -7995,6 +7996,8 @@ const PICKS_SECTIONS = [
 const PICKS_INLINE_CAP = {
   top_ranked_30_v3: 30,
   upcoming_earnings: 30,
+  // Best Fundamentals ships 100 server-side; show 30 inline, expand for full 100.
+  best_fundamentals: 30,
   // Off-section search bumps the cap to 24 — global search is the only path
   // to find these stocks, so 12 feels too tight; 24 still keeps render fast.
   off_section_search: 24,
@@ -8589,6 +8592,19 @@ function renderPickCard(s, sectionKey, rank = null) {
   const coverageBadge = (cov != null && cov < 60)
     ? `<span class="sws-thin-coverage-badge" title="Only ${cov}% of the 13 SWS input fields were populated when this stock was scored — verify manually before acting.">Thin · ${cov}%</span>`
     : "";
+  // Fundamentals badge — only on the Best Fundamentals section. Matches the
+  // score-breakdown modal's "Fundamentals 74" line exactly (5 SWS pillars +
+  // AnalystConsensus FV upside) and rescales to 0–100 so users can read the
+  // ranking number on the card itself. Identity: badge value = (modal value
+  // ÷ 74) × 100, so the two displays always agree.
+  let fundBadge = "";
+  if (sectionKey === "best_fundamentals" && s.v3_breakdown) {
+    const b = s.v3_breakdown;
+    const fundSum = (b.pts_health || 0) + (b.pts_future || 0) + (b.pts_valuation || 0)
+                  + (b.pts_past || 0) + (b.pts_dividends || 0) + (b.pts_fv_upside || 0);
+    const fundScore100 = (fundSum / 74) * 100;
+    fundBadge = `<span class="sws-fund-badge" title="Fundamentals score, rescaled to 100. Same definition as the score-breakdown modal's 'Fundamentals 74' line: 5 SWS pillars (Health + Future + Valuation + Past + Dividends) + AnalystConsensus FV upside.">F ${fundScore100.toFixed(1)}/100</span>`;
+  }
   const statusBadges = renderPickStatusBadges(s, sectionKey);
   const rankBadge = rank ? `<span class="sws-pick-rank">${rank}</span>` : "";
   const fresh = pickFreshnessPill(s.data_freshness_at);
@@ -8619,7 +8635,7 @@ function renderPickCard(s, sectionKey, rank = null) {
         <div class="sws-pick-card-id">
           ${rankBadge}
           <div class="sws-pick-card-id-text">
-            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${coverageBadge}${statusBadges}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
+            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${coverageBadge}${fundBadge}${statusBadges}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
             <div class="sws-pick-card-name">${s.name || ""}${fresh}</div>
           </div>
         </div>
