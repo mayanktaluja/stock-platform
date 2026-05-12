@@ -94,18 +94,72 @@ if ! ping -c 1 -t 5 8.8.8.8 >/dev/null 2>&1; then
 fi
 
 # ---- 2. Sync main ----
+#
+# Self-healing sync: autostash any local working-tree changes (tracked +
+# untracked) before pulling, so dashboard-time transient files never block
+# the nightly. Only diverged local commits are treated as fatal — those
+# need a human because resetting would destroy real work.
 
 echo "[nightly] syncing main..."
-git fetch origin main 2>&1 | sed 's/^/[git] /'
+if ! git fetch origin main 2>&1 | sed 's/^/[git] /'; then
+  echo "[nightly] git fetch failed"
+  send_mail "🚨 SWS nightly aborted — git fetch failed" "git fetch origin main failed at $(ts). Likely network or auth issue."
+  exit 5
+fi
+
 CUR_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 if [ "${CUR_BRANCH}" != "main" ]; then
   echo "[nightly] not on main (was: ${CUR_BRANCH}) — switching"
   git checkout main 2>&1 | sed 's/^/[git] /'
 fi
-if ! git pull --ff-only origin main 2>&1 | sed 's/^/[git] /'; then
-  echo "[nightly] git pull --ff-only failed — refusing to run (manual merge needed)"
-  send_mail "🚨 SWS nightly aborted — git pull failed" "git pull --ff-only origin main failed at $(ts). Probably uncommitted local work. Investigate manually."
+
+LOCAL_AHEAD="$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)"
+if [ "${LOCAL_AHEAD}" -gt 0 ]; then
+  echo "[nightly] local main is ${LOCAL_AHEAD} commit(s) ahead of origin — refusing to run"
+  send_mail "🚨 SWS nightly aborted — local main has unpushed commits" \
+"Local main is ${LOCAL_AHEAD} commit(s) ahead of origin/main at $(ts). Push or reset manually before the next run.
+
+$(git log --oneline origin/main..HEAD)"
   exit 5
+fi
+
+STASH_TAG="sws-nightly-autostash-$(date +%s)"
+STASHED=0
+if [ -n "$(git status --porcelain)" ]; then
+  echo "[nightly] working tree dirty — autostashing as ${STASH_TAG}"
+  git status --short | sed 's/^/[git-status] /'
+  if git stash push --include-untracked -m "${STASH_TAG}" 2>&1 | sed 's/^/[git] /'; then
+    STASHED=1
+  else
+    send_mail "🚨 SWS nightly aborted — autostash failed" \
+"git stash push --include-untracked failed at $(ts). Inspect manually.
+
+$(git status 2>&1 | head -40)"
+    exit 5
+  fi
+fi
+
+if ! git pull --ff-only origin main 2>&1 | sed 's/^/[git] /'; then
+  echo "[nightly] git pull --ff-only failed even after autostash"
+  if [ "${STASHED}" -eq 1 ]; then
+    git stash pop 2>&1 | sed 's/^/[git] /' || true
+  fi
+  send_mail "🚨 SWS nightly aborted — git pull failed" \
+"git pull --ff-only origin main failed at $(ts) even after autostash. Investigate manually.
+
+$(git status 2>&1 | head -30)"
+  exit 5
+fi
+
+if [ "${STASHED}" -eq 1 ]; then
+  if ! git stash pop 2>&1 | sed 's/^/[git] /'; then
+    echo "[nightly] stash pop conflicted — stash ${STASH_TAG} left on list"
+    send_mail "⚠️ SWS nightly — autostash pop conflicted" \
+"Autostash ${STASH_TAG} could not be popped cleanly at $(ts). Pipeline continued. Recover with:
+
+  git stash list
+  git stash apply stash@{0}   # or specific stash"
+  fi
 fi
 
 if [ ${DRY_RUN} -eq 1 ]; then
