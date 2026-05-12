@@ -2824,10 +2824,10 @@ app.get("/api/market", async (req, res) => {
       } catch (e) { /* sensex optional */ }
     }
 
-    // GIFT Nifty — append after core indices. It's always last in the
-    // ticker so the familiar Nifty/Sensex/Bank Nifty ordering never shifts.
-    // When unavailable (outside session, NSE IX down) we just omit it;
-    // the rest of the page renders normally.
+    // GIFT Nifty — slot in right after NIFTY 50 so its premium/discount
+    // sits visually adjacent to the NIFTY 50 reference price it's
+    // computed against. When unavailable (outside session, NSE IX down)
+    // we just omit it; the rest of the page renders normally.
     const gift = await giftPromise;
     if (gift) {
       // Show Gift Nifty's premium/discount over the current NIFTY 50
@@ -2842,7 +2842,7 @@ app.get("/api/market", async (req, res) => {
         gift.referencePrice = ref;
         gift.referenceSymbol = "^NSEI";
       }
-      indices.push(gift);
+      indices.splice(1, 0, gift);
     }
 
     const response = {
