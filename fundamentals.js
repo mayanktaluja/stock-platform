@@ -2,22 +2,18 @@
  * Fundamental Value Engine
  *
  * Pure functions that:
- *   1. Load the daily NSE snapshot from either Vercel KV (production) or
- *      fundamentals.json on disk (local dev), auto-selected based on
- *      KV_REST_API_URL presence — same pattern as watchlistStorage.js
+ *   1. Load the daily NSE snapshot from `fundamentals.json` on disk.
  *   2. Score each snapshot 0–100 across 9 dimensions in 5 pillars
  *      (Valuation, Quality, Health, Growth, Trend context)
  *   3. Categorise scored stocks into DEEP_VALUE / QUALITY_GROWTH / FAIR_VALUE /
  *      FULLY_VALUED / OVERVALUED buckets for the scanner UI
  *
  * Refresh pipeline:
- *   • Local dev:  run `node scripts/enrich-fundamentals.mjs` manually.
- *                 Writes to fundamentals.json on disk.
- *   • Production: Vercel cron at `/api/cron/enrich-fundamentals` (Sundays
- *                 pre-market, see vercel.json) calls enrichFundamentals.js
- *                 and writes the result to Vercel KV under key
- *                 `fundamentals:snapshot`. The in-memory cache is primed at
- *                 server startup via primeFundamentalsFromKV().
+ *   `scripts/refresh-fundamentals.mjs` runs daily on a local machine, writes
+ *   `fundamentals.json`, commits, and the auto-merge PR redeploys Vercel.
+ *   Production reads the snapshot lazily on first request via the mtime-cached
+ *   disk loader below. NSE rejects Vercel datacenter IPs (see nse.js:76-83 and
+ *   CLAUDE.md), so the refresh cannot run server-side.
  */
 
 import { readFileSync, existsSync, statSync } from "fs";
@@ -27,9 +23,6 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const FUNDAMENTALS_PATH = path.join(__dirname, "fundamentals.json");
-
-// Vercel KV key for the persisted snapshot in production
-export const KV_FUNDAMENTALS_KEY = "fundamentals:snapshot";
 
 // SEBI RA Reg 25 (record-keeping) Phase 0: every score is stamped with a
 // scorer version. When we ship the Snowflake V2 scorer alongside V1 (see
@@ -43,105 +36,22 @@ export const SCORER_VERSION = "v1.2-apr2026";
 
 // ==================== SNAPSHOT LOADER ====================
 
-// The in-memory cache is the single source of truth for all sync callers
-// (getFundamentals / getAllFundamentals / scoreFundamentals). It can be
-// populated by three paths:
-//   1. Sync disk read in loadFundamentalsFromDisk() — local dev fallback
-//   2. Async KV fetch in primeFundamentalsFromKV() — called at server boot
-//   3. Async save in saveFundamentalsToKV() — called after cron enrichment
 let _cachedSnapshot = null;
-let _cachedMtime = 0;    // only meaningful for disk-sourced snapshots
-let _cachedSource = null; // "disk" | "kv" — for diagnostics
+let _cachedMtime = 0;
 
 /**
- * Lazy-import @vercel/kv. Returns the client or null if KV isn't configured.
- * We use this pattern (instead of a top-level import) so local dev doesn't
- * pull in the KV module when it isn't needed.
- */
-async function getKVClient() {
-  const hasKV = !!process.env.KV_REST_API_URL && !!process.env.KV_REST_API_TOKEN;
-  if (!hasKV) return null;
-  const mod = await import("@vercel/kv");
-  return mod.kv;
-}
-
-/**
- * Prime the in-memory cache from Vercel KV. Called once at server startup
- * from server.js; no-op in local dev (where KV env vars aren't set).
+ * Load the fundamentals snapshot from `fundamentals.json` on disk, with an
+ * mtime-keyed in-memory cache so the file is only re-parsed when it actually
+ * changes. Returns `{ snapshots, generatedAt, enrichedAt, ... }` or null.
  *
- * Returns the snapshot on success, null on miss/error. Silent on failure
- * because disk fallback will kick in for any subsequent getFundamentals call.
- */
-export async function primeFundamentalsFromKV() {
-  try {
-    const kv = await getKVClient();
-    if (!kv) return null;
-    const data = await kv.get(KV_FUNDAMENTALS_KEY);
-    if (!data || !data.snapshots) return null;
-    _cachedSnapshot = data;
-    _cachedMtime = 0;
-    _cachedSource = "kv";
-    console.log(
-      `[FUNDAMENTALS] primed from KV: ${Object.keys(data.snapshots).length} stocks, ` +
-      `enrichedAt=${data.enrichedAt || "unknown"}`
-    );
-    return data;
-  } catch (err) {
-    console.warn("[FUNDAMENTALS] KV prime failed, will fall back to disk:", err.message);
-    return null;
-  }
-}
-
-/**
- * Persist an enriched snapshot back to Vercel KV and refresh the in-memory
- * cache. Called by the /api/cron/enrich-fundamentals endpoint after each
- * weekly refresh. No-op (returns false) if KV isn't configured.
- *
- * The cache update is CRITICAL — without it, the cron endpoint would write
- * to KV but the running function's own in-memory cache would still hold the
- * stale disk copy until the next cold start.
- */
-export async function saveFundamentalsToKV(data) {
-  try {
-    const kv = await getKVClient();
-    if (!kv) return false;
-    await kv.set(KV_FUNDAMENTALS_KEY, data);
-    _cachedSnapshot = data;
-    _cachedMtime = 0;
-    _cachedSource = "kv";
-    console.log(
-      `[FUNDAMENTALS] saved to KV: ${Object.keys(data.snapshots || {}).length} stocks, ` +
-      `enrichedAt=${data.enrichedAt}`
-    );
-    return true;
-  } catch (err) {
-    console.error("[FUNDAMENTALS] KV save failed:", err.message);
-    return false;
-  }
-}
-
-/**
- * Load the fundamentals snapshot. Cache hierarchy:
- *   1. In-memory cache (populated by KV prime or a previous disk read)
- *   2. Disk (fundamentals.json) — local dev and Vercel fallback if KV empty
- *
- * Returns { snapshots, generatedAt, enrichedAt, ... } or null.
- *
- * This function is SYNC on purpose — it's called from inside the hot scoring
- * loop that iterates 112 stocks per scan, and we don't want to await inside
- * that loop. Async work (KV fetch) happens once at startup via
- * primeFundamentalsFromKV(), and then every call lands in the cache.
+ * Sync by design — called from the hot scoring loop that iterates the full
+ * universe per scan, so we can't await here.
  */
 export function loadFundamentalsFromDisk() {
-  // If the cache was populated by KV (source = "kv"), trust it — the KV
-  // snapshot is always newer than disk in production.
-  if (_cachedSource === "kv" && _cachedSnapshot) return _cachedSnapshot;
-
-  // Otherwise fall back to disk with the mtime-based refresh semantics.
-  if (!existsSync(FUNDAMENTALS_PATH)) return _cachedSnapshot; // may be null
+  if (!existsSync(FUNDAMENTALS_PATH)) return _cachedSnapshot;
 
   const mtime = statSync(FUNDAMENTALS_PATH).mtimeMs;
-  if (_cachedSnapshot && _cachedSource === "disk" && mtime === _cachedMtime) {
+  if (_cachedSnapshot && mtime === _cachedMtime) {
     return _cachedSnapshot;
   }
 
@@ -149,11 +59,10 @@ export function loadFundamentalsFromDisk() {
     const raw = readFileSync(FUNDAMENTALS_PATH, "utf-8");
     _cachedSnapshot = JSON.parse(raw);
     _cachedMtime = mtime;
-    _cachedSource = "disk";
     return _cachedSnapshot;
   } catch (err) {
     console.error("Failed to load fundamentals.json:", err.message);
-    return _cachedSnapshot; // return whatever we had, don't flash to null
+    return _cachedSnapshot;
   }
 }
 
@@ -189,14 +98,6 @@ export function getSnapshotGeneratedAt() {
 export function getSnapshotEnrichedAt() {
   const data = loadFundamentalsFromDisk();
   return data?.enrichedAt || null;
-}
-
-/**
- * Where the currently-cached snapshot came from. Useful for debug endpoints
- * and the status banner — returns "kv", "disk", or null if no snapshot.
- */
-export function getSnapshotSource() {
-  return _cachedSnapshot ? _cachedSource : null;
 }
 
 // ==================== TRUE SECTOR P/E BENCHMARK ====================
