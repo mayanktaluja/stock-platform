@@ -1795,6 +1795,15 @@ app.get("/api/admin/users/:sub/portfolio.xlsx", async (req, res) => {
  * served the read.
  */
 app.get("/api/admin/combined-shadow-diff", async (req, res) => {
+  // Admin gate: the global auth middleware (L583) only guarantees a session;
+  // it does NOT enforce isAdmin. Without this check, any authenticated user
+  // could read the shadow-diff store in prod. Mirror /api/admin/users (L1712).
+  if (!AUTH_ENABLED) return res.status(401).json({ error: "auth-disabled" });
+  const sub = req.user && req.user.sub;
+  if (!sub) return res.status(401).json({ error: "unauthenticated" });
+  const userStore = getUserStorage();
+  const me = await userStore.read(sub);
+  if (!me || !me.isAdmin) return res.status(403).json({ error: "forbidden" });
   try {
     const store = await readShadowDiffStore();
     let entries = store.entries || [];
@@ -5709,7 +5718,11 @@ app.get("/api/sws-picks", (req, res) => {
 // /api/stock/:symbol and the modal calls it lazily so the SWS modal stays
 // fast (no Yahoo round-trip on open). The modal merges client-side.
 app.get("/api/sws-stock/:ticker", (req, res) => {
-  const ticker = String(req.params.ticker || "").toUpperCase().trim();
+  // Accept both bare ("STAR") and Yahoo-suffixed ("STAR.NS", "TATA.BO") forms —
+  // SWS stores bare NSE symbols, but the rest of the platform passes around
+  // .NS/.BO consistently. Stripping here avoids 400s when copying tickers
+  // from /api/stock/:symbol responses or the Buy Now scanner.
+  const ticker = String(req.params.ticker || "").toUpperCase().trim().replace(/\.(NS|BO)$/, "");
   if (!ticker || !/^[A-Z0-9&\-]+$/.test(ticker)) {
     return res.status(400).json({ error: "invalid_ticker" });
   }
