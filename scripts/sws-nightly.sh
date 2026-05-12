@@ -200,9 +200,72 @@ try {
 ' 2>/dev/null)
 echo "[nightly] ${COVERAGE_LINE:-coverage: <unavailable>}"
 
+# ---- 4c. Earnings + catalysts refresh chain (non-fatal) ----
+#
+# The Earnings Watch tab depends on these files. Without the chain, the
+# tab stays stuck on whatever snapshot last shipped (the original bug:
+# tab built_at was 4 days stale by 2026-05-12 even though SWS itself
+# refreshed nightly).
+#
+# Each step is wrapped in `timeout 600` and treated as warning-only —
+# a transient NSE/Yahoo failure here MUST NOT block the SWS push that
+# already succeeded. Mirrors the news-refresh pattern at line 147.
+#
+# Order matters:
+#   1. refresh-catalysts.mjs      → data/catalysts/events-latest.json
+#   2. refresh-nse-corporate.mjs  → nse-announcements-rolling + bulk-block
+#   3. refresh-fo-oi.sh           → data/nse-fo/oi-deltas-latest.json
+#   4. refresh-fundamentals.mjs   → fundamentals.json (NSE; weekly; for
+#                                    stock detail modals — not the earnings
+#                                    tab, which reads fundamentalsHistory.json)
+#   5. refresh-earnings.mjs       → data/catalysts/earnings-watch-*.json
+# (Phase E will add refresh-earnings-actuals.mjs as step 6 once it lands.)
+#
+# NOTE: fundamentalsHistory.json (Yahoo, used by the earnings tab's
+# trajectory component) is currently refreshed manually via
+# scripts/fetch-fundamentals-history.mjs. Phase A.2 of the SEBI-RA upgrade
+# plan will extend that script to also capture forwardEps +
+# numberOfAnalystOpinions, then add it to this chain on a weekly cadence.
+echo "[nightly] running catalysts + earnings refresh chain..."
+
+if ! timeout 600 node scripts/refresh-catalysts.mjs 2>&1 | sed 's/^/[catalysts] /'; then
+  echo "[nightly] refresh-catalysts.mjs failed — non-fatal, continuing"
+fi
+
+if ! timeout 600 node scripts/refresh-nse-corporate.mjs 2>&1 | sed 's/^/[nse-corp] /'; then
+  echo "[nightly] refresh-nse-corporate.mjs failed — non-fatal, continuing"
+fi
+
+if ! timeout 600 bash scripts/refresh-fo-oi.sh 2>&1 | sed 's/^/[fo-oi] /'; then
+  echo "[nightly] refresh-fo-oi.sh failed — non-fatal, continuing"
+fi
+
+# Sunday only (date +%u returns 7 for Sunday). Yahoo rate-limits ~500-stock
+# pulls; quarterly EPS doesn't change daily so a weekly refresh is enough.
+if [ "$(date +%u)" = "7" ]; then
+  echo "[nightly] Sunday — running fundamentals refresh (weekly cadence)..."
+  if ! timeout 1800 node scripts/refresh-fundamentals.mjs 2>&1 | sed 's/^/[fundamentals] /'; then
+    echo "[nightly] refresh-fundamentals.mjs failed — non-fatal, continuing"
+  fi
+fi
+
+echo "[nightly] running refresh-earnings.mjs (depends on the above)..."
+if ! timeout 600 node scripts/refresh-earnings.mjs 2>&1 | sed 's/^/[earnings] /'; then
+  echo "[nightly] refresh-earnings.mjs failed — non-fatal; tab stays on prior snapshot"
+fi
+
 # ---- 5. Commit + push ----
 
-CHANGED_FILES=$(git status --short data/sws/deep/ data/sws/picks-latest.json data/sws/last-refresh.json data/sws/sws-scored-universe.json data/sws/v3-universe-stats.json 2>/dev/null | wc -l | tr -d ' ')
+CHANGED_FILES=$(git status --short \
+  data/sws/deep/ \
+  data/sws/picks-latest.json \
+  data/sws/last-refresh.json \
+  data/sws/sws-scored-universe.json \
+  data/sws/v3-universe-stats.json \
+  data/catalysts/ \
+  data/nse-fo/oi-deltas-latest.json \
+  fundamentalsHistory.json \
+  2>/dev/null | wc -l | tr -d ' ')
 if [ "${CHANGED_FILES}" -eq 0 ]; then
   echo "[nightly] no SWS data changes detected — nothing to commit"
   send_mail "ℹ️ SWS nightly — no data changes" "Pipeline ran clean but no files changed. Likely SWS upstream returned identical data, or scrape was skipped."
@@ -222,7 +285,10 @@ git add data/sws/deep/ \
         data/sws/picks-latest.json \
         data/sws/last-refresh.json \
         data/sws/sws-scored-universe.json \
-        data/sws/v3-universe-stats.json
+        data/sws/v3-universe-stats.json \
+        data/catalysts/ \
+        data/nse-fo/oi-deltas-latest.json \
+        fundamentalsHistory.json
 
 # Inner pipeline regenerates the daily picks PDF — ship it in this same PR
 # (previously the inner script's auto-PR added it; now we own that step).
