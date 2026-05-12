@@ -1795,6 +1795,15 @@ app.get("/api/admin/users/:sub/portfolio.xlsx", async (req, res) => {
  * served the read.
  */
 app.get("/api/admin/combined-shadow-diff", async (req, res) => {
+  // Admin gate: the global auth middleware (L583) only guarantees a session;
+  // it does NOT enforce isAdmin. Without this check, any authenticated user
+  // could read the shadow-diff store in prod. Mirror /api/admin/users (L1712).
+  if (!AUTH_ENABLED) return res.status(401).json({ error: "auth-disabled" });
+  const sub = req.user && req.user.sub;
+  if (!sub) return res.status(401).json({ error: "unauthenticated" });
+  const userStore = getUserStorage();
+  const me = await userStore.read(sub);
+  if (!me || !me.isAdmin) return res.status(403).json({ error: "forbidden" });
   try {
     const store = await readShadowDiffStore();
     let entries = store.entries || [];
@@ -1941,6 +1950,85 @@ app.get("/api/cron/refresh-surveillance", async (req, res) => {
  */
 app.get("/api/surveillance/status", (req, res) => {
   res.json(getSurveillanceStatus());
+});
+
+/**
+ * GET /api/health/snapshots
+ *
+ * Aggregate freshness for every fixture the SPA reads. The frontend uses
+ * this to surface a "data is stale" banner so users know when underlying
+ * snapshots haven't refreshed (which happens silently when the prod cron
+ * fails — most commonly because Vercel's datacenter IPs are blocked by
+ * NSE, see CLAUDE.md and nse.js:76-83).
+ *
+ * Each entry: { age_hours, stale, max_age_hours, ... }. `stale: true` if
+ * age exceeds the source-specific threshold:
+ *
+ *   - fundamentals: 48h  (daily NSE refresh; 48h covers weekends)
+ *   - surveillance: 36h  (daily NSE refresh; 12h grace)
+ *   - governance:   2400h (~100 days, quarterly cadence)
+ *   - picks_latest: 48h  (nightly SWS pipeline; 48h covers weekend)
+ *   - macro_regime: 6h   (hourly classifier polling)
+ */
+app.get("/api/health/snapshots", (req, res) => {
+  const now = Date.now();
+  const ageHours = (iso) => {
+    if (!iso) return null;
+    const t = new Date(iso).getTime();
+    if (!Number.isFinite(t)) return null;
+    return +((now - t) / 3_600_000).toFixed(1);
+  };
+  const fundAt = getSnapshotGeneratedAt();
+  const survStatus = getSurveillanceStatus();
+  const govStatus = getGovernanceStatus();
+  const picks = swsDal.getPicksLatest();
+  const macroRegime = macroRegimeCache.get(MACRO_CACHE_KEY) || null;
+
+  const fundAge = ageHours(fundAt);
+  const picksAge = ageHours(picks?.scanned_at || swsDal.getLastRefresh()?.finished_at);
+  const macroAge = ageHours(macroRegime?.generatedAt);
+
+  const snapshots = {
+    fundamentals: {
+      generatedAt: fundAt,
+      age_hours: fundAge,
+      max_age_hours: 48,
+      stale: fundAge == null || fundAge > 48,
+    },
+    surveillance: {
+      generatedAt: null, // surveillance.js doesn't surface the raw stamp; rely on its own status
+      age_hours: survStatus.age_hours,
+      max_age_hours: 36,
+      stale: !!survStatus.stale,
+      counts: survStatus.counts,
+    },
+    governance: {
+      age_hours: govStatus.age_hours,
+      max_age_hours: 24 * 100,
+      stale: !!govStatus.stale,
+      count: govStatus.count,
+    },
+    picks_latest: {
+      generatedAt: picks?.scanned_at || null,
+      age_hours: picksAge,
+      max_age_hours: 48,
+      stale: picksAge == null || picksAge > 48,
+    },
+    macro_regime: {
+      generatedAt: macroRegime?.generatedAt || null,
+      age_hours: macroAge,
+      max_age_hours: 6,
+      stale: macroAge == null || macroAge > 6,
+    },
+  };
+
+  // Convenience flag the UI can read without re-summing.
+  const anyStale = Object.values(snapshots).some((s) => s.stale);
+  const staleKeys = Object.entries(snapshots)
+    .filter(([, s]) => s.stale)
+    .map(([k]) => k);
+
+  res.json({ anyStale, staleKeys, snapshots, checkedAt: new Date().toISOString() });
 });
 
 /**
@@ -3833,16 +3921,30 @@ app.get("/api/track/history", async (req, res) => {
  */
 app.get("/api/track/stats", async (req, res) => {
   try {
+    // Cache the aggregate. readAllTrades() does a full ZRANGE in the KV
+    // backend (every blob, newest-first) — fine when the log is empty but
+    // ~900ms p50 in prod once it has months of history. The cache is
+    // invalidated by /api/cron/snapshot-track-record after each daily run.
+    const cacheKey = "track_stats";
+    if (!req.query.bust) {
+      const cached = trackCache.get(cacheKey);
+      if (cached) {
+        res.set("X-Cache", "HIT");
+        return res.json({ ...cached, todayKey: getISTDateKey() });
+      }
+    }
     const [trades, stats] = await Promise.all([readAllTrades(), getStorageStats()]);
     const byType = {};
     for (const t of trades) {
       byType[t.type] = (byType[t.type] || 0) + 1;
     }
-    res.json({
+    const payload = {
       ...stats,
       byType,
-      todayKey: getISTDateKey(),
-    });
+    };
+    trackCache.set(cacheKey, payload);
+    res.set("X-Cache", "MISS");
+    res.json({ ...payload, todayKey: getISTDateKey() });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -5665,6 +5767,14 @@ app.get("/api/sws-picks", (req, res) => {
       const valSnow = Number((it?.snowflake || {}).valuation);
       return (Number.isFinite(upside) && upside >= 0) || (Number.isFinite(valSnow) && valSnow >= 4);
     };
+    // Helper to map upside → band so the live-overlay and back-fill paths
+    // stay in sync. Mirrors services/swsScoring.js::valuationBandFromUpside.
+    const bandFromUpside = (u) =>
+      u >= 25 ? "DEEP_DISCOUNT" :
+      u >= 10 ? "DISCOUNT" :
+      u >= -5 ? "FAIR" :
+      u >= -20 ? "PREMIUM" : "EXPENSIVE";
+
     for (const [key, items] of Object.entries(data.sections)) {
       if (!Array.isArray(items)) continue;
       // Filter once, in-place — keeps the per-section count fields the UI
@@ -5683,11 +5793,32 @@ app.get("/api/sws-picks", (req, res) => {
         if (it && it.valuation_band == null) {
           const u = Number(it.upside_pct);
           if (Number.isFinite(u)) {
-            it.valuation_band =
-              u >= 25 ? "DEEP_DISCOUNT" :
-              u >= 10 ? "DISCOUNT" :
-              u >= -5 ? "FAIR" :
-              u >= -20 ? "PREMIUM" : "EXPENSIVE";
+            it.valuation_band = bandFromUpside(u);
+          }
+        }
+
+        // Live-price overlay (issue 2.10) — picks-latest.json is typically
+        // 12-24h old, so the baked current_price_inr drifts vs the market
+        // during the trading day. That makes the DISCOUNT/PREMIUM chip
+        // shown on the card subtly wrong for boundary names. We piggyback
+        // on the in-process quoteCache (60s TTL, populated by scanners and
+        // other consumers) — NO fanout to Yahoo here, because 800+ rows on
+        // a single tab-open would be catastrophic. If the cache is cold for
+        // a ticker, leave the baked price untouched.
+        //
+        // FV stays as-baked (it's an AnalystConsensus number, not a live
+        // tape value). Only the live close moves; upside_pct + band are
+        // recomputed from (FV - live) / live.
+        if (it && it.ticker && Number.isFinite(Number(it.fair_value_inr))) {
+          const cachedQuote = quoteCache.get(`${it.ticker}.NS`);
+          const livePx = cachedQuote && Number(cachedQuote.regularMarketPrice);
+          if (Number.isFinite(livePx) && livePx > 0) {
+            const fv = Number(it.fair_value_inr);
+            const liveUpside = ((fv - livePx) / livePx) * 100;
+            it.current_price_inr = livePx;
+            it.upside_pct = Math.round(liveUpside * 10) / 10;
+            it.valuation_band = bandFromUpside(liveUpside);
+            it.live_price = true;
           }
         }
       }
@@ -5709,7 +5840,11 @@ app.get("/api/sws-picks", (req, res) => {
 // /api/stock/:symbol and the modal calls it lazily so the SWS modal stays
 // fast (no Yahoo round-trip on open). The modal merges client-side.
 app.get("/api/sws-stock/:ticker", (req, res) => {
-  const ticker = String(req.params.ticker || "").toUpperCase().trim();
+  // Accept both bare ("STAR") and Yahoo-suffixed ("STAR.NS", "TATA.BO") forms —
+  // SWS stores bare NSE symbols, but the rest of the platform passes around
+  // .NS/.BO consistently. Stripping here avoids 400s when copying tickers
+  // from /api/stock/:symbol responses or the Buy Now scanner.
+  const ticker = String(req.params.ticker || "").toUpperCase().trim().replace(/\.(NS|BO)$/, "");
   if (!ticker || !/^[A-Z0-9&\-]+$/.test(ticker)) {
     return res.status(400).json({ error: "invalid_ticker" });
   }

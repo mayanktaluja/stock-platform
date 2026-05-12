@@ -549,3 +549,117 @@ When you copy one of these prompts, also tell Claude:
 
 Otherwise Claude may re-discover already-fixed problems and waste tokens
 re-exploring the codebase.
+
+---
+
+## New findings — 2026-05-12 QA pass
+
+See [qa-pass-2026-05-12.md](qa-pass-2026-05-12.md) for the full pass. Three
+fixes shipped (admin-gate-on-shadow-diff, .NS-suffix-on-sws-stock, modal-
+scroll-memory). The items below were observed but deferred.
+
+### N.1 — `/api/track/stats` is 460× slower in prod than local
+
+```
+On the 2026-05-12 perf sweep, /api/track/stats took p50 919ms in prod vs
+2ms locally. The endpoint returns a tiny 338-byte response but the handler
+seems to scan all snapshots from KV on every request. Local is fast only
+because the trade log is empty.
+
+Investigate the handler in services/trackRecord/* + server.js:3834. Cache
+the aggregate (windowed: 30d / 90d / 1y / all) inside the
+/api/cron/snapshot-track-record cron run and store a single
+`track_stats_aggregate` KV key. The /api/track/stats handler should then
+be a single KV.get() not a scan.
+
+Verify: after the change, /api/track/stats in prod p50 < 100ms.
+```
+
+### N.2 — Local Express doesn't gzip; prod parity gap
+
+```
+The local express server doesn't compress static assets — local
+app.js downloads as 530KB vs 124KB on prod (Vercel auto-gzips).
+This makes local dev network-tab inspection misleading, and any
+"this is slow on prod!" suspicion is poisoned by the asymmetry.
+
+Add the `compression` middleware (already common in express apps):
+
+  import compression from "compression";
+  app.use(compression());
+
+Add `compression` to package.json deps. Test that smoke + tests
+still pass. No-op in prod (Vercel does its own compression on the
+edge), but local parity is restored.
+```
+
+### N.3 — Admin-tab hardening is inconsistent between Users and Earnings
+
+```
+gated/earnings.js:1018 actively REMOVES the earningsTabBtn from
+the DOM whenever window.__starbhai_isAdmin !== true. gated/app.js
+only sets hidden=true on usersTabBtn. Either both should be
+removed (harder to bypass via devtools) or both should be hidden
+(easier reasoning) — pick one.
+
+Server-side enforcement at server.js:1712-1718 (/api/admin/users)
+and server.js:2220-2237 (requireEarningsAdmin) IS the real defense.
+The DOM-level hardening is belt-and-braces; consistency matters
+for cognitive clarity.
+
+Recommended: lift the removeXxxTabFromDom helper into app.js and
+apply it to both tabs symmetrically.
+```
+
+### N.4 — Governance fixture missing locally; feature is dark
+
+```
+There is no governance.json at the project root in this worktree.
+/api/governance/status returns {count:0, source:"empty", stale:true}
+and every /api/governance/:symbol returns 404 "No governance record".
+
+This means the governance feature does nothing locally and (probably)
+in prod too, since the cron at /api/cron/refresh-governance runs on
+Vercel where NSE-source endpoints are IP-blocked (see CLAUDE.md).
+
+Action: run `node scripts/refresh-governance.mjs` locally, commit the
+resulting governance.json, and confirm Vercel reads it. Long-term,
+governance refresh should chain into sws-nightly the same way
+catalysts+earnings already do (see commit e6fc90cd9).
+```
+
+### N.5 — Fundamentals + Surveillance snapshots 19 days stale locally
+
+```
+On 2026-05-12 the local fundamentals.json was generatedAt
+2026-04-23 and surveillance.json was fetchedAt 2026-04-23 — both
+19 days old. picks-latest.json was fresh (today). This suggests
+the SWS pipeline runs locally on schedule but the fundamentals /
+surveillance refreshers don't.
+
+Action: confirm the nightly job set runs all four refreshers, not
+just SWS. Audit scripts/com.starbhai.sws-nightly.plist and
+scripts/sws-nightly.sh chain. Add fundamentals + surveillance
+to the chain if missing.
+
+This compounds issue 2.9 — without a staleness banner the user
+never knows the underlying data is 19 days old.
+```
+
+### N.6 — `starbhai.com` is NOT the Vercel deployment
+
+```
+https://starbhai.com 301-redirects to https://www.starbhai.com,
+which is a separate WordPress site. The actual stock-platform
+deployment is at https://stock-platform-gamma.vercel.app (and
+the latest deployment URL like
+stock-platform-mwjw1ryiz-mtaluja11-3604s-projects.vercel.app).
+
+Anyone bookmarking starbhai.com or sharing the link gets the
+WordPress page, not the platform.
+
+Action: either point starbhai.com at the Vercel deployment via
+a custom-domain config in Vercel, OR update README / CLAUDE.md
+to reflect that the prod URL is the .vercel.app alias.
+```
+
