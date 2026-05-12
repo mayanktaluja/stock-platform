@@ -8707,6 +8707,12 @@ async function pollPicksStatus() {
 
 let swsModalCurrentTicker = null;
 let swsModalLastFocus = null;
+// Per-ticker scroll positions so re-opening a modal (after closing, or after
+// switching sections on the SWS Picks chip-nav) restores where the user left
+// off instead of snapping back to the top. Bounded to ~50 tickers — beyond
+// that we drop the oldest entry, since this is purely a UX nicety.
+const swsModalScrollMemory = new Map();
+const SWS_MODAL_SCROLL_MEMORY_MAX = 50;
 
 async function openSwsModal(ticker) {
   if (!ticker) return;
@@ -8729,6 +8735,14 @@ async function openSwsModal(ticker) {
     const data = await res.json();
     if (swsModalCurrentTicker !== ticker) return; // user opened a different ticker since
     body.innerHTML = renderSwsModal(data);
+    const remembered = swsModalScrollMemory.get(ticker);
+    if (typeof remembered === "number" && remembered > 0) {
+      // The scrollable element is the backdrop (overflow:auto), NOT the body
+      // (overflow:visible). Wait one frame so layout settles before we
+      // restore — otherwise scrollHeight is still the old value and the
+      // assignment is clipped.
+      requestAnimationFrame(() => { backdrop.scrollTop = remembered; });
+    }
   } catch (e) {
     body.innerHTML = `<div style="padding:40px 20px;color:var(--red);">Network error: ${e.message}</div>`;
   }
@@ -8736,6 +8750,18 @@ async function openSwsModal(ticker) {
 
 function closeSwsModal() {
   const backdrop = document.getElementById("swsModalBackdrop");
+  // Remember scroll position before tearing down so the next open() can
+  // restore it. Keyed by ticker so different stocks each track their own.
+  // Note: the scroll container is the backdrop (overflow:auto), not the
+  // inner body (which is overflow:visible).
+  if (backdrop && swsModalCurrentTicker) {
+    swsModalScrollMemory.set(swsModalCurrentTicker, backdrop.scrollTop || 0);
+    if (swsModalScrollMemory.size > SWS_MODAL_SCROLL_MEMORY_MAX) {
+      // Map preserves insertion order — drop the oldest entry.
+      const firstKey = swsModalScrollMemory.keys().next().value;
+      swsModalScrollMemory.delete(firstKey);
+    }
+  }
   if (backdrop) backdrop.classList.remove("open");
   document.body.style.overflow = "";
   swsModalCurrentTicker = null;
