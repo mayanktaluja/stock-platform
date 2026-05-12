@@ -202,11 +202,96 @@ if ! node scripts/sws-news-scrape.mjs 2>&1 | sed 's/^/[news] /'; then
   echo "[nightly] news refresh failed — non-fatal, continuing to sanity gate"
 fi
 
+# ---- 3c. Catalysts + fundamentals + earnings refresh chain (non-fatal) ----
+#
+# Moved BEFORE the sanity gate so a scrape sanity failure cannot block
+# these refreshes from reaching prod. They are INDEPENDENT of the SWS
+# scrape output — the dashboard's Fundamentals + Earnings tabs should
+# stay fresh even when the scrape itself is being debugged. The sanity-
+# gate FAIL path below ships a separate data-only PR with whichever of
+# these files changed.
+#
+# Each step is wrapped in `timeout` and treated as warning-only — a
+# transient NSE failure here MUST NOT block the SWS push that may still
+# succeed below. Mirrors the news-refresh pattern at step 3b.
+#
+# Order matters:
+#   1. refresh-catalysts.mjs      → data/catalysts/events-latest.json
+#   2. refresh-nse-corporate.mjs  → nse-announcements-rolling + bulk-block
+#   3. refresh-fo-oi.sh           → data/nse-fo/oi-deltas-latest.json
+#   4. refresh-fundamentals.mjs   → fundamentals.json (NSE; DAILY now, with
+#                                    a 20h freshness skip so only one of
+#                                    the two daily fires actually re-runs).
+#                                    Used by stock detail modals — not the
+#                                    earnings tab, which reads
+#                                    fundamentalsHistory.json.
+#   5. refresh-earnings.mjs       → data/catalysts/earnings-watch-*.json
+# (Phase E will add refresh-earnings-actuals.mjs as step 6 once it lands.)
+#
+# NOTE: fundamentalsHistory.json (Yahoo, used by the earnings tab's
+# trajectory component) is currently refreshed manually via
+# scripts/fetch-fundamentals-history.mjs. Phase A.2 of the SEBI-RA upgrade
+# plan will extend that script to also capture forwardEps +
+# numberOfAnalystOpinions, then add it to this chain on a weekly cadence.
+
+echo "[nightly] running catalysts + fundamentals + earnings refresh chain..."
+
+if ! timeout 600 node scripts/refresh-catalysts.mjs 2>&1 | sed 's/^/[catalysts] /'; then
+  echo "[nightly] refresh-catalysts.mjs failed — non-fatal, continuing"
+fi
+
+if ! timeout 600 node scripts/refresh-nse-corporate.mjs 2>&1 | sed 's/^/[nse-corp] /'; then
+  echo "[nightly] refresh-nse-corporate.mjs failed — non-fatal, continuing"
+fi
+
+if ! timeout 600 bash scripts/refresh-fo-oi.sh 2>&1 | sed 's/^/[fo-oi] /'; then
+  echo "[nightly] refresh-fo-oi.sh failed — non-fatal, continuing"
+fi
+
+# Daily fundamentals refresh: self-paced via a 20h freshness check. Two
+# launchd fires per day (02:00 IST pre-market + 16:30 IST post-close), so
+# 20h ensures the second fire coasts when the first succeeded. Saves
+# ~10-15 min of NSE traffic per day. Skips entirely (age=9999) if the
+# file is missing or unparseable, which forces a fresh pull.
+FUND_AGE_HOURS=$(node --input-type=module -e '
+import {readFileSync, existsSync} from "fs";
+if (!existsSync("fundamentals.json")) { console.log(9999); process.exit(0); }
+try {
+  const j = JSON.parse(readFileSync("fundamentals.json", "utf-8"));
+  if (!j.generatedAt) { console.log(9999); process.exit(0); }
+  const ms = Date.now() - new Date(j.generatedAt).getTime();
+  console.log(Math.floor(ms / 3600000));
+} catch { console.log(9999); }
+' 2>/dev/null)
+FUND_AGE_HOURS="${FUND_AGE_HOURS:-9999}"
+
+if [ "${FUND_AGE_HOURS}" -lt 20 ]; then
+  echo "[nightly] fundamentals.json is ${FUND_AGE_HOURS}h old — skipping refresh (< 20h freshness)"
+else
+  echo "[nightly] fundamentals.json is ${FUND_AGE_HOURS}h old — running refresh..."
+  if ! timeout 1800 node scripts/refresh-fundamentals.mjs 2>&1 | sed 's/^/[fundamentals] /'; then
+    echo "[nightly] refresh-fundamentals.mjs failed — non-fatal, continuing"
+  fi
+fi
+
+echo "[nightly] running refresh-earnings.mjs (depends on the above)..."
+if ! timeout 600 node scripts/refresh-earnings.mjs 2>&1 | sed 's/^/[earnings] /'; then
+  echo "[nightly] refresh-earnings.mjs failed — non-fatal; tab stays on prior snapshot"
+fi
+
+# Date/branch labels — computed here so both the PASS path (step 5) and
+# the sanity-gate FAIL path (data-only PR) can use them.
+DATE=$(date +%Y-%m-%d)
+RUN_TIME=$(date +%H%M)              # e.g. 0200 for the 02:00 fire, 1630 for the 16:30 fire
+RUN_LABEL="${DATE} ${RUN_TIME:0:2}:${RUN_TIME:2:2}"   # "2026-05-07 02:00"
+
 # ---- 4. Sanity gate ----
 #
 # Layered checks (L1 run integrity, L2 coverage, L3 data sanity, L6 picks
-# coherence) live in scripts/sws-sanity-gate.mjs. Exit 0 = ship, exit 1 =
-# block push. Full machine-readable report at data/sws/_sanity/_latest.json.
+# coherence) live in scripts/sws-sanity-gate.mjs. Exit 0 = ship SWS scrape,
+# exit 1 = block the SWS push but still ship the non-SWS data refreshes
+# from step 3c in a separate data-only PR. Full machine-readable report at
+# data/sws/_sanity/_latest.json.
 
 echo "[nightly] running sanity gate..."
 GATE_OUT=$(node scripts/sws-sanity-gate.mjs 2>&1)
@@ -217,8 +302,73 @@ echo "${GATE_OUT}" | sed 's/^/[gate] /'
 SANITY_SUMMARY=$(echo "${GATE_OUT}" | grep -E '^\[sanity-gate\] verdict=' | head -1 | sed 's/^\[sanity-gate\] //')
 
 if [ ${GATE_RC} -ne 0 ]; then
-  echo "[nightly] sanity gate FAILED — refusing to push"
-  send_mail "🚨 SWS nightly — sanity gate failed (${SANITY_SUMMARY:-no summary})" "Scrape completed but sanity gate REJECTED the output at $(ts). Data NOT pushed to prod.
+  echo "[nightly] sanity gate FAILED — refusing to push SWS scrape output"
+
+  # The scrape was rejected, but the catalysts/fundamentals/fo-oi/earnings
+  # refreshes from step 3c are INDEPENDENT and may have produced fresh
+  # data. Ship those in a data-only PR so the staleness banner doesn't
+  # flag Fundamentals + Earnings while we debug the scrape.
+  DATA_FILES=(
+    data/catalysts/
+    data/nse-fo/oi-deltas-latest.json
+    fundamentals.json
+    fundamentalsHistory.json
+  )
+  DATA_CHANGED=$(git status --short "${DATA_FILES[@]}" 2>/dev/null | wc -l | tr -d ' ')
+  DATA_PR_NOTE="(no non-SWS data changes detected — nothing to ship separately)"
+
+  if [ "${DATA_CHANGED}" -gt 0 ]; then
+    echo "[nightly] sanity FAIL but ${DATA_CHANGED} non-SWS data file(s) changed — opening data-only PR..."
+    DATA_BRANCH="chore/sws-data-only-${DATE}-${RUN_TIME}"
+    git branch -D "${DATA_BRANCH}" >/dev/null 2>&1 || true
+    git checkout -b "${DATA_BRANCH}" 2>&1 | sed 's/^/[git] /'
+    git add "${DATA_FILES[@]}"
+
+    if git commit -m "chore(data): non-SWS refresh ${RUN_LABEL} — sanity blocked SWS scrape
+
+Catalysts, fundamentals, fo-oi and earnings data refreshed cleanly. The
+SWS scrape was blocked by the sanity gate this run, so picks-latest.json
+and data/sws/deep/* are NOT in this PR — see the alert mail and re-run
+sws-refresh once the upstream issue is resolved.
+
+Sanity verdict: ${SANITY_SUMMARY:-unknown}
+
+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>" 2>&1 | sed 's/^/[git] /'; then
+
+      if git push -u origin "${DATA_BRANCH}" 2>&1 | sed 's/^/[git] /'; then
+        DATA_PR_OUTPUT=$(gh pr create \
+          --title "chore(data): non-SWS refresh ${RUN_LABEL} — SWS sanity blocked" \
+          --body "Sanity gate FAILED on the SWS scrape, but the catalysts/fundamentals/fo-oi/earnings refresh ran cleanly. Shipping those files separately so the dashboard's Fundamentals + Earnings tabs don't stagnate while we debug the scrape.
+
+Sanity verdict: ${SANITY_SUMMARY:-unknown}
+
+Auto-generated by \`scripts/sws-nightly.sh\` when the SWS scrape is blocked by the sanity gate." 2>&1)
+        DATA_PR_URL=$(echo "${DATA_PR_OUTPUT}" | grep -oE 'https://github\.com/[^[:space:]]+/pull/[0-9]+' | tail -1)
+        if [ -n "${DATA_PR_URL}" ]; then
+          DATA_PR_NOTE="Data-only PR shipped: ${DATA_PR_URL}"
+          if [ "${AUTO_MERGE}" = "1" ]; then
+            gh pr merge "${DATA_PR_URL}" --squash --auto --delete-branch 2>&1 | sed 's/^/[gh] /' || \
+              gh pr merge "${DATA_PR_URL}" --squash --delete-branch 2>&1 | sed 's/^/[gh] /' || \
+              echo "[nightly] data-only PR auto-merge failed — manual review required"
+          fi
+        else
+          DATA_PR_NOTE="Data-only commit pushed (${DATA_BRANCH}) but gh pr create failed: ${DATA_PR_OUTPUT}"
+        fi
+      else
+        DATA_PR_NOTE="Data-only commit succeeded but git push to origin/${DATA_BRANCH} failed"
+      fi
+    else
+      DATA_PR_NOTE="Data-only commit produced no changes (likely all files identical to main)"
+    fi
+
+    # Return to main so the next run starts clean. Uncommitted SWS scrape
+    # files stay on disk for inspection; the next run's autostash tidies them.
+    git checkout main 2>&1 | sed 's/^/[git] /' || echo "[nightly] couldn't switch back to main — next run will autostash"
+  fi
+
+  send_mail "🚨 SWS nightly — sanity gate failed (${SANITY_SUMMARY:-no summary})" "Scrape completed but sanity gate REJECTED the SWS output at $(ts). SWS data NOT pushed to prod.
+
+${DATA_PR_NOTE}
 
 Gate output:
 ${GATE_OUT}
@@ -254,60 +404,6 @@ try {
 ' 2>/dev/null)
 echo "[nightly] ${COVERAGE_LINE:-coverage: <unavailable>}"
 
-# ---- 4c. Earnings + catalysts refresh chain (non-fatal) ----
-#
-# The Earnings Watch tab depends on these files. Without the chain, the
-# tab stays stuck on whatever snapshot last shipped (the original bug:
-# tab built_at was 4 days stale by 2026-05-12 even though SWS itself
-# refreshed nightly).
-#
-# Each step is wrapped in `timeout 600` and treated as warning-only —
-# a transient NSE/Yahoo failure here MUST NOT block the SWS push that
-# already succeeded. Mirrors the news-refresh pattern at line 147.
-#
-# Order matters:
-#   1. refresh-catalysts.mjs      → data/catalysts/events-latest.json
-#   2. refresh-nse-corporate.mjs  → nse-announcements-rolling + bulk-block
-#   3. refresh-fo-oi.sh           → data/nse-fo/oi-deltas-latest.json
-#   4. refresh-fundamentals.mjs   → fundamentals.json (NSE; weekly; for
-#                                    stock detail modals — not the earnings
-#                                    tab, which reads fundamentalsHistory.json)
-#   5. refresh-earnings.mjs       → data/catalysts/earnings-watch-*.json
-# (Phase E will add refresh-earnings-actuals.mjs as step 6 once it lands.)
-#
-# NOTE: fundamentalsHistory.json (Yahoo, used by the earnings tab's
-# trajectory component) is currently refreshed manually via
-# scripts/fetch-fundamentals-history.mjs. Phase A.2 of the SEBI-RA upgrade
-# plan will extend that script to also capture forwardEps +
-# numberOfAnalystOpinions, then add it to this chain on a weekly cadence.
-echo "[nightly] running catalysts + earnings refresh chain..."
-
-if ! timeout 600 node scripts/refresh-catalysts.mjs 2>&1 | sed 's/^/[catalysts] /'; then
-  echo "[nightly] refresh-catalysts.mjs failed — non-fatal, continuing"
-fi
-
-if ! timeout 600 node scripts/refresh-nse-corporate.mjs 2>&1 | sed 's/^/[nse-corp] /'; then
-  echo "[nightly] refresh-nse-corporate.mjs failed — non-fatal, continuing"
-fi
-
-if ! timeout 600 bash scripts/refresh-fo-oi.sh 2>&1 | sed 's/^/[fo-oi] /'; then
-  echo "[nightly] refresh-fo-oi.sh failed — non-fatal, continuing"
-fi
-
-# Sunday only (date +%u returns 7 for Sunday). Yahoo rate-limits ~500-stock
-# pulls; quarterly EPS doesn't change daily so a weekly refresh is enough.
-if [ "$(date +%u)" = "7" ]; then
-  echo "[nightly] Sunday — running fundamentals refresh (weekly cadence)..."
-  if ! timeout 1800 node scripts/refresh-fundamentals.mjs 2>&1 | sed 's/^/[fundamentals] /'; then
-    echo "[nightly] refresh-fundamentals.mjs failed — non-fatal, continuing"
-  fi
-fi
-
-echo "[nightly] running refresh-earnings.mjs (depends on the above)..."
-if ! timeout 600 node scripts/refresh-earnings.mjs 2>&1 | sed 's/^/[earnings] /'; then
-  echo "[nightly] refresh-earnings.mjs failed — non-fatal; tab stays on prior snapshot"
-fi
-
 # ---- 5. Commit + push ----
 
 CHANGED_FILES=$(git status --short \
@@ -318,6 +414,7 @@ CHANGED_FILES=$(git status --short \
   data/sws/v3-universe-stats.json \
   data/catalysts/ \
   data/nse-fo/oi-deltas-latest.json \
+  fundamentals.json \
   fundamentalsHistory.json \
   2>/dev/null | wc -l | tr -d ' ')
 if [ "${CHANGED_FILES}" -eq 0 ]; then
@@ -326,9 +423,8 @@ if [ "${CHANGED_FILES}" -eq 0 ]; then
   exit 0
 fi
 
-DATE=$(date +%Y-%m-%d)
-RUN_TIME=$(date +%H%M)              # e.g. 0200 for the 02:00 fire, 1630 for the 16:30 fire
-RUN_LABEL="${DATE} ${RUN_TIME:0:2}:${RUN_TIME:2:2}"   # "2026-05-07 02:00"
+# DATE / RUN_TIME / RUN_LABEL were computed earlier (before the sanity gate)
+# so the data-only PR path could use them too. Only BRANCH is new here.
 BRANCH="chore/sws-auto-refresh-${DATE}-${RUN_TIME}"   # unique per fire even if same day
 
 # Clean up any prior local branch with same name (e.g., from interrupted run)
@@ -342,6 +438,7 @@ git add data/sws/deep/ \
         data/sws/v3-universe-stats.json \
         data/catalysts/ \
         data/nse-fo/oi-deltas-latest.json \
+        fundamentals.json \
         fundamentalsHistory.json
 
 # Inner pipeline regenerates the daily picks PDF — ship it in this same PR
