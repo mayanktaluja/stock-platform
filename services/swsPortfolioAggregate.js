@@ -60,18 +60,41 @@ function _reductionRupees(holding) {
 
 // Detects "shell" SWS deep entries — the file exists (so swsCovered is
 // true and the engine produces a score) but the underlying snapshot has
-// no fundamentals signal: every Snowflake pillar is zero AND every
-// valuation multiple is null. Real example: post-demerger tickers like
+// no fundamentals signal. Real example: post-demerger tickers like
 // TMCV.NS where SWS lists the security but hasn't populated pillars or
-// multiples yet. Without this check the action ladder reads v3≈17 /
-// snow=0 as a deeply weak holding and emits a Reduction — which is the
+// multiples yet. Without this check the action ladder reads the low
+// score as a deeply weak holding and emits a Reduction — which is the
 // engine punishing the user for an SWS coverage gap, not a thesis call.
+//
+// Two shapes are treated as too thin:
+//   1. snowflake_total = 0 AND all multiples null (original TMCV shape)
+//   2. snowflake_total = 1 AND all multiples null AND every fundamentals
+//      signal (margin / revenue / earnings growth / last quarter) null —
+//      the "phantom valuation pillar" case. SWS computes a consensus
+//      fair value from analyst targets even when statements are missing,
+//      which yields snowflake.valuation = 1 standalone. The data is
+//      still a shell; the lone pillar comes from FV alone.
+//
+// snow ≥ 2 OR any non-null multiple OR any non-null fundamentals signal
+// → real (if weak) data, ladder call stands. Predicate is self-healing:
+// once SWS lifts coverage, holdings flow back through normal tier logic.
 export function _isSwsDataTooThinToReduce(h) {
-  const snowTotal = num(h?.sws?.snowflake?.total ?? h?.sws?.snowflake_total, 0);
-  const m = h?.sws?.multiples || {};
+  const sws = h?.sws || {};
+  const snowTotal = num(sws.snowflake?.total ?? sws.snowflake_total, 0);
+  const m = sws.multiples || {};
   const allMultiplesNull =
     m.pe == null && m.ps == null && m.pb == null && m.ev_ebitda == null;
-  return snowTotal === 0 && allMultiplesNull;
+  if (!allMultiplesNull) return false;
+  if (snowTotal === 0) return true;
+  if (snowTotal === 1) {
+    return (
+      sws.net_margin_pct == null &&
+      sws.revenue_growth_pct == null &&
+      sws.earnings_growth_pct == null &&
+      sws.last_quarter_result == null
+    );
+  }
+  return false;
 }
 
 export function buildTiers(scoredHoldings) {
@@ -89,7 +112,7 @@ export function buildTiers(scoredHoldings) {
     if (REDUCTION_ACTIONS.has(h.action) && _isSwsDataTooThinToReduce(h)) {
       tierD.push({
         ...h,
-        watchReason: "Insufficient SWS coverage (Snowflake 0/30, no fundamentals) — too thin to recommend reduction. Hand-watch.",
+        watchReason: "Insufficient SWS coverage (near-zero snowflake, no multiples or fundamentals) — too thin to recommend reduction. Hand-watch.",
       });
       continue;
     }
