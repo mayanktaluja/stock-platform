@@ -8729,9 +8729,6 @@ async function openSwsModal(ticker) {
     const data = await res.json();
     if (swsModalCurrentTicker !== ticker) return; // user opened a different ticker since
     body.innerHTML = renderSwsModal(data);
-    // Lazy-fetch live overlay (tech + news + recommendation) so the SWS card
-    // shows immediately and live data fills in afterwards.
-    fetchAndRenderSwsLiveOverlay(ticker);
   } catch (e) {
     body.innerHTML = `<div style="padding:40px 20px;color:var(--red);">Network error: ${e.message}</div>`;
   }
@@ -9134,13 +9131,6 @@ function renderSwsModal(data) {
       </details>
     </div>` : "";
 
-  // Live overlay placeholder (filled by fetchAndRenderSwsLiveOverlay)
-  const livePlaceholder = `
-    <div class="sws-modal-section" id="swsModalLiveOverlay">
-      <h4>Live signals (technicals · news · regulatory)</h4>
-      <div style="font-size:11px;color:var(--text-muted);">Loading live engine…</div>
-    </div>`;
-
   // PR 2.11 — section-membership banner. Uses the same labels/emojis defined
   // in PICKS_SECTIONS so chip-nav and modal stay in lockstep. `avoid` and
   // `upcoming_earnings` are informational rather than buy-list signals — we
@@ -9210,7 +9200,7 @@ function renderSwsModal(data) {
         <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v3 = 5 SWS pillars (74) + AnalystConsensus FV upside + universe-percentile momentum (14) − safety overlay (max −15). Only inputs with ≥50% universe coverage are scored; 30% of stocks lack a fair-value estimate and get a neutral 6/12 on FV upside (flagged as fv_imputed in the breakdown).</div>
         <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">Score evolution: <strong>v1</strong> ${card_.score?.toFixed(1) || "—"} (fund only) → <strong>v2</strong> ${card_.v2_score?.toFixed(1) || "—"} (+ catalyst/risk) → <strong>v3</strong> ${card_.v3_score_100.toFixed(1)} (+ momentum, ≥50% coverage gate).</div>
       ` : `
-        <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v2 = fundamentals (max 100) + catalyst (max +5) − risk overlay (max −15), clamped 0-100. Live technicals shown in the Live signals panel below.</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v2 = fundamentals (max 100) + catalyst (max +5) − risk overlay (max −15), clamped 0-100.</div>
       `}
     </div>` : ""}
 
@@ -9240,69 +9230,11 @@ function renderSwsModal(data) {
       <div style="font-size:12px;line-height:1.7;color:var(--text-primary);white-space:pre-line;">${escapeHtml(card_.narrative.pdf_rationale)}</div>
     </div>` : ""}
 
-    ${livePlaceholder}
-
     <div class="sws-modal-section" style="border-top:none;padding-top:6px;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--text-muted);">
       <div>${file_mtime ? `Deep-scrape mtime: ${new Date(file_mtime).toLocaleString()}` : ""}</div>
       ${card_.sws_url ? `<a href="${card_.sws_url}" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none;">Open on Simply Wall Street →</a>` : ""}
     </div>
   `;
-}
-
-// Lazy live overlay: technical signal + news headlines + recommendation.
-// Hits /api/stock/:symbol after first paint of the modal.
-async function fetchAndRenderSwsLiveOverlay(ticker) {
-  const slot = document.getElementById("swsModalLiveOverlay");
-  if (!slot) return;
-  try {
-    const res = await fetch(`/api/stock/${encodeURIComponent(ticker)}`);
-    if (!res.ok) {
-      slot.innerHTML = `<h4>Live signals</h4><div style="font-size:11px;color:var(--text-muted);">Live engine returned ${res.status} — likely insufficient history (recent IPO) or symbol not on Yahoo.</div>`;
-      return;
-    }
-    const data = await res.json();
-    if (swsModalCurrentTicker !== ticker) return; // user navigated away
-    const tech = data.analysis?.technicalScore;
-    const sent = data.analysis?.sentimentScore;
-    const fund = data.analysis?.fundamentalScore;
-    const combined = data.analysis?.combinedScore;
-    const reco = data.analysis?.recommendation;
-    const surv = data.surveillance;
-    const news = (data.news || []).slice(0, 5);
-    const macro = data.longTerm?.macroBoost;
-
-    const colorPill = (label, val, max = 100) => {
-      if (val == null) return `<div class="sws-stat-cell"><div class="stat-label">${label}</div><div class="stat-value" style="color:var(--text-muted);">—</div></div>`;
-      const col = val >= 70 ? "var(--green)" : val >= 50 ? "var(--cyan)" : val >= 35 ? "var(--gold, #f5c542)" : "var(--red)";
-      return `<div class="sws-stat-cell"><div class="stat-label">${label}</div><div class="stat-value" style="color:${col};">${Math.round(val)}<span style="font-size:10px;color:var(--text-muted);">/${max}</span></div></div>`;
-    };
-
-    const recoColor = !reco ? "var(--text-muted)" :
-      reco.includes("STRONG BUY") || reco === "BUY" ? "var(--green)" :
-      reco === "HOLD" ? "var(--cyan)" :
-      reco.includes("SELL") ? "var(--red)" : "var(--text-muted)";
-
-    slot.innerHTML = `
-      <h4>Live signals — independent live engine (technicals · sentiment · regulatory)</h4>
-      <div class="sws-modal-grid" style="margin-bottom:10px;">
-        ${colorPill("Technicals", tech)}
-        ${colorPill("Sentiment", sent)}
-        ${colorPill("Fundamentals", fund)}
-        ${colorPill("Combined", combined)}
-      </div>
-      ${reco ? `<div style="font-size:13px;margin-bottom:10px;"><span style="color:var(--text-muted);">Recommendation:</span> <strong style="color:${recoColor};">${escapeHtml(reco)}</strong></div>` : ""}
-      ${surv ? `<div style="font-size:11px;color:var(--red);margin-bottom:10px;">⚠ NSE surveillance: <strong>${escapeHtml(surv.list)}</strong>${surv.timeframe ? ` (${escapeHtml(surv.timeframe)})` : ""}${surv.stage ? ` · stage ${escapeHtml(String(surv.stage))}` : ""}</div>` : ""}
-      ${news.length ? `
-        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:14px;">News (${news.length})</div>
-        <ul class="sws-bullet-list" style="margin-top:6px;">
-          ${news.map((n) => `<li>${n.url ? `<a href="${escapeAttr(n.url)}" target="_blank" rel="noopener" style="color:var(--text-primary);text-decoration:none;" onclick="event.stopPropagation();">${escapeHtml(n.title || "(untitled)")}</a>` : escapeHtml(n.title || "")}<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">${n.source ? escapeHtml(n.source) : ""}${n.publishedAt ? ` · ${new Date(n.publishedAt).toLocaleDateString()}` : ""}</div></li>`).join("")}
-        </ul>` : ""}
-      ${macro != null ? `<div style="font-size:10px;color:var(--text-muted);margin-top:10px;">Macro tilt applied: ${macro >= 0 ? "+" : ""}${macro}</div>` : ""}
-      <div style="font-size:10px;color:var(--text-muted);margin-top:10px;">Live data is fetched at modal open from NSE/Yahoo. May lag up to 15 min during market hours.</div>
-    `;
-  } catch (e) {
-    slot.innerHTML = `<h4>Live signals</h4><div style="font-size:11px;color:var(--red);">Live overlay failed: ${escapeHtml(e.message)}</div>`;
-  }
 }
 
 function escapeHtml(s) {
@@ -9397,10 +9329,8 @@ async function openStockDetailModal(symbolOrTicker, sourceTab) {
 
   if (swsData) {
     // SWS-rich path: identical to SWS Picks UX. renderSwsModal paints the
-    // hero/snowflake/valuation/rewards-risks immediately; the live overlay
-    // (tech + sentiment + news + recommendation) folds in afterwards.
+    // full hero/snowflake/valuation/rewards-risks/news view.
     body.innerHTML = renderSwsModal(swsData);
-    fetchAndRenderSwsLiveOverlay(ticker);
   } else {
     // Live-only path: /api/sws-stock 404'd. Render from /api/stock alone.
     body.innerHTML = renderLiveOnlySkeleton(ticker, sourceTab);
@@ -9423,14 +9353,13 @@ function renderLiveOnlySkeleton(ticker, sourceTab) {
     <div class="sws-modal-hero">
       <div style="flex:1;min-width:0;">
         <h2 id="swsModalTitle">${escapeHtml(ticker)} ${watchlistButton(`${ticker}.NS`, ticker, '')}${sourceLabel}</h2>
-        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">Outside SWS deep-scrape universe — using live engine for analysis</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">Outside SWS deep-scrape universe — limited data available</div>
       </div>
     </div>
     <div class="sws-modal-section" id="stockDetailLiveSlot">
-      <h4>Live signals — independent live engine (technicals · sentiment · regulatory)</h4>
       <div style="padding:30px 0;text-align:center;color:var(--text-muted);">
         <div class="loading-spinner" style="margin:0 auto 12px;"></div>
-        <div style="font-size:12px;">Running technical + sentiment + fundamental analysis…</div>
+        <div style="font-size:12px;">Loading…</div>
       </div>
     </div>
   `;
@@ -9443,18 +9372,18 @@ async function fetchAndRenderLiveOnlyDetail(ticker, yahooSymbol, sourceTab) {
   try {
     const res = await fetch(`/api/stock/${encodeURIComponent(yahooSymbol)}`);
     if (!res.ok) {
-      slot.innerHTML = `<h4>Live signals</h4><div style="font-size:12px;color:var(--red);">Live engine returned ${res.status} — likely insufficient history (recent IPO) or symbol not on Yahoo. Try the search bar to look up a different symbol.</div>`;
+      slot.innerHTML = `<h4>Unable to load</h4><div style="font-size:12px;color:var(--red);">Stock data returned ${res.status} — likely insufficient history (recent IPO) or symbol not on Yahoo. Try the search bar to look up a different symbol.</div>`;
       return;
     }
     data = await res.json();
   } catch (e) {
-    slot.innerHTML = `<h4>Live signals</h4><div style="font-size:12px;color:var(--red);">Network error loading live data: ${escapeHtml(e.message)}</div>`;
+    slot.innerHTML = `<h4>Unable to load</h4><div style="font-size:12px;color:var(--red);">Network error: ${escapeHtml(e.message)}</div>`;
     return;
   }
   if (swsModalCurrentTicker !== ticker) return; // user navigated away
 
   if (data.error) {
-    slot.innerHTML = `<h4>Live signals</h4><div style="font-size:12px;color:var(--red);">${escapeHtml(data.error)}</div>`;
+    slot.innerHTML = `<h4>Unable to load</h4><div style="font-size:12px;color:var(--red);">${escapeHtml(data.error)}</div>`;
     return;
   }
 
@@ -9466,33 +9395,15 @@ async function fetchAndRenderLiveOnlyDetail(ticker, yahooSymbol, sourceTab) {
 
 function renderLiveOnlyModal(ticker, data, sourceTab) {
   const quote = data.quote || {};
-  const analysis = data.analysis || {};
   const fundamentals = data.fundamentals || {};
   const longTerm = data.longTerm || {};
   const surv = data.surveillance;
   const news = (data.news || []).slice(0, 5);
 
-  const tech = analysis.technicalScore;
-  const sent = analysis.sentimentScore;
-  const fund = analysis.fundamentalScore;
-  const combined = analysis.combinedScore;
-  const reco = analysis.recommendation;
-
   const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)} L Cr` : v >= 1e7 ? `₹${(v / 1e7).toFixed(v >= 1e10 ? 0 : 2)} Cr` : `₹${Number(v).toLocaleString("en-IN")}`;
   const sourceLabel = sourceTab ? `<span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.5px;background:rgba(96,165,250,0.15);color:#60a5fa;margin-left:8px;">${escapeHtml(sourceTab)}</span>` : "";
 
   const survBadge = surv ? `<span class="sws-surveillance-badge" title="NSE ${surv.list} surveillance flag (${surv.timeframe || "—"})">${escapeHtml(surv.list)}</span>` : "";
-
-  const recoColor = !reco ? "var(--text-muted)" :
-    reco.includes("STRONG BUY") || reco === "BUY" ? "var(--green)" :
-    reco === "HOLD" ? "var(--cyan)" :
-    reco.includes("SELL") ? "var(--red)" : "var(--text-muted)";
-
-  const colorPill = (label, val, max = 100) => {
-    if (val == null) return `<div class="sws-stat-cell"><div class="stat-label">${label}</div><div class="stat-value" style="color:var(--text-muted);">—</div></div>`;
-    const col = val >= 70 ? "var(--green)" : val >= 50 ? "var(--cyan)" : val >= 35 ? "var(--gold, #f5c542)" : "var(--red)";
-    return `<div class="sws-stat-cell"><div class="stat-label">${label}</div><div class="stat-value" style="color:${col};">${Math.round(val)}<span style="font-size:10px;color:var(--text-muted);">/${max}</span></div></div>`;
-  };
 
   // Fundamentals quick stats — pull from V2 if present, fall back to V1.
   const fundV2 = fundamentals.shadowV2 || fundamentals.v2 || null;
@@ -9513,23 +9424,7 @@ function renderLiveOnlyModal(ticker, data, sourceTab) {
       <div style="flex:1;min-width:0;">
         <h2 id="swsModalTitle">${escapeHtml(ticker)} ${watchlistButton(`${ticker}.NS`, quote.name || fundCore.name || ticker, fundCore.sector || '')}${survBadge}${sourceLabel}</h2>
         <div style="font-size:13px;color:var(--text-muted);">${escapeHtml(quote.name || fundCore.name || ticker)}${fundCore.sector ? ` · ${escapeHtml(fundCore.sector)}` : ""}</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:6px;">⚠ Outside SWS deep-scrape universe — analysis from independent live engine only (no Snowflake / fair-value / SWS rewards-risks)</div>
-      </div>
-      ${reco ? `
-        <div class="sws-modal-score">
-          <div class="score-value" style="color:${recoColor};font-size:18px;line-height:1.2;">${escapeHtml(reco)}</div>
-          ${combined != null ? `<div class="score-label" style="color:var(--text-muted);">Combined ${Math.round(combined)}/100</div>` : ""}
-        </div>
-      ` : ""}
-    </div>
-
-    <div class="sws-modal-section">
-      <h4>Live engine scores</h4>
-      <div class="sws-modal-grid" style="margin-bottom:6px;">
-        ${colorPill("Technicals", tech)}
-        ${colorPill("Sentiment", sent)}
-        ${colorPill("Fundamentals", fund)}
-        ${colorPill("Combined", combined)}
+        <div style="font-size:11px;color:var(--text-muted);margin-top:6px;">⚠ Outside SWS deep-scrape universe — limited data available (no Snowflake / fair-value / SWS rewards-risks)</div>
       </div>
     </div>
 
