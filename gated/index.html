@@ -2714,6 +2714,13 @@
       .sws-pick-chipnav { flex-direction: column; align-items: stretch; gap: 8px; }
       .sws-pick-chipnav-actions { justify-content: flex-end; }
     }
+    /* Header collapses to 48px at ≤480px (see the mobile header block above),
+       so the sticky chipnav has to follow or a sliver of page-bg shows through.
+       Placed after the desktop `.sws-pick-chipnav { top: 64px }` rule so the
+       override actually wins on equal-specificity tie-break. */
+    @media (max-width: 480px) {
+      .sws-pick-chipnav { top: 48px; }
+    }
 
     /* Universe radio toggle: All vs Nifty 500. Sits above the chip-nav. */
     .sws-pick-index-filter {
@@ -2820,7 +2827,10 @@
     }
     @media (max-width: 720px) {
       .sws-pick-filters { flex-direction: column; align-items: stretch; }
-      .sws-pick-search-wrap { max-width: none; }
+      /* flex-basis 280px becomes a *height* once the parent flips to column,
+         which makes the wrap ~280px tall and the absolutely-positioned magnifying-
+         glass icon float in empty space below the input. */
+      .sws-pick-search-wrap { max-width: none; flex: 0 0 auto; }
     }
 
     /* Sticky loading banner shown while /api/sws-picks is in flight. Sits at
