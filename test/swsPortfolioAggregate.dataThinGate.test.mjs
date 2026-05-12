@@ -66,6 +66,62 @@ test("predicate: snowflake_total flat field (no .total subkey) read correctly", 
   assert.equal(_isSwsDataTooThinToReduce(h), true);
 });
 
+test("predicate: snow=1 phantom valuation pillar (multiples null, fundamentals null) → too thin", () => {
+  // TMCV post-2026-05-12 refresh: SWS computes a consensus fair value
+  // (yielding snowflake.valuation=1) without populating any multiples or
+  // fundamentals. The lone pillar is FV-only, not real signal.
+  const h = makeHolding({ sws: {
+    snowflake: { total: 1, valuation: 1, future_growth: 0, past_performance: 0, financial_health: 0, dividends: 0 },
+    multiples: { pe: null, ps: null, pb: null, ev_ebitda: null },
+    net_margin_pct: null,
+    revenue_growth_pct: null,
+    earnings_growth_pct: null,
+    last_quarter_result: null,
+  }});
+  assert.equal(_isSwsDataTooThinToReduce(h), true);
+});
+
+test("predicate: snow=1 with a real fundamentals signal (e.g., net_margin) → NOT too thin", () => {
+  // If SWS has any real fundamentals number, the single non-zero pillar
+  // is no longer phantom — the engine has real data to reason from.
+  const h = makeHolding({ sws: {
+    snowflake: { total: 1, valuation: 1 },
+    multiples: { pe: null, ps: null, pb: null, ev_ebitda: null },
+    net_margin_pct: 8.5,
+  }});
+  assert.equal(_isSwsDataTooThinToReduce(h), false);
+});
+
+test("predicate: snow=2 with no multiples and no fundamentals → NOT too thin (snow signal real enough)", () => {
+  // Two non-zero pillars indicate SWS has populated at least two of the
+  // five categories. Predicate trusts the snowflake at this point.
+  const h = makeHolding({ sws: {
+    snowflake: { total: 2, valuation: 1, dividends: 1 },
+    multiples: { pe: null, ps: null, pb: null, ev_ebitda: null },
+  }});
+  assert.equal(_isSwsDataTooThinToReduce(h), false);
+});
+
+test("buildTiers: TMCV-shaped snow=1 phantom pillar still routes to Tier D", () => {
+  const h = makeHolding({
+    symbol: "TMCV",
+    action: "Reduction-50%",
+    sws: {
+      v3_score: 18,
+      snowflake: { total: 1, valuation: 1, future_growth: 0, past_performance: 0, financial_health: 0, dividends: 0 },
+      multiples: { pe: null, ps: null, pb: null, ev_ebitda: null },
+      net_margin_pct: null,
+      revenue_growth_pct: null,
+      earnings_growth_pct: null,
+      last_quarter_result: null,
+    },
+  });
+  const r = buildTiers([h]);
+  assert.equal(r.tierA.length, 0, "should not be in Tier A");
+  assert.equal(r.tierD.length, 1, "should be in Tier D");
+  assert.match(r.tierD[0].watchReason, /Insufficient SWS coverage/);
+});
+
 test("buildTiers: TMCV-shaped Reduction → Tier D Watch with insufficient-coverage reason", () => {
   const h = makeHolding({ symbol: "TMCV", action: "Reduction-50%" });
   const r = buildTiers([h]);
