@@ -38,6 +38,13 @@ users.json
 .vscode/
 *.swp
 
+# Claude Code local state (worktrees + scheduled-task locks). These appear
+# untracked in main and would otherwise collide with incoming commits and
+# block the nightly's `git pull --ff-only`.
+.claude/scheduled_tasks.lock
+.claude/worktrees/
+.macro-regime-cache.json
+
 # Logs + temp output
 npm-debug.log*
 yarn-debug.log*
@@ -87,6 +94,15 @@ data/sws/universe_scraped.json
 data/sws/refresh-requested.json
 data/sws/panic-stop.flag
 data/sws/picks-latest.json.tmp.*
+
+# Locally-generated transient SWS files — produced during daytime
+# interactive/dashboard runs (sws-news-scrape, sws-stamp-section-status)
+# but never committed by the nightly. Without these ignores, an incoming
+# commit that introduces a tracked file at the same path collides with
+# the local untracked file and aborts `git pull --ff-only`.
+data/sws/news-latest.json
+data/sws/news-progress.json
+data/sws/picks-previous.json
 
 # SWS API pipeline — runtime caches, raw payloads, research captures
 data/sws/.jwt-cache.json
