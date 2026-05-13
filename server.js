@@ -73,6 +73,8 @@ import { parsePortfolioFile, resolveUnmatchedLive, toIsoDate } from "./portfolio
 import { buildReport } from "./portfolioAnalyzer.js";
 import { scoreHolding as swsScoreHolding, loadV3Universe } from "./services/swsHoldingEngine.js";
 import { scoreStock as swsScoreStock, valuationBandFromUpside } from "./services/swsScoring.js";
+import { buildCalibration as buildTrackCalibration } from "./services/trackRecord/calibration.js";
+import { buildSymbolEarningsCalibration } from "./services/trackRecord/earningsCalibration.js";
 import * as swsDal from "./services/swsDal/index.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
 import { buildSWSReport, surfaceOutsidePicks } from "./services/swsPortfolioAggregate.js";
@@ -267,11 +269,16 @@ app.use(cors());
 // it the limiter would lump all users into one global counter.
 app.set("trust proxy", 1);
 
+// Rate limiters are bypassed when NODE_ENV=test so the Playwright e2e harness
+// can drive the SPA without tripping the 60 req/min window. Production keeps
+// the gate.
+const isTestEnv = process.env.NODE_ENV === "test";
 const apiLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 60,
   standardHeaders: "draft-7", // emits the RateLimit-* response headers
   legacyHeaders: false,
+  skip: () => isTestEnv,
   message: { error: "Too many requests. Please slow down (60 req/min limit)." },
 });
 
@@ -280,6 +287,7 @@ const stockDetailLimiter = rateLimit({
   max: 30,
   standardHeaders: "draft-7",
   legacyHeaders: false,
+  skip: () => isTestEnv,
   message: { error: "Too many stock detail requests. Please slow down (30 req/min limit)." },
 });
 
@@ -1031,6 +1039,56 @@ async function fetchNews(symbol) {
 }
 
 // ==================== API ROUTES ====================
+
+/**
+ * POST /api/telemetry
+ *
+ * Append-only event log for KPI measurement (NS-1 Time-to-Verdict, NS-5
+ * Watchlist→action conversion). Local dev only — Vercel's FS is read-only,
+ * so the endpoint is a no-op there. Each call appends one NDJSON line to
+ * `data/telemetry/events.ndjson`.
+ *
+ * Body: { event, page, ts, sessionId, payload? }
+ *   event     — string, required, ≤ 64 chars (e.g. "page_load", "verdict_visible")
+ *   page      — string, required, ≤ 64 chars (current tab id)
+ *   ts        — number, required (Date.now() at emit)
+ *   sessionId — string, required, ≤ 64 chars (client-generated UUID)
+ *   payload   — object, optional, body cap 4KB
+ *
+ * Always 204 / never blocks. Errors are swallowed so telemetry never
+ * affects user-visible behaviour.
+ */
+const TELEMETRY_DIR = path.join(__dirname, "data", "telemetry");
+const TELEMETRY_FILE = path.join(TELEMETRY_DIR, "events.ndjson");
+const TELEMETRY_ENABLED = !process.env.VERCEL;
+app.post("/api/telemetry", express.json({ limit: "8kb" }), async (req, res) => {
+  if (!TELEMETRY_ENABLED) return res.status(204).end();
+  try {
+    const { event, page: pageName, ts, sessionId, payload } = req.body || {};
+    const isShort = (v, n) => typeof v === "string" && v.length > 0 && v.length <= n;
+    if (!isShort(event, 64) || !isShort(pageName, 64) || !isShort(sessionId, 64)) {
+      return res.status(204).end();
+    }
+    if (typeof ts !== "number" || !Number.isFinite(ts)) return res.status(204).end();
+    const record = {
+      event,
+      page: pageName,
+      ts,
+      sessionId,
+      sub: (req.user && req.user.sub) || null,
+      ua: (req.headers["user-agent"] || "").slice(0, 200),
+      payload: payload && typeof payload === "object" ? payload : null,
+    };
+    await fs.promises.mkdir(TELEMETRY_DIR, { recursive: true });
+    await fs.promises.appendFile(TELEMETRY_FILE, JSON.stringify(record) + "\n");
+  } catch (err) {
+    // Never let telemetry failures escape — log once and move on.
+    if (!process.env.TELEMETRY_QUIET) {
+      console.warn("[TELEMETRY] append failed:", err && err.message);
+    }
+  }
+  res.status(204).end();
+});
 
 /**
  * Search for Indian stocks
@@ -2354,6 +2412,55 @@ function loadCachedEarningsSnapshot() {
   return snap;
 }
 
+// PR E5 — per-symbol earnings calibration. Drives the "last N BEAT calls
+// on this stock" footer line on every Earnings Watch card. Same admin
+// gate as the rest of /api/earnings/*; non-admin gets 403 and the
+// front-end render falls back to the symbol-less branch (no footer).
+app.get("/api/earnings/calibration", async (req, res) => {
+  if (!(await requireEarningsAdmin(req, res))) return;
+  try {
+    const { loadAllHistory } = await import("./services/earnings/earningsHistoryArchive.js");
+    const history = loadAllHistory();
+    const snapshotPath = path.join(__dirname, "data", "catalysts", "earnings-backtest-latest.json");
+    let snapshot = null;
+    if (fs.existsSync(snapshotPath)) {
+      try { snapshot = JSON.parse(fs.readFileSync(snapshotPath, "utf8")); } catch {}
+    }
+    const map = buildSymbolEarningsCalibration(history, snapshot);
+    const payload = {
+      generated_at: new Date().toISOString(),
+      platform_brier: snapshot && Number.isFinite(snapshot.brier) ? snapshot.brier : null,
+      symbols: Object.fromEntries(map),
+    };
+    res.json(payload);
+  } catch (err) {
+    console.error("[EARNINGS] /api/earnings/calibration failed:", err && err.message);
+    res.status(500).json({ error: "earnings calibration failed: " + (err && err.message) });
+  }
+});
+
+// PR B8 — earnings backtest snapshot endpoint. Serves the JSON written
+// by scripts/backtest-earnings-predictions.mjs on its nightly run.
+// Mirrors the admin gate of every other /api/earnings/* surface.
+app.get("/api/earnings/backtest", async (req, res) => {
+  if (!(await requireEarningsAdmin(req, res))) return;
+  try {
+    const filePath = path.join(__dirname, "data", "catalysts", "earnings-backtest-latest.json");
+    if (!fs.existsSync(filePath)) {
+      return res.json({
+        missing: true,
+        message: "No earnings backtest snapshot yet. Run `node scripts/backtest-earnings-predictions.mjs`.",
+      });
+    }
+    const raw = fs.readFileSync(filePath, "utf8");
+    res.set("X-Earnings-Backtest", "file");
+    res.json(JSON.parse(raw));
+  } catch (err) {
+    console.error("[EARNINGS] /api/earnings/backtest failed:", err && err.message);
+    res.status(500).json({ error: "earnings backtest failed: " + (err && err.message) });
+  }
+});
+
 app.get("/api/earnings/upcoming", async (req, res) => {
   if (!(await requireEarningsAdmin(req, res))) return;
   try {
@@ -3626,13 +3733,27 @@ const trackCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
  * Query params:
  *   ?type=buynow_nifty100|smallcap_buynow|fundamental_deep_value  — filter
  *   ?days=30                                                      — last N days
+ *   ?symbol=HDFCBANK                                              — single-symbol filter (PR T6)
  *   ?bust=1                                                       — skip cache
+ *
+ * PR T6 — symbol filter underwrites the per-stock "we said X N days ago"
+ * strip on the stock-detail modal. The normaliser strips .NS / .BO / BSE:
+ * / NSE: prefixes + uppercases so the caller doesn't have to canonicalise.
  */
+function _normaliseTrackSymbol(s) {
+  if (!s) return "";
+  return String(s)
+    .toUpperCase()
+    .replace(/^(BSE|NSE):/, "")
+    .replace(/\.(NS|BO)$/, "")
+    .trim();
+}
 app.get("/api/track/history", async (req, res) => {
   try {
     const filterType = req.query.type || null;
     const dayLimit = req.query.days ? parseInt(req.query.days, 10) : null;
-    const cacheKey = `track_history_${filterType || "all"}_${dayLimit || "all"}`;
+    const symbolFilter = req.query.symbol ? _normaliseTrackSymbol(req.query.symbol) : null;
+    const cacheKey = `track_history_${filterType || "all"}_${dayLimit || "all"}_${symbolFilter || "all"}`;
 
     if (!req.query.bust) {
       const cached = trackCache.get(cacheKey);
@@ -3645,6 +3766,9 @@ app.get("/api/track/history", async (req, res) => {
     let trades = await readAllTrades();
 
     if (filterType) trades = trades.filter((t) => t.type === filterType);
+    if (symbolFilter) {
+      trades = trades.filter((t) => _normaliseTrackSymbol(t.symbol) === symbolFilter);
+    }
     if (dayLimit) {
       const cutoff = Date.now() - dayLimit * 86400000;
       trades = trades.filter((t) => new Date(t.snapshotAt).getTime() >= cutoff);
@@ -3717,6 +3841,27 @@ app.get("/api/track/history", async (req, res) => {
   } catch (err) {
     console.error("[PAPERTRADES] /api/track/history failed:", err.message);
     res.status(500).json({ error: "Track history failed: " + err.message });
+  }
+});
+
+/**
+ * GET /api/track/calibration  — PR T7
+ *
+ * Builds the 5-bucket calibration profile for the front-end SVG plot.
+ * Backed by services/trackRecord/calibration.js; thin (n < 30) buckets
+ * are flagged so the UI greys them out rather than implying confidence.
+ */
+app.get("/api/track/calibration", async (req, res) => {
+  try {
+    const trades = await readAllTrades();
+    const payload = buildTrackCalibration(trades);
+    res.json({
+      ...payload,
+      computedAt: new Date().toISOString(),
+    });
+  } catch (err) {
+    console.error("[TRACK] /api/track/calibration failed:", err && err.message);
+    res.status(500).json({ error: "calibration failed: " + (err && err.message) });
   }
 });
 

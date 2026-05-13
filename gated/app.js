@@ -28,6 +28,66 @@ const dashboard = document.getElementById("dashboard");
 // gracefully if anything still references the old shape.
 window.RA_CONFIG = { methodologyVersion: null };
 
+// ==================== TELEMETRY ====================
+//
+// Tiny fire-and-forget client for the KPI dataset behind NS-1 Time-to-Verdict,
+// NS-5 Watchlist→action conversion, and basic retention. Backed by
+// POST /api/telemetry which appends one NDJSON line per event in local dev
+// (no-op on Vercel because the FS is read-only there).
+//
+// Public API:
+//   telemetry.emit(event, payload?)         — generic event
+//   telemetry.markVerdictVisible(surface)   — call once per page when the
+//     headline verdict / KPI hero is on screen. NS-1 = ts(this) − ts(page_load).
+const telemetry = (() => {
+  const SESSION_KEY = "starbhai_telemetry_session";
+  let sessionId = "";
+  try {
+    sessionId = sessionStorage.getItem(SESSION_KEY) || "";
+    if (!sessionId) {
+      sessionId =
+        (typeof crypto !== "undefined" && crypto.randomUUID
+          ? crypto.randomUUID()
+          : `s-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`);
+      sessionStorage.setItem(SESSION_KEY, sessionId);
+    }
+  } catch {
+    sessionId = `s-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  }
+  const verdictMarkedFor = new Set();
+  function emit(event, payload) {
+    try {
+      const body = JSON.stringify({
+        event: String(event).slice(0, 64),
+        page: String(currentView || "unknown").slice(0, 64),
+        ts: Date.now(),
+        sessionId,
+        payload: payload && typeof payload === "object" ? payload : undefined,
+      });
+      const beacon = navigator.sendBeacon && navigator.sendBeacon.bind(navigator);
+      if (beacon) {
+        const blob = new Blob([body], { type: "application/json" });
+        if (beacon("/api/telemetry", blob)) return;
+      }
+      fetch("/api/telemetry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body,
+        keepalive: true,
+      }).catch(() => {});
+    } catch {}
+  }
+  function markVerdictVisible(surface) {
+    const key = String(surface || currentView || "unknown");
+    if (verdictMarkedFor.has(key)) return;
+    verdictMarkedFor.add(key);
+    emit("verdict_visible", { surface: key });
+  }
+  return { emit, markVerdictVisible, sessionId };
+})();
+window.telemetry = telemetry;
+telemetry.emit("page_load", { ua: navigator.userAgent.slice(0, 200) });
+
 // ==================== AUTH (header user menu) ====================
 //
 // Populates the avatar/name/email in the header from /api/auth/me, and
@@ -114,6 +174,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // for 30s; a 60s refresh keeps the indices fresh without hammering upstreams.
   loadMarketData();
   setInterval(loadMarketData, 60 * 1000);
+  // PR W3 — hydrate the in-memory `watchlist` Set before the first
+  // openSwsModal renders, so the modal star paints with the correct
+  // aria-pressed even when the user hasn't visited the Watchlist tab.
+  hydrateWatchlistSet();
+  // PR T5 — sync the misses-shown checkbox + label with the persisted
+  // localStorage state before loadTrackRecord runs. Sticky-ON default.
+  hydrateMissesShownToggle();
   switchTab('picks');
   setupSearch();
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
@@ -125,6 +192,29 @@ document.addEventListener("DOMContentLoaded", () => {
   loadSnapshotHealth();
   setInterval(loadSnapshotHealth, 60 * 60 * 1000);
 });
+
+// PR W3 — fire-and-forget watchlist Set hydration. Run on boot so the
+// modal-star aria-pressed paints correctly even before the Watchlist tab
+// is visited. Failures stay silent — the Watchlist tab itself re-syncs
+// the Set when opened.
+async function hydrateWatchlistSet() {
+  try {
+    const res = await fetch("/api/watchlist");
+    if (!res.ok) return;
+    const data = await res.json();
+    if (Array.isArray(data.stocks)) {
+      watchlist = new Set(data.stocks.map((s) => s.symbol));
+    }
+  } catch { /* silent — non-critical */ }
+}
+
+function hydrateMissesShownToggle() {
+  const cb = document.getElementById("trackMissesShownToggle");
+  const lbl = document.getElementById("trackMissesShownLabel");
+  const on = getMissesShown();
+  if (cb) cb.checked = on;
+  if (lbl) lbl.textContent = on ? "Shown" : "Hidden";
+}
 
 // ==================== SNAPSHOT HEALTH BANNER ====================
 //
@@ -1946,6 +2036,7 @@ function renderTransitionAlert(transition) {
 // ==================== TABS ====================
 
 function switchTab(tab) {
+  try { telemetry.emit("tab_switch", { from: currentView, to: tab }); } catch {}
   const tabs = document.querySelectorAll("#mainTabs .tab");
   // A11y: mirror aria-selected on every tab so screen readers announce the
   // active tab correctly. The actual activation happens further down where
@@ -3191,6 +3282,213 @@ const TRACK_TYPE_LABELS = {
 // under-performed the index, as we predicted.
 const TRACK_SHORT_TYPES = new Set(["sws_avoid"]);
 
+// PR T5 — Track Record hero state. Misses-shown defaults ON per locked
+// decision (hiding losers destroys trust); we still persist user toggles
+// across reloads via localStorage, but the absence of a stored value or a
+// parse failure reverts to ON. Sticky-ON contract.
+const TRACK_MISSES_KEY = "starbhai_missesShown";
+function getMissesShown() {
+  try {
+    const raw = localStorage.getItem(TRACK_MISSES_KEY);
+    if (raw == null) return true; // default ON
+    return raw !== "off";
+  } catch {
+    return true; // localStorage disabled (private browsing) → in-memory ON
+  }
+}
+function setMissesShown(on) {
+  try { localStorage.setItem(TRACK_MISSES_KEY, on ? "on" : "off"); } catch {}
+}
+// Latest trades array captured by loadTrackRecord so the toggle can
+// re-render the history table without re-fetching.
+let _trackLastTrades = null;
+// PR B8 will populate this when the backtest endpoint ships; for now the
+// hero shows "—" with a backfilling sub-line.
+let _trackLastBrier = null;
+
+window.onTrackMissesShownToggle = function onTrackMissesShownToggle(on) {
+  setMissesShown(!!on);
+  const lbl = document.getElementById("trackMissesShownLabel");
+  if (lbl) lbl.textContent = on ? "Shown" : "Hidden";
+  const tableEl = document.getElementById("trackHistoryTable");
+  if (tableEl && Array.isArray(_trackLastTrades)) {
+    tableEl.innerHTML = renderTrackHistoryTable(_trackLastTrades);
+  }
+};
+
+function populateTrackHero(perf, data) {
+  const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+  const setHtml = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
+
+  // Hit Rate — perf.winRate is already a %. Color it via the verdict
+  // palette so the eye lands on it first.
+  if (perf.winRate != null) {
+    const sc = signedColorFor(perf.winRate - 50);
+    setHtml("trackHitRateValue",
+      `<span style="color:${perf.winRate >= 50 ? "var(--positive)" : "var(--negative)"};">${perf.winRate}%</span>`);
+    setText("trackHitRateSub", `n = ${perf.total || 0} picks`);
+  } else {
+    setText("trackHitRateValue", "—");
+    setText("trackHitRateSub", "no picks yet");
+  }
+
+  // Avg α — fall back to avgReturn when the explicit alpha field is absent.
+  const alpha = (perf.avgAlpha != null) ? perf.avgAlpha : perf.avgReturn;
+  if (alpha != null && Number.isFinite(alpha)) {
+    const sc = signedColorFor(alpha);
+    setHtml("trackAvgAlphaValue",
+      `<span style="color:${sc.color};" aria-label="${sc.srLabel}"><span aria-hidden="true">${sc.glyph}</span> ${alpha >= 0 ? "+" : ""}${alpha.toFixed(2)}%</span>`);
+  } else {
+    setText("trackAvgAlphaValue", "—");
+  }
+
+  // % Beat Nifty — paint above-55 green, below-45 red, otherwise warn.
+  if (perf.beatsNiftyRate != null && Number.isFinite(perf.beatsNiftyRate)) {
+    const colour = perf.beatsNiftyRate >= 55 ? "var(--positive)" :
+                   perf.beatsNiftyRate >= 45 ? "var(--warn)" :
+                   "var(--negative)";
+    setHtml("trackBeatNiftyValue", `<span style="color:${colour};">${perf.beatsNiftyRate}%</span>`);
+    // Wilson-style CI matches the maturity-warning logic at line 3337.
+    if (perf.total > 5) {
+      const p = perf.beatsNiftyRate / 100;
+      const n = perf.benchmarkSampleSize || perf.total;
+      const se = Math.sqrt(p * (1 - p) / n);
+      const lo = Math.max(0, (p - 1.96 * se) * 100).toFixed(0);
+      const hi = Math.min(100, (p + 1.96 * se) * 100).toFixed(0);
+      setText("trackBeatNiftySub", `CI ${lo}–${hi}%`);
+    } else {
+      setText("trackBeatNiftySub", "thin sample");
+    }
+  } else {
+    setText("trackBeatNiftyValue", "—");
+    setText("trackBeatNiftySub", "—");
+  }
+
+  // Brier — populated by PR B8 when the backtest endpoint ships. Honest
+  // empty state until then.
+  if (_trackLastBrier != null && Number.isFinite(_trackLastBrier)) {
+    const sub = _trackLastBrier <= 0.18 ? "target ≤ 0.18" : `closing on 0.18`;
+    setText("trackBrierValue", _trackLastBrier.toFixed(3));
+    setText("trackBrierSub", sub);
+  } else {
+    setText("trackBrierValue", "—");
+    setText("trackBrierSub", "backfilling — PR B8");
+  }
+
+  // Subline below the hero strip — honest sample size + oldest snapshot.
+  const oldestSnap = (Array.isArray(data.trades) && data.trades.length)
+    ? data.trades[data.trades.length - 1]?.snapshotAt
+    : null;
+  const ageDays = oldestSnap
+    ? Math.floor((Date.now() - new Date(oldestSnap).getTime()) / 86400000)
+    : null;
+  const subBits = [];
+  if (perf.total != null) subBits.push(`${perf.total} pick${perf.total === 1 ? "" : "s"}`);
+  if (ageDays != null) subBits.push(`${ageDays} day${ageDays === 1 ? "" : "s"} of history`);
+  if (perf.total != null && perf.total < 100) subBits.push("Early data — need ~100 picks for statistical significance");
+  setText("trackHeroSubline", subBits.join(" · "));
+}
+
+// PR T7 — calibration plot. 5-bucket SVG bar grid, no chart library;
+// rendered below the Track Record hero. Thin buckets (n < 30) paint
+// greyed with a "thin data" badge so the UI never implies confidence in
+// a 4-sample bucket.
+async function loadTrackCalibration() {
+  const wrap = document.getElementById("trackCalibrationSvgWrap");
+  if (!wrap) return;
+  try {
+    const res = await fetch("/api/track/calibration");
+    if (!res.ok) {
+      wrap.innerHTML = `<div class="tx-meta">Calibration unavailable.</div>`;
+      return;
+    }
+    const data = await res.json();
+    wrap.innerHTML = renderCalibrationSvg(data);
+    const sub = document.getElementById("trackCalibrationSub");
+    if (sub) {
+      sub.textContent = data.resolved && data.resolved > 0
+        ? `${data.resolved} of ${data.total || data.resolved} forecasts bucketed by predicted confidence`
+        : "No resolved forecasts yet — chart fills in as snapshots mature";
+    }
+  } catch (e) {
+    wrap.innerHTML = `<div class="tx-meta" style="color: var(--negative);">Calibration error: ${escapeHtml(e && e.message || "unknown")}</div>`;
+  }
+}
+
+function renderCalibrationSvg(data) {
+  const buckets = (data && Array.isArray(data.buckets)) ? data.buckets : [];
+  if (buckets.length === 0) {
+    return `<div class="tx-meta" style="padding:20px 0;">No buckets to plot yet.</div>`;
+  }
+  // SVG geometry — 600 × 260 viewBox, scales fluidly. Plot area inset for
+  // axis labels: left=42, right=12, top=12, bottom=42.
+  const W = 600, H = 260;
+  const padL = 42, padR = 12, padT = 12, padB = 42;
+  const innerW = W - padL - padR;
+  const innerH = H - padT - padB;
+  const xFor = (pct) => padL + (pct / 100) * innerW;
+  const yFor = (pct) => padT + (1 - pct / 100) * innerH;
+  // Reference 45° diagonal — perfect-calibration line.
+  const diag = `M${xFor(0)},${yFor(0)} L${xFor(100)},${yFor(100)}`;
+  const bars = buckets.map((b) => {
+    const x = xFor(b.bucket_low);
+    const width = xFor(b.bucket_high) - x;
+    if (b.realised_pct == null) {
+      // Empty bucket — placeholder marker only.
+      return `<g><rect x="${x.toFixed(2)}" y="${yFor(0).toFixed(2)}" width="${width.toFixed(2)}" height="0" /></g>`;
+    }
+    const y = yFor(b.realised_pct);
+    const height = yFor(0) - y;
+    const fill = b.thin ? "rgba(237,237,237,0.18)" : "var(--positive)";
+    const stroke = b.thin ? "rgba(237,237,237,0.35)" : "var(--positive-strong)";
+    const ciTop = yFor(b.ci_hi_pct);
+    const ciBot = yFor(b.ci_lo_pct);
+    const ciCx = x + width / 2;
+    const title = `predicted ${b.bucket_low}–${b.bucket_high}% · realised ${b.realised_pct.toFixed(1)}% · n=${b.n} · CI ${b.ci_lo_pct.toFixed(0)}–${b.ci_hi_pct.toFixed(0)}%${b.thin ? " · thin data (n<30)" : ""}`;
+    return `
+      <g aria-label="${title}">
+        <title>${title}</title>
+        <rect x="${(x + 4).toFixed(2)}" y="${y.toFixed(2)}" width="${(width - 8).toFixed(2)}" height="${height.toFixed(2)}"
+              fill="${fill}" stroke="${stroke}" stroke-width="1" rx="3" />
+        <line x1="${ciCx.toFixed(2)}" y1="${ciTop.toFixed(2)}" x2="${ciCx.toFixed(2)}" y2="${ciBot.toFixed(2)}"
+              stroke="${b.thin ? "rgba(237,237,237,0.4)" : "var(--gold)"}" stroke-width="2" />
+        <text x="${ciCx.toFixed(2)}" y="${(y - 4).toFixed(2)}" text-anchor="middle"
+              style="font-family: var(--font-mono); font-size: 11px; fill: var(--text-secondary);">
+          ${b.realised_pct.toFixed(0)}${b.thin ? "·" : ""}
+        </text>
+        <text x="${ciCx.toFixed(2)}" y="${(yFor(0) + 14).toFixed(2)}" text-anchor="middle"
+              style="font-family: var(--font-mono); font-size: 10px; fill: var(--text-muted);">
+          n=${b.n}
+        </text>
+      </g>`;
+  }).join("");
+  // Axis ticks (0/25/50/75/100 %)
+  const ticks = [0, 25, 50, 75, 100];
+  const yTicks = ticks.map((t) => `
+    <line x1="${padL}" y1="${yFor(t)}" x2="${W - padR}" y2="${yFor(t)}" stroke="rgba(255,255,255,0.04)" />
+    <text x="${padL - 6}" y="${(yFor(t) + 3).toFixed(2)}" text-anchor="end"
+          style="font-family: var(--font-mono); font-size: 10px; fill: var(--text-muted);">${t}%</text>`).join("");
+  const xTicks = ticks.map((t) => `
+    <text x="${xFor(t).toFixed(2)}" y="${(H - 6).toFixed(2)}" text-anchor="middle"
+          style="font-family: var(--font-mono); font-size: 10px; fill: var(--text-muted);">${t}%</text>`).join("");
+  return `
+    <svg id="trackCalibrationSvg" viewBox="0 0 ${W} ${H}" width="100%"
+         style="display:block; max-width: 720px; height: auto;" role="img" aria-label="Calibration plot — predicted confidence vs realised hit-rate, 5 buckets">
+      ${yTicks}
+      <path d="${diag}" stroke="var(--text-muted)" stroke-dasharray="4 4" stroke-width="1" fill="none" />
+      ${bars}
+      ${xTicks}
+      <text x="${(W / 2).toFixed(2)}" y="${(H - padB / 2 + 18).toFixed(2)}" text-anchor="middle"
+            style="font-family: var(--font-sans); font-size: 11px; fill: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em;">
+        Predicted confidence bucket
+      </text>
+      <text transform="translate(14 ${(H / 2).toFixed(2)}) rotate(-90)" text-anchor="middle"
+            style="font-family: var(--font-sans); font-size: 11px; fill: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em;">
+        Realised hit-rate
+      </text>
+    </svg>`;
+}
+
 async function loadTrackRecord(forceBust = false) {
   const filterEl = document.getElementById("trackFilter");
   const filterType = filterEl?.value && filterEl.value !== "all" ? filterEl.value : null;
@@ -3202,6 +3500,17 @@ async function loadTrackRecord(forceBust = false) {
   // V2 — kick off the per-section scorecard fetch in parallel. It paints
   // independently of the headline metrics and trade list.
   loadTrackSections(forceBust);
+  // PR T7 — calibration plot fetches in parallel; renders below the hero.
+  loadTrackCalibration();
+  // PR B8 — admin-only backtest card. Client-side gates the mount: if the
+  // user is admin we call the loader (which itself bails on 403 just in
+  // case); non-admin Track Record renders without the card entirely.
+  if (window.__starbhai_isAdmin && typeof loadEarningsBacktestCard === "function") {
+    loadEarningsBacktestCard("trackEarningsBacktestHost");
+  } else {
+    const host = document.getElementById("trackEarningsBacktestHost");
+    if (host) host.innerHTML = "";
+  }
 
   try {
     const res = await fetch(url);
@@ -3213,6 +3522,13 @@ async function loadTrackRecord(forceBust = false) {
       document.getElementById("trackWinRate").textContent = "—";
       document.getElementById("trackAvgReturn").textContent = "—";
       document.getElementById("trackBeatsNifty").textContent = "—";
+      // PR T5 — new hero tiles in empty state
+      const setHero = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+      setHero("trackHitRateValue", "—");
+      setHero("trackAvgAlphaValue", "—");
+      setHero("trackBeatNiftyValue", "—");
+      setHero("trackBrierValue", "—");
+      setHero("trackHeroSubline", data.message || "No picks recorded yet.");
       document.getElementById("trackHistoryCount").textContent = "0 PICKS";
       document.getElementById("trackByTypeSection").innerHTML = "";
       document.getElementById("trackByRegimeSection").innerHTML = "";
@@ -3227,7 +3543,8 @@ async function loadTrackRecord(forceBust = false) {
       return;
     }
 
-    // Headline metrics
+    // Headline metrics — legacy (hidden) IDs stay populated for downstream
+    // hooks (signal-maturity banner reads trackTotalPicks).
     const perf = data.performance || {};
     document.getElementById("trackTotalPicks").textContent = perf.total ?? 0;
     document.getElementById("trackWinRate").innerHTML = perf.winRate != null
@@ -3239,6 +3556,10 @@ async function loadTrackRecord(forceBust = false) {
     document.getElementById("trackBeatsNifty").innerHTML = perf.beatsNiftyRate != null
       ? `<span style="color:${perf.beatsNiftyRate >= 55 ? '#22c55e' : perf.beatsNiftyRate >= 45 ? '#eab308' : '#ef4444'};">${perf.beatsNiftyRate}%</span>`
       : "—";
+
+    // PR T5 — new hero tile values. signedColorFor on alpha/beat-Nifty so
+    // the visual weight scales with magnitude rather than shouting at 0.1 %.
+    populateTrackHero(perf, data);
 
     document.getElementById("trackHistoryCount").textContent =
       `${data.totalCount} PICK${data.totalCount === 1 ? "" : "S"}`;
@@ -3289,10 +3610,13 @@ async function loadTrackRecord(forceBust = false) {
       document.getElementById("trackByRegimeSection").innerHTML = "";
     }
 
-    // Trade history table
+    // Trade history table — cache trades so the misses-shown toggle can
+    // re-render without re-fetching, then render once for the initial state.
+    _trackLastTrades = data.trades;
     tableEl.innerHTML = renderTrackHistoryTable(data.trades);
 
-    // Phase 8D: Portfolio vs Nifty line chart
+    // Phase 8D: Portfolio vs Nifty line chart (uses full trade set
+    // regardless of misses toggle — chart is the integrity record).
     renderTrackChart(data.trades);
 
     if (updatedEl && data.lastComputedAt) {
@@ -3516,7 +3840,30 @@ function renderTrackHistoryTable(trades) {
     return `<div class="empty-state"><div class="empty-icon">&#128202;</div><div class="empty-text">No picks recorded yet for this filter.</div></div>`;
   }
 
-  const rows = trades.map((t) => {
+  // PR T5 — misses-shown toggle. Default ON (sticky-ON) per locked decision.
+  // When OFF, hide negative-return trades; the integrity-graded chart at
+  // renderTrackChart still uses the full set so visual hiding here can't
+  // mask the actual track record. A small inline note tells the reader.
+  const showMisses = (typeof getMissesShown === "function") ? getMissesShown() : true;
+  const totalCount = trades.length;
+  const visible = showMisses
+    ? trades
+    : trades.filter((t) => {
+        const r = t.returns || {};
+        return !(r.returnPct != null && r.returnPct < 0);
+      });
+  const hiddenCount = totalCount - visible.length;
+  const hiddenBanner = (!showMisses && hiddenCount > 0)
+    ? `<div class="tx-meta" style="padding: 10px 14px; margin-bottom: 10px; background: rgba(224,176,96,0.08); border: 1px solid rgba(224,176,96,0.25); border-radius: var(--radius-200);">
+        ${hiddenCount} losing pick${hiddenCount === 1 ? "" : "s"} hidden via the Misses toggle. <a href="#" onclick="event.preventDefault(); document.getElementById('trackMissesShownToggle').click();" style="color: var(--gold);">Show them</a> for the full record.
+      </div>`
+    : "";
+
+  if (visible.length === 0) {
+    return hiddenBanner + `<div class="empty-state"><div class="empty-icon">&#128202;</div><div class="empty-text">No picks visible under the current filters.</div></div>`;
+  }
+
+  const rows = visible.map((t) => {
     const r = t.returns || {};
     const isPos = r.returnPct != null && r.returnPct >= 0;
     const beatsClass = r.beatsNifty === true ? "positive" : r.beatsNifty === false ? "negative" : "";
@@ -3557,7 +3904,7 @@ function renderTrackHistoryTable(trades) {
       </div>`;
   }).join("");
 
-  return `
+  return hiddenBanner + `
     <div style="display:grid;grid-template-columns:1fr 100px 90px 90px 90px 90px 70px;gap:12px;padding:8px 14px;font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">
       <div>Stock</div>
       <div>Type / Regime</div>
@@ -3763,6 +4110,7 @@ function renderNewsHeadline(h) {
 async function toggleWatchlist(symbol, name, sector) {
   const action = watchlist.has(symbol) ? "remove" : "add";
   try {
+    try { telemetry.emit("watchlist_" + action, { symbol, sector: sector || null }); } catch {}
     await fetch(`/api/watchlist/${action}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -3770,13 +4118,19 @@ async function toggleWatchlist(symbol, name, sector) {
     });
     if (action === "add") watchlist.add(symbol);
     else watchlist.delete(symbol);
-    // Update the star icon + aria-pressed state if visible
-    const btn = document.querySelector(`[data-watchlist-symbol="${symbol}"]`);
-    if (btn) {
+    // PR P9 — update every star button for this symbol. Same ticker may
+    // appear in multiple surfaces simultaneously: the modal title and the
+    // pick-card inline star, the SWS-picks card and a search-result row,
+    // etc. Without updating all of them, only one flips state and the
+    // others lie about whether the stock is starred.
+    const buttons = document.querySelectorAll(`[data-watchlist-symbol="${symbol}"]`);
+    if (buttons.length > 0) {
       const saved = watchlist.has(symbol);
-      btn.textContent = saved ? "★" : "☆";
-      btn.setAttribute("aria-pressed", String(saved));
-      btn.style.color = saved ? "var(--gold)" : "var(--text-muted)";
+      buttons.forEach((btn) => {
+        btn.textContent = saved ? "★" : "☆";
+        btn.setAttribute("aria-pressed", String(saved));
+        btn.style.color = saved ? "var(--gold)" : "var(--text-muted)";
+      });
     }
   } catch { /* silent */ }
 }
@@ -3790,6 +4144,20 @@ function watchlistButton(symbol, name, sector) {
   return `<button type="button" class="watchlist-btn" data-watchlist-symbol="${symbol}" aria-pressed="${isSaved}" aria-label="${label}" onclick="event.stopPropagation(); toggleWatchlist('${symbol}', '${escapeHtml(name || '')}', '${escapeHtml(sector || '')}')" title="${isSaved ? 'Remove from watchlist' : 'Add to watchlist'}" style="cursor:pointer;background:transparent;border:none;padding:2px 4px;font-size:18px;color:${isSaved ? 'var(--gold)' : 'var(--text-muted)'};transition:color 0.15s;">${isSaved ? "★" : "☆"}</button>`;
 }
 
+// PR W3 — chevron-driven inline row details. Swaps the sibling tr.hidden
+// state and rotates the chevron. Stops propagation upstream so the
+// containing row's onclick (open stock detail modal) doesn't fire.
+window.toggleWatchlistRow = function toggleWatchlistRow(sym, btn) {
+  const detailsRow = document.querySelector(`tr.wl-details-row[data-wl-details="${CSS.escape(sym)}"]`);
+  if (!detailsRow) return;
+  const isOpen = !detailsRow.hidden;
+  detailsRow.hidden = isOpen;
+  if (btn) {
+    btn.setAttribute("aria-expanded", String(!isOpen));
+    btn.style.transform = isOpen ? "rotate(0deg)" : "rotate(90deg)";
+  }
+};
+
 async function loadWatchlist() {
   const container = document.getElementById("watchlistContainer");
   const meta = document.getElementById("watchlistMeta");
@@ -3802,8 +4170,13 @@ async function loadWatchlist() {
     </div>`;
 
   try {
-    const res = await fetch("/api/watchlist");
-    const data = await res.json();
+    // PR W3 — load watchlist + picks-by-ticker map in parallel so the
+    // verdict pill paints in the same render pass (no flash of "—").
+    const [watchRes, picksMap] = await Promise.all([
+      fetch("/api/watchlist"),
+      loadPicksByTicker(),
+    ]);
+    const data = await watchRes.json();
     const stocks = Array.isArray(data.stocks) ? data.stocks : [];
 
     // Keep the in-memory Set in sync so star toggles elsewhere stay accurate
@@ -3834,7 +4207,7 @@ async function loadWatchlist() {
       return tb - ta;
     });
 
-    const rows = sorted.map((s) => {
+    const rows = sorted.map((s, i) => {
       const sym = s.symbol;
       const name = s.name || sym;
       const sector = s.sector || "";
@@ -3842,64 +4215,91 @@ async function loadWatchlist() {
       const chg = s.change;
       const chgPct = s.changePercent;
       const hasPrice = price !== null && price !== undefined && !Number.isNaN(price);
-      const isPos = (chg ?? 0) >= 0;
       const priceCell = hasPrice
-        ? `<span style="font-family:'JetBrains Mono',monospace;font-weight:600;">&#8377;${formatNumber(price)}</span>`
-        : `<span style="color:var(--text-muted);font-size:12px;">—</span>`;
-      const chgCell = (chg !== null && chg !== undefined && !Number.isNaN(chg))
-        ? `<span class="${isPos ? 'positive' : 'negative'}" style="font-family:'JetBrains Mono',monospace;font-size:12px;">${isPos ? '+' : ''}${chg.toFixed(2)} (${isPos ? '+' : ''}${(chgPct ?? 0).toFixed(2)}%)</span>`
+        ? `<span class="tx-num" style="font-weight:600;">&#8377;${formatNumber(price)}</span>`
         : `<span style="color:var(--text-muted);font-size:12px;">—</span>`;
 
-      // Entry price snapshot (captured server-side at add-time). Older
-      // entries created before this column existed will be missing it —
-      // render as "—" rather than 0/NaN.
+      // PR W3 — Day Change % only, magnitude-keyed via signedColorFor.
+      // Drops the raw-₹ change column per the plan; surface is decongested.
+      let dayChgCell;
+      if (chgPct === null || chgPct === undefined || Number.isNaN(chgPct)) {
+        dayChgCell = `<span style="color:var(--text-muted);font-size:12px;">—</span>`;
+      } else {
+        const sc = signedColorFor(chgPct);
+        dayChgCell = `<span class="tx-num" style="color:${sc.color}; background:${sc.bg}; padding:2px 6px; border-radius:var(--radius-100); font-size:12px;" aria-label="${sc.srLabel}"><span aria-hidden="true">${sc.glyph}</span> ${chgPct >= 0 ? "+" : ""}${chgPct.toFixed(2)}%</span>`;
+      }
+
+      // Entry price + Since Added — derived locally; only render when both
+      // entry and live are present.
       const addedPrice = s.addedPrice;
       const hasAddedPrice = addedPrice !== null && addedPrice !== undefined && !Number.isNaN(addedPrice);
-      const addedPriceCell = hasAddedPrice
-        ? `<span style="font-family:'JetBrains Mono',monospace;">&#8377;${formatNumber(addedPrice)}</span>`
-        : `<span style="color:var(--text-muted);font-size:12px;">—</span>`;
-
-      // % move since the user starred it — only meaningful when both
-      // entry and live price are present.
       let sinceAddedCell = `<span style="color:var(--text-muted);font-size:12px;">—</span>`;
       if (hasAddedPrice && hasPrice && addedPrice > 0) {
         const sincePct = ((price - addedPrice) / addedPrice) * 100;
-        const sincePos = sincePct >= 0;
-        sinceAddedCell = `<span class="${sincePos ? 'positive' : 'negative'}" style="font-family:'JetBrains Mono',monospace;font-size:12px;">${sincePos ? '+' : ''}${sincePct.toFixed(2)}%</span>`;
+        const sc = signedColorFor(sincePct);
+        sinceAddedCell = `<span class="tx-num" style="color:${sc.color}; background:${sc.bg}; padding:2px 6px; border-radius:var(--radius-100); font-size:12px;" aria-label="${sc.srLabel} since added"><span aria-hidden="true">${sc.glyph}</span> ${sincePct >= 0 ? "+" : ""}${sincePct.toFixed(2)}%</span>`;
       }
 
+      // PR W3 — SWS verdict pill from picks-latest (picks-only — locked
+      // decision). Symbols outside the ~120-name curated set render as
+      // muted "—" so the absence of curation is honestly surfaced.
+      const tickerKey = normalizeTickerKey(sym);
+      const meta = picksMap && picksMap.get ? picksMap.get(tickerKey) : null;
+      const verdictCell = renderVerdictPill(meta && meta.verdict);
+      const sectorForDetails = sector || (meta && meta.sector) || "—";
+      const swsReason = (meta && meta.one_line) ? escapeHtml(meta.one_line) : "";
       const addedLabel = s.addedAt
         ? new Date(s.addedAt).toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "2-digit" })
         : "—";
+      const addedPriceLabel = hasAddedPrice
+        ? `&#8377;${formatNumber(addedPrice)}`
+        : "—";
+
+      // PR W3 — Tier 2 details row. Lazy content is fine because <details>
+      // doesn't render hidden children to the accessibility tree until open.
+      const detailsRow = `
+        <tr class="wl-details-row" data-wl-details="${sym}" hidden>
+          <td colspan="6" style="padding:0;">
+            <div style="padding:8px 14px 12px 52px; background:rgba(255,255,255,0.015); border-top:1px solid var(--border); font-size:12px; color:var(--text-secondary); display:flex; flex-direction:column; gap:6px;">
+              <div><span class="tx-micro">Sector</span> &nbsp; ${escapeHtml(sectorForDetails)}</div>
+              <div><span class="tx-micro">Added on</span> &nbsp; ${addedLabel} &nbsp;·&nbsp; entry ${addedPriceLabel}</div>
+              ${swsReason ? `<div><span class="tx-micro">SWS take</span> &nbsp; ${swsReason}</div>` : ""}
+            </div>
+          </td>
+        </tr>`;
+
+      // Row chevron — toggles the sibling details row. Plain JS toggle so
+      // we stay inside the static-SPA model.
       return `
         <tr style="cursor:pointer;" onclick="openStockDetailModal('${sym}','watchlist')">
-          <td style="padding:6px 4px;">${watchlistButton(sym, name, sector)}</td>
-          <td>
+          <td style="padding:6px 4px; width:36px;">${watchlistButton(sym, name, sector)}</td>
+          <td class="wl-col-stock">
             <div style="font-weight:600;">${escapeHtml(sym)}</div>
             <div style="font-size:11px;color:var(--text-muted);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(name)}</div>
           </td>
-          <td style="font-size:12px;color:var(--text-muted);">${escapeHtml(sector || "—")}</td>
-          <td style="text-align:right;">${addedPriceCell}</td>
-          <td style="text-align:right;">${priceCell}</td>
-          <td style="text-align:right;">${chgCell}</td>
-          <td style="text-align:right;">${sinceAddedCell}</td>
-          <td style="font-size:11px;color:var(--text-muted);text-align:right;">${addedLabel}</td>
-        </tr>`;
+          <td class="wl-col-verdict">${verdictCell}</td>
+          <td class="wl-col-price" style="text-align:right;">${priceCell}</td>
+          <td class="wl-col-day" style="text-align:right;">${dayChgCell}</td>
+          <td class="wl-col-since" style="text-align:right;">${sinceAddedCell}</td>
+          <td class="wl-col-chev" style="text-align:right; width:36px;">
+            <button type="button" class="wl-chevron" data-wl-toggle="${sym}" aria-expanded="false" aria-label="Show row details for ${escapeHtml(sym)}" onclick="event.stopPropagation(); window.toggleWatchlistRow('${sym}', this);" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; padding:4px 8px; font-size:14px; line-height:1; transition: transform var(--dur-quick) var(--ease-standard);">▶</button>
+          </td>
+        </tr>
+        ${detailsRow}`;
     }).join("");
 
     container.innerHTML = `
       <div style="overflow-x:auto;">
-        <table class="signals-table" style="min-width:880px;">
+        <table class="signals-table watchlist-table" style="min-width:780px; width:100%;">
           <thead>
             <tr>
               <th style="width:36px;"></th>
               <th>Stock</th>
-              <th>Sector</th>
-              <th style="text-align:right;">Added Price</th>
+              <th>Verdict</th>
               <th style="text-align:right;">Price</th>
               <th style="text-align:right;">Day Change</th>
               <th style="text-align:right;">Since Added</th>
-              <th style="text-align:right;">Added</th>
+              <th style="width:36px;"></th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>
@@ -4270,6 +4670,159 @@ function pctColor(n) {
   return n >= 0 ? "var(--green, #22c55e)" : "var(--red, #ef4444)";
 }
 
+// PR F1 — magnitude-keyed colour + glyph + screen-reader label.
+// New code paths use this instead of pctColor() so |Δ|<0.5 reads as muted ◆,
+// |Δ|<2 as soft, |Δ|<5 as normal, |Δ|≥5 as deep + ▲/▼. Pair every coloured
+// value with srLabel for a11y — decorative glyphs get aria-hidden.
+function signedColorFor(value) {
+  if (value == null || !Number.isFinite(value)) {
+    return { color: "var(--text-muted)", bg: "transparent", glyph: "·", srLabel: "no data" };
+  }
+  const abs = Math.abs(value);
+  const pos = value >= 0;
+  const sr = (verb) => `${verb} ${abs.toFixed(abs < 10 ? 2 : 1)} percent`;
+  if (abs < 0.5) {
+    return { color: "var(--text-muted)", bg: "transparent", glyph: "◆", srLabel: "unchanged" };
+  }
+  if (abs < 2) {
+    return pos
+      ? { color: "var(--positive-soft)", bg: "var(--positive-bg-soft)", glyph: "▲", srLabel: sr("up") }
+      : { color: "var(--negative-soft)", bg: "var(--negative-bg-soft)", glyph: "▼", srLabel: sr("down") };
+  }
+  if (abs < 5) {
+    return pos
+      ? { color: "var(--positive)", bg: "var(--positive-bg-soft)", glyph: "▲", srLabel: sr("up") }
+      : { color: "var(--negative)", bg: "var(--negative-bg-soft)", glyph: "▼", srLabel: sr("down") };
+  }
+  return pos
+    ? { color: "var(--positive-strong)", bg: "var(--positive-bg-strong)", glyph: "▲", srLabel: sr("up") }
+    : { color: "var(--negative-strong)", bg: "var(--negative-bg-strong)", glyph: "▼", srLabel: sr("down") };
+}
+
+// PR F1 — INR formatter with Indian numbering (2:2:3 grouping → ₹1,23,456)
+// and an opt-in compact mode for headline numbers (₹1.23 Cr, ₹4.5 L).
+// Falls back gracefully on older Chromium where notation:'compact' isn't
+// supported. Pair with { signed: true } to render explicit en-dash sign.
+const _INR_FULL = new Intl.NumberFormat("en-IN", {
+  style: "currency", currency: "INR", maximumFractionDigits: 0,
+});
+let _inrCompactNumber = null;
+try {
+  _inrCompactNumber = new Intl.NumberFormat("en-IN", {
+    notation: "compact",
+    maximumFractionDigits: 2,
+  });
+} catch { /* old Chromium → fallback below */ }
+function formatINR(value, opts) {
+  if (value == null || !Number.isFinite(value)) return "—";
+  const o = opts || {};
+  const abs = Math.abs(value);
+  const signed = !!o.signed;
+  const compact = !!o.compact;
+  let out;
+  if (compact && abs >= 1e7) {
+    out = "₹" + (value / 1e7).toFixed(2) + " Cr";
+  } else if (compact && abs >= 1e5) {
+    out = "₹" + (value / 1e5).toFixed(2) + " L";
+  } else if (compact && _inrCompactNumber) {
+    out = "₹" + _inrCompactNumber.format(value);
+  } else {
+    out = _INR_FULL.format(value);
+  }
+  if (signed && value < 0) {
+    // Replace the leading "-₹" with "−₹" (en-dash, typographically correct)
+    out = out.replace(/^-/, "−");
+  } else if (signed && value > 0) {
+    out = "+" + out;
+  }
+  return out;
+}
+window.signedColorFor = signedColorFor;
+window.formatINR = formatINR;
+
+// PR W3 — picksByTicker lookup. Build once on first use from /api/sws-picks
+// so the Watchlist's verdict pill resolves in O(1) per row. Returns null when
+// the ticker is outside the curated set (renders as muted "—" in the UI).
+//
+// Schema (verified by direct jq on data/sws/picks-latest.json):
+//   .sections.<section_key>[] → { ticker, name, sector, composite_verdict, v3_verdict, v3_score_100, snowflake, sws_url, ... }
+//
+// Ticker is bare (no .NS suffix). Watchlist stores symbols like "RELIANCE.NS",
+// so we normalise via normalizeTickerKey() on every lookup.
+let _picksByTicker = null;
+let _picksByTickerPromise = null;
+function normalizeTickerKey(sym) {
+  if (!sym) return "";
+  return String(sym)
+    .toUpperCase()
+    .replace(/^(BSE|NSE):/, "")
+    .replace(/\.(NS|BO)$/, "")
+    .trim();
+}
+async function loadPicksByTicker() {
+  if (_picksByTicker) return _picksByTicker;
+  if (_picksByTickerPromise) return _picksByTickerPromise;
+  _picksByTickerPromise = (async () => {
+    try {
+      const res = await fetch("/api/sws-picks");
+      if (!res.ok) return new Map();
+      const data = await res.json();
+      const map = new Map();
+      const sections = data && data.sections;
+      if (sections && typeof sections === "object") {
+        for (const section of Object.values(sections)) {
+          if (!Array.isArray(section)) continue;
+          for (const stock of section) {
+            if (!stock || !stock.ticker) continue;
+            const key = normalizeTickerKey(stock.ticker);
+            if (!map.has(key)) {
+              map.set(key, {
+                verdict: stock.composite_verdict || stock.v3_verdict || stock.verdict || null,
+                v3_score: stock.v3_score_100 || stock.v3_score || null,
+                upside: stock.upside_pct || null,
+                snowflake: stock.snowflake_total || stock.snowflake || null,
+                sector: stock.sector || null,
+                one_line: stock.one_line || null,
+              });
+            }
+          }
+        }
+      }
+      _picksByTicker = map;
+      return map;
+    } catch {
+      return new Map();
+    } finally {
+      _picksByTickerPromise = null;
+    }
+  })();
+  return _picksByTickerPromise;
+}
+
+// PR W3 — verdict → palette mapping for pill colours.
+// TOP_PICK stays gold (locked decision); STRONG green; WATCH muted;
+// AVOID red; ACCEPTABLE / FAIR_VALUE cyan (info-tone).
+const VERDICT_PALETTE = {
+  TOP_PICK:     { color: "var(--gold)",        bg: "rgba(224,176,96,0.10)", border: "rgba(224,176,96,0.35)" },
+  STRONG:       { color: "var(--positive)",    bg: "var(--positive-bg-soft)", border: "rgba(46,204,113,0.32)" },
+  ACCEPTABLE:   { color: "var(--cyan)",        bg: "rgba(111,195,216,0.08)", border: "rgba(111,195,216,0.28)" },
+  FAIR_VALUE:   { color: "var(--cyan)",        bg: "rgba(111,195,216,0.08)", border: "rgba(111,195,216,0.28)" },
+  DEEP_VALUE:   { color: "var(--gold)",        bg: "rgba(224,176,96,0.10)", border: "rgba(224,176,96,0.35)" },
+  QUALITY_GROWTH: { color: "var(--positive)",  bg: "var(--positive-bg-soft)", border: "rgba(46,204,113,0.32)" },
+  WATCH:        { color: "var(--text-muted)",  bg: "rgba(237,237,237,0.04)", border: "rgba(237,237,237,0.10)" },
+  FULLY_VALUED: { color: "var(--text-muted)",  bg: "rgba(237,237,237,0.04)", border: "rgba(237,237,237,0.10)" },
+  AVOID:        { color: "var(--negative)",    bg: "var(--negative-bg-soft)", border: "rgba(214,69,69,0.32)" },
+  OVERVALUED:   { color: "var(--negative)",    bg: "var(--negative-bg-soft)", border: "rgba(214,69,69,0.32)" },
+};
+function renderVerdictPill(verdict) {
+  if (!verdict) {
+    return `<span class="tx-meta" style="color:var(--text-muted); font-family:var(--font-mono); letter-spacing:0.02em;" aria-label="not curated">—</span>`;
+  }
+  const palette = VERDICT_PALETTE[verdict] || { color: "var(--text-muted)", bg: "rgba(237,237,237,0.04)", border: "rgba(237,237,237,0.10)" };
+  const label = String(verdict).replace(/_/g, " ");
+  return `<span class="tx-micro" style="display:inline-block; padding:3px 8px; border-radius:var(--radius-100); color:${palette.color}; background:${palette.bg}; border:1px solid ${palette.border}; font-weight:700;">${label}</span>`;
+}
+
 const ANALYZER_ACTION_COLORS = {
   CUT_LOSS:     { bg: "rgba(220,38,38,0.15)",  border: "rgba(220,38,38,0.5)",  text: "#fca5a5" },
   SELL:         { bg: "rgba(239,68,68,0.12)",  border: "rgba(239,68,68,0.4)",  text: "#f87171" },
@@ -4361,6 +4914,127 @@ function swsSnowflakeMini(snow) {
     <span style="margin-left:6px; font-size:11px; color:var(--text-muted);">${snow.total ?? "—"}/30</span>
   </div>`;
 }
+
+// PR A10 — Portfolio Analyzer Tier-1 hero trio.
+// Three big numbers — Invested / What it's worth today / Net P&L — read
+// first, with P&L as the dominant element. Uses formatINR(v, compact)
+// for headline-grade digit density (₹1.23 Cr / ₹45.6 L) and
+// signedColorFor for the P&L direction so a 0.3 % swing renders pale
+// and a 12 % swing reads deep + ▲/▼.
+function renderAnalyzerHeroTrio(snap) {
+  if (!snap) return "";
+  const inv = snap.totalInvested;
+  const cur = snap.totalCurrent;
+  const pnl = snap.totalPnL;
+  const pnlPct = snap.totalPnLPct;
+  const sc = (typeof signedColorFor === "function" && Number.isFinite(pnlPct))
+    ? signedColorFor(pnlPct)
+    : { color: "var(--text-muted)", glyph: "·", srLabel: "" };
+  const pnlValue = (Number.isFinite(pnl) && typeof formatINR === "function")
+    ? formatINR(pnl, { compact: true, signed: true })
+    : (Number.isFinite(pnl) ? `₹${Math.round(pnl).toLocaleString("en-IN")}` : "—");
+  const pnlPctTxt = Number.isFinite(pnlPct) ? `${pnlPct >= 0 ? "+" : ""}${pnlPct}%` : "—";
+  const invValue = (Number.isFinite(inv) && typeof formatINR === "function")
+    ? formatINR(inv, { compact: true })
+    : (Number.isFinite(inv) ? `₹${Math.round(inv).toLocaleString("en-IN")}` : "—");
+  const curValue = (Number.isFinite(cur) && typeof formatINR === "function")
+    ? formatINR(cur, { compact: true })
+    : (Number.isFinite(cur) ? `₹${Math.round(cur).toLocaleString("en-IN")}` : "—");
+  return `
+    <div class="analyzer-hero-trio l-grid" style="--min: 200px; --gap: var(--space-200); margin-bottom: var(--space-200);">
+      <div class="l-box" style="--pad: var(--space-300);">
+        <div class="tx-micro">Money put in</div>
+        <div class="tx-display tx-num" style="font-size: 32px; line-height: 1.1;">${invValue}</div>
+      </div>
+      <div class="l-box" style="--pad: var(--space-300);">
+        <div class="tx-micro">What it's worth today</div>
+        <div class="tx-display tx-num" style="font-size: 32px; line-height: 1.1;">${curValue}</div>
+      </div>
+      <div class="l-box" style="--pad: var(--space-300); border-color: ${sc.color === "var(--text-muted)" ? "var(--border)" : sc.color}; box-shadow: var(--elev-2);">
+        <div class="tx-micro">Net P&L</div>
+        <div class="tx-display tx-num" style="font-size: 40px; line-height: 1.05; color: ${sc.color};" aria-label="${sc.srLabel || (Number.isFinite(pnlPct) ? `P&L ${pnlPct} percent` : "P&L")}">
+          <span aria-hidden="true">${sc.glyph}</span> ${pnlValue}
+        </div>
+        <div class="tx-meta" style="color: ${sc.color};">${pnlPctTxt}</div>
+      </div>
+    </div>`;
+}
+
+// PR A10 — Action-mix as a 100 %-width stacked bar.
+// The chip row sums to a count but the bar makes the distribution visible
+// at a glance ("most are HOLD; 2 to top up; 1 to trim"). Each segment is
+// click-through to the same openActionListModal that the chips used.
+function renderAnalyzerActionMixBar(snap) {
+  const mix = snap && snap.actionMix ? snap.actionMix : {};
+  const entries = Object.entries(mix).filter(([, n]) => Number(n) > 0);
+  if (entries.length === 0) return "";
+  const total = entries.reduce((acc, [, n]) => acc + Number(n), 0) || 1;
+
+  // Group into Reduce / Hold / Top-up / Exit. Anything that doesn't match
+  // bucks the bar and stays as a residual chip beneath.
+  const buckets = { Reduce: 0, Hold: 0, "Top-up": 0, Exit: 0 };
+  const colours = {
+    Reduce:   "var(--negative-soft)",
+    Hold:     "var(--info)",
+    "Top-up": "var(--positive-soft)",
+    Exit:     "var(--negative)",
+  };
+  const fallback = [];
+  for (const [action, n] of entries) {
+    if (action.startsWith("Reduction-")) buckets.Reduce += Number(n);
+    else if (action.startsWith("Top-up-")) buckets["Top-up"] += Number(n);
+    else if (action === "HOLD") buckets.Hold += Number(n);
+    else if (action === "EXIT" || action.startsWith("EXIT-")) buckets.Exit += Number(n);
+    else fallback.push([action, Number(n)]);
+  }
+  const segments = Object.entries(buckets)
+    .filter(([, n]) => n > 0)
+    .map(([label, n]) => {
+      const pct = (n / total) * 100;
+      const slug = label.replace(/[^A-Za-z0-9]/g, "");
+      return `
+        <button type="button"
+                class="analyzer-actionmix-segment"
+                title="${n} ${label} stock${n === 1 ? "" : "s"} — click for details"
+                aria-label="${n} ${label} stocks (${pct.toFixed(0)} percent)"
+                onclick="window.openActionListModalForBucket && window.openActionListModalForBucket('${slug}')"
+                style="flex: ${n.toFixed(2)}; min-width: ${Math.max(pct, 8).toFixed(2)}%; background: ${colours[label]}; border: 0; padding: 0; cursor: pointer; height: 100%; position: relative;">
+          <span class="tx-micro" style="position:absolute; left:8px; top:4px; color: var(--bg-primary); font-weight:700;">${label}</span>
+          <span class="tx-num" style="position:absolute; right:8px; bottom:4px; color: var(--bg-primary); font-weight:700;">${n}</span>
+        </button>`;
+    }).join("");
+
+  const residual = fallback.map(([action, n]) => `
+    <button type="button" class="analyzer-actionmix-residual"
+            onclick="openActionListModal('${swsEscapeAttr(action)}')"
+            style="background:transparent; border:1px solid var(--border); padding:4px 10px; border-radius:var(--radius-full); cursor:pointer; font-size:12px; color:var(--text-muted);">
+      ${swsActionBadge(action)}<span style="margin-left:6px;">×${n}</span>
+    </button>`).join("");
+
+  return `
+    <div class="l-box" style="--pad: var(--space-200); margin-bottom: var(--space-200);">
+      <div class="tx-micro" style="margin-bottom: 8px;">Action mix · ${total} holding${total === 1 ? "" : "s"}</div>
+      <div class="analyzer-actionmix-bar" style="display:flex; gap:2px; height:36px; border-radius: var(--radius-100); overflow:hidden; background: rgba(255,255,255,0.04);">
+        ${segments}
+      </div>
+      ${residual ? `<div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;">${residual}</div>` : ""}
+    </div>`;
+}
+
+// PR A10 — bucket-level openActionListModal. Bridges the bar segments
+// (Reduce/Hold/Top-up/Exit) into the existing per-action modal by picking
+// a representative member action — openActionListModal pre-filters by
+// action so the modal still surfaces the right rows.
+window.openActionListModalForBucket = function openActionListModalForBucket(slug) {
+  const REPRESENTATIVE = {
+    Reduce: "Reduction-33%",
+    Hold:   "HOLD",
+    Topup:  "Top-up-33%",
+    Exit:   "EXIT",
+  };
+  const action = REPRESENTATIVE[slug];
+  if (action && typeof openActionListModal === "function") openActionListModal(action);
+};
 
 function swsKpiCard(label, valueHtml) {
   return `<div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:12px 14px;">
@@ -4733,7 +5407,16 @@ function renderSWSTierA(tier) {
 }
 
 function swsBasketRow(r) {
-  const upside = r.upside_pct != null ? `<span style="color:${r.upside_pct >= 0 ? '#86efac' : '#f87171'};">${r.upside_pct >= 0 ? '+' : ''}${r.upside_pct.toFixed(1)}%</span>` : "—";
+  // PR P9 — replace hard-coded green/red with magnitude-keyed signedColorFor.
+  // A 0.3 % upside renders pale; a 12 % upside reads deep + ▲. Glyph
+  // aria-hidden; srLabel carries "up X percent" for VoiceOver.
+  let upside;
+  if (r.upside_pct == null) {
+    upside = "—";
+  } else {
+    const sc = signedColorFor(r.upside_pct);
+    upside = `<span class="tx-num" style="color:${sc.color};" aria-label="${sc.srLabel} to fair value"><span aria-hidden="true">${sc.glyph}</span> ${r.upside_pct >= 0 ? "+" : ""}${r.upside_pct.toFixed(1)}%</span>`;
+  }
   const sourceTag = r.source === "holding"
     ? `<span title="In-portfolio top-up" style="font-size:9px; padding:1px 6px; background:rgba(34,197,94,0.12); color:#86efac; border-radius:3px; letter-spacing:0.3px;">HELD</span>`
     : `<span title="Outside-portfolio fresh pick" style="font-size:9px; padding:1px 6px; background:rgba(59,130,246,0.12); color:#93c5fd; border-radius:3px; letter-spacing:0.3px;">FRESH</span>`;
@@ -5197,38 +5880,53 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
     ${swsRenderMemoryHeader(report)}
     ${swsRenderFreedCapitalBanner(report)}
 
+    ${/* PR A10 — Tier 1 hero trio above the Health ring. */ ""}
+    ${renderAnalyzerHeroTrio(snap)}
+
     ${renderPortfolioHealthHero(snap.portfolioHealth)}
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:18px;">
-      ${swsKpiCard("Invested", inr(snap.totalInvested))}
-      ${swsKpiCard("Current value", inr(snap.totalCurrent))}
-      ${swsKpiCard("Net P&amp;L", `<span style="color:${pctColor(snap.totalPnLPct)}">${inr(snap.totalPnL)} (${snap.totalPnLPct ?? 0}%)</span>`)}
-      ${swsKpiCard("Avg Snowflake", `${snap.avgSnowflake ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/30</span>`)}
-      ${swsKpiCard("Avg v3 score", `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
-      ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} SWS-covered)</span>`)}
-    </div>
+    ${/* PR A10 — Action mix as a 100 %-width stacked bar. */ ""}
+    ${renderAnalyzerActionMixBar(snap)}
 
-    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
-      <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">Action mix</div>
-      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-        ${Object.entries(snap.actionMix || {}).map(([action, n]) => `
-          <button type="button" onclick="openActionListModal('${swsEscapeAttr(action)}')"
-            title="Click to see all ${n} ${swsEscapeAttr(action)} stock${n === 1 ? "" : "s"}"
-            style="background:transparent; border:0; padding:0; margin:0; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
-            ${swsActionBadge(action)}
-            <span style="font-size:13px; color:var(--text-muted); margin-right:8px;">×${n}</span>
-          </button>
-        `).join("")}
+    ${/* Secondary KPIs — collapsed by default. */ ""}
+    <details class="analyzer-secondary-kpis" style="margin-bottom: var(--space-200);">
+      <summary class="tx-meta" style="cursor:pointer; padding: 6px 0; color: var(--text-muted);">Secondary KPIs (snowflake, v3, holdings count)</summary>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-top:8px;">
+        ${swsKpiCard("Avg Snowflake", `${snap.avgSnowflake ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/30</span>`)}
+        ${swsKpiCard("Avg v3 score", `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
+        ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} SWS-covered)</span>`)}
       </div>
-    </div>
+    </details>
 
-    ${renderSWSTierA(tiers.A)}
-    ${renderSWSTierB(baskets)}
-    ${renderSWSOutsidePicks(outsidePicks)}
-    ${renderSWSTierC(tiers.C)}
-    ${renderSWSTierD(tiers.D)}
-    ${renderSWSSectorOverlay(sectorOverlay)}
-    ${renderSWSMfSection(report.mfPositions)}
+    ${/* PR A10 — Tier 2 disclosures. Tier A auto-opens when freed > 0. */ ""}
+    <details class="analyzer-tier-details" ${snap.totalFreedCapital > 0 ? "open" : ""}>
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Reductions &amp; freed capital ${snap.totalFreedCapital > 0 ? `<span style="color: var(--warn); margin-left: 8px;">(${formatINR(snap.totalFreedCapital || 0, { compact: true })} freed)</span>` : ""}</summary>
+      <div style="padding-top: var(--space-200);">${renderSWSTierA(tiers.A)}</div>
+    </details>
+
+    <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Top-up candidates</summary>
+      <div style="padding-top: var(--space-200);">
+        ${renderSWSTierB(baskets)}
+        ${renderSWSOutsidePicks(outsidePicks)}
+      </div>
+    </details>
+
+    <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Holdings — quality groups (hold, watch, exit)</summary>
+      <div style="padding-top: var(--space-200);">
+        ${renderSWSTierC(tiers.C)}
+        ${renderSWSTierD(tiers.D)}
+      </div>
+    </details>
+
+    <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Diagnostic views (sector mix, mutual funds)</summary>
+      <div style="padding-top: var(--space-200);">
+        ${renderSWSSectorOverlay(sectorOverlay)}
+        ${renderSWSMfSection(report.mfPositions)}
+      </div>
+    </details>
 
     <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:#fde047; line-height:1.6;">
       ${swsEscapeAttr(report.disclaimer || "")}
@@ -5336,40 +6034,62 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     ${swsRenderMemoryHeader(report)}
     ${swsRenderFreedCapitalBanner(report)}
 
+    ${/* PR A10 — Tier 1 hero. Invested / Today / Net P&L read first,
+        Net P&L dominant + signed-coloured. Hoists ABOVE the engine hero
+        block so the reader sees portfolio reality before the narrative. */ ""}
+    ${renderAnalyzerHeroTrio(snap)}
+
     ${heroBlock}
 
     ${renderPortfolioHealthHero(snap.portfolioHealth)}
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:18px;">
-      ${swsKpiCard("Money put in", inr(snap.totalInvested))}
-      ${swsKpiCard("What it's worth today", inr(snap.totalCurrent))}
-      ${swsKpiCard("Net P&amp;L", `<span style="color:${pctColor(snap.totalPnLPct)}">${inr(snap.totalPnL)} (${snap.totalPnLPct ?? 0}%)</span>`)}
-      ${swsKpiCard(`Avg quality score ${infoIcon("snowflake_score")}`, `${snap.avgSnowflake ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/30</span>`)}
-      ${swsKpiCard(`Avg overall score ${infoIcon("combined_score")}`, `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
-      ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} covered)</span>`)}
-    </div>
+    ${/* PR A10 — Action mix is now a 100 %-width stacked bar. Click-through
+        to openActionListModal still works via the bucket bridge. */ ""}
+    ${renderAnalyzerActionMixBar(snap)}
 
-    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
-      <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">Action mix</div>
-      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-        ${Object.entries(snap.actionMix || {}).map(([action, n]) => `
-          <button type="button" onclick="openActionListModal('${swsEscapeAttr(action)}')"
-            title="Click to see all ${n} ${swsEscapeAttr(action)} stock${n === 1 ? "" : "s"}"
-            style="background:transparent; border:0; padding:0; margin:0; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
-            ${swsActionBadge(action)}
-            <span style="font-size:13px; color:var(--text-muted); margin-right:8px;">×${n}</span>
-          </button>
-        `).join("")}
+    ${/* Secondary KPIs — kept visible but de-emphasised below the Tier 1
+        hero. Useful for power users but no longer the first read. */ ""}
+    <details class="analyzer-secondary-kpis" style="margin-bottom: var(--space-200);">
+      <summary class="tx-meta" style="cursor:pointer; padding: 6px 0; color: var(--text-muted);">Secondary KPIs (snowflake, v3, holdings count)</summary>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-top:8px;">
+        ${swsKpiCard(`Avg quality score ${infoIcon("snowflake_score")}`, `${snap.avgSnowflake ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/30</span>`)}
+        ${swsKpiCard(`Avg overall score ${infoIcon("combined_score")}`, `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
+        ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} covered)</span>`)}
       </div>
-    </div>
+    </details>
 
-    ${renderSWSTierA(tiers.A)}
-    ${renderSWSTierB(baskets)}
-    ${renderSWSOutsidePicks(outsidePicks)}
-    ${renderSWSTierC(tiers.C)}
-    ${renderSWSTierD(tiers.D)}
-    ${renderSWSSectorOverlay(sectorOverlay)}
-    ${renderSWSMfSection(report.mfPositions)}
+    ${/* PR A10 — Tier 2 disclosures.
+        Tier A is auto-open whenever there's freed-capital >0 because
+        reductions are the highest-attention rows; everything else opens
+        only when explicitly expanded. */ ""}
+    <details class="analyzer-tier-details" ${snap.totalFreedCapital > 0 ? "open" : ""}>
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Reductions &amp; freed capital ${snap.totalFreedCapital > 0 ? `<span style="color: var(--warn); margin-left: 8px;">(${formatINR(snap.totalFreedCapital || 0, { compact: true })} freed)</span>` : ""}</summary>
+      <div style="padding-top: var(--space-200);">${renderSWSTierA(tiers.A)}</div>
+    </details>
+
+    <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Top-up candidates</summary>
+      <div style="padding-top: var(--space-200);">
+        ${renderSWSTierB(baskets)}
+        ${renderSWSOutsidePicks(outsidePicks)}
+      </div>
+    </details>
+
+    <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Holdings — quality groups (hold, watch, exit)</summary>
+      <div style="padding-top: var(--space-200);">
+        ${renderSWSTierC(tiers.C)}
+        ${renderSWSTierD(tiers.D)}
+      </div>
+    </details>
+
+    <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Diagnostic views (sector mix, mutual funds)</summary>
+      <div style="padding-top: var(--space-200);">
+        ${renderSWSSectorOverlay(sectorOverlay)}
+        ${renderSWSMfSection(report.mfPositions)}
+      </div>
+    </details>
 
     <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:#fde047; line-height:1.6;">
       ${swsEscapeAttr(report.disclaimer || "")}
@@ -8935,6 +9655,11 @@ function renderPickCard(s, sectionKey, rank = null) {
   // landing on info icons / glossary terms / embedded links so the tooltip
   // and external link behaviors aren't preempted by the modal trigger.
   const safeTicker = String(s.ticker || "").replace(/[^A-Z0-9&\-]/gi, "");
+  // PR P9 — inline ★ on the card itself. Watchlist storage keys symbols
+  // with the .NS suffix; SWS picks use bare tickers, so we append it for
+  // the storage key and pass the SWS sector/name through to the API.
+  const watchlistSymbol = `${safeTicker}.NS`;
+  const inlineStar = `<span class="sws-pick-inline-star" onclick="event.stopPropagation();">${watchlistButton(watchlistSymbol, s.name || safeTicker, s.sector || "")}</span>`;
   return `
     <div class="stock-card sws-pick-card" tabindex="0" role="button" aria-label="Open detail for ${safeTicker}"
          data-ticker="${safeTicker}"
@@ -8949,6 +9674,7 @@ function renderPickCard(s, sectionKey, rank = null) {
           </div>
         </div>
         <div class="sws-pick-card-score">
+          ${inlineStar}
           <div class="sws-pick-card-score-num" style="color:${scoreColor};">${score}${infoIcon(scoreTermId)}</div>
           <div class="sws-pick-card-score-verdict" style="color:${verdictColor};">${verdict.replace(/_/g, " ")}${verdictTermId ? infoIcon(verdictTermId) : ""}</div>
         </div>
@@ -9044,6 +9770,10 @@ async function openSwsModal(ticker) {
     const data = await res.json();
     if (swsModalCurrentTicker !== ticker) return; // user opened a different ticker since
     body.innerHTML = renderSwsModal(data);
+    // PR T6 — inject the per-stock "we said X N days ago" strip at the top
+    // of the modal body. Fire-and-forget: silent absent strip when there
+    // are no paper-trade snapshots for the symbol.
+    hydrateStockTrackStrip(ticker, body);
     const remembered = swsModalScrollMemory.get(ticker);
     if (typeof remembered === "number" && remembered > 0) {
       // The scrollable element is the backdrop (overflow:auto), NOT the body
@@ -9055,6 +9785,84 @@ async function openSwsModal(ticker) {
   } catch (e) {
     body.innerHTML = `<div style="padding:40px 20px;color:var(--red);">Network error: ${e.message}</div>`;
   }
+}
+
+// PR T6 — per-stock "we said X N days ago" track strip.
+//
+// Pulls the 3 most-recent paper-trade snapshots for the given ticker from
+// /api/track/history?symbol=X (PR T6.0 added the symbol param). Renders
+// inline at the top of the modal body when ≥ 1 snapshot exists; absent
+// otherwise. Each row uses signedColorFor for magnitude colouring + srLabel
+// for screen readers (closest analog to TipRanks' analyst-call accuracy
+// inline display — the strongest trust artifact on the platform).
+const _stockTrackStripCache = new Map(); // ticker → { ts, data }
+async function hydrateStockTrackStrip(ticker, body) {
+  if (!ticker || !body) return;
+  try {
+    const cached = _stockTrackStripCache.get(ticker);
+    let payload;
+    if (cached && (Date.now() - cached.ts) < 5 * 60 * 1000) {
+      payload = cached.data;
+    } else {
+      const url = `/api/track/history?symbol=${encodeURIComponent(ticker)}`;
+      const res = await fetch(url);
+      if (!res.ok) return;
+      payload = await res.json();
+      _stockTrackStripCache.set(ticker, { ts: Date.now(), data: payload });
+    }
+    if (swsModalCurrentTicker !== ticker) return; // user opened a different ticker
+    const trades = Array.isArray(payload.trades) ? payload.trades : [];
+    if (trades.length === 0) return; // silent absence
+    const strip = renderStockTrackStrip(ticker, trades);
+    if (!strip) return;
+    // Insert at the very top of the modal body, above renderSwsModal output.
+    body.insertAdjacentHTML("afterbegin", strip);
+  } catch { /* silent — strip is a bonus, not load-bearing */ }
+}
+
+function renderStockTrackStrip(ticker, trades) {
+  if (!Array.isArray(trades) || trades.length === 0) return "";
+  // 3 most-recent snapshots by snapshotAt.
+  const sorted = [...trades].sort((a, b) => new Date(b.snapshotAt) - new Date(a.snapshotAt));
+  const top = sorted.slice(0, 3);
+  const rows = top.map((t) => {
+    const snapDate = t.snapshotAt ? new Date(t.snapshotAt) : null;
+    const daysAgo = snapDate ? Math.floor((Date.now() - snapDate.getTime()) / 86400000) : null;
+    const r = t.returns || {};
+    const ret = (r.returnPct != null && Number.isFinite(r.returnPct)) ? r.returnPct : null;
+    const niftyRet = (r.niftyReturnPct != null && Number.isFinite(r.niftyReturnPct)) ? r.niftyReturnPct : null;
+    const sectionLabel = (TRACK_TYPE_LABELS && TRACK_TYPE_LABELS[t.type]) || (t.type ? String(t.type).replace(/_/g, " ") : "—");
+    const sc = signedColorFor(ret);
+    const niftyDelta = (ret != null && niftyRet != null) ? (ret - niftyRet) : null;
+    const niftyBit = niftyRet != null
+      ? `&nbsp;·&nbsp;<span style="color:var(--text-muted);">vs Nifty</span> <span style="color:${signedColorFor(niftyRet).color};">${niftyRet >= 0 ? "+" : ""}${niftyRet.toFixed(1)}%</span>`
+      : "";
+    const alphaBit = niftyDelta != null
+      ? `&nbsp;·&nbsp;<span style="color:var(--text-muted);">α</span> <span style="color:${signedColorFor(niftyDelta).color};">${niftyDelta >= 0 ? "+" : ""}${niftyDelta.toFixed(1)} pp</span>`
+      : "";
+    const retCell = (ret != null)
+      ? `<span class="tx-num" style="color:${sc.color}; font-weight:700;" aria-label="${sc.srLabel} since pick"><span aria-hidden="true">${sc.glyph}</span> ${ret >= 0 ? "+" : ""}${ret.toFixed(2)}%</span>`
+      : `<span style="color:var(--text-muted);">—</span>`;
+    const ago = (daysAgo != null) ? `${daysAgo} day${daysAgo === 1 ? "" : "s"} ago` : "earlier";
+    return `
+      <div class="stock-track-row" style="display:flex; flex-wrap:wrap; align-items:baseline; gap:8px; padding:6px 0; border-bottom:1px dashed var(--border-soft); font-size:13px;">
+        <span style="color:var(--text-muted); min-width:96px;">${ago}</span>
+        <span style="color:var(--text-secondary);">SWS · ${escapeHtml(sectionLabel)}</span>
+        <span style="margin-left:auto;">→ ${retCell}${niftyBit}${alphaBit}</span>
+      </div>`;
+  }).join("");
+  return `
+    <div class="stock-track-strip" data-symbol="${escapeHtml(ticker)}"
+         style="margin: 0 0 18px; padding: 14px 16px; background: rgba(224,176,96,0.04); border:1px solid rgba(224,176,96,0.18); border-radius: var(--radius-200);">
+      <div class="tx-micro" style="display:flex; align-items:center; gap:8px; margin-bottom: 8px;">
+        <span style="color: var(--gold);">Track record for ${escapeHtml(ticker)}</span>
+        <span style="color: var(--text-muted); font-weight:500; text-transform:none; letter-spacing:0;">${trades.length} recorded pick${trades.length === 1 ? "" : "s"}</span>
+      </div>
+      ${rows}
+      <div class="tx-meta" style="margin-top:8px;">
+        Past performance does not guarantee future results — see <a href="#" onclick="event.preventDefault(); closeSwsModal(); switchTab('track'); return false;" style="color:var(--gold); text-decoration:underline;">full Track Record</a> for methodology.
+      </div>
+    </div>`;
 }
 
 function closeSwsModal() {

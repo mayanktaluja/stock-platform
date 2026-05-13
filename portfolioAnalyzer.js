@@ -1248,6 +1248,9 @@ export function buildReport(enrichedHoldings, unmatched, meta) {
     holdings: sorted.map(stripInternal),
     unmatched,
     warnings: meta?.warnings ?? [],
-    disclaimer: "Educational content only.",
+    // PR D11 — aligned with the SEBI sticky-footer + Track Record
+    // past-performance chip. Educational-only + market-risk warning +
+    // non-RA disclosure folded into the canonical regulator sentence.
+    disclaimer: "Educational content only. Investments in securities market are subject to market risks; read all related documents carefully before investing. Starbhai is not a SEBI-registered Research Analyst or Investment Adviser — past performance does not guarantee future results.",
   };
 }
