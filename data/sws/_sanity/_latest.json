@@ -1,17 +1,17 @@
 {
-  "run_id": "2026-05-09T16-25-32-730Z",
-  "generated_at": "2026-05-09T21:49:46.713Z",
-  "verdict": "FAIL",
-  "block_count": 1,
-  "warn_count": 2,
-  "pass_count": 27,
+  "run_id": "2026-05-13T00-39-14-348Z",
+  "generated_at": "2026-05-13T01:10:52.124Z",
+  "verdict": "PASS",
+  "block_count": 0,
+  "warn_count": 0,
+  "pass_count": 30,
   "total_checks": 30,
-  "summary_line": "verdict=FAIL · scored=5517 · top30=30 · blocks=1 · warns=2",
+  "summary_line": "verdict=PASS · scored=5517 · top30=30",
   "layers": {
     "L1_run_integrity": {
-      "pass": 11,
-      "warn": 1,
-      "block": 1,
+      "pass": 13,
+      "warn": 0,
+      "block": 0,
       "checks": [
         {
           "layer": "L1_run_integrity",
@@ -64,7 +64,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "duration_seconds": 14045,
+            "duration_seconds": 14184,
             "max": 21600
           }
         },
@@ -79,8 +79,9 @@
           "layer": "L1_run_integrity",
           "name": "news_populated_threshold",
           "severity": "BLOCK",
-          "ok": false,
+          "ok": true,
           "detail": {
+            "news_populated_count": 5363,
             "threshold": 1000
           }
         },
@@ -88,8 +89,9 @@
           "layer": "L1_run_integrity",
           "name": "news_populated_strong_threshold",
           "severity": "WARN",
-          "ok": false,
+          "ok": true,
           "detail": {
+            "news_populated_count": 5363,
             "threshold": 1500
           }
         },
@@ -99,7 +101,7 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "age_hours": 5.41,
+            "age_hours": 0.53,
             "threshold": 6
           }
         },
@@ -128,7 +130,7 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "count": 93,
+            "count": 62,
             "threshold": 50
           }
         }
@@ -223,8 +225,8 @@
       ]
     },
     "L3_data_sanity": {
-      "pass": 2,
-      "warn": 1,
+      "pass": 3,
+      "warn": 0,
       "block": 0,
       "checks": [
         {
@@ -248,141 +250,15 @@
           "layer": "L3_data_sanity",
           "name": "insane_value_rate",
           "severity": "WARN",
-          "ok": false,
+          "ok": true,
           "detail": {
-            "insane_pct": 1.359,
-            "insane_ticker_pct": 1.015,
-            "insane_finding_count": 75,
-            "insane_unique_tickers": 56,
+            "insane_pct": 0,
+            "insane_ticker_pct": 0,
+            "insane_finding_count": 0,
+            "insane_unique_tickers": 0,
             "warn_at": 0.1,
             "block_at": 0.5,
-            "sample": [
-              {
-                "ticker": "505685",
-                "field": "dividend_yield_pct",
-                "value": 460.796387317
-              },
-              {
-                "ticker": "ABFRL",
-                "field": "pe",
-                "value": 80666720748.9
-              },
-              {
-                "ticker": "AEQUS",
-                "field": "pe",
-                "value": 137439508580.55002
-              },
-              {
-                "ticker": "ALLCARGO",
-                "field": "pe",
-                "value": 9641092361.76
-              },
-              {
-                "ticker": "ALLCARGO",
-                "field": "payout_pct",
-                "value": 108106030560.00002
-              },
-              {
-                "ticker": "ARVINDFASN",
-                "field": "pe",
-                "value": 61489357839.450005
-              },
-              {
-                "ticker": "ARVINDFASN",
-                "field": "payout_pct",
-                "value": 21385278240.000004
-              },
-              {
-                "ticker": "AURUM",
-                "field": "pe",
-                "value": 13588511638.52
-              },
-              {
-                "ticker": "AURUM",
-                "field": "payout_pct",
-                "value": 23020970700
-              },
-              {
-                "ticker": "BIRET",
-                "field": "payout_pct",
-                "value": 308.1375563850676
-              },
-              {
-                "ticker": "BIRLANU",
-                "field": "pe",
-                "value": 12008127567.6
-              },
-              {
-                "ticker": "BIRLANU",
-                "field": "payout_pct",
-                "value": 28278371250
-              },
-              {
-                "ticker": "BSE_500285",
-                "field": "pe",
-                "value": 21350131893.08
-              },
-              {
-                "ticker": "BSE_523696",
-                "field": "dividend_yield_pct",
-                "value": 68.7210667008
-              },
-              {
-                "ticker": "CHEMPLASTS",
-                "field": "pe",
-                "value": 38191367599.700005
-              },
-              {
-                "ticker": "DEVYANI",
-                "field": "pe",
-                "value": 146066377039.77
-              },
-              {
-                "ticker": "DIAMONDYD",
-                "field": "pe",
-                "value": 24129308322.05
-              },
-              {
-                "ticker": "DIAMONDYD",
-                "field": "payout_pct",
-                "value": 1195526350
-              },
-              {
-                "ticker": "EMBASSY",
-                "field": "payout_pct",
-                "value": 414.9021958989216
-              },
-              {
-                "ticker": "EQUITASBNK",
-                "field": "pe",
-                "value": 82686106726.65001
-              },
-              {
-                "ticker": "EQUITASBNK",
-                "field": "payout_pct",
-                "value": 114128511700
-              },
-              {
-                "ticker": "ETERNAL",
-                "field": "pe",
-                "value": 643.7770765027321
-              },
-              {
-                "ticker": "FIRSTCRY",
-                "field": "pe",
-                "value": 122827953880.56
-              },
-              {
-                "ticker": "FUSION",
-                "field": "pe",
-                "value": 35099835256.35
-              },
-              {
-                "ticker": "GMRAIRPORT",
-                "field": "pe",
-                "value": 1069835443456.6399
-              }
-            ]
+            "sample": []
           }
         }
       ]
@@ -462,7 +338,7 @@
   "inputs": {
     "scored_count": 5517,
     "universe_size": 5517,
-    "finished_at": "2026-05-09T16:25:32.730Z",
+    "finished_at": "2026-05-13T00:39:14.348Z",
     "pipeline_status": "success"
   }
 }

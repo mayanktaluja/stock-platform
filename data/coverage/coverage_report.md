@@ -1,6 +1,6 @@
 # Stock Universe Coverage Gap — SWS vs Indian Equity Ground Truth
 
-Generated: 2026-05-07T21:18:19.057Z
+Generated: 2026-05-13T01:10:53.933Z
 
 ## Headline
 
