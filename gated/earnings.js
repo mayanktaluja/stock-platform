@@ -141,63 +141,94 @@
     return Array.from(set).sort();
   }
 
+  // PR E4 — counts filters set away from their defaults so the popover
+  // badge tells the user at a glance how many filters are biting.
+  function countActiveEarningsFilters(f) {
+    if (!f) return 0;
+    let n = 0;
+    if (f.days != null && Number(f.days) !== 14) n += 1;
+    if (f.verdict && f.verdict !== "ALL") n += 1;
+    if (f.quality && f.quality !== "ALL") n += 1;
+    if (f.runup && f.runup !== "ALL") n += 1;
+    if (f.sector && f.sector !== "ALL") n += 1;
+    if (f.symbol && String(f.symbol).trim().length > 0) n += 1;
+    return n;
+  }
+
   function renderEarningsFilterBar() {
     const el = document.getElementById("earningsFilterBar");
     if (!el) return;
     const sectorOptions = ["ALL"].concat(uniqueSectorsInSnapshot())
       .map((s) => `<option value="${escHtml(s)}"${s === _earningsFilters.sector ? " selected" : ""}>${s === "ALL" ? "all" : escHtml(s)}</option>`)
       .join("");
+
+    // PR E4 — collapse 5 dropdowns + symbol search into a single "Filters · N"
+    // <details> popover (works on every browser, including the ~15% of
+    // Indian retail mobile still on Chromium < 114 where native popover is
+    // a no-op). The dropdowns themselves are unchanged — preserves filter
+    // state and existing wire-up below.
+    const activeCount = countActiveEarningsFilters(_earningsFilters);
     el.innerHTML = `
-      <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
-        Within
-        <select id="earningsDaysFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
-          <option value="0">today</option>
-          <option value="3">3 days</option>
-          <option value="7">7 days</option>
-          <option value="14" selected>14 days</option>
-          <option value="30">30 days</option>
-        </select>
-      </label>
-      <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
-        Verdict
-        <select id="earningsVerdictFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
-          <option value="ALL" selected>all</option>
-          <option value="BEAT">BEAT</option>
-          <option value="INLINE">INLINE</option>
-          <option value="MISS">MISS</option>
-          <option value="INSUFFICIENT_DATA">INSUFFICIENT</option>
-        </select>
-      </label>
-      <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
-        Quality
-        <select id="earningsQualityFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
-          <option value="ALL" selected>all</option>
-          <option value="HIGH">HIGH only</option>
-          <option value="HIGH+MEDIUM">HIGH + MEDIUM</option>
-          <option value="LOW">LOW only</option>
-        </select>
-      </label>
-      <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
-        Runup
-        <select id="earningsRunupFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
-          <option value="ALL" selected>all</option>
-          <option value="spike">spike (chase risk)</option>
-          <option value="smooth">smooth (informed)</option>
-          <option value="lagging">lagging (room to surprise)</option>
-          <option value="neutral">neutral</option>
-        </select>
-      </label>
-      <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
-        Sector
-        <select id="earningsSectorFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; max-width:180px;">
-          ${sectorOptions}
-        </select>
-      </label>
-      <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
-        Symbol
-        <input id="earningsSymbolFilter" type="text" placeholder="e.g. RELIANCE" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; width:140px;" />
-      </label>
-      <button id="earningsClearFilters" style="background:transparent; color:var(--text-muted); border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; cursor:pointer;">Clear</button>
+      <details class="earnings-filter-popover" ${activeCount > 0 ? "open" : ""}
+               style="position:relative;">
+        <summary style="display:inline-flex; align-items:center; gap:8px; cursor:pointer; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-100); padding:7px 12px; font-size:12px; color:var(--text-secondary); list-style:none;">
+          <span style="font-weight:600; letter-spacing:0.02em;">Filters</span>
+          <span style="display:inline-block; min-width:18px; text-align:center; padding:1px 6px; border-radius:9px; background:${activeCount > 0 ? "var(--gold)" : "rgba(255,255,255,0.08)"}; color:${activeCount > 0 ? "var(--bg-primary)" : "var(--text-muted)"}; font-size:11px; font-weight:700;">${activeCount}</span>
+          <span aria-hidden="true" style="color:var(--text-muted);">▾</span>
+        </summary>
+        <div class="earnings-filter-popover-body" style="position:relative; margin-top:8px; padding:12px 14px; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-200); box-shadow:var(--elev-2); display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center;">
+          <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+            Within
+            <select id="earningsDaysFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
+              <option value="0">today</option>
+              <option value="3">3 days</option>
+              <option value="7">7 days</option>
+              <option value="14" selected>14 days</option>
+              <option value="30">30 days</option>
+            </select>
+          </label>
+          <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+            Verdict
+            <select id="earningsVerdictFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
+              <option value="ALL" selected>all</option>
+              <option value="BEAT">BEAT</option>
+              <option value="INLINE">INLINE</option>
+              <option value="MISS">MISS</option>
+              <option value="INSUFFICIENT_DATA">INSUFFICIENT</option>
+            </select>
+          </label>
+          <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+            Quality
+            <select id="earningsQualityFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
+              <option value="ALL" selected>all</option>
+              <option value="HIGH">HIGH only</option>
+              <option value="HIGH+MEDIUM">HIGH + MEDIUM</option>
+              <option value="LOW">LOW only</option>
+            </select>
+          </label>
+          <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+            Runup
+            <select id="earningsRunupFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
+              <option value="ALL" selected>all</option>
+              <option value="spike">spike (chase risk)</option>
+              <option value="smooth">smooth (informed)</option>
+              <option value="lagging">lagging (room to surprise)</option>
+              <option value="neutral">neutral</option>
+            </select>
+          </label>
+          <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+            Sector
+            <select id="earningsSectorFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; max-width:180px;">
+              ${sectorOptions}
+            </select>
+          </label>
+          <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+            Symbol
+            <input id="earningsSymbolFilter" type="text" placeholder="e.g. RELIANCE" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; width:140px;" />
+          </label>
+          <button id="earningsClearFilters" style="background:transparent; color:var(--text-muted); border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; cursor:pointer;">Clear</button>
+        </div>
+      </details>
     `;
 
     // Wire events. We rely on the in-memory snapshot, so filter changes
@@ -420,6 +451,55 @@
       </div>`;
   }
 
+  // PR E4 — headline-size verdict pill. The 11 px badge above made the
+  // predicted outcome invisible at first glance ("just stacked numbers" in
+  // the user's words); this version reads as the dominant card element via
+  // --fs-headline (20 px) and a stronger tonal background.
+  function renderHeadlineVerdictPill(prediction) {
+    if (!prediction) {
+      return `<span class="tx-headline" style="color:var(--text-muted); font-style:italic;">—</span>`;
+    }
+    const v = prediction.verdict || "INSUFFICIENT_DATA";
+    const tone = predictedVerdictTone(v);
+    const label = v === "INSUFFICIENT_DATA" ? "INSUFFICIENT" : v;
+    return `
+      <span class="tx-headline" title="Predicted earnings outcome with V1 confidence (capped at 65% pending backtest)"
+            style="display:inline-block; padding:2px 12px; border-radius:var(--radius-100); background:${tone.bg}; border:1px solid ${tone.border}; color:${tone.color}; font-weight:700; letter-spacing:0.02em; font-size:var(--fs-headline); line-height:1.25;">
+        ${escHtml(label)}
+      </span>`;
+  }
+
+  // PR E4 — 28×28 confidence ring (18×18 on mobile via @media). Renders the
+  // V1 confidence_pct as a circular progress arc so the user gets the
+  // "agreement" signal without reading the percentage. INSUFFICIENT_DATA
+  // returns empty so the slot is silent rather than misleading.
+  function renderConfidenceRing(prediction, size) {
+    if (!prediction) return "";
+    if (prediction.verdict === "INSUFFICIENT_DATA") return "";
+    const pct = typeof prediction.confidence_pct === "number"
+      ? Math.max(0, Math.min(100, prediction.confidence_pct))
+      : null;
+    if (pct == null) return "";
+    const dim = size || 28;
+    const r = (dim - 4) / 2;
+    const cx = dim / 2;
+    const cy = dim / 2;
+    const circ = 2 * Math.PI * r;
+    const offset = circ * (1 - pct / 100);
+    const tone = predictedVerdictTone(prediction.verdict);
+    return `
+      <svg class="earnings-conf-ring" width="${dim}" height="${dim}" viewBox="0 0 ${dim} ${dim}" role="img" aria-label="${pct.toFixed(0)} percent prediction confidence" style="flex-shrink:0;">
+        <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2.5"/>
+        <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${tone.color}" stroke-width="2.5"
+                stroke-dasharray="${circ.toFixed(2)}" stroke-dashoffset="${offset.toFixed(2)}"
+                stroke-linecap="round" transform="rotate(-90 ${cx} ${cy})"/>
+        <text x="${cx}" y="${cy + 3}" text-anchor="middle"
+              style="font-family: var(--font-mono); font-size: ${Math.max(8, Math.round(dim * 0.32))}px; font-weight: 700; fill: ${tone.color};">
+          ${pct.toFixed(0)}
+        </text>
+      </svg>`;
+  }
+
   function renderPriceBand(band) {
     if (!band || !band.bull || !band.base || !band.bear) return "";
     const fmt = (cell) => {
@@ -633,18 +713,53 @@
     // order surprise just opens nothing instead of throwing.
     const safeClick = `if(typeof openStockDetailModal==='function'){openStockDetailModal('${escHtml(event.symbol)}','earnings');}`;
 
+    // PR E4 — Tier 1 / Tier 2 split.
+    // Tier 1 (always visible): symbol + headline-size verdict + confidence
+    // ring + days-until pill + data-quality badge + 1-sentence rationale.
+    // Tier 2 (single per-card <details>): signals row, price band, 9-cell
+    // playbook (lifted from modal), counter-thesis, catalyst + tag pills.
+    const headlineVerdict = renderHeadlineVerdictPill(prediction);
+    const confidenceRing = renderConfidenceRing(prediction, 28);
+    const dPills = [renderAnnouncementPills(signals), renderDealFlowPill(signals)].filter(Boolean).join(" ");
+    const catalystRow = (runup || dPills)
+      ? `<div style="display:flex; flex-wrap:wrap; gap:5px; align-items:center;">${runup || ""}${dPills}</div>`
+      : "";
+
+    // Build the Tier 2 details payload. Each block is independently
+    // skippable so the disclosure only shows what's actually populated.
+    const tier2Pieces = [
+      catalystRow,
+      renderSignalsRow(signals),
+      renderPriceBand(priceBand),
+      renderEarningsPlaybookOnCard(playbook),
+      renderCounterThesisBlurb(signals),
+      tagPills ? `<div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center;"><span class="tx-micro">Tags</span> ${tagPills}</div>` : "",
+      sectorLabel ? `<div style="font-size:12px; color:var(--text-muted);"><span class="tx-micro">Sector</span> ${escHtml(signals?.sector || "")}</div>` : "",
+    ].filter(Boolean).join("");
+    const tier2Block = tier2Pieces
+      ? `
+        <details class="earnings-card-details" style="margin-top:6px;">
+          <summary style="cursor:pointer; font-size:12px; color:var(--text-muted); letter-spacing:0.03em; padding:4px 0;">More signals · playbook · counter-thesis</summary>
+          <div style="display:flex; flex-direction:column; gap:8px; padding-top:8px; border-top:1px dashed rgba(255,255,255,0.05); margin-top:6px;">
+            ${tier2Pieces}
+          </div>
+        </details>`
+      : "";
+
     return `
       <div class="earnings-card" data-symbol="${escHtml(event.symbol)}" data-quality="${escHtml(signals?.data_quality || "UNKNOWN")}" data-verdict="${escHtml(prediction?.verdict || "")}" onclick="${safeClick}" style="background:var(--panel,#0f1422); border:1px solid #1a2233; ${cardBorder} border-radius:10px; padding:16px 18px; cursor:pointer; transition:transform 120ms ease, border-color 120ms ease; display:flex; flex-direction:column; gap:10px;">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
           <div style="min-width:0; flex:1;">
-            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-              <span style="font-size:16px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">${escHtml(event.symbol)}</span>
-              ${fq ? `<span style="font-size:11px; color:var(--text-muted); letter-spacing:0.04em;">${fq}</span>` : ""}
-              ${verdictBadge}
-              ${dqBadge}
-              ${tagPills}
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+              <span class="tx-num" style="font-size:18px; font-weight:700; color:#e2e8f0; letter-spacing:-0.01em;">${escHtml(event.symbol)}</span>
+              ${headlineVerdict}
+              ${confidenceRing}
             </div>
-            <div style="font-size:12px; color:var(--text-muted); margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escHtml(event.company || event.symbol)} ${sectorLabel}</div>
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:6px;">
+              ${fq ? `<span class="tx-micro">${fq}</span>` : ""}
+              ${dqBadge}
+            </div>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escHtml(event.company || event.symbol)}</div>
           </div>
           <div style="text-align:right; flex-shrink:0;">
             <span class="${dayPill}" style="display:inline-block; padding:4px 10px; border-radius:12px; font-size:11px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;">${escHtml(dayLabel)}</span>
@@ -652,18 +767,22 @@
           </div>
         </div>
         ${renderRationaleHeadline(rationale)}
-        ${(() => {
-          // Compact catalyst row: pre-runup pill + Milestone-D pills.
-          // Skipped entirely if everything is empty.
-          const dPills = [renderAnnouncementPills(signals), renderDealFlowPill(signals)].filter(Boolean).join(" ");
-          if (!runup && !dPills) return "";
-          return `<div style="display:flex; flex-wrap:wrap; gap:5px; align-items:center;">${runup || ""}${dPills}</div>`;
-        })()}
-        ${renderSignalsRow(signals)}
-        ${renderPriceBand(priceBand)}
-        ${renderTradingAngle(playbook)}
-        ${renderCounterThesisBlurb(signals)}
+        ${tier2Block}
       </div>`;
+  }
+
+  // PR E4 — 9-cell playbook on the card itself. Lifted from the modal
+  // (renderModalPlaybookBranches at line 852) so traders see the actual
+  // T+1 plan without clicking through. Falls through to renderTradingAngle
+  // when the full branch matrix isn't populated yet.
+  function renderEarningsPlaybookOnCard(playbook) {
+    if (!playbook) return "";
+    if (typeof renderModalPlaybookBranches === "function" && playbook && Array.isArray(playbook.branches) && playbook.branches.length > 0) {
+      try {
+        return `<div class="earnings-card-playbook">${renderModalPlaybookBranches(playbook)}</div>`;
+      } catch { /* fall through */ }
+    }
+    return renderTradingAngle(playbook);
   }
 
   function renderEarningsCardGrid(events) {

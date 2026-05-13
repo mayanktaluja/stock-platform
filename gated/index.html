@@ -1016,6 +1016,22 @@
       .watchlist-table th, .watchlist-table td { padding-inline: 6px; }
     }
 
+    /* PR E4 — Earnings filter popover styling.
+     * The native `summary::-webkit-details-marker` and `summary::marker`
+     * arrows clash with the inline ▾ glyph in the markup; hide both. */
+    details.earnings-filter-popover > summary { list-style: none; }
+    details.earnings-filter-popover > summary::-webkit-details-marker { display: none; }
+    details.earnings-filter-popover[open] > summary > span:last-child { transform: rotate(180deg); display: inline-block; }
+    /* Mobile (≤ 480 px): confidence ring shrinks, popover spans full width,
+     * filter fields wrap to a column to stay readable on a 375 px phone. */
+    @media (max-width: 480px) {
+      .earnings-conf-ring { width: 18px !important; height: 18px !important; }
+      .earnings-filter-popover .earnings-filter-popover-body { flex-direction: column; align-items: stretch; }
+      .earnings-filter-popover .earnings-filter-popover-body label,
+      .earnings-filter-popover .earnings-filter-popover-body select,
+      .earnings-filter-popover .earnings-filter-popover-body input { width: 100%; }
+    }
+
     /* Main Content */
     .main-content {
       max-width: 1600px;
