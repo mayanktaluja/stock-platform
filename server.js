@@ -3682,13 +3682,27 @@ const trackCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
  * Query params:
  *   ?type=buynow_nifty100|smallcap_buynow|fundamental_deep_value  — filter
  *   ?days=30                                                      — last N days
+ *   ?symbol=HDFCBANK                                              — single-symbol filter (PR T6)
  *   ?bust=1                                                       — skip cache
+ *
+ * PR T6 — symbol filter underwrites the per-stock "we said X N days ago"
+ * strip on the stock-detail modal. The normaliser strips .NS / .BO / BSE:
+ * / NSE: prefixes + uppercases so the caller doesn't have to canonicalise.
  */
+function _normaliseTrackSymbol(s) {
+  if (!s) return "";
+  return String(s)
+    .toUpperCase()
+    .replace(/^(BSE|NSE):/, "")
+    .replace(/\.(NS|BO)$/, "")
+    .trim();
+}
 app.get("/api/track/history", async (req, res) => {
   try {
     const filterType = req.query.type || null;
     const dayLimit = req.query.days ? parseInt(req.query.days, 10) : null;
-    const cacheKey = `track_history_${filterType || "all"}_${dayLimit || "all"}`;
+    const symbolFilter = req.query.symbol ? _normaliseTrackSymbol(req.query.symbol) : null;
+    const cacheKey = `track_history_${filterType || "all"}_${dayLimit || "all"}_${symbolFilter || "all"}`;
 
     if (!req.query.bust) {
       const cached = trackCache.get(cacheKey);
@@ -3701,6 +3715,9 @@ app.get("/api/track/history", async (req, res) => {
     let trades = await readAllTrades();
 
     if (filterType) trades = trades.filter((t) => t.type === filterType);
+    if (symbolFilter) {
+      trades = trades.filter((t) => _normaliseTrackSymbol(t.symbol) === symbolFilter);
+    }
     if (dayLimit) {
       const cutoff = Date.now() - dayLimit * 86400000;
       trades = trades.filter((t) => new Date(t.snapshotAt).getTime() >= cutoff);
