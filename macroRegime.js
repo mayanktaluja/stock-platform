@@ -314,9 +314,9 @@ const REGIME_SECTOR_TEMPLATES = {
   CALM: [],
 };
 
-export function heuristicClassifyRegime(headlines) {
+export function heuristicClassifyRegime(headlines, providerHealth = null) {
   if (!Array.isArray(headlines) || headlines.length === 0) {
-    return { ...defaultCalmRegime(), reasoning: "No headlines available — defaulting to Calm." };
+    return { ...defaultCalmRegime(), reasoning: "No headlines available — defaulting to Calm.", classifierProvider: "heuristic", llmProviderHealth: providerHealth };
   }
 
   const scores = Object.fromEntries(REGIMES.map((r) => [r, 0]));
@@ -341,6 +341,7 @@ export function heuristicClassifyRegime(headlines) {
       confidence: 0.5,
       reasoning: `No regime-defining signals across ${total} headlines — markets appear calm.`,
       classifierProvider: "heuristic",
+      llmProviderHealth: providerHealth,
     };
   }
 
@@ -364,7 +365,22 @@ export function heuristicClassifyRegime(headlines) {
     headlineCount: total,
     generatedAt: new Date().toISOString(),
     classifierProvider: "heuristic",
+    llmProviderHealth: providerHealth,
   };
+}
+
+// Map a thrown LLM-provider error to a health string consumed by the banner UI.
+// Distinguishes auth_error (operator must rotate the key) from throttled (will
+// recover) and unreachable (network) so the banner copy can escalate accordingly.
+function classifyProviderError(err) {
+  const status = err?.status || err?.response?.status;
+  if (status === 401 || status === 403) return "auth_error";
+  if (status === 429) return "throttled";
+  if (status === 400) return "auth_error"; // some providers return 400 on bad key
+  if (err?.code === "ECONNRESET" || err?.code === "ETIMEDOUT" || err?.code === "ENOTFOUND") return "unreachable";
+  if (/timeout|network|fetch failed|socket/i.test(err?.message || "")) return "unreachable";
+  if (/invalid.*api.*key|api key.*invalid|unauthorized|forbidden/i.test(err?.message || "")) return "auth_error";
+  return "unreachable";
 }
 
 // ──────────────────── LLM client (lazy) ────────────────────
@@ -518,8 +534,13 @@ async function runClassification({ client, model, label, trackBudget, extraParam
  * chain — see PR #114 for the trade-offs.
  */
 export async function classifyRegime(headlines) {
+  // Provider-health ledger: tracks whether each LLM provider was reachable,
+  // throttled, or fundamentally unavailable. Surfaced via the regime object
+  // so the snapshot banner can distinguish "rotate keys" from "wait it out".
+  const llmProviderHealth = { groq: "not_configured", gemini: "not_configured" };
+
   if (!Array.isArray(headlines) || headlines.length === 0) {
-    return { ...defaultCalmRegime(), reasoning: "No headlines provided." };
+    return { ...defaultCalmRegime(), reasoning: "No headlines provided.", classifierProvider: "heuristic", llmProviderHealth };
   }
 
   // Cap headlines to stay under token budget — keep the 40 most recent.
@@ -535,10 +556,12 @@ export async function classifyRegime(headlines) {
   const groqQuota = getGroqQuotaState();
   if (!groqClient) {
     console.warn("[MACRO] No GROQ_API_KEY — trying Gemini.");
+    llmProviderHealth.groq = "not_configured";
   } else if (groqQuota.limited) {
     // Skip Groq if its TPD quota is currently exhausted — no point burning
     // a network round-trip to get the same 429 we already know about.
     console.log(`[MACRO] Groq quota active until ${new Date(groqQuota.until).toISOString()} — trying Gemini.`);
+    llmProviderHealth.groq = "throttled";
   } else {
     try {
       const regime = await runClassification(
@@ -546,10 +569,13 @@ export async function classifyRegime(headlines) {
         promptCtx
       );
       regime.classifierProvider = "groq";
+      llmProviderHealth.groq = "ok";
+      regime.llmProviderHealth = llmProviderHealth;
       console.log(`[MACRO] Classification via groq: ${regime.regime} (sev ${regime.severity}, conf ${regime.confidence?.toFixed?.(2) ?? regime.confidence})`);
       return regime;
     } catch (err) {
-      console.warn(`[MACRO] Groq failed: ${err.message} — trying Gemini.`);
+      llmProviderHealth.groq = classifyProviderError(err);
+      console.warn(`[MACRO] Groq failed (${llmProviderHealth.groq}): ${err.message} — trying Gemini.`);
     }
   }
 
@@ -557,6 +583,7 @@ export async function classifyRegime(headlines) {
   const geminiClient = getGeminiClient();
   if (!geminiClient) {
     console.log("[MACRO] No GEMINI_API_KEY — using heuristic keyword classifier.");
+    llmProviderHealth.gemini = "not_configured";
   } else {
     try {
       const regime = await runClassification(
@@ -572,15 +599,18 @@ export async function classifyRegime(headlines) {
         promptCtx
       );
       regime.classifierProvider = "gemini";
+      llmProviderHealth.gemini = "ok";
+      regime.llmProviderHealth = llmProviderHealth;
       console.log(`[MACRO] Classification via gemini: ${regime.regime} (sev ${regime.severity}, conf ${regime.confidence?.toFixed?.(2) ?? regime.confidence})`);
       return regime;
     } catch (err) {
-      console.warn(`[MACRO] Gemini failed: ${err.message} — using heuristic keyword classifier.`);
+      llmProviderHealth.gemini = classifyProviderError(err);
+      console.warn(`[MACRO] Gemini failed (${llmProviderHealth.gemini}): ${err.message} — using heuristic keyword classifier.`);
     }
   }
 
   // Step 3 — keyword heuristic (deterministic, no network, never fails).
-  return heuristicClassifyRegime(capped);
+  return heuristicClassifyRegime(capped, llmProviderHealth);
 }
 
 // ──────────────────── Prompt building ────────────────────

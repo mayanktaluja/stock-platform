@@ -147,7 +147,7 @@ async function loadSnapshotHealth() {
   } catch { return; }
   const banner = document.getElementById("snapshotHealthBanner");
   if (!banner) return; // banner element may not be in older HTML cuts
-  if (!health || !health.anyStale) {
+  if (!health || (!health.anyStale && !health.anyDegraded)) {
     banner.hidden = true;
     return;
   }
@@ -158,19 +158,43 @@ async function loadSnapshotHealth() {
     picks_latest: "SWS picks",
     macro_regime: "Macro regime",
   };
-  const parts = health.staleKeys.map((k) => {
-    const s = health.snapshots[k];
-    const label = labels[k] || k;
-    if (s.age_hours == null) return `${label} (no data)`;
-    const days = s.age_hours >= 48 ? `${Math.round(s.age_hours / 24)}d` : `${Math.round(s.age_hours)}h`;
-    return `${label} (${days} old)`;
-  });
-  banner.innerHTML = `
-    <span style="font-weight:600;">⚠ Stale data:</span>
-    <span style="opacity:0.9;">${parts.join(" · ")}</span>
-    <span style="opacity:0.7;margin-left:8px;font-size:11px;">Values may not reflect today's market — underlying refresh has not run.</span>
-  `;
-  banner.hidden = false;
+  const chips = [];
+
+  // Orange chip — file genuinely stale (refresh script broken or hasn't run).
+  if (health.anyStale && Array.isArray(health.staleKeys) && health.staleKeys.length > 0) {
+    const parts = health.staleKeys.map((k) => {
+      const s = health.snapshots[k];
+      const label = labels[k] || k;
+      if (s.age_hours == null) return `${label} (no data)`;
+      const days = s.age_hours >= 48 ? `${Math.round(s.age_hours / 24)}d` : `${Math.round(s.age_hours)}h`;
+      return `${label} (${days} old)`;
+    });
+    chips.push(`
+      <div style="color:#E0B060; padding:2px 0;">
+        <span style="font-weight:600;">⚠ Stale data:</span>
+        <span style="opacity:0.9;"> ${parts.join(" · ")}</span>
+        <span style="opacity:0.7;margin-left:8px;font-size:11px;">Values may not reflect today's market — underlying refresh has not run.</span>
+      </div>
+    `);
+  }
+
+  // Amber chip — file is fresh but classifier degraded. Distinct remediation
+  // (rotate LLM keys / wait out throttle) vs the stale chip (fix refresh).
+  if (health.anyDegraded && Array.isArray(health.degradedKeys) && health.degradedKeys.includes("macro_regime")) {
+    const ph = health.snapshots.macro_regime?.llmProviderHealth || {};
+    const authBroken = ph.groq === "auth_error" || ph.gemini === "auth_error";
+    const copy = authBroken
+      ? "Macro regime — LLM keys need rotation (running on keyword fallback)."
+      : "Macro regime — keyword-only (LLM unavailable, will recover on next quota window).";
+    chips.push(`
+      <div style="color:#C8A06A; padding:2px 0;">
+        <span style="font-weight:600;">ℹ ${copy}</span>
+      </div>
+    `);
+  }
+
+  banner.innerHTML = chips.join("");
+  banner.hidden = chips.length === 0;
 }
 
 // ==================== GLOSSARY TOOLTIP SYSTEM ====================
