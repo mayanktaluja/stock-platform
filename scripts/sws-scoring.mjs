@@ -690,6 +690,8 @@ function slimUniverseEntry(stock, inSections) {
     v3_score: card.v3_score,
     v3_score_100: card.v3_score_100,
     v3_verdict: card.v3_verdict,
+    composite_verdict: card.composite_verdict,
+    valuation_band: card.valuation_band,
     verdict: card.verdict,
     v2_breakdown: card.v2_breakdown ? { surveillance: card.v2_breakdown.surveillance || null } : null,
     snowflake_total: card.snowflake_total,
