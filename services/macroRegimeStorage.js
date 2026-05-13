@@ -1,28 +1,36 @@
 /**
  * Macro Regime Storage Adapter
  *
- * Vercel KV (prod) → file (dev) — same pattern as watchlistStorage.js.
+ * File-only: prod and dev both read data/macroRegime.json. The Vercel KV
+ * branch that used to live here was structurally dead — same situation
+ * fundamentals.js hit in PR #195 ("rip out dead Vercel KV path so prod
+ * reads fresh disk"). KV had no callers that actually persist in prod:
  *
- * Why this exists: Vercel runs N serverless instances each with its own
- * NodeCache. Without a shared store, every cold-started instance independently
- * tries to classify on first request, all hit Groq's TPD quota, and the user
- * sees a degraded banner from whichever instance won the race. KV gives every
- * instance a single shared view of the last good classification.
+ *   - Vercel cron's /api/cron/warm-caches wrote to KV but Vercel's
+ *     filesystem is read-only outside /tmp, so the disk write was a no-op
+ *     and KV was the only sink — but KV_REST_API_URL was unset in prod,
+ *     so the KV write itself was a no-op too.
+ *   - In-process refreshMacroRegime() ran inside server.js's setInterval,
+ *     but that interval only fires when app.listen() is reached (i.e. local
+ *     dev). On Vercel, each function invocation is a fresh process — the
+ *     interval has never executed a single tick in production.
  *
- * Store shape: a single JSON-encoded regime object under the key `macro:regime`.
+ * The canonical refresh path is now: scripts/refresh-macro-regime.mjs runs
+ * locally via launchd (bundled into scripts/sws-nightly.sh at 02:00 and
+ * 16:30 IST), writes data/macroRegime.json atomically, then sws-nightly
+ * commits + opens a PR + auto-merges. Vercel reads fresh disk on the
+ * next deploy. Same pattern as fundamentals + SWS picks.
  *
- * File location: data/macroRegime.json — committed to git so Vercel cold starts
- * read the last good classification even when KV is unset (same pattern as
- * data/catalysts/*.json for NSE data that can't be fetched from Vercel IPs).
+ * File location: data/macroRegime.json — bundled into the Vercel build via
+ * vercel.json `includeFiles`, so cold starts read it directly.
  */
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync, renameSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const FILE_PATH = path.join(__dirname, "..", "data", "macroRegime.json");
-const KV_KEY = "macro:regime";
 
 // Reject regimes whose reasoning contains raw error text — these are
 // poisoned by a prior bug (#106/#109) that wrote `Refresh failed: 429...`
@@ -64,46 +72,16 @@ class FileMacroRegimeStorage {
   }
 
   async write(regime) {
+    // Best-effort: this only succeeds in local dev (Vercel filesystem is
+    // read-only outside /tmp). The canonical write path is the standalone
+    // script + commit, not this in-process write.
     try {
       mkdirSync(path.dirname(FILE_PATH), { recursive: true });
       const tmp = `${FILE_PATH}.${process.pid}.tmp`;
       writeFileSync(tmp, JSON.stringify(regime), "utf-8");
-      await import("node:fs").then((fs) => fs.renameSync(tmp, FILE_PATH));
+      renameSync(tmp, FILE_PATH);
     } catch (err) {
       console.warn("[MACRO:FILE] write failed:", err.message);
-    }
-  }
-}
-
-class KVMacroRegimeStorage {
-  constructor() { this.name = "vercel-kv"; this._kv = null; }
-
-  async _getKV() {
-    if (this._kv) return this._kv;
-    const mod = await import("@vercel/kv");
-    this._kv = mod.kv;
-    return this._kv;
-  }
-
-  async read() {
-    try {
-      const kv = await this._getKV();
-      const raw = await kv.get(KV_KEY);
-      if (!raw) return null;
-      const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
-      return isUsableRegime(parsed) ? parsed : null;
-    } catch (err) {
-      console.warn("[MACRO:KV] read failed:", err.message);
-      return null;
-    }
-  }
-
-  async write(regime) {
-    try {
-      const kv = await this._getKV();
-      await kv.set(KV_KEY, JSON.stringify(regime));
-    } catch (err) {
-      console.warn("[MACRO:KV] write failed:", err.message);
     }
   }
 }
@@ -112,8 +90,7 @@ let _storage = null;
 
 export function getMacroRegimeStorage() {
   if (_storage) return _storage;
-  const hasKV = !!process.env.KV_REST_API_URL && !!process.env.KV_REST_API_TOKEN;
-  _storage = hasKV ? new KVMacroRegimeStorage() : new FileMacroRegimeStorage();
+  _storage = new FileMacroRegimeStorage();
   console.log(`[MACRO] Using ${_storage.name} storage`);
   return _storage;
 }

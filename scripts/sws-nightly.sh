@@ -265,6 +265,21 @@ if ! with_timeout 600 bash scripts/refresh-fo-oi.sh 2>&1 | sed 's/^/[fo-oi] /'; 
   echo "[nightly] refresh-fo-oi.sh failed — non-fatal, continuing"
 fi
 
+# Macro regime refresh: ~10-15s (RSS fetches + 1 LLM call). Writes
+# data/macroRegime.json which production reads to render the global
+# macro banner. Exit 2 = LLM auth_error (rotate keys) — non-fatal here
+# but worth surfacing in the PR body. Exit 1 = no headlines AND no
+# prior file — non-fatal; the banner falls back to last-known data.
+MACRO_RC=0
+if ! with_timeout 120 node scripts/refresh-macro-regime.mjs 2>&1 | sed 's/^/[macro] /'; then
+  MACRO_RC=$?
+  if [ "${MACRO_RC}" = "2" ]; then
+    echo "[nightly] refresh-macro-regime.mjs returned exit 2 — LLM auth_error, rotate keys"
+  else
+    echo "[nightly] refresh-macro-regime.mjs failed (exit ${MACRO_RC}) — non-fatal, continuing"
+  fi
+fi
+
 # Daily fundamentals refresh: self-paced via a 20h freshness check. Two
 # launchd fires per day (02:00 IST pre-market + 16:30 IST post-close), so
 # 20h ensures the second fire coasts when the first succeeded. Saves
@@ -328,6 +343,7 @@ if [ ${GATE_RC} -ne 0 ]; then
   DATA_FILES=(
     data/catalysts/
     data/nse-fo/oi-deltas-latest.json
+    data/macroRegime.json
     fundamentals.json
     fundamentalsHistory.json
   )
@@ -431,6 +447,7 @@ CHANGED_FILES=$(git status --short \
   data/sws/v3-universe-stats.json \
   data/catalysts/ \
   data/nse-fo/oi-deltas-latest.json \
+  data/macroRegime.json \
   fundamentals.json \
   fundamentalsHistory.json \
   2>/dev/null | wc -l | tr -d ' ')
@@ -455,6 +472,7 @@ git add data/sws/deep/ \
         data/sws/v3-universe-stats.json \
         data/catalysts/ \
         data/nse-fo/oi-deltas-latest.json \
+        data/macroRegime.json \
         fundamentals.json \
         fundamentalsHistory.json
 
