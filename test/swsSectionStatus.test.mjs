@@ -2,10 +2,20 @@
  * Regression tests for scripts/sws-section-status.mjs — pure diff utility
  * stamping `section_status` on per-section stock objects.
  *
+ * Also exercises the wrapper script scripts/sws-stamp-section-status.mjs
+ * end-to-end against a tempdir, so any parse error or import failure in the
+ * wrapper (the May-11 incident class) fails this test instead of silently
+ * shipping a picks-latest.json with zero section_status fields.
+ *
  * Run with: node test/swsSectionStatus.test.mjs
  */
 
 import { computeSectionStatus, trendingThresholdForSize } from "../scripts/sws-section-status.mjs";
+import { execFileSync } from "child_process";
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync, existsSync } from "fs";
+import { tmpdir } from "os";
+import { join, resolve, dirname } from "path";
+import { fileURLToPath } from "url";
 
 let pass = 0;
 let fail = 0;
@@ -168,6 +178,79 @@ console.log("\n(H) Same ticker in two sections gets independent badges\n");
   assert("TWO in top_ranked: rank_delta=0", twoInTop.section_status.rank_delta === 0, twoInTop.section_status);
   assert("TWO in buy_now: newly_added=true (fresh entry)", twoInBuyNow.section_status.newly_added === true, twoInBuyNow.section_status);
   assert("Independent objects — different status", twoInTop.section_status !== twoInBuyNow.section_status, null);
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// End-to-end: scripts/sws-stamp-section-status.mjs
+//
+// The May-11 incident shipped a parse error in this wrapper — `await` inside
+// a non-async `main()` — that the pipeline's `|| true` swallowed. Two days of
+// auto-refreshes wrote picks-latest.json with zero section_status fields and
+// no badge appeared on any card. The unit tests above didn't catch it because
+// they exercise the pure diff utility, not the wrapper.
+//
+// This block invokes the wrapper as Node would in prod (real spawn, real cwd,
+// real fs writes) against a temp directory. A parse error / import failure /
+// missing-file regression in the wrapper now fails this test loudly.
+// ──────────────────────────────────────────────────────────────────────────
+
+console.log("\n(E) Stamper wrapper end-to-end\n");
+{
+  const __dirname = dirname(fileURLToPath(import.meta.url));
+  const REPO_ROOT = resolve(__dirname, "..");
+  const STAMPER = resolve(REPO_ROOT, "scripts/sws-stamp-section-status.mjs");
+
+  const tempRoot = mkdtempSync(join(tmpdir(), "sws-stamp-test-"));
+  try {
+    const dataDir = join(tempRoot, "data", "sws");
+    mkdirSync(dataDir, { recursive: true });
+
+    // Prior: only OLD1, OLD2 in best_to_buy_now.
+    // Current: NEW1 at top + OLD1, OLD2 → NEW1 should get newly_added=true.
+    const prior = {
+      scanned_at: "2026-05-07T00:00:00Z",
+      sections: {
+        best_to_buy_now: [
+          { ticker: "OLD1", name: "Old One" },
+          { ticker: "OLD2", name: "Old Two" },
+        ],
+      },
+    };
+    const current = {
+      scanned_at: "2026-05-08T00:00:00Z",
+      sections: {
+        best_to_buy_now: [
+          { ticker: "NEW1", name: "New One" },
+          { ticker: "OLD1", name: "Old One" },
+          { ticker: "OLD2", name: "Old Two" },
+        ],
+      },
+    };
+    writeFileSync(join(dataDir, "picks-previous.json"), JSON.stringify(prior));
+    writeFileSync(join(dataDir, "picks-latest.json"), JSON.stringify(current));
+
+    // Spawn the real stamper. Any parse error or import-time crash throws
+    // here. Empty SWS_RUN_ID keeps the DB dual-write branch dormant — we
+    // only want to exercise the JSON write path.
+    execFileSync(process.execPath, [STAMPER], {
+      cwd: tempRoot,
+      env: { ...process.env, SWS_RUN_ID: "", SWS_DB_DUAL_WRITE: "0" },
+      stdio: "pipe",
+    });
+
+    const result = JSON.parse(readFileSync(join(dataDir, "picks-latest.json"), "utf-8"));
+    const items = result.sections.best_to_buy_now;
+    const new1 = items.find((s) => s.ticker === "NEW1");
+    const old1 = items.find((s) => s.ticker === "OLD1");
+
+    assert("wrapper wrote section_status on NEW1", new1?.section_status != null, new1);
+    assert("wrapper wrote section_status on OLD1", old1?.section_status != null, old1);
+    assert("NEW1 marked newly_added=true",         new1?.section_status?.newly_added === true,  new1?.section_status);
+    assert("OLD1 marked newly_added=false",        old1?.section_status?.newly_added === false, old1?.section_status);
+    assert("wrapper snapshotted picks-previous.json", existsSync(join(dataDir, "picks-previous.json")), null);
+  } finally {
+    rmSync(tempRoot, { recursive: true, force: true });
+  }
 }
 
 console.log(`\n  ${pass} passed, ${fail} failed\n`);

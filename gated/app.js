@@ -8250,8 +8250,18 @@ function renderPicksMetaBanner(data) {
   const inFlightLine = inFlight
     ? `<br><span style="color:var(--accent, #4a90e2);">⟳ Refresh in progress — shard 1: ${shards[0]?.today_count || 0} · shard 2: ${shards[1]?.today_count || 0} · shard 3: ${shards[2]?.today_count || 0} stocks today</span>`
     : "";
+  // Stamping-failure banner — last-refresh.json carries `stamping_status` from
+  // scripts/sws-refresh-api.sh. When set to "failed", the section_status field
+  // didn't land on picks-latest.json, so the New / ↑N / Newly Flagged badges
+  // on every per-section card will be silently absent until the next run.
+  // Surface that loudly here so the user notices within seconds of opening the
+  // tab — without this line, the May-11 incident (silent SyntaxError swallowed
+  // by `|| true`) went unnoticed for two days.
+  const stampWarn = lr.stamping_status === "failed"
+    ? `<br><span style="color:var(--red);">⚠ Stamping failed last run — "New" / "↑N" / "Newly Flagged" badges will not render until the next successful refresh.</span>`
+    : "";
 
-  return `${refreshLine} · ${totals}${inFlightLine}`;
+  return `${refreshLine} · ${totals}${inFlightLine}${stampWarn}`;
 }
 
 // ──────────────────────────────────────────────────────────────────────────
