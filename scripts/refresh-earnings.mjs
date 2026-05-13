@@ -24,7 +24,7 @@
  *
  * Usage:
  *   node scripts/refresh-earnings.mjs
- *   node scripts/refresh-earnings.mjs --window 21   (override 14d window)
+ *   node scripts/refresh-earnings.mjs --window 60   (override 30d window)
  *
  * Exit codes:
  *   0   success
@@ -56,7 +56,7 @@ const OUT_PATH = path.join(ROOT, "data", "catalysts", "earnings-watch-latest.jso
 const STATS_PATH = path.join(ROOT, "data", "catalysts", "earnings-watch-stats.json");
 
 function parseArgs(argv) {
-  const out = { windowDays: 14 };
+  const out = { windowDays: 30 };
   for (let i = 2; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--window") {
@@ -99,13 +99,14 @@ function loadEventsPayload() {
  */
 function buildStats(snapshot) {
   const events = snapshot.events || [];
-  const byDays = { d0: 0, d1to3: 0, d4to7: 0, d8to14: 0 };
+  const byDays = { d0: 0, d1to3: 0, d4to7: 0, d8to14: 0, d15to30: 0 };
   for (const e of events) {
     const d = e.days_until;
     if (d === 0) byDays.d0 += 1;
     else if (d >= 1 && d <= 3) byDays.d1to3 += 1;
     else if (d >= 4 && d <= 7) byDays.d4to7 += 1;
     else if (d >= 8 && d <= 14) byDays.d8to14 += 1;
+    else if (d >= 15 && d <= 30) byDays.d15to30 += 1;
   }
   // Milestone B adds the signal rollup. The earningsCalendar (M-A
   // events have no `signals`) still produces a valid stats blob —
