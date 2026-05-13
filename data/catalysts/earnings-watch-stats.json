@@ -1,71 +1,71 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-05-08T22:46:06.349Z",
-  "today_iso": "2026-05-09",
+  "built_at": "2026-05-13T04:33:40.760Z",
+  "today_iso": "2026-05-13",
   "window_days": 14,
-  "upstream_event_count": 380,
-  "upstream_fetched_at": "2026-05-05T23:42:31.281Z",
-  "event_count": 220,
+  "upstream_event_count": 520,
+  "upstream_fetched_at": "2026-05-13T04:32:56.515Z",
+  "event_count": 460,
   "bucket_by_days": {
-    "d0": 14,
-    "d1to3": 82,
-    "d4to7": 73,
-    "d8to14": 51
+    "d0": 0,
+    "d1to3": 221,
+    "d4to7": 140,
+    "d8to14": 99
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 79,
-      "MEDIUM": 138,
-      "LOW": 3
+      "HIGH": 51,
+      "MEDIUM": 395,
+      "LOW": 14
     },
     "by_pre_runup": {
-      "spike": 50,
-      "smooth": 30,
-      "lagging": 62,
-      "neutral": 78
+      "spike": 77,
+      "smooth": 57,
+      "lagging": 123,
+      "neutral": 203
     },
     "sector_count": 23,
     "top_sectors": [
       {
         "sector": "Materials",
-        "count": 51
+        "count": 92
       },
       {
         "sector": "Capital Goods",
-        "count": 31
-      },
-      {
-        "sector": "Diversified Financials",
-        "count": 17
+        "count": 78
       },
       {
         "sector": "Consumer Durables",
-        "count": 16
+        "count": 40
+      },
+      {
+        "sector": "Diversified Financials",
+        "count": 36
       },
       {
         "sector": "Pharmaceuticals & Biotech",
-        "count": 16
+        "count": 33
       }
     ]
   },
   "predictions": {
     "by_verdict": {
-      "BEAT": 86,
-      "INLINE": 123,
-      "MISS": 8,
-      "INSUFFICIENT_DATA": 3
+      "BEAT": 75,
+      "INLINE": 346,
+      "MISS": 25,
+      "INSUFFICIENT_DATA": 14
     },
-    "avg_confidence_pct": 57,
+    "avg_confidence_pct": 55,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v1-2026-05"
   },
   "playbooks": {
-    "tradable_count": 217,
+    "tradable_count": 446,
     "by_highlighted_branch": {
-      "RAISE": 92,
-      "MAINTAIN": 75,
-      "CUT": 50,
-      "none": 3
+      "RAISE": 180,
+      "MAINTAIN": 189,
+      "CUT": 77,
+      "none": 14
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   }
