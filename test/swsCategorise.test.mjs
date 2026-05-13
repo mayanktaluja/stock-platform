@@ -10,12 +10,17 @@
  * Run with: node test/swsCategorise.test.mjs
  */
 
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   categoriseStock,
   buildLeaderboard,
   valuationBandFromUpside,
   scoreStock,
 } from "../services/swsScoring.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 let pass = 0;
 let fail = 0;
@@ -194,6 +199,52 @@ console.log("\nbuildLeaderboard — BSE-numeric ticker filter (PR 2.7)\n");
   const tickers = (lb.top_ranked_30 || []).map((r) => r.ticker);
   assert("BSE-numeric '538992' filtered from top_ranked_30", !tickers.includes("538992"), tickers);
   assert("NSE symbols survive", tickers.includes("RELIANCE") && tickers.includes("ZOMATO"), tickers);
+}
+
+console.log("\nslimUniverseEntry — alias-field carriage on sws-scored-universe.json\n");
+
+{
+  // The slim universe rows feed off-section search hits on the SWS Picks
+  // tab. Without composite_verdict + valuation_band, off-section cards
+  // render blank score/verdict/chip while curated rows from picks-latest.json
+  // render them populated — the bug visible in user-reported "search adani"
+  // screenshot. Assert the data layer carries the aliases so the rendered
+  // shape is byte-identical regardless of which JSON the row came from.
+  const universePath = path.join(__dirname, "..", "data", "sws", "sws-scored-universe.json");
+  if (!fs.existsSync(universePath)) {
+    console.log("  (skip) sws-scored-universe.json not present — run `node scripts/sws-build-scored-universe.mjs`");
+  } else {
+    const data = JSON.parse(fs.readFileSync(universePath, "utf-8"));
+    const stocks = Array.isArray(data?.stocks) ? data.stocks : [];
+    assert("universe has stocks", stocks.length > 0, stocks.length);
+
+    const withV3 = stocks.filter((s) => s && s.v3_verdict);
+    const missingCv = withV3.filter((s) => !s.composite_verdict);
+    assert(
+      "every v3_verdict row carries composite_verdict",
+      missingCv.length === 0,
+      missingCv.slice(0, 3).map((s) => s.ticker)
+    );
+
+    const hasFiniteUpside = (s) => typeof s.upside_pct === "number" && Number.isFinite(s.upside_pct);
+    const withUpside = stocks.filter((s) => s && hasFiniteUpside(s));
+    const missingVb = withUpside.filter((s) => !s.valuation_band);
+    assert(
+      "every finite-upside row carries valuation_band",
+      missingVb.length === 0,
+      missingVb.slice(0, 3).map((s) => s.ticker)
+    );
+
+    // No-upside rows correctly leave valuation_band null — the card renderer
+    // hides the chip on null, matching curated-section behaviour.
+    const noUpside = stocks.filter((s) => s && !hasFiniteUpside(s));
+    const wronglyBanded = noUpside.filter((s) => s.valuation_band);
+    assert(
+      "no-upside rows have null valuation_band",
+      wronglyBanded.length === 0,
+      wronglyBanded.slice(0, 3).map((s) => s.ticker)
+    );
+  }
 }
 
 console.log(`\n${pass} passed, ${fail} failed\n`);
