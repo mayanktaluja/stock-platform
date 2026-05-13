@@ -5048,19 +5048,28 @@ function swsRenderMemoryHeader(report) {
     </div>
   ` : "";
 
-  const pendingBlock = pendingEntries.length > 0 ? `
-    <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">
-      Still pending from earlier reviews
-    </div>
-    <div style="display:flex; flex-wrap:wrap; gap:6px;">
-      ${pendingChips}
-    </div>
-    <div style="font-size:11px; color:var(--text-muted); margin-top:8px; line-height:1.5;">
-      These flags are repeated in this review's action list because the underlying condition still trips. Acting on them ${sinceLabel} would close them.
-    </div>
+  const pendingCount = pendingEntries.length;
+  const pendingBlock = pendingCount > 0 ? `
+    <details style="margin-top:${acks.length > 0 ? "14px" : "0"};">
+      <summary style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; cursor:pointer; user-select:none; list-style:none; display:flex; align-items:center; gap:8px; padding:4px 0;">
+        <span class="sws-pending-chevron" style="font-size:10px; display:inline-block; transition:transform 0.2s;">▶</span>
+        Still pending from earlier reviews
+        <span style="color:var(--text); font-weight:600;">(${pendingCount})</span>
+      </summary>
+      <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;">
+        ${pendingChips}
+      </div>
+      <div style="font-size:11px; color:var(--text-muted); margin-top:8px; line-height:1.5;">
+        These flags are repeated in this review's action list because the underlying condition still trips. Acting on them ${sinceLabel} would close them.
+      </div>
+    </details>
   ` : "";
 
   return `
+    <style>
+      details[open] > summary .sws-pending-chevron { transform: rotate(90deg); }
+      summary::-webkit-details-marker { display: none; }
+    </style>
     <div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
       ${ackBlock}
       ${pendingBlock}
