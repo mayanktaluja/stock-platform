@@ -3702,6 +3702,19 @@
       </div>
       <div id="trackHeroSubline" class="tx-meta" style="margin: 4px 2px 16px; opacity: 0.85;"></div>
 
+      <!-- PR D11 — Past-performance disclaimer. SEBI Research Analyst
+           Regulations + IA Regulations both require this language on
+           any surface that publishes hypothetical / forward-tested
+           performance. We keep it on Track Record because that's where
+           the Brier / hit-rate / alpha numbers live; the per-stock
+           strip in the SWS modal carries a footer pointer back here. -->
+      <div class="sebi-past-performance-chip" role="note"
+           style="margin: 0 0 var(--space-300); padding: 10px 14px; border-radius: var(--radius-200); background: rgba(224,176,96,0.06); border: 1px solid rgba(224,176,96,0.18); font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
+        <strong style="color: var(--gold);">Past performance does not guarantee future results.</strong>
+        SWS-pick performance shown is hypothetical, net of typical costs, and not personalised investment advice.
+        Read the full <a href="#" onclick="event.preventDefault(); document.getElementById('sebiSiteFooter')?.scrollIntoView({behavior:'smooth'}); return false;" style="color: var(--gold); text-decoration: underline;">SEBI disclosures</a> before acting.
+      </div>
+
       <!-- PR B8 — Earnings backtest snapshot. Admin-only mount. The
            loader returns silently when the user isn't admin so the slot
            collapses to zero height for everyone else. -->
@@ -4156,6 +4169,25 @@
 
   <!-- Shared glossary tooltip element — positioned dynamically by JS -->
   <div id="starbhaiTooltip" role="tooltip" aria-hidden="true"></div>
+
+  <!-- PR D11 — SEBI sticky-footer disclosure. Renders on every tab so
+       the regulatory text isn't buried in a /legal page. Two-line layout
+       covering (1) the mandatory market-risk warning and (2) the
+       Research Analyst non-guarantee statement. Educational platform
+       — no SEBI RA registration — and the text says so plainly. -->
+  <footer id="sebiSiteFooter" role="contentinfo"
+          style="margin-top: var(--space-400, 32px); padding: 14px 20px; border-top: 1px solid var(--border); background: var(--bg-secondary); font-size: 11px; line-height: 1.55; color: var(--text-muted);">
+    <div style="max-width: 1100px; margin-inline: auto; display: flex; flex-direction: column; gap: 6px;">
+      <div>
+        <strong style="color: var(--text-secondary);">Investments in securities market are subject to market risks. Read all related documents carefully before investing.</strong>
+      </div>
+      <div>
+        Starbhai is an educational research platform; it is <strong style="color: var(--text-secondary);">not a SEBI-registered Research Analyst or Investment Adviser.</strong>
+        Nothing here is personalised advice. Past performance — including hypothetical SWS-pick performance — does not guarantee future results.
+        SEBI registration (where applicable to underlying analyst data) does not in any way guarantee the performance of the intermediary or assure returns to investors.
+      </div>
+    </div>
+  </footer>
 
   <script src="glossary.js"></script>
   <script src="app.js"></script>
