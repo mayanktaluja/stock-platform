@@ -21,6 +21,11 @@
 
 process.env.VERCEL = process.env.VERCEL || "1";
 
+import { readdirSync, statSync } from "fs";
+import { execFileSync } from "child_process";
+import { dirname, join, relative } from "path";
+import { fileURLToPath } from "url";
+
 const ENTRY_POINTS = [
   "../server.js",
   "../stockList.js",
@@ -48,10 +53,42 @@ for (const entry of ENTRY_POINTS) {
   }
 }
 
+// Parse-check every .mjs under scripts/. Catches the May-11 incident class:
+// scripts/sws-stamp-section-status.mjs landed with `await` inside a non-async
+// `main()`, failing at parse time. The pipeline shell wrapped it in `|| true`
+// so the SyntaxError went unnoticed for two days and prod's picks-latest.json
+// shipped with zero section_status fields. `node --check` on every script
+// here means the bug class can't slip through CI / pre-push again.
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const SCRIPTS_DIR = __dirname;
+function walkMjs(dir) {
+  const out = [];
+  for (const entry of readdirSync(dir)) {
+    const fp = join(dir, entry);
+    let st;
+    try { st = statSync(fp); } catch { continue; }
+    if (st.isDirectory()) out.push(...walkMjs(fp));
+    else if (entry.endsWith(".mjs")) out.push(fp);
+  }
+  return out;
+}
+const scriptFiles = walkMjs(SCRIPTS_DIR);
+for (const fp of scriptFiles) {
+  const rel = relative(SCRIPTS_DIR, fp);
+  try {
+    execFileSync(process.execPath, ["--check", fp], { stdio: "pipe" });
+    process.stdout.write(`  ✓ scripts/${rel} (parse)\n`);
+  } catch (err) {
+    failures++;
+    const stderr = (err.stderr && err.stderr.toString()) || err.message;
+    process.stdout.write(`  ✗ scripts/${rel} (parse)\n    ${stderr.split("\n").slice(0, 3).join("\n    ")}\n`);
+  }
+}
+
 const elapsed = Date.now() - start;
 if (failures > 0) {
-  console.error(`\n[smoke] ${failures} module(s) failed to load (${elapsed}ms)`);
+  console.error(`\n[smoke] ${failures} module(s) failed to load or parse (${elapsed}ms)`);
   process.exit(1);
 }
-console.log(`\n[smoke] All ${ENTRY_POINTS.length} modules imported cleanly (${elapsed}ms)`);
+console.log(`\n[smoke] ${ENTRY_POINTS.length} prod modules + ${scriptFiles.length} scripts/*.mjs all OK (${elapsed}ms)`);
 process.exit(0);
