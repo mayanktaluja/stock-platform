@@ -53,6 +53,7 @@ const SCORED = path.join(ROOT, "sws-scored-universe.json");
 const UNIVERSE = path.join(ROOT, "universe.json");
 const DEEP_DIR = path.join(ROOT, "deep");
 const FAILED = path.join(ROOT, "failed.json");
+const MACRO_REGIME = path.join("data", "macroRegime.json");
 
 // --------------------------- thresholds ---------------------------------
 
@@ -454,6 +455,28 @@ function layer6(picks, scored, insaneOffenders) {
     { insane_top_picks: topPicksInsane.slice(0, 10) });
 }
 
+// ============================== L_macro ================================
+//
+// Defensive belt-and-suspenders for the macro-regime cache. The cron-side
+// fail-fast in scripts/refresh-macro-regime.mjs (exit 9) is the primary
+// defense against silently shipping a keyword-only macroRegime.json — this
+// gate is the second line in case .env is loaded but the keys inside it
+// are empty/whitespace, or some future refresh path skips the fail-fast.
+// WARN-only: a heuristic fallback is still a valid file, just degraded.
+function layerMacro() {
+  const layer = "L_macro_regime";
+  const mr = readJson(MACRO_REGIME);
+  if (!mr) {
+    record(layer, "macro_regime_present", WARN, false, { reason: "data/macroRegime.json missing" });
+    return;
+  }
+  const ph = mr.llmProviderHealth || {};
+  const bothMissing = ph.groq === "not_configured" && ph.gemini === "not_configured";
+  record(layer, "macro_llm_providers_configured", WARN,
+    !bothMissing,
+    { groq: ph.groq, gemini: ph.gemini, classifierProvider: mr.classifierProvider });
+}
+
 // ============================== main ===================================
 
 function main() {
@@ -467,6 +490,7 @@ function main() {
   layer2(lr);
   const insaneOffenders = layer3() || [];
   layer6(picks, scored, insaneOffenders);
+  layerMacro();
 
   const blocks = findings.filter(f => !f.ok && f.severity === BLOCK);
   const warns  = findings.filter(f => !f.ok && f.severity === WARN);

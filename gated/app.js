@@ -183,8 +183,11 @@ async function loadSnapshotHealth() {
   if (health.anyDegraded && Array.isArray(health.degradedKeys) && health.degradedKeys.includes("macro_regime")) {
     const ph = health.snapshots.macro_regime?.llmProviderHealth || {};
     const authBroken = ph.groq === "auth_error" || ph.gemini === "auth_error";
+    const notWired = ph.groq === "not_configured" && ph.gemini === "not_configured";
     const copy = authBroken
       ? "Macro regime — LLM keys need rotation (running on keyword fallback)."
+      : notWired
+      ? "Macro regime — LLM keys not configured (running on keyword fallback)."
       : "Macro regime — keyword-only (LLM unavailable, will recover on next quota window).";
     chips.push(`
       <div style="color:#C8A06A; padding:2px 0;">

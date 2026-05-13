@@ -275,6 +275,8 @@ if ! with_timeout 120 node scripts/refresh-macro-regime.mjs 2>&1 | sed 's/^/[mac
   MACRO_RC=$?
   if [ "${MACRO_RC}" = "2" ]; then
     echo "[nightly] refresh-macro-regime.mjs returned exit 2 — LLM auth_error, rotate keys"
+  elif [ "${MACRO_RC}" = "9" ]; then
+    echo "[nightly] refresh-macro-regime.mjs returned exit 9 — LLM keys not loaded in env; prior data/macroRegime.json preserved"
   else
     echo "[nightly] refresh-macro-regime.mjs failed (exit ${MACRO_RC}) — non-fatal, continuing"
   fi

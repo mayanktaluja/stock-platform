@@ -21,6 +21,10 @@
  *   2  — wrote fresh file, BUT at least one LLM provider returned auth_error.
  *        Operator must rotate the key. sws-nightly treats this as non-fatal
  *        but the PR body surfaces it.
+ *   9  — both GROQ_API_KEY and GEMINI_API_KEY are missing from the env.
+ *        Refuses to run rather than overwrite the prior file with a
+ *        strictly-worse keyword-only snapshot. Most likely cause: .env
+ *        not loaded (launchd, fresh shell). Prior file is preserved.
  *
  * Usage:
  *   node scripts/refresh-macro-regime.mjs            # full run
@@ -30,12 +34,26 @@
 import { writeFileSync, existsSync, readFileSync, mkdirSync, renameSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-
-import { fetchMacroHeadlines } from "../macroHeadlineFetcher.js";
-import { classifyRegime, defaultCalmRegime } from "../macroRegime.js";
+import dotenv from "dotenv";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Load .env from the repo root BEFORE importing modules that read
+// process.env at import-time. Launchd invokes this script via
+// scripts/sws-nightly.sh with a minimal environment (PATH/HOME only),
+// so without this load both GROQ_API_KEY and GEMINI_API_KEY would be
+// undefined and macroRegime.js would skip straight to the keyword
+// heuristic — silently committing a degraded data/macroRegime.json.
+// Derived from __dirname (not process.cwd()) so the load is robust
+// against the script being invoked from anywhere. `override: false`
+// lets a real shell-set env var (future Vercel-side run) win over the
+// committed .env file.
+dotenv.config({ path: path.join(__dirname, "..", ".env"), override: false });
+
+const { fetchMacroHeadlines } = await import("../macroHeadlineFetcher.js");
+const { classifyRegime, defaultCalmRegime } = await import("../macroRegime.js");
+
 const OUT_PATH = path.join(__dirname, "..", "data", "macroRegime.json");
 
 const DRY_RUN = process.argv.includes("--dry-run");
@@ -56,6 +74,25 @@ function readExisting() {
 async function main() {
   const t0 = Date.now();
   console.log(`[macro-refresh] starting (dry-run=${DRY_RUN})`);
+
+  // Pre-flight: refuse to silently downgrade prod to keyword-only when both
+  // LLM keys are missing from the process env. Same posture as the
+  // zero-headlines path below (line 67-75): if a prior file exists, leave
+  // it in place rather than overwriting a known-good snapshot with a
+  // strictly worse one. Returns exit 9 so sws-nightly can surface this
+  // distinctly from the auth_error (exit 2) and no-data (exit 1) cases.
+  if (!process.env.GROQ_API_KEY && !process.env.GEMINI_API_KEY) {
+    const existing = readExisting();
+    console.error(
+      "[macro-refresh] no GROQ_API_KEY and no GEMINI_API_KEY in env — refusing to run " +
+      "(would silently overwrite the cache with a keyword-only file). " +
+      "Check that .env is loaded and that the keys are present."
+    );
+    if (existing) {
+      console.warn(`[macro-refresh] kept existing file generatedAt=${existing.generatedAt}`);
+    }
+    return 9;
+  }
 
   const headlines = await fetchMacroHeadlines();
   const meta = headlines.meta || { sourceHealth: {}, tierCoverage: { "A+": 0, "A": 0, "B": 0 }, fallbacksUsed: [] };
