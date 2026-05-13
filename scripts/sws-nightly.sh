@@ -43,6 +43,21 @@ exec >> >(tee -a "${LOG}") 2>&1
 ts() { date "+%Y-%m-%d %H:%M:%S %Z"; }
 START_EPOCH="$(date +%s)"
 
+# Portable timeout wrapper: GNU `timeout` ships with Linux but not macOS
+# (stock macOS has no equivalent; Homebrew's coreutils provides `gtimeout`).
+# Prefer gtimeout, then timeout, then fall back to running the command
+# directly with no hard cap. The chain steps that use this are all
+# non-fatal and wrapped in `if !` — losing the cap on a vanilla mac is
+# acceptable; silently failing every step because `timeout` doesn't exist
+# is not (cf. #186 regression on 2026-05-12/13).
+if command -v gtimeout >/dev/null 2>&1; then
+  with_timeout() { gtimeout "$@"; }
+elif command -v timeout >/dev/null 2>&1; then
+  with_timeout() { timeout "$@"; }
+else
+  with_timeout() { shift; "$@"; }
+fi
+
 DRY_RUN=0
 [ "${1:-}" = "--dry-run" ] && DRY_RUN=1
 [ "${SWS_NIGHTLY_DRY_RUN:-0}" = "1" ] && DRY_RUN=1
@@ -211,9 +226,11 @@ fi
 # gate FAIL path below ships a separate data-only PR with whichever of
 # these files changed.
 #
-# Each step is wrapped in `timeout` and treated as warning-only — a
-# transient NSE failure here MUST NOT block the SWS push that may still
-# succeed below. Mirrors the news-refresh pattern at step 3b.
+# Each step is wrapped in `with_timeout` (GNU timeout / gtimeout when
+# available, falls through to a no-op cap on stock macOS — see helper
+# definition near the top) and treated as warning-only. A transient NSE
+# failure here MUST NOT block the SWS push that may still succeed below.
+# Mirrors the news-refresh pattern at step 3b.
 #
 # Order matters:
 #   1. refresh-catalysts.mjs      → data/catalysts/events-latest.json
@@ -236,15 +253,15 @@ fi
 
 echo "[nightly] running catalysts + fundamentals + earnings refresh chain..."
 
-if ! timeout 600 node scripts/refresh-catalysts.mjs 2>&1 | sed 's/^/[catalysts] /'; then
+if ! with_timeout 600 node scripts/refresh-catalysts.mjs 2>&1 | sed 's/^/[catalysts] /'; then
   echo "[nightly] refresh-catalysts.mjs failed — non-fatal, continuing"
 fi
 
-if ! timeout 600 node scripts/refresh-nse-corporate.mjs 2>&1 | sed 's/^/[nse-corp] /'; then
+if ! with_timeout 600 node scripts/refresh-nse-corporate.mjs 2>&1 | sed 's/^/[nse-corp] /'; then
   echo "[nightly] refresh-nse-corporate.mjs failed — non-fatal, continuing"
 fi
 
-if ! timeout 600 bash scripts/refresh-fo-oi.sh 2>&1 | sed 's/^/[fo-oi] /'; then
+if ! with_timeout 600 bash scripts/refresh-fo-oi.sh 2>&1 | sed 's/^/[fo-oi] /'; then
   echo "[nightly] refresh-fo-oi.sh failed — non-fatal, continuing"
 fi
 
@@ -269,13 +286,13 @@ if [ "${FUND_AGE_HOURS}" -lt 20 ]; then
   echo "[nightly] fundamentals.json is ${FUND_AGE_HOURS}h old — skipping refresh (< 20h freshness)"
 else
   echo "[nightly] fundamentals.json is ${FUND_AGE_HOURS}h old — running refresh..."
-  if ! timeout 1800 node scripts/refresh-fundamentals.mjs 2>&1 | sed 's/^/[fundamentals] /'; then
+  if ! with_timeout 1800 node scripts/refresh-fundamentals.mjs 2>&1 | sed 's/^/[fundamentals] /'; then
     echo "[nightly] refresh-fundamentals.mjs failed — non-fatal, continuing"
   fi
 fi
 
 echo "[nightly] running refresh-earnings.mjs (depends on the above)..."
-if ! timeout 600 node scripts/refresh-earnings.mjs 2>&1 | sed 's/^/[earnings] /'; then
+if ! with_timeout 600 node scripts/refresh-earnings.mjs 2>&1 | sed 's/^/[earnings] /'; then
   echo "[nightly] refresh-earnings.mjs failed — non-fatal; tab stays on prior snapshot"
 fi
 
