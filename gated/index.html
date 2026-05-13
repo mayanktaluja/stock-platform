@@ -1004,6 +1004,18 @@
     .positive-bg { background: var(--positive-bg-soft); color: var(--positive-soft); }
     .negative-bg { background: var(--negative-bg-soft); color: var(--negative-soft); }
 
+    /* PR W3 — Watchlist mobile collapse.
+     * At ≤ 480 px we keep only Stock + Verdict + Day Change visible.
+     * Price / Since Added move into the chevron <details> via JS toggle. */
+    @media (max-width: 480px) {
+      .watchlist-table { min-width: 0 !important; }
+      .watchlist-table th:nth-child(4),
+      .watchlist-table td.wl-col-price,
+      .watchlist-table th:nth-child(6),
+      .watchlist-table td.wl-col-since { display: none; }
+      .watchlist-table th, .watchlist-table td { padding-inline: 6px; }
+    }
+
     /* Main Content */
     .main-content {
       max-width: 1600px;

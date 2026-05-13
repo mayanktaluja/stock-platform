@@ -174,6 +174,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // for 30s; a 60s refresh keeps the indices fresh without hammering upstreams.
   loadMarketData();
   setInterval(loadMarketData, 60 * 1000);
+  // PR W3 — hydrate the in-memory `watchlist` Set before the first
+  // openSwsModal renders, so the modal star paints with the correct
+  // aria-pressed even when the user hasn't visited the Watchlist tab.
+  hydrateWatchlistSet();
   switchTab('picks');
   setupSearch();
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
@@ -185,6 +189,21 @@ document.addEventListener("DOMContentLoaded", () => {
   loadSnapshotHealth();
   setInterval(loadSnapshotHealth, 60 * 60 * 1000);
 });
+
+// PR W3 — fire-and-forget watchlist Set hydration. Run on boot so the
+// modal-star aria-pressed paints correctly even before the Watchlist tab
+// is visited. Failures stay silent — the Watchlist tab itself re-syncs
+// the Set when opened.
+async function hydrateWatchlistSet() {
+  try {
+    const res = await fetch("/api/watchlist");
+    if (!res.ok) return;
+    const data = await res.json();
+    if (Array.isArray(data.stocks)) {
+      watchlist = new Set(data.stocks.map((s) => s.symbol));
+    }
+  } catch { /* silent — non-critical */ }
+}
 
 // ==================== SNAPSHOT HEALTH BANNER ====================
 //
@@ -3852,6 +3871,20 @@ function watchlistButton(symbol, name, sector) {
   return `<button type="button" class="watchlist-btn" data-watchlist-symbol="${symbol}" aria-pressed="${isSaved}" aria-label="${label}" onclick="event.stopPropagation(); toggleWatchlist('${symbol}', '${escapeHtml(name || '')}', '${escapeHtml(sector || '')}')" title="${isSaved ? 'Remove from watchlist' : 'Add to watchlist'}" style="cursor:pointer;background:transparent;border:none;padding:2px 4px;font-size:18px;color:${isSaved ? 'var(--gold)' : 'var(--text-muted)'};transition:color 0.15s;">${isSaved ? "★" : "☆"}</button>`;
 }
 
+// PR W3 — chevron-driven inline row details. Swaps the sibling tr.hidden
+// state and rotates the chevron. Stops propagation upstream so the
+// containing row's onclick (open stock detail modal) doesn't fire.
+window.toggleWatchlistRow = function toggleWatchlistRow(sym, btn) {
+  const detailsRow = document.querySelector(`tr.wl-details-row[data-wl-details="${CSS.escape(sym)}"]`);
+  if (!detailsRow) return;
+  const isOpen = !detailsRow.hidden;
+  detailsRow.hidden = isOpen;
+  if (btn) {
+    btn.setAttribute("aria-expanded", String(!isOpen));
+    btn.style.transform = isOpen ? "rotate(0deg)" : "rotate(90deg)";
+  }
+};
+
 async function loadWatchlist() {
   const container = document.getElementById("watchlistContainer");
   const meta = document.getElementById("watchlistMeta");
@@ -3864,8 +3897,13 @@ async function loadWatchlist() {
     </div>`;
 
   try {
-    const res = await fetch("/api/watchlist");
-    const data = await res.json();
+    // PR W3 — load watchlist + picks-by-ticker map in parallel so the
+    // verdict pill paints in the same render pass (no flash of "—").
+    const [watchRes, picksMap] = await Promise.all([
+      fetch("/api/watchlist"),
+      loadPicksByTicker(),
+    ]);
+    const data = await watchRes.json();
     const stocks = Array.isArray(data.stocks) ? data.stocks : [];
 
     // Keep the in-memory Set in sync so star toggles elsewhere stay accurate
@@ -3896,7 +3934,7 @@ async function loadWatchlist() {
       return tb - ta;
     });
 
-    const rows = sorted.map((s) => {
+    const rows = sorted.map((s, i) => {
       const sym = s.symbol;
       const name = s.name || sym;
       const sector = s.sector || "";
@@ -3904,64 +3942,91 @@ async function loadWatchlist() {
       const chg = s.change;
       const chgPct = s.changePercent;
       const hasPrice = price !== null && price !== undefined && !Number.isNaN(price);
-      const isPos = (chg ?? 0) >= 0;
       const priceCell = hasPrice
-        ? `<span style="font-family:'JetBrains Mono',monospace;font-weight:600;">&#8377;${formatNumber(price)}</span>`
-        : `<span style="color:var(--text-muted);font-size:12px;">—</span>`;
-      const chgCell = (chg !== null && chg !== undefined && !Number.isNaN(chg))
-        ? `<span class="${isPos ? 'positive' : 'negative'}" style="font-family:'JetBrains Mono',monospace;font-size:12px;">${isPos ? '+' : ''}${chg.toFixed(2)} (${isPos ? '+' : ''}${(chgPct ?? 0).toFixed(2)}%)</span>`
+        ? `<span class="tx-num" style="font-weight:600;">&#8377;${formatNumber(price)}</span>`
         : `<span style="color:var(--text-muted);font-size:12px;">—</span>`;
 
-      // Entry price snapshot (captured server-side at add-time). Older
-      // entries created before this column existed will be missing it —
-      // render as "—" rather than 0/NaN.
+      // PR W3 — Day Change % only, magnitude-keyed via signedColorFor.
+      // Drops the raw-₹ change column per the plan; surface is decongested.
+      let dayChgCell;
+      if (chgPct === null || chgPct === undefined || Number.isNaN(chgPct)) {
+        dayChgCell = `<span style="color:var(--text-muted);font-size:12px;">—</span>`;
+      } else {
+        const sc = signedColorFor(chgPct);
+        dayChgCell = `<span class="tx-num" style="color:${sc.color}; background:${sc.bg}; padding:2px 6px; border-radius:var(--radius-100); font-size:12px;" aria-label="${sc.srLabel}"><span aria-hidden="true">${sc.glyph}</span> ${chgPct >= 0 ? "+" : ""}${chgPct.toFixed(2)}%</span>`;
+      }
+
+      // Entry price + Since Added — derived locally; only render when both
+      // entry and live are present.
       const addedPrice = s.addedPrice;
       const hasAddedPrice = addedPrice !== null && addedPrice !== undefined && !Number.isNaN(addedPrice);
-      const addedPriceCell = hasAddedPrice
-        ? `<span style="font-family:'JetBrains Mono',monospace;">&#8377;${formatNumber(addedPrice)}</span>`
-        : `<span style="color:var(--text-muted);font-size:12px;">—</span>`;
-
-      // % move since the user starred it — only meaningful when both
-      // entry and live price are present.
       let sinceAddedCell = `<span style="color:var(--text-muted);font-size:12px;">—</span>`;
       if (hasAddedPrice && hasPrice && addedPrice > 0) {
         const sincePct = ((price - addedPrice) / addedPrice) * 100;
-        const sincePos = sincePct >= 0;
-        sinceAddedCell = `<span class="${sincePos ? 'positive' : 'negative'}" style="font-family:'JetBrains Mono',monospace;font-size:12px;">${sincePos ? '+' : ''}${sincePct.toFixed(2)}%</span>`;
+        const sc = signedColorFor(sincePct);
+        sinceAddedCell = `<span class="tx-num" style="color:${sc.color}; background:${sc.bg}; padding:2px 6px; border-radius:var(--radius-100); font-size:12px;" aria-label="${sc.srLabel} since added"><span aria-hidden="true">${sc.glyph}</span> ${sincePct >= 0 ? "+" : ""}${sincePct.toFixed(2)}%</span>`;
       }
 
+      // PR W3 — SWS verdict pill from picks-latest (picks-only — locked
+      // decision). Symbols outside the ~120-name curated set render as
+      // muted "—" so the absence of curation is honestly surfaced.
+      const tickerKey = normalizeTickerKey(sym);
+      const meta = picksMap && picksMap.get ? picksMap.get(tickerKey) : null;
+      const verdictCell = renderVerdictPill(meta && meta.verdict);
+      const sectorForDetails = sector || (meta && meta.sector) || "—";
+      const swsReason = (meta && meta.one_line) ? escapeHtml(meta.one_line) : "";
       const addedLabel = s.addedAt
         ? new Date(s.addedAt).toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "2-digit" })
         : "—";
+      const addedPriceLabel = hasAddedPrice
+        ? `&#8377;${formatNumber(addedPrice)}`
+        : "—";
+
+      // PR W3 — Tier 2 details row. Lazy content is fine because <details>
+      // doesn't render hidden children to the accessibility tree until open.
+      const detailsRow = `
+        <tr class="wl-details-row" data-wl-details="${sym}" hidden>
+          <td colspan="6" style="padding:0;">
+            <div style="padding:8px 14px 12px 52px; background:rgba(255,255,255,0.015); border-top:1px solid var(--border); font-size:12px; color:var(--text-secondary); display:flex; flex-direction:column; gap:6px;">
+              <div><span class="tx-micro">Sector</span> &nbsp; ${escapeHtml(sectorForDetails)}</div>
+              <div><span class="tx-micro">Added on</span> &nbsp; ${addedLabel} &nbsp;·&nbsp; entry ${addedPriceLabel}</div>
+              ${swsReason ? `<div><span class="tx-micro">SWS take</span> &nbsp; ${swsReason}</div>` : ""}
+            </div>
+          </td>
+        </tr>`;
+
+      // Row chevron — toggles the sibling details row. Plain JS toggle so
+      // we stay inside the static-SPA model.
       return `
         <tr style="cursor:pointer;" onclick="openStockDetailModal('${sym}','watchlist')">
-          <td style="padding:6px 4px;">${watchlistButton(sym, name, sector)}</td>
-          <td>
+          <td style="padding:6px 4px; width:36px;">${watchlistButton(sym, name, sector)}</td>
+          <td class="wl-col-stock">
             <div style="font-weight:600;">${escapeHtml(sym)}</div>
             <div style="font-size:11px;color:var(--text-muted);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(name)}</div>
           </td>
-          <td style="font-size:12px;color:var(--text-muted);">${escapeHtml(sector || "—")}</td>
-          <td style="text-align:right;">${addedPriceCell}</td>
-          <td style="text-align:right;">${priceCell}</td>
-          <td style="text-align:right;">${chgCell}</td>
-          <td style="text-align:right;">${sinceAddedCell}</td>
-          <td style="font-size:11px;color:var(--text-muted);text-align:right;">${addedLabel}</td>
-        </tr>`;
+          <td class="wl-col-verdict">${verdictCell}</td>
+          <td class="wl-col-price" style="text-align:right;">${priceCell}</td>
+          <td class="wl-col-day" style="text-align:right;">${dayChgCell}</td>
+          <td class="wl-col-since" style="text-align:right;">${sinceAddedCell}</td>
+          <td class="wl-col-chev" style="text-align:right; width:36px;">
+            <button type="button" class="wl-chevron" data-wl-toggle="${sym}" aria-expanded="false" aria-label="Show row details for ${escapeHtml(sym)}" onclick="event.stopPropagation(); window.toggleWatchlistRow('${sym}', this);" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; padding:4px 8px; font-size:14px; line-height:1; transition: transform var(--dur-quick) var(--ease-standard);">▶</button>
+          </td>
+        </tr>
+        ${detailsRow}`;
     }).join("");
 
     container.innerHTML = `
       <div style="overflow-x:auto;">
-        <table class="signals-table" style="min-width:880px;">
+        <table class="signals-table watchlist-table" style="min-width:780px; width:100%;">
           <thead>
             <tr>
               <th style="width:36px;"></th>
               <th>Stock</th>
-              <th>Sector</th>
-              <th style="text-align:right;">Added Price</th>
+              <th>Verdict</th>
               <th style="text-align:right;">Price</th>
               <th style="text-align:right;">Day Change</th>
               <th style="text-align:right;">Since Added</th>
-              <th style="text-align:right;">Added</th>
+              <th style="width:36px;"></th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>
@@ -4401,6 +4466,89 @@ function formatINR(value, opts) {
 }
 window.signedColorFor = signedColorFor;
 window.formatINR = formatINR;
+
+// PR W3 — picksByTicker lookup. Build once on first use from /api/sws-picks
+// so the Watchlist's verdict pill resolves in O(1) per row. Returns null when
+// the ticker is outside the curated set (renders as muted "—" in the UI).
+//
+// Schema (verified by direct jq on data/sws/picks-latest.json):
+//   .sections.<section_key>[] → { ticker, name, sector, composite_verdict, v3_verdict, v3_score_100, snowflake, sws_url, ... }
+//
+// Ticker is bare (no .NS suffix). Watchlist stores symbols like "RELIANCE.NS",
+// so we normalise via normalizeTickerKey() on every lookup.
+let _picksByTicker = null;
+let _picksByTickerPromise = null;
+function normalizeTickerKey(sym) {
+  if (!sym) return "";
+  return String(sym)
+    .toUpperCase()
+    .replace(/^(BSE|NSE):/, "")
+    .replace(/\.(NS|BO)$/, "")
+    .trim();
+}
+async function loadPicksByTicker() {
+  if (_picksByTicker) return _picksByTicker;
+  if (_picksByTickerPromise) return _picksByTickerPromise;
+  _picksByTickerPromise = (async () => {
+    try {
+      const res = await fetch("/api/sws-picks");
+      if (!res.ok) return new Map();
+      const data = await res.json();
+      const map = new Map();
+      const sections = data && data.sections;
+      if (sections && typeof sections === "object") {
+        for (const section of Object.values(sections)) {
+          if (!Array.isArray(section)) continue;
+          for (const stock of section) {
+            if (!stock || !stock.ticker) continue;
+            const key = normalizeTickerKey(stock.ticker);
+            if (!map.has(key)) {
+              map.set(key, {
+                verdict: stock.composite_verdict || stock.v3_verdict || stock.verdict || null,
+                v3_score: stock.v3_score_100 || stock.v3_score || null,
+                upside: stock.upside_pct || null,
+                snowflake: stock.snowflake_total || stock.snowflake || null,
+                sector: stock.sector || null,
+                one_line: stock.one_line || null,
+              });
+            }
+          }
+        }
+      }
+      _picksByTicker = map;
+      return map;
+    } catch {
+      return new Map();
+    } finally {
+      _picksByTickerPromise = null;
+    }
+  })();
+  return _picksByTickerPromise;
+}
+
+// PR W3 — verdict → palette mapping for pill colours.
+// TOP_PICK stays gold (locked decision); STRONG green; WATCH muted;
+// AVOID red; ACCEPTABLE / FAIR_VALUE cyan (info-tone).
+const VERDICT_PALETTE = {
+  TOP_PICK:     { color: "var(--gold)",        bg: "rgba(224,176,96,0.10)", border: "rgba(224,176,96,0.35)" },
+  STRONG:       { color: "var(--positive)",    bg: "var(--positive-bg-soft)", border: "rgba(46,204,113,0.32)" },
+  ACCEPTABLE:   { color: "var(--cyan)",        bg: "rgba(111,195,216,0.08)", border: "rgba(111,195,216,0.28)" },
+  FAIR_VALUE:   { color: "var(--cyan)",        bg: "rgba(111,195,216,0.08)", border: "rgba(111,195,216,0.28)" },
+  DEEP_VALUE:   { color: "var(--gold)",        bg: "rgba(224,176,96,0.10)", border: "rgba(224,176,96,0.35)" },
+  QUALITY_GROWTH: { color: "var(--positive)",  bg: "var(--positive-bg-soft)", border: "rgba(46,204,113,0.32)" },
+  WATCH:        { color: "var(--text-muted)",  bg: "rgba(237,237,237,0.04)", border: "rgba(237,237,237,0.10)" },
+  FULLY_VALUED: { color: "var(--text-muted)",  bg: "rgba(237,237,237,0.04)", border: "rgba(237,237,237,0.10)" },
+  AVOID:        { color: "var(--negative)",    bg: "var(--negative-bg-soft)", border: "rgba(214,69,69,0.32)" },
+  OVERVALUED:   { color: "var(--negative)",    bg: "var(--negative-bg-soft)", border: "rgba(214,69,69,0.32)" },
+};
+function renderVerdictPill(verdict) {
+  if (!verdict) {
+    return `<span class="tx-meta" style="color:var(--text-muted); font-family:var(--font-mono); letter-spacing:0.02em;" aria-label="not curated">—</span>`;
+  }
+  const palette = VERDICT_PALETTE[verdict] || { color: "var(--text-muted)", bg: "rgba(237,237,237,0.04)", border: "rgba(237,237,237,0.10)" };
+  const label = String(verdict).replace(/_/g, " ");
+  return `<span class="tx-micro" style="display:inline-block; padding:3px 8px; border-radius:var(--radius-100); color:${palette.color}; background:${palette.bg}; border:1px solid ${palette.border}; font-weight:700;">${label}</span>`;
+}
 
 const ANALYZER_ACTION_COLORS = {
   CUT_LOSS:     { bg: "rgba(220,38,38,0.15)",  border: "rgba(220,38,38,0.5)",  text: "#fca5a5" },
