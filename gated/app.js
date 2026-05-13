@@ -3389,6 +3389,106 @@ function populateTrackHero(perf, data) {
   setText("trackHeroSubline", subBits.join(" · "));
 }
 
+// PR T7 — calibration plot. 5-bucket SVG bar grid, no chart library;
+// rendered below the Track Record hero. Thin buckets (n < 30) paint
+// greyed with a "thin data" badge so the UI never implies confidence in
+// a 4-sample bucket.
+async function loadTrackCalibration() {
+  const wrap = document.getElementById("trackCalibrationSvgWrap");
+  if (!wrap) return;
+  try {
+    const res = await fetch("/api/track/calibration");
+    if (!res.ok) {
+      wrap.innerHTML = `<div class="tx-meta">Calibration unavailable.</div>`;
+      return;
+    }
+    const data = await res.json();
+    wrap.innerHTML = renderCalibrationSvg(data);
+    const sub = document.getElementById("trackCalibrationSub");
+    if (sub) {
+      sub.textContent = data.resolved && data.resolved > 0
+        ? `${data.resolved} of ${data.total || data.resolved} forecasts bucketed by predicted confidence`
+        : "No resolved forecasts yet — chart fills in as snapshots mature";
+    }
+  } catch (e) {
+    wrap.innerHTML = `<div class="tx-meta" style="color: var(--negative);">Calibration error: ${escapeHtml(e && e.message || "unknown")}</div>`;
+  }
+}
+
+function renderCalibrationSvg(data) {
+  const buckets = (data && Array.isArray(data.buckets)) ? data.buckets : [];
+  if (buckets.length === 0) {
+    return `<div class="tx-meta" style="padding:20px 0;">No buckets to plot yet.</div>`;
+  }
+  // SVG geometry — 600 × 260 viewBox, scales fluidly. Plot area inset for
+  // axis labels: left=42, right=12, top=12, bottom=42.
+  const W = 600, H = 260;
+  const padL = 42, padR = 12, padT = 12, padB = 42;
+  const innerW = W - padL - padR;
+  const innerH = H - padT - padB;
+  const xFor = (pct) => padL + (pct / 100) * innerW;
+  const yFor = (pct) => padT + (1 - pct / 100) * innerH;
+  // Reference 45° diagonal — perfect-calibration line.
+  const diag = `M${xFor(0)},${yFor(0)} L${xFor(100)},${yFor(100)}`;
+  const bars = buckets.map((b) => {
+    const x = xFor(b.bucket_low);
+    const width = xFor(b.bucket_high) - x;
+    if (b.realised_pct == null) {
+      // Empty bucket — placeholder marker only.
+      return `<g><rect x="${x.toFixed(2)}" y="${yFor(0).toFixed(2)}" width="${width.toFixed(2)}" height="0" /></g>`;
+    }
+    const y = yFor(b.realised_pct);
+    const height = yFor(0) - y;
+    const fill = b.thin ? "rgba(237,237,237,0.18)" : "var(--positive)";
+    const stroke = b.thin ? "rgba(237,237,237,0.35)" : "var(--positive-strong)";
+    const ciTop = yFor(b.ci_hi_pct);
+    const ciBot = yFor(b.ci_lo_pct);
+    const ciCx = x + width / 2;
+    const title = `predicted ${b.bucket_low}–${b.bucket_high}% · realised ${b.realised_pct.toFixed(1)}% · n=${b.n} · CI ${b.ci_lo_pct.toFixed(0)}–${b.ci_hi_pct.toFixed(0)}%${b.thin ? " · thin data (n<30)" : ""}`;
+    return `
+      <g aria-label="${title}">
+        <title>${title}</title>
+        <rect x="${(x + 4).toFixed(2)}" y="${y.toFixed(2)}" width="${(width - 8).toFixed(2)}" height="${height.toFixed(2)}"
+              fill="${fill}" stroke="${stroke}" stroke-width="1" rx="3" />
+        <line x1="${ciCx.toFixed(2)}" y1="${ciTop.toFixed(2)}" x2="${ciCx.toFixed(2)}" y2="${ciBot.toFixed(2)}"
+              stroke="${b.thin ? "rgba(237,237,237,0.4)" : "var(--gold)"}" stroke-width="2" />
+        <text x="${ciCx.toFixed(2)}" y="${(y - 4).toFixed(2)}" text-anchor="middle"
+              style="font-family: var(--font-mono); font-size: 11px; fill: var(--text-secondary);">
+          ${b.realised_pct.toFixed(0)}${b.thin ? "·" : ""}
+        </text>
+        <text x="${ciCx.toFixed(2)}" y="${(yFor(0) + 14).toFixed(2)}" text-anchor="middle"
+              style="font-family: var(--font-mono); font-size: 10px; fill: var(--text-muted);">
+          n=${b.n}
+        </text>
+      </g>`;
+  }).join("");
+  // Axis ticks (0/25/50/75/100 %)
+  const ticks = [0, 25, 50, 75, 100];
+  const yTicks = ticks.map((t) => `
+    <line x1="${padL}" y1="${yFor(t)}" x2="${W - padR}" y2="${yFor(t)}" stroke="rgba(255,255,255,0.04)" />
+    <text x="${padL - 6}" y="${(yFor(t) + 3).toFixed(2)}" text-anchor="end"
+          style="font-family: var(--font-mono); font-size: 10px; fill: var(--text-muted);">${t}%</text>`).join("");
+  const xTicks = ticks.map((t) => `
+    <text x="${xFor(t).toFixed(2)}" y="${(H - 6).toFixed(2)}" text-anchor="middle"
+          style="font-family: var(--font-mono); font-size: 10px; fill: var(--text-muted);">${t}%</text>`).join("");
+  return `
+    <svg id="trackCalibrationSvg" viewBox="0 0 ${W} ${H}" width="100%"
+         style="display:block; max-width: 720px; height: auto;" role="img" aria-label="Calibration plot — predicted confidence vs realised hit-rate, 5 buckets">
+      ${yTicks}
+      <path d="${diag}" stroke="var(--text-muted)" stroke-dasharray="4 4" stroke-width="1" fill="none" />
+      ${bars}
+      ${xTicks}
+      <text x="${(W / 2).toFixed(2)}" y="${(H - padB / 2 + 18).toFixed(2)}" text-anchor="middle"
+            style="font-family: var(--font-sans); font-size: 11px; fill: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em;">
+        Predicted confidence bucket
+      </text>
+      <text transform="translate(14 ${(H / 2).toFixed(2)}) rotate(-90)" text-anchor="middle"
+            style="font-family: var(--font-sans); font-size: 11px; fill: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em;">
+        Realised hit-rate
+      </text>
+    </svg>`;
+}
+
 async function loadTrackRecord(forceBust = false) {
   const filterEl = document.getElementById("trackFilter");
   const filterType = filterEl?.value && filterEl.value !== "all" ? filterEl.value : null;
@@ -3400,6 +3500,8 @@ async function loadTrackRecord(forceBust = false) {
   // V2 — kick off the per-section scorecard fetch in parallel. It paints
   // independently of the headline metrics and trade list.
   loadTrackSections(forceBust);
+  // PR T7 — calibration plot fetches in parallel; renders below the hero.
+  loadTrackCalibration();
 
   try {
     const res = await fetch(url);

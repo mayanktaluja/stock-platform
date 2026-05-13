@@ -73,6 +73,7 @@ import { parsePortfolioFile, resolveUnmatchedLive, toIsoDate } from "./portfolio
 import { buildReport } from "./portfolioAnalyzer.js";
 import { scoreHolding as swsScoreHolding, loadV3Universe } from "./services/swsHoldingEngine.js";
 import { scoreStock as swsScoreStock, valuationBandFromUpside } from "./services/swsScoring.js";
+import { buildCalibration as buildTrackCalibration } from "./services/trackRecord/calibration.js";
 import * as swsDal from "./services/swsDal/index.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
 import { buildSWSReport, surfaceOutsidePicks } from "./services/swsPortfolioAggregate.js";
@@ -3790,6 +3791,27 @@ app.get("/api/track/history", async (req, res) => {
   } catch (err) {
     console.error("[PAPERTRADES] /api/track/history failed:", err.message);
     res.status(500).json({ error: "Track history failed: " + err.message });
+  }
+});
+
+/**
+ * GET /api/track/calibration  — PR T7
+ *
+ * Builds the 5-bucket calibration profile for the front-end SVG plot.
+ * Backed by services/trackRecord/calibration.js; thin (n < 30) buckets
+ * are flagged so the UI greys them out rather than implying confidence.
+ */
+app.get("/api/track/calibration", async (req, res) => {
+  try {
+    const trades = await readAllTrades();
+    const payload = buildTrackCalibration(trades);
+    res.json({
+      ...payload,
+      computedAt: new Date().toISOString(),
+    });
+  } catch (err) {
+    console.error("[TRACK] /api/track/calibration failed:", err && err.message);
+    res.status(500).json({ error: "calibration failed: " + (err && err.message) });
   }
 });
 
