@@ -73,9 +73,158 @@
       --font-serif: 'Fraunces', 'Iowan Old Style', 'Palatino', serif;
       --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       --font-mono: 'JetBrains Mono', 'SF Mono', 'Menlo', monospace;
+
+      /* ============================================================
+       * PR F1 — Foundation tokens (magnitude-keyed semantic layer)
+       * Layered ON TOP of legacy --green / --red / --gold etc; nothing
+       * old breaks. New code uses these and signedColorFor().
+       * ============================================================ */
+
+      /* Magnitude-keyed positive (gain) */
+      --positive-strong: #34D27A;
+      --positive:        #2ECC71;
+      --positive-soft:   #58D68D;
+      --positive-faint:  rgba(46, 204, 113, 0.55);
+      --positive-bg-strong: rgba(52, 210, 122, 0.14);
+      --positive-bg-soft:   rgba(52, 210, 122, 0.06);
+
+      /* Magnitude-keyed negative (loss) */
+      --negative-strong: #E55858;
+      --negative:        #D64545;
+      --negative-soft:   #E57373;
+      --negative-faint:  rgba(214, 69, 69, 0.55);
+      --negative-bg-strong: rgba(229, 88, 88, 0.14);
+      --negative-bg-soft:   rgba(229, 88, 88, 0.06);
+
+      /* Calibration / status (aliases to existing tokens for context) */
+      --warn: #E0B060;   /* shared semantics with --gold; context disambiguates */
+      --info: #7FA1E8;
+
+      /* Severity ladder — heads-up → attention → red */
+      --severity-low:  #6FC3D8;
+      --severity-med:  #D88E62;
+      --severity-high: #D64545;
+
+      /* Spacing — Atlassian-style percentage scale (base 100 = 8 px) */
+      --space-0:   0;
+      --space-25:  2px;
+      --space-50:  4px;
+      --space-75:  6px;
+      --space-100: 8px;
+      --space-150: 12px;
+      --space-200: 16px;
+      --space-300: 24px;
+      --space-400: 32px;
+      --space-500: 40px;
+      --space-600: 48px;
+      --space-800: 64px;
+
+      /* Radius scale */
+      --radius-50:   2px;
+      --radius-100:  4px;
+      --radius-200:  8px;
+      --radius-300:  12px;
+      --radius-400:  16px;
+      --radius-full: 9999px;
+
+      /* Elevation (Material 3-derived) */
+      --elev-1: 0 1px 2px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.10);
+      --elev-2: 0 2px 4px rgba(0,0,0,.06), 0 4px 8px rgba(0,0,0,.08);
+      --elev-3: 0 4px 8px rgba(0,0,0,.08), 0 8px 16px rgba(0,0,0,.12);
+      --elev-4: 0 8px 16px rgba(0,0,0,.10), 0 16px 24px rgba(0,0,0,.16);
+
+      /* Motion */
+      --dur-fast:        100ms;
+      --dur-quick:       150ms;
+      --dur-normal:      200ms;
+      --dur-deliberate:  300ms;
+      --dur-slow:        500ms;
+      --ease-standard:   cubic-bezier(.2, 0, 0, 1);
+      --ease-enter:      cubic-bezier(0, 0, .2, 1);
+      --ease-exit:       cubic-bezier(.4, 0, 1, 1);
+      --ease-spring:     cubic-bezier(.34, 1.56, .64, 1);
+
+      /* Opacity ladder */
+      --opacity-disabled: 0.40;
+      --opacity-muted:    0.60;
+      --opacity-subtle:   0.80;
+
+      /* Z-index — resolves modal-over-toast disasters */
+      --z-sticky:           100;
+      --z-dropdown:        1000;
+      --z-overlay:         1100;
+      --z-drawer:          1200;
+      --z-modal-backdrop:  1300;
+      --z-modal:           1400;
+      --z-popover:         1500;
+      --z-tooltip:         1600;
+      --z-toast:           1700;
+      --z-cmdk:            1800;
+
+      /* Focus ring (paired with :focus-visible double-ring below) */
+      --focus-ring-width:  2px;
+      --focus-ring-offset: 2px;
+      --focus-ring: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--gold);
+
+      /* Line-heights */
+      --lh-tight:  1.2;
+      --lh-snug:   1.35;
+      --lh-normal: 1.5;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* PR F1 — accessibility baseline.
+     * Global reduced-motion: silences every CSS animation/transition for
+     * users who set the OS preference. Component-scoped variants further
+     * down still get this for free (they don't override animation:none). */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* :focus-visible double-ring — keyboard users see a clear ring,
+     * mouse clicks don't render one. Two-layer shadow (canvas + accent)
+     * survives over both light and dark surfaces. */
+    :focus { outline: none; }
+    :focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+      border-radius: var(--radius-100);
+    }
+
+    /* Skip-link — appears at top-left on Tab from boot, hidden until then.
+     * Lets keyboard users jump straight to the main content past the
+     * persistent header / ticker / tabs row. */
+    .skip-link {
+      position: fixed;
+      top: -100px;
+      left: 8px;
+      z-index: var(--z-tooltip);
+      background: var(--gold);
+      color: var(--bg-primary);
+      padding: 8px 14px;
+      border-radius: var(--radius-100);
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      transition: top var(--dur-quick) var(--ease-enter);
+    }
+    .skip-link:focus,
+    .skip-link:focus-visible { top: 8px; }
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
 
     body {
       font-family: var(--font-sans);
@@ -789,10 +938,14 @@
       letter-spacing: 0.3px;
     }
 
-    .positive { color: var(--green); }
-    .negative { color: var(--red); }
-    .positive-bg { background: var(--green-bg); color: var(--green); }
-    .negative-bg { background: var(--red-bg); color: var(--red); }
+    /* PR F1 — softer day-one default. The legacy --green / --red are neon on
+     * the near-black background; --positive-soft / --negative-soft pull the
+     * brightness down. New code paths upgrade further via signedColorFor()
+     * so |Δ|<0.5 reads as muted ◆, |Δ|≥5 reads as deep ▲/▼. */
+    .positive { color: var(--positive-soft); }
+    .negative { color: var(--negative-soft); }
+    .positive-bg { background: var(--positive-bg-soft); color: var(--positive-soft); }
+    .negative-bg { background: var(--negative-bg-soft); color: var(--negative-soft); }
 
     /* Main Content */
     .main-content {
@@ -3233,6 +3386,7 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to main content</a>
   <!-- Header -->
   <header class="header">
     <div class="header-inner">
@@ -3293,7 +3447,7 @@
   </div>
 
   <!-- Main Content -->
-  <div class="main-content">
+  <div class="main-content" id="main" tabindex="-1">
     <!-- Stock Detail View -->
     <div class="stock-detail" id="stockDetail"></div>
 

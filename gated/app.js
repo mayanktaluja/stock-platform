@@ -4332,6 +4332,76 @@ function pctColor(n) {
   return n >= 0 ? "var(--green, #22c55e)" : "var(--red, #ef4444)";
 }
 
+// PR F1 — magnitude-keyed colour + glyph + screen-reader label.
+// New code paths use this instead of pctColor() so |Δ|<0.5 reads as muted ◆,
+// |Δ|<2 as soft, |Δ|<5 as normal, |Δ|≥5 as deep + ▲/▼. Pair every coloured
+// value with srLabel for a11y — decorative glyphs get aria-hidden.
+function signedColorFor(value) {
+  if (value == null || !Number.isFinite(value)) {
+    return { color: "var(--text-muted)", bg: "transparent", glyph: "·", srLabel: "no data" };
+  }
+  const abs = Math.abs(value);
+  const pos = value >= 0;
+  const sr = (verb) => `${verb} ${abs.toFixed(abs < 10 ? 2 : 1)} percent`;
+  if (abs < 0.5) {
+    return { color: "var(--text-muted)", bg: "transparent", glyph: "◆", srLabel: "unchanged" };
+  }
+  if (abs < 2) {
+    return pos
+      ? { color: "var(--positive-soft)", bg: "var(--positive-bg-soft)", glyph: "▲", srLabel: sr("up") }
+      : { color: "var(--negative-soft)", bg: "var(--negative-bg-soft)", glyph: "▼", srLabel: sr("down") };
+  }
+  if (abs < 5) {
+    return pos
+      ? { color: "var(--positive)", bg: "var(--positive-bg-soft)", glyph: "▲", srLabel: sr("up") }
+      : { color: "var(--negative)", bg: "var(--negative-bg-soft)", glyph: "▼", srLabel: sr("down") };
+  }
+  return pos
+    ? { color: "var(--positive-strong)", bg: "var(--positive-bg-strong)", glyph: "▲", srLabel: sr("up") }
+    : { color: "var(--negative-strong)", bg: "var(--negative-bg-strong)", glyph: "▼", srLabel: sr("down") };
+}
+
+// PR F1 — INR formatter with Indian numbering (2:2:3 grouping → ₹1,23,456)
+// and an opt-in compact mode for headline numbers (₹1.23 Cr, ₹4.5 L).
+// Falls back gracefully on older Chromium where notation:'compact' isn't
+// supported. Pair with { signed: true } to render explicit en-dash sign.
+const _INR_FULL = new Intl.NumberFormat("en-IN", {
+  style: "currency", currency: "INR", maximumFractionDigits: 0,
+});
+let _inrCompactNumber = null;
+try {
+  _inrCompactNumber = new Intl.NumberFormat("en-IN", {
+    notation: "compact",
+    maximumFractionDigits: 2,
+  });
+} catch { /* old Chromium → fallback below */ }
+function formatINR(value, opts) {
+  if (value == null || !Number.isFinite(value)) return "—";
+  const o = opts || {};
+  const abs = Math.abs(value);
+  const signed = !!o.signed;
+  const compact = !!o.compact;
+  let out;
+  if (compact && abs >= 1e7) {
+    out = "₹" + (value / 1e7).toFixed(2) + " Cr";
+  } else if (compact && abs >= 1e5) {
+    out = "₹" + (value / 1e5).toFixed(2) + " L";
+  } else if (compact && _inrCompactNumber) {
+    out = "₹" + _inrCompactNumber.format(value);
+  } else {
+    out = _INR_FULL.format(value);
+  }
+  if (signed && value < 0) {
+    // Replace the leading "-₹" with "−₹" (en-dash, typographically correct)
+    out = out.replace(/^-/, "−");
+  } else if (signed && value > 0) {
+    out = "+" + out;
+  }
+  return out;
+}
+window.signedColorFor = signedColorFor;
+window.formatINR = formatINR;
+
 const ANALYZER_ACTION_COLORS = {
   CUT_LOSS:     { bg: "rgba(220,38,38,0.15)",  border: "rgba(220,38,38,0.5)",  text: "#fca5a5" },
   SELL:         { bg: "rgba(239,68,68,0.12)",  border: "rgba(239,68,68,0.4)",  text: "#f87171" },
