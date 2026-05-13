@@ -3622,23 +3622,67 @@
       <!-- Signal maturity warning — hidden when sample size is sufficient -->
       <div id="trackMaturityWarning" style="display:none;"></div>
 
-      <div id="trackHeadlineMetrics" class="grid-4" style="margin-bottom:24px;">
-        <div class="card">
-          <div class="card-title">Total Picks</div>
-          <div class="card-value" id="trackTotalPicks">—</div>
+      <!-- PR T5 — Track Record 5-tile hero strip.
+           Trust-grade scorecard band:
+             1. Hit Rate            (#trackHitRateValue)
+             2. Avg α               (#trackAvgAlphaValue)
+             3. % Beat Nifty        (#trackBeatNiftyValue)
+             4. Brier (→ 0.18)      (#trackBrierValue) + methodology popover
+             5. Misses Shown toggle (#trackMissesShownToggle) — sticky-ON
+           Legacy IDs (#trackTotalPicks/#trackWinRate/#trackAvgReturn
+           /#trackBeatsNifty) are kept hidden but still written to by
+           loadTrackRecord() so downstream features (signal-maturity
+           banner, history-count label, etc.) keep their hooks. -->
+      <div id="trackHeroStrip" class="track-hero-strip" style="margin-bottom: var(--space-200, 16px); display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--space-150, 12px);">
+        <div class="track-hero-tile l-box" style="--pad: var(--space-200);">
+          <div class="tx-micro">Hit Rate</div>
+          <div class="tx-display tx-num" id="trackHitRateValue" style="font-size: 28px; line-height: 1.15;">—</div>
+          <div class="tx-meta" id="trackHitRateSub">picks ending positive</div>
         </div>
-        <div class="card">
-          <div class="card-title">Win Rate <span class="info-icon" data-term-id="win_rate" tabindex="0">i</span></div>
-          <div class="card-value" id="trackWinRate">—</div>
+        <div class="track-hero-tile l-box" style="--pad: var(--space-200);">
+          <div class="tx-micro">Avg α</div>
+          <div class="tx-display tx-num" id="trackAvgAlphaValue" style="font-size: 28px; line-height: 1.15;">—</div>
+          <div class="tx-meta">net of Nifty</div>
         </div>
-        <div class="card">
-          <div class="card-title">Avg Return <span class="info-icon" data-term-id="forward_return" tabindex="0">i</span></div>
-          <div class="card-value" id="trackAvgReturn">—</div>
+        <div class="track-hero-tile l-box" style="--pad: var(--space-200);">
+          <div class="tx-micro">% Beat Nifty</div>
+          <div class="tx-display tx-num" id="trackBeatNiftyValue" style="font-size: 28px; line-height: 1.15;">—</div>
+          <div class="tx-meta" id="trackBeatNiftySub">picks vs benchmark</div>
         </div>
-        <div class="card">
-          <div class="card-title">Beats Nifty <span class="info-icon" data-term-id="beats_nifty" tabindex="0">i</span></div>
-          <div class="card-value" id="trackBeatsNifty">—</div>
+        <div class="track-hero-tile l-box" style="--pad: var(--space-200); position: relative;">
+          <div class="tx-micro" style="display:flex; align-items:center; gap:6px;">
+            Brier
+            <details class="brier-methodology" style="display:inline-block;">
+              <summary aria-label="Methodology — what the Brier score measures" style="cursor:pointer; list-style:none; padding:0 4px; border:1px solid var(--border); border-radius:9px; color:var(--text-muted); font-size:10px; font-weight:700; line-height:14px;">?</summary>
+              <div style="position:absolute; right:8px; top:48px; z-index: var(--z-popover, 1500); background: var(--bg-card); border:1px solid var(--border); border-radius: var(--radius-200); padding: var(--space-200); box-shadow: var(--elev-3); width: 280px; font-size: 12px; line-height: 1.45; color: var(--text-secondary);">
+                <strong>Brier score</strong> measures calibration: predicted-probability vs realized outcome on every forecast. 0 = perfect, 0.25 = random. Target ≤ 0.18 (Polymarket benchmark). Forecasts cite snapshot windows
+                30 / 90 / 180 / 365 d; benchmark is Nifty 50 over the same window.
+              </div>
+            </details>
+          </div>
+          <div class="tx-display tx-num" id="trackBrierValue" style="font-size: 28px; line-height: 1.15;">—</div>
+          <div class="tx-meta" id="trackBrierSub">backfilling — PR B8</div>
         </div>
+        <div class="track-hero-tile l-box" style="--pad: var(--space-200);">
+          <div class="tx-micro">Misses</div>
+          <label style="display:flex; align-items:center; gap:8px; margin-top: 6px; cursor:pointer; font-size: 14px;">
+            <input type="checkbox" id="trackMissesShownToggle" checked
+                   style="width:18px; height:18px; cursor:pointer;"
+                   onchange="window.onTrackMissesShownToggle && window.onTrackMissesShownToggle(this.checked)" />
+            <span><strong id="trackMissesShownLabel">Shown</strong></span>
+          </label>
+          <div class="tx-meta" style="margin-top: 4px;">Hiding losers breaks trust — kept on by default.</div>
+        </div>
+      </div>
+      <div id="trackHeroSubline" class="tx-meta" style="margin: 4px 2px 16px; opacity: 0.85;"></div>
+      <!-- Legacy IDs retained off-screen so prior render paths keep working
+           until the call sites migrate. The signal-maturity banner reads
+           trackTotalPicks; the history-count chip reads trackHistoryCount. -->
+      <div hidden aria-hidden="true">
+        <span id="trackTotalPicks">—</span>
+        <span id="trackWinRate">—</span>
+        <span id="trackAvgReturn">—</span>
+        <span id="trackBeatsNifty">—</span>
       </div>
 
       <!-- ═══════════════════════════════════════════════════════════════════ -->

@@ -178,6 +178,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // openSwsModal renders, so the modal star paints with the correct
   // aria-pressed even when the user hasn't visited the Watchlist tab.
   hydrateWatchlistSet();
+  // PR T5 — sync the misses-shown checkbox + label with the persisted
+  // localStorage state before loadTrackRecord runs. Sticky-ON default.
+  hydrateMissesShownToggle();
   switchTab('picks');
   setupSearch();
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
@@ -203,6 +206,14 @@ async function hydrateWatchlistSet() {
       watchlist = new Set(data.stocks.map((s) => s.symbol));
     }
   } catch { /* silent — non-critical */ }
+}
+
+function hydrateMissesShownToggle() {
+  const cb = document.getElementById("trackMissesShownToggle");
+  const lbl = document.getElementById("trackMissesShownLabel");
+  const on = getMissesShown();
+  if (cb) cb.checked = on;
+  if (lbl) lbl.textContent = on ? "Shown" : "Hidden";
 }
 
 // ==================== SNAPSHOT HEALTH BANNER ====================
@@ -3271,6 +3282,113 @@ const TRACK_TYPE_LABELS = {
 // under-performed the index, as we predicted.
 const TRACK_SHORT_TYPES = new Set(["sws_avoid"]);
 
+// PR T5 — Track Record hero state. Misses-shown defaults ON per locked
+// decision (hiding losers destroys trust); we still persist user toggles
+// across reloads via localStorage, but the absence of a stored value or a
+// parse failure reverts to ON. Sticky-ON contract.
+const TRACK_MISSES_KEY = "starbhai_missesShown";
+function getMissesShown() {
+  try {
+    const raw = localStorage.getItem(TRACK_MISSES_KEY);
+    if (raw == null) return true; // default ON
+    return raw !== "off";
+  } catch {
+    return true; // localStorage disabled (private browsing) → in-memory ON
+  }
+}
+function setMissesShown(on) {
+  try { localStorage.setItem(TRACK_MISSES_KEY, on ? "on" : "off"); } catch {}
+}
+// Latest trades array captured by loadTrackRecord so the toggle can
+// re-render the history table without re-fetching.
+let _trackLastTrades = null;
+// PR B8 will populate this when the backtest endpoint ships; for now the
+// hero shows "—" with a backfilling sub-line.
+let _trackLastBrier = null;
+
+window.onTrackMissesShownToggle = function onTrackMissesShownToggle(on) {
+  setMissesShown(!!on);
+  const lbl = document.getElementById("trackMissesShownLabel");
+  if (lbl) lbl.textContent = on ? "Shown" : "Hidden";
+  const tableEl = document.getElementById("trackHistoryTable");
+  if (tableEl && Array.isArray(_trackLastTrades)) {
+    tableEl.innerHTML = renderTrackHistoryTable(_trackLastTrades);
+  }
+};
+
+function populateTrackHero(perf, data) {
+  const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+  const setHtml = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
+
+  // Hit Rate — perf.winRate is already a %. Color it via the verdict
+  // palette so the eye lands on it first.
+  if (perf.winRate != null) {
+    const sc = signedColorFor(perf.winRate - 50);
+    setHtml("trackHitRateValue",
+      `<span style="color:${perf.winRate >= 50 ? "var(--positive)" : "var(--negative)"};">${perf.winRate}%</span>`);
+    setText("trackHitRateSub", `n = ${perf.total || 0} picks`);
+  } else {
+    setText("trackHitRateValue", "—");
+    setText("trackHitRateSub", "no picks yet");
+  }
+
+  // Avg α — fall back to avgReturn when the explicit alpha field is absent.
+  const alpha = (perf.avgAlpha != null) ? perf.avgAlpha : perf.avgReturn;
+  if (alpha != null && Number.isFinite(alpha)) {
+    const sc = signedColorFor(alpha);
+    setHtml("trackAvgAlphaValue",
+      `<span style="color:${sc.color};" aria-label="${sc.srLabel}"><span aria-hidden="true">${sc.glyph}</span> ${alpha >= 0 ? "+" : ""}${alpha.toFixed(2)}%</span>`);
+  } else {
+    setText("trackAvgAlphaValue", "—");
+  }
+
+  // % Beat Nifty — paint above-55 green, below-45 red, otherwise warn.
+  if (perf.beatsNiftyRate != null && Number.isFinite(perf.beatsNiftyRate)) {
+    const colour = perf.beatsNiftyRate >= 55 ? "var(--positive)" :
+                   perf.beatsNiftyRate >= 45 ? "var(--warn)" :
+                   "var(--negative)";
+    setHtml("trackBeatNiftyValue", `<span style="color:${colour};">${perf.beatsNiftyRate}%</span>`);
+    // Wilson-style CI matches the maturity-warning logic at line 3337.
+    if (perf.total > 5) {
+      const p = perf.beatsNiftyRate / 100;
+      const n = perf.benchmarkSampleSize || perf.total;
+      const se = Math.sqrt(p * (1 - p) / n);
+      const lo = Math.max(0, (p - 1.96 * se) * 100).toFixed(0);
+      const hi = Math.min(100, (p + 1.96 * se) * 100).toFixed(0);
+      setText("trackBeatNiftySub", `CI ${lo}–${hi}%`);
+    } else {
+      setText("trackBeatNiftySub", "thin sample");
+    }
+  } else {
+    setText("trackBeatNiftyValue", "—");
+    setText("trackBeatNiftySub", "—");
+  }
+
+  // Brier — populated by PR B8 when the backtest endpoint ships. Honest
+  // empty state until then.
+  if (_trackLastBrier != null && Number.isFinite(_trackLastBrier)) {
+    const sub = _trackLastBrier <= 0.18 ? "target ≤ 0.18" : `closing on 0.18`;
+    setText("trackBrierValue", _trackLastBrier.toFixed(3));
+    setText("trackBrierSub", sub);
+  } else {
+    setText("trackBrierValue", "—");
+    setText("trackBrierSub", "backfilling — PR B8");
+  }
+
+  // Subline below the hero strip — honest sample size + oldest snapshot.
+  const oldestSnap = (Array.isArray(data.trades) && data.trades.length)
+    ? data.trades[data.trades.length - 1]?.snapshotAt
+    : null;
+  const ageDays = oldestSnap
+    ? Math.floor((Date.now() - new Date(oldestSnap).getTime()) / 86400000)
+    : null;
+  const subBits = [];
+  if (perf.total != null) subBits.push(`${perf.total} pick${perf.total === 1 ? "" : "s"}`);
+  if (ageDays != null) subBits.push(`${ageDays} day${ageDays === 1 ? "" : "s"} of history`);
+  if (perf.total != null && perf.total < 100) subBits.push("Early data — need ~100 picks for statistical significance");
+  setText("trackHeroSubline", subBits.join(" · "));
+}
+
 async function loadTrackRecord(forceBust = false) {
   const filterEl = document.getElementById("trackFilter");
   const filterType = filterEl?.value && filterEl.value !== "all" ? filterEl.value : null;
@@ -3293,6 +3411,13 @@ async function loadTrackRecord(forceBust = false) {
       document.getElementById("trackWinRate").textContent = "—";
       document.getElementById("trackAvgReturn").textContent = "—";
       document.getElementById("trackBeatsNifty").textContent = "—";
+      // PR T5 — new hero tiles in empty state
+      const setHero = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+      setHero("trackHitRateValue", "—");
+      setHero("trackAvgAlphaValue", "—");
+      setHero("trackBeatNiftyValue", "—");
+      setHero("trackBrierValue", "—");
+      setHero("trackHeroSubline", data.message || "No picks recorded yet.");
       document.getElementById("trackHistoryCount").textContent = "0 PICKS";
       document.getElementById("trackByTypeSection").innerHTML = "";
       document.getElementById("trackByRegimeSection").innerHTML = "";
@@ -3307,7 +3432,8 @@ async function loadTrackRecord(forceBust = false) {
       return;
     }
 
-    // Headline metrics
+    // Headline metrics — legacy (hidden) IDs stay populated for downstream
+    // hooks (signal-maturity banner reads trackTotalPicks).
     const perf = data.performance || {};
     document.getElementById("trackTotalPicks").textContent = perf.total ?? 0;
     document.getElementById("trackWinRate").innerHTML = perf.winRate != null
@@ -3319,6 +3445,10 @@ async function loadTrackRecord(forceBust = false) {
     document.getElementById("trackBeatsNifty").innerHTML = perf.beatsNiftyRate != null
       ? `<span style="color:${perf.beatsNiftyRate >= 55 ? '#22c55e' : perf.beatsNiftyRate >= 45 ? '#eab308' : '#ef4444'};">${perf.beatsNiftyRate}%</span>`
       : "—";
+
+    // PR T5 — new hero tile values. signedColorFor on alpha/beat-Nifty so
+    // the visual weight scales with magnitude rather than shouting at 0.1 %.
+    populateTrackHero(perf, data);
 
     document.getElementById("trackHistoryCount").textContent =
       `${data.totalCount} PICK${data.totalCount === 1 ? "" : "S"}`;
@@ -3369,10 +3499,13 @@ async function loadTrackRecord(forceBust = false) {
       document.getElementById("trackByRegimeSection").innerHTML = "";
     }
 
-    // Trade history table
+    // Trade history table — cache trades so the misses-shown toggle can
+    // re-render without re-fetching, then render once for the initial state.
+    _trackLastTrades = data.trades;
     tableEl.innerHTML = renderTrackHistoryTable(data.trades);
 
-    // Phase 8D: Portfolio vs Nifty line chart
+    // Phase 8D: Portfolio vs Nifty line chart (uses full trade set
+    // regardless of misses toggle — chart is the integrity record).
     renderTrackChart(data.trades);
 
     if (updatedEl && data.lastComputedAt) {
@@ -3596,7 +3729,30 @@ function renderTrackHistoryTable(trades) {
     return `<div class="empty-state"><div class="empty-icon">&#128202;</div><div class="empty-text">No picks recorded yet for this filter.</div></div>`;
   }
 
-  const rows = trades.map((t) => {
+  // PR T5 — misses-shown toggle. Default ON (sticky-ON) per locked decision.
+  // When OFF, hide negative-return trades; the integrity-graded chart at
+  // renderTrackChart still uses the full set so visual hiding here can't
+  // mask the actual track record. A small inline note tells the reader.
+  const showMisses = (typeof getMissesShown === "function") ? getMissesShown() : true;
+  const totalCount = trades.length;
+  const visible = showMisses
+    ? trades
+    : trades.filter((t) => {
+        const r = t.returns || {};
+        return !(r.returnPct != null && r.returnPct < 0);
+      });
+  const hiddenCount = totalCount - visible.length;
+  const hiddenBanner = (!showMisses && hiddenCount > 0)
+    ? `<div class="tx-meta" style="padding: 10px 14px; margin-bottom: 10px; background: rgba(224,176,96,0.08); border: 1px solid rgba(224,176,96,0.25); border-radius: var(--radius-200);">
+        ${hiddenCount} losing pick${hiddenCount === 1 ? "" : "s"} hidden via the Misses toggle. <a href="#" onclick="event.preventDefault(); document.getElementById('trackMissesShownToggle').click();" style="color: var(--gold);">Show them</a> for the full record.
+      </div>`
+    : "";
+
+  if (visible.length === 0) {
+    return hiddenBanner + `<div class="empty-state"><div class="empty-icon">&#128202;</div><div class="empty-text">No picks visible under the current filters.</div></div>`;
+  }
+
+  const rows = visible.map((t) => {
     const r = t.returns || {};
     const isPos = r.returnPct != null && r.returnPct >= 0;
     const beatsClass = r.beatsNifty === true ? "positive" : r.beatsNifty === false ? "negative" : "";
@@ -3637,7 +3793,7 @@ function renderTrackHistoryTable(trades) {
       </div>`;
   }).join("");
 
-  return `
+  return hiddenBanner + `
     <div style="display:grid;grid-template-columns:1fr 100px 90px 90px 90px 90px 70px;gap:12px;padding:8px 14px;font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">
       <div>Stock</div>
       <div>Type / Regime</div>
