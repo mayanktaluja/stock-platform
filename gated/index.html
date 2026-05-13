@@ -170,6 +170,14 @@
       --lh-tight:  1.2;
       --lh-snug:   1.35;
       --lh-normal: 1.5;
+
+      /* PR F2 — Type scale (6 sizes, paired with utility classes below) */
+      --fs-display:  34px;  /* Fraunces page h2 / hero number */
+      --fs-headline: 20px;  /* Fraunces section / verdict pill */
+      --fs-title:    14px;  /* Geist 700 — card title, table head */
+      --fs-body:     13px;  /* Geist 400 — body copy, table rows */
+      --fs-meta:     11px;  /* Geist 500 — sub-line, caption */
+      --fs-micro:    10px;  /* Geist 600 ALL-CAPS — eyebrow labels */
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -239,6 +247,55 @@
         linear-gradient(180deg, var(--bg-primary), var(--bg-primary));
       background-attachment: fixed;
     }
+
+    /* ============================================================
+     * PR F2 — Type scale utilities.
+     * New code paths use these classes for consistency; old inline
+     * font-size:Npx call sites stay untouched until a PR touches them.
+     * .tx-num enables tabular numerals on any element.
+     * ============================================================ */
+    .tx-display  { font-family: var(--font-serif); font-size: var(--fs-display);  font-weight: 500; letter-spacing: -0.02em; line-height: var(--lh-tight); }
+    .tx-headline { font-family: var(--font-serif); font-size: var(--fs-headline); font-weight: 500; letter-spacing: -0.01em; line-height: var(--lh-tight); }
+    .tx-title    { font-family: var(--font-sans);  font-size: var(--fs-title);    font-weight: 700; line-height: var(--lh-snug); }
+    .tx-body     { font-family: var(--font-sans);  font-size: var(--fs-body);     font-weight: 400; line-height: var(--lh-normal); }
+    .tx-meta     { font-family: var(--font-sans);  font-size: var(--fs-meta);     font-weight: 500; color: var(--text-muted); line-height: var(--lh-snug); }
+    .tx-micro    { font-family: var(--font-sans);  font-size: var(--fs-micro);    font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+    .tx-num      { font-family: var(--font-mono);  font-variant-numeric: tabular-nums; font-feature-settings: 'tnum' 1; }
+
+    /* ============================================================
+     * PR F2 — CSS-only layout primitives (Every-Layout style).
+     * Use as `<div class="l-stack" style="--gap: var(--space-300)">`.
+     * Composes ~90% of any UI; no JS, no framework required.
+     *
+     * DISCLOSURE DECISION TREE — walk these rules in order:
+     *   1. Essential for the current task?
+     *      → Tier 1, always visible.
+     *   2. Expands context inline (component breakdowns, "show more")?
+     *      → <details><summary>. Native HTML, no JS state.
+     *   3. 2–5 mutually exclusive views of the same entity?
+     *      → Tabs.
+     *   4. Focused sub-task that keeps surrounding context?
+     *      → Right-side drawer (<dialog position:fixed right:0>).
+     *   5. Destructive / irreversible confirmation?
+     *      → Modal <dialog aria-modal="true">.
+     *   6. Tiny auxiliary info (definition, "What is Snowflake?")?
+     *      → Native `popover` attribute WITH <details> fallback for
+     *        Chromium < 114 / Samsung Internet < 23 (still ~15% of
+     *        Indian retail mobile).
+     *   Doesn't fit → separate page.
+     * ============================================================ */
+    .l-stack    { display:flex; flex-direction:column; gap: var(--gap, var(--space-200)); }
+    .l-cluster  { display:flex; flex-wrap:wrap; gap: var(--gap, var(--space-100)); align-items:center; }
+    .l-frame    { aspect-ratio: var(--ratio, 16 / 9); overflow:hidden; }
+    .l-frame > * { width:100%; height:100%; object-fit:cover; }
+    .l-grid     { display:grid; grid-template-columns: repeat(auto-fit, minmax(var(--min, 240px), 1fr)); gap: var(--gap, var(--space-200)); }
+    .l-box      { padding: var(--pad, var(--space-200)); border-radius: var(--radius, var(--radius-200)); background: var(--bg, var(--bg-card)); border: 1px solid var(--border); }
+    .l-switcher { display:flex; flex-wrap:wrap; gap: var(--gap, var(--space-200)); }
+    .l-switcher > * { flex-grow:1; flex-basis: calc((var(--threshold, 32rem) - 100%) * 999); }
+    .l-center   { box-sizing:content-box; max-width: var(--max, 64rem); margin-inline:auto; padding-inline: var(--pad, var(--space-300)); }
+    .l-sidebar  { display:flex; flex-wrap:wrap; gap: var(--gap, var(--space-300)); }
+    .l-sidebar > :first-child { flex-basis: var(--side, 16rem); flex-grow:1; }
+    .l-sidebar > :last-child  { flex-basis:0; flex-grow:999; min-inline-size: var(--min, 50%); }
 
     /* Phase 8B utility classes — selective upgrade */
     .editorial-headline {
