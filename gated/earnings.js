@@ -746,6 +746,7 @@
         </details>`
       : "";
 
+    const calibrationFooter = renderCalibrationFooter(event.symbol);
     return `
       <div class="earnings-card" data-symbol="${escHtml(event.symbol)}" data-quality="${escHtml(signals?.data_quality || "UNKNOWN")}" data-verdict="${escHtml(prediction?.verdict || "")}" onclick="${safeClick}" style="background:var(--panel,#0f1422); border:1px solid #1a2233; ${cardBorder} border-radius:10px; padding:16px 18px; cursor:pointer; transition:transform 120ms ease, border-color 120ms ease; display:flex; flex-direction:column; gap:10px;">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
@@ -768,6 +769,7 @@
         </div>
         ${renderRationaleHeadline(rationale)}
         ${tier2Block}
+        ${calibrationFooter}
       </div>`;
   }
 
@@ -825,6 +827,50 @@
         </div>`;
     }
     el.innerHTML = html;
+  }
+
+  // ────────── PR E5 — Per-card calibration footer ──────────
+  //
+  // Pulls /api/earnings/calibration once per Earnings tab load and caches
+  // by symbol. Each Earnings card calls renderCalibrationFooter(symbol)
+  // during its Tier 2 build; the footer renders ONLY when there are ≥ 3
+  // prior resolved calls for the symbol (else absent — never extrapolate
+  // from a single coincidental hit).
+  let _earningsCalibrationBySymbol = null;
+  async function loadEarningsCalibrationMap() {
+    if (_earningsCalibrationBySymbol) return _earningsCalibrationBySymbol;
+    try {
+      const res = await fetch("/api/earnings/calibration");
+      if (!res.ok) {
+        _earningsCalibrationBySymbol = {};
+        return _earningsCalibrationBySymbol;
+      }
+      const data = await res.json();
+      _earningsCalibrationBySymbol = (data && data.symbols && typeof data.symbols === "object")
+        ? data.symbols
+        : {};
+    } catch {
+      _earningsCalibrationBySymbol = {};
+    }
+    return _earningsCalibrationBySymbol;
+  }
+  function renderCalibrationFooter(symbol) {
+    if (!_earningsCalibrationBySymbol || !symbol) return "";
+    const rec = _earningsCalibrationBySymbol[symbol];
+    if (!rec || !Number.isFinite(rec.priorCallsForSymbol) || rec.priorCallsForSymbol < 3) return "";
+    const verdictBit = (rec.priorBeatCalls > 0)
+      ? `<strong>${rec.priorBeatCalls}</strong> BEAT call${rec.priorBeatCalls === 1 ? "" : "s"}`
+      : `<strong>${rec.priorCallsForSymbol}</strong> prior call${rec.priorCallsForSymbol === 1 ? "" : "s"}`;
+    const score = `${rec.hitCount} hit · ${rec.missCount} miss`;
+    const brierBit = (rec.sectorBrier != null && rec.platformBrier != null)
+      ? ` &nbsp;·&nbsp; sector Brier <strong class="tx-num">${rec.sectorBrier.toFixed(3)}</strong> vs platform <strong class="tx-num">${rec.platformBrier.toFixed(3)}</strong>`
+      : "";
+    return `
+      <div class="earnings-calibration-footer tx-meta" style="margin-top:8px; padding-top:8px; border-top:1px dashed var(--border); display:flex; flex-wrap:wrap; gap:6px; align-items:baseline;">
+        <span style="color: var(--text-muted);">Last ${verdictBit} on ${escHtml(symbol)}:</span>
+        <span style="color: var(--text-secondary);">${score}</span>
+        <span style="color: var(--text-muted);">${brierBit}</span>
+      </div>`;
   }
 
   // ────────── PR B8 — Earnings backtest snapshot card ──────────
@@ -963,6 +1009,9 @@
 
       renderEarningsStatsStrip(stats);
       renderEarningsFilterBar();
+      // PR E5 — load the per-symbol calibration map BEFORE the cards
+      // render so the footer line paints in the same pass (no flicker).
+      await loadEarningsCalibrationMap();
       applyEarningsFilters();
       // PR B8 — populate the admin-only backtest card; server returns 403
       // for non-admin sessions and the loader leaves the slot empty.

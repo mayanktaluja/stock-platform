@@ -74,6 +74,7 @@ import { buildReport } from "./portfolioAnalyzer.js";
 import { scoreHolding as swsScoreHolding, loadV3Universe } from "./services/swsHoldingEngine.js";
 import { scoreStock as swsScoreStock, valuationBandFromUpside } from "./services/swsScoring.js";
 import { buildCalibration as buildTrackCalibration } from "./services/trackRecord/calibration.js";
+import { buildSymbolEarningsCalibration } from "./services/trackRecord/earningsCalibration.js";
 import * as swsDal from "./services/swsDal/index.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
 import { buildSWSReport, surfaceOutsidePicks } from "./services/swsPortfolioAggregate.js";
@@ -2410,6 +2411,33 @@ function loadCachedEarningsSnapshot() {
   earningsCache.set("earnings_snapshot", snap);
   return snap;
 }
+
+// PR E5 — per-symbol earnings calibration. Drives the "last N BEAT calls
+// on this stock" footer line on every Earnings Watch card. Same admin
+// gate as the rest of /api/earnings/*; non-admin gets 403 and the
+// front-end render falls back to the symbol-less branch (no footer).
+app.get("/api/earnings/calibration", async (req, res) => {
+  if (!(await requireEarningsAdmin(req, res))) return;
+  try {
+    const { loadAllHistory } = await import("./services/earnings/earningsHistoryArchive.js");
+    const history = loadAllHistory();
+    const snapshotPath = path.join(__dirname, "data", "catalysts", "earnings-backtest-latest.json");
+    let snapshot = null;
+    if (fs.existsSync(snapshotPath)) {
+      try { snapshot = JSON.parse(fs.readFileSync(snapshotPath, "utf8")); } catch {}
+    }
+    const map = buildSymbolEarningsCalibration(history, snapshot);
+    const payload = {
+      generated_at: new Date().toISOString(),
+      platform_brier: snapshot && Number.isFinite(snapshot.brier) ? snapshot.brier : null,
+      symbols: Object.fromEntries(map),
+    };
+    res.json(payload);
+  } catch (err) {
+    console.error("[EARNINGS] /api/earnings/calibration failed:", err && err.message);
+    res.status(500).json({ error: "earnings calibration failed: " + (err && err.message) });
+  }
+});
 
 // PR B8 — earnings backtest snapshot endpoint. Serves the JSON written
 // by scripts/backtest-earnings-predictions.mjs on its nightly run.
