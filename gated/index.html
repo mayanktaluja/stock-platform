@@ -1016,6 +1016,20 @@
       .watchlist-table th, .watchlist-table td { padding-inline: 6px; }
     }
 
+    /* PR A10 — Portfolio Analyzer reflow details + bar marker reset. */
+    details.analyzer-tier-details > summary,
+    details.analyzer-secondary-kpis > summary { list-style: none; }
+    details.analyzer-tier-details > summary::-webkit-details-marker,
+    details.analyzer-secondary-kpis > summary::-webkit-details-marker { display: none; }
+    details.analyzer-tier-details > summary::before { content: "▶ "; color: var(--text-muted); margin-right: 6px; transition: transform var(--dur-quick) var(--ease-standard); display: inline-block; }
+    details.analyzer-tier-details[open] > summary::before { transform: rotate(90deg); }
+    /* Mobile (≤ 480 px): hero trio collapses to single column, action-mix
+     * bar grows to 44 px so the segment labels stay legible. */
+    @media (max-width: 480px) {
+      .analyzer-hero-trio { grid-template-columns: 1fr !important; }
+      .analyzer-actionmix-bar { height: 44px !important; }
+    }
+
     /* PR P9 — inline ★ on pick cards.
      * Sits inside .sws-pick-card-score so it floats at the top-right of
      * the card without disrupting the score/verdict block beneath. The

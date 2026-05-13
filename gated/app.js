@@ -4915,6 +4915,127 @@ function swsSnowflakeMini(snow) {
   </div>`;
 }
 
+// PR A10 — Portfolio Analyzer Tier-1 hero trio.
+// Three big numbers — Invested / What it's worth today / Net P&L — read
+// first, with P&L as the dominant element. Uses formatINR(v, compact)
+// for headline-grade digit density (₹1.23 Cr / ₹45.6 L) and
+// signedColorFor for the P&L direction so a 0.3 % swing renders pale
+// and a 12 % swing reads deep + ▲/▼.
+function renderAnalyzerHeroTrio(snap) {
+  if (!snap) return "";
+  const inv = snap.totalInvested;
+  const cur = snap.totalCurrent;
+  const pnl = snap.totalPnL;
+  const pnlPct = snap.totalPnLPct;
+  const sc = (typeof signedColorFor === "function" && Number.isFinite(pnlPct))
+    ? signedColorFor(pnlPct)
+    : { color: "var(--text-muted)", glyph: "·", srLabel: "" };
+  const pnlValue = (Number.isFinite(pnl) && typeof formatINR === "function")
+    ? formatINR(pnl, { compact: true, signed: true })
+    : (Number.isFinite(pnl) ? `₹${Math.round(pnl).toLocaleString("en-IN")}` : "—");
+  const pnlPctTxt = Number.isFinite(pnlPct) ? `${pnlPct >= 0 ? "+" : ""}${pnlPct}%` : "—";
+  const invValue = (Number.isFinite(inv) && typeof formatINR === "function")
+    ? formatINR(inv, { compact: true })
+    : (Number.isFinite(inv) ? `₹${Math.round(inv).toLocaleString("en-IN")}` : "—");
+  const curValue = (Number.isFinite(cur) && typeof formatINR === "function")
+    ? formatINR(cur, { compact: true })
+    : (Number.isFinite(cur) ? `₹${Math.round(cur).toLocaleString("en-IN")}` : "—");
+  return `
+    <div class="analyzer-hero-trio l-grid" style="--min: 200px; --gap: var(--space-200); margin-bottom: var(--space-200);">
+      <div class="l-box" style="--pad: var(--space-300);">
+        <div class="tx-micro">Money put in</div>
+        <div class="tx-display tx-num" style="font-size: 32px; line-height: 1.1;">${invValue}</div>
+      </div>
+      <div class="l-box" style="--pad: var(--space-300);">
+        <div class="tx-micro">What it's worth today</div>
+        <div class="tx-display tx-num" style="font-size: 32px; line-height: 1.1;">${curValue}</div>
+      </div>
+      <div class="l-box" style="--pad: var(--space-300); border-color: ${sc.color === "var(--text-muted)" ? "var(--border)" : sc.color}; box-shadow: var(--elev-2);">
+        <div class="tx-micro">Net P&L</div>
+        <div class="tx-display tx-num" style="font-size: 40px; line-height: 1.05; color: ${sc.color};" aria-label="${sc.srLabel || (Number.isFinite(pnlPct) ? `P&L ${pnlPct} percent` : "P&L")}">
+          <span aria-hidden="true">${sc.glyph}</span> ${pnlValue}
+        </div>
+        <div class="tx-meta" style="color: ${sc.color};">${pnlPctTxt}</div>
+      </div>
+    </div>`;
+}
+
+// PR A10 — Action-mix as a 100 %-width stacked bar.
+// The chip row sums to a count but the bar makes the distribution visible
+// at a glance ("most are HOLD; 2 to top up; 1 to trim"). Each segment is
+// click-through to the same openActionListModal that the chips used.
+function renderAnalyzerActionMixBar(snap) {
+  const mix = snap && snap.actionMix ? snap.actionMix : {};
+  const entries = Object.entries(mix).filter(([, n]) => Number(n) > 0);
+  if (entries.length === 0) return "";
+  const total = entries.reduce((acc, [, n]) => acc + Number(n), 0) || 1;
+
+  // Group into Reduce / Hold / Top-up / Exit. Anything that doesn't match
+  // bucks the bar and stays as a residual chip beneath.
+  const buckets = { Reduce: 0, Hold: 0, "Top-up": 0, Exit: 0 };
+  const colours = {
+    Reduce:   "var(--negative-soft)",
+    Hold:     "var(--info)",
+    "Top-up": "var(--positive-soft)",
+    Exit:     "var(--negative)",
+  };
+  const fallback = [];
+  for (const [action, n] of entries) {
+    if (action.startsWith("Reduction-")) buckets.Reduce += Number(n);
+    else if (action.startsWith("Top-up-")) buckets["Top-up"] += Number(n);
+    else if (action === "HOLD") buckets.Hold += Number(n);
+    else if (action === "EXIT" || action.startsWith("EXIT-")) buckets.Exit += Number(n);
+    else fallback.push([action, Number(n)]);
+  }
+  const segments = Object.entries(buckets)
+    .filter(([, n]) => n > 0)
+    .map(([label, n]) => {
+      const pct = (n / total) * 100;
+      const slug = label.replace(/[^A-Za-z0-9]/g, "");
+      return `
+        <button type="button"
+                class="analyzer-actionmix-segment"
+                title="${n} ${label} stock${n === 1 ? "" : "s"} — click for details"
+                aria-label="${n} ${label} stocks (${pct.toFixed(0)} percent)"
+                onclick="window.openActionListModalForBucket && window.openActionListModalForBucket('${slug}')"
+                style="flex: ${n.toFixed(2)}; min-width: ${Math.max(pct, 8).toFixed(2)}%; background: ${colours[label]}; border: 0; padding: 0; cursor: pointer; height: 100%; position: relative;">
+          <span class="tx-micro" style="position:absolute; left:8px; top:4px; color: var(--bg-primary); font-weight:700;">${label}</span>
+          <span class="tx-num" style="position:absolute; right:8px; bottom:4px; color: var(--bg-primary); font-weight:700;">${n}</span>
+        </button>`;
+    }).join("");
+
+  const residual = fallback.map(([action, n]) => `
+    <button type="button" class="analyzer-actionmix-residual"
+            onclick="openActionListModal('${swsEscapeAttr(action)}')"
+            style="background:transparent; border:1px solid var(--border); padding:4px 10px; border-radius:var(--radius-full); cursor:pointer; font-size:12px; color:var(--text-muted);">
+      ${swsActionBadge(action)}<span style="margin-left:6px;">×${n}</span>
+    </button>`).join("");
+
+  return `
+    <div class="l-box" style="--pad: var(--space-200); margin-bottom: var(--space-200);">
+      <div class="tx-micro" style="margin-bottom: 8px;">Action mix · ${total} holding${total === 1 ? "" : "s"}</div>
+      <div class="analyzer-actionmix-bar" style="display:flex; gap:2px; height:36px; border-radius: var(--radius-100); overflow:hidden; background: rgba(255,255,255,0.04);">
+        ${segments}
+      </div>
+      ${residual ? `<div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;">${residual}</div>` : ""}
+    </div>`;
+}
+
+// PR A10 — bucket-level openActionListModal. Bridges the bar segments
+// (Reduce/Hold/Top-up/Exit) into the existing per-action modal by picking
+// a representative member action — openActionListModal pre-filters by
+// action so the modal still surfaces the right rows.
+window.openActionListModalForBucket = function openActionListModalForBucket(slug) {
+  const REPRESENTATIVE = {
+    Reduce: "Reduction-33%",
+    Hold:   "HOLD",
+    Topup:  "Top-up-33%",
+    Exit:   "EXIT",
+  };
+  const action = REPRESENTATIVE[slug];
+  if (action && typeof openActionListModal === "function") openActionListModal(action);
+};
+
 function swsKpiCard(label, valueHtml) {
   return `<div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; padding:12px 14px;">
     <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:4px;">${label}</div>
@@ -5759,38 +5880,53 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
     ${swsRenderMemoryHeader(report)}
     ${swsRenderFreedCapitalBanner(report)}
 
+    ${/* PR A10 — Tier 1 hero trio above the Health ring. */ ""}
+    ${renderAnalyzerHeroTrio(snap)}
+
     ${renderPortfolioHealthHero(snap.portfolioHealth)}
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:18px;">
-      ${swsKpiCard("Invested", inr(snap.totalInvested))}
-      ${swsKpiCard("Current value", inr(snap.totalCurrent))}
-      ${swsKpiCard("Net P&amp;L", `<span style="color:${pctColor(snap.totalPnLPct)}">${inr(snap.totalPnL)} (${snap.totalPnLPct ?? 0}%)</span>`)}
-      ${swsKpiCard("Avg Snowflake", `${snap.avgSnowflake ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/30</span>`)}
-      ${swsKpiCard("Avg v3 score", `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
-      ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} SWS-covered)</span>`)}
-    </div>
+    ${/* PR A10 — Action mix as a 100 %-width stacked bar. */ ""}
+    ${renderAnalyzerActionMixBar(snap)}
 
-    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
-      <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">Action mix</div>
-      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-        ${Object.entries(snap.actionMix || {}).map(([action, n]) => `
-          <button type="button" onclick="openActionListModal('${swsEscapeAttr(action)}')"
-            title="Click to see all ${n} ${swsEscapeAttr(action)} stock${n === 1 ? "" : "s"}"
-            style="background:transparent; border:0; padding:0; margin:0; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
-            ${swsActionBadge(action)}
-            <span style="font-size:13px; color:var(--text-muted); margin-right:8px;">×${n}</span>
-          </button>
-        `).join("")}
+    ${/* Secondary KPIs — collapsed by default. */ ""}
+    <details class="analyzer-secondary-kpis" style="margin-bottom: var(--space-200);">
+      <summary class="tx-meta" style="cursor:pointer; padding: 6px 0; color: var(--text-muted);">Secondary KPIs (snowflake, v3, holdings count)</summary>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-top:8px;">
+        ${swsKpiCard("Avg Snowflake", `${snap.avgSnowflake ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/30</span>`)}
+        ${swsKpiCard("Avg v3 score", `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
+        ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} SWS-covered)</span>`)}
       </div>
-    </div>
+    </details>
 
-    ${renderSWSTierA(tiers.A)}
-    ${renderSWSTierB(baskets)}
-    ${renderSWSOutsidePicks(outsidePicks)}
-    ${renderSWSTierC(tiers.C)}
-    ${renderSWSTierD(tiers.D)}
-    ${renderSWSSectorOverlay(sectorOverlay)}
-    ${renderSWSMfSection(report.mfPositions)}
+    ${/* PR A10 — Tier 2 disclosures. Tier A auto-opens when freed > 0. */ ""}
+    <details class="analyzer-tier-details" ${snap.totalFreedCapital > 0 ? "open" : ""}>
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Reductions &amp; freed capital ${snap.totalFreedCapital > 0 ? `<span style="color: var(--warn); margin-left: 8px;">(${formatINR(snap.totalFreedCapital || 0, { compact: true })} freed)</span>` : ""}</summary>
+      <div style="padding-top: var(--space-200);">${renderSWSTierA(tiers.A)}</div>
+    </details>
+
+    <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Top-up candidates</summary>
+      <div style="padding-top: var(--space-200);">
+        ${renderSWSTierB(baskets)}
+        ${renderSWSOutsidePicks(outsidePicks)}
+      </div>
+    </details>
+
+    <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Holdings — quality groups (hold, watch, exit)</summary>
+      <div style="padding-top: var(--space-200);">
+        ${renderSWSTierC(tiers.C)}
+        ${renderSWSTierD(tiers.D)}
+      </div>
+    </details>
+
+    <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Diagnostic views (sector mix, mutual funds)</summary>
+      <div style="padding-top: var(--space-200);">
+        ${renderSWSSectorOverlay(sectorOverlay)}
+        ${renderSWSMfSection(report.mfPositions)}
+      </div>
+    </details>
 
     <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:#fde047; line-height:1.6;">
       ${swsEscapeAttr(report.disclaimer || "")}
@@ -5898,40 +6034,62 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     ${swsRenderMemoryHeader(report)}
     ${swsRenderFreedCapitalBanner(report)}
 
+    ${/* PR A10 — Tier 1 hero. Invested / Today / Net P&L read first,
+        Net P&L dominant + signed-coloured. Hoists ABOVE the engine hero
+        block so the reader sees portfolio reality before the narrative. */ ""}
+    ${renderAnalyzerHeroTrio(snap)}
+
     ${heroBlock}
 
     ${renderPortfolioHealthHero(snap.portfolioHealth)}
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:18px;">
-      ${swsKpiCard("Money put in", inr(snap.totalInvested))}
-      ${swsKpiCard("What it's worth today", inr(snap.totalCurrent))}
-      ${swsKpiCard("Net P&amp;L", `<span style="color:${pctColor(snap.totalPnLPct)}">${inr(snap.totalPnL)} (${snap.totalPnLPct ?? 0}%)</span>`)}
-      ${swsKpiCard(`Avg quality score ${infoIcon("snowflake_score")}`, `${snap.avgSnowflake ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/30</span>`)}
-      ${swsKpiCard(`Avg overall score ${infoIcon("combined_score")}`, `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
-      ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} covered)</span>`)}
-    </div>
+    ${/* PR A10 — Action mix is now a 100 %-width stacked bar. Click-through
+        to openActionListModal still works via the bucket bridge. */ ""}
+    ${renderAnalyzerActionMixBar(snap)}
 
-    <div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
-      <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">Action mix</div>
-      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-        ${Object.entries(snap.actionMix || {}).map(([action, n]) => `
-          <button type="button" onclick="openActionListModal('${swsEscapeAttr(action)}')"
-            title="Click to see all ${n} ${swsEscapeAttr(action)} stock${n === 1 ? "" : "s"}"
-            style="background:transparent; border:0; padding:0; margin:0; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
-            ${swsActionBadge(action)}
-            <span style="font-size:13px; color:var(--text-muted); margin-right:8px;">×${n}</span>
-          </button>
-        `).join("")}
+    ${/* Secondary KPIs — kept visible but de-emphasised below the Tier 1
+        hero. Useful for power users but no longer the first read. */ ""}
+    <details class="analyzer-secondary-kpis" style="margin-bottom: var(--space-200);">
+      <summary class="tx-meta" style="cursor:pointer; padding: 6px 0; color: var(--text-muted);">Secondary KPIs (snowflake, v3, holdings count)</summary>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-top:8px;">
+        ${swsKpiCard(`Avg quality score ${infoIcon("snowflake_score")}`, `${snap.avgSnowflake ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/30</span>`)}
+        ${swsKpiCard(`Avg overall score ${infoIcon("combined_score")}`, `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
+        ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} covered)</span>`)}
       </div>
-    </div>
+    </details>
 
-    ${renderSWSTierA(tiers.A)}
-    ${renderSWSTierB(baskets)}
-    ${renderSWSOutsidePicks(outsidePicks)}
-    ${renderSWSTierC(tiers.C)}
-    ${renderSWSTierD(tiers.D)}
-    ${renderSWSSectorOverlay(sectorOverlay)}
-    ${renderSWSMfSection(report.mfPositions)}
+    ${/* PR A10 — Tier 2 disclosures.
+        Tier A is auto-open whenever there's freed-capital >0 because
+        reductions are the highest-attention rows; everything else opens
+        only when explicitly expanded. */ ""}
+    <details class="analyzer-tier-details" ${snap.totalFreedCapital > 0 ? "open" : ""}>
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Reductions &amp; freed capital ${snap.totalFreedCapital > 0 ? `<span style="color: var(--warn); margin-left: 8px;">(${formatINR(snap.totalFreedCapital || 0, { compact: true })} freed)</span>` : ""}</summary>
+      <div style="padding-top: var(--space-200);">${renderSWSTierA(tiers.A)}</div>
+    </details>
+
+    <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Top-up candidates</summary>
+      <div style="padding-top: var(--space-200);">
+        ${renderSWSTierB(baskets)}
+        ${renderSWSOutsidePicks(outsidePicks)}
+      </div>
+    </details>
+
+    <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Holdings — quality groups (hold, watch, exit)</summary>
+      <div style="padding-top: var(--space-200);">
+        ${renderSWSTierC(tiers.C)}
+        ${renderSWSTierD(tiers.D)}
+      </div>
+    </details>
+
+    <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Diagnostic views (sector mix, mutual funds)</summary>
+      <div style="padding-top: var(--space-200);">
+        ${renderSWSSectorOverlay(sectorOverlay)}
+        ${renderSWSMfSection(report.mfPositions)}
+      </div>
+    </details>
 
     <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:#fde047; line-height:1.6;">
       ${swsEscapeAttr(report.disclaimer || "")}
