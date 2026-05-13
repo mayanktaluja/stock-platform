@@ -2411,6 +2411,28 @@ function loadCachedEarningsSnapshot() {
   return snap;
 }
 
+// PR B8 — earnings backtest snapshot endpoint. Serves the JSON written
+// by scripts/backtest-earnings-predictions.mjs on its nightly run.
+// Mirrors the admin gate of every other /api/earnings/* surface.
+app.get("/api/earnings/backtest", async (req, res) => {
+  if (!(await requireEarningsAdmin(req, res))) return;
+  try {
+    const filePath = path.join(__dirname, "data", "catalysts", "earnings-backtest-latest.json");
+    if (!fs.existsSync(filePath)) {
+      return res.json({
+        missing: true,
+        message: "No earnings backtest snapshot yet. Run `node scripts/backtest-earnings-predictions.mjs`.",
+      });
+    }
+    const raw = fs.readFileSync(filePath, "utf8");
+    res.set("X-Earnings-Backtest", "file");
+    res.json(JSON.parse(raw));
+  } catch (err) {
+    console.error("[EARNINGS] /api/earnings/backtest failed:", err && err.message);
+    res.status(500).json({ error: "earnings backtest failed: " + (err && err.message) });
+  }
+});
+
 app.get("/api/earnings/upcoming", async (req, res) => {
   if (!(await requireEarningsAdmin(req, res))) return;
   try {

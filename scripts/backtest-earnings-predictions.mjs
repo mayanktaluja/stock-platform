@@ -31,8 +31,48 @@ import {
   loadAllHistory,
   computeCalibration,
 } from "../services/earnings/earningsHistoryArchive.js";
+import { writeFileSync, mkdirSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const argJson = process.argv.includes("--json");
+const argNoSnapshot = process.argv.includes("--no-snapshot");
+
+// PR B8 — writes data/catalysts/earnings-backtest-latest.json on every
+// run so /api/earnings/backtest serves a fresh snapshot without re-running
+// the script. Pass --no-snapshot to suppress (useful for ad-hoc debugging).
+const _here = path.dirname(fileURLToPath(import.meta.url));
+const SNAPSHOT_DIR = path.resolve(_here, "..", "data", "catalysts");
+const SNAPSHOT_PATH = path.join(SNAPSHOT_DIR, "earnings-backtest-latest.json");
+function writeSnapshot(history, cal) {
+  if (argNoSnapshot) return;
+  try {
+    mkdirSync(SNAPSHOT_DIR, { recursive: true });
+    const resolved = cal && Number.isFinite(cal.resolved_count) ? cal.resolved_count : 0;
+    const expected = (cal && Number.isFinite(cal.unresolved_count) ? cal.unresolved_count : 0) + resolved;
+    const snapshot = {
+      schema_version: "earnings-backtest-v1",
+      generated_at: new Date().toISOString(),
+      history_files: history.length,
+      span: history.length
+        ? { from: history[0].today_iso, to: history[history.length - 1].today_iso }
+        : null,
+      resolved_count: resolved,
+      expected_count: expected,
+      brier: cal && cal.brier_score != null ? +cal.brier_score.toFixed(3) : null,
+      brier_last_quarter: cal && cal.brier_score_last_quarter != null ? +cal.brier_score_last_quarter.toFixed(3) : null,
+      hit_rate_overall_pct: cal && cal.hit_rate_overall_pct != null ? cal.hit_rate_overall_pct : null,
+      hit_rate_by_confidence_bucket: cal ? cal.hit_rate_by_confidence_bucket : null,
+      hit_rate_by_verdict: cal ? cal.hit_rate_by_verdict : null,
+      v1_gate: cal ? cal.cap_lift_gate : null,
+      enough_data_to_lift_cap: !!(cal && cal.enough_data_to_lift_cap),
+    };
+    writeFileSync(SNAPSHOT_PATH, JSON.stringify(snapshot, null, 2) + "\n");
+    if (!argJson) console.log(`Snapshot written: ${SNAPSHOT_PATH}`);
+  } catch (err) {
+    console.warn(`[BACKTEST] snapshot write failed: ${err && err.message}`);
+  }
+}
 
 function pctOrDash(v) {
   return v == null ? "—" : `${v}%`;
@@ -49,6 +89,7 @@ function fmtBucket(map) {
 function main() {
   const history = loadAllHistory();
   if (history.length === 0) {
+    writeSnapshot([], null);
     if (argJson) {
       console.log(JSON.stringify({
         history_files: 0,
@@ -62,6 +103,7 @@ function main() {
   }
 
   const cal = computeCalibration(history);
+  writeSnapshot(history, cal);
 
   if (argJson) {
     console.log(JSON.stringify({

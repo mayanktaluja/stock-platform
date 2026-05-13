@@ -3676,6 +3676,11 @@
       </div>
       <div id="trackHeroSubline" class="tx-meta" style="margin: 4px 2px 16px; opacity: 0.85;"></div>
 
+      <!-- PR B8 — Earnings backtest snapshot. Admin-only mount. The
+           loader returns silently when the user isn't admin so the slot
+           collapses to zero height for everyone else. -->
+      <div id="trackEarningsBacktestHost"></div>
+
       <!-- PR T7 — Calibration plot. 5-bucket SVG bar grid populated by
            loadTrackCalibration() against /api/track/calibration. Thin
            buckets (n < 30) render greyed with a "thin data" sub-line. -->
@@ -4047,6 +4052,11 @@
       <div style="background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.2); border-radius:6px; padding:10px 14px; margin-bottom:18px; font-size:12px; color:#fcd34d; line-height:1.55;">
         <strong>Earnings are binary events.</strong> Pre-result predictions are algorithmic signals derived from public data (calendar, news, fundamentals, momentum, peer reactions). Confidence reflects model agreement, not certainty. Position sizing and stop-loss discipline are personal — this surface is research, not a buy/sell call.
       </div>
+
+      <!-- PR B8 — earnings backtest snapshot card. Admin-gated; the
+           loader returns silently when the user isn't admin so non-admins
+           see nothing in this slot. -->
+      <div id="earningsBacktestCardHost"></div>
 
       <!-- Stats strip — fed by /api/earnings/upcoming/stats. -->
       <div id="earningsStatsStrip" style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px;"></div>

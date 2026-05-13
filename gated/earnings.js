@@ -827,6 +827,105 @@
     el.innerHTML = html;
   }
 
+  // ────────── PR B8 — Earnings backtest snapshot card ──────────
+  //
+  // Renders the persisted JSON written by
+  // scripts/backtest-earnings-predictions.mjs. Two paths:
+  //   • Insufficient resolved earnings (resolved < 70% of expected, or zero):
+  //     show "Backfilling — N of M resolved" with the V1 gate status next
+  //     to it. Never display zero-as-Brier — it's misleading.
+  //   • Sufficient data: Brier (with delta vs last quarter), hit-rate-by-
+  //     confidence-bucket bars, V1 gate badges.
+
+  function renderBacktestCard(data) {
+    if (!data || data.missing) {
+      return `
+        <div class="earnings-backtest-card l-box" style="--pad: var(--space-300); margin: 0 0 var(--space-300);">
+          <div class="tx-headline">Earnings prediction backtest</div>
+          <div class="tx-meta" style="margin-top:4px;">${escHtml(data && data.message ? data.message : "Snapshot missing — run scripts/backtest-earnings-predictions.mjs.")}</div>
+        </div>`;
+    }
+    const resolved = Number(data.resolved_count) || 0;
+    const expected = Number(data.expected_count) || 0;
+    const ratio = expected > 0 ? resolved / expected : 0;
+    const tooThin = (resolved < 30) || ratio < 0.7;
+    if (tooThin) {
+      return `
+        <div class="earnings-backtest-card l-box" style="--pad: var(--space-300); margin: 0 0 var(--space-300);">
+          <div class="tx-headline">Earnings prediction backtest</div>
+          <div class="tx-meta" style="margin-top:6px; color: var(--warn);">
+            Insufficient resolved earnings — ${resolved} of ${expected || "?"} needed before Brier becomes meaningful.
+            Backfill resolves automatically once Q-end actuals ship; until then this card stays honest.
+          </div>
+          <div class="tx-meta" style="margin-top:6px;">
+            V1 confidence cap is currently <strong style="color: var(--text-secondary);">${data.enough_data_to_lift_cap ? "liftable" : "held"}</strong>.
+            Snapshot generated ${data.generated_at ? new Date(data.generated_at).toLocaleString() : "—"}.
+          </div>
+        </div>`;
+    }
+    // Sufficient data — full card with horizontal hit-rate bars.
+    const brier = (typeof data.brier === "number") ? data.brier.toFixed(3) : "—";
+    const prevBrier = (typeof data.brier_last_quarter === "number") ? data.brier_last_quarter.toFixed(3) : null;
+    let brierDeltaHtml = "";
+    if (prevBrier != null) {
+      const diff = data.brier - data.brier_last_quarter;
+      const direction = diff < 0 ? "▼ improving" : (diff > 0 ? "▲ worsening" : "◆ flat");
+      const colour = diff < 0 ? "var(--positive)" : (diff > 0 ? "var(--negative)" : "var(--text-muted)");
+      brierDeltaHtml = ` <span class="tx-meta" style="color:${colour};">${direction} (from ${prevBrier})</span>`;
+    }
+    const buckets = (data.hit_rate_by_confidence_bucket && typeof data.hit_rate_by_confidence_bucket === "object")
+      ? data.hit_rate_by_confidence_bucket
+      : {};
+    const bucketRows = Object.keys(buckets).map((k) => {
+      const v = buckets[k];
+      if (v == null) return "";
+      const width = Math.max(0, Math.min(100, v));
+      const meetsGate = v >= 55;
+      const bg = meetsGate ? "var(--positive-bg-strong)" : "var(--negative-bg-strong)";
+      const fg = meetsGate ? "var(--positive-strong)" : "var(--negative-strong)";
+      return `
+        <div style="display:grid; grid-template-columns: 80px 1fr 50px; align-items:center; gap:8px; margin: 6px 0;">
+          <span class="tx-meta" style="white-space:nowrap;">${escHtml(k)}</span>
+          <div style="position:relative; height:14px; background: rgba(255,255,255,0.05); border-radius:3px; overflow:hidden;">
+            <div style="position:absolute; left:0; top:0; bottom:0; width:${width}%; background:${bg};"></div>
+          </div>
+          <span class="tx-num" style="color:${fg}; font-weight:700; text-align:right;">${v.toFixed(0)}%</span>
+        </div>`;
+    }).join("");
+    const gate = data.v1_gate || {};
+    const gateOK = !!data.enough_data_to_lift_cap;
+    return `
+      <div class="earnings-backtest-card l-box" style="--pad: var(--space-300); margin: 0 0 var(--space-300);">
+        <div style="display:flex; align-items:flex-end; gap:16px; flex-wrap:wrap;">
+          <div>
+            <div class="tx-headline">Earnings prediction backtest</div>
+            <div class="tx-meta" style="margin-top:4px;">Brier <strong class="tx-num" style="color: var(--text-primary); font-size: var(--fs-headline);">${brier}</strong> · target ≤ 0.18${brierDeltaHtml}</div>
+          </div>
+          <div style="margin-left:auto;" class="tx-meta">
+            ${resolved} of ${expected} resolved · ${gateOK ? `<span style="color:var(--positive);">V1 cap liftable</span>` : `<span style="color:var(--warn);">V1 cap held</span>`}
+          </div>
+        </div>
+        <div style="margin-top: 12px;">${bucketRows || `<div class="tx-meta">No confidence buckets computed.</div>`}</div>
+      </div>`;
+  }
+
+  async function loadEarningsBacktestCard(targetId) {
+    const host = document.getElementById(targetId);
+    if (!host) return;
+    try {
+      const res = await fetch("/api/earnings/backtest");
+      if (res.status === 403) {
+        host.innerHTML = "";
+        return;
+      }
+      const data = res.ok ? await res.json() : null;
+      host.innerHTML = renderBacktestCard(data);
+    } catch (e) {
+      host.innerHTML = `<div class="tx-meta" style="color: var(--negative);">Backtest card error: ${escHtml(e && e.message || "")}</div>`;
+    }
+  }
+  window.loadEarningsBacktestCard = loadEarningsBacktestCard;
+
   // ────────── Public loader ──────────
 
   async function loadEarningsWatch() {
@@ -865,6 +964,9 @@
       renderEarningsStatsStrip(stats);
       renderEarningsFilterBar();
       applyEarningsFilters();
+      // PR B8 — populate the admin-only backtest card; server returns 403
+      // for non-admin sessions and the loader leaves the slot empty.
+      loadEarningsBacktestCard("earningsBacktestCardHost");
 
       if (meta) {
         const built = snap?.built_at ? new Date(snap.built_at).toLocaleString() : "?";

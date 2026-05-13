@@ -3502,6 +3502,15 @@ async function loadTrackRecord(forceBust = false) {
   loadTrackSections(forceBust);
   // PR T7 — calibration plot fetches in parallel; renders below the hero.
   loadTrackCalibration();
+  // PR B8 — admin-only backtest card. Client-side gates the mount: if the
+  // user is admin we call the loader (which itself bails on 403 just in
+  // case); non-admin Track Record renders without the card entirely.
+  if (window.__starbhai_isAdmin && typeof loadEarningsBacktestCard === "function") {
+    loadEarningsBacktestCard("trackEarningsBacktestHost");
+  } else {
+    const host = document.getElementById("trackEarningsBacktestHost");
+    if (host) host.innerHTML = "";
+  }
 
   try {
     const res = await fetch(url);
