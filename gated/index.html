@@ -165,6 +165,164 @@
       color: var(--text-muted);
     }
 
+    /* ─────────────────────────────────────────────────────────────────────
+       Credibility ribbon — top-of-SWS-Picks-tab trust signal.
+       Five section ribbons + one SVG line chart. Mirrors Track Record's
+       visual language so the eye stays calibrated when users cross-check.
+       ───────────────────────────────────────────────────────────────────── */
+    .credibility-section {
+      background: var(--bg-card);
+      background-image: var(--card-gradient);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      box-shadow: var(--card-shadow);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+    .credibility-header {
+      margin-bottom: 16px;
+    }
+    .credibility-title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .credibility-title {
+      font-family: var(--font-serif, Georgia), serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
+    .credibility-sebi-tag {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(224, 176, 96, 0.10);
+      color: #E0B060;
+      border: 1px solid rgba(224, 176, 96, 0.25);
+      font-weight: 600;
+    }
+    .credibility-link {
+      margin-left: auto;
+      font-size: 12px;
+      color: #60a5fa;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .credibility-link:hover { text-decoration: underline; }
+    .credibility-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+    .credibility-ribbons {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .credibility-ribbon {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .credibility-ribbon.warming {
+      border-style: dashed;
+      border-color: rgba(255, 255, 255, 0.10);
+    }
+    .credibility-ribbon:hover {
+      border-color: rgba(224, 176, 96, 0.30);
+      background: rgba(255, 255, 255, 0.035);
+    }
+    .credibility-ribbon-label {
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .credibility-ribbon-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      line-height: 1.1;
+      margin-top: 2px;
+    }
+    .credibility-ribbon-value.pos { color: #86efac; }
+    .credibility-ribbon-value.neg { color: #fca5a5; }
+    .credibility-ribbon-value.warming-text {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0;
+      font-family: inherit;
+      font-style: italic;
+    }
+    .credibility-ribbon-benchmarks {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-top: 6px;
+      font-size: 10.5px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .credibility-ribbon-benchmarks .alpha {
+      font-weight: 600;
+    }
+    .credibility-ribbon-benchmarks .alpha.pos { color: #86efac; }
+    .credibility-ribbon-benchmarks .alpha.neg { color: #fca5a5; }
+    .credibility-ribbon-picks {
+      margin-top: 6px;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.01em;
+      line-height: 1.3;
+      font-family: 'JetBrains Mono', monospace;
+      word-break: break-word;
+    }
+    .credibility-chart {
+      margin-top: 4px;
+    }
+    .credibility-chart .credibility-chart-empty {
+      padding: 18px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-style: italic;
+    }
+    .credibility-disclaimer {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 10.5px;
+      color: var(--text-muted);
+      font-style: italic;
+      line-height: 1.5;
+    }
+    @media (max-width: 1100px) {
+      .credibility-ribbons { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 720px) {
+      .credibility-ribbons { grid-template-columns: repeat(2, 1fr); }
+      .credibility-ribbon-value { font-size: 17px; }
+      .credibility-link { margin-left: 0; }
+    }
+    @media (max-width: 480px) {
+      .credibility-ribbons { grid-template-columns: 1fr; }
+    }
+
     /* Phase 8B: subtle scroll-reveal. Applied to .dashboard-section blocks
        via IntersectionObserver in app.js. Respects prefers-reduced-motion. */
     .reveal {
@@ -3475,6 +3633,27 @@
       </div>
 
       <div id="picksStatusBanner" style="display:none; padding:12px 16px; border-radius:6px; margin-bottom:16px;"></div>
+
+      <!-- ═══════════════════════════════════════════════════════════════════ -->
+      <!-- Credibility ribbon — top-5-per-section forward returns vs Nifty 50 -->
+      <!-- and Nifty 500 over the last 30 days. Point-in-time, no look-ahead. -->
+      <!-- Powered by /api/sws/credibility (paper-trades + Yahoo Finance).     -->
+      <!-- ═══════════════════════════════════════════════════════════════════ -->
+      <div id="picksCredibilitySection" class="credibility-section" style="display:none;">
+        <div class="credibility-header">
+          <div class="credibility-title-row">
+            <div class="credibility-title">Performance Track Record</div>
+            <span class="credibility-sebi-tag">SEBI RA · point-in-time</span>
+            <a href="javascript:void(0)" class="credibility-link" onclick="switchTab('track')">View full record →</a>
+          </div>
+          <div class="credibility-subtitle" id="picksCredibilitySubtitle">Top 5 picks per section, last 30 days, vs Nifty 50 and Nifty 500.</div>
+        </div>
+        <div id="picksCredibilityRibbons" class="credibility-ribbons"></div>
+        <div id="picksCredibilityChart" class="credibility-chart"></div>
+        <div class="credibility-disclaimer">
+          Past performance is not indicative of future returns. Educational purposes only — not investment advice.
+        </div>
+      </div>
 
       <div id="picksFilters" class="sws-pick-filters">
         <div id="picksIndexFilter" class="sws-pick-index-filter" role="radiogroup" aria-label="Index filter">
