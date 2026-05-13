@@ -267,11 +267,16 @@ app.use(cors());
 // it the limiter would lump all users into one global counter.
 app.set("trust proxy", 1);
 
+// Rate limiters are bypassed when NODE_ENV=test so the Playwright e2e harness
+// can drive the SPA without tripping the 60 req/min window. Production keeps
+// the gate.
+const isTestEnv = process.env.NODE_ENV === "test";
 const apiLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 60,
   standardHeaders: "draft-7", // emits the RateLimit-* response headers
   legacyHeaders: false,
+  skip: () => isTestEnv,
   message: { error: "Too many requests. Please slow down (60 req/min limit)." },
 });
 
@@ -280,6 +285,7 @@ const stockDetailLimiter = rateLimit({
   max: 30,
   standardHeaders: "draft-7",
   legacyHeaders: false,
+  skip: () => isTestEnv,
   message: { error: "Too many stock detail requests. Please slow down (30 req/min limit)." },
 });
 
@@ -1031,6 +1037,56 @@ async function fetchNews(symbol) {
 }
 
 // ==================== API ROUTES ====================
+
+/**
+ * POST /api/telemetry
+ *
+ * Append-only event log for KPI measurement (NS-1 Time-to-Verdict, NS-5
+ * Watchlist→action conversion). Local dev only — Vercel's FS is read-only,
+ * so the endpoint is a no-op there. Each call appends one NDJSON line to
+ * `data/telemetry/events.ndjson`.
+ *
+ * Body: { event, page, ts, sessionId, payload? }
+ *   event     — string, required, ≤ 64 chars (e.g. "page_load", "verdict_visible")
+ *   page      — string, required, ≤ 64 chars (current tab id)
+ *   ts        — number, required (Date.now() at emit)
+ *   sessionId — string, required, ≤ 64 chars (client-generated UUID)
+ *   payload   — object, optional, body cap 4KB
+ *
+ * Always 204 / never blocks. Errors are swallowed so telemetry never
+ * affects user-visible behaviour.
+ */
+const TELEMETRY_DIR = path.join(__dirname, "data", "telemetry");
+const TELEMETRY_FILE = path.join(TELEMETRY_DIR, "events.ndjson");
+const TELEMETRY_ENABLED = !process.env.VERCEL;
+app.post("/api/telemetry", express.json({ limit: "8kb" }), async (req, res) => {
+  if (!TELEMETRY_ENABLED) return res.status(204).end();
+  try {
+    const { event, page: pageName, ts, sessionId, payload } = req.body || {};
+    const isShort = (v, n) => typeof v === "string" && v.length > 0 && v.length <= n;
+    if (!isShort(event, 64) || !isShort(pageName, 64) || !isShort(sessionId, 64)) {
+      return res.status(204).end();
+    }
+    if (typeof ts !== "number" || !Number.isFinite(ts)) return res.status(204).end();
+    const record = {
+      event,
+      page: pageName,
+      ts,
+      sessionId,
+      sub: (req.user && req.user.sub) || null,
+      ua: (req.headers["user-agent"] || "").slice(0, 200),
+      payload: payload && typeof payload === "object" ? payload : null,
+    };
+    await fs.promises.mkdir(TELEMETRY_DIR, { recursive: true });
+    await fs.promises.appendFile(TELEMETRY_FILE, JSON.stringify(record) + "\n");
+  } catch (err) {
+    // Never let telemetry failures escape — log once and move on.
+    if (!process.env.TELEMETRY_QUIET) {
+      console.warn("[TELEMETRY] append failed:", err && err.message);
+    }
+  }
+  res.status(204).end();
+});
 
 /**
  * Search for Indian stocks

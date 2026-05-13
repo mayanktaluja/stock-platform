@@ -28,6 +28,66 @@ const dashboard = document.getElementById("dashboard");
 // gracefully if anything still references the old shape.
 window.RA_CONFIG = { methodologyVersion: null };
 
+// ==================== TELEMETRY ====================
+//
+// Tiny fire-and-forget client for the KPI dataset behind NS-1 Time-to-Verdict,
+// NS-5 Watchlist→action conversion, and basic retention. Backed by
+// POST /api/telemetry which appends one NDJSON line per event in local dev
+// (no-op on Vercel because the FS is read-only there).
+//
+// Public API:
+//   telemetry.emit(event, payload?)         — generic event
+//   telemetry.markVerdictVisible(surface)   — call once per page when the
+//     headline verdict / KPI hero is on screen. NS-1 = ts(this) − ts(page_load).
+const telemetry = (() => {
+  const SESSION_KEY = "starbhai_telemetry_session";
+  let sessionId = "";
+  try {
+    sessionId = sessionStorage.getItem(SESSION_KEY) || "";
+    if (!sessionId) {
+      sessionId =
+        (typeof crypto !== "undefined" && crypto.randomUUID
+          ? crypto.randomUUID()
+          : `s-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`);
+      sessionStorage.setItem(SESSION_KEY, sessionId);
+    }
+  } catch {
+    sessionId = `s-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  }
+  const verdictMarkedFor = new Set();
+  function emit(event, payload) {
+    try {
+      const body = JSON.stringify({
+        event: String(event).slice(0, 64),
+        page: String(currentView || "unknown").slice(0, 64),
+        ts: Date.now(),
+        sessionId,
+        payload: payload && typeof payload === "object" ? payload : undefined,
+      });
+      const beacon = navigator.sendBeacon && navigator.sendBeacon.bind(navigator);
+      if (beacon) {
+        const blob = new Blob([body], { type: "application/json" });
+        if (beacon("/api/telemetry", blob)) return;
+      }
+      fetch("/api/telemetry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body,
+        keepalive: true,
+      }).catch(() => {});
+    } catch {}
+  }
+  function markVerdictVisible(surface) {
+    const key = String(surface || currentView || "unknown");
+    if (verdictMarkedFor.has(key)) return;
+    verdictMarkedFor.add(key);
+    emit("verdict_visible", { surface: key });
+  }
+  return { emit, markVerdictVisible, sessionId };
+})();
+window.telemetry = telemetry;
+telemetry.emit("page_load", { ua: navigator.userAgent.slice(0, 200) });
+
 // ==================== AUTH (header user menu) ====================
 //
 // Populates the avatar/name/email in the header from /api/auth/me, and
@@ -1946,6 +2006,7 @@ function renderTransitionAlert(transition) {
 // ==================== TABS ====================
 
 function switchTab(tab) {
+  try { telemetry.emit("tab_switch", { from: currentView, to: tab }); } catch {}
   const tabs = document.querySelectorAll("#mainTabs .tab");
   // A11y: mirror aria-selected on every tab so screen readers announce the
   // active tab correctly. The actual activation happens further down where
@@ -3763,6 +3824,7 @@ function renderNewsHeadline(h) {
 async function toggleWatchlist(symbol, name, sector) {
   const action = watchlist.has(symbol) ? "remove" : "add";
   try {
+    try { telemetry.emit("watchlist_" + action, { symbol, sector: sector || null }); } catch {}
     await fetch(`/api/watchlist/${action}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
