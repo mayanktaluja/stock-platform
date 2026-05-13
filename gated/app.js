@@ -4118,13 +4118,19 @@ async function toggleWatchlist(symbol, name, sector) {
     });
     if (action === "add") watchlist.add(symbol);
     else watchlist.delete(symbol);
-    // Update the star icon + aria-pressed state if visible
-    const btn = document.querySelector(`[data-watchlist-symbol="${symbol}"]`);
-    if (btn) {
+    // PR P9 — update every star button for this symbol. Same ticker may
+    // appear in multiple surfaces simultaneously: the modal title and the
+    // pick-card inline star, the SWS-picks card and a search-result row,
+    // etc. Without updating all of them, only one flips state and the
+    // others lie about whether the stock is starred.
+    const buttons = document.querySelectorAll(`[data-watchlist-symbol="${symbol}"]`);
+    if (buttons.length > 0) {
       const saved = watchlist.has(symbol);
-      btn.textContent = saved ? "★" : "☆";
-      btn.setAttribute("aria-pressed", String(saved));
-      btn.style.color = saved ? "var(--gold)" : "var(--text-muted)";
+      buttons.forEach((btn) => {
+        btn.textContent = saved ? "★" : "☆";
+        btn.setAttribute("aria-pressed", String(saved));
+        btn.style.color = saved ? "var(--gold)" : "var(--text-muted)";
+      });
     }
   } catch { /* silent */ }
 }
@@ -5280,7 +5286,16 @@ function renderSWSTierA(tier) {
 }
 
 function swsBasketRow(r) {
-  const upside = r.upside_pct != null ? `<span style="color:${r.upside_pct >= 0 ? '#86efac' : '#f87171'};">${r.upside_pct >= 0 ? '+' : ''}${r.upside_pct.toFixed(1)}%</span>` : "—";
+  // PR P9 — replace hard-coded green/red with magnitude-keyed signedColorFor.
+  // A 0.3 % upside renders pale; a 12 % upside reads deep + ▲. Glyph
+  // aria-hidden; srLabel carries "up X percent" for VoiceOver.
+  let upside;
+  if (r.upside_pct == null) {
+    upside = "—";
+  } else {
+    const sc = signedColorFor(r.upside_pct);
+    upside = `<span class="tx-num" style="color:${sc.color};" aria-label="${sc.srLabel} to fair value"><span aria-hidden="true">${sc.glyph}</span> ${r.upside_pct >= 0 ? "+" : ""}${r.upside_pct.toFixed(1)}%</span>`;
+  }
   const sourceTag = r.source === "holding"
     ? `<span title="In-portfolio top-up" style="font-size:9px; padding:1px 6px; background:rgba(34,197,94,0.12); color:#86efac; border-radius:3px; letter-spacing:0.3px;">HELD</span>`
     : `<span title="Outside-portfolio fresh pick" style="font-size:9px; padding:1px 6px; background:rgba(59,130,246,0.12); color:#93c5fd; border-radius:3px; letter-spacing:0.3px;">FRESH</span>`;
@@ -9482,6 +9497,11 @@ function renderPickCard(s, sectionKey, rank = null) {
   // landing on info icons / glossary terms / embedded links so the tooltip
   // and external link behaviors aren't preempted by the modal trigger.
   const safeTicker = String(s.ticker || "").replace(/[^A-Z0-9&\-]/gi, "");
+  // PR P9 — inline ★ on the card itself. Watchlist storage keys symbols
+  // with the .NS suffix; SWS picks use bare tickers, so we append it for
+  // the storage key and pass the SWS sector/name through to the API.
+  const watchlistSymbol = `${safeTicker}.NS`;
+  const inlineStar = `<span class="sws-pick-inline-star" onclick="event.stopPropagation();">${watchlistButton(watchlistSymbol, s.name || safeTicker, s.sector || "")}</span>`;
   return `
     <div class="stock-card sws-pick-card" tabindex="0" role="button" aria-label="Open detail for ${safeTicker}"
          data-ticker="${safeTicker}"
@@ -9496,6 +9516,7 @@ function renderPickCard(s, sectionKey, rank = null) {
           </div>
         </div>
         <div class="sws-pick-card-score">
+          ${inlineStar}
           <div class="sws-pick-card-score-num" style="color:${scoreColor};">${score}${infoIcon(scoreTermId)}</div>
           <div class="sws-pick-card-score-verdict" style="color:${verdictColor};">${verdict.replace(/_/g, " ")}${verdictTermId ? infoIcon(verdictTermId) : ""}</div>
         </div>

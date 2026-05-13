@@ -1016,6 +1016,18 @@
       .watchlist-table th, .watchlist-table td { padding-inline: 6px; }
     }
 
+    /* PR P9 — inline ★ on pick cards.
+     * Sits inside .sws-pick-card-score so it floats at the top-right of
+     * the card without disrupting the score/verdict block beneath. The
+     * button itself is the existing .watchlist-btn primitive. */
+    .sws-pick-inline-star {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 2;
+    }
+    .sws-pick-card { position: relative; }
+
     /* PR E4 — Earnings filter popover styling.
      * The native `summary::-webkit-details-marker` and `summary::marker`
      * arrows clash with the inline ▾ glyph in the markup; hide both. */
