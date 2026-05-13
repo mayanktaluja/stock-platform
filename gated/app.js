@@ -8227,13 +8227,37 @@ function renderPicksMetaBanner(data) {
 // from /api/sws/credibility (cached 5 min server-side; cheap to call on
 // every switchTab('picks')). Render is fail-soft: a network error hides
 // the section entirely rather than blocking the picks accordion below.
+//
+// First-load UX: the API can take 10–20s on a cold cache while it pulls
+// ^NSEI + ^CRSLDX history and live quotes from Yahoo Finance. Show the
+// section immediately with a skeleton + "Loading…" subtitle so users see
+// SOMETHING during the fetch instead of the section sitting display:none
+// until the response lands.
 // ──────────────────────────────────────────────────────────────────────────
+const CREDIBILITY_SKELETON_SECTIONS = [
+  "Top 30 (composite)", "Best to Buy Now", "Deep Value",
+  "Quality Growth", "Dividend Aristocrats",
+];
+
 async function loadPicksCredibility() {
   const section = document.getElementById("picksCredibilitySection");
   const ribbonsEl = document.getElementById("picksCredibilityRibbons");
   const chartEl = document.getElementById("picksCredibilityChart");
   const subtitleEl = document.getElementById("picksCredibilitySubtitle");
   if (!section || !ribbonsEl || !chartEl) return;
+
+  // Show the section with skeleton placeholders BEFORE awaiting the fetch
+  // — Yahoo Finance cold-fetches on first prod hit can take 10–20s.
+  section.style.display = "block";
+  if (subtitleEl) subtitleEl.textContent = "Loading performance data…";
+  ribbonsEl.innerHTML = CREDIBILITY_SKELETON_SECTIONS
+    .map((label) => `
+      <div class="credibility-ribbon credibility-ribbon-skeleton" aria-busy="true">
+        <div class="credibility-ribbon-label">${escapeHtml(label)}</div>
+        <div class="credibility-ribbon-value warming-text">Loading…</div>
+        <div class="credibility-ribbon-benchmarks">&nbsp;</div>
+      </div>`).join("");
+  chartEl.innerHTML = `<div class="credibility-chart-empty">Computing 30-day returns vs Nifty 50 and Nifty 500…</div>`;
 
   try {
     const res = await fetch("/api/sws/credibility");
@@ -8243,7 +8267,6 @@ async function loadPicksCredibility() {
       section.style.display = "none";
       return;
     }
-    section.style.display = "block";
     if (subtitleEl) {
       const obs = data.sections.reduce((s, x) => s + (x.observationCount || 0), 0);
       const n500ok = data?.benchmarks?.n500Available !== false;
