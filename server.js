@@ -18,7 +18,7 @@ import rateLimit from "express-rate-limit";
 import NodeCache from "node-cache";
 
 import { analyzeStock, intradayScan, midTermAnalysis, longTermOutlook } from "./analysis.js";
-import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, NIFTY500_SYMBOLS, getNifty100, getNifty500, getExpandedUniverse, getStocksByIndex, validateStockList } from "./stockList.js";
+import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, NIFTY500_SYMBOLS, getNifty100, getNifty500, getExpandedUniverse, getStocksByIndex, validateStockList, findBySymbol } from "./stockList.js";
 import { analyzeNewsSentiment, quickSentiment } from "./sentiment.js";
 import { fetchNifty50, fetchNseQuote, fetchNseQuoteRaw, fetchNseIndices, fetchNseIndex, fetchNseEventCalendar, fetchGiftNifty, nseGet, nseGetUnauthed, warmup as nseWarmup } from "./nse.js";
 import { appendIfNew as appendFiiDiiHistory, readRecent as readFiiDiiHistory } from "./fiiDiiHistory.js";
@@ -4346,6 +4346,17 @@ app.get("/api/watchlist", async (req, res) => {
 app.post("/api/watchlist/add", express.json(), async (req, res) => {
   const { symbol, name, sector } = req.body || {};
   if (!symbol) return res.status(400).json({ error: "symbol required" });
+
+  // Validate against the tracked universe before persisting. The handler
+  // used to accept any string — garbage symbols (and even raw HTML) landed
+  // in storage, then broke downstream price / SWS lookups that assume a real
+  // ticker. findBySymbol canonicalises (uppercase, strip whitespace, match
+  // bare or .NS form) and returns null on a miss.
+  const resolved = findBySymbol(symbol);
+  if (!resolved) {
+    return res.status(400).json({ error: "Unknown symbol — not in the tracked universe." });
+  }
+
   const storage = getWatchlistStorage();
 
   // Capture the price at add-time so the watchlist can show the user
@@ -4354,14 +4365,14 @@ app.post("/api/watchlist/add", express.json(), async (req, res) => {
   // forge it). Failures are non-fatal — we still save the entry.
   let addedPrice = null;
   try {
-    const q = await fetchQuote(symbol);
+    const q = await fetchQuote(resolved.symbol);
     if (q && typeof q.regularMarketPrice === "number") addedPrice = q.regularMarketPrice;
   } catch { /* keep addedPrice null */ }
 
   const result = await storage.add({
-    symbol,
-    name: name || symbol,
-    sector: sector || null,
+    symbol: resolved.symbol,
+    name: resolved.name || name || resolved.symbol,
+    sector: resolved.sector || sector || null,
     addedAt: new Date().toISOString(),
     addedPrice,
   });
