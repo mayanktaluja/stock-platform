@@ -51,7 +51,7 @@ function writeSnapshot(history, cal) {
     const resolved = cal && Number.isFinite(cal.resolved_count) ? cal.resolved_count : 0;
     const expected = (cal && Number.isFinite(cal.unresolved_count) ? cal.unresolved_count : 0) + resolved;
     const snapshot = {
-      schema_version: "earnings-backtest-v1",
+      schema_version: "earnings-backtest-v2",
       generated_at: new Date().toISOString(),
       history_files: history.length,
       span: history.length
@@ -66,6 +66,10 @@ function writeSnapshot(history, cal) {
       hit_rate_by_verdict: cal ? cal.hit_rate_by_verdict : null,
       v1_gate: cal ? cal.cap_lift_gate : null,
       enough_data_to_lift_cap: !!(cal && cal.enough_data_to_lift_cap),
+      // v2 — never average across predictor versions; surface the
+      // per-version breakdown so a weight change stays auditable.
+      by_predictor_version: cal && cal.by_predictor_version ? cal.by_predictor_version : null,
+      latest_predictor_version: cal && cal.latest_predictor_version ? cal.latest_predictor_version : null,
     };
     writeFileSync(SNAPSHOT_PATH, JSON.stringify(snapshot, null, 2) + "\n");
     if (!argJson) console.log(`Snapshot written: ${SNAPSHOT_PATH}`);

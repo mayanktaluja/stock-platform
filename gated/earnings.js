@@ -471,6 +471,137 @@
       </div>`;
   }
 
+  // ────────── "How this prediction was built" expander ──────────
+  // A collapsible audit panel on each card. Surfaces the top-3 component
+  // impacts, the SWS V3 breakdown bars, the LLM qualitative read, and
+  // the version audit trail.
+  //
+  // SEBI-RA boundary: the LLM read renders in a SEPARATELY-LABELLED,
+  // visually-distinct block — it is NEVER woven into the deterministic
+  // rationale paragraphs. The label says so explicitly.
+  //
+  // onclick:stopPropagation on the <details> so toggling the expander
+  // doesn't also fire the card's open-modal handler. <details>/<summary>
+  // is natively keyboard-accessible; the bars carry ARIA progressbar
+  // roles. Collapsed by default on every viewport — no layout cost
+  // until the user opts in.
+
+  const COMPONENT_LABELS = {
+    v3_future_past: "V3 future + past",
+    v3_valuation: "V3 valuation",
+    v3_overlay: "V3 risk overlay",
+    runup: "Pre-runup vs sector",
+    sector_momentum: "Sector momentum",
+    trajectory: "EPS YoY trajectory",
+    last_quarter_echo: "Last-quarter echo",
+    announcements: "Corporate announcements",
+    deal_flow: "Bulk/block deal flow",
+    llm_signal: "LLM qualitative signal",
+  };
+
+  function v3Bar(label, value, max, opts) {
+    const negative = !!(opts && opts.negative);
+    const mag = Math.abs(Number(value) || 0);
+    const pct = max > 0 ? Math.min(100, (mag / max) * 100) : 0;
+    const fill = negative ? "#fca5a5" : "#86efac";
+    const valLabel = negative ? `−${mag.toFixed(0)}` : `${(Number(value) || 0).toFixed(0)}`;
+    return `
+      <div style="display:flex; align-items:center; gap:8px; font-size:10px;">
+        <span style="width:88px; flex-shrink:0; color:var(--text-muted);">${escHtml(label)}</span>
+        <div role="progressbar" aria-label="${escHtml(label)}" aria-valuenow="${mag}" aria-valuemin="0" aria-valuemax="${max}"
+             style="flex:1; height:6px; background:rgba(148,163,184,0.12); border-radius:3px; overflow:hidden;">
+          <div style="width:${pct}%; height:100%; background:${fill};"></div>
+        </div>
+        <span style="width:36px; flex-shrink:0; text-align:right; color:#cbd5e1;">${valLabel}/${max}</span>
+      </div>`;
+  }
+
+  function renderPredictionBuildExpander(event) {
+    const prediction = event && event.prediction;
+    if (!prediction || prediction.verdict === "INSUFFICIENT_DATA") return "";
+    const signals = event.signals || {};
+
+    // 1 — top 3 components by absolute impact.
+    const comps = Array.isArray(prediction.components_by_impact) ? prediction.components_by_impact : [];
+    const top3 = comps.slice(0, 3).map((c) => {
+      const pts = Number(c.pts) || 0;
+      const tone = pts > 0 ? "#86efac" : pts < 0 ? "#fca5a5" : "#94a3b8";
+      const sign = pts > 0 ? "+" : "";
+      const label = COMPONENT_LABELS[c.name] || c.name;
+      return `<div style="font-size:10.5px; line-height:1.5; color:#94a3b8;">
+        <span style="color:${tone}; font-weight:700;">${sign}${pts}</span>
+        <span style="color:#cbd5e1;"> ${escHtml(label)}</span> — ${escHtml(c.why || "")}
+      </div>`;
+    }).join("");
+
+    // 2 — SWS V3 breakdown bars.
+    const v3 = signals.v3;
+    let v3Html = "";
+    if (v3 && v3.breakdown) {
+      const b = v3.breakdown;
+      v3Html = `
+        <div>
+          <div style="font-size:9px; color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:5px;">
+            SWS V3 breakdown · ${escHtml(v3.v3_verdict || "")} ${v3.v3_score_100 != null ? `(${v3.v3_score_100}/100)` : ""} · ${escHtml(v3.source || "")}
+          </div>
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            ${v3Bar("Future", b.pts_future, 20)}
+            ${v3Bar("Past", b.pts_past, 12)}
+            ${v3Bar("Valuation", b.pts_fv_upside, 12)}
+            ${v3Bar("Risk overlay", b.pts_overlay, 15, { negative: true })}
+          </div>
+        </div>`;
+    }
+
+    // 3 — AI qualitative read. SEPARATELY LABELLED, non-deterministic —
+    // never part of the deterministic rationale above it.
+    const llm = signals.llm_signal;
+    let llmHtml = "";
+    if (llm && llm.bias) {
+      const biasTone = llm.bias === "lean_beat" ? "#86efac" : llm.bias === "lean_miss" ? "#fca5a5" : "#94a3b8";
+      const delta = Number(llm.confidence_delta_pct) || 0;
+      llmHtml = `
+        <div style="background:rgba(96,165,250,0.05); border:1px dashed rgba(96,165,250,0.3); border-radius:6px; padding:8px 10px;">
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:5px; flex-wrap:wrap;">
+            <span style="font-size:9px; color:#93c5fd; letter-spacing:0.06em; text-transform:uppercase; font-weight:700;">AI qualitative read</span>
+            <span title="Non-deterministic. A separate ±10-pt input — it does NOT alter the rationale paragraphs."
+                  style="font-size:8px; color:var(--text-muted); border:1px solid #2a3349; border-radius:6px; padding:1px 5px;">non-deterministic · ${escHtml(llm.classifier_provider || "?")}</span>
+          </div>
+          <div style="font-size:10.5px; color:#cbd5e1; line-height:1.5;">
+            <span style="color:${biasTone}; font-weight:700;">${escHtml(llm.bias)}</span>${delta ? ` (${delta > 0 ? "+" : ""}${delta})` : ""} — ${escHtml(llm.top_reason || "")}
+          </div>
+          ${llm.top_risk ? `<div style="font-size:10px; color:#94a3b8; margin-top:3px;">Watch: ${escHtml(llm.top_risk)}</div>` : ""}
+        </div>`;
+    }
+
+    // 4 — version audit trail.
+    const auditRows = [
+      ["Predictor", prediction.predictor_version],
+      ["Narrator", event.rationale && event.rationale.version],
+      ["Playbook", event.playbook && event.playbook.version],
+      ["LLM", llm ? `${llm.classifier_provider || "?"} · ${llm.model_id || "?"}` : null],
+    ].filter((row) => row[1]);
+    const auditHtml = `
+      <div style="font-size:9px; color:var(--text-muted); line-height:1.7;">
+        <span style="letter-spacing:0.06em; text-transform:uppercase;">Audit trail</span> ·
+        ${auditRows.map((r) => `${escHtml(r[0])}: ${escHtml(r[1])}`).join(" · ")}
+      </div>`;
+
+    return `
+      <details class="earnings-build-expander" onclick="event.stopPropagation()" style="border-top:1px dashed #1a2233; padding-top:8px; margin-top:2px;">
+        <summary style="cursor:pointer; font-size:10px; color:var(--text-muted); letter-spacing:0.05em; text-transform:uppercase;">How this prediction was built</summary>
+        <div style="margin-top:10px; display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            <div style="font-size:9px; color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase;">Top drivers</div>
+            ${top3 || '<div style="font-size:10px; color:var(--text-muted);">No component detail.</div>'}
+          </div>
+          ${v3Html}
+          ${llmHtml}
+          ${auditHtml}
+        </div>
+      </details>`;
+  }
+
   // ────────── Milestone D pills: announcements + deal flow ──────────
   // Rendered as inline chips next to the verdict + quality badges.
   // Compact by design — full announcement / deal lists go in the
@@ -678,6 +809,7 @@
         ${renderPriceBand(priceBand)}
         ${renderTradingAngle(playbook)}
         ${renderCounterThesisBlurb(signals)}
+        ${renderPredictionBuildExpander(event)}
       </div>`;
   }
 
@@ -830,6 +962,8 @@
       .earnings-day-pill--later { background:rgba(148,163,184,0.12); color:#cbd5e1; border:1px solid rgba(148,163,184,0.25); }
       .earnings-day-pill--unknown { background:rgba(148,163,184,0.08); color:#94a3b8; border:1px solid rgba(148,163,184,0.18); }
       .earnings-card:hover { transform:translateY(-1px); border-color:#2a3349; }
+      .earnings-build-expander summary:hover { color:#cbd5e1; }
+      .earnings-build-expander summary:focus-visible { outline:2px solid #60a5fa; outline-offset:2px; border-radius:3px; }
     `;
     const style = document.createElement("style");
     style.id = "earnings-watch-styles";
@@ -1060,5 +1194,10 @@
   // preview panel into the existing stock detail modal.
   window.injectEarningsPreviewIntoModal = injectEarningsPreviewIntoModal;
   // Exposed for test/debug; not used by app.js.
-  window.__earnings = { renderEarningsCard, renderEarningsCardGrid, renderEarningsPreviewPanel };
+  window.__earnings = {
+    renderEarningsCard,
+    renderEarningsCardGrid,
+    renderEarningsPreviewPanel,
+    renderPredictionBuildExpander,
+  };
 })();
