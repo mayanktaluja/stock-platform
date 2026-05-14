@@ -35,6 +35,7 @@
  *         actual_history: [],           // v2 — prior verdicts on restatement
  *         backfilled: false,            // v2 — resolved retroactively, not live
  *         llm_signal: { ... } | null,   // v3 — predictor component 9 provenance
+ *         score_breakdown: { ... },     // v4 — per-component points (weight tuner)
  *       }
  *     ]
  *   }
@@ -54,7 +55,7 @@ const HISTORY_DIR = path.join(ROOT, "data", "catalysts", "earnings-history");
 
 const num = (v) => (typeof v === "number" && Number.isFinite(v) ? v : null);
 
-export const HISTORY_SCHEMA_VERSION = "earnings-history-v3";
+export const HISTORY_SCHEMA_VERSION = "earnings-history-v4";
 
 function isoToday() {
   return new Date(Date.now() + 5.5 * 3600 * 1000).toISOString().slice(0, 10);
@@ -137,6 +138,10 @@ export function archivePredictions(events, opts = {}) {
             model_id: e.signals.llm_signal.model_id || null,
           }
         : null,
+      // v4 — per-component points. The weight tuner (scripts/tune-
+      // earnings-weights.mjs) re-scores resolved rows under candidate
+      // weight multipliers off this block, so it must be archived.
+      score_breakdown: e.prediction?.score_breakdown || null,
     };
     if (prior?.actual_verdict) preservedActuals += 1;
     predictions.push(row);

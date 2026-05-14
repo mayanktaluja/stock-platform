@@ -1,0 +1,21 @@
+{
+  "schema_version": "earnings-weight-tuning-v1",
+  "generated_at": "2026-05-14T09:07:03.459Z",
+  "gate_met": false,
+  "gate": {
+    "met": false,
+    "resolved_count": 0,
+    "distinct_quarters": 0,
+    "sectors_with_min_events": 0,
+    "detail": {
+      "need_resolved": 80,
+      "need_quarters": 2,
+      "need_sectors_with_events": 5,
+      "sector_min_events": 10,
+      "quarters": [],
+      "by_sector": {}
+    }
+  },
+  "recommendation": null,
+  "message": "Validation gate NOT met — 0/80 resolved rows with score_breakdown, 0/2 quarters, 0/5 sectors with >= 10 events. No weight recommendation until it clears. (score_breakdown entered the archive in schema v4 — only post-v4 resolved events count.)"
+}

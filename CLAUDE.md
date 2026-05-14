@@ -153,6 +153,23 @@ daily snapshots and bucketed by `predictor_version` — the cap-lift gate is
 computed over the latest version only, never a cross-version average. Metrics
 stay zero until `scripts/resolve-earnings-actuals.mjs` populates `actual_*`.
 
+### Weight tuning
+
+```bash
+node scripts/tune-earnings-weights.mjs        # human-readable
+node scripts/tune-earnings-weights.mjs --json # machine-readable
+```
+
+Re-scores resolved archived predictions under candidate component-weight
+MULTIPLIER configs (off the v4-archived `score_breakdown`) and ranks them by
+hit-rate with a held-out 20% check. It NEVER edits `earningsPredictor.js` — it
+recommends directional shifts a human applies by hand, with
+`data/catalysts/predictor-weights-v1.json` as the rollback anchor. It refuses
+to recommend anything until the validation gate clears: ≥80 resolved rows with
+`score_breakdown`, across ≥2 fiscal quarters, with ≥5 sectors carrying ≥10
+events each. Until then it just writes `earnings-weight-tuning.json` with
+`gate_met: false` — that's expected (the gate won't clear for months).
+
 ### Modules
 
 | File | Role |
@@ -172,4 +189,5 @@ stay zero until `scripts/resolve-earnings-actuals.mjs` populates `actual_*`.
 | `services/earnings/nseBulkBlockIngester.js` | NSE bulk + block deals (rolling 7d) |
 | `services/earnings/earningsHistoryArchive.js` | Per-day prediction snapshots + dedup/calibration for backtest |
 | `services/earnings/actualsIngester.js` | Post-result `actual_*` resolution (SWS news brief + Yahoo fallback) |
+| `services/earnings/weightTuner.js` | Multiplier-sweep logic for data-tuning predictor weights (gated on resolved actuals) |
 | `services/earnings/earningsWatchService.js` | Read-side service for the API |
