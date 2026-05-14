@@ -247,23 +247,27 @@ function extractFairValueRange(api) {
   return { min: vh.min ?? null, max: vh.max ?? null, count: vh.primaryCount ?? null };
 }
 
-function extractRewardsRisks(api) {
-  // CompanyNarrativesWithHistogram → narratives.edges contains per-narrative
-  // text entries. Each "narrative" has bullet-style commentary.
-  const n = api?.graphql?.CompanyNarrativesWithHistogram;
-  const edges = n?.narratives?.edges || [];
-  // For now, just collect any text strings tagged as rewards or risks.
-  // The exact field names depend on SWS schema — best-effort extraction.
-  const rewards = [];
-  const risks = [];
-  for (const e of edges) {
-    const node = e.node || e;
-    const r = node.rewards || node.reward || [];
-    const k = node.risks || node.risk || [];
-    if (Array.isArray(r)) rewards.push(...r);
-    if (Array.isArray(k)) risks.push(...k);
-  }
-  return { rewards, risks };
+export function extractRewardsRisks(api) {
+  // Source: the /backend/statements REST endpoint (api.rest.statements) — SWS's
+  // full ~160-row check list. The on-page "Rewards" and "Risk Analysis"
+  // sections are the subset that is public with a definitive pass/fail state:
+  //   reward = area "Rewards", public:true, state "pass"
+  //   risk   = area "Risks",   public:true, state "fail"
+  // Verified against the rendered SWS page — TCS (8 rewards / 0 risks) and
+  // ICICIBANK (4 rewards / 2 risks incl. "Unstable dividend track record").
+  //
+  // The previous implementation read
+  // CompanyNarrativesWithHistogram.narratives.edges[].node.rewards — a path
+  // that does not exist anywhere in the API response, so every stock in the
+  // universe came back with empty arrays (the regression this fixes).
+  const list = api?.rest?.statements?.data?.statements?.data;
+  if (!Array.isArray(list)) return { rewards: [], risks: [] };
+  const pick = (area, state) =>
+    list
+      .filter((s) => s && s.area === area && s.public === true && s.state === state)
+      .map((s) => String(s.description || "").trim())
+      .filter(Boolean);
+  return { rewards: pick("Rewards", "pass"), risks: pick("Risks", "fail") };
 }
 
 function extractDividendInfo(api) {
