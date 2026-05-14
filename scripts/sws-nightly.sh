@@ -274,10 +274,10 @@ fi
 # (Phase E will add refresh-earnings-actuals.mjs as step 8 once it lands.)
 #
 # NOTE: fundamentalsHistory.json (Yahoo, used by the earnings tab's
-# trajectory component) is currently refreshed manually via
-# scripts/fetch-fundamentals-history.mjs. Phase A.2 of the SEBI-RA upgrade
-# plan will extend that script to also capture forwardEps +
-# numberOfAnalystOpinions, then add it to this chain on a weekly cadence.
+# trajectory component) is NOT refreshed here — it has its own dedicated
+# launchd job, com.starbhai.sws-fundamentals-history (wrapper
+# scripts/sws-fundamentals-history-nightly.sh). It's a ~30-min budget-
+# capped Yahoo job that has no business inside the twice-daily SWS scrape.
 
 # Step-3c auxiliary refresh status — each non-fatal refresh below records its
 # outcome here; the COMMIT_BODY builder (step 5) reads this file and appends
