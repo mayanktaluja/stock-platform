@@ -54,6 +54,25 @@ const ROOT = process.cwd();
 const IN_PATH = path.join(ROOT, "data", "catalysts", "events-latest.json");
 const OUT_PATH = path.join(ROOT, "data", "catalysts", "earnings-watch-latest.json");
 const STATS_PATH = path.join(ROOT, "data", "catalysts", "earnings-watch-stats.json");
+const FUNDAMENTALS_PATH = path.join(ROOT, "fundamentalsHistory.json");
+
+// fundamentalsHistory.json feeds the predictor's YoY-EPS trajectory
+// component. It's refreshed by its own nightly job (scripts/refresh-
+// fundamentals-history.mjs) — NOT chained here. Surface staleness in
+// the log so a stalled nightly job is visible in CI output.
+function warnIfFundamentalsStale() {
+  try {
+    const ageDays = (Date.now() - fs.statSync(FUNDAMENTALS_PATH).mtimeMs) / 86400000;
+    if (ageDays > 7) {
+      console.warn(
+        `[earnings-watch] ⚠ fundamentalsHistory.json is ${ageDays.toFixed(1)}d old — ` +
+          `run scripts/refresh-fundamentals-history.mjs (YoY-EPS trajectory will be stale)`,
+      );
+    }
+  } catch {
+    console.warn(`[earnings-watch] ⚠ fundamentalsHistory.json missing — YoY-EPS trajectory disabled`);
+  }
+}
 
 function parseArgs(argv) {
   const out = { windowDays: 30 };
@@ -134,6 +153,7 @@ function buildStats(snapshot) {
 function main() {
   const args = parseArgs(process.argv);
   console.log(`[earnings-watch] reading ${path.relative(ROOT, IN_PATH)} ...`);
+  warnIfFundamentalsStale();
 
   const payload = loadEventsPayload();
   if (!payload) {
