@@ -170,6 +170,21 @@ to recommend anything until the validation gate clears: ≥80 resolved rows with
 events each. Until then it just writes `earnings-weight-tuning.json` with
 `gate_met: false` — that's expected (the gate won't clear for months).
 
+### Health summary (run last in the nightly chain)
+
+```bash
+node scripts/earnings-health-summary.mjs        # human-readable
+node scripts/earnings-health-summary.mjs --json # machine-readable
+```
+
+Rolls the whole pipeline's observable state into `data/catalysts/earnings-
+health.json`: deduped resolved-actuals count + delta, LLM provider split,
+cap-lift-gate state + days-in-state, archive-schema distribution, predictor-
+version mix, restatements, and an `alerts` array (mixed schema, all-heuristic
+LLM, dropped resolved count, gate-just-cleared…). If `SLACK_WEBHOOK_URL` is set
+it also posts a one-liner; absent the env var it just writes the JSON. Run it
+after the backtest so a silent failure in any stage surfaces.
+
 ### Modules
 
 | File | Role |
@@ -190,4 +205,5 @@ events each. Until then it just writes `earnings-weight-tuning.json` with
 | `services/earnings/earningsHistoryArchive.js` | Per-day prediction snapshots + dedup/calibration for backtest |
 | `services/earnings/actualsIngester.js` | Post-result `actual_*` resolution (SWS news brief + Yahoo fallback) |
 | `services/earnings/weightTuner.js` | Multiplier-sweep logic for data-tuning predictor weights (gated on resolved actuals) |
+| `services/earnings/earningsHealth.js` | Pure aggregator for the daily pipeline health summary + alert rules |
 | `services/earnings/earningsWatchService.js` | Read-side service for the API |
