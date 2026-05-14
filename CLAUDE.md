@@ -88,11 +88,20 @@ gate in `server.js` (no per-route admin check on `/api/earnings/*`).
 node scripts/refresh-catalysts.mjs       # NSE event-calendar (already existed)
 node scripts/refresh-nse-corporate.mjs   # NSE announcements + bulk/block deals
 node scripts/refresh-earnings.mjs        # Build the snapshot from the above
+node scripts/refresh-earnings.mjs --skip-llm   # ...or skip the LLM step (CI/offline)
 ```
+
+`refresh-earnings.mjs` runs the LLM qualitative signal (predictor component 9)
+between aggregation and prediction. It uses `GROQ_API_KEY` → `GEMINI_API_KEY`
+→ a deterministic keyword heuristic — so it works with no keys at all, just at
+lower fidelity. `--skip-llm` forces the heuristic. Results are hash-cached in
+`data/catalysts/llm-signal-cache.json` (commit it — keeps steady-state runs at
+near-zero LLM calls).
 
 The `data/catalysts/` JSON files (`events-latest`, `nse-announcements-rolling`,
 `nse-bulk-block-rolling`, `earnings-watch-latest`, `earnings-watch-stats`,
-`earnings-history/<date>.json`) all need to be committed for Vercel to read them.
+`llm-signal-cache`, `earnings-history/<date>.json`) all need to be committed
+for Vercel to read them.
 
 ### Fundamentals history refresh (separate nightly job — NOT chained)
 
@@ -152,7 +161,10 @@ stay zero until `scripts/resolve-earnings-actuals.mjs` populates `actual_*`.
 | `services/earnings/signalAggregator.js` | Joins SWS deep + V3 breakdown + history + sector + announcements + deals |
 | `services/earnings/v3SignalAdapter.js` | Resolves the SWS V3 100-pt breakdown (upcoming row → picks row → inline computeV3Score) |
 | `services/earnings/loadV3UniverseStats.js` | Loads `data/sws/v3-universe-stats.json` for the inline-compute momentum percentiles |
-| `services/earnings/earningsPredictor.js` | v2 component scorer (3 V3 pillars + runup + sector + trajectory + echo + announcements + deals) → BEAT/INLINE/MISS + confidence |
+| `services/earnings/earningsPredictor.js` | v2 component scorer (3 V3 pillars + runup + sector + trajectory + echo + announcements + deals + LLM signal) → BEAT/INLINE/MISS + confidence |
+| `services/earnings/earningsLlmSignal.js` | LLM qualitative classifier — Groq → Gemini → heuristic, never throws |
+| `services/earnings/earningsLlmBatcher.js` | Batches the LLM signal across the calendar, hash-cached in `data/catalysts/llm-signal-cache.json` |
+| `services/earnings/llmPromptHardener.js` | Prompt-injection defence — sanitises + delimiter-wraps untrusted SWS news bodies |
 | `services/earnings/priceBandBuilder.js` | Bull/Base/Bear (capped ±15%) |
 | `services/earnings/earningsRationaleNarrator.js` | 3-paragraph deterministic rationale |
 | `services/earnings/reactionPlaybook.js` | 9-cell BEAT/INLINE/MISS × Raise/Maintain/Cut matrix |

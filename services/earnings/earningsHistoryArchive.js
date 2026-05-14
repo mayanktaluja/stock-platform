@@ -34,6 +34,7 @@
  *         actual_revised_iso: null,     // v2 — set when a restatement flips it
  *         actual_history: [],           // v2 — prior verdicts on restatement
  *         backfilled: false,            // v2 — resolved retroactively, not live
+ *         llm_signal: { ... } | null,   // v3 — predictor component 9 provenance
  *       }
  *     ]
  *   }
@@ -53,7 +54,7 @@ const HISTORY_DIR = path.join(ROOT, "data", "catalysts", "earnings-history");
 
 const num = (v) => (typeof v === "number" && Number.isFinite(v) ? v : null);
 
-export const HISTORY_SCHEMA_VERSION = "earnings-history-v2";
+export const HISTORY_SCHEMA_VERSION = "earnings-history-v3";
 
 function isoToday() {
   return new Date(Date.now() + 5.5 * 3600 * 1000).toISOString().slice(0, 10);
@@ -125,6 +126,17 @@ export function archivePredictions(events, opts = {}) {
       actual_revised_iso: prior?.actual_revised_iso ?? null,
       actual_history: prior?.actual_history ?? [],
       backfilled: prior?.backfilled ?? false,
+      // v3 — LLM qualitative signal provenance (predictor component 9).
+      // A prediction-time input, so it reflects THIS refresh, not the
+      // prior (unlike the post-event actual_* fields above).
+      llm_signal: e.signals?.llm_signal
+        ? {
+            bias: e.signals.llm_signal.bias,
+            confidence_delta_pct: num(e.signals.llm_signal.confidence_delta_pct),
+            classifier_provider: e.signals.llm_signal.classifier_provider || null,
+            model_id: e.signals.llm_signal.model_id || null,
+          }
+        : null,
     };
     if (prior?.actual_verdict) preservedActuals += 1;
     predictions.push(row);

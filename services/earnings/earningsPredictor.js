@@ -347,6 +347,41 @@ function scoreDealFlow(signals) {
   return { pts, breakdown: { dealsPts: pts }, why };
 }
 
+/**
+ * Component 9 — LLM qualitative signal.
+ *
+ * A small qualitative read of the SWS narrative + counter-thesis +
+ * recent news, produced by the Groq → Gemini → heuristic chain in
+ * earningsLlmBatcher (attached to signals.llm_signal before the
+ * predictor runs). Deliberately capped at ±10 so a bad LLM call cannot
+ * flip a borderline INLINE to BEAT — its real value is the rationale
+ * uplift, not swinging the verdict.
+ *
+ * `bias` gives the sign, |confidence_delta_pct| / 5 scales magnitude.
+ * Null or neutral → 0 pts (graceful — the predictor runs fine with no
+ * LLM signal at all, e.g. under --skip-llm or a provider outage).
+ *
+ * Max: ±10 pts.
+ */
+function scoreLlmSignal(signals) {
+  const llm = signals.llm_signal;
+  if (!llm || !llm.bias || llm.bias === "neutral") {
+    return {
+      pts: 0,
+      breakdown: { llmPts: 0 },
+      why: llm ? `LLM read: neutral (${llm.classifier_provider || "?"})` : "no LLM signal",
+    };
+  }
+  const sign = llm.bias === "lean_beat" ? 1 : -1;
+  const delta = num(llm.confidence_delta_pct) ?? 0;
+  const pts = Math.round(clamp(sign * (Math.abs(delta) / 5) * 10, -10, 10) * 10) / 10;
+  return {
+    pts,
+    breakdown: { llmPts: pts, bias: llm.bias, provider: llm.classifier_provider },
+    why: `LLM (${llm.classifier_provider || "?"}): ${llm.top_reason || llm.bias}`,
+  };
+}
+
 // ────────── Main predictor ──────────
 
 /**
@@ -394,15 +429,17 @@ export function predictEarningsOutcome(event) {
   const echo = scoreLastQuarterEcho(signals);
   const announcements = scoreAnnouncements(signals);
   const dealFlow = scoreDealFlow(signals);
+  const llmSignal = scoreLlmSignal(signals);
 
   // ── Sum to a 0–100 scale anchored at 50 = neutral INLINE ──
-  // Component max sums to ~98 (18+8+10+15+10+15+5+10+7 on the positive
-  // side; overlay is penalty-only). Anchor at 50 so a truly neutral
-  // stock (0 from every component) lands in the middle. The hard clamp
-  // at [0,100] catches the rare extreme.
+  // Component max sums to ~108 (18+8+10+15+10+15+5+10+7+10 on the
+  // positive side; overlay is penalty-only). Anchor at 50 so a truly
+  // neutral stock (0 from every component) lands in the middle. The
+  // hard clamp at [0,100] catches the rare extreme.
   const raw =
     v3FuturePast.pts + v3Valuation.pts + v3Overlay.pts + runup.pts +
-    sectorMom.pts + trajectory.pts + echo.pts + announcements.pts + dealFlow.pts;
+    sectorMom.pts + trajectory.pts + echo.pts + announcements.pts +
+    dealFlow.pts + llmSignal.pts;
   const score_100 = clamp(Math.round((50 + raw) * 10) / 10, 0, 100);
 
   // ── Verdict mapping ──
@@ -436,6 +473,7 @@ export function predictEarningsOutcome(event) {
     { name: "last_quarter_echo", ...echo },
     { name: "announcements", ...announcements },
     { name: "deal_flow", ...dealFlow },
+    { name: "llm_signal", ...llmSignal },
   ];
   const sortedByImpact = allComponents.slice().sort((a, b) => Math.abs(b.pts) - Math.abs(a.pts));
   const inFavour = (verdict === "BEAT")
@@ -473,6 +511,7 @@ export function predictEarningsOutcome(event) {
       last_quarter_echo: echo.pts,
       announcements: announcements.pts,
       deal_flow: dealFlow.pts,
+      llm_signal: llmSignal.pts,
       raw_sum: Math.round(raw * 10) / 10,
       // v1→v2 aliases — kept one release so the UI never renders NaN for
       // archived or mid-rollout rows. Removed in PR 6.
