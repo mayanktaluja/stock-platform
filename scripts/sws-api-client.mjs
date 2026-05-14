@@ -101,6 +101,19 @@ export const TARGET_REST_ENDPOINTS = [
     method: "GET",
     pathBuilder: ({ canonicalUrl }) => `/dashboard/company${canonicalUrl}`,
   },
+  // Per-statement check list (~160 rows) — backs the on-page "Rewards" and
+  // "Risk Analysis" sections. Each row carries {area, public, state,
+  // description, outcome, severity, ...}; extractRewardsRisks() in
+  // sws-api-parser.mjs filters area+public+state to reproduce exactly what
+  // the SWS page renders. Public endpoint (no auth needed) confirmed via
+  // live capture 2026-05-14, but still Cloudflare-gated, so — like every
+  // other call here — it has to flow through the browser context.
+  {
+    name: "statements",
+    method: "GET",
+    pathBuilder: ({ canonicalUrl }) =>
+      `/backend/statements${canonicalUrl}?include=statements.question,sentence&locale=en`,
+  },
 ];
 
 // ────────── Queries loading ──────────
