@@ -5691,7 +5691,8 @@ function swsRenderMemoryHeader(report) {
   const acks = Array.isArray(report?.executionAcks) ? report.executionAcks : [];
   const registry = report?.recRegistry || {};
   const pendingEntries = Object.values(registry).filter((r) => r && r.isPending && !r.isSuperseded);
-  if (acks.length === 0 && pendingEntries.length === 0) return "";
+  const cooldownRows = Array.isArray(report?.cooldownPanel?.rows) ? report.cooldownPanel.rows : [];
+  if (acks.length === 0 && pendingEntries.length === 0 && cooldownRows.length === 0) return "";
 
   const memSt = report?.memoryStatus || {};
   const sinceLabel = memSt.prevAsOfDateIso ? `since your last review (${swsEscapeAttr(memSt.prevAsOfDateIso)})` : "since your last review";
@@ -5770,6 +5771,43 @@ function swsRenderMemoryHeader(report) {
     </details>
   ` : "";
 
+  const cooldownChips = cooldownRows.map((r) => {
+    const rawTicker = r.symbol || (r.isin || "").replace(/^SYM:/, "") || "";
+    const sym = swsEscapeAttr(rawTicker.replace(/\.NS$/, "") || "—");
+    const execAction = swsEscapeAttr(r.executedAction || "");
+    const execDate = swsFormatDateShort(r.executedOn);
+    const untilMs = r.cooldownUntil ? Date.parse(r.cooldownUntil) : NaN;
+    const daysRemaining = Number.isFinite(untilMs)
+      ? Math.max(0, Math.ceil((untilMs - Date.now()) / 86_400_000))
+      : null;
+    const remainLabel = daysRemaining != null ? ` · ${daysRemaining}d remaining` : "";
+    return `
+      <span title="Executed ${swsEscapeAttr(r.executedAction || "")} on ${swsEscapeAttr(r.executedOn || "")}. Cooldown until ${swsEscapeAttr(r.cooldownUntil || "")}. Re-fires only if V3 drops ≥5pts, severity rises ≥10pp, or new surveillance."
+            style="display:inline-flex; align-items:center; gap:6px; background:rgba(34,197,94,0.06); border:1px solid rgba(34,197,94,0.30); border-radius:14px; padding:4px 10px; font-size:11px; color:#bbf7d0; line-height:1.3;">
+        <strong>${sym}</strong>
+        <span style="color:var(--text-muted);">${execAction}</span>
+        <span style="color:var(--text-muted);">· executed ${execDate}${remainLabel}</span>
+      </span>
+    `;
+  }).join("");
+
+  const cooldownCount = cooldownRows.length;
+  const cooldownBlock = cooldownCount > 0 ? `
+    <details style="margin-top:${(acks.length > 0 || pendingCount > 0) ? "14px" : "0"};">
+      <summary style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; cursor:pointer; user-select:none; list-style:none; display:flex; align-items:center; gap:8px; padding:4px 0;">
+        <span class="sws-pending-chevron" style="font-size:10px; display:inline-block; transition:transform 0.2s;">▶</span>
+        Recently actioned · cooldown active
+        <span style="color:var(--text); font-weight:600;">(${cooldownCount})</span>
+      </summary>
+      <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;">
+        ${cooldownChips}
+      </div>
+      <div style="font-size:11px; color:var(--text-muted); margin-top:8px; line-height:1.5;">
+        These names were trimmed or added to recently. The SEBI-RA policy is to let the action settle and re-evaluate only on a material change (V3 −5pts, severity +10pp, or new surveillance) — so they're held back from Tier A until the cooldown expires.
+      </div>
+    </details>
+  ` : "";
+
   return `
     <style>
       details[open] > summary .sws-pending-chevron { transform: rotate(90deg); }
@@ -5778,6 +5816,7 @@ function swsRenderMemoryHeader(report) {
     <div style="background:var(--panel); border:1px solid #2a3349; border-radius:10px; padding:14px 18px; margin-bottom:18px;">
       ${ackBlock}
       ${pendingBlock}
+      ${cooldownBlock}
     </div>
   `;
 }
