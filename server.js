@@ -77,7 +77,7 @@ import { buildCalibration as buildTrackCalibration } from "./services/trackRecor
 import { buildSymbolEarningsCalibration } from "./services/trackRecord/earningsCalibration.js";
 import * as swsDal from "./services/swsDal/index.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
-import { buildSWSReport, surfaceOutsidePicks } from "./services/swsPortfolioAggregate.js";
+import { buildSWSReport, surfaceOutsidePicks, rebuildTierAggregates } from "./services/swsPortfolioAggregate.js";
 import { getPortfolioHistoryStorage } from "./portfolioHistoryStorage.js";
 import { getRecommendationLedgerStorage } from "./recommendationLedgerStorage.js";
 import {
@@ -87,6 +87,7 @@ import {
   buildIssuedEvents as memBuildIssued,
   applyReconcileToOpenRecs as memApplyReconcileToOpenRecs,
   applyMemoryToReport as memApplyToReport,
+  applyCooldownDemotion as memApplyCooldownDemotion,
 } from "./services/recommendationMemory.js";
 import { runOnce as runFoScreener } from "./services/foScreener.js";
 import {
@@ -5089,9 +5090,23 @@ async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sour
     history,
   });
 
-  // Rerun path: suppression-only, no writes.
+  // Rerun path: suppression-only, no writes. We still want the cooldown gate
+  // to demote recently-executed names out of Tier A — otherwise opening the
+  // tab a day after a trim would re-flag the same name even though the gate
+  // already suppressed the ledger write. So we call memBuildIssued with an
+  // empty reconcile pass purely to recover the cooldownEntries, then apply
+  // the demotion. No ISSUED events are persisted on this code path.
   if (isRerun) {
     const openRecs = memDeriveOpenRecs(ledger.events);
+    const { cooldownEntries: rerunCooldownEntries = [] } = memBuildIssued({
+      scoredHoldings: swsResult._scoredHoldings || [],
+      newSnap,
+      openRecsAfterReconcile: openRecs,
+      ledgerEvents: ledger.events,
+      reconcileEvents: [],
+    });
+    const demoted = memApplyCooldownDemotion(swsResult._scoredHoldings || [], rerunCooldownEntries);
+    if (demoted.size > 0) rebuildTierAggregates(swsResult.report, swsResult._scoredHoldings || []);
     memApplyToReport(swsResult.report, {
       newSnap,
       prevSnap: history.snapshots[0] || null,
@@ -5100,6 +5115,7 @@ async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sour
       issuedEvents: [],
       suppressedCandidateRecIds: new Set(),
       supersedeMap: new Map(),
+      cooldownEntries: rerunCooldownEntries,
       isBackdated: newSnap.backdated,
       historySnapshots: history.snapshots,
     });
@@ -5146,6 +5162,13 @@ async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sour
     ledgerEvents: ledger.events,
     reconcileEvents,
   });
+
+  // Wire the cooldown gate into the visible report: demote any holding the
+  // gate just suppressed from "Reduction-25%" to "HOLD" and rebuild Tier
+  // aggregates so it falls out of Tier A and into Tier C with a "trimmed
+  // recently, no further action" marker the UI renders.
+  const demoted = memApplyCooldownDemotion(swsResult._scoredHoldings || [], cooldownEntries);
+  if (demoted.size > 0) rebuildTierAggregates(swsResult.report, swsResult._scoredHoldings || []);
 
   memApplyToReport(swsResult.report, {
     newSnap,

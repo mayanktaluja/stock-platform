@@ -101,6 +101,55 @@ export function symbolKey(holding) {
   return null;
 }
 
+// Strip exchange/series suffixes so "JWL" matches "JWL.NS" / "JWL-EQ" /
+// "JWL.BO" across uploads that mix conventions. We do NOT collapse case
+// here — NSE symbols are already uppercase and we don't want to mask real
+// drift (e.g. tracked-stock vs different ticker that only differs in case).
+export function normalizeSymbol(sym) {
+  if (!sym) return null;
+  return String(sym).replace(/\.(NS|BO|BSE|NSE)$/i, "").replace(/-EQ$/i, "").trim() || null;
+}
+
+/**
+ * Index a holdings array under every key form the reconciler may look up:
+ * `isin`, `SYM:${symbol}`, and `SYM:${normalizeSymbol(symbol)}`. Holdings
+ * survive parser drift where one upload carries ISIN + `JWL` and another
+ * carries ISIN=null + `JWL.NS` — both still resolve to the same row.
+ */
+function indexHoldingsByAllKeys(holdings) {
+  const m = new Map();
+  for (const h of (holdings || [])) {
+    if (h.isin) m.set(h.isin, h);
+    if (h.symbol) {
+      const raw = `SYM:${h.symbol}`;
+      if (!m.has(raw)) m.set(raw, h);
+      const norm = normalizeSymbol(h.symbol);
+      if (norm) {
+        const nk = `SYM:${norm}`;
+        if (!m.has(nk)) m.set(nk, h);
+      }
+    }
+  }
+  return m;
+}
+
+// Try every form of `issued`'s identifier against a multi-key holdings map.
+// Returns the holding (or null) — the reconciler then diffs qty/avg as usual.
+function lookupHoldingByIssued(byKey, issued) {
+  if (!issued || !byKey) return null;
+  if (issued.isin && byKey.has(issued.isin)) return byKey.get(issued.isin);
+  if (issued.symbol) {
+    const raw = `SYM:${issued.symbol}`;
+    if (byKey.has(raw)) return byKey.get(raw);
+    const norm = normalizeSymbol(issued.symbol);
+    if (norm) {
+      const nk = `SYM:${norm}`;
+      if (byKey.has(nk)) return byKey.get(nk);
+    }
+  }
+  return null;
+}
+
 export function factorSignature(factors) {
   if (!Array.isArray(factors) || factors.length === 0) return "no_factors";
   return [...factors].map(String).sort().join("|");
@@ -381,24 +430,12 @@ export function reconcileRecommendations({
   const at = now.toISOString();
   const sourceSnapshot = newSnap.asOfDateIso;
 
-  const prevByKey = new Map();
-  for (const h of (prevSnap?.holdings || [])) {
-    const k = symbolKey(h);
-    if (k) prevByKey.set(k, h);
-  }
-  const newByKey = new Map();
-  for (const h of (newSnap.holdings || [])) {
-    const k = symbolKey(h);
-    if (k) newByKey.set(k, h);
-  }
+  const prevByKey = indexHoldingsByAllKeys(prevSnap?.holdings || []);
+  const newByKey = indexHoldingsByAllKeys(newSnap.holdings || []);
 
   const corporateActionKeys = detectCorporateActions(prevByKey, newByKey);
 
-  const newFacetsByKey = new Map();
-  for (const f of (newSnap.facets || [])) {
-    const k = symbolKey(f);
-    if (k) newFacetsByKey.set(k, f);
-  }
+  const newFacetsByKey = indexHoldingsByAllKeys(newSnap.facets || []);
 
   for (const rec of openRecs.values()) {
     const issued = rec.issuedEvent;
@@ -407,8 +444,8 @@ export function reconcileRecommendations({
 
     if (corporateActionKeys.has(recSymKey)) continue;
 
-    const newH = newByKey.get(recSymKey);
-    const newFacet = newFacetsByKey.get(recSymKey);
+    const newH = lookupHoldingByIssued(newByKey, issued);
+    const newFacet = lookupHoldingByIssued(newFacetsByKey, issued);
     const direction = actionDirection(issued.action);
 
     const noDataCount = consecutiveNoData({
@@ -726,6 +763,49 @@ function isCooldownGateEnabled() {
   return process.env.SWS_COOLDOWN_GATE !== "0";
 }
 
+/**
+ * Demote scored holdings the cooldown gate just suppressed: rewrite `action`
+ * to "HOLD" and stamp `gatedByCooldown` so the UI can show "trimmed Day N, no
+ * further action" instead of repeating the same Reduction in Tier A.
+ *
+ * Without this step the gate only stops the LEDGER WRITE — Tier A is built
+ * off `h.action`, so the same Reduction-25% flag would still appear on the
+ * dashboard. Mutates `scoredHoldings` in place; returns the set of symKeys
+ * that were demoted so the caller knows whether to rebuild the report.
+ */
+export function applyCooldownDemotion(scoredHoldings, cooldownEntries) {
+  const demoted = new Set();
+  if (!Array.isArray(scoredHoldings) || !Array.isArray(cooldownEntries)) return demoted;
+  if (cooldownEntries.length === 0) return demoted;
+
+  const entryBySymKey = new Map();
+  for (const e of cooldownEntries) {
+    if (e && e.symKey) entryBySymKey.set(e.symKey, e);
+  }
+
+  for (const h of scoredHoldings) {
+    const k = symbolKey(h);
+    if (!k) continue;
+    const entry = entryBySymKey.get(k);
+    if (!entry) continue;
+    if (!isSellAction(h.action) && !isTopUpAction(h.action)) continue;
+    if (actionDirection(h.action) !== entry.candidateDirection) continue;
+
+    h.preCooldownAction = h.action;
+    h.action = "HOLD";
+    h.gatedByCooldown = {
+      executedOn: entry.executedOn,
+      executedAt: entry.executedAt,
+      executedAction: entry.executedAction,
+      cooldownUntil: entry.cooldownUntil,
+      cooldownWindowDays: entry.cooldownWindowDays,
+      direction: entry.candidateDirection,
+    };
+    demoted.add(k);
+  }
+  return demoted;
+}
+
 // ────────────────────── Issued-events builder + suppression ──────────────────────
 
 /**
@@ -867,6 +947,17 @@ export function buildIssuedEvents({
     const reductionPct = direction === "sell" ? parseTrimPct(action) : null;
     const addPct = direction === "topup" ? parseTopUpPct(action) : null;
 
+    const qtyAtIssue = Number(h.quantity) || 0;
+    // qtyAtIssue is load-bearing for the reconciler: without it we can't
+    // compute the trim ratio on the next snapshot and the EXECUTED event
+    // never fires — leaving the cooldown gate with nothing to suppress
+    // against. Surface this loudly when it slips through scoring.
+    if (qtyAtIssue <= 0 && direction !== "neutral") {
+      console.warn(
+        `[memory] ISSUED ${action} on ${h.symbol || h.isin || "?"} has qtyAtIssue=0 — reconciler won't detect execution. Upstream scoring dropped h.quantity.`,
+      );
+    }
+
     events.push({
       type: "ISSUED",
       recId: candidateRecId,
@@ -882,7 +973,7 @@ export function buildIssuedEvents({
       factors,
       reasoning: h.actionReasoning || h.reasoning || null,
       sourceSnapshot,
-      qtyAtIssue: Number(h.quantity) || 0,
+      qtyAtIssue,
       weightAtIssue: Number(h.positionWeight) || 0,
       scoreAtIssue: Number.isFinite(h.combinedScore) ? Number(h.combinedScore)
                    : Number.isFinite(h.score) ? Number(h.score)
