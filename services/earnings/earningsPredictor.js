@@ -34,7 +34,7 @@ const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 
 // ────────── Constants ──────────
 
-export const PREDICTOR_VERSION = "earnings-predict-v1-2026-05";
+export const PREDICTOR_VERSION = "earnings-predict-v2-2026-05";
 
 /**
  * V1 confidence ceiling. The predictor will never claim more confidence
@@ -43,16 +43,16 @@ export const PREDICTOR_VERSION = "earnings-predict-v1-2026-05";
 export const V1_CONFIDENCE_CAP_PCT = 65;
 
 /**
- * Map composite-verdict → numeric quality bias. Captures how much we
- * trust the underlying business quality signal coming into the result.
- * Higher = more likely to BEAT given any other signal symmetric.
+ * Small directional nudge from the V3 composite verdict. Deliberately
+ * tiny (±2) — the decomposed V3 pillars carry the real weight; this
+ * just breaks ties consistently with SWS's own classification.
  */
-const VERDICT_BIAS = {
-  TOP_PICK: 22,
-  STRONG: 14,
-  ACCEPTABLE: 4,
-  HOLD: -4,
-  AVOID: -16,
+const V3_VERDICT_NUDGE = {
+  TOP_PICK: 2,
+  STRONG: 1,
+  ACCEPTABLE: 0,
+  WATCH: -1,
+  AVOID: -2,
 };
 
 // ────────── Component scorers ──────────
@@ -60,39 +60,102 @@ const VERDICT_BIAS = {
 // the rationale narrator (Milestone C/3) lifts verbatim into ¶1.
 
 /**
- * Component 1 — SWS quality signal. The strongest single offline input
- * we have for V1 because picks-latest aggregates many factors.
+ * Component 1a — V3 future + past pillars.
  *
- * Max contribution: ±22 pts (verdict) + ±10 pts (snowflake_total bonus)
- * = ±32 pts.
+ * v2 replaces the old ±32 `scoreSwsQuality` (which just echoed the
+ * blunt composite verdict — the thing that made 73% of predictions
+ * cluster on INLINE) with the *decomposed* SWS V3 100-pt breakdown.
  *
- * Snowflake bonus is tiered — 25/30 deserves more credit than 18/30 —
- * but is capped so a HIGH-snowflake AVOID stock still scores poorly.
+ * `pts_future` (0–20, SWS forward-earnings-growth pillar) and
+ * `pts_past` (0–12, earnings-trajectory pillar) are the two V3 pillars
+ * most predictive of a next-quarter beat/miss. They are anchored at
+ * their neutral midpoint (a 3/6 snowflake pillar) so a weak-future
+ * stock scores genuinely NEGATIVE rather than merely zero — the old
+ * verdict echo could only ever subtract via an explicit AVOID label.
+ *
+ * Max: ±18 pts (±12 future + ±6 past, plus a ±2 verdict nudge, clamped).
  */
-function scoreSwsQuality(signals) {
-  const upc = signals.sws_upcoming_earnings;
-  const verdict = upc?.composite_verdict || upc?.v3_verdict || null;
-  const verdictPts = num(VERDICT_BIAS[verdict]) ?? 0;
+function scoreV3FuturePast(signals) {
+  const b = signals.v3?.breakdown;
+  if (!b) return { pts: 0, breakdown: { futurePts: 0, pastPts: 0 }, why: "no V3 signal" };
 
-  const snow = num(signals.snowflake_total);
-  let snowPts = 0;
-  if (snow != null) {
-    if (snow >= 25) snowPts = 10;
-    else if (snow >= 22) snowPts = 7;
-    else if (snow >= 18) snowPts = 4;
-    else if (snow >= 14) snowPts = 1;
-    else if (snow < 8) snowPts = -5;
-    else snowPts = 0;
-  }
+  const ptsFuture = num(b.pts_future) ?? 10; // neutral = (3/6)*20
+  const ptsPast = num(b.pts_past) ?? 6; // neutral = (3/6)*12
+  // Anchor at the neutral midpoint, scale to ±12 / ±6.
+  const futureContrib = clamp(((ptsFuture - 10) / 10) * 12, -12, 12);
+  const pastContrib = clamp(((ptsPast - 6) / 6) * 6, -6, 6);
+  const verdictNudge = num(V3_VERDICT_NUDGE[signals.v3?.v3_verdict]) ?? 0;
 
+  const pts = Math.round(clamp(futureContrib + pastContrib + verdictNudge, -18, 18) * 10) / 10;
   return {
-    pts: verdictPts + snowPts,
-    breakdown: { verdictPts, snowPts },
-    why: verdict
-      ? `SWS verdict ${verdict}${snow != null ? ` (snow ${snow}/30)` : ""}`
-      : snow != null
-        ? `SWS snowflake ${snow}/30`
-        : "no SWS quality signal",
+    pts,
+    breakdown: {
+      futurePts: Math.round(futureContrib * 10) / 10,
+      pastPts: Math.round(pastContrib * 10) / 10,
+      verdictNudge,
+    },
+    why: `V3 future ${ptsFuture.toFixed(0)}/20 · past ${ptsPast.toFixed(0)}/12` +
+      (signals.v3?.v3_verdict ? ` (${signals.v3.v3_verdict})` : ""),
+  };
+}
+
+/**
+ * Component 1b — V3 valuation (fair-value upside) pillar.
+ *
+ * Folds the old standalone `scoreFvUpside` component. Uses the V3
+ * `pts_fv_upside` tier (0–12, neutral 6 = fair value) anchored so a
+ * deep discount is a positive BEAT setup and an overvalued stock is a
+ * genuine fade signal. Falls back to the raw `upside_pct` heuristic
+ * only when there's no V3 block at all.
+ *
+ * Max: ±8 pts.
+ */
+function scoreV3Valuation(signals) {
+  const b = signals.v3?.breakdown;
+  if (!b || num(b.pts_fv_upside) == null) {
+    // Fallback — no V3 block; score off raw FV upside (rare: the
+    // predictor only runs when SWS deep exists, which yields a V3 block).
+    return scoreFvUpside(signals);
+  }
+  const ptsFv = num(b.pts_fv_upside); // 0..12, neutral 6
+  const pts = Math.round(clamp(((ptsFv - 6) / 6) * 8, -8, 8) * 10) / 10;
+  return {
+    pts,
+    breakdown: { fvPts: pts, pts_fv_upside: ptsFv, imputed: !!b.fv_imputed },
+    why: b.fv_imputed
+      ? "V3 valuation: fair-value imputed (no FV anchor)"
+      : pts > 0
+        ? `V3 valuation: ${ptsFv}/12 fv-upside tier (discount → BEAT setup)`
+        : pts < 0
+          ? `V3 valuation: ${ptsFv}/12 fv-upside tier (rich → fade risk)`
+          : "V3 valuation: fairly valued",
+  };
+}
+
+/**
+ * Component 1c — V3 risk overlay.
+ *
+ * Pure penalty, never positive. Carries the V3 `pts_overlay` (NSE
+ * surveillance ASM/GSM, falling-knife, catalyst-chase) straight
+ * through, capped at −10. A stock on the surveillance list heading
+ * into a result deserves a hard haircut regardless of how good the
+ * other signals look.
+ *
+ * Max: −10 pts (0 when no flags).
+ */
+function scoreV3Overlay(signals) {
+  const b = signals.v3?.breakdown;
+  if (!b || num(b.pts_overlay) == null) {
+    return { pts: 0, breakdown: { overlayPts: 0 }, why: "no V3 risk flags" };
+  }
+  const pts = clamp(num(b.pts_overlay), -10, 0);
+  const reasons = Array.isArray(b.overlay_reasons) ? b.overlay_reasons : [];
+  return {
+    pts,
+    breakdown: { overlayPts: pts, overlay_reasons: reasons },
+    why: pts < 0
+      ? `V3 risk overlay: ${reasons.join("; ") || "flagged"}`
+      : "no V3 risk flags",
   };
 }
 
@@ -319,22 +382,27 @@ export function predictEarningsOutcome(event) {
   }
 
   // ── Run each component scorer ──
-  const swsQ = scoreSwsQuality(signals);
+  // v2: the old ±32 `scoreSwsQuality` verdict-echo is split into three
+  // decomposed V3 components (future+past, valuation, overlay); the old
+  // standalone FV-upside component is folded into v3Valuation.
+  const v3FuturePast = scoreV3FuturePast(signals);
+  const v3Valuation = scoreV3Valuation(signals);
+  const v3Overlay = scoreV3Overlay(signals);
   const runup = scoreRunup(signals);
   const sectorMom = scoreSectorMomentum(signals);
   const trajectory = scoreTrajectory(signals);
-  const fv = scoreFvUpside(signals);
   const echo = scoreLastQuarterEcho(signals);
   const announcements = scoreAnnouncements(signals);
   const dealFlow = scoreDealFlow(signals);
 
   // ── Sum to a 0–100 scale anchored at 50 = neutral INLINE ──
-  // Component max sums to ~102 (32+15+10+15+8+5+10+7). Anchor at 50
-  // so a truly neutral stock (0 from every component) lands in the
-  // middle. The hard clamp at [0,100] catches the rare extreme.
+  // Component max sums to ~98 (18+8+10+15+10+15+5+10+7 on the positive
+  // side; overlay is penalty-only). Anchor at 50 so a truly neutral
+  // stock (0 from every component) lands in the middle. The hard clamp
+  // at [0,100] catches the rare extreme.
   const raw =
-    swsQ.pts + runup.pts + sectorMom.pts + trajectory.pts + fv.pts +
-    echo.pts + announcements.pts + dealFlow.pts;
+    v3FuturePast.pts + v3Valuation.pts + v3Overlay.pts + runup.pts +
+    sectorMom.pts + trajectory.pts + echo.pts + announcements.pts + dealFlow.pts;
   const score_100 = clamp(Math.round((50 + raw) * 10) / 10, 0, 100);
 
   // ── Verdict mapping ──
@@ -359,11 +427,12 @@ export function predictEarningsOutcome(event) {
 
   // ── Pull top reasons in/against the verdict for the rationale narrator ──
   const allComponents = [
-    { name: "sws_quality", ...swsQ },
+    { name: "v3_future_past", ...v3FuturePast },
+    { name: "v3_valuation", ...v3Valuation },
+    { name: "v3_overlay", ...v3Overlay },
     { name: "runup", ...runup },
     { name: "sector_momentum", ...sectorMom },
     { name: "trajectory", ...trajectory },
-    { name: "fv_upside", ...fv },
     { name: "last_quarter_echo", ...echo },
     { name: "announcements", ...announcements },
     { name: "deal_flow", ...dealFlow },
@@ -395,15 +464,20 @@ export function predictEarningsOutcome(event) {
     confidence_pct,
     score_100,
     score_breakdown: {
-      sws_quality: swsQ.pts,
+      v3_future_past: v3FuturePast.pts,
+      v3_valuation: v3Valuation.pts,
+      v3_overlay: v3Overlay.pts,
       runup: runup.pts,
       sector_momentum: sectorMom.pts,
       trajectory: trajectory.pts,
-      fv_upside: fv.pts,
       last_quarter_echo: echo.pts,
       announcements: announcements.pts,
       deal_flow: dealFlow.pts,
       raw_sum: Math.round(raw * 10) / 10,
+      // v1→v2 aliases — kept one release so the UI never renders NaN for
+      // archived or mid-rollout rows. Removed in PR 6.
+      sws_quality: v3FuturePast.pts,
+      fv_upside: v3Valuation.pts,
     },
     reasons_top,
     reasons_against,

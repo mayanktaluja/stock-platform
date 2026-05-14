@@ -149,8 +149,10 @@ stay zero until `scripts/resolve-earnings-actuals.mjs` populates `actual_*`.
 | File | Role |
 |------|------|
 | `services/earnings/earningsCalendarBuilder.js` | NSE event-calendar → calendar rows |
-| `services/earnings/signalAggregator.js` | Joins SWS deep + history + sector + announcements + deals |
-| `services/earnings/earningsPredictor.js` | 8-component scorer → BEAT/INLINE/MISS + confidence |
+| `services/earnings/signalAggregator.js` | Joins SWS deep + V3 breakdown + history + sector + announcements + deals |
+| `services/earnings/v3SignalAdapter.js` | Resolves the SWS V3 100-pt breakdown (upcoming row → picks row → inline computeV3Score) |
+| `services/earnings/loadV3UniverseStats.js` | Loads `data/sws/v3-universe-stats.json` for the inline-compute momentum percentiles |
+| `services/earnings/earningsPredictor.js` | v2 component scorer (3 V3 pillars + runup + sector + trajectory + echo + announcements + deals) → BEAT/INLINE/MISS + confidence |
 | `services/earnings/priceBandBuilder.js` | Bull/Base/Bear (capped ±15%) |
 | `services/earnings/earningsRationaleNarrator.js` | 3-paragraph deterministic rationale |
 | `services/earnings/reactionPlaybook.js` | 9-cell BEAT/INLINE/MISS × Raise/Maintain/Cut matrix |
