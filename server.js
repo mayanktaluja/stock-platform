@@ -165,11 +165,6 @@ import {
   SECTION_LABELS,
 } from "./services/trackRecord/sectionScorecard.js";
 import {
-  computeCredibility,
-  buildChartSeries,
-  CREDIBILITY_SECTIONS,
-} from "./services/trackRecord/credibilityScorer.js";
-import {
   bucketTradesByScoreBand,
   getConvictionPct,
   getBandLabel,
@@ -4062,104 +4057,6 @@ app.get("/api/track/sections", async (req, res) => {
     res.json(response);
   } catch (err) {
     console.error("[PAPERTRADES] /api/track/sections failed:", err.message);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-/**
- * GET /api/sws/credibility
- *
- * Powers the credibility ribbon at the top of the SWS Picks tab. For each of
- * the five buy-thesis sections (Top 30, Best Buy Now, Deep Value, Quality
- * Growth, Dividend Aristocrats) reports the top-5-per-cohort forward return
- * over the requested horizon, vs both Nifty 50 and Nifty 500.
- *
- * Reads .paper-trades.json (point-in-time snapshots), fetches live Yahoo
- * quotes for any still-open positions + ^NSEI/^CRSLDX, plus 3mo of daily
- * history for the reference cohort to render the SVG chart. Cached 5 min
- * via the existing trackCache.
- */
-app.get("/api/sws/credibility", async (req, res) => {
-  try {
-    const horizonDays = Math.min(90, Math.max(7, parseInt(req.query.horizon, 10) || 30));
-    const cacheKey = `sws_credibility_${horizonDays}`;
-    if (!req.query.bust) {
-      const cached = trackCache.get(cacheKey);
-      if (cached) { res.set("X-Cache", "HIT"); return res.json(cached); }
-    }
-
-    const asOf = new Date().toISOString();
-    const credibilityTypes = new Set(CREDIBILITY_SECTIONS.map((s) => s.type));
-    const trades = await readAllTrades();
-
-    const windowStartIso = new Date(Date.now() - horizonDays * 86400000).toISOString();
-    const openSymbols = new Set();
-    for (const t of trades) {
-      if (!t.snapshotAt || t.snapshotAt < windowStartIso) continue;
-      if (!credibilityTypes.has(t.type)) continue;
-      if (t.closingPrice == null) openSymbols.add(t.symbol);
-    }
-    const openSymbolsArr = [...openSymbols];
-
-    const [n50Quote, n500Quote, n500HistRaw, n50HistRaw, ...openQuotes] = await Promise.all([
-      fetchQuote("^NSEI").catch(() => null),
-      fetchQuote("^CRSLDX").catch(() => null),
-      fetchHistorical("^CRSLDX", "3mo").catch(() => null),
-      fetchHistorical("^NSEI", "3mo").catch(() => null),
-      ...openSymbolsArr.map((s) => fetchQuote(s).catch(() => null)),
-    ]);
-
-    const livePrices = new Map();
-    for (let i = 0; i < openSymbolsArr.length; i++) {
-      const q = openQuotes[i];
-      if (q?.regularMarketPrice != null) livePrices.set(openSymbolsArr[i], q.regularMarketPrice);
-    }
-
-    const toHist = (raw) => (raw && raw.length
-      ? { dates: raw.map((d) => d.date.toISOString().slice(0, 10)), closes: raw.map((d) => d.close) }
-      : null);
-    const n50History = toHist(n50HistRaw);
-    const n500History = toHist(n500HistRaw);
-    const n50Latest = n50Quote?.regularMarketPrice ?? null;
-    const n500Latest = n500Quote?.regularMarketPrice ?? null;
-
-    const credibility = computeCredibility({
-      trades,
-      livePrices,
-      n50Latest,
-      n500Latest,
-      n500History,
-      asOf,
-      horizonDays,
-    });
-
-    // Enrich chart reference with the actual daily series.
-    let chartOut = credibility.chart;
-    if (credibility.chart && n50History) {
-      const symbolHistRaws = await Promise.all(
-        credibility.chart.pickSymbols.map((s) => fetchHistorical(s, "3mo").catch(() => null)),
-      );
-      const historiesBySymbol = new Map();
-      for (let i = 0; i < credibility.chart.pickSymbols.length; i++) {
-        const h = toHist(symbolHistRaws[i]);
-        if (h) historiesBySymbol.set(credibility.chart.pickSymbols[i], h);
-      }
-      const series = buildChartSeries(credibility.chart, historiesBySymbol, n50History, n500History);
-      if (series) chartOut = series;
-    }
-
-    const response = {
-      ...credibility,
-      chart: chartOut,
-      benchmarks: {
-        n500Available: n500History != null && n500Latest != null,
-      },
-    };
-    trackCache.set(cacheKey, response);
-    res.set("X-Cache", "MISS");
-    res.json(response);
-  } catch (err) {
-    console.error("[CREDIBILITY] /api/sws/credibility failed:", err.message);
     res.status(500).json({ error: err.message });
   }
 });
