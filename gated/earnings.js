@@ -23,7 +23,21 @@
   // without re-fetching. Refresh button blows them away.
   let _earningsSnapshot = null;
   let _earningsStats = null;
-  let _earningsFilters = { days: 14, symbol: "", quality: "ALL", runup: "ALL", verdict: "ALL", sector: "ALL" };
+  let _earningsFilters = { days: 30, symbol: "", quality: "ALL", runup: "ALL", verdict: "ALL", sector: "ALL" };
+
+  // Per-date collapsed state for the calendar — persisted across reloads
+  // so a user who collapsed e.g. May 30 doesn't see it re-expand the next
+  // time they open the tab. Mirrors the SWS Picks collapse pattern in
+  // app.js without sharing the helper (earnings.js is an isolated IIFE).
+  const EARNINGS_COLLAPSED_KEY = "earningsCollapsedDates";
+
+  function loadEarningsCollapsedState() {
+    try { return JSON.parse(localStorage.getItem(EARNINGS_COLLAPSED_KEY)) || {}; }
+    catch { return {}; }
+  }
+  function saveEarningsCollapsedState(state) {
+    try { localStorage.setItem(EARNINGS_COLLAPSED_KEY, JSON.stringify(state)); } catch {}
+  }
 
   // ────────── Tiny safe formatters ──────────
   // We intentionally do not depend on the app.js helpers being loaded
@@ -97,6 +111,7 @@
       { label: "Next 1–3d", value: buckets.d1to3 || 0, accent: "#fbbf24" },
       { label: "4–7d", value: buckets.d4to7 || 0, accent: "#facc15" },
       { label: "8–14d", value: buckets.d8to14 || 0, accent: "#94a3b8" },
+      { label: "15–30d", value: buckets.d15to30 || 0, accent: "#94a3b8" },
       { label: "Total", value: stats.event_count || 0, accent: "#60a5fa" },
     ];
     const verdictCells = [
@@ -141,94 +156,63 @@
     return Array.from(set).sort();
   }
 
-  // PR E4 — counts filters set away from their defaults so the popover
-  // badge tells the user at a glance how many filters are biting.
-  function countActiveEarningsFilters(f) {
-    if (!f) return 0;
-    let n = 0;
-    if (f.days != null && Number(f.days) !== 14) n += 1;
-    if (f.verdict && f.verdict !== "ALL") n += 1;
-    if (f.quality && f.quality !== "ALL") n += 1;
-    if (f.runup && f.runup !== "ALL") n += 1;
-    if (f.sector && f.sector !== "ALL") n += 1;
-    if (f.symbol && String(f.symbol).trim().length > 0) n += 1;
-    return n;
-  }
-
   function renderEarningsFilterBar() {
     const el = document.getElementById("earningsFilterBar");
     if (!el) return;
     const sectorOptions = ["ALL"].concat(uniqueSectorsInSnapshot())
       .map((s) => `<option value="${escHtml(s)}"${s === _earningsFilters.sector ? " selected" : ""}>${s === "ALL" ? "all" : escHtml(s)}</option>`)
       .join("");
-
-    // PR E4 — collapse 5 dropdowns + symbol search into a single "Filters · N"
-    // <details> popover (works on every browser, including the ~15% of
-    // Indian retail mobile still on Chromium < 114 where native popover is
-    // a no-op). The dropdowns themselves are unchanged — preserves filter
-    // state and existing wire-up below.
-    const activeCount = countActiveEarningsFilters(_earningsFilters);
     el.innerHTML = `
-      <details class="earnings-filter-popover" ${activeCount > 0 ? "open" : ""}
-               style="position:relative;">
-        <summary style="display:inline-flex; align-items:center; gap:8px; cursor:pointer; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-100); padding:7px 12px; font-size:12px; color:var(--text-secondary); list-style:none;">
-          <span style="font-weight:600; letter-spacing:0.02em;">Filters</span>
-          <span style="display:inline-block; min-width:18px; text-align:center; padding:1px 6px; border-radius:9px; background:${activeCount > 0 ? "var(--gold)" : "rgba(255,255,255,0.08)"}; color:${activeCount > 0 ? "var(--bg-primary)" : "var(--text-muted)"}; font-size:11px; font-weight:700;">${activeCount}</span>
-          <span aria-hidden="true" style="color:var(--text-muted);">▾</span>
-        </summary>
-        <div class="earnings-filter-popover-body" style="position:relative; margin-top:8px; padding:12px 14px; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-200); box-shadow:var(--elev-2); display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center;">
-          <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
-            Within
-            <select id="earningsDaysFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
-              <option value="0">today</option>
-              <option value="3">3 days</option>
-              <option value="7">7 days</option>
-              <option value="14" selected>14 days</option>
-              <option value="30">30 days</option>
-            </select>
-          </label>
-          <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
-            Verdict
-            <select id="earningsVerdictFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
-              <option value="ALL" selected>all</option>
-              <option value="BEAT">BEAT</option>
-              <option value="INLINE">INLINE</option>
-              <option value="MISS">MISS</option>
-              <option value="INSUFFICIENT_DATA">INSUFFICIENT</option>
-            </select>
-          </label>
-          <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
-            Quality
-            <select id="earningsQualityFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
-              <option value="ALL" selected>all</option>
-              <option value="HIGH">HIGH only</option>
-              <option value="HIGH+MEDIUM">HIGH + MEDIUM</option>
-              <option value="LOW">LOW only</option>
-            </select>
-          </label>
-          <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
-            Runup
-            <select id="earningsRunupFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
-              <option value="ALL" selected>all</option>
-              <option value="spike">spike (chase risk)</option>
-              <option value="smooth">smooth (informed)</option>
-              <option value="lagging">lagging (room to surprise)</option>
-              <option value="neutral">neutral</option>
-            </select>
-          </label>
-          <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
-            Sector
-            <select id="earningsSectorFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; max-width:180px;">
-              ${sectorOptions}
-            </select>
-          </label>
-          <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
-            Symbol
-            <input id="earningsSymbolFilter" type="text" placeholder="e.g. RELIANCE" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; width:140px;" />
-          </label>
-          <button id="earningsClearFilters" style="background:transparent; color:var(--text-muted); border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; cursor:pointer;">Clear</button>
-        </div>
-      </details>
+      <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+        Within
+        <select id="earningsDaysFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
+          <option value="0">today</option>
+          <option value="3">3 days</option>
+          <option value="7">7 days</option>
+          <option value="14">14 days</option>
+          <option value="30" selected>30 days</option>
+        </select>
+      </label>
+      <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+        Verdict
+        <select id="earningsVerdictFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
+          <option value="ALL" selected>all</option>
+          <option value="BEAT">BEAT</option>
+          <option value="INLINE">INLINE</option>
+          <option value="MISS">MISS</option>
+          <option value="INSUFFICIENT_DATA">INSUFFICIENT</option>
+        </select>
+      </label>
+      <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+        Quality
+        <select id="earningsQualityFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
+          <option value="ALL" selected>all</option>
+          <option value="HIGH">HIGH only</option>
+          <option value="HIGH+MEDIUM">HIGH + MEDIUM</option>
+          <option value="LOW">LOW only</option>
+        </select>
+      </label>
+      <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+        Runup
+        <select id="earningsRunupFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px;">
+          <option value="ALL" selected>all</option>
+          <option value="spike">spike (chase risk)</option>
+          <option value="smooth">smooth (informed)</option>
+          <option value="lagging">lagging (room to surprise)</option>
+          <option value="neutral">neutral</option>
+        </select>
+      </label>
+      <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+        Sector
+        <select id="earningsSectorFilter" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; max-width:180px;">
+          ${sectorOptions}
+        </select>
+      </label>
+      <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+        Symbol
+        <input id="earningsSymbolFilter" type="text" placeholder="e.g. RELIANCE" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; width:140px;" />
+      </label>
+      <button id="earningsClearFilters" style="background:transparent; color:var(--text-muted); border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; cursor:pointer;">Clear</button>
     `;
 
     // Wire events. We rely on the in-memory snapshot, so filter changes
@@ -288,7 +272,7 @@
     }
     if (clearBtn) {
       clearBtn.addEventListener("click", () => {
-        _earningsFilters = { days: 14, symbol: "", quality: "ALL", runup: "ALL", verdict: "ALL", sector: "ALL" };
+        _earningsFilters = { days: 30, symbol: "", quality: "ALL", runup: "ALL", verdict: "ALL", sector: "ALL" };
         renderEarningsFilterBar();
         applyEarningsFilters();
       });
@@ -449,55 +433,6 @@
         <span style="font-size:11px; font-weight:700; letter-spacing:0.06em;">${escHtml(label)}</span>
         ${v !== "INSUFFICIENT_DATA" ? `<span style="font-size:10px; opacity:0.85; font-weight:500;">${escHtml(conf)} conf</span>` : ""}
       </div>`;
-  }
-
-  // PR E4 — headline-size verdict pill. The 11 px badge above made the
-  // predicted outcome invisible at first glance ("just stacked numbers" in
-  // the user's words); this version reads as the dominant card element via
-  // --fs-headline (20 px) and a stronger tonal background.
-  function renderHeadlineVerdictPill(prediction) {
-    if (!prediction) {
-      return `<span class="tx-headline" style="color:var(--text-muted); font-style:italic;">—</span>`;
-    }
-    const v = prediction.verdict || "INSUFFICIENT_DATA";
-    const tone = predictedVerdictTone(v);
-    const label = v === "INSUFFICIENT_DATA" ? "INSUFFICIENT" : v;
-    return `
-      <span class="tx-headline" title="Predicted earnings outcome with V1 confidence (capped at 65% pending backtest)"
-            style="display:inline-block; padding:2px 12px; border-radius:var(--radius-100); background:${tone.bg}; border:1px solid ${tone.border}; color:${tone.color}; font-weight:700; letter-spacing:0.02em; font-size:var(--fs-headline); line-height:1.25;">
-        ${escHtml(label)}
-      </span>`;
-  }
-
-  // PR E4 — 28×28 confidence ring (18×18 on mobile via @media). Renders the
-  // V1 confidence_pct as a circular progress arc so the user gets the
-  // "agreement" signal without reading the percentage. INSUFFICIENT_DATA
-  // returns empty so the slot is silent rather than misleading.
-  function renderConfidenceRing(prediction, size) {
-    if (!prediction) return "";
-    if (prediction.verdict === "INSUFFICIENT_DATA") return "";
-    const pct = typeof prediction.confidence_pct === "number"
-      ? Math.max(0, Math.min(100, prediction.confidence_pct))
-      : null;
-    if (pct == null) return "";
-    const dim = size || 28;
-    const r = (dim - 4) / 2;
-    const cx = dim / 2;
-    const cy = dim / 2;
-    const circ = 2 * Math.PI * r;
-    const offset = circ * (1 - pct / 100);
-    const tone = predictedVerdictTone(prediction.verdict);
-    return `
-      <svg class="earnings-conf-ring" width="${dim}" height="${dim}" viewBox="0 0 ${dim} ${dim}" role="img" aria-label="${pct.toFixed(0)} percent prediction confidence" style="flex-shrink:0;">
-        <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2.5"/>
-        <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${tone.color}" stroke-width="2.5"
-                stroke-dasharray="${circ.toFixed(2)}" stroke-dashoffset="${offset.toFixed(2)}"
-                stroke-linecap="round" transform="rotate(-90 ${cx} ${cy})"/>
-        <text x="${cx}" y="${cy + 3}" text-anchor="middle"
-              style="font-family: var(--font-mono); font-size: ${Math.max(8, Math.round(dim * 0.32))}px; font-weight: 700; fill: ${tone.color};">
-          ${pct.toFixed(0)}
-        </text>
-      </svg>`;
   }
 
   function renderPriceBand(band) {
@@ -713,54 +648,18 @@
     // order surprise just opens nothing instead of throwing.
     const safeClick = `if(typeof openStockDetailModal==='function'){openStockDetailModal('${escHtml(event.symbol)}','earnings');}`;
 
-    // PR E4 — Tier 1 / Tier 2 split.
-    // Tier 1 (always visible): symbol + headline-size verdict + confidence
-    // ring + days-until pill + data-quality badge + 1-sentence rationale.
-    // Tier 2 (single per-card <details>): signals row, price band, 9-cell
-    // playbook (lifted from modal), counter-thesis, catalyst + tag pills.
-    const headlineVerdict = renderHeadlineVerdictPill(prediction);
-    const confidenceRing = renderConfidenceRing(prediction, 28);
-    const dPills = [renderAnnouncementPills(signals), renderDealFlowPill(signals)].filter(Boolean).join(" ");
-    const catalystRow = (runup || dPills)
-      ? `<div style="display:flex; flex-wrap:wrap; gap:5px; align-items:center;">${runup || ""}${dPills}</div>`
-      : "";
-
-    // Build the Tier 2 details payload. Each block is independently
-    // skippable so the disclosure only shows what's actually populated.
-    const tier2Pieces = [
-      catalystRow,
-      renderSignalsRow(signals),
-      renderPriceBand(priceBand),
-      renderEarningsPlaybookOnCard(playbook),
-      renderCounterThesisBlurb(signals),
-      tagPills ? `<div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center;"><span class="tx-micro">Tags</span> ${tagPills}</div>` : "",
-      sectorLabel ? `<div style="font-size:12px; color:var(--text-muted);"><span class="tx-micro">Sector</span> ${escHtml(signals?.sector || "")}</div>` : "",
-    ].filter(Boolean).join("");
-    const tier2Block = tier2Pieces
-      ? `
-        <details class="earnings-card-details" style="margin-top:6px;">
-          <summary style="cursor:pointer; font-size:12px; color:var(--text-muted); letter-spacing:0.03em; padding:4px 0;">More signals · playbook · counter-thesis</summary>
-          <div style="display:flex; flex-direction:column; gap:8px; padding-top:8px; border-top:1px dashed rgba(255,255,255,0.05); margin-top:6px;">
-            ${tier2Pieces}
-          </div>
-        </details>`
-      : "";
-
-    const calibrationFooter = renderCalibrationFooter(event.symbol);
     return `
       <div class="earnings-card" data-symbol="${escHtml(event.symbol)}" data-quality="${escHtml(signals?.data_quality || "UNKNOWN")}" data-verdict="${escHtml(prediction?.verdict || "")}" onclick="${safeClick}" style="background:var(--panel,#0f1422); border:1px solid #1a2233; ${cardBorder} border-radius:10px; padding:16px 18px; cursor:pointer; transition:transform 120ms ease, border-color 120ms ease; display:flex; flex-direction:column; gap:10px;">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
           <div style="min-width:0; flex:1;">
-            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-              <span class="tx-num" style="font-size:18px; font-weight:700; color:#e2e8f0; letter-spacing:-0.01em;">${escHtml(event.symbol)}</span>
-              ${headlineVerdict}
-              ${confidenceRing}
-            </div>
-            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:6px;">
-              ${fq ? `<span class="tx-micro">${fq}</span>` : ""}
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <span style="font-size:16px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">${escHtml(event.symbol)}</span>
+              ${fq ? `<span style="font-size:11px; color:var(--text-muted); letter-spacing:0.04em;">${fq}</span>` : ""}
+              ${verdictBadge}
               ${dqBadge}
+              ${tagPills}
             </div>
-            <div style="font-size:12px; color:var(--text-muted); margin-top:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escHtml(event.company || event.symbol)}</div>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escHtml(event.company || event.symbol)} ${sectorLabel}</div>
           </div>
           <div style="text-align:right; flex-shrink:0;">
             <span class="${dayPill}" style="display:inline-block; padding:4px 10px; border-radius:12px; font-size:11px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;">${escHtml(dayLabel)}</span>
@@ -768,23 +667,18 @@
           </div>
         </div>
         ${renderRationaleHeadline(rationale)}
-        ${tier2Block}
-        ${calibrationFooter}
+        ${(() => {
+          // Compact catalyst row: pre-runup pill + Milestone-D pills.
+          // Skipped entirely if everything is empty.
+          const dPills = [renderAnnouncementPills(signals), renderDealFlowPill(signals)].filter(Boolean).join(" ");
+          if (!runup && !dPills) return "";
+          return `<div style="display:flex; flex-wrap:wrap; gap:5px; align-items:center;">${runup || ""}${dPills}</div>`;
+        })()}
+        ${renderSignalsRow(signals)}
+        ${renderPriceBand(priceBand)}
+        ${renderTradingAngle(playbook)}
+        ${renderCounterThesisBlurb(signals)}
       </div>`;
-  }
-
-  // PR E4 — 9-cell playbook on the card itself. Lifted from the modal
-  // (renderModalPlaybookBranches at line 852) so traders see the actual
-  // T+1 plan without clicking through. Falls through to renderTradingAngle
-  // when the full branch matrix isn't populated yet.
-  function renderEarningsPlaybookOnCard(playbook) {
-    if (!playbook) return "";
-    if (typeof renderModalPlaybookBranches === "function" && playbook && Array.isArray(playbook.branches) && playbook.branches.length > 0) {
-      try {
-        return `<div class="earnings-card-playbook">${renderModalPlaybookBranches(playbook)}</div>`;
-      } catch { /* fall through */ }
-    }
-    return renderTradingAngle(playbook);
   }
 
   function renderEarningsCardGrid(events) {
@@ -809,168 +703,60 @@
     }
     const sortedKeys = Array.from(groups.keys()).sort();
 
+    // Default-expanded date is sortedKeys[0] — groups only get keys when
+    // an event is pushed, so the first key is guaranteed non-empty. User
+    // overrides (explicit collapse/expand) always win over the default.
+    const collapsedState = loadEarningsCollapsedState();
+    const defaultOpen = sortedKeys[0];
+
     let html = "";
     for (const date of sortedKeys) {
       const items = groups.get(date);
       const long = fmtIsoToLong(date);
       const sample = items[0];
       const rel = fmtRelativeDate(date, sample?.days_until);
+      const isCollapsed = Object.prototype.hasOwnProperty.call(collapsedState, date)
+        ? !!collapsedState[date]
+        : date !== defaultOpen;
       html += `
-        <div style="margin-bottom:18px;">
-          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid #1a2233;">
+        <div data-earnings-date="${escHtml(date)}" data-collapsed="${isCollapsed ? "1" : "0"}" style="margin-bottom:18px;">
+          <div class="earnings-date-header" style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid #1a2233; cursor:pointer; user-select:none;">
+            <span class="earnings-date-caret" style="font-size:11px; color:var(--text-muted); width:10px; display:inline-block;">${isCollapsed ? "▸" : "▾"}</span>
             <span style="font-size:13px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">${escHtml(long)}</span>
             <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">${escHtml(rel)} · ${items.length} ${items.length === 1 ? "result" : "results"}</span>
           </div>
-          <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:12px;">
+          <div class="earnings-date-body" style="${isCollapsed ? "display:none;" : "display:grid;"} grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:12px;">
             ${items.map(renderEarningsCard).join("")}
           </div>
         </div>`;
     }
     el.innerHTML = html;
-  }
 
-  // ────────── PR E5 — Per-card calibration footer ──────────
-  //
-  // Pulls /api/earnings/calibration once per Earnings tab load and caches
-  // by symbol. Each Earnings card calls renderCalibrationFooter(symbol)
-  // during its Tier 2 build; the footer renders ONLY when there are ≥ 3
-  // prior resolved calls for the symbol (else absent — never extrapolate
-  // from a single coincidental hit).
-  let _earningsCalibrationBySymbol = null;
-  async function loadEarningsCalibrationMap() {
-    if (_earningsCalibrationBySymbol) return _earningsCalibrationBySymbol;
-    try {
-      const res = await fetch("/api/earnings/calibration");
-      if (!res.ok) {
-        _earningsCalibrationBySymbol = {};
-        return _earningsCalibrationBySymbol;
-      }
-      const data = await res.json();
-      _earningsCalibrationBySymbol = (data && data.symbols && typeof data.symbols === "object")
-        ? data.symbols
-        : {};
-    } catch {
-      _earningsCalibrationBySymbol = {};
-    }
-    return _earningsCalibrationBySymbol;
-  }
-  function renderCalibrationFooter(symbol) {
-    if (!_earningsCalibrationBySymbol || !symbol) return "";
-    const rec = _earningsCalibrationBySymbol[symbol];
-    if (!rec || !Number.isFinite(rec.priorCallsForSymbol) || rec.priorCallsForSymbol < 3) return "";
-    const verdictBit = (rec.priorBeatCalls > 0)
-      ? `<strong>${rec.priorBeatCalls}</strong> BEAT call${rec.priorBeatCalls === 1 ? "" : "s"}`
-      : `<strong>${rec.priorCallsForSymbol}</strong> prior call${rec.priorCallsForSymbol === 1 ? "" : "s"}`;
-    const score = `${rec.hitCount} hit · ${rec.missCount} miss`;
-    const brierBit = (rec.sectorBrier != null && rec.platformBrier != null)
-      ? ` &nbsp;·&nbsp; sector Brier <strong class="tx-num">${rec.sectorBrier.toFixed(3)}</strong> vs platform <strong class="tx-num">${rec.platformBrier.toFixed(3)}</strong>`
-      : "";
-    return `
-      <div class="earnings-calibration-footer tx-meta" style="margin-top:8px; padding-top:8px; border-top:1px dashed var(--border); display:flex; flex-wrap:wrap; gap:6px; align-items:baseline;">
-        <span style="color: var(--text-muted);">Last ${verdictBit} on ${escHtml(symbol)}:</span>
-        <span style="color: var(--text-secondary);">${score}</span>
-        <span style="color: var(--text-muted);">${brierBit}</span>
-      </div>`;
-  }
-
-  // ────────── PR B8 — Earnings backtest snapshot card ──────────
-  //
-  // Renders the persisted JSON written by
-  // scripts/backtest-earnings-predictions.mjs. Two paths:
-  //   • Insufficient resolved earnings (resolved < 70% of expected, or zero):
-  //     show "Backfilling — N of M resolved" with the V1 gate status next
-  //     to it. Never display zero-as-Brier — it's misleading.
-  //   • Sufficient data: Brier (with delta vs last quarter), hit-rate-by-
-  //     confidence-bucket bars, V1 gate badges.
-
-  function renderBacktestCard(data) {
-    if (!data || data.missing) {
-      return `
-        <div class="earnings-backtest-card l-box" style="--pad: var(--space-300); margin: 0 0 var(--space-300);">
-          <div class="tx-headline">Earnings prediction backtest</div>
-          <div class="tx-meta" style="margin-top:4px;">${escHtml(data && data.message ? data.message : "Snapshot missing — run scripts/backtest-earnings-predictions.mjs.")}</div>
-        </div>`;
-    }
-    const resolved = Number(data.resolved_count) || 0;
-    const expected = Number(data.expected_count) || 0;
-    const ratio = expected > 0 ? resolved / expected : 0;
-    const tooThin = (resolved < 30) || ratio < 0.7;
-    if (tooThin) {
-      return `
-        <div class="earnings-backtest-card l-box" style="--pad: var(--space-300); margin: 0 0 var(--space-300);">
-          <div class="tx-headline">Earnings prediction backtest</div>
-          <div class="tx-meta" style="margin-top:6px; color: var(--warn);">
-            Insufficient resolved earnings — ${resolved} of ${expected || "?"} needed before Brier becomes meaningful.
-            Backfill resolves automatically once Q-end actuals ship; until then this card stays honest.
-          </div>
-          <div class="tx-meta" style="margin-top:6px;">
-            V1 confidence cap is currently <strong style="color: var(--text-secondary);">${data.enough_data_to_lift_cap ? "liftable" : "held"}</strong>.
-            Snapshot generated ${data.generated_at ? new Date(data.generated_at).toLocaleString() : "—"}.
-          </div>
-        </div>`;
-    }
-    // Sufficient data — full card with horizontal hit-rate bars.
-    const brier = (typeof data.brier === "number") ? data.brier.toFixed(3) : "—";
-    const prevBrier = (typeof data.brier_last_quarter === "number") ? data.brier_last_quarter.toFixed(3) : null;
-    let brierDeltaHtml = "";
-    if (prevBrier != null) {
-      const diff = data.brier - data.brier_last_quarter;
-      const direction = diff < 0 ? "▼ improving" : (diff > 0 ? "▲ worsening" : "◆ flat");
-      const colour = diff < 0 ? "var(--positive)" : (diff > 0 ? "var(--negative)" : "var(--text-muted)");
-      brierDeltaHtml = ` <span class="tx-meta" style="color:${colour};">${direction} (from ${prevBrier})</span>`;
-    }
-    const buckets = (data.hit_rate_by_confidence_bucket && typeof data.hit_rate_by_confidence_bucket === "object")
-      ? data.hit_rate_by_confidence_bucket
-      : {};
-    const bucketRows = Object.keys(buckets).map((k) => {
-      const v = buckets[k];
-      if (v == null) return "";
-      const width = Math.max(0, Math.min(100, v));
-      const meetsGate = v >= 55;
-      const bg = meetsGate ? "var(--positive-bg-strong)" : "var(--negative-bg-strong)";
-      const fg = meetsGate ? "var(--positive-strong)" : "var(--negative-strong)";
-      return `
-        <div style="display:grid; grid-template-columns: 80px 1fr 50px; align-items:center; gap:8px; margin: 6px 0;">
-          <span class="tx-meta" style="white-space:nowrap;">${escHtml(k)}</span>
-          <div style="position:relative; height:14px; background: rgba(255,255,255,0.05); border-radius:3px; overflow:hidden;">
-            <div style="position:absolute; left:0; top:0; bottom:0; width:${width}%; background:${bg};"></div>
-          </div>
-          <span class="tx-num" style="color:${fg}; font-weight:700; text-align:right;">${v.toFixed(0)}%</span>
-        </div>`;
-    }).join("");
-    const gate = data.v1_gate || {};
-    const gateOK = !!data.enough_data_to_lift_cap;
-    return `
-      <div class="earnings-backtest-card l-box" style="--pad: var(--space-300); margin: 0 0 var(--space-300);">
-        <div style="display:flex; align-items:flex-end; gap:16px; flex-wrap:wrap;">
-          <div>
-            <div class="tx-headline">Earnings prediction backtest</div>
-            <div class="tx-meta" style="margin-top:4px;">Brier <strong class="tx-num" style="color: var(--text-primary); font-size: var(--fs-headline);">${brier}</strong> · target ≤ 0.18${brierDeltaHtml}</div>
-          </div>
-          <div style="margin-left:auto;" class="tx-meta">
-            ${resolved} of ${expected} resolved · ${gateOK ? `<span style="color:var(--positive);">V1 cap liftable</span>` : `<span style="color:var(--warn);">V1 cap held</span>`}
-          </div>
-        </div>
-        <div style="margin-top: 12px;">${bucketRows || `<div class="tx-meta">No confidence buckets computed.</div>`}</div>
-      </div>`;
-  }
-
-  async function loadEarningsBacktestCard(targetId) {
-    const host = document.getElementById(targetId);
-    if (!host) return;
-    try {
-      const res = await fetch("/api/earnings/backtest");
-      if (res.status === 403) {
-        host.innerHTML = "";
-        return;
-      }
-      const data = res.ok ? await res.json() : null;
-      host.innerHTML = renderBacktestCard(data);
-    } catch (e) {
-      host.innerHTML = `<div class="tx-meta" style="color: var(--negative);">Backtest card error: ${escHtml(e && e.message || "")}</div>`;
+    // One-time delegated click handler. renderEarningsCardGrid runs on
+    // every filter change so we guard with a dataset flag — without it
+    // each filter tweak would stack another listener and clicks would
+    // toggle N times.
+    if (!el.dataset.collapseBound) {
+      el.addEventListener("click", (ev) => {
+        const header = ev.target.closest(".earnings-date-header");
+        if (!header) return;
+        const wrap = header.parentElement;
+        const date = wrap && wrap.getAttribute("data-earnings-date");
+        if (!date) return;
+        const wasCollapsed = wrap.getAttribute("data-collapsed") === "1";
+        const next = !wasCollapsed;
+        wrap.setAttribute("data-collapsed", next ? "1" : "0");
+        const body = wrap.querySelector(".earnings-date-body");
+        const caret = wrap.querySelector(".earnings-date-caret");
+        if (body) body.style.display = next ? "none" : "grid";
+        if (caret) caret.textContent = next ? "▸" : "▾";
+        const state = loadEarningsCollapsedState();
+        state[date] = next;
+        saveEarningsCollapsedState(state);
+      });
+      el.dataset.collapseBound = "1";
     }
   }
-  window.loadEarningsBacktestCard = loadEarningsBacktestCard;
 
   // ────────── Public loader ──────────
 
@@ -1009,19 +795,13 @@
 
       renderEarningsStatsStrip(stats);
       renderEarningsFilterBar();
-      // PR E5 — load the per-symbol calibration map BEFORE the cards
-      // render so the footer line paints in the same pass (no flicker).
-      await loadEarningsCalibrationMap();
       applyEarningsFilters();
-      // PR B8 — populate the backtest card. The loader fails soft on a
-      // missing/empty snapshot so the slot collapses cleanly.
-      loadEarningsBacktestCard("earningsBacktestCardHost");
 
       if (meta) {
         const built = snap?.built_at ? new Date(snap.built_at).toLocaleString() : "?";
         const upstream = snap?.upstream_fetched_at ? new Date(snap.upstream_fetched_at).toLocaleString() : "?";
         const total = snap?.total_event_count ?? snap?.event_count ?? 0;
-        meta.textContent = `${total} upcoming result events in next ${snap?.window_days ?? 14}d · built ${built} · NSE feed fetched ${upstream}`;
+        meta.textContent = `${total} upcoming result events in next ${snap?.window_days ?? 30}d · built ${built} · NSE feed fetched ${upstream}`;
       }
     } catch (err) {
       console.error("loadEarningsWatch failed:", err);

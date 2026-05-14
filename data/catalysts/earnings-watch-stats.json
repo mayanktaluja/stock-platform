@@ -1,58 +1,59 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-05-13T04:33:40.760Z",
-  "today_iso": "2026-05-13",
-  "window_days": 14,
+  "built_at": "2026-05-13T23:10:34.442Z",
+  "today_iso": "2026-05-14",
+  "window_days": 30,
   "upstream_event_count": 520,
   "upstream_fetched_at": "2026-05-13T04:32:56.515Z",
-  "event_count": 460,
+  "event_count": 488,
   "bucket_by_days": {
-    "d0": 0,
-    "d1to3": 221,
-    "d4to7": 140,
-    "d8to14": 99
+    "d0": 99,
+    "d1to3": 122,
+    "d4to7": 177,
+    "d8to14": 77,
+    "d15to30": 13
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 51,
-      "MEDIUM": 395,
+      "HIGH": 57,
+      "MEDIUM": 417,
       "LOW": 14
     },
     "by_pre_runup": {
-      "spike": 77,
-      "smooth": 57,
+      "spike": 90,
+      "smooth": 65,
       "lagging": 123,
-      "neutral": 203
+      "neutral": 210
     },
     "sector_count": 23,
     "top_sectors": [
       {
         "sector": "Materials",
-        "count": 92
+        "count": 97
       },
       {
         "sector": "Capital Goods",
-        "count": 78
+        "count": 85
       },
       {
         "sector": "Consumer Durables",
-        "count": 40
+        "count": 41
       },
       {
         "sector": "Diversified Financials",
-        "count": 36
+        "count": 39
       },
       {
         "sector": "Pharmaceuticals & Biotech",
-        "count": 33
+        "count": 35
       }
     ]
   },
   "predictions": {
     "by_verdict": {
-      "BEAT": 75,
-      "INLINE": 346,
-      "MISS": 25,
+      "BEAT": 85,
+      "INLINE": 358,
+      "MISS": 31,
       "INSUFFICIENT_DATA": 14
     },
     "avg_confidence_pct": 55,
@@ -60,11 +61,11 @@
     "predictor_version": "earnings-predict-v1-2026-05"
   },
   "playbooks": {
-    "tradable_count": 446,
+    "tradable_count": 474,
     "by_highlighted_branch": {
-      "RAISE": 180,
-      "MAINTAIN": 189,
-      "CUT": 77,
+      "RAISE": 188,
+      "MAINTAIN": 196,
+      "CUT": 90,
       "none": 14
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
