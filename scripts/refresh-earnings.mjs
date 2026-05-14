@@ -42,6 +42,7 @@ import {
   summariseSignals,
 } from "../services/earnings/signalAggregator.js";
 import { predictCalendar, summarisePredictions } from "../services/earnings/earningsPredictor.js";
+import { classifyBatchForCalendar } from "../services/earnings/earningsLlmBatcher.js";
 import { buildBandsForCalendar } from "../services/earnings/priceBandBuilder.js";
 import { narrateCalendar } from "../services/earnings/earningsRationaleNarrator.js";
 import {
@@ -75,12 +76,16 @@ function warnIfFundamentalsStale() {
 }
 
 function parseArgs(argv) {
-  const out = { windowDays: 30 };
+  const out = { windowDays: 30, skipLlm: false };
   for (let i = 2; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--window") {
       const next = Number(argv[++i]);
       if (Number.isFinite(next) && next > 0) out.windowDays = next;
+    } else if (a === "--skip-llm") {
+      // Force the deterministic heuristic for the LLM component — used
+      // in CI and any offline run where network LLM calls aren't wanted.
+      out.skipLlm = true;
     }
   }
   return out;
@@ -150,7 +155,7 @@ function buildStats(snapshot) {
   };
 }
 
-function main() {
+async function main() {
   const args = parseArgs(process.argv);
   console.log(`[earnings-watch] reading ${path.relative(ROOT, IN_PATH)} ...`);
   warnIfFundamentalsStale();
@@ -194,6 +199,25 @@ function main() {
   console.log(
     `[earnings-watch] aggregation done in ${((tAfter - tBefore) / 1000).toFixed(1)}s ` +
       `(scanned ${ctx._sectorMomentumScannedFiles ?? 0} sws-deep files for sector momentum)`,
+  );
+
+  // ── LLM qualitative signal (predictor component 9) ──
+  // Runs between aggregation and prediction so the predictor sees
+  // signals.llm_signal. Groq → Gemini → heuristic fallback, hash-cached
+  // on disk. --skip-llm forces the deterministic heuristic (CI/offline).
+  // Mutates enrichedEvents in place.
+  console.log(
+    `[earnings-watch] classifying LLM qualitative signal` +
+      `${args.skipLlm ? " (--skip-llm: heuristic only)" : ""}...`,
+  );
+  const tLlm = Date.now();
+  const { stats: llmStats } = await classifyBatchForCalendar(enrichedEvents, {
+    skipLlm: args.skipLlm,
+  });
+  console.log(
+    `[earnings-watch] LLM signal done in ${((Date.now() - tLlm) / 1000).toFixed(1)}s ` +
+      `(cache hits ${llmStats.cache_hits ?? 0}, llm calls ${llmStats.llm_calls ?? 0}, ` +
+      `heuristic ${llmStats.heuristic ?? 0})`,
   );
 
   // ── Milestone C: predict + price bands + 3-paragraph rationale ──
@@ -246,9 +270,7 @@ function main() {
   );
 }
 
-try {
-  main();
-} catch (err) {
+main().catch((err) => {
   console.error(`[earnings-watch] FAILED:`, err.stack || err.message);
   process.exitCode = 1;
-}
+});

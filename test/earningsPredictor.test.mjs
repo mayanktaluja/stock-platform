@@ -181,7 +181,7 @@ function makeSignals(overrides = {}) {
   });
   assert("score_breakdown has all v2 components", r.score_breakdown && [
     "v3_future_past", "v3_valuation", "v3_overlay", "runup", "sector_momentum",
-    "trajectory", "last_quarter_echo", "announcements", "deal_flow",
+    "trajectory", "last_quarter_echo", "announcements", "deal_flow", "llm_signal",
   ].every((k) => k in r.score_breakdown), Object.keys(r.score_breakdown || {}));
   assert("score_breakdown keeps v1 aliases for one release", r.score_breakdown &&
     "sws_quality" in r.score_breakdown && "fv_upside" in r.score_breakdown, Object.keys(r.score_breakdown || {}));
@@ -226,6 +226,27 @@ function makeSignals(overrides = {}) {
     }),
   });
   assert("Sub-threshold deals score 0", tinyDeal.score_breakdown.deal_flow === 0, tinyDeal.score_breakdown);
+}
+
+// ──── LLM qualitative signal (component 9) ────
+{
+  const base = makeSignals({ data_quality: "HIGH" });
+  const noLlm = predictEarningsOutcome({ signals: base });
+  const leanBeat = predictEarningsOutcome({
+    signals: { ...base, llm_signal: { bias: "lean_beat", confidence_delta_pct: 5, classifier_provider: "groq", top_reason: "order win" } },
+  });
+  const leanMiss = predictEarningsOutcome({
+    signals: { ...base, llm_signal: { bias: "lean_miss", confidence_delta_pct: -5, classifier_provider: "groq", top_reason: "margin pressure" } },
+  });
+  assert("no LLM signal → llm_signal component is 0", noLlm.score_breakdown.llm_signal === 0, noLlm.score_breakdown);
+  assert("lean_beat LLM signal lifts the score", leanBeat.score_100 > noLlm.score_100, { beat: leanBeat.score_100, none: noLlm.score_100 });
+  assert("lean_miss LLM signal lowers the score", leanMiss.score_100 < noLlm.score_100, { miss: leanMiss.score_100, none: noLlm.score_100 });
+  assert("LLM component is capped at ±10", Math.abs(leanBeat.score_breakdown.llm_signal) <= 10, leanBeat.score_breakdown.llm_signal);
+  // neutral bias contributes nothing.
+  const neutral = predictEarningsOutcome({
+    signals: { ...base, llm_signal: { bias: "neutral", confidence_delta_pct: 0, classifier_provider: "heuristic" } },
+  });
+  assert("neutral LLM bias → 0 pts", neutral.score_breakdown.llm_signal === 0, neutral.score_breakdown);
 }
 
 console.log(`\n${pass} pass, ${fail} fail`);
