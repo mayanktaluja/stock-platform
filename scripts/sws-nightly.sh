@@ -265,8 +265,13 @@ fi
 #                                    Used by stock detail modals — not the
 #                                    earnings tab, which reads
 #                                    fundamentalsHistory.json.
-#   5. refresh-earnings.mjs       → data/catalysts/earnings-watch-*.json
-# (Phase E will add refresh-earnings-actuals.mjs as step 6 once it lands.)
+#   5. refresh-surveillance.mjs   → surveillance.json (NSE ASM/GSM; every run)
+#   6. refresh-governance.mjs     → governance.json (NSE shareholding; 144h
+#                                    gate — quarterly data. MUST follow step 4:
+#                                    reads getAllFundamentals(), exits 1 if
+#                                    the fundamentals snapshot is empty).
+#   7. refresh-earnings.mjs       → data/catalysts/earnings-watch-*.json
+# (Phase E will add refresh-earnings-actuals.mjs as step 8 once it lands.)
 #
 # NOTE: fundamentalsHistory.json (Yahoo, used by the earnings tab's
 # trajectory component) is currently refreshed manually via
@@ -363,6 +368,48 @@ else
   fi
 fi
 
+# Surveillance (NSE ASM/GSM) — tiny (2 NSE calls), refreshed every run.
+# Previously only the Vercel cron refreshed this, and that silently no-ops
+# (NSE blocks Vercel datacenter IPs) — so surveillance.json went stale in
+# prod. The local nightly is now the reliable refresh path.
+if with_timeout 300 node scripts/refresh-surveillance.mjs 2>&1 | sed 's/^/[surveillance] /'; then
+  aux_status "surveillance.json" "OK"
+else
+  echo "[nightly] refresh-surveillance.mjs failed — non-fatal, continuing"
+  aux_status "surveillance.json" "FAILED"
+fi
+
+# Governance (NSE shareholding) — quarterly-cadence data, so a ~weekly
+# (144h) freshness gate avoids pure-waste daily refreshes (cf. the
+# /api/cron/refresh-governance comment in server.js). MUST run after the
+# fundamentals block: refresh-governance.mjs reads getAllFundamentals()
+# and exits 1 if that snapshot is empty. Same Vercel-IP no-op problem as
+# surveillance — the local nightly is the reliable refresh path.
+GOV_AGE_HOURS=$(node --input-type=module -e '
+import {readFileSync, existsSync} from "fs";
+if (!existsSync("governance.json")) { console.log(9999); process.exit(0); }
+try {
+  const j = JSON.parse(readFileSync("governance.json", "utf-8"));
+  if (!j.fetchedAt) { console.log(9999); process.exit(0); }
+  const ms = Date.now() - new Date(j.fetchedAt).getTime();
+  console.log(Math.floor(ms / 3600000));
+} catch { console.log(9999); }
+' 2>/dev/null)
+GOV_AGE_HOURS="${GOV_AGE_HOURS:-9999}"
+
+if [ "${GOV_AGE_HOURS}" -lt 144 ]; then
+  echo "[nightly] governance.json is ${GOV_AGE_HOURS}h old — skipping refresh (< 144h freshness)"
+  aux_status "governance.json" "SKIPPED-fresh" "${GOV_AGE_HOURS}"
+else
+  echo "[nightly] governance.json is ${GOV_AGE_HOURS}h old — running refresh..."
+  if with_timeout 600 node scripts/refresh-governance.mjs 2>&1 | sed 's/^/[governance] /'; then
+    aux_status "governance.json" "OK"
+  else
+    echo "[nightly] refresh-governance.mjs failed — non-fatal, continuing"
+    aux_status "governance.json" "FAILED" "${GOV_AGE_HOURS}"
+  fi
+fi
+
 echo "[nightly] running refresh-earnings.mjs (depends on the above)..."
 if with_timeout 600 node scripts/refresh-earnings.mjs 2>&1 | sed 's/^/[earnings] /'; then
   aux_status "earnings-watch-latest.json" "OK"
@@ -405,6 +452,8 @@ if [ ${GATE_RC} -ne 0 ]; then
     data/nse-fo/oi-deltas-latest.json
     data/macroRegime.json
     fundamentals.json
+    surveillance.json
+    governance.json
     fundamentalsHistory.json
   )
   DATA_CHANGED=$(git status --short "${DATA_FILES[@]}" 2>/dev/null | wc -l | tr -d ' ')
@@ -517,6 +566,8 @@ CHANGED_FILES=$(git status --short \
   data/nse-fo/oi-deltas-latest.json \
   data/macroRegime.json \
   fundamentals.json \
+  surveillance.json \
+  governance.json \
   fundamentalsHistory.json \
   2>/dev/null | wc -l | tr -d ' ')
 if [ "${CHANGED_FILES}" -eq 0 ]; then
@@ -558,6 +609,8 @@ git add data/sws/deep/ \
         data/nse-fo/oi-deltas-latest.json \
         data/macroRegime.json \
         fundamentals.json \
+        surveillance.json \
+        governance.json \
         fundamentalsHistory.json
 
 # Inner pipeline regenerates the daily picks PDF — ship it in this same PR

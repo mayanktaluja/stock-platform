@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 /**
- * Surveillance Snapshot Refresh — CLI entrypoint for local dev.
+ * Surveillance Snapshot Refresh — CLI entrypoint.
  *
  * Pulls the latest ASM + GSM lists from NSE and writes surveillance.json
- * at the repo root. Production uses the Vercel cron endpoint at
- * /api/cron/refresh-surveillance which writes to KV instead.
+ * at the repo root. The canonical refresh path is the nightly chain
+ * (scripts/sws-nightly.sh step 3c) running from an Indian-IP machine —
+ * the Vercel cron at /api/cron/refresh-surveillance silently no-ops
+ * because NSE blocks Vercel datacenter IPs.
  *
  * Usage:
  *   node scripts/refresh-surveillance.mjs
