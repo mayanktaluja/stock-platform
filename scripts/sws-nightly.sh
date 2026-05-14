@@ -5,6 +5,7 @@
 # Code dependency.
 #
 # Pipeline:
+#   0. Mail: "run started" heads-up (sent before pre-flight; pairs with abort mail)
 #   1. Pre-flight  — panic flag, AC power, network reachable
 #   2. git pull main (so we're not racing a human commit)
 #   3. bash scripts/sws-refresh-api.sh (full scrape → parse → score → PDF)
@@ -76,6 +77,23 @@ send_mail() {
     printf "%s" "${body}" | node scripts/sws-mail-summary.mjs "${subject}" - 2>&1 | sed 's/^/[mail] /' || true
   fi
 }
+
+# ---- 0. Mail: run-started heads-up ----
+# Fires BEFORE pre-flight so the operator always gets a kickoff notice — even
+# when a pre-flight check aborts the run seconds later. Aborts send their own
+# 🚨 mail, so a started→aborted pair in the inbox is expected, not a bug.
+START_SUBJECT="🚀 SWS nightly started — $(ts)"
+[ "${DRY_RUN}" = "1" ] && START_SUBJECT="🚀 SWS nightly started (DRY RUN) — $(ts)"
+send_mail "${START_SUBJECT}" "SWS nightly run kicked off at $(ts).
+
+pid:        $$
+dry run:    ${DRY_RUN}
+auto-merge: ${AUTO_MERGE}
+host:       $(hostname)
+
+Pre-flight (panic flag / battery / network / git sync) runs next. A second
+mail follows when the run finishes — ✅ on success, 🚨/⚠️ on abort or warning.
+Typical full run is ~3h, so expect the completion mail around then."
 
 # ---- 1. Pre-flight ----
 
