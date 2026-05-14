@@ -75,14 +75,12 @@ NSE traffic.
 
 ---
 
-## Earnings Watch tab (admin-only)
+## Earnings Watch tab
 
 A SEBI-RA-style upcoming-results dashboard with predictions, price
-bands, 9-cell trading playbook, and post-result T+1 plans. Admin-only
-gate: set `STARBHAI_ADMIN_PASSWORD` (different from
-`STARBHAI_LOGIN_PASSWORD`) and log in with that password to see the
-tab. Non-admin sessions get the tab hidden via JS + 403 on the
-`/api/earnings/*` API.
+bands, 9-cell trading playbook, and post-result T+1 plans. Visible to
+every signed-in user; the only auth requirement is the global session
+gate in `server.js` (no per-route admin check on `/api/earnings/*`).
 
 ### Refresh cadence (run locally, twice daily, then commit)
 

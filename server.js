@@ -2363,7 +2363,9 @@ app.get("/api/catalysts/today", (req, res) => {
 });
 
 /**
- * Earnings Watch — admin-only. Upcoming-results dashboard.
+ * Earnings Watch — upcoming-results dashboard, open to every signed-in
+ * user. The global session gate at server.js:594-620 enforces auth; no
+ * per-route admin check.
  *
  * Reads the JSON snapshot produced by scripts/refresh-earnings.mjs.
  * No NSE calls happen here (that pipeline runs locally and commits
@@ -2374,35 +2376,8 @@ app.get("/api/catalysts/today", (req, res) => {
  *   GET /api/earnings/upcoming/stats     — header chip counts
  *   GET /api/earnings/:symbol            — single-card detail
  *   GET /api/cron/refresh-earnings       — flushes the in-process cache
- *
- * Admin gate mirrors main's pattern (see /api/admin/users): the
- * outer auth middleware populates req.user.sub; we resolve the user
- * record via getUserStorage and check `isAdmin` (computed from
- * ADMIN_EMAILS at login time). Non-admin sessions get 403; the SPA
- * also hides the tab via auth.init() so unauthorised users don't
- * see the surface.
  */
 const earningsCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
-
-async function requireEarningsAdmin(req, res) {
-  if (!AUTH_ENABLED) {
-    // Local dev: same behaviour as the existing admin routes —
-    // bypass the gate so the workflow stays unblocked.
-    return true;
-  }
-  const sub = req.user && req.user.sub;
-  if (!sub) {
-    res.status(401).json({ error: "unauthenticated" });
-    return false;
-  }
-  const userStore = getUserStorage();
-  const me = await userStore.read(sub);
-  if (!me || !me.isAdmin) {
-    res.status(403).json({ error: "forbidden" });
-    return false;
-  }
-  return true;
-}
 
 function loadCachedEarningsSnapshot() {
   const cached = earningsCache.get("earnings_snapshot");
@@ -2417,7 +2392,6 @@ function loadCachedEarningsSnapshot() {
 // gate as the rest of /api/earnings/*; non-admin gets 403 and the
 // front-end render falls back to the symbol-less branch (no footer).
 app.get("/api/earnings/calibration", async (req, res) => {
-  if (!(await requireEarningsAdmin(req, res))) return;
   try {
     const { loadAllHistory } = await import("./services/earnings/earningsHistoryArchive.js");
     const history = loadAllHistory();
@@ -2443,7 +2417,6 @@ app.get("/api/earnings/calibration", async (req, res) => {
 // by scripts/backtest-earnings-predictions.mjs on its nightly run.
 // Mirrors the admin gate of every other /api/earnings/* surface.
 app.get("/api/earnings/backtest", async (req, res) => {
-  if (!(await requireEarningsAdmin(req, res))) return;
   try {
     const filePath = path.join(__dirname, "data", "catalysts", "earnings-backtest-latest.json");
     if (!fs.existsSync(filePath)) {
@@ -2462,7 +2435,6 @@ app.get("/api/earnings/backtest", async (req, res) => {
 });
 
 app.get("/api/earnings/upcoming", async (req, res) => {
-  if (!(await requireEarningsAdmin(req, res))) return;
   try {
     const snap = loadCachedEarningsSnapshot();
     const events = filterEvents(snap.events, {
@@ -2489,7 +2461,6 @@ app.get("/api/earnings/upcoming", async (req, res) => {
 });
 
 app.get("/api/earnings/upcoming/stats", async (req, res) => {
-  if (!(await requireEarningsAdmin(req, res))) return;
   try {
     const cacheKey = "earnings_stats";
     const cached = earningsCache.get(cacheKey);
@@ -2520,7 +2491,6 @@ app.get("/api/cron/refresh-earnings", (req, res) => {
 });
 
 app.get("/api/earnings/:symbol", async (req, res) => {
-  if (!(await requireEarningsAdmin(req, res))) return;
   try {
     const snap = loadCachedEarningsSnapshot();
     const event = findEventBySymbol(snap, req.params.symbol);

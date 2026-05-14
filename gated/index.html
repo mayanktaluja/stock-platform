@@ -3593,9 +3593,7 @@
       <button class="tab" role="tab" aria-selected="false" onclick="switchTab('watchlist')">Watchlist</button>
       <!-- Admin-only. Hidden by default; auth.init() unhides for users with isAdmin=true. -->
       <button class="tab" id="usersTabBtn" role="tab" aria-selected="false" hidden onclick="switchTab('users')">Users</button>
-      <!-- Admin-only. Hidden by default; auth.init() unhides for users with isAdmin=true.
-           Server-side: /api/earnings/* is also gated to isAdmin. -->
-      <button class="tab" id="earningsTabBtn" role="tab" aria-selected="false" hidden onclick="switchTab('earnings')">Earnings Watch</button>
+      <button class="tab" id="earningsTabBtn" role="tab" aria-selected="false" onclick="switchTab('earnings')">Earnings Watch</button>
     </div>
 
     <!-- Track Record Tab -->

@@ -125,8 +125,6 @@ const auth = {
     if (me.isAdmin) {
       const usersTabBtn = document.getElementById("usersTabBtn");
       if (usersTabBtn) usersTabBtn.hidden = false;
-      const earningsTabBtn = document.getElementById("earningsTabBtn");
-      if (earningsTabBtn) earningsTabBtn.hidden = false;
     }
 
     const closeDropdown = () => {
@@ -2107,9 +2105,6 @@ function switchTab(tab) {
     if (usersEl) usersEl.style.display = "block";
     loadUsersList();
   } else if (tab === "earnings") {
-    // Defence-in-depth: same pattern as users tab. Server enforces via
-    // /api/earnings/* 403 for non-admins; bail here too.
-    if (!window.__starbhai_isAdmin) return;
     if (earningsEl) earningsEl.style.display = "block";
     if (typeof loadEarningsWatch === "function") loadEarningsWatch();
   } else {
@@ -10480,11 +10475,11 @@ async function openStockDetailModal(symbolOrTicker, sourceTab) {
     fetchAndRenderLiveOnlyDetail(ticker, yahooSymbol, sourceTab);
   }
 
-  // Earnings Watch (admin-only): if this stock has an upcoming-result
-  // event in the next 14 days, fold the prediction + price band +
-  // playbook + recent announcements + deal flow into the same modal.
-  // The injector silently no-ops on 403/404 so non-admin users (or
-  // stocks without an upcoming result) see the modal unchanged.
+  // Earnings Watch: if this stock has an upcoming-result event in the
+  // next 14 days, fold the prediction + price band + playbook + recent
+  // announcements + deal flow into the same modal. The injector silently
+  // no-ops on 404 (no upcoming result) so unaffected stocks render
+  // unchanged.
   if (typeof window.injectEarningsPreviewIntoModal === "function") {
     window.injectEarningsPreviewIntoModal(ticker);
   }
