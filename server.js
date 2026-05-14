@@ -2479,10 +2479,16 @@ app.get("/api/earnings/upcoming/stats", async (req, res) => {
  * Vercel cron entry — flushes the in-process read cache so the next
  * /api/earnings/* request reads the latest committed JSON. Does NOT
  * call NSE (the actual NSE fetchers must run from a local machine).
- * Public endpoint by design; harmless if hit by a non-admin since
- * it just dumps a cache.
+ * CRON_SECRET-gated, same pattern as every other /api/cron/* route;
+ * open in local dev where CRON_SECRET isn't set. (Previously left
+ * public on the "just dumps a cache" rationale — gated for
+ * consistency so the whole cron family behaves the same way.)
  */
 app.get("/api/cron/refresh-earnings", (req, res) => {
+  const cronSecret = process.env.CRON_SECRET;
+  if (cronSecret && req.headers.authorization !== `Bearer ${cronSecret}`) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
   earningsCache.flushAll();
   res.json({
     ok: true,
