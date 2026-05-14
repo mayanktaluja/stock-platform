@@ -5673,12 +5673,21 @@ if (!process.env.VERCEL) {
     // (fired from sws-nightly.sh via launchd at 02:00 + 16:30 IST) and
     // committed to data/macroRegime.json. Vercel reads fresh disk on the
     // next deploy. See services/macroRegimeStorage.js for the rationale.
-    refreshMacroRegime().then((r) => {
-      console.log(`  Macro regime warmed: ${r.regime} (sev ${r.severity}, conf ${r.confidence.toFixed(2)})`);
-    });
-    setInterval(() => {
-      refreshMacroRegime().catch((e) => console.error("[MACRO] scheduled refresh failed:", e.message));
-    }, 15 * 60 * 1000);
+    //
+    // Skipped under NODE_ENV=test: the Playwright e2e harness boots a real
+    // server (playwright.config.mjs `webServer`), so this block would
+    // otherwise fire an RSS-fetch + LLM classification on every run and
+    // rewrite the tracked data/macroRegime.json — leaving the working tree
+    // dirty after each suite. The committed file is still served via the
+    // read path (getMacroRegime → macroStorage.read).
+    if (!isTestEnv) {
+      refreshMacroRegime().then((r) => {
+        console.log(`  Macro regime warmed: ${r.regime} (sev ${r.severity}, conf ${r.confidence.toFixed(2)})`);
+      });
+      setInterval(() => {
+        refreshMacroRegime().catch((e) => console.error("[MACRO] scheduled refresh failed:", e.message));
+      }, 15 * 60 * 1000);
+    }
 
     // Warm the SWS DAL cache from Neon when SWS_READ_FROM_DB=1; no-op
     // otherwise so this is safe to leave unconditional. Non-blocking —
