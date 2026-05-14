@@ -259,9 +259,9 @@ fi
 #   1. refresh-catalysts.mjs      → data/catalysts/events-latest.json
 #   2. refresh-nse-corporate.mjs  → nse-announcements-rolling + bulk-block
 #   3. refresh-fo-oi.sh           → data/nse-fo/oi-deltas-latest.json
-#   4. refresh-fundamentals.mjs   → fundamentals.json (NSE; DAILY now, with
-#                                    a 20h freshness skip so only one of
-#                                    the two daily fires actually re-runs).
+#   4. refresh-fundamentals.mjs   → fundamentals.json (NSE; 8h freshness gate
+#                                    so BOTH daily fires refresh — keeps it
+#                                    well under the 48h staleness banner).
 #                                    Used by stock detail modals — not the
 #                                    earnings tab, which reads
 #                                    fundamentalsHistory.json.
@@ -274,18 +274,38 @@ fi
 # plan will extend that script to also capture forwardEps +
 # numberOfAnalystOpinions, then add it to this chain on a weekly cadence.
 
+# Step-3c auxiliary refresh status — each non-fatal refresh below records its
+# outcome here; the COMMIT_BODY builder (step 5) reads this file and appends
+# an "Auxiliary refreshes:" section to the commit + PR body, so a silently
+# failed or skipped refresh shows up in the PR rather than only the log.
+AUX_STATUS_FILE="data/sws/_aux-refresh-status.tmp"
+: > "${AUX_STATUS_FILE}"
+aux_status() {
+  # aux_status <file> <OK|SKIPPED-fresh|FAILED|...> [age-hours]
+  printf 'STEP3C: %s %s %s\n' "$1" "$2" "${3:-}" >> "${AUX_STATUS_FILE}"
+}
+
 echo "[nightly] running catalysts + fundamentals + earnings refresh chain..."
 
-if ! with_timeout 600 node scripts/refresh-catalysts.mjs 2>&1 | sed 's/^/[catalysts] /'; then
+if with_timeout 600 node scripts/refresh-catalysts.mjs 2>&1 | sed 's/^/[catalysts] /'; then
+  aux_status "events-latest.json" "OK"
+else
   echo "[nightly] refresh-catalysts.mjs failed — non-fatal, continuing"
+  aux_status "events-latest.json" "FAILED"
 fi
 
-if ! with_timeout 600 node scripts/refresh-nse-corporate.mjs 2>&1 | sed 's/^/[nse-corp] /'; then
+if with_timeout 600 node scripts/refresh-nse-corporate.mjs 2>&1 | sed 's/^/[nse-corp] /'; then
+  aux_status "nse-announcements-rolling.json" "OK"
+else
   echo "[nightly] refresh-nse-corporate.mjs failed — non-fatal, continuing"
+  aux_status "nse-announcements-rolling.json" "FAILED"
 fi
 
-if ! with_timeout 600 bash scripts/refresh-fo-oi.sh 2>&1 | sed 's/^/[fo-oi] /'; then
+if with_timeout 600 bash scripts/refresh-fo-oi.sh 2>&1 | sed 's/^/[fo-oi] /'; then
+  aux_status "oi-deltas-latest.json" "OK"
+else
   echo "[nightly] refresh-fo-oi.sh failed — non-fatal, continuing"
+  aux_status "oi-deltas-latest.json" "FAILED"
 fi
 
 # Macro regime refresh: ~10-15s (RSS fetches + 1 LLM call). Writes
@@ -294,22 +314,30 @@ fi
 # but worth surfacing in the PR body. Exit 1 = no headlines AND no
 # prior file — non-fatal; the banner falls back to last-known data.
 MACRO_RC=0
-if ! with_timeout 120 node scripts/refresh-macro-regime.mjs 2>&1 | sed 's/^/[macro] /'; then
+if with_timeout 120 node scripts/refresh-macro-regime.mjs 2>&1 | sed 's/^/[macro] /'; then
+  aux_status "macroRegime.json" "OK"
+else
   MACRO_RC=$?
   if [ "${MACRO_RC}" = "2" ]; then
     echo "[nightly] refresh-macro-regime.mjs returned exit 2 — LLM auth_error, rotate keys"
+    aux_status "macroRegime.json" "OK-llm-degraded"
   elif [ "${MACRO_RC}" = "9" ]; then
     echo "[nightly] refresh-macro-regime.mjs returned exit 9 — LLM keys not loaded in env; prior data/macroRegime.json preserved"
+    aux_status "macroRegime.json" "SKIPPED-no-llm-keys"
   else
     echo "[nightly] refresh-macro-regime.mjs failed (exit ${MACRO_RC}) — non-fatal, continuing"
+    aux_status "macroRegime.json" "FAILED"
   fi
 fi
 
-# Daily fundamentals refresh: self-paced via a 20h freshness check. Two
-# launchd fires per day (02:00 IST pre-market + 16:30 IST post-close), so
-# 20h ensures the second fire coasts when the first succeeded. Saves
-# ~10-15 min of NSE traffic per day. Skips entirely (age=9999) if the
-# file is missing or unparseable, which forces a fresh pull.
+# Fundamentals refresh: self-paced via an 8h freshness check. Two launchd
+# fires per day (02:00 IST pre-market + 16:30 IST post-close, ~14.5h and
+# ~9.5h apart); an 8h gate lets BOTH fires refresh, so the file never
+# drifts past the 48h staleness banner even if a fire is missed. The
+# earlier 20h gate let both fires coast — the file only refreshed once it
+# had ALREADY drifted >20h, which is how it reached the user-visible "2d
+# old" banner. Skips entirely (age=9999) if the file is missing or
+# unparseable, which forces a fresh pull.
 FUND_AGE_HOURS=$(node --input-type=module -e '
 import {readFileSync, existsSync} from "fs";
 if (!existsSync("fundamentals.json")) { console.log(9999); process.exit(0); }
@@ -322,18 +350,25 @@ try {
 ' 2>/dev/null)
 FUND_AGE_HOURS="${FUND_AGE_HOURS:-9999}"
 
-if [ "${FUND_AGE_HOURS}" -lt 20 ]; then
-  echo "[nightly] fundamentals.json is ${FUND_AGE_HOURS}h old — skipping refresh (< 20h freshness)"
+if [ "${FUND_AGE_HOURS}" -lt 8 ]; then
+  echo "[nightly] fundamentals.json is ${FUND_AGE_HOURS}h old — skipping refresh (< 8h freshness)"
+  aux_status "fundamentals.json" "SKIPPED-fresh" "${FUND_AGE_HOURS}"
 else
   echo "[nightly] fundamentals.json is ${FUND_AGE_HOURS}h old — running refresh..."
-  if ! with_timeout 1800 node scripts/refresh-fundamentals.mjs 2>&1 | sed 's/^/[fundamentals] /'; then
+  if with_timeout 1800 node scripts/refresh-fundamentals.mjs 2>&1 | sed 's/^/[fundamentals] /'; then
+    aux_status "fundamentals.json" "OK"
+  else
     echo "[nightly] refresh-fundamentals.mjs failed — non-fatal, continuing"
+    aux_status "fundamentals.json" "FAILED" "${FUND_AGE_HOURS}"
   fi
 fi
 
 echo "[nightly] running refresh-earnings.mjs (depends on the above)..."
-if ! with_timeout 600 node scripts/refresh-earnings.mjs 2>&1 | sed 's/^/[earnings] /'; then
+if with_timeout 600 node scripts/refresh-earnings.mjs 2>&1 | sed 's/^/[earnings] /'; then
+  aux_status "earnings-watch-latest.json" "OK"
+else
   echo "[nightly] refresh-earnings.mjs failed — non-fatal; tab stays on prior snapshot"
+  aux_status "earnings-watch-latest.json" "FAILED"
 fi
 
 # Date/branch labels — computed here so both the PASS path (step 5) and
@@ -557,6 +592,22 @@ try {
             lines.push(`- ${layer}/${c.name}`);
           }
         }
+      }
+    }
+  }
+} catch {}
+// Auxiliary (step-3c) refresh outcomes — surfaces a silently failed or
+// skipped non-SWS refresh in the PR body instead of only the launchd log.
+try {
+  const ax = "data/sws/_aux-refresh-status.tmp";
+  if (existsSync(ax)) {
+    const rows = readFileSync(ax, "utf-8").split("\n")
+      .filter((l) => l.startsWith("STEP3C: "))
+      .map((l) => l.slice(8).trim().split(/\s+/));
+    if (rows.length > 0) {
+      lines.push(``, `Auxiliary refreshes:`);
+      for (const [file, status, age] of rows) {
+        lines.push(`- ${file}: ${status}${age ? ` (${age}h old)` : ""}`);
       }
     }
   }
