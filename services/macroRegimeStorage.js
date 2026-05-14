@@ -75,6 +75,16 @@ class FileMacroRegimeStorage {
     // Best-effort: this only succeeds in local dev (Vercel filesystem is
     // read-only outside /tmp). The canonical write path is the standalone
     // script + commit, not this in-process write.
+    //
+    // No-op under NODE_ENV=test. The Playwright e2e harness boots a real
+    // server, and any in-process refresh during a suite — notably the
+    // cold-cache background refreshMacroRegime() in the portfolio endpoint
+    // (server.js) — would otherwise rewrite the tracked data/macroRegime.json
+    // mid-run and leave the working tree dirty. This is the single chokepoint
+    // every in-process write funnels through, so guarding it here covers all
+    // call sites. The canonical refresh (scripts/refresh-macro-regime.mjs)
+    // writes via its own writeAtomic(), not this adapter, so it is unaffected.
+    if (process.env.NODE_ENV === "test") return;
     try {
       mkdirSync(path.dirname(FILE_PATH), { recursive: true });
       const tmp = `${FILE_PATH}.${process.pid}.tmp`;
