@@ -18,7 +18,7 @@ import rateLimit from "express-rate-limit";
 import NodeCache from "node-cache";
 
 import { analyzeStock, intradayScan, midTermAnalysis, longTermOutlook } from "./analysis.js";
-import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, NIFTY500_SYMBOLS, getNifty100, getNifty500, getExpandedUniverse, getStocksByIndex, validateStockList } from "./stockList.js";
+import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, NIFTY500_SYMBOLS, getNifty100, getNifty500, getExpandedUniverse, getStocksByIndex, validateStockList, findBySymbol } from "./stockList.js";
 import { analyzeNewsSentiment, quickSentiment } from "./sentiment.js";
 import { fetchNifty50, fetchNseQuote, fetchNseQuoteRaw, fetchNseIndices, fetchNseIndex, fetchNseEventCalendar, fetchGiftNifty, nseGet, nseGetUnauthed, warmup as nseWarmup } from "./nse.js";
 import { appendIfNew as appendFiiDiiHistory, readRecent as readFiiDiiHistory } from "./fiiDiiHistory.js";
@@ -2479,10 +2479,16 @@ app.get("/api/earnings/upcoming/stats", async (req, res) => {
  * Vercel cron entry — flushes the in-process read cache so the next
  * /api/earnings/* request reads the latest committed JSON. Does NOT
  * call NSE (the actual NSE fetchers must run from a local machine).
- * Public endpoint by design; harmless if hit by a non-admin since
- * it just dumps a cache.
+ * CRON_SECRET-gated, same pattern as every other /api/cron/* route;
+ * open in local dev where CRON_SECRET isn't set. (Previously left
+ * public on the "just dumps a cache" rationale — gated for
+ * consistency so the whole cron family behaves the same way.)
  */
 app.get("/api/cron/refresh-earnings", (req, res) => {
+  const cronSecret = process.env.CRON_SECRET;
+  if (cronSecret && req.headers.authorization !== `Bearer ${cronSecret}`) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
   earningsCache.flushAll();
   res.json({
     ok: true,
@@ -2683,61 +2689,72 @@ app.get("/api/market-verdict", async (req, res) => {
  */
 const sectorHeatmapCache = new NodeCache({ stdTTL: 120, checkperiod: 30 });
 
+/**
+ * Build the sector heatmap (Nifty 100 quotes → per-sector breadth + movers).
+ * Extracted from the route handler so /api/news/market can warm this data
+ * before building its digest — the digest reads sectorHeatmapCache directly
+ * and used to emit "data not yet available" whenever the cache was cold.
+ * Populates sectorHeatmapCache; returns the cached value on a warm hit.
+ */
+async function getSectorHeatmapData() {
+  const cached = sectorHeatmapCache.get("heatmap");
+  if (cached) return cached;
+
+  const stocksToScan = getNifty100();
+  const quotes = await Promise.all(
+    stocksToScan.map((s) => fetchQuote(s.symbol).catch(() => null))
+  );
+
+  const bySector = {};
+  for (let i = 0; i < stocksToScan.length; i++) {
+    const q = quotes[i];
+    const stock = stocksToScan[i];
+    if (!q) continue;
+    const sector = normalizeSector(stock.sector) || stock.sector || "Unknown";
+    if (!bySector[sector]) bySector[sector] = { sector, stocks: [], totalChange: 0, count: 0 };
+    const chg = q.regularMarketChangePercent || 0;
+    bySector[sector].stocks.push({
+      symbol: stock.symbol,
+      name: stock.name,
+      change: chg,
+      price: q.regularMarketPrice,
+    });
+    bySector[sector].totalChange += chg;
+    bySector[sector].count += 1;
+  }
+
+  const sectors = Object.values(bySector).map((s) => {
+    s.avgChange = s.count > 0 ? parseFloat((s.totalChange / s.count).toFixed(2)) : 0;
+    s.winners = s.stocks.filter((st) => st.change > 0).length;
+    s.losers = s.stocks.filter((st) => st.change < 0).length;
+    s.topGainer = s.stocks.sort((a, b) => b.change - a.change)[0] || null;
+    s.topLoser = s.stocks.sort((a, b) => a.change - b.change)[0] || null;
+    // Remove full stock list to keep response compact
+    delete s.totalChange;
+    s.stockCount = s.count;
+    delete s.count;
+    delete s.stocks;
+    return s;
+  }).sort((a, b) => b.avgChange - a.avgChange);
+
+  const response = {
+    sectors,
+    marketBreadth: {
+      totalStocks: quotes.filter(Boolean).length,
+      advancing: quotes.filter((q) => q && (q.regularMarketChangePercent || 0) > 0).length,
+      declining: quotes.filter((q) => q && (q.regularMarketChangePercent || 0) < 0).length,
+      unchanged: quotes.filter((q) => q && (q.regularMarketChangePercent || 0) === 0).length,
+    },
+    lastUpdated: new Date().toISOString(),
+  };
+
+  sectorHeatmapCache.set("heatmap", response);
+  return response;
+}
+
 app.get("/api/sector-heatmap", async (req, res) => {
   try {
-    const cached = sectorHeatmapCache.get("heatmap");
-    if (cached) return res.json(cached);
-
-    const stocksToScan = getNifty100();
-    const quotes = await Promise.all(
-      stocksToScan.map((s) => fetchQuote(s.symbol).catch(() => null))
-    );
-
-    const bySector = {};
-    for (let i = 0; i < stocksToScan.length; i++) {
-      const q = quotes[i];
-      const stock = stocksToScan[i];
-      if (!q) continue;
-      const sector = normalizeSector(stock.sector) || stock.sector || "Unknown";
-      if (!bySector[sector]) bySector[sector] = { sector, stocks: [], totalChange: 0, count: 0 };
-      const chg = q.regularMarketChangePercent || 0;
-      bySector[sector].stocks.push({
-        symbol: stock.symbol,
-        name: stock.name,
-        change: chg,
-        price: q.regularMarketPrice,
-      });
-      bySector[sector].totalChange += chg;
-      bySector[sector].count += 1;
-    }
-
-    const sectors = Object.values(bySector).map((s) => {
-      s.avgChange = s.count > 0 ? parseFloat((s.totalChange / s.count).toFixed(2)) : 0;
-      s.winners = s.stocks.filter((st) => st.change > 0).length;
-      s.losers = s.stocks.filter((st) => st.change < 0).length;
-      s.topGainer = s.stocks.sort((a, b) => b.change - a.change)[0] || null;
-      s.topLoser = s.stocks.sort((a, b) => a.change - b.change)[0] || null;
-      // Remove full stock list to keep response compact
-      delete s.totalChange;
-      s.stockCount = s.count;
-      delete s.count;
-      delete s.stocks;
-      return s;
-    }).sort((a, b) => b.avgChange - a.avgChange);
-
-    const response = {
-      sectors,
-      marketBreadth: {
-        totalStocks: quotes.filter(Boolean).length,
-        advancing: quotes.filter((q) => q && (q.regularMarketChangePercent || 0) > 0).length,
-        declining: quotes.filter((q) => q && (q.regularMarketChangePercent || 0) < 0).length,
-        unchanged: quotes.filter((q) => q && (q.regularMarketChangePercent || 0) === 0).length,
-      },
-      lastUpdated: new Date().toISOString(),
-    };
-
-    sectorHeatmapCache.set("heatmap", response);
-    res.json(response);
+    res.json(await getSectorHeatmapData());
   } catch (err) {
     console.error("Sector heatmap error:", err.message);
     res.status(500).json({ error: err.message });
@@ -2767,105 +2784,117 @@ app.get("/api/sector-heatmap", async (req, res) => {
  */
 const fiiDiiCache = new NodeCache({ stdTTL: 1800, checkperiod: 300 });
 
-app.get("/api/fii-dii", async (req, res) => {
-  try {
-    const cached = fiiDiiCache.get("fii_dii");
-    if (cached) return res.json(cached);
+/**
+ * Fetch + shape the latest FII/DII session from NSE. Extracted from the
+ * route handler so /api/news/market can warm this data before building its
+ * digest — the digest reads fiiDiiCache directly and used to emit "FII data
+ * not yet available" whenever the cache was cold. Populates fiiDiiCache;
+ * returns the cached value on a warm hit, and an { available: false } shape
+ * (not a throw) when NSE is unreachable.
+ */
+async function getFiiDiiData() {
+  const cached = fiiDiiCache.get("fii_dii");
+  if (cached) return cached;
 
-    let fiiDiiData = null;
-    // The endpoint works cookie-less — skip the full nseGet cookie dance,
-    // which short-circuits on datacenter IPs (NSE blocks the homepage
-    // which the cookie refresh relies on, even when the API path itself
-    // is wide open). Fall back to cookie-gated nseGet only if unauth'd
-    // returns nothing, since some NSE paths do eventually require cookies.
+  let fiiDiiData = null;
+  // The endpoint works cookie-less — skip the full nseGet cookie dance,
+  // which short-circuits on datacenter IPs (NSE blocks the homepage
+  // which the cookie refresh relies on, even when the API path itself
+  // is wide open). Fall back to cookie-gated nseGet only if unauth'd
+  // returns nothing, since some NSE paths do eventually require cookies.
+  try {
+    const data = await nseGetUnauthed(
+      "/api/fiidiiTradeReact",
+      "https://www.nseindia.com/reports/fii-dii",
+    );
+    if (Array.isArray(data) && data.length > 0) fiiDiiData = data;
+  } catch (e) {
+    console.warn("NSE FII/DII unauth fetch failed:", e.message);
+  }
+  if (!fiiDiiData) {
     try {
-      const data = await nseGetUnauthed(
+      const data = await nseGet(
         "/api/fiidiiTradeReact",
         "https://www.nseindia.com/reports/fii-dii",
       );
       if (Array.isArray(data) && data.length > 0) fiiDiiData = data;
     } catch (e) {
-      console.warn("NSE FII/DII unauth fetch failed:", e.message);
+      console.warn("NSE FII/DII authed fetch also failed:", e.message);
     }
-    if (!fiiDiiData) {
-      try {
-        const data = await nseGet(
-          "/api/fiidiiTradeReact",
-          "https://www.nseindia.com/reports/fii-dii",
-        );
-        if (Array.isArray(data) && data.length > 0) fiiDiiData = data;
-      } catch (e) {
-        console.warn("NSE FII/DII authed fetch also failed:", e.message);
-      }
-    }
+  }
 
-    if (!fiiDiiData) {
-      // Upstream genuinely unreachable (NSE outage, cookie block, etc.).
-      // Don't lie to the user — we ARE on an Indian IP (bom1). Just say
-      // it's temporarily unavailable and let the frontend retry later.
-      const response = {
-        available: false,
-        message:
-          "FII/DII data temporarily unavailable from NSE. Usually published at ~18:30 IST for the same trading day — try again after market close.",
-        lastUpdated: new Date().toISOString(),
-      };
-      // Short cache on failure so a single upstream hiccup doesn't lock
-      // the endpoint out for the full 30 minutes.
-      fiiDiiCache.set("fii_dii", response, 120);
-      return res.json(response);
-    }
-
-    // Normalise NSE's two-row array into named fields so the UI doesn't have
-    // to guess row order or parse category strings. NSE's category values
-    // have been "FII/FPI" and "DII" (sometimes "DII - Equity") for years.
-    const toNum = (v) => {
-      const n = Number(String(v ?? "").replace(/,/g, ""));
-      return Number.isFinite(n) ? n : null;
-    };
-    const shape = (row) =>
-      row
-        ? {
-            date: row.date || null,
-            buyValue: toNum(row.buyValue),
-            sellValue: toNum(row.sellValue),
-            netValue: toNum(row.netValue),
-          }
-        : null;
-    const fiiRow = fiiDiiData.find((r) => /FII|FPI/i.test(String(r.category)));
-    const diiRow = fiiDiiData.find((r) => /^DII/i.test(String(r.category)));
-
-    const fiiShaped = shape(fiiRow);
-    const diiShaped = shape(diiRow);
-    const sessionDate = fiiRow?.date || diiRow?.date || null;
-
-    // Persist this session into the rolling history (idempotent on date),
-    // then read back the last 10 sessions for the sparkline. Both operations
-    // are best-effort — failures don't block the response.
-    let history = [];
-    try {
-      if (sessionDate) {
-        await appendFiiDiiHistory({
-          date: sessionDate,
-          fii: fiiShaped?.netValue,
-          dii: diiShaped?.netValue,
-        });
-      }
-      history = await readFiiDiiHistory(10);
-    } catch (histErr) {
-      console.warn("[FII-DII] history persistence/read failed:", histErr.message);
-    }
-
+  if (!fiiDiiData) {
+    // Upstream genuinely unreachable (NSE outage, cookie block, etc.).
+    // Don't lie to the user — we ARE on an Indian IP (bom1). Just say
+    // it's temporarily unavailable and let the frontend retry later.
     const response = {
-      available: true,
-      date: sessionDate,
-      fii: fiiShaped,
-      dii: diiShaped,
-      history, // last 10 sessions newest-first, for client-side sparkline
-      data: fiiDiiData, // preserve raw for any consumer that wants it
+      available: false,
+      message:
+        "FII/DII data temporarily unavailable from NSE. Usually published at ~18:30 IST for the same trading day — try again after market close.",
       lastUpdated: new Date().toISOString(),
     };
-    fiiDiiCache.set("fii_dii", response);
-    res.json(response);
+    // Short cache on failure so a single upstream hiccup doesn't lock
+    // the endpoint out for the full 30 minutes.
+    fiiDiiCache.set("fii_dii", response, 120);
+    return response;
+  }
+
+  // Normalise NSE's two-row array into named fields so the UI doesn't have
+  // to guess row order or parse category strings. NSE's category values
+  // have been "FII/FPI" and "DII" (sometimes "DII - Equity") for years.
+  const toNum = (v) => {
+    const n = Number(String(v ?? "").replace(/,/g, ""));
+    return Number.isFinite(n) ? n : null;
+  };
+  const shape = (row) =>
+    row
+      ? {
+          date: row.date || null,
+          buyValue: toNum(row.buyValue),
+          sellValue: toNum(row.sellValue),
+          netValue: toNum(row.netValue),
+        }
+      : null;
+  const fiiRow = fiiDiiData.find((r) => /FII|FPI/i.test(String(r.category)));
+  const diiRow = fiiDiiData.find((r) => /^DII/i.test(String(r.category)));
+
+  const fiiShaped = shape(fiiRow);
+  const diiShaped = shape(diiRow);
+  const sessionDate = fiiRow?.date || diiRow?.date || null;
+
+  // Persist this session into the rolling history (idempotent on date),
+  // then read back the last 10 sessions for the sparkline. Both operations
+  // are best-effort — failures don't block the response.
+  let history = [];
+  try {
+    if (sessionDate) {
+      await appendFiiDiiHistory({
+        date: sessionDate,
+        fii: fiiShaped?.netValue,
+        dii: diiShaped?.netValue,
+      });
+    }
+    history = await readFiiDiiHistory(10);
+  } catch (histErr) {
+    console.warn("[FII-DII] history persistence/read failed:", histErr.message);
+  }
+
+  const response = {
+    available: true,
+    date: sessionDate,
+    fii: fiiShaped,
+    dii: diiShaped,
+    history, // last 10 sessions newest-first, for client-side sparkline
+    data: fiiDiiData, // preserve raw for any consumer that wants it
+    lastUpdated: new Date().toISOString(),
+  };
+  fiiDiiCache.set("fii_dii", response);
+  return response;
+}
+
+app.get("/api/fii-dii", async (req, res) => {
+  try {
+    res.json(await getFiiDiiData());
   } catch (err) {
     console.error("FII/DII error:", err.message);
     res.status(500).json({ error: err.message });
@@ -3187,11 +3216,30 @@ app.get("/api/news/market", async (req, res) => {
 
     // ── Deterministic Market Digest ──
     // Composite mood from 6 signals: sectoral breadth, adv/decl, FII flow,
-    // DII flow, headline tilt, GIFT Nifty (off-hours). Sources are existing
-    // in-process caches — no LLM call, no external network, always-on.
+    // DII flow, headline tilt, GIFT Nifty (off-hours). No LLM call.
+    //
+    // Warm the sector + FII data the digest depends on. These previously
+    // came straight off sectorHeatmapCache / fiiDiiCache — but those caches
+    // are only populated as a side effect of someone hitting
+    // /api/sector-heatmap or /api/fii-dii first, so on a cold cache the
+    // digest emitted "Sectoral breadth data not yet available" / "FII data
+    // not yet available" even though the data was perfectly fetchable.
+    // getSectorHeatmapData / getFiiDiiData are cheap on a warm cache and
+    // correct on a cold one; failures degrade to the null the digest
+    // already tolerates.
+    const [sectorHeatmap, fiiDii] = await Promise.all([
+      getSectorHeatmapData().catch((e) => {
+        console.warn("[NEWS] sector heatmap warm failed:", e.message);
+        return null;
+      }),
+      getFiiDiiData().catch((e) => {
+        console.warn("[NEWS] FII/DII warm failed:", e.message);
+        return null;
+      }),
+    ]);
     const digest = buildDeterministicDigest(scored, {
-      sectorHeatmap: sectorHeatmapCache.get("heatmap"),
-      fiiDii: fiiDiiCache.get("fii_dii"),
+      sectorHeatmap,
+      fiiDii,
       market: marketCache.get("market"),
       marketStatus: isMarketOpen() ? "OPEN" : "CLOSED",
     });
@@ -4346,6 +4394,17 @@ app.get("/api/watchlist", async (req, res) => {
 app.post("/api/watchlist/add", express.json(), async (req, res) => {
   const { symbol, name, sector } = req.body || {};
   if (!symbol) return res.status(400).json({ error: "symbol required" });
+
+  // Validate against the tracked universe before persisting. The handler
+  // used to accept any string — garbage symbols (and even raw HTML) landed
+  // in storage, then broke downstream price / SWS lookups that assume a real
+  // ticker. findBySymbol canonicalises (uppercase, strip whitespace, match
+  // bare or .NS form) and returns null on a miss.
+  const resolved = findBySymbol(symbol);
+  if (!resolved) {
+    return res.status(400).json({ error: "Unknown symbol — not in the tracked universe." });
+  }
+
   const storage = getWatchlistStorage();
 
   // Capture the price at add-time so the watchlist can show the user
@@ -4354,14 +4413,14 @@ app.post("/api/watchlist/add", express.json(), async (req, res) => {
   // forge it). Failures are non-fatal — we still save the entry.
   let addedPrice = null;
   try {
-    const q = await fetchQuote(symbol);
+    const q = await fetchQuote(resolved.symbol);
     if (q && typeof q.regularMarketPrice === "number") addedPrice = q.regularMarketPrice;
   } catch { /* keep addedPrice null */ }
 
   const result = await storage.add({
-    symbol,
-    name: name || symbol,
-    sector: sector || null,
+    symbol: resolved.symbol,
+    name: resolved.name || name || resolved.symbol,
+    sector: resolved.sector || sector || null,
     addedAt: new Date().toISOString(),
     addedPrice,
   });
