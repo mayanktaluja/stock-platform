@@ -245,6 +245,12 @@ async function loadSnapshotHealth() {
     governance: "Governance (shareholding)",
     picks_latest: "SWS picks",
     macro_regime: "Macro regime",
+    fundamentals_history: "Fundamentals history",
+    macro_calendar: "Macro calendar",
+    events_latest: "Corporate events",
+    oi_deltas: "F&O OI deltas",
+    earnings_watch: "Earnings watch",
+    universe: "SWS universe",
   };
   const chips = [];
 

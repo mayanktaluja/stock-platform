@@ -15,6 +15,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
 const UNIVERSE_PATH = path.join(REPO_ROOT, "data/sws/universe.json");
+const UNIVERSE_META_PATH = path.join(REPO_ROOT, "data/sws/universe-meta.json");
 const SCRAPED_PATH = path.join(REPO_ROOT, "data/sws/universe_scraped.json");
 
 function tier(s) {
@@ -137,6 +138,13 @@ function main() {
   fs.writeFileSync(tmp, JSON.stringify(merged, null, 2));
   fs.renameSync(tmp, UNIVERSE_PATH);
   console.log(`\nWrote ${merged.length} entries → ${UNIVERSE_PATH}`);
+
+  // Sidecar metadata so universe.json staleness is monitorable (the file
+  // itself is a bare array with no room for a top-level timestamp).
+  const metaTmp = UNIVERSE_META_PATH + ".tmp";
+  fs.writeFileSync(metaTmp, JSON.stringify({ generatedAt: new Date().toISOString(), count: merged.length }, null, 2));
+  fs.renameSync(metaTmp, UNIVERSE_META_PATH);
+  console.log(`Wrote universe-meta.json (count=${merged.length})`);
 
   // Sanity-check: confirm first 3 positions unchanged
   const reread = JSON.parse(fs.readFileSync(UNIVERSE_PATH, "utf-8"));

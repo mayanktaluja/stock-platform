@@ -115,8 +115,11 @@ Feeds the predictor's YoY-EPS-trajectory component. Universe is the curated
 `stockList` ∪ current Earnings Watch symbols; NEW stocks (coverage) are fetched
 before STALE ones (freshness); Yahoo calls are budget-capped (`--max-fetches`,
 default 1800) with overflow deferred to the next run. This is a ~30-min Yahoo
-job — it runs on its OWN nightly launchd schedule, **never** chained into
-`refresh-earnings.mjs` and never on a Vercel cron. `refresh-earnings.mjs` logs a
+job — it runs on its OWN nightly launchd job: `com.starbhai.sws-fundamentals-history`
+(fires 04:00 IST; wrapper `scripts/sws-fundamentals-history-nightly.sh`, plist
+template `scripts/com.starbhai.sws-fundamentals-history.plist`). It is **never**
+chained into `refresh-earnings.mjs` or `sws-nightly.sh`, and never on a Vercel
+cron. `refresh-earnings.mjs` logs a
 warning if `fundamentalsHistory.json` goes >7 days stale. Manual corrections go
 in `data/fundamentals-history-overrides.json` (reapplied after every refresh).
 

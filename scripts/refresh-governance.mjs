@@ -1,21 +1,23 @@
 #!/usr/bin/env node
 /**
- * Governance Snapshot Refresh — CLI entrypoint for local dev.
+ * Governance Snapshot Refresh — CLI entrypoint.
  *
  * Pulls NSE shareholding data (promoter holding, pledge %, FII/DII splits,
  * QoQ deltas) for every symbol in the enriched fundamentals universe and
  * writes governance.json at the repo root.
  *
- * Production uses the Vercel cron endpoint at /api/cron/refresh-governance
- * which writes to KV instead.
+ * The canonical refresh path is the nightly chain (scripts/sws-nightly.sh
+ * step 3c) running from an Indian-IP machine. The Vercel cron at
+ * /api/cron/refresh-governance silently no-ops — NSE blocks Vercel
+ * datacenter IPs (see gated/app.js loadSnapshotHealth + CLAUDE.md).
  *
  * Usage:
  *   node scripts/refresh-governance.mjs              # enriched universe
  *   node scripts/refresh-governance.mjs --sample 20  # first 20 stocks (smoke)
  *
  * NSE requires an Indian IP, so this only works from a machine in India or
- * via a Mumbai VPN. The Vercel bom1 cron works in production without that
- * caveat.
+ * via a Mumbai VPN — which is exactly why it must run in the local nightly
+ * chain rather than relying on the Vercel cron.
  *
  * Runtime: ~500 symbols × ~250ms per call with concurrency=3 ≈ 40-60s.
  */
