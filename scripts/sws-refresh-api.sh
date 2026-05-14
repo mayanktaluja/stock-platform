@@ -280,12 +280,16 @@ for (const sid of [1, 2, 3]) {
     };
   }
 }
-// News population stats — read every deep/<T>.json once, count stocks with
-// non-empty \`news\` (Brief + Event from /dashboard/company REST endpoint,
-// extracted by sws-api-parser.mjs). Surfaces silent breakage of the news
-// endpoint: if SWS changes shape, deep files quietly revert to news: []
-// and the gate in sws-nightly.sh refuses to push.
+// News + rewards/risks population stats — read every deep/<T>.json once,
+// count stocks with non-empty \`news\` (Brief + Event from
+// /dashboard/company) and with non-empty \`overview.rewards\` /
+// \`overview.risks\` (from /backend/statements, extracted by
+// sws-api-parser.mjs). Surfaces silent breakage of those endpoints: if SWS
+// changes shape the deep files quietly revert to empty arrays, and the L1
+// canary in sws-sanity-gate.mjs refuses to push. Note: news is top-level
+// but rewards/risks live under \`overview\`.
 let newsPopulatedCount = 0, newsItemsTotal = 0, deepFilesScanned = 0;
+let rewardsPopulatedCount = 0, risksPopulatedCount = 0;
 try {
   const dir = "data/sws/deep";
   if (existsSync(dir)) {
@@ -298,6 +302,9 @@ try {
           newsPopulatedCount++;
           newsItemsTotal += d.news.length;
         }
+        const ov = d.overview || {};
+        if (Array.isArray(ov.rewards) && ov.rewards.length > 0) rewardsPopulatedCount++;
+        if (Array.isArray(ov.risks) && ov.risks.length > 0) risksPopulatedCount++;
       } catch {}
     }
   }
@@ -313,6 +320,8 @@ const summary = {
   per_shard_progress: progress,
   news_populated_count: newsPopulatedCount,
   news_items_total: newsItemsTotal,
+  rewards_populated_count: rewardsPopulatedCount,
+  risks_populated_count: risksPopulatedCount,
   deep_files_scanned: deepFilesScanned,
   stamping_status: ${STAMP_FAILED:-0} > 0 ? "failed" : "success",
   pipeline_status: ${SCRAPE_SKIPPED}
@@ -320,7 +329,7 @@ const summary = {
     : (${FAIL} > 0 ? "partial" : "success"),
 };
 writeFileSync("${SUMMARY}", JSON.stringify(summary, null, 2));
-console.log("[refresh-api] summary written: scored=" + scoredCount + " news_stocks=" + newsPopulatedCount + " news_items=" + newsItemsTotal + " shards=" + JSON.stringify(progress));
+console.log("[refresh-api] summary written: scored=" + scoredCount + " news_stocks=" + newsPopulatedCount + " news_items=" + newsItemsTotal + " rewards_stocks=" + rewardsPopulatedCount + " risks_stocks=" + risksPopulatedCount + " shards=" + JSON.stringify(progress));
 EOF
 
 echo "=== refresh-api complete: $(ts) elapsed=${ELAPSED}s ==="
