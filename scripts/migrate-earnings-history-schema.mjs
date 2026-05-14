@@ -1,13 +1,18 @@
 #!/usr/bin/env node
 /**
- * One-shot migration: earnings-history v1 → v2.
+ * One-shot migration: earnings-history any prior version → current.
  *
- * v1 per-day files carry only the original five `actual_*` fields. v2
- * adds provenance + restatement audit-trail fields. The actuals
- * resolver tops up rows it touches, and the next refresh-earnings run
- * re-archives every file as v2 anyway — but that leaves untouched
- * files on v1 in the interim. This script stamps ALL existing files to
- * v2 in one pass so the corpus never holds a mix of shapes.
+ * The archive row schema has grown over several PRs:
+ *   v2 — provenance + restatement audit trail (actual_source, …)
+ *   v3 — llm_signal provenance
+ *   v4 — score_breakdown (per-component points, for the weight tuner)
+ *
+ * refresh-earnings.mjs re-archives only TODAY's file, and resolved
+ * past-event files drop out of the calendar — so older files get
+ * stranded on an old schema. This script stamps ALL existing files to
+ * the CURRENT schema in one pass: it null-fills every missing field
+ * (an honest representation — a v1-era row genuinely had no
+ * score_breakdown) and bumps the file's schema_version.
  *
  * Idempotent — re-running is a no-op. Runs locally; commit the result.
  *
@@ -30,15 +35,25 @@ function writeJsonAtomic(p, obj) {
   fs.renameSync(tmp, p);
 }
 
-// Mirror of resolve-earnings-actuals.mjs:normalizeRowToV2 — kept inline
-// so the migration has no cross-script coupling.
-function normalizeRowToV2(row) {
+// Null-fill every field the current archive row schema expects. A
+// missing field on an old row is honest — a v1-era prediction genuinely
+// had no score_breakdown — so we fill with null/[]/false, never invent
+// data. Kept inline so the migration has no cross-script coupling.
+function normalizeRowToCurrent(row) {
   let changed = false;
-  if (row.actual_source === undefined) { row.actual_source = null; changed = true; }
-  if (row.actual_evidence === undefined) { row.actual_evidence = null; changed = true; }
-  if (row.actual_revised_iso === undefined) { row.actual_revised_iso = null; changed = true; }
-  if (row.actual_history === undefined) { row.actual_history = []; changed = true; }
-  if (row.backfilled === undefined) { row.backfilled = false; changed = true; }
+  const ensure = (key, def) => {
+    if (row[key] === undefined) { row[key] = def; changed = true; }
+  };
+  // v2 — provenance + restatement audit trail.
+  ensure("actual_source", null);
+  ensure("actual_evidence", null);
+  ensure("actual_revised_iso", null);
+  ensure("actual_history", []);
+  ensure("backfilled", false);
+  // v3 — LLM qualitative signal provenance.
+  ensure("llm_signal", null);
+  // v4 — per-component points for the weight tuner.
+  ensure("score_breakdown", null);
   return changed;
 }
 
@@ -62,7 +77,7 @@ function main() {
     }
     let changed = payload.schema_version !== HISTORY_SCHEMA_VERSION;
     for (const row of payload.predictions || []) {
-      if (normalizeRowToV2(row)) changed = true;
+      if (normalizeRowToCurrent(row)) changed = true;
     }
     if (!changed) {
       alreadyOk += 1;
