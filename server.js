@@ -2029,7 +2029,43 @@ app.get("/api/surveillance/status", (req, res) => {
  *   - macro_regime: 14h  (twice-daily local-cron via scripts/refresh-macro-regime.mjs
  *                         bundled into sws-nightly.sh at 02:00 + 16:30 IST;
  *                         14h gives a safety margin over the 14.5h max gap)
+ *   - fundamentals_history: 72h  (own nightly launchd job; weekend + one missed run)
+ *   - macro_calendar: 720h  (hand-maintained, no writer script; 30d flags genuine
+ *                            neglect — the banner is the only nudge to update it)
+ *   - events_latest: 48h  (nightly via refresh-catalysts.mjs; weekend grace)
+ *   - oi_deltas: 48h  (nightly via refresh-fo-oi.sh; weekend grace)
+ *   - earnings_watch: 48h  (nightly via refresh-earnings.mjs; weekend grace)
+ *   - universe: 336h  (SWS universe rebuilt infrequently; 14d flags a stalled
+ *                      rebuild — read via the universe-meta.json sidecar)
+ *
+ * Deliberately NOT monitored (internal caches / derived / not user-facing):
+ * sws-scored-universe.json + v3-universe-stats.json (derived from the scrape),
+ * last-refresh.json (covered via picks_latest), coverage_gap.json,
+ * earnings-backtest-latest.json (admin/backtest surface, not the live
+ * dashboard), and the rolling nse-announcements/bulk-block files (transient).
  */
+
+// mtime-cached freshness-stamp reader for the snapshot-health endpoint. Each
+// monitored fixture carries its stamp in a known field; we only need that one
+// field, and the file rarely changes between hourly health polls — so cache
+// the parse keyed on mtime. Returns the raw stamp string, or null on any miss.
+const _snapshotTsCache = new Map(); // relPath -> { mtimeMs, ts }
+function snapshotTimestamp(relPath, field) {
+  try {
+    const abs = path.join(__dirname, relPath);
+    if (!fs.existsSync(abs)) return null;
+    const mtimeMs = fs.statSync(abs).mtimeMs;
+    const cached = _snapshotTsCache.get(relPath);
+    if (cached && cached.mtimeMs === mtimeMs) return cached.ts;
+    const parsed = JSON.parse(fs.readFileSync(abs, "utf-8"));
+    const ts = parsed?.[field] ?? null;
+    _snapshotTsCache.set(relPath, { mtimeMs, ts });
+    return ts;
+  } catch {
+    return null;
+  }
+}
+
 app.get("/api/health/snapshots", (req, res) => {
   const now = Date.now();
   const ageHours = (iso) => {
@@ -2044,9 +2080,22 @@ app.get("/api/health/snapshots", (req, res) => {
   const picks = swsDal.getPicksLatest();
   const macroRegime = macroRegimeCache.get(MACRO_CACHE_KEY) || null;
 
+  const fundHistAt = snapshotTimestamp("fundamentalsHistory.json", "generatedAt");
+  const macroCalAt = snapshotTimestamp("data/macroCalendar.json", "_updated");
+  const eventsAt = snapshotTimestamp("data/catalysts/events-latest.json", "fetched_at");
+  const oiDeltasAt = snapshotTimestamp("data/nse-fo/oi-deltas-latest.json", "fetchedAt");
+  const earningsWatchAt = snapshotTimestamp("data/catalysts/earnings-watch-latest.json", "built_at");
+  const universeAt = snapshotTimestamp("data/sws/universe-meta.json", "generatedAt");
+
   const fundAge = ageHours(fundAt);
   const picksAge = ageHours(picks?.scanned_at || swsDal.getLastRefresh()?.finished_at);
   const macroAge = ageHours(macroRegime?.generatedAt);
+  const fundHistAge = ageHours(fundHistAt);
+  const macroCalAge = ageHours(macroCalAt);
+  const eventsAge = ageHours(eventsAt);
+  const oiDeltasAge = ageHours(oiDeltasAt);
+  const earningsWatchAge = ageHours(earningsWatchAt);
+  const universeAge = ageHours(universeAt);
 
   const snapshots = {
     fundamentals: {
@@ -2085,6 +2134,42 @@ app.get("/api/health/snapshots", (req, res) => {
       // loadSnapshotHealth for the branching.
       classifierProvider: macroRegime?.classifierProvider || null,
       llmProviderHealth: macroRegime?.llmProviderHealth || null,
+    },
+    fundamentals_history: {
+      generatedAt: fundHistAt,
+      age_hours: fundHistAge,
+      max_age_hours: 72,
+      stale: fundHistAge == null || fundHistAge > 72,
+    },
+    macro_calendar: {
+      generatedAt: macroCalAt,
+      age_hours: macroCalAge,
+      max_age_hours: 720,
+      stale: macroCalAge == null || macroCalAge > 720,
+    },
+    events_latest: {
+      generatedAt: eventsAt,
+      age_hours: eventsAge,
+      max_age_hours: 48,
+      stale: eventsAge == null || eventsAge > 48,
+    },
+    oi_deltas: {
+      generatedAt: oiDeltasAt,
+      age_hours: oiDeltasAge,
+      max_age_hours: 48,
+      stale: oiDeltasAge == null || oiDeltasAge > 48,
+    },
+    earnings_watch: {
+      generatedAt: earningsWatchAt,
+      age_hours: earningsWatchAge,
+      max_age_hours: 48,
+      stale: earningsWatchAge == null || earningsWatchAge > 48,
+    },
+    universe: {
+      generatedAt: universeAt,
+      age_hours: universeAge,
+      max_age_hours: 336,
+      stale: universeAge == null || universeAge > 336,
     },
   };
 

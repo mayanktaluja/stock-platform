@@ -13,6 +13,7 @@ export const PATHS = {
   dataDir: path.join(repoRoot, "data", "sws"),
   deepDir: path.join(repoRoot, "data", "sws", "deep"),
   universe: path.join(repoRoot, "data", "sws", "universe.json"),
+  universeMeta: path.join(repoRoot, "data", "sws", "universe-meta.json"),
   picksLatest: path.join(repoRoot, "data", "sws", "picks-latest.json"),
   failed: path.join(repoRoot, "data", "sws", "failed.json"),
   panicStop: path.join(repoRoot, "data", "sws", "panic-stop.flag"),

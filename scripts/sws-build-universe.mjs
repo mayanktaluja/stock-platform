@@ -137,6 +137,18 @@ function writeUniverse(arr) {
   const tmp = PATHS.universe + ".tmp";
   fs.writeFileSync(tmp, JSON.stringify(arr, null, 2));
   fs.renameSync(tmp, PATHS.universe);
+  writeUniverseMeta(arr.length);
+}
+
+// Sidecar metadata so universe.json's staleness is monitorable by
+// /api/health/snapshots. universe.json itself is a bare JSON array with no
+// room for a top-level timestamp, and ~13 scripts read it as an array — a
+// sidecar avoids a breaking shape change.
+function writeUniverseMeta(count) {
+  const meta = { generatedAt: new Date().toISOString(), count };
+  const tmp = PATHS.universeMeta + ".tmp";
+  fs.writeFileSync(tmp, JSON.stringify(meta, null, 2));
+  fs.renameSync(tmp, PATHS.universeMeta);
 }
 
 function loadExistingUniverse() {
