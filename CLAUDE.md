@@ -94,6 +94,25 @@ The `data/catalysts/` JSON files (`events-latest`, `nse-announcements-rolling`,
 `nse-bulk-block-rolling`, `earnings-watch-latest`, `earnings-watch-stats`,
 `earnings-history/<date>.json`) all need to be committed for Vercel to read them.
 
+### Resolving actuals (run locally, then commit)
+
+```bash
+node scripts/resolve-earnings-actuals.mjs            # SWS news → Yahoo fallback
+node scripts/resolve-earnings-actuals.mjs --dry-run  # preview, no writes
+node scripts/resolve-earnings-actuals.mjs --re-resolve  # re-check ≤90d for restatements
+```
+
+Fills the `actual_verdict` / `actual_t1_close_inr` / `actual_source` fields on
+archived predictions so the backtest harness can score the predictor. SWS news
+briefs (`data/sws/deep/<TICKER>.json:news[]`) are the primary source — zero
+network cost, full universe; Yahoo `earningsHistory` is the fallback for stocks
+SWS hasn't briefed yet. Both are keyed to the fiscal-quarter end (parsed from
+`fiscal_quarter`), not the NSE event date, to dodge IST/EST off-by-one bugs.
+Runs locally; commit the updated `earnings-history/<date>.json` files.
+
+`scripts/migrate-earnings-history-schema.mjs` is a one-shot v1→v2 stamper —
+already applied; only needed if a pre-v2 history file resurfaces.
+
 ### Backtest
 
 ```bash
@@ -103,8 +122,10 @@ node scripts/backtest-earnings-predictions.mjs --json  # machine-readable
 
 Reports overall hit-rate, hit-rate-by-confidence-bucket, Brier score,
 and the V1 confidence-cap-lift gate (≥30 resolved + ≥55% bucket hit-rate +
-Brier <0.20). Until `actual_*` fields are populated in the per-day
-history files, all metrics report as zero — that's expected.
+Brier <0.20). Predictions are deduped by `(symbol, event_iso_date)` across
+daily snapshots and bucketed by `predictor_version` — the cap-lift gate is
+computed over the latest version only, never a cross-version average. Metrics
+stay zero until `scripts/resolve-earnings-actuals.mjs` populates `actual_*`.
 
 ### Modules
 
@@ -118,5 +139,6 @@ history files, all metrics report as zero — that's expected.
 | `services/earnings/reactionPlaybook.js` | 9-cell BEAT/INLINE/MISS × Raise/Maintain/Cut matrix |
 | `services/earnings/nseAnnouncementsIngester.js` | NSE corporate-announcements (rolling 30d) |
 | `services/earnings/nseBulkBlockIngester.js` | NSE bulk + block deals (rolling 7d) |
-| `services/earnings/earningsHistoryArchive.js` | Per-day prediction snapshots for backtest |
+| `services/earnings/earningsHistoryArchive.js` | Per-day prediction snapshots + dedup/calibration for backtest |
+| `services/earnings/actualsIngester.js` | Post-result `actual_*` resolution (SWS news brief + Yahoo fallback) |
 | `services/earnings/earningsWatchService.js` | Read-side service for the API |
