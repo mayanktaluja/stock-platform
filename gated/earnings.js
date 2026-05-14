@@ -853,8 +853,8 @@
   // 3-paragraph rationale + falsification triggers in one place.
   //
   // The panel is purely additive — never replaces existing modal
-  // content. If the API 403s (non-admin) or 404s (no upcoming event),
-  // we silently no-op so the modal renders as before.
+  // content. If the API 404s (no upcoming event for the symbol), we
+  // silently no-op so the modal renders as before.
 
   function renderModalPredictionRing(prediction) {
     if (!prediction || prediction.verdict === "INSUFFICIENT_DATA") {
@@ -1017,8 +1017,7 @@
   /**
    * Public injection hook called from app.js's openStockDetailModal.
    * Probes /api/earnings/<ticker>; if the stock has an upcoming-result
-   * event AND the user is admin (the API 403s otherwise), prepends the
-   * preview panel into the modal body.
+   * event, prepends the preview panel into the modal body.
    *
    * The probe is fire-and-forget — modal continues rendering its
    * normal content while we wait. If we beat the user's next click,
@@ -1050,59 +1049,6 @@
     // Don't double-inject (race / re-open).
     if (body.querySelector("#modalEarningsPreviewSection")) return;
     body.insertAdjacentHTML("afterbegin", renderEarningsPreviewPanel(event));
-  }
-
-  // ────────── Admin gate (defence in depth) ──────────
-  // The Earnings Watch tab button is `hidden` by default in
-  // gated/index.html. auth.init() in app.js (main's existing OAuth
-  // bootstrap) reveals it when me.isAdmin === true and exposes
-  // `window.__starbhai_isAdmin` for any other module that needs the
-  // flag. Server-side, /api/earnings/* returns 403 for non-admins.
-  //
-  // This block adds belt-and-braces hardening: if the global resolves
-  // to non-admin (and isn't still pending init), strip the tab + shell
-  // from the DOM entirely. We retry once after auth.init() has had a
-  // chance to run, since earnings.js loads with `defer` and we can't
-  // assume strict ordering vs the auth bootstrap on a slow network.
-
-  function removeEarningsTabFromDom(reason) {
-    const btn = document.getElementById("earningsTabBtn");
-    const shell = document.getElementById("earningsTab");
-    if (btn) btn.remove();
-    if (shell) shell.remove();
-    if (typeof window.switchTab === "function") {
-      const stillActive = document.querySelector("#mainTabs .tab.active");
-      if (!stillActive) window.switchTab("picks");
-    }
-    if (reason) console.debug(`[earnings] tab hidden: ${reason}`);
-  }
-
-  function checkAdminAndMaybeHide() {
-    // window.__starbhai_isAdmin is set inside auth.init() after the
-    // /api/auth/me response lands. If it's strictly === true, we're
-    // good; if strictly === false, hide; if undefined, init hasn't
-    // run yet — defer one more tick.
-    if (window.__starbhai_isAdmin === true) return;
-    if (window.__starbhai_isAdmin === false) {
-      removeEarningsTabFromDom("non-admin session");
-      return;
-    }
-    // Still pending — wait for auth.init() to populate the flag, then
-    // re-check. We give it 2s; if still undefined, fail closed.
-    setTimeout(() => {
-      if (window.__starbhai_isAdmin === true) return;
-      removeEarningsTabFromDom(
-        window.__starbhai_isAdmin === false
-          ? "non-admin session (after init)"
-          : "auth.init() did not populate isAdmin",
-      );
-    }, 2000);
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", checkAdminAndMaybeHide, { once: true });
-  } else {
-    checkAdminAndMaybeHide();
   }
 
   // ────────── Public exports (window globals) ──────────
