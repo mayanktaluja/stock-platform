@@ -40,6 +40,8 @@ import {
   buildPerSymbolDealIndex,
 } from "./nseBulkBlockIngester.js";
 import * as dal from "../swsDal/index.js";
+import { extractV3SignalsForEvent } from "./v3SignalAdapter.js";
+import { loadV3UniverseStats } from "./loadV3UniverseStats.js";
 
 const ROOT = process.cwd();
 const FUNDAMENTALS_HISTORY_PATH = path.join(ROOT, "fundamentalsHistory.json");
@@ -141,6 +143,12 @@ export function buildAggregatorContext(opts = {}) {
   const announcementIndex = buildPerSymbolAnnouncementIndex(announcementsRolling);
   const dealIndex = buildPerSymbolDealIndex(dealsRolling);
 
+  // SWS V3 universe percentile bands — feeds the inline computeV3Score
+  // path in v3SignalAdapter for events not in any picks-latest section.
+  // Tests inject `opts.v3UniverseStats`; null is fine (momentum imputed).
+  const v3UniverseStats =
+    opts.v3UniverseStats !== undefined ? opts.v3UniverseStats : loadV3UniverseStats();
+
   return {
     fundamentalsHistory,
     picksMap,
@@ -150,6 +158,7 @@ export function buildAggregatorContext(opts = {}) {
     announcementsRolling,
     dealsRolling,
     readSwsDeep,
+    v3UniverseStats,
     // Sector momentum is computed lazily — see ensureSectorMomentum below
     // — and cached on the context. We don't want to scan all 5,400 SWS
     // deep files unless a caller actually needs it.
@@ -360,6 +369,19 @@ export function aggregateSignalsForEvent(event, ctx, opts = {}) {
   const upcomingRow = ctx.upcomingMap.get(symbol) || null;
   const inUpcomingEarnings = !!upcomingRow;
 
+  // ── SWS V3 100-pt breakdown ──
+  // The predictor scores on the decomposed V3 pillars (future, past,
+  // valuation, overlay) rather than echoing the blunt composite verdict
+  // — that echo is what made 73% of predictions cluster on INLINE.
+  // Resolution: upcoming_earnings row → any picks row → inline compute
+  // off the SWS deep file (see v3SignalAdapter.js).
+  const v3Signal = extractV3SignalsForEvent({
+    swsDeep,
+    pickRow,
+    upcomingRow,
+    universe: ctx.v3UniverseStats,
+  });
+
   // ── Milestone D: NSE corporate-activity signals ──
   // Announcements within last 30 days (rolling window), already
   // pre-classified by nseAnnouncementsIngester. We summarise the
@@ -440,6 +462,17 @@ export function aggregateSignalsForEvent(event, ctx, opts = {}) {
           categories: Array.isArray(pickRow.audit_trail?.categories_assigned)
             ? pickRow.audit_trail.categories_assigned
             : [],
+        }
+      : null,
+    // SWS V3 100-pt breakdown — the predictor's strongest signal post-v2.
+    // `source` records how it was resolved (upcoming | picks | computed)
+    // so the UI's audit-trail expander can show provenance.
+    v3: v3Signal
+      ? {
+          v3_score_100: v3Signal.v3_score_100,
+          v3_verdict: v3Signal.v3_verdict,
+          source: v3Signal.source,
+          breakdown: v3Signal.v3_breakdown,
         }
       : null,
     // ── Milestone D fields ──
