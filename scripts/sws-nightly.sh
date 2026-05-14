@@ -111,9 +111,9 @@ fi
 # ---- 2. Sync main ----
 #
 # Self-healing sync: autostash any local working-tree changes (tracked +
-# untracked) before pulling, so dashboard-time transient files never block
-# the nightly. Only diverged local commits are treated as fatal — those
-# need a human because resetting would destroy real work.
+# untracked) before the origin/main checkout, so dashboard-time transient
+# files never block the nightly. Only diverged local commits on the main
+# ref are treated as fatal — those need a human, resetting would lose work.
 
 echo "[nightly] syncing main..."
 if ! git fetch origin main 2>&1 | sed 's/^/[git] /'; then
@@ -122,22 +122,27 @@ if ! git fetch origin main 2>&1 | sed 's/^/[git] /'; then
   exit 5
 fi
 
-CUR_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-if [ "${CUR_BRANCH}" != "main" ]; then
-  echo "[nightly] not on main (was: ${CUR_BRANCH}) — switching"
-  git checkout main 2>&1 | sed 's/^/[git] /'
-fi
-
-LOCAL_AHEAD="$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)"
+# Genuine-unpushed-work guard. Measure the `main` REF against origin/main —
+# NOT HEAD. HEAD is frequently a leftover auto-refresh branch from a prior
+# run (the commit/push stage checks out chore/sws-auto-refresh-* and never
+# restores main), and that branch's commit is already pushed as a PR head,
+# so origin/main..HEAD false-positives. origin/main..main only counts real
+# human commits sitting unpushed on the main ref — that needs a human. A
+# `main` ref that is BEHIND origin, or merely stale, yields 0 and is fine.
+LOCAL_AHEAD="$(git rev-list --count origin/main..main 2>/dev/null || echo 0)"
 if [ "${LOCAL_AHEAD}" -gt 0 ]; then
-  echo "[nightly] local main is ${LOCAL_AHEAD} commit(s) ahead of origin — refusing to run"
+  echo "[nightly] local main ref is ${LOCAL_AHEAD} commit(s) ahead of origin/main — refusing to run"
   send_mail "🚨 SWS nightly aborted — local main has unpushed commits" \
-"Local main is ${LOCAL_AHEAD} commit(s) ahead of origin/main at $(ts). Push or reset manually before the next run.
+"Local main is ${LOCAL_AHEAD} commit(s) ahead of origin/main at $(ts). Push or reset main manually before the next run.
 
-$(git log --oneline origin/main..HEAD)"
+$(git log --oneline origin/main..main)"
   exit 5
 fi
 
+# Autostash BEFORE we move the working copy. The tree is routinely dirty
+# with regenerated files (.claude/launch.json, data/coverage/*,
+# data/macroRegime.json, data/sws/_sanity/_latest.json); a dirty tracked
+# file would otherwise block the checkout below.
 STASH_TAG="sws-nightly-autostash-$(date +%s)"
 STASHED=0
 if [ -n "$(git status --porcelain)" ]; then
@@ -154,18 +159,36 @@ $(git status 2>&1 | head -40)"
   fi
 fi
 
-if ! git pull --ff-only origin main 2>&1 | sed 's/^/[git] /'; then
-  echo "[nightly] git pull --ff-only failed even after autostash"
+# Move the working copy to origin/main's tip WITHOUT `git checkout main`.
+# A worktree under .claude/worktrees/ may hold the `main` branch ref, which
+# makes `git checkout main` fail with
+#   fatal: 'main' is already used by worktree at ...
+# `git checkout -B sws-nightly-base origin/main` sidesteps that: a worktree
+# reserves the branch NAME `main`, not the commit it points at and not other
+# branch names. -B force-resets sws-nightly-base to origin/main every run,
+# so the branch is reused, never drifts, and needs no cleanup. The commit/
+# push stage later does its own `git checkout -b chore/sws-auto-refresh-*`,
+# so the literal `main` branch never needs to be checked out here.
+echo "[nightly] checking out sws-nightly-base at origin/main..."
+if ! git checkout -B sws-nightly-base origin/main 2>&1 | sed 's/^/[git] /'; then
+  echo "[nightly] could not check out sws-nightly-base at origin/main"
   if [ "${STASHED}" -eq 1 ]; then
     git stash pop 2>&1 | sed 's/^/[git] /' || true
   fi
-  send_mail "🚨 SWS nightly aborted — git pull failed" \
-"git pull --ff-only origin main failed at $(ts) even after autostash. Investigate manually.
+  send_mail "🚨 SWS nightly aborted — git checkout failed" \
+"git checkout -B sws-nightly-base origin/main failed at $(ts).
 
-$(git status 2>&1 | head -30)"
+This is NOT the worktree-holds-main case (we deliberately avoid 'git checkout main').
+Likely a dirty file that survived autostash, or a branch named 'sws-nightly-base'
+held by a worktree. Inspect manually:
+
+$(git status 2>&1 | head -30)
+
+$(git worktree list 2>&1)"
   exit 5
 fi
 
+# Re-apply the autostashed working-tree changes onto sws-nightly-base.
 if [ "${STASHED}" -eq 1 ]; then
   if ! git stash pop 2>&1 | sed 's/^/[git] /'; then
     echo "[nightly] stash pop conflicted — stash ${STASH_TAG} left on list"
@@ -356,7 +379,11 @@ if [ ${GATE_RC} -ne 0 ]; then
     echo "[nightly] sanity FAIL but ${DATA_CHANGED} non-SWS data file(s) changed — opening data-only PR..."
     DATA_BRANCH="chore/sws-data-only-${DATE}-${RUN_TIME}"
     git branch -D "${DATA_BRANCH}" >/dev/null 2>&1 || true
-    git checkout -b "${DATA_BRANCH}" 2>&1 | sed 's/^/[git] /'
+    git checkout -b "${DATA_BRANCH}" 2>&1 | sed 's/^/[git] /' \
+      || { echo "[nightly] WARNING: git checkout -b ${DATA_BRANCH} failed — data-only PR may be malformed"; \
+           send_mail "⚠️ SWS nightly — data-only branch checkout failed" \
+"git checkout -b ${DATA_BRANCH} failed at $(ts). The non-SWS data refresh could not be
+shipped as a separate PR cleanly. SWS sanity gate had already failed this run."; }
     git add "${DATA_FILES[@]}"
 
     if git commit -m "chore(data): non-SWS refresh ${RUN_LABEL} — sanity blocked SWS scrape
@@ -396,9 +423,12 @@ Auto-generated by \`scripts/sws-nightly.sh\` when the SWS scrape is blocked by t
       DATA_PR_NOTE="Data-only commit produced no changes (likely all files identical to main)"
     fi
 
-    # Return to main so the next run starts clean. Uncommitted SWS scrape
-    # files stay on disk for inspection; the next run's autostash tidies them.
-    git checkout main 2>&1 | sed 's/^/[git] /' || echo "[nightly] couldn't switch back to main — next run will autostash"
+    # Return the working copy to a clean base. Do NOT `git checkout main` —
+    # a worktree may hold the main ref. -B sws-nightly-base mirrors the
+    # git-sync stage and is worktree-safe. Uncommitted SWS scrape files are
+    # left on disk for inspection; the next run's autostash tidies them.
+    git checkout -B sws-nightly-base origin/main 2>&1 | sed 's/^/[git] /' \
+      || echo "[nightly] couldn't return to sws-nightly-base — next run's git-sync will recover"
   fi
 
   send_mail "🚨 SWS nightly — sanity gate failed (${SANITY_SUMMARY:-no summary})" "Scrape completed but sanity gate REJECTED the SWS output at $(ts). SWS data NOT pushed to prod.
@@ -465,7 +495,23 @@ BRANCH="chore/sws-auto-refresh-${DATE}-${RUN_TIME}"   # unique per fire even if 
 
 # Clean up any prior local branch with same name (e.g., from interrupted run)
 git branch -D "${BRANCH}" >/dev/null 2>&1 || true
-git checkout -b "${BRANCH}"
+# Loud-fail: a swallowed checkout here would commit SWS output onto the wrong
+# branch. ${BRANCH} is chore/sws-auto-refresh-${DATE}-${RUN_TIME}, force-deleted
+# just above, so a worktree collision is near-impossible — but mail + exit if so.
+if ! git checkout -b "${BRANCH}" 2>&1 | sed 's/^/[git] /'; then
+  echo "[nightly] could not create branch ${BRANCH}"
+  send_mail "🚨 SWS nightly — git checkout -b failed" \
+"git checkout -b ${BRANCH} failed at $(ts). SWS scrape output is uncommitted on disk
+(branch sws-nightly-base). The next run's autostash will tidy it. Inspect manually:
+
+$(git status 2>&1 | head -30)
+
+$(git worktree list 2>&1)"
+  exit 8
+fi
+# NOTE: the working copy is intentionally left on ${BRANCH} at end of run.
+# The next run's git-sync (git checkout -B sws-nightly-base origin/main) does
+# not care what branch it starts on, so no restore step is needed here.
 
 git add data/sws/deep/ \
         data/sws/picks-latest.json \
