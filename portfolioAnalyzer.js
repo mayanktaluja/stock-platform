@@ -33,6 +33,8 @@ import {
 import { normalizeSector } from "./macroRegime.js";
 import { runXirrOptimizer } from "./xirrOptimizer.js";
 import { recommendBook as recommendMfBook } from "./mfRecommendation.js";
+import { getGovernance } from "./governance.js";
+import { deriveGovernanceGate } from "./services/swsIndianRiskLayer.js";
 
 // ──────────────────── Sector canonicalisation ────────────────────
 //
@@ -381,6 +383,16 @@ export function analyzeHolding(input) {
   const macroDelta = macroInfo?.delta ?? 0;
   const combinedScore = computePortfolioCombinedScore(techScore, fundScore, macroDelta);
 
+  // Look up the per-symbol governance snapshot from the daily-refreshed
+  // governance.json (NSE Reg 31 quarterly filings) and derive the hard
+  // gate. Returns null when the snapshot is missing OR neither pledge
+  // threshold is breached — so this lookup is a no-op for the 95%+ of
+  // stocks that don't carry promoter-pledge risk. When it does fire, the
+  // gate causes computeAction to short-circuit to REVIEW_GOVERNANCE
+  // before any P&L logic. See services/swsIndianRiskLayer.js for the
+  // threshold rationale (Vedanta-2021 / Zee-2022 / YesBank-2020).
+  const governanceGate = deriveGovernanceGate(getGovernance(symbol));
+
   const action = computeAction(
     { symbol, name, pnlPercent: pnlPercent ?? 0, investedValue: invested, currentValue: currentValue ?? invested, sector },
     { combinedScore, technicalScore: techScore, fundamentalScore: fundScore, fundamentalVerdict: fundVerdict },
@@ -389,6 +401,7 @@ export function analyzeHolding(input) {
       sectorWeight,
       hasLiveData: price != null,
       macroInfo: (macroInfo && Math.abs(macroInfo.impact || 0) >= 2 && (macroInfo.severity || 0) >= 3) ? macroInfo : null,
+      governanceGate,
     },
   );
 

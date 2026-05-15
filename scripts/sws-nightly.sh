@@ -289,13 +289,17 @@ fi
 #                                    reads getAllFundamentals(), exits 1 if
 #                                    the fundamentals snapshot is empty).
 #   7. refresh-earnings.mjs       → data/catalysts/earnings-watch-*.json
-# (Phase E will add refresh-earnings-actuals.mjs as step 8 once it lands.)
-#
-# NOTE: fundamentalsHistory.json (Yahoo, used by the earnings tab's
-# trajectory component) is NOT refreshed here — it has its own dedicated
-# launchd job, com.starbhai.sws-fundamentals-history (wrapper
-# scripts/sws-fundamentals-history-nightly.sh). It's a ~30-min budget-
-# capped Yahoo job that has no business inside the twice-daily SWS scrape.
+#   8. step 3d (below)            → fundamentalsHistory.json (Yahoo per-quarter
+#                                    EPS/revenue, 18h gate). Folded in here
+#                                    after the standalone com.starbhai.sws-
+#                                    fundamentals-history launchd job was
+#                                    found dormant 2026-05-13 (script path
+#                                    missing → exit 127 silently; file went
+#                                    23 days stale). A budget-capped Yahoo
+#                                    fetch in the nightly chain is more
+#                                    reliable than a separate launchd job
+#                                    that can rot when paths drift.
+# (Phase E will add refresh-earnings-actuals.mjs as step 9 once it lands.)
 
 # Step-3c auxiliary refresh status — each non-fatal refresh below records its
 # outcome here; the COMMIT_BODY builder (step 5) reads this file and appends
@@ -434,6 +438,54 @@ if with_timeout 600 node scripts/refresh-earnings.mjs 2>&1 | sed 's/^/[earnings]
 else
   echo "[nightly] refresh-earnings.mjs failed — non-fatal; tab stays on prior snapshot"
   aux_status "earnings-watch-latest.json" "FAILED"
+fi
+
+# ---- 3d. fundamentalsHistory refresh (Yahoo per-quarter EPS/revenue) ----
+#
+# Required by services/earnings/signalAggregator.js:362-364 for the YoY
+# trajectory that feeds Earnings Watch BEAT/INLINE/MISS predictions. SWS
+# deep-scrape data contains annual history only (fiscal.yearly_history at
+# scripts/sws-api-parser.mjs:375) — there is no quarterlyTimeSeries
+# fragment in SWS's GraphQL schema, so Yahoo remains the only source for
+# per-quarter dilutedEPS + totalRevenue.
+#
+# Folded in here after the standalone launchd job (com.starbhai.sws-
+# fundamentals-history) was found dormant 2026-05-13 with a 23-day-stale
+# file (the script path on disk had been moved/missing, every fire exited
+# 127 silently). Folding into the unified pipeline removes a class of
+# silent-failure modes — same pattern that produced the empty
+# governance.json above.
+#
+# 18h freshness gate mirrors the fundamentals.json pattern (lines 251-275):
+# two fires per day means the second fire coasts when the first succeeded.
+# Yahoo fetch is ~30 min wall-clock for the 744-symbol enriched universe,
+# so the 2400s timeout leaves headroom for slow batches.
+FH_AGE_HOURS=$(node --input-type=module -e '
+import {readFileSync, existsSync} from "fs";
+if (!existsSync("fundamentalsHistory.json")) { console.log(9999); process.exit(0); }
+try {
+  const j = JSON.parse(readFileSync("fundamentalsHistory.json", "utf-8"));
+  if (!j.generatedAt) { console.log(9999); process.exit(0); }
+  const ms = Date.now() - new Date(j.generatedAt).getTime();
+  console.log(Math.floor(ms / 3600000));
+} catch { console.log(9999); }
+' 2>/dev/null)
+FH_AGE_HOURS="${FH_AGE_HOURS:-9999}"
+
+if [ "${FH_AGE_HOURS}" -lt 18 ]; then
+  echo "[nightly] fundamentalsHistory.json is ${FH_AGE_HOURS}h old — skipping refresh (< 18h freshness)"
+else
+  echo "[nightly] fundamentalsHistory.json is ${FH_AGE_HOURS}h old — running refresh..."
+  # Prefer the incremental refresher if present (only re-fetches stocks
+  # missing the latest quarter), fall back to the full fetcher otherwise.
+  if [ -f scripts/refresh-fundamentals-history.mjs ]; then
+    FH_SCRIPT="scripts/refresh-fundamentals-history.mjs"
+  else
+    FH_SCRIPT="scripts/fetch-fundamentals-history.mjs"
+  fi
+  if ! timeout 2400 node "${FH_SCRIPT}" 2>&1 | sed 's/^/[fund-history] /'; then
+    echo "[nightly] ${FH_SCRIPT} failed — non-fatal; Earnings Watch trajectories stay on prior snapshot"
+  fi
 fi
 
 # Date/branch labels — computed here so both the PASS path (step 5) and
@@ -646,7 +698,7 @@ const lines = [
   ``,
   `- scored: ${lr.scored_count}, failed shards: ${lr.shards_failed}`,
   `- duration: ${lr.duration_seconds}s`,
-  `- sections: top30=${sc.top_ranked_30_v3?.length}, best_to_buy_now=${sc.best_to_buy_now?.length}, deep_value=${sc.deep_value?.length}, quality_growth=${sc.quality_growth?.length}, midterm=${sc.midterm?.length}, dividend_aristocrats=${sc.dividend_aristocrats?.length}, smallcap_gems=${sc.smallcap_gems?.length}, upcoming_earnings=${sc.upcoming_earnings?.length}, avoid=${sc.avoid?.length}`,
+  `- sections: top30=${sc.top_ranked_30_v3?.length}, best_to_buy_now=${sc.best_to_buy_now?.length}, deep_value=${sc.deep_value?.length}, quality_growth=${sc.quality_growth?.length}, best_fundamentals=${sc.best_fundamentals?.length}, midterm=${sc.midterm?.length}, dividend_aristocrats=${sc.dividend_aristocrats?.length}, smallcap_gems=${sc.smallcap_gems?.length}, upcoming_earnings=${sc.upcoming_earnings?.length}, avoid=${sc.avoid?.length}`,
 ];
 if (process.env.SANITY_SUMMARY) lines.push(`- sanity: ${process.env.SANITY_SUMMARY}`);
 if (process.env.COVERAGE_LINE) lines.push(`- ${process.env.COVERAGE_LINE}`);

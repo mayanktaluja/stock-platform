@@ -75,6 +75,7 @@ import { scoreHolding as swsScoreHolding, loadV3Universe } from "./services/swsH
 import { scoreStock as swsScoreStock, valuationBandFromUpside } from "./services/swsScoring.js";
 import { buildCalibration as buildTrackCalibration } from "./services/trackRecord/calibration.js";
 import { buildSymbolEarningsCalibration } from "./services/trackRecord/earningsCalibration.js";
+import { deriveGovernanceGate } from "./services/swsIndianRiskLayer.js";
 import * as swsDal from "./services/swsDal/index.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
 import { buildSWSReport, surfaceOutsidePicks, rebuildTierAggregates } from "./services/swsPortfolioAggregate.js";
@@ -2239,8 +2240,14 @@ app.get("/api/cron/refresh-governance", async (req, res) => {
     // Build the list of symbols we actually need — every symbol with an
     // enriched fundamentals snapshot. Anything not enriched can't be scored,
     // so fetching governance for it would be wasted NSE calls.
-    const fundamentalsSnap = getAllFundamentals() || {};
-    const enriched = Object.keys(fundamentalsSnap);
+    // getAllFundamentals() returns Object.values(snapshots) — an array of
+    // {symbol, ...} entries, NOT a keyed map. Pulling Object.keys() yields
+    // numeric indexes ("0","1","2",...) which NSE rejects, producing the
+    // counts: { ok: 0, empty: 744 } pathological state observed in prod
+    // 2026-05-12. Fixed in concert with scripts/refresh-governance.mjs.
+    const enriched = (getAllFundamentals() || [])
+      .map((s) => s?.symbol)
+      .filter((sym) => typeof sym === "string" && sym.length > 0);
     const universe = enriched.length > 0 ? enriched : ALL_STOCKS.map((s) => s.symbol);
 
     // Optional segmentation for operators who want to split the run across
@@ -4626,10 +4633,15 @@ app.get("/api/portfolio", async (req, res) => {
       });
     }
 
-    // Build the intelligence block: per-stock actions + health score + urgent queue
+    // Build the intelligence block: per-stock actions + health score + urgent queue.
+    // The governance-gate closure plumbs the daily-refreshed NSE shareholding
+    // data into the action engine — fires REVIEW_GOVERNANCE when pledge ≥ 25%
+    // or pledge QoQ Δ > 5pp. Closure is constructed inline so the function
+    // signature stays I/O-free (computeAction never imports governance.js).
     const intelligence = buildPortfolioIntelligence(enrichedStocks, analysesBySymbol, {
       regime: portfolioRegime,
       computeMacroDelta,
+      getGovernanceGate: (sym) => deriveGovernanceGate(getGovernance(sym)),
     });
 
     // ── Catalyst calendar (Phase 3 B3) ──
