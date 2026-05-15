@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-05-14",
-  "fetchedAt": "2026-05-14T16:43:19.990Z",
+  "fetchedAt": "2026-05-15T01:54:43.159Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20260514_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -13,7 +13,7 @@
     "broaderCount": 15,
     "historyPointsAppended": 214,
     "historyRestoredFromKV": 0,
-    "walkedBack": 0
+    "walkedBack": 1
   },
   "sections": {
     "inBook": [
@@ -777,6 +777,25 @@
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
+        "underlying": "BIOCON",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-05-26",
+        "nearMonthSettle": 420.55,
+        "underlyingPrice": 419,
+        "oiTotal": 36192500,
+        "oiChangeTotal": 1402500,
+        "volumeTotal": 4192,
+        "oiDeltaPct": 4.031330842196033,
+        "priceDeltaPct": 0.4658385093167674,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "neutral",
+        "decoupled": false,
+        "score": 5,
+        "interpretation": "No meaningful conviction — OI/price moves both within noise."
+      },
+      {
         "underlying": "SOLARINDS",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -813,6 +832,25 @@
         "decoupled": false,
         "score": 4,
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
+      },
+      {
+        "underlying": "AMBER",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-05-26",
+        "nearMonthSettle": 8336.5,
+        "underlyingPrice": 8288.5,
+        "oiTotal": 1639200,
+        "oiChangeTotal": 59600,
+        "volumeTotal": 6823,
+        "oiDeltaPct": 3.7731071157255,
+        "priceDeltaPct": -0.017989925641640682,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "neutral",
+        "decoupled": false,
+        "score": 4,
+        "interpretation": "No meaningful conviction — OI/price moves both within noise."
       },
       {
         "underlying": "TCS",
@@ -889,44 +927,6 @@
         "decoupled": false,
         "score": 3,
         "interpretation": "Bulls adding fresh longs — OI up with price."
-      },
-      {
-        "underlying": "SWIGGY",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-05-26",
-        "nearMonthSettle": 258.05,
-        "underlyingPrice": 256.7,
-        "oiTotal": 44737700,
-        "oiChangeTotal": 1263075,
-        "volumeTotal": 6379,
-        "oiDeltaPct": 2.9053154570050923,
-        "priceDeltaPct": 1.5145554681353357,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "long_buildup",
-        "decoupled": false,
-        "score": 3,
-        "interpretation": "Bulls adding fresh longs — OI up with price."
-      },
-      {
-        "underlying": "BLUESTARCO",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-05-26",
-        "nearMonthSettle": 1675.9,
-        "underlyingPrice": 1667.1,
-        "oiTotal": 3190850,
-        "oiChangeTotal": -83850,
-        "volumeTotal": 2448,
-        "oiDeltaPct": -2.560539896784438,
-        "priceDeltaPct": 2.451399926641407,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_covering",
-        "decoupled": false,
-        "score": 3,
-        "interpretation": "Shorts covering — OI falling as price recovers."
       }
     ],
     "broader": [
@@ -1140,25 +1140,6 @@
         "interpretation": "Bulls adding fresh longs — OI up with price."
       },
       {
-        "underlying": "BIOCON",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-05-26",
-        "nearMonthSettle": 420.55,
-        "underlyingPrice": 419,
-        "oiTotal": 36192500,
-        "oiChangeTotal": 1402500,
-        "volumeTotal": 4192,
-        "oiDeltaPct": 4.031330842196033,
-        "priceDeltaPct": 0.4658385093167674,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "neutral",
-        "decoupled": false,
-        "score": 5,
-        "interpretation": "No meaningful conviction — OI/price moves both within noise."
-      },
-      {
         "underlying": "POLYCAB",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -1214,6 +1195,25 @@
         "decoupled": false,
         "score": 4,
         "interpretation": "Longs being booked — OI falling with price."
+      },
+      {
+        "underlying": "NHPC",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-05-26",
+        "nearMonthSettle": 78.08,
+        "underlyingPrice": 78.45,
+        "oiTotal": 124038850,
+        "oiChangeTotal": 3618950,
+        "volumeTotal": 2307,
+        "oiDeltaPct": 3.0052757060917674,
+        "priceDeltaPct": 0.11539941018079679,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "neutral",
+        "decoupled": false,
+        "score": 4,
+        "interpretation": "No meaningful conviction — OI/price moves both within noise."
       }
     ]
   }
