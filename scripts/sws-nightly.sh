@@ -632,6 +632,7 @@ CHANGED_FILES=$(git status --short \
   data/sws/last-refresh.json \
   data/sws/sws-scored-universe.json \
   data/sws/v3-universe-stats.json \
+  data/sws/nse-event-calendar.json \
   data/catalysts/ \
   data/nse-fo/oi-deltas-latest.json \
   data/macroRegime.json \
@@ -675,6 +676,7 @@ git add data/sws/deep/ \
         data/sws/last-refresh.json \
         data/sws/sws-scored-universe.json \
         data/sws/v3-universe-stats.json \
+        data/sws/nse-event-calendar.json \
         data/catalysts/ \
         data/nse-fo/oi-deltas-latest.json \
         data/macroRegime.json \

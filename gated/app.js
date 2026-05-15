@@ -5414,6 +5414,94 @@ function renderSWSTierA(tier) {
   </div>`;
 }
 
+// Upcoming results calendar — every held equity sorted ascending by its next
+// quarterly/annual result date. Unknowns and stale past dates collapse to "—"
+// at the bottom. Data source: report.holdingsByAction (one entry per scored
+// holding, Tier A∪C∪D), each h carries h.sws.next_earnings_date populated by
+// services/swsPortfolioAggregate.js:253 from the SWS deep file's overview.
+// Date math mirrors the catalyst layer pattern at swsCatalystLayer.js:31
+// (UTC midnight + Math.ceil) so an IST user sees days=0 ("today") for the
+// whole IST day on a same-date stock, not negative-seconds at midnight.
+function renderSWSEarningsCalendar(report) {
+  const all = Object.values(report?.holdingsByAction || {}).flat();
+  const seen = new Set();
+  const equity = [];
+  for (const h of all) {
+    const key = h?.sws?.ticker || h?.symbol;
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    equity.push(h);
+  }
+  if (equity.length === 0) return "";
+
+  const FAR = Number.POSITIVE_INFINITY;
+  const nowMs = Date.now();
+  const keyOf = (h) => {
+    const d = h?.sws?.next_earnings_date;
+    if (!d) return FAR;
+    const ms = Date.parse(d + "T00:00:00Z");
+    if (!Number.isFinite(ms)) return FAR;
+    const days = Math.ceil((ms - nowMs) / 86_400_000);
+    if (days < 0) return FAR;
+    return ms;
+  };
+  const rows = equity.slice().sort((a, b) => {
+    const ka = keyOf(a), kb = keyOf(b);
+    if (ka !== kb) return ka - kb;
+    return String(a?.symbol || "").localeCompare(String(b?.symbol || ""));
+  });
+
+  const stripSuffix = (s) => String(s || "").replace(/\.(NS|BO|BSE)$/i, "");
+
+  const rowHtml = rows.map((h, i) => {
+    const d = h?.sws?.next_earnings_date;
+    const ms = d ? Date.parse(d + "T00:00:00Z") : NaN;
+    const days = Number.isFinite(ms) ? Math.ceil((ms - nowMs) / 86_400_000) : null;
+    const isKnown = Number.isFinite(ms) && days != null && days >= 0;
+    const showDate = isKnown
+      ? new Date(ms).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })
+      : "—";
+    const showDays = isKnown ? (days === 0 ? "today" : `${days}d`) : "—";
+    const tickerCell = stripSuffix(h?.sws?.ticker || h?.symbol || "");
+    const position = (typeof formatINR === "function")
+      ? formatINR(h?.currentValue ?? h?.invested ?? 0, { compact: true })
+      : "—";
+    const daysColor = isKnown && days <= 7 ? "#fbbf24" : "var(--text-muted)";
+    return `<tr style="border-bottom:1px solid #1a2238;">
+      <td style="padding:10px 12px; color:var(--text-muted);">${i + 1}</td>
+      <td style="padding:10px 12px;">
+        <strong style="font-size:13px;">${swsEscapeAttr(tickerCell)}</strong>
+        <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(h?.name || "")}</div>
+      </td>
+      <td style="padding:10px 12px; font-size:12px; color:var(--text-muted);">${swsEscapeAttr(h?.sector || "—")}</td>
+      <td style="padding:10px 12px; text-align:right; font-variant-numeric:tabular-nums;">${position}</td>
+      <td style="padding:10px 12px; font-variant-numeric:tabular-nums;">${showDate}</td>
+      <td style="padding:10px 12px; font-variant-numeric:tabular-nums; color:${daysColor};">${showDays}</td>
+    </tr>`;
+  }).join("");
+
+  return `<details class="analyzer-tier-details" style="margin-top: var(--space-200);">
+    <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Upcoming results calendar <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${rows.length})</span></summary>
+    <div style="padding-top: var(--space-200);">
+      <div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;" aria-label="Holdings sorted ascending by next result date">
+          <thead>
+            <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+              <th style="padding:10px 12px;">#</th>
+              <th style="padding:10px 12px;">Stock</th>
+              <th style="padding:10px 12px;">Sector</th>
+              <th style="padding:10px 12px; text-align:right;">Position</th>
+              <th style="padding:10px 12px;">Result date</th>
+              <th style="padding:10px 12px;">Days until</th>
+            </tr>
+          </thead>
+          <tbody>${rowHtml}</tbody>
+        </table>
+      </div>
+    </div>
+  </details>`;
+}
+
 function swsBasketRow(r) {
   // PR P9 — replace hard-coded green/red with magnitude-keyed signedColorFor.
   // A 0.3 % upside renders pale; a 12 % upside reads deep + ▲. Glyph
@@ -5975,6 +6063,8 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
       </div>
     </details>
 
+    ${renderSWSEarningsCalendar(report)}
+
     <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:#fde047; line-height:1.6;">
       ${swsEscapeAttr(report.disclaimer || "")}
     </div>
@@ -6137,6 +6227,8 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
         ${renderSWSMfSection(report.mfPositions)}
       </div>
     </details>
+
+    ${renderSWSEarningsCalendar(report)}
 
     <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:#fde047; line-height:1.6;">
       ${swsEscapeAttr(report.disclaimer || "")}

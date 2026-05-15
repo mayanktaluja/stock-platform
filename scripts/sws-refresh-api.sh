@@ -175,6 +175,30 @@ Inspect data/sws/refresh-api-shard-{1,2,3}.log for the trigger event, then delet
   exit 4
 fi
 
+# ---------- 5b. Refresh NSE event-calendar cache ----------
+#
+# Feeds overview.next_earnings_date in every deep/<TICKER>.json the parser
+# is about to write — sws-api-parser.mjs:763 reads
+# data/sws/nse-event-calendar.json keyed by NSE bare symbol and joins it
+# onto each stock at parse time. Without this refresh the parser falls
+# through gracefully (sws-api-parser.mjs:838 logs "NSE calendar: not
+# loaded") and writes next_earnings_date=null on every deep file.
+#
+# Non-fatal: a transient NSE 403/timeout would otherwise abort the entire
+# scrape. Wrapped + tail-truncated so a flaky NSE run is logged but never
+# blocks the SWS push.
+#
+# Pre-2026-05-15 this fetcher was orphaned — only invoked by hand. The
+# cache went 16 days stale and 5,200 of 5,516 deep files carried
+# next_earnings_date=null, leaving the Portfolio Analyzer's "Upcoming
+# results calendar" section empty for ~94% of holdings. Folding it into
+# the API refresh fixes that silently-broken state.
+
+echo "[refresh-api] refreshing NSE event-calendar cache..."
+if ! node scripts/sws-fetch-nse-calendar.mjs 2>&1 | tail -5 | sed 's/^/[nse-cal] /'; then
+  echo "[refresh-api] NSE calendar fetch failed — non-fatal, parser will write next_earnings_date=null"
+fi
+
 # ---------- 6. Parse raw API → scoring-compatible JSON ----------
 
 echo "[refresh-api] parsing raw API payloads..."
