@@ -250,6 +250,7 @@ function portfolioActionIdFromLabel(action) {
   const map = {
     "CUT_LOSS": "cut_loss",
     "CUT LOSS": "cut_loss",
+    "REVIEW_GOVERNANCE": "review_governance",  // glossary term for the pledge-gate REVIEW verdict
     "TRIM": "trim",
     "ADD": "add",
     "STRONG_ADD": "strong_add",
@@ -4245,6 +4246,12 @@ function pctColor(n) {
 
 const ANALYZER_ACTION_COLORS = {
   CUT_LOSS:     { bg: "rgba(220,38,38,0.15)",  border: "rgba(220,38,38,0.5)",  text: "#fca5a5" },
+  // REVIEW_GOVERNANCE shares the dark-red palette with CUT_LOSS but uses a
+  // slightly deeper border so a "Review — governance red flag" badge stays
+  // visually distinct from a drawdown-driven review. Fires when the daily
+  // governance refresh detects pledge ≥25% or pledge QoQ Δ > 5pp on a
+  // holding — see portfolioIntelligence.js Priority 0.
+  REVIEW_GOVERNANCE: { bg: "rgba(180,30,30,0.18)", border: "rgba(180,30,30,0.7)", text: "#fecaca" },
   SELL:         { bg: "rgba(239,68,68,0.12)",  border: "rgba(239,68,68,0.4)",  text: "#f87171" },
   BOOK_PROFIT:  { bg: "rgba(250,204,21,0.12)", border: "rgba(250,204,21,0.4)", text: "#fde047" },
   TRIM:         { bg: "rgba(250,204,21,0.12)", border: "rgba(250,204,21,0.4)", text: "#fde047" },

@@ -131,6 +131,39 @@ export function computeAction(holding, scores, context) {
   const fund = scores.fundamentalScore ?? null;
   const verdict = scores.fundamentalVerdict ?? null;
 
+  // ── Priority 0: hard governance gate ──
+  //
+  // Promoter-pledge spike OR pledge ≥ 25% trumps P&L-only logic. Without
+  // this, computeAction returns HOLD/TOP_UP on a stock with 60% promoter
+  // pledge whenever the technicals look fine — exactly the structural
+  // blind spot that caught Vedanta (2021), Zee (2022), and Yes Bank
+  // (2020) holders. The −4/−8 soft-score penalty in swsIndianRiskLayer
+  // cannot override a 70-score pick on its own.
+  //
+  // Source: services/swsIndianRiskLayer.js::deriveGovernanceGate, plumbed
+  // into context.governanceGate by the caller (portfolioAnalyzer.js and
+  // buildPortfolioIntelligence). The gate is null whenever governance
+  // data is missing or thresholds aren't breached, so this path is
+  // strictly additive — no existing call site changes behaviour without
+  // a populated gate.
+  const govGate = context.governanceGate;
+  if (govGate?.severity === "REVIEW") {
+    return {
+      action: "REVIEW_GOVERNANCE",
+      urgency: "high",
+      reasoning: `${govGate.reason}. ` +
+                 `Historical precedent on Indian equities: this pattern ` +
+                 `(${govGate.pattern}) has preceded cascading forced-sale ` +
+                 `events. Worth a hard look at the thesis irrespective of ` +
+                 `current technicals / P&L — pledged promoter equity is a ` +
+                 `leverage vector that doesn't show up on the chart.`,
+      factors: ["governance_gate"],
+      displayAction: "Review — governance red flag",
+      color: "dark-red",
+      governanceGate: govGate,
+    };
+  }
+
   // Collect factor tags for transparency / debugging
   if (pnlPct <= LOSS_CUT_THRESHOLD) factors.push("loss_25_plus");
   else if (pnlPct <= -10) factors.push("loss_10_plus");
@@ -349,6 +382,15 @@ export function applyMacroToAction(action, holding, scores, context) {
 
   // Defensive copies so we never mutate the caller's action object
   const next = { ...action, factors: [...(action.factors || [])] };
+
+  // Governance-gate verdicts are independent of macro entirely — promoter
+  // pledge cascades aren't softened by sector tailwind nor strengthened by
+  // sector headwind. Annotate macro context but never mutate the action.
+  if (action.action === "REVIEW_GOVERNANCE") {
+    if (macro.impact <= -2) next.macroWarning = `⚠ ${reasonText}`;
+    if (macro.impact >= 2) next.macroTailwind = `🌱 ${reasonText}`;
+    return next;
+  }
 
   // ─── Negative macro ───
   if (macro.impact <= -2) {
@@ -848,6 +890,13 @@ export function computeTargetPositionSize(combinedScore, currentWeight) {
 export function buildPortfolioIntelligence(enrichedHoldings, analysesBySymbol, options = {}) {
   const regime = options.regime || null;
   const computeMacroDelta = options.computeMacroDelta || null;
+  // Injected governance-gate lookup (server passes a closure over
+  // governance.js::getGovernance + swsIndianRiskLayer::deriveGovernanceGate).
+  // Defaults to a no-op so the unit-test path stays I/O-free and the gate
+  // simply never fires when the dependency isn't wired.
+  const getGovernanceGate = typeof options.getGovernanceGate === "function"
+    ? options.getGovernanceGate
+    : () => null;
 
   // Compute total invested value for weight calculations (use investedValue,
   // not currentValue — we care about capital allocation, not market moves).
@@ -896,6 +945,11 @@ export function buildPortfolioIntelligence(enrichedHoldings, analysesBySymbol, o
       positionWeight: weight,
       hasLiveData: holding.currentPrice != null,
       macroInfo,
+      // Governance gate is null in the no-injection path (unit tests, any
+      // legacy caller that doesn't pass options.getGovernanceGate). When
+      // present, this triggers the REVIEW_GOVERNANCE pre-check in
+      // computeAction — see Priority 0 in that function.
+      governanceGate: getGovernanceGate(holding.symbol),
     };
 
     // Core action (LLM-free, macro-free)

@@ -244,6 +244,21 @@ if ! timeout 600 node scripts/refresh-nse-corporate.mjs 2>&1 | sed 's/^/[nse-cor
   echo "[nightly] refresh-nse-corporate.mjs failed — non-fatal, continuing"
 fi
 
+# Governance (NSE shareholding-pattern → governance.json). Lives in the
+# local nightly because /api/cron/refresh-governance (Vercel) cannot get
+# past NSE's cookie-gated /api/corporate-share-holdings-master endpoint
+# from Vercel datacenter IPs — same constraint as nse-corporate /
+# bulk-block / event-calendar. Without this, governance.json sits at
+# counts: { ok: 0, empty: 744 } in prod (observed 2026-05-12) and the
+# Portfolio Analyzer / Track Record tabs silently degrade on every
+# Indian-specific risk overlay (promoter pledge, FII flight, RPT).
+#
+# Timeout 1800s: 744 symbols × ~250ms = ~3 min nominal; the ceiling
+# leaves headroom for NSE retry storms without hogging the nightly slot.
+if ! timeout 1800 node scripts/refresh-governance.mjs 2>&1 | sed 's/^/[governance] /'; then
+  echo "[nightly] refresh-governance.mjs failed — non-fatal, continuing"
+fi
+
 if ! timeout 600 bash scripts/refresh-fo-oi.sh 2>&1 | sed 's/^/[fo-oi] /'; then
   echo "[nightly] refresh-fo-oi.sh failed — non-fatal, continuing"
 fi
@@ -277,6 +292,54 @@ fi
 echo "[nightly] running refresh-earnings.mjs (depends on the above)..."
 if ! timeout 600 node scripts/refresh-earnings.mjs 2>&1 | sed 's/^/[earnings] /'; then
   echo "[nightly] refresh-earnings.mjs failed — non-fatal; tab stays on prior snapshot"
+fi
+
+# ---- 3d. fundamentalsHistory refresh (Yahoo per-quarter EPS/revenue) ----
+#
+# Required by services/earnings/signalAggregator.js:362-364 for the YoY
+# trajectory that feeds Earnings Watch BEAT/INLINE/MISS predictions. SWS
+# deep-scrape data contains annual history only (fiscal.yearly_history at
+# scripts/sws-api-parser.mjs:375) — there is no quarterlyTimeSeries
+# fragment in SWS's GraphQL schema, so Yahoo remains the only source for
+# per-quarter dilutedEPS + totalRevenue.
+#
+# Folded in here after the standalone launchd job (com.starbhai.sws-
+# fundamentals-history) was found dormant 2026-05-13 with a 23-day-stale
+# file (the script path on disk had been moved/missing, every fire exited
+# 127 silently). Folding into the unified pipeline removes a class of
+# silent-failure modes — same pattern that produced the empty
+# governance.json above.
+#
+# 18h freshness gate mirrors the fundamentals.json pattern (lines 251-275):
+# two fires per day means the second fire coasts when the first succeeded.
+# Yahoo fetch is ~30 min wall-clock for the 744-symbol enriched universe,
+# so the 2400s timeout leaves headroom for slow batches.
+FH_AGE_HOURS=$(node --input-type=module -e '
+import {readFileSync, existsSync} from "fs";
+if (!existsSync("fundamentalsHistory.json")) { console.log(9999); process.exit(0); }
+try {
+  const j = JSON.parse(readFileSync("fundamentalsHistory.json", "utf-8"));
+  if (!j.generatedAt) { console.log(9999); process.exit(0); }
+  const ms = Date.now() - new Date(j.generatedAt).getTime();
+  console.log(Math.floor(ms / 3600000));
+} catch { console.log(9999); }
+' 2>/dev/null)
+FH_AGE_HOURS="${FH_AGE_HOURS:-9999}"
+
+if [ "${FH_AGE_HOURS}" -lt 18 ]; then
+  echo "[nightly] fundamentalsHistory.json is ${FH_AGE_HOURS}h old — skipping refresh (< 18h freshness)"
+else
+  echo "[nightly] fundamentalsHistory.json is ${FH_AGE_HOURS}h old — running refresh..."
+  # Prefer the incremental refresher if present (only re-fetches stocks
+  # missing the latest quarter), fall back to the full fetcher otherwise.
+  if [ -f scripts/refresh-fundamentals-history.mjs ]; then
+    FH_SCRIPT="scripts/refresh-fundamentals-history.mjs"
+  else
+    FH_SCRIPT="scripts/fetch-fundamentals-history.mjs"
+  fi
+  if ! timeout 2400 node "${FH_SCRIPT}" 2>&1 | sed 's/^/[fund-history] /'; then
+    echo "[nightly] ${FH_SCRIPT} failed — non-fatal; Earnings Watch trajectories stay on prior snapshot"
+  fi
 fi
 
 # Date/branch labels — computed here so both the PASS path (step 5) and
@@ -313,6 +376,7 @@ if [ ${GATE_RC} -ne 0 ]; then
     data/nse-fo/oi-deltas-latest.json
     fundamentals.json
     fundamentalsHistory.json
+    governance.json
   )
   DATA_CHANGED=$(git status --short "${DATA_FILES[@]}" 2>/dev/null | wc -l | tr -d ' ')
   DATA_PR_NOTE="(no non-SWS data changes detected — nothing to ship separately)"
@@ -416,6 +480,7 @@ CHANGED_FILES=$(git status --short \
   data/nse-fo/oi-deltas-latest.json \
   fundamentals.json \
   fundamentalsHistory.json \
+  governance.json \
   2>/dev/null | wc -l | tr -d ' ')
 if [ "${CHANGED_FILES}" -eq 0 ]; then
   echo "[nightly] no SWS data changes detected — nothing to commit"
@@ -439,7 +504,8 @@ git add data/sws/deep/ \
         data/catalysts/ \
         data/nse-fo/oi-deltas-latest.json \
         fundamentals.json \
-        fundamentalsHistory.json
+        fundamentalsHistory.json \
+        governance.json
 
 # Inner pipeline regenerates the daily picks PDF — ship it in this same PR
 # (previously the inner script's auto-PR added it; now we own that step).
@@ -456,7 +522,7 @@ const lines = [
   ``,
   `- scored: ${lr.scored_count}, failed shards: ${lr.shards_failed}`,
   `- duration: ${lr.duration_seconds}s`,
-  `- sections: top30=${sc.top_ranked_30_v3?.length}, best_to_buy_now=${sc.best_to_buy_now?.length}, deep_value=${sc.deep_value?.length}, quality_growth=${sc.quality_growth?.length}, midterm=${sc.midterm?.length}, dividend_aristocrats=${sc.dividend_aristocrats?.length}, smallcap_gems=${sc.smallcap_gems?.length}, upcoming_earnings=${sc.upcoming_earnings?.length}, avoid=${sc.avoid?.length}`,
+  `- sections: top30=${sc.top_ranked_30_v3?.length}, best_to_buy_now=${sc.best_to_buy_now?.length}, deep_value=${sc.deep_value?.length}, quality_growth=${sc.quality_growth?.length}, best_fundamentals=${sc.best_fundamentals?.length}, midterm=${sc.midterm?.length}, dividend_aristocrats=${sc.dividend_aristocrats?.length}, smallcap_gems=${sc.smallcap_gems?.length}, upcoming_earnings=${sc.upcoming_earnings?.length}, avoid=${sc.avoid?.length}`,
 ];
 if (process.env.SANITY_SUMMARY) lines.push(`- sanity: ${process.env.SANITY_SUMMARY}`);
 if (process.env.COVERAGE_LINE) lines.push(`- ${process.env.COVERAGE_LINE}`);

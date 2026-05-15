@@ -31,7 +31,17 @@ function parseArg(name, fallback = null) {
 }
 
 async function main() {
-  const enriched = Object.keys(getAllFundamentals() || {});
+  // getAllFundamentals() returns Object.values(snapshots) — an array of
+  // {symbol, ...} entries, NOT a keyed map. Object.keys() on an array
+  // would give numeric indexes ("0","1","2",...) which then get sent to
+  // NSE as bogus tickers and return zero records every time. This bug
+  // caused governance.json to sit at counts: { ok: 0, empty: 744 } for
+  // months on both local + Vercel paths until 2026-05-13. Extract the
+  // symbol field directly and filter out anything malformed (BSE-numeric
+  // codes, missing-symbol entries) before sending to NSE.
+  const enriched = (getAllFundamentals() || [])
+    .map((s) => s?.symbol)
+    .filter((sym) => typeof sym === "string" && sym.length > 0);
   if (enriched.length === 0) {
     console.error("No enriched fundamentals found — run refresh-fundamentals first.");
     process.exit(1);

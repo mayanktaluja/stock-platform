@@ -40,6 +40,19 @@ const FII_HEAVY_FLIGHT_PENALTY = -3; // FII reduced > 5pp QoQ
 const HIGH_BETA_PENALTY = -2;        // beta > 1.5
 const RPT_FLAG_PENALTY = -3;         // related-party transactions flag
 
+// Hard-gate thresholds (separate from the soft score penalties above).
+// These thresholds promote a position to a REVIEW verdict in the action
+// engine — they exist BECAUSE the −4/−8 score penalties never override a
+// 70-score pick, which is exactly the trap that caught Vedanta (2021),
+// Zee (2022), and Yes Bank (2020) holders. For Indian small/mid caps,
+// promoter-pledge spikes have historically preceded forced-sale cascades
+// that the technical scoreboard masks.
+//
+// Values are ratios (matching governance.js shape: 0.25 = 25%).
+const GATE_PLEDGE_HARD = 0.25;       // pledge ≥ 25% of promoter stake
+const GATE_PLEDGE_DELTA_HARD = 0.05; // pledge up >5pp QoQ
+const GATE_STALENESS_DAYS = 120;     // skip gate if filing > 120d old
+
 function _toNseKey(symbol) {
   if (!symbol) return null;
   let k = String(symbol).trim().toUpperCase();
@@ -102,6 +115,74 @@ function _pledgeContribution(gov) {
     out.push({ kind: "rpt_flag", text: `Related-party transactions ${(rpt * 100).toFixed(1)}% of revenue — earnings-quality flag.`, delta: RPT_FLAG_PENALTY });
   }
   return { delta, contributions: out };
+}
+
+// Parse the NSE shareholding `asOfQuarter` label ("Q4FY26") into the
+// calendar end-date of that fiscal quarter. Indian FYxx runs Apr (prev
+// year) → Mar (yyxx); Q1 ends Jun 30, Q2 Sep 30, Q3 Dec 31, Q4 Mar 31.
+// Returns null when the label is malformed (we'd rather skip the gate
+// than fire on garbage data).
+function _parseAsOfQuarter(asOfQuarter) {
+  if (!asOfQuarter || typeof asOfQuarter !== "string") return null;
+  const m = asOfQuarter.trim().toUpperCase().match(/^Q([1-4])FY(\d{2})$/);
+  if (!m) return null;
+  const q = parseInt(m[1], 10);
+  const fyYY = parseInt(m[2], 10);
+  if (!Number.isFinite(q) || !Number.isFinite(fyYY)) return null;
+  const fyEndYear = 2000 + fyYY;                          // FY26 → 2026
+  const month = ({ 1: 6, 2: 9, 3: 12, 4: 3 })[q];         // 1-indexed
+  const calendarYear = q === 4 ? fyEndYear : fyEndYear - 1;
+  // Last day of the month: new Date(y, month, 0).getDate() — month here
+  // is 1-indexed because JS Date is 0-indexed for the prev month's day 0.
+  const day = new Date(calendarYear, month, 0).getDate();
+  return new Date(calendarYear, month - 1, day);
+}
+
+// Derive a hard governance gate from a per-symbol governance snapshot.
+// Returns null when no gate fires (the common case). Returns a structured
+// REVIEW object when:
+//   • promoter pledge ≥ 25% of promoter stake (forced-sale risk), OR
+//   • pledge increased > 5pp QoQ (leading-indicator stress signal)
+// Skipped when the filing is > 120 days stale (asOfQuarter check) — don't
+// raise forced-review banners off ancient SEBI Reg 31 data.
+//
+// The downstream consumer (portfolioIntelligence.computeAction) treats
+// this as a pre-check that overrides the P&L-only path. Without it, a
+// stock down 5% with 60% pledge would land in HOLD because technicals
+// still look fine — exactly the structural blind spot the score-penalty
+// layer cannot fix.
+export function deriveGovernanceGate(govSnap) {
+  if (!govSnap) return null;
+  const pledge = num(govSnap.promoterPledge ?? govSnap.pledgeOfTotal ?? null, null);
+  const pledgeDelta = num(govSnap.promoterPledgeDeltaQoQ ?? govSnap.pledgeQoQDelta ?? null, null);
+
+  const pledgeBreach = pledge != null && pledge >= GATE_PLEDGE_HARD;
+  const deltaBreach = pledgeDelta != null && pledgeDelta > GATE_PLEDGE_DELTA_HARD;
+  if (!pledgeBreach && !deltaBreach) return null;
+
+  // Staleness check: skip the gate if the filing is too old to trust.
+  // We use the asOfQuarter label rather than file-level fetchedAt
+  // because the file may be daily-refreshed while a specific symbol's
+  // latest filing is still 2 quarters old (typical for thinly-traded
+  // smallcaps that file quarterly with delay).
+  const quarterEnd = _parseAsOfQuarter(govSnap.asOfQuarter);
+  if (quarterEnd) {
+    const ageDays = Math.floor((Date.now() - quarterEnd.getTime()) / 86400000);
+    if (ageDays > GATE_STALENESS_DAYS) return null;
+  }
+
+  const reason = pledgeBreach
+    ? `Promoter pledge ${(pledge * 100).toFixed(1)}% — forced-sale risk`
+    : `Pledge spike +${(pledgeDelta * 100).toFixed(1)}pp QoQ — promoter stress signal`;
+
+  return {
+    severity: "REVIEW",
+    reason,
+    pattern: "Vedanta-2021 / Zee-2022 / YesBank-2020 cascade",
+    as_of_quarter: govSnap.asOfQuarter ?? null,
+    pledge,
+    pledge_qoq_delta: pledgeDelta,
+  };
 }
 
 function _betaContribution(deep) {
@@ -172,6 +253,7 @@ export function extractIndianRiskSignals({ ticker, deep }) {
         }
       : null,
     governance_available: !!govSnap,
+    governance_gate: deriveGovernanceGate(govSnap),
     risk_flags: flags,
     summary: _buildSummary({
       riskScore,
