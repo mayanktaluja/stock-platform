@@ -40,7 +40,7 @@ function tryReadJson(filePath) {
   }
 }
 
-function main() {
+async function main() {
   const current = tryReadJson(PICKS_LATEST);
   if (!current || !current.sections) {
     console.error("[stamp] picks-latest.json missing or has no sections — bailing");

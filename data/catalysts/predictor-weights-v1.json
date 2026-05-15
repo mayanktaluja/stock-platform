@@ -1,0 +1,22 @@
+{
+  "schema_version": "predictor-weights-v1",
+  "predictor_version": "earnings-predict-v2-2026-05",
+  "note": "Reference baseline — the v2 earningsPredictor component weights (nominal max magnitude per component). The weight tuner (scripts/tune-earnings-weights.mjs) reports MULTIPLIERS relative to these, and this file is the rollback anchor: if a future data-driven weight change underperforms, restore the predictor to these values. The tuner NEVER edits the predictor automatically — a human applies the winning multipliers by hand.",
+  "weights": {
+    "v3_future_past": 18,
+    "v3_valuation": 8,
+    "v3_overlay": 10,
+    "runup": 15,
+    "sector_momentum": 10,
+    "trajectory": 15,
+    "last_quarter_echo": 5,
+    "announcements": 10,
+    "deal_flow": 7,
+    "llm_signal": 10
+  },
+  "notes_per_component": {
+    "runup": "Asymmetric in the predictor — spike -12, smooth +8, lagging +5. The 15 here is the nominal cap; the effective range is [-12, +8].",
+    "v3_overlay": "Penalty-only — contributes [-10, 0], never positive.",
+    "last_quarter_echo": "Discrete — beat +4, miss -4, else 0."
+  }
+}

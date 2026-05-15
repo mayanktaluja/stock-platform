@@ -1,0 +1,46 @@
+{
+  "schema_version": "earnings-health-v1",
+  "generated_at": "2026-05-14T09:29:39.264Z",
+  "resolved": {
+    "count": 47,
+    "delta_vs_prior": 0,
+    "prior_count": 47
+  },
+  "llm_providers": {
+    "groq": 0,
+    "gemini": 0,
+    "heuristic": 474,
+    "none": 14,
+    "total": 488
+  },
+  "cap_lift_gate": {
+    "state": false,
+    "enough_data_to_lift_cap": false,
+    "days_in_current_state": 3,
+    "current_resolved": 47,
+    "detail": {
+      "resolved_required": 30,
+      "bucket_60_64_hit_rate_required": 55,
+      "max_brier_required": 0.2,
+      "current_resolved": 47,
+      "current_bucket_60_64_hit_rate": 25,
+      "current_brier": 0.296,
+      "predictor_version": "earnings-predict-v1-2026-05"
+    }
+  },
+  "archive_schema": {
+    "earnings-history-v4": 3
+  },
+  "predictor_versions": {
+    "earnings-predict-v2-2026-05": 488
+  },
+  "restatements": {
+    "count": 0,
+    "symbols": []
+  },
+  "history_files": 3,
+  "alerts": [
+    "LLM signal is 100% heuristic (474/488) — GROQ_API_KEY / GEMINI_API_KEY likely not configured on the refresh host"
+  ],
+  "healthy": false
+}

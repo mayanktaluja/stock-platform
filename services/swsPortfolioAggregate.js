@@ -740,6 +740,54 @@ function _applyMacroTilt(rows, regime) {
   });
 }
 
+/**
+ * Recompute the action-driven slices of `report` after the cooldown-demotion
+ * pass rewrites holdings' `action` field. Touches the minimum surface:
+ * tiers A/C/D, sector-wipeout, snapshot.actionMix, holdingsByAction. Baskets
+ * (Tier B) and sector overlay are left alone — they don't read `h.action`
+ * for filtering, and rebuilding them would re-run the outside-picks scanner.
+ */
+export function rebuildTierAggregates(report, scoredHoldings) {
+  if (!report || !Array.isArray(scoredHoldings)) return report;
+
+  const tiers = buildTiers(scoredHoldings);
+
+  const reductionTickers = new Set(
+    tiers.tierA.map((h) => h.sws?.ticker || h.symbol).filter(Boolean),
+  );
+  const sectorWipeouts = detectSectorWipeout({ scoredHoldings, reductionTickers });
+
+  const freedByTicker = new Map(
+    tiers.tierA.map((h) => [h.sws?.ticker || h.symbol, h.freedRupees]),
+  );
+  const holdingsByAction = {};
+  for (const h of scoredHoldings) {
+    if (!h.action) continue;
+    const tk = h.sws?.ticker || h.symbol;
+    const enriched = { ...h, freedRupees: freedByTicker.get(tk) ?? null };
+    (holdingsByAction[h.action] ||= []).push(enriched);
+  }
+
+  const actionMix = {};
+  for (const h of scoredHoldings) {
+    if (h.action) actionMix[h.action] = (actionMix[h.action] || 0) + 1;
+  }
+
+  const prevTierA = report.tiers?.A || {};
+  const prevTierC = report.tiers?.C || {};
+  const prevTierD = report.tiers?.D || {};
+  report.tiers = {
+    ...report.tiers,
+    A: { ...prevTierA, rows: tiers.tierA, freedRupees: tiers.freedRupees, sector_wipeouts: sectorWipeouts },
+    C: { ...prevTierC, rows: tiers.tierC },
+    D: { ...prevTierD, rows: tiers.tierD },
+  };
+  report.holdingsByAction = holdingsByAction;
+  if (report.snapshot) report.snapshot.actionMix = actionMix;
+
+  return report;
+}
+
 export function buildSWSReport(scoredHoldings, opts = {}) {
   const freshCapitalInr = opts.freshCapitalInr ?? null;
   const freshPickLimit = opts.freshPickLimit ?? 8;

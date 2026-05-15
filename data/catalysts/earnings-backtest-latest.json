@@ -1,0 +1,64 @@
+{
+  "schema_version": "earnings-backtest-v2",
+  "generated_at": "2026-05-14T08:14:42.930Z",
+  "history_files": 3,
+  "span": {
+    "from": "2026-05-09",
+    "to": "2026-05-14"
+  },
+  "resolved_count": 47,
+  "expected_count": 609,
+  "brier": 0.296,
+  "brier_last_quarter": null,
+  "hit_rate_overall_pct": 23.4,
+  "hit_rate_by_confidence_bucket": {
+    "55-59": 38.9,
+    "60-64": 25,
+    "65-69": 0,
+    "50-54": 14.3
+  },
+  "hit_rate_by_verdict": {
+    "INLINE": 14.3,
+    "BEAT": 32,
+    "INSUFFICIENT_DATA": 0
+  },
+  "v1_gate": {
+    "resolved_required": 30,
+    "bucket_60_64_hit_rate_required": 55,
+    "max_brier_required": 0.2,
+    "current_resolved": 47,
+    "current_bucket_60_64_hit_rate": 25,
+    "current_brier": 0.296,
+    "predictor_version": "earnings-predict-v1-2026-05"
+  },
+  "enough_data_to_lift_cap": false,
+  "by_predictor_version": {
+    "earnings-predict-v1-2026-05": {
+      "resolved_count": 47,
+      "unresolved_count": 562,
+      "hit_rate_overall_pct": 23.4,
+      "hit_rate_by_confidence_bucket": {
+        "55-59": 38.9,
+        "60-64": 25,
+        "65-69": 0,
+        "50-54": 14.3
+      },
+      "hit_rate_by_verdict": {
+        "INLINE": 14.3,
+        "BEAT": 32,
+        "INSUFFICIENT_DATA": 0
+      },
+      "brier_score": 0.296,
+      "enough_data_to_lift_cap": false,
+      "cap_lift_gate": {
+        "resolved_required": 30,
+        "bucket_60_64_hit_rate_required": 55,
+        "max_brier_required": 0.2,
+        "current_resolved": 47,
+        "current_bucket_60_64_hit_rate": 25,
+        "current_brier": 0.296
+      }
+    }
+  },
+  "latest_predictor_version": "earnings-predict-v1-2026-05"
+}

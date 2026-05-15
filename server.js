@@ -18,7 +18,7 @@ import rateLimit from "express-rate-limit";
 import NodeCache from "node-cache";
 
 import { analyzeStock, intradayScan, midTermAnalysis, longTermOutlook } from "./analysis.js";
-import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, NIFTY500_SYMBOLS, getNifty100, getNifty500, getExpandedUniverse, getStocksByIndex, validateStockList } from "./stockList.js";
+import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, NIFTY500_SYMBOLS, getNifty100, getNifty500, getExpandedUniverse, getStocksByIndex, validateStockList, findBySymbol } from "./stockList.js";
 import { analyzeNewsSentiment, quickSentiment } from "./sentiment.js";
 import { fetchNifty50, fetchNseQuote, fetchNseQuoteRaw, fetchNseIndices, fetchNseIndex, fetchNseEventCalendar, fetchGiftNifty, nseGet, nseGetUnauthed, warmup as nseWarmup } from "./nse.js";
 import { appendIfNew as appendFiiDiiHistory, readRecent as readFiiDiiHistory } from "./fiiDiiHistory.js";
@@ -72,11 +72,13 @@ import { parsePortfolioFile, resolveUnmatchedLive, toIsoDate } from "./portfolio
 // the only engine.
 import { buildReport } from "./portfolioAnalyzer.js";
 import { scoreHolding as swsScoreHolding, loadV3Universe } from "./services/swsHoldingEngine.js";
-import { scoreStock as swsScoreStock } from "./services/swsScoring.js";
+import { scoreStock as swsScoreStock, valuationBandFromUpside } from "./services/swsScoring.js";
+import { buildCalibration as buildTrackCalibration } from "./services/trackRecord/calibration.js";
+import { buildSymbolEarningsCalibration } from "./services/trackRecord/earningsCalibration.js";
 import { deriveGovernanceGate } from "./services/swsIndianRiskLayer.js";
 import * as swsDal from "./services/swsDal/index.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
-import { buildSWSReport, surfaceOutsidePicks } from "./services/swsPortfolioAggregate.js";
+import { buildSWSReport, surfaceOutsidePicks, rebuildTierAggregates } from "./services/swsPortfolioAggregate.js";
 import { getPortfolioHistoryStorage } from "./portfolioHistoryStorage.js";
 import { getRecommendationLedgerStorage } from "./recommendationLedgerStorage.js";
 import {
@@ -86,6 +88,7 @@ import {
   buildIssuedEvents as memBuildIssued,
   applyReconcileToOpenRecs as memApplyReconcileToOpenRecs,
   applyMemoryToReport as memApplyToReport,
+  applyCooldownDemotion as memApplyCooldownDemotion,
 } from "./services/recommendationMemory.js";
 import { runOnce as runFoScreener } from "./services/foScreener.js";
 import {
@@ -123,6 +126,14 @@ import { dailyReturns as computeDailyReturns } from "./riskMetrics.js";
 import multer from "multer";
 import { classifyRegime, computeMacroDelta, defaultCalmRegime, getGroqQuotaState, normalizeSector, REGIMES, SECTORS, withOpenAIRetry } from "./macroRegime.js";
 import { getMacroRegimeStorage } from "./services/macroRegimeStorage.js";
+import {
+  TRUSTED_MACRO_SOURCES,
+  MACRO_COVERAGE_TARGET,
+  fetchMacroHeadlines,
+  bumpSourceFailure,
+  macroSourceFailures,
+  parseRSS,
+} from "./macroHeadlineFetcher.js";
 import OpenAI from "openai";
 
 // Lazy OpenAI client for server.js (same pattern as macroRegime.js)
@@ -230,10 +241,10 @@ macroStorage.read().then((stored) => {
 // In-memory ring buffer of the last 5 regime classifications + the headlines
 // that produced them. Exposed via /api/macro/debug for audit/debugging.
 const macroHistory = [];
-// Per-source failure counter for observability. Incremented when a source
-// fetch fails, reset on success. A WARN is logged when a source crosses 3
-// consecutive failures.
-const macroSourceFailures = new Map();
+// Per-source failure counter (`macroSourceFailures`) and bumper
+// (`bumpSourceFailure`) now live in macroHeadlineFetcher.js — imported above
+// alongside the headline-fetcher functions so the standalone refresh script
+// (scripts/refresh-macro-regime.mjs) and the in-process refresh share state.
 
 // CORS — permissive by default so the frontend works from anywhere (mobile,
 // embeds, dev tunnels). The platform doesn't expose any user-specific data
@@ -255,11 +266,16 @@ app.use(cors());
 // it the limiter would lump all users into one global counter.
 app.set("trust proxy", 1);
 
+// Rate limiters are bypassed when NODE_ENV=test so the Playwright e2e harness
+// can drive the SPA without tripping the 60 req/min window. Production keeps
+// the gate.
+const isTestEnv = process.env.NODE_ENV === "test";
 const apiLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 60,
   standardHeaders: "draft-7", // emits the RateLimit-* response headers
   legacyHeaders: false,
+  skip: () => isTestEnv,
   message: { error: "Too many requests. Please slow down (60 req/min limit)." },
 });
 
@@ -268,6 +284,7 @@ const stockDetailLimiter = rateLimit({
   max: 30,
   standardHeaders: "draft-7",
   legacyHeaders: false,
+  skip: () => isTestEnv,
   message: { error: "Too many stock detail requests. Please slow down (30 req/min limit)." },
 });
 
@@ -1019,6 +1036,56 @@ async function fetchNews(symbol) {
 }
 
 // ==================== API ROUTES ====================
+
+/**
+ * POST /api/telemetry
+ *
+ * Append-only event log for KPI measurement (NS-1 Time-to-Verdict, NS-5
+ * Watchlist→action conversion). Local dev only — Vercel's FS is read-only,
+ * so the endpoint is a no-op there. Each call appends one NDJSON line to
+ * `data/telemetry/events.ndjson`.
+ *
+ * Body: { event, page, ts, sessionId, payload? }
+ *   event     — string, required, ≤ 64 chars (e.g. "page_load", "verdict_visible")
+ *   page      — string, required, ≤ 64 chars (current tab id)
+ *   ts        — number, required (Date.now() at emit)
+ *   sessionId — string, required, ≤ 64 chars (client-generated UUID)
+ *   payload   — object, optional, body cap 4KB
+ *
+ * Always 204 / never blocks. Errors are swallowed so telemetry never
+ * affects user-visible behaviour.
+ */
+const TELEMETRY_DIR = path.join(__dirname, "data", "telemetry");
+const TELEMETRY_FILE = path.join(TELEMETRY_DIR, "events.ndjson");
+const TELEMETRY_ENABLED = !process.env.VERCEL;
+app.post("/api/telemetry", express.json({ limit: "8kb" }), async (req, res) => {
+  if (!TELEMETRY_ENABLED) return res.status(204).end();
+  try {
+    const { event, page: pageName, ts, sessionId, payload } = req.body || {};
+    const isShort = (v, n) => typeof v === "string" && v.length > 0 && v.length <= n;
+    if (!isShort(event, 64) || !isShort(pageName, 64) || !isShort(sessionId, 64)) {
+      return res.status(204).end();
+    }
+    if (typeof ts !== "number" || !Number.isFinite(ts)) return res.status(204).end();
+    const record = {
+      event,
+      page: pageName,
+      ts,
+      sessionId,
+      sub: (req.user && req.user.sub) || null,
+      ua: (req.headers["user-agent"] || "").slice(0, 200),
+      payload: payload && typeof payload === "object" ? payload : null,
+    };
+    await fs.promises.mkdir(TELEMETRY_DIR, { recursive: true });
+    await fs.promises.appendFile(TELEMETRY_FILE, JSON.stringify(record) + "\n");
+  } catch (err) {
+    // Never let telemetry failures escape — log once and move on.
+    if (!process.env.TELEMETRY_QUIET) {
+      console.warn("[TELEMETRY] append failed:", err && err.message);
+    }
+  }
+  res.status(204).end();
+});
 
 /**
  * Search for Indian stocks
@@ -1825,17 +1892,20 @@ app.get("/api/admin/combined-shadow-diff", async (req, res) => {
 /**
  * GET /api/cron/warm-caches
  *
- * Hourly cron (see vercel.json) that keeps the two expensive-to-build
- * NodeCaches primed — macro regime and NSE event calendar. Both block the
- * portfolio endpoint on cold start if the cache is empty, and both take
- * 10-40s to build from scratch (RSS fetches + OpenAI call for regime, NSE
- * cookie handshake that usually times out on Vercel US IPs for events).
+ * Scheduled cron (see vercel.json) that warms the in-process NSE event
+ * calendar cache. The Vercel cookie-source endpoint usually times out on US
+ * IPs but the warm attempt is still useful — when it succeeds, every user
+ * request finds catalystCache populated and returns in <5s even on cold start.
  *
- * By refreshing them hourly on the cron's own time, every user request
- * finds both caches populated and returns in <5s even on cold start.
+ * NOT a macro-regime refresh path. Macro is refreshed locally via
+ * scripts/refresh-macro-regime.mjs (fired from sws-nightly.sh at 02:00 +
+ * 16:30 IST) and committed to data/macroRegime.json. Calling refreshMacroRegime
+ * here was structurally broken: Vercel's filesystem is read-only outside
+ * /tmp, KV was unconfigured, and RSS feeds (Reuters, Bloomberg, Moneycontrol)
+ * block Vercel datacenter IPs anyway. See plan note in macroRegimeStorage.js.
  *
- * Security: CRON_SECRET bearer auth (matches the other two crons).
- * Runtime: ~20-30s typical; well under the 60s function ceiling.
+ * Security: CRON_SECRET bearer auth (matches the other crons).
+ * Runtime: ~10-15s typical; well under the 60s function ceiling.
  */
 app.get("/api/cron/warm-caches", async (req, res) => {
   const cronSecret = process.env.CRON_SECRET;
@@ -1845,20 +1915,13 @@ app.get("/api/cron/warm-caches", async (req, res) => {
   const started = Date.now();
   const results = {};
 
-  // Refresh macro regime in parallel with NSE events — both are independent.
-  await Promise.allSettled([
-    refreshMacroRegime().then(
-      (r) => { results.macroRegime = { ok: true, regime: r?.regime || r?.label || "unknown" }; },
-      (e) => { results.macroRegime = { ok: false, error: e.message }; }
-    ),
-    fetchNseEventCalendar().then(
-      (events) => {
-        catalystCache.set("nse_events", events);
-        results.nseEvents = { ok: true, count: events?.length || 0 };
-      },
-      (e) => { results.nseEvents = { ok: false, error: e.message }; }
-    ),
-  ]);
+  try {
+    const events = await fetchNseEventCalendar();
+    catalystCache.set("nse_events", events);
+    results.nseEvents = { ok: true, count: events?.length || 0 };
+  } catch (e) {
+    results.nseEvents = { ok: false, error: e.message };
+  }
 
   res.json({ ok: true, elapsedMs: Date.now() - started, ...results });
 });
@@ -1959,8 +2022,46 @@ app.get("/api/surveillance/status", (req, res) => {
  *   - surveillance: 36h  (daily NSE refresh; 12h grace)
  *   - governance:   2400h (~100 days, quarterly cadence)
  *   - picks_latest: 48h  (nightly SWS pipeline; 48h covers weekend)
- *   - macro_regime: 6h   (hourly classifier polling)
+ *   - macro_regime: 14h  (twice-daily local-cron via scripts/refresh-macro-regime.mjs
+ *                         bundled into sws-nightly.sh at 02:00 + 16:30 IST;
+ *                         14h gives a safety margin over the 14.5h max gap)
+ *   - fundamentals_history: 72h  (own nightly launchd job; weekend + one missed run)
+ *   - macro_calendar: 720h  (hand-maintained, no writer script; 30d flags genuine
+ *                            neglect — the banner is the only nudge to update it)
+ *   - events_latest: 48h  (nightly via refresh-catalysts.mjs; weekend grace)
+ *   - oi_deltas: 48h  (nightly via refresh-fo-oi.sh; weekend grace)
+ *   - earnings_watch: 48h  (nightly via refresh-earnings.mjs; weekend grace)
+ *   - universe: 336h  (SWS universe rebuilt infrequently; 14d flags a stalled
+ *                      rebuild — read via the universe-meta.json sidecar)
+ *
+ * Deliberately NOT monitored (internal caches / derived / not user-facing):
+ * sws-scored-universe.json + v3-universe-stats.json (derived from the scrape),
+ * last-refresh.json (covered via picks_latest), coverage_gap.json,
+ * earnings-backtest-latest.json (admin/backtest surface, not the live
+ * dashboard), and the rolling nse-announcements/bulk-block files (transient).
  */
+
+// mtime-cached freshness-stamp reader for the snapshot-health endpoint. Each
+// monitored fixture carries its stamp in a known field; we only need that one
+// field, and the file rarely changes between hourly health polls — so cache
+// the parse keyed on mtime. Returns the raw stamp string, or null on any miss.
+const _snapshotTsCache = new Map(); // relPath -> { mtimeMs, ts }
+function snapshotTimestamp(relPath, field) {
+  try {
+    const abs = path.join(__dirname, relPath);
+    if (!fs.existsSync(abs)) return null;
+    const mtimeMs = fs.statSync(abs).mtimeMs;
+    const cached = _snapshotTsCache.get(relPath);
+    if (cached && cached.mtimeMs === mtimeMs) return cached.ts;
+    const parsed = JSON.parse(fs.readFileSync(abs, "utf-8"));
+    const ts = parsed?.[field] ?? null;
+    _snapshotTsCache.set(relPath, { mtimeMs, ts });
+    return ts;
+  } catch {
+    return null;
+  }
+}
+
 app.get("/api/health/snapshots", (req, res) => {
   const now = Date.now();
   const ageHours = (iso) => {
@@ -1975,9 +2076,22 @@ app.get("/api/health/snapshots", (req, res) => {
   const picks = swsDal.getPicksLatest();
   const macroRegime = macroRegimeCache.get(MACRO_CACHE_KEY) || null;
 
+  const fundHistAt = snapshotTimestamp("fundamentalsHistory.json", "generatedAt");
+  const macroCalAt = snapshotTimestamp("data/macroCalendar.json", "_updated");
+  const eventsAt = snapshotTimestamp("data/catalysts/events-latest.json", "fetched_at");
+  const oiDeltasAt = snapshotTimestamp("data/nse-fo/oi-deltas-latest.json", "fetchedAt");
+  const earningsWatchAt = snapshotTimestamp("data/catalysts/earnings-watch-latest.json", "built_at");
+  const universeAt = snapshotTimestamp("data/sws/universe-meta.json", "generatedAt");
+
   const fundAge = ageHours(fundAt);
   const picksAge = ageHours(picks?.scanned_at || swsDal.getLastRefresh()?.finished_at);
   const macroAge = ageHours(macroRegime?.generatedAt);
+  const fundHistAge = ageHours(fundHistAt);
+  const macroCalAge = ageHours(macroCalAt);
+  const eventsAge = ageHours(eventsAt);
+  const oiDeltasAge = ageHours(oiDeltasAt);
+  const earningsWatchAge = ageHours(earningsWatchAt);
+  const universeAge = ageHours(universeAt);
 
   const snapshots = {
     fundamentals: {
@@ -2008,8 +2122,50 @@ app.get("/api/health/snapshots", (req, res) => {
     macro_regime: {
       generatedAt: macroRegime?.generatedAt || null,
       age_hours: macroAge,
-      max_age_hours: 6,
-      stale: macroAge == null || macroAge > 6,
+      max_age_hours: 14,
+      stale: macroAge == null || macroAge > 14,
+      // Surface classifier degradation separately from staleness so the UI
+      // can render an amber "keyword-only" chip when the file is fresh but
+      // the LLM chain fell back to the heuristic. See gated/app.js
+      // loadSnapshotHealth for the branching.
+      classifierProvider: macroRegime?.classifierProvider || null,
+      llmProviderHealth: macroRegime?.llmProviderHealth || null,
+    },
+    fundamentals_history: {
+      generatedAt: fundHistAt,
+      age_hours: fundHistAge,
+      max_age_hours: 72,
+      stale: fundHistAge == null || fundHistAge > 72,
+    },
+    macro_calendar: {
+      generatedAt: macroCalAt,
+      age_hours: macroCalAge,
+      max_age_hours: 720,
+      stale: macroCalAge == null || macroCalAge > 720,
+    },
+    events_latest: {
+      generatedAt: eventsAt,
+      age_hours: eventsAge,
+      max_age_hours: 48,
+      stale: eventsAge == null || eventsAge > 48,
+    },
+    oi_deltas: {
+      generatedAt: oiDeltasAt,
+      age_hours: oiDeltasAge,
+      max_age_hours: 48,
+      stale: oiDeltasAge == null || oiDeltasAge > 48,
+    },
+    earnings_watch: {
+      generatedAt: earningsWatchAt,
+      age_hours: earningsWatchAge,
+      max_age_hours: 48,
+      stale: earningsWatchAge == null || earningsWatchAge > 48,
+    },
+    universe: {
+      generatedAt: universeAt,
+      age_hours: universeAge,
+      max_age_hours: 336,
+      stale: universeAge == null || universeAge > 336,
     },
   };
 
@@ -2019,7 +2175,22 @@ app.get("/api/health/snapshots", (req, res) => {
     .filter(([, s]) => s.stale)
     .map(([k]) => k);
 
-  res.json({ anyStale, staleKeys, snapshots, checkedAt: new Date().toISOString() });
+  // Fresh-but-degraded signals — distinct from stale. Currently just one
+  // case: macro file is fresh but the LLM chain fell back to heuristic.
+  // The UI renders these as an amber chip (different from the orange stale
+  // chip) because the remediation differs: stale = fix the refresh script,
+  // degraded = rotate LLM keys or wait out the throttle.
+  const degradedKeys = [];
+  if (
+    snapshots.macro_regime &&
+    !snapshots.macro_regime.stale &&
+    snapshots.macro_regime.classifierProvider === "heuristic"
+  ) {
+    degradedKeys.push("macro_regime");
+  }
+  const anyDegraded = degradedKeys.length > 0;
+
+  res.json({ anyStale, staleKeys, anyDegraded, degradedKeys, snapshots, checkedAt: new Date().toISOString() });
 });
 
 /**
@@ -2280,7 +2451,9 @@ app.get("/api/catalysts/today", (req, res) => {
 });
 
 /**
- * Earnings Watch — admin-only. Upcoming-results dashboard.
+ * Earnings Watch — upcoming-results dashboard, open to every signed-in
+ * user. The global session gate at server.js:594-620 enforces auth; no
+ * per-route admin check.
  *
  * Reads the JSON snapshot produced by scripts/refresh-earnings.mjs.
  * No NSE calls happen here (that pipeline runs locally and commits
@@ -2291,35 +2464,8 @@ app.get("/api/catalysts/today", (req, res) => {
  *   GET /api/earnings/upcoming/stats     — header chip counts
  *   GET /api/earnings/:symbol            — single-card detail
  *   GET /api/cron/refresh-earnings       — flushes the in-process cache
- *
- * Admin gate mirrors main's pattern (see /api/admin/users): the
- * outer auth middleware populates req.user.sub; we resolve the user
- * record via getUserStorage and check `isAdmin` (computed from
- * ADMIN_EMAILS at login time). Non-admin sessions get 403; the SPA
- * also hides the tab via auth.init() so unauthorised users don't
- * see the surface.
  */
 const earningsCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
-
-async function requireEarningsAdmin(req, res) {
-  if (!AUTH_ENABLED) {
-    // Local dev: same behaviour as the existing admin routes —
-    // bypass the gate so the workflow stays unblocked.
-    return true;
-  }
-  const sub = req.user && req.user.sub;
-  if (!sub) {
-    res.status(401).json({ error: "unauthenticated" });
-    return false;
-  }
-  const userStore = getUserStorage();
-  const me = await userStore.read(sub);
-  if (!me || !me.isAdmin) {
-    res.status(403).json({ error: "forbidden" });
-    return false;
-  }
-  return true;
-}
 
 function loadCachedEarningsSnapshot() {
   const cached = earningsCache.get("earnings_snapshot");
@@ -2329,8 +2475,54 @@ function loadCachedEarningsSnapshot() {
   return snap;
 }
 
+// PR E5 — per-symbol earnings calibration. Drives the "last N BEAT calls
+// on this stock" footer line on every Earnings Watch card. Same admin
+// gate as the rest of /api/earnings/*; non-admin gets 403 and the
+// front-end render falls back to the symbol-less branch (no footer).
+app.get("/api/earnings/calibration", async (req, res) => {
+  try {
+    const { loadAllHistory } = await import("./services/earnings/earningsHistoryArchive.js");
+    const history = loadAllHistory();
+    const snapshotPath = path.join(__dirname, "data", "catalysts", "earnings-backtest-latest.json");
+    let snapshot = null;
+    if (fs.existsSync(snapshotPath)) {
+      try { snapshot = JSON.parse(fs.readFileSync(snapshotPath, "utf8")); } catch {}
+    }
+    const map = buildSymbolEarningsCalibration(history, snapshot);
+    const payload = {
+      generated_at: new Date().toISOString(),
+      platform_brier: snapshot && Number.isFinite(snapshot.brier) ? snapshot.brier : null,
+      symbols: Object.fromEntries(map),
+    };
+    res.json(payload);
+  } catch (err) {
+    console.error("[EARNINGS] /api/earnings/calibration failed:", err && err.message);
+    res.status(500).json({ error: "earnings calibration failed: " + (err && err.message) });
+  }
+});
+
+// PR B8 — earnings backtest snapshot endpoint. Serves the JSON written
+// by scripts/backtest-earnings-predictions.mjs on its nightly run.
+// Mirrors the admin gate of every other /api/earnings/* surface.
+app.get("/api/earnings/backtest", async (req, res) => {
+  try {
+    const filePath = path.join(__dirname, "data", "catalysts", "earnings-backtest-latest.json");
+    if (!fs.existsSync(filePath)) {
+      return res.json({
+        missing: true,
+        message: "No earnings backtest snapshot yet. Run `node scripts/backtest-earnings-predictions.mjs`.",
+      });
+    }
+    const raw = fs.readFileSync(filePath, "utf8");
+    res.set("X-Earnings-Backtest", "file");
+    res.json(JSON.parse(raw));
+  } catch (err) {
+    console.error("[EARNINGS] /api/earnings/backtest failed:", err && err.message);
+    res.status(500).json({ error: "earnings backtest failed: " + (err && err.message) });
+  }
+});
+
 app.get("/api/earnings/upcoming", async (req, res) => {
-  if (!(await requireEarningsAdmin(req, res))) return;
   try {
     const snap = loadCachedEarningsSnapshot();
     const events = filterEvents(snap.events, {
@@ -2357,7 +2549,6 @@ app.get("/api/earnings/upcoming", async (req, res) => {
 });
 
 app.get("/api/earnings/upcoming/stats", async (req, res) => {
-  if (!(await requireEarningsAdmin(req, res))) return;
   try {
     const cacheKey = "earnings_stats";
     const cached = earningsCache.get(cacheKey);
@@ -2375,10 +2566,16 @@ app.get("/api/earnings/upcoming/stats", async (req, res) => {
  * Vercel cron entry — flushes the in-process read cache so the next
  * /api/earnings/* request reads the latest committed JSON. Does NOT
  * call NSE (the actual NSE fetchers must run from a local machine).
- * Public endpoint by design; harmless if hit by a non-admin since
- * it just dumps a cache.
+ * CRON_SECRET-gated, same pattern as every other /api/cron/* route;
+ * open in local dev where CRON_SECRET isn't set. (Previously left
+ * public on the "just dumps a cache" rationale — gated for
+ * consistency so the whole cron family behaves the same way.)
  */
 app.get("/api/cron/refresh-earnings", (req, res) => {
+  const cronSecret = process.env.CRON_SECRET;
+  if (cronSecret && req.headers.authorization !== `Bearer ${cronSecret}`) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
   earningsCache.flushAll();
   res.json({
     ok: true,
@@ -2388,7 +2585,6 @@ app.get("/api/cron/refresh-earnings", (req, res) => {
 });
 
 app.get("/api/earnings/:symbol", async (req, res) => {
-  if (!(await requireEarningsAdmin(req, res))) return;
   try {
     const snap = loadCachedEarningsSnapshot();
     const event = findEventBySymbol(snap, req.params.symbol);
@@ -2580,61 +2776,72 @@ app.get("/api/market-verdict", async (req, res) => {
  */
 const sectorHeatmapCache = new NodeCache({ stdTTL: 120, checkperiod: 30 });
 
+/**
+ * Build the sector heatmap (Nifty 100 quotes → per-sector breadth + movers).
+ * Extracted from the route handler so /api/news/market can warm this data
+ * before building its digest — the digest reads sectorHeatmapCache directly
+ * and used to emit "data not yet available" whenever the cache was cold.
+ * Populates sectorHeatmapCache; returns the cached value on a warm hit.
+ */
+async function getSectorHeatmapData() {
+  const cached = sectorHeatmapCache.get("heatmap");
+  if (cached) return cached;
+
+  const stocksToScan = getNifty100();
+  const quotes = await Promise.all(
+    stocksToScan.map((s) => fetchQuote(s.symbol).catch(() => null))
+  );
+
+  const bySector = {};
+  for (let i = 0; i < stocksToScan.length; i++) {
+    const q = quotes[i];
+    const stock = stocksToScan[i];
+    if (!q) continue;
+    const sector = normalizeSector(stock.sector) || stock.sector || "Unknown";
+    if (!bySector[sector]) bySector[sector] = { sector, stocks: [], totalChange: 0, count: 0 };
+    const chg = q.regularMarketChangePercent || 0;
+    bySector[sector].stocks.push({
+      symbol: stock.symbol,
+      name: stock.name,
+      change: chg,
+      price: q.regularMarketPrice,
+    });
+    bySector[sector].totalChange += chg;
+    bySector[sector].count += 1;
+  }
+
+  const sectors = Object.values(bySector).map((s) => {
+    s.avgChange = s.count > 0 ? parseFloat((s.totalChange / s.count).toFixed(2)) : 0;
+    s.winners = s.stocks.filter((st) => st.change > 0).length;
+    s.losers = s.stocks.filter((st) => st.change < 0).length;
+    s.topGainer = s.stocks.sort((a, b) => b.change - a.change)[0] || null;
+    s.topLoser = s.stocks.sort((a, b) => a.change - b.change)[0] || null;
+    // Remove full stock list to keep response compact
+    delete s.totalChange;
+    s.stockCount = s.count;
+    delete s.count;
+    delete s.stocks;
+    return s;
+  }).sort((a, b) => b.avgChange - a.avgChange);
+
+  const response = {
+    sectors,
+    marketBreadth: {
+      totalStocks: quotes.filter(Boolean).length,
+      advancing: quotes.filter((q) => q && (q.regularMarketChangePercent || 0) > 0).length,
+      declining: quotes.filter((q) => q && (q.regularMarketChangePercent || 0) < 0).length,
+      unchanged: quotes.filter((q) => q && (q.regularMarketChangePercent || 0) === 0).length,
+    },
+    lastUpdated: new Date().toISOString(),
+  };
+
+  sectorHeatmapCache.set("heatmap", response);
+  return response;
+}
+
 app.get("/api/sector-heatmap", async (req, res) => {
   try {
-    const cached = sectorHeatmapCache.get("heatmap");
-    if (cached) return res.json(cached);
-
-    const stocksToScan = getNifty100();
-    const quotes = await Promise.all(
-      stocksToScan.map((s) => fetchQuote(s.symbol).catch(() => null))
-    );
-
-    const bySector = {};
-    for (let i = 0; i < stocksToScan.length; i++) {
-      const q = quotes[i];
-      const stock = stocksToScan[i];
-      if (!q) continue;
-      const sector = normalizeSector(stock.sector) || stock.sector || "Unknown";
-      if (!bySector[sector]) bySector[sector] = { sector, stocks: [], totalChange: 0, count: 0 };
-      const chg = q.regularMarketChangePercent || 0;
-      bySector[sector].stocks.push({
-        symbol: stock.symbol,
-        name: stock.name,
-        change: chg,
-        price: q.regularMarketPrice,
-      });
-      bySector[sector].totalChange += chg;
-      bySector[sector].count += 1;
-    }
-
-    const sectors = Object.values(bySector).map((s) => {
-      s.avgChange = s.count > 0 ? parseFloat((s.totalChange / s.count).toFixed(2)) : 0;
-      s.winners = s.stocks.filter((st) => st.change > 0).length;
-      s.losers = s.stocks.filter((st) => st.change < 0).length;
-      s.topGainer = s.stocks.sort((a, b) => b.change - a.change)[0] || null;
-      s.topLoser = s.stocks.sort((a, b) => a.change - b.change)[0] || null;
-      // Remove full stock list to keep response compact
-      delete s.totalChange;
-      s.stockCount = s.count;
-      delete s.count;
-      delete s.stocks;
-      return s;
-    }).sort((a, b) => b.avgChange - a.avgChange);
-
-    const response = {
-      sectors,
-      marketBreadth: {
-        totalStocks: quotes.filter(Boolean).length,
-        advancing: quotes.filter((q) => q && (q.regularMarketChangePercent || 0) > 0).length,
-        declining: quotes.filter((q) => q && (q.regularMarketChangePercent || 0) < 0).length,
-        unchanged: quotes.filter((q) => q && (q.regularMarketChangePercent || 0) === 0).length,
-      },
-      lastUpdated: new Date().toISOString(),
-    };
-
-    sectorHeatmapCache.set("heatmap", response);
-    res.json(response);
+    res.json(await getSectorHeatmapData());
   } catch (err) {
     console.error("Sector heatmap error:", err.message);
     res.status(500).json({ error: err.message });
@@ -2664,105 +2871,117 @@ app.get("/api/sector-heatmap", async (req, res) => {
  */
 const fiiDiiCache = new NodeCache({ stdTTL: 1800, checkperiod: 300 });
 
-app.get("/api/fii-dii", async (req, res) => {
-  try {
-    const cached = fiiDiiCache.get("fii_dii");
-    if (cached) return res.json(cached);
+/**
+ * Fetch + shape the latest FII/DII session from NSE. Extracted from the
+ * route handler so /api/news/market can warm this data before building its
+ * digest — the digest reads fiiDiiCache directly and used to emit "FII data
+ * not yet available" whenever the cache was cold. Populates fiiDiiCache;
+ * returns the cached value on a warm hit, and an { available: false } shape
+ * (not a throw) when NSE is unreachable.
+ */
+async function getFiiDiiData() {
+  const cached = fiiDiiCache.get("fii_dii");
+  if (cached) return cached;
 
-    let fiiDiiData = null;
-    // The endpoint works cookie-less — skip the full nseGet cookie dance,
-    // which short-circuits on datacenter IPs (NSE blocks the homepage
-    // which the cookie refresh relies on, even when the API path itself
-    // is wide open). Fall back to cookie-gated nseGet only if unauth'd
-    // returns nothing, since some NSE paths do eventually require cookies.
+  let fiiDiiData = null;
+  // The endpoint works cookie-less — skip the full nseGet cookie dance,
+  // which short-circuits on datacenter IPs (NSE blocks the homepage
+  // which the cookie refresh relies on, even when the API path itself
+  // is wide open). Fall back to cookie-gated nseGet only if unauth'd
+  // returns nothing, since some NSE paths do eventually require cookies.
+  try {
+    const data = await nseGetUnauthed(
+      "/api/fiidiiTradeReact",
+      "https://www.nseindia.com/reports/fii-dii",
+    );
+    if (Array.isArray(data) && data.length > 0) fiiDiiData = data;
+  } catch (e) {
+    console.warn("NSE FII/DII unauth fetch failed:", e.message);
+  }
+  if (!fiiDiiData) {
     try {
-      const data = await nseGetUnauthed(
+      const data = await nseGet(
         "/api/fiidiiTradeReact",
         "https://www.nseindia.com/reports/fii-dii",
       );
       if (Array.isArray(data) && data.length > 0) fiiDiiData = data;
     } catch (e) {
-      console.warn("NSE FII/DII unauth fetch failed:", e.message);
+      console.warn("NSE FII/DII authed fetch also failed:", e.message);
     }
-    if (!fiiDiiData) {
-      try {
-        const data = await nseGet(
-          "/api/fiidiiTradeReact",
-          "https://www.nseindia.com/reports/fii-dii",
-        );
-        if (Array.isArray(data) && data.length > 0) fiiDiiData = data;
-      } catch (e) {
-        console.warn("NSE FII/DII authed fetch also failed:", e.message);
-      }
-    }
+  }
 
-    if (!fiiDiiData) {
-      // Upstream genuinely unreachable (NSE outage, cookie block, etc.).
-      // Don't lie to the user — we ARE on an Indian IP (bom1). Just say
-      // it's temporarily unavailable and let the frontend retry later.
-      const response = {
-        available: false,
-        message:
-          "FII/DII data temporarily unavailable from NSE. Usually published at ~18:30 IST for the same trading day — try again after market close.",
-        lastUpdated: new Date().toISOString(),
-      };
-      // Short cache on failure so a single upstream hiccup doesn't lock
-      // the endpoint out for the full 30 minutes.
-      fiiDiiCache.set("fii_dii", response, 120);
-      return res.json(response);
-    }
-
-    // Normalise NSE's two-row array into named fields so the UI doesn't have
-    // to guess row order or parse category strings. NSE's category values
-    // have been "FII/FPI" and "DII" (sometimes "DII - Equity") for years.
-    const toNum = (v) => {
-      const n = Number(String(v ?? "").replace(/,/g, ""));
-      return Number.isFinite(n) ? n : null;
-    };
-    const shape = (row) =>
-      row
-        ? {
-            date: row.date || null,
-            buyValue: toNum(row.buyValue),
-            sellValue: toNum(row.sellValue),
-            netValue: toNum(row.netValue),
-          }
-        : null;
-    const fiiRow = fiiDiiData.find((r) => /FII|FPI/i.test(String(r.category)));
-    const diiRow = fiiDiiData.find((r) => /^DII/i.test(String(r.category)));
-
-    const fiiShaped = shape(fiiRow);
-    const diiShaped = shape(diiRow);
-    const sessionDate = fiiRow?.date || diiRow?.date || null;
-
-    // Persist this session into the rolling history (idempotent on date),
-    // then read back the last 10 sessions for the sparkline. Both operations
-    // are best-effort — failures don't block the response.
-    let history = [];
-    try {
-      if (sessionDate) {
-        await appendFiiDiiHistory({
-          date: sessionDate,
-          fii: fiiShaped?.netValue,
-          dii: diiShaped?.netValue,
-        });
-      }
-      history = await readFiiDiiHistory(10);
-    } catch (histErr) {
-      console.warn("[FII-DII] history persistence/read failed:", histErr.message);
-    }
-
+  if (!fiiDiiData) {
+    // Upstream genuinely unreachable (NSE outage, cookie block, etc.).
+    // Don't lie to the user — we ARE on an Indian IP (bom1). Just say
+    // it's temporarily unavailable and let the frontend retry later.
     const response = {
-      available: true,
-      date: sessionDate,
-      fii: fiiShaped,
-      dii: diiShaped,
-      history, // last 10 sessions newest-first, for client-side sparkline
-      data: fiiDiiData, // preserve raw for any consumer that wants it
+      available: false,
+      message:
+        "FII/DII data temporarily unavailable from NSE. Usually published at ~18:30 IST for the same trading day — try again after market close.",
       lastUpdated: new Date().toISOString(),
     };
-    fiiDiiCache.set("fii_dii", response);
-    res.json(response);
+    // Short cache on failure so a single upstream hiccup doesn't lock
+    // the endpoint out for the full 30 minutes.
+    fiiDiiCache.set("fii_dii", response, 120);
+    return response;
+  }
+
+  // Normalise NSE's two-row array into named fields so the UI doesn't have
+  // to guess row order or parse category strings. NSE's category values
+  // have been "FII/FPI" and "DII" (sometimes "DII - Equity") for years.
+  const toNum = (v) => {
+    const n = Number(String(v ?? "").replace(/,/g, ""));
+    return Number.isFinite(n) ? n : null;
+  };
+  const shape = (row) =>
+    row
+      ? {
+          date: row.date || null,
+          buyValue: toNum(row.buyValue),
+          sellValue: toNum(row.sellValue),
+          netValue: toNum(row.netValue),
+        }
+      : null;
+  const fiiRow = fiiDiiData.find((r) => /FII|FPI/i.test(String(r.category)));
+  const diiRow = fiiDiiData.find((r) => /^DII/i.test(String(r.category)));
+
+  const fiiShaped = shape(fiiRow);
+  const diiShaped = shape(diiRow);
+  const sessionDate = fiiRow?.date || diiRow?.date || null;
+
+  // Persist this session into the rolling history (idempotent on date),
+  // then read back the last 10 sessions for the sparkline. Both operations
+  // are best-effort — failures don't block the response.
+  let history = [];
+  try {
+    if (sessionDate) {
+      await appendFiiDiiHistory({
+        date: sessionDate,
+        fii: fiiShaped?.netValue,
+        dii: diiShaped?.netValue,
+      });
+    }
+    history = await readFiiDiiHistory(10);
+  } catch (histErr) {
+    console.warn("[FII-DII] history persistence/read failed:", histErr.message);
+  }
+
+  const response = {
+    available: true,
+    date: sessionDate,
+    fii: fiiShaped,
+    dii: diiShaped,
+    history, // last 10 sessions newest-first, for client-side sparkline
+    data: fiiDiiData, // preserve raw for any consumer that wants it
+    lastUpdated: new Date().toISOString(),
+  };
+  fiiDiiCache.set("fii_dii", response);
+  return response;
+}
+
+app.get("/api/fii-dii", async (req, res) => {
+  try {
+    res.json(await getFiiDiiData());
   } catch (err) {
     console.error("FII/DII error:", err.message);
     res.status(500).json({ error: err.message });
@@ -3084,11 +3303,30 @@ app.get("/api/news/market", async (req, res) => {
 
     // ── Deterministic Market Digest ──
     // Composite mood from 6 signals: sectoral breadth, adv/decl, FII flow,
-    // DII flow, headline tilt, GIFT Nifty (off-hours). Sources are existing
-    // in-process caches — no LLM call, no external network, always-on.
+    // DII flow, headline tilt, GIFT Nifty (off-hours). No LLM call.
+    //
+    // Warm the sector + FII data the digest depends on. These previously
+    // came straight off sectorHeatmapCache / fiiDiiCache — but those caches
+    // are only populated as a side effect of someone hitting
+    // /api/sector-heatmap or /api/fii-dii first, so on a cold cache the
+    // digest emitted "Sectoral breadth data not yet available" / "FII data
+    // not yet available" even though the data was perfectly fetchable.
+    // getSectorHeatmapData / getFiiDiiData are cheap on a warm cache and
+    // correct on a cold one; failures degrade to the null the digest
+    // already tolerates.
+    const [sectorHeatmap, fiiDii] = await Promise.all([
+      getSectorHeatmapData().catch((e) => {
+        console.warn("[NEWS] sector heatmap warm failed:", e.message);
+        return null;
+      }),
+      getFiiDiiData().catch((e) => {
+        console.warn("[NEWS] FII/DII warm failed:", e.message);
+        return null;
+      }),
+    ]);
     const digest = buildDeterministicDigest(scored, {
-      sectorHeatmap: sectorHeatmapCache.get("heatmap"),
-      fiiDii: fiiDiiCache.get("fii_dii"),
+      sectorHeatmap,
+      fiiDii,
       market: marketCache.get("market"),
       marketStatus: isMarketOpen() ? "OPEN" : "CLOSED",
     });
@@ -3241,230 +3479,15 @@ function buildDeterministicDigest(scored, ctx) {
   };
 }
 
-function safeDateParse(str) {
-  if (!str) return null;
-  try {
-    const d = new Date(str);
-    return isNaN(d.getTime()) ? null : d.toISOString();
-  } catch { return null; }
-}
-
 // ==================== MACRO REGIME LAYER ====================
-
-/**
- * Trusted news sources we aggregate into the macro regime classifier.
- *
- * Sources are organised into TIER GROUPS (regulator / wire / indian) and
- * within each group split into PRIMARY and FALLBACK sources. fetchMacroHeadlines
- * runs in two passes: primaries first, then fallbacks ONLY if a tier-group's
- * primaries didn't meet the coverage target. This means that when Vercel's US
- * IPs get blocked by Reuters IN / Bloomberg Quint / RBI (a known issue), the
- * system automatically reaches for Reuters Business / AP Biz / FT Markets for
- * wires, PIB / MoSPI for regulators, and Hindu BusinessLine / Financial Express
- * for Indian dailies — without wasting requests in the common case.
- *
- * Tier A+ = official regulator/central bank (most authoritative)
- * Tier A  = global wire service (fast + credible on geopolitics)
- * Tier B  = Indian financial daily (high coverage, some noise)
- *
- * Group coverage target: ≥1 A+, ≥1 A, ≥2 B. If any group is short after
- * Pass 1, its fallbacks are fetched in Pass 2.
- */
-const TRUSTED_MACRO_SOURCES = [
-  // ─── Tier A+: Regulators ──────────────────────────────────────
-  { name: "RBI Press",         url: "https://www.rbi.org.in/Scripts/Bs_viewRSS.aspx?Id=Press",                                   tier: "A+", group: "regulator", primary: true  },
-  { name: "SEBI Press",        url: "https://www.sebi.gov.in/sebirss.xml",                                                       tier: "A+", group: "regulator", primary: true  },
-  { name: "PIB Economy",       url: "https://pib.gov.in/RssMain.aspx?ModId=8&Lang=1",                                            tier: "A+", group: "regulator", primary: false },
-  { name: "MoSPI",             url: "https://mospi.gov.in/rss.xml",                                                              tier: "A+", group: "regulator", primary: false },
-
-  // ─── Tier A: Global wires ─────────────────────────────────────
-  { name: "Reuters India",     url: "https://feeds.reuters.com/reuters/INtopNews",                                               tier: "A",  group: "wire",      primary: true  },
-  { name: "Bloomberg Quint",   url: "https://www.bqprime.com/feed",                                                              tier: "A",  group: "wire",      primary: true  },
-  { name: "Reuters Business",  url: "https://feeds.reuters.com/reuters/businessNews",                                            tier: "A",  group: "wire",      primary: false },
-  { name: "AP Business",       url: "https://rsshub.app/apnews/topics/apf-business",                                             tier: "A",  group: "wire",      primary: false },
-  { name: "FT Markets",        url: "https://www.ft.com/markets?format=rss",                                                     tier: "A",  group: "wire",      primary: false },
-
-  // ─── Tier B: Indian financial dailies ─────────────────────────
-  { name: "Moneycontrol",      url: "https://www.moneycontrol.com/rss/MCtopnews.xml",                                            tier: "B",  group: "indian",    primary: true  },
-  { name: "Business Standard", url: "https://www.business-standard.com/rss/markets-106.rss",                                     tier: "B",  group: "indian",    primary: true  },
-  { name: "Economic Times",    url: "https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms",                      tier: "B",  group: "indian",    primary: true  },
-  { name: "LiveMint",          url: "https://www.livemint.com/rss/markets",                                                      tier: "B",  group: "indian",    primary: true  },
-  { name: "Hindu BusinessLine",url: "https://www.thehindubusinessline.com/markets/feeder/default.rss",                            tier: "B",  group: "indian",    primary: false },
-  { name: "Financial Express", url: "https://www.financialexpress.com/market/feed/",                                             tier: "B",  group: "indian",    primary: false },
-];
-
-// Coverage targets per tier-group — if a group falls short after Pass 1, its
-// fallbacks get fetched in Pass 2. Loose targets so a single regulator/wire
-// success is enough to call that tier "covered".
-const MACRO_COVERAGE_TARGET = { "A+": 1, "A": 1, "B": 2 };
-
-const RSS_HEADERS = {
-  "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-  "Accept": "application/rss+xml, application/xml, text/xml, */*",
-};
-
-/**
- * Fetch headlines from a single RSS source. Returns an array of headline
- * objects (empty array on any failure — never throws). Tracks failure
- * counters so chronic broken feeds bubble up in /api/macro/debug.
- */
-async function fetchFromSource(src, cutoff) {
-  try {
-    const res = await fetchWithRetry(
-      src.url,
-      { headers: RSS_HEADERS },
-      { retries: 1, timeoutMs: 8000 }
-    );
-    if (!res || !res.ok) {
-      bumpSourceFailure(src.name);
-      return { src, headlines: [], ok: false };
-    }
-    const xml = await res.text();
-    const articles = parseRSS(xml, src.name);
-    macroSourceFailures.set(src.name, 0); // success → reset
-    const headlines = articles
-      .map((a) => ({
-        title: a.title,
-        source: src.name,
-        sourceTier: src.tier,
-        group: src.group,
-        publishedAt: a.publishedAt,
-        url: a.link,
-      }))
-      // Filter to recent window upfront so the coverage check doesn't count
-      // ancient headlines from a stale feed as "ok".
-      .filter((h) => {
-        if (!h.publishedAt) return true;
-        const ts = new Date(h.publishedAt).getTime();
-        return Number.isFinite(ts) && ts >= cutoff;
-      });
-    return { src, headlines, ok: headlines.length > 0 };
-  } catch (err) {
-    bumpSourceFailure(src.name);
-    return { src, headlines: [], ok: false };
-  }
-}
-
-/**
- * Fetch macro headlines from trusted sources using a two-pass strategy:
- *
- *   Pass 1 — fetch all PRIMARY sources in parallel.
- *   Check coverage per tier-group against MACRO_COVERAGE_TARGET.
- *   Pass 2 — for any tier-group that fell short, fetch that group's
- *            FALLBACK sources in parallel.
- *
- * This keeps steady-state cost low (primaries are the best feeds) while
- * automatically recovering on Vercel where Reuters IN / Bloomberg Quint /
- * RBI Press are blocked. Returns an object with headlines + sourceHealth
- * metadata so /api/macro/debug can expose exactly which feeds worked and
- * which fallbacks took over.
- *
- * Never throws — on total failure returns { headlines: [], ... } with a
- * fully populated sourceHealth map so the UI can surface the problem.
- */
-async function fetchMacroHeadlines({ hours = 48 } = {}) {
-  const cutoff = Date.now() - hours * 3600 * 1000;
-  const sourceHealth = {}; // name → "ok" | "ok-fallback" | "blocked" | "empty"
-  const tierCoverage = { "A+": 0, "A": 0, "B": 0 };
-  const fallbacksUsed = [];
-  const allHeadlines = [];
-
-  // ─── Pass 1: primaries ───
-  const primaries = TRUSTED_MACRO_SOURCES.filter((s) => s.primary);
-  const pass1 = await Promise.all(primaries.map((s) => fetchFromSource(s, cutoff)));
-
-  for (const r of pass1) {
-    if (r.ok) {
-      sourceHealth[r.src.name] = "ok";
-      tierCoverage[r.src.tier] = (tierCoverage[r.src.tier] || 0) + 1;
-      allHeadlines.push(...r.headlines);
-    } else {
-      sourceHealth[r.src.name] = "blocked";
-    }
-  }
-
-  // ─── Pass 2: fallbacks, only for tier-groups that fell short ───
-  // Group coverage is checked against MACRO_COVERAGE_TARGET. We fetch ALL
-  // fallbacks in a short-coverage group in parallel and take whatever succeeds.
-  const shortGroups = new Set();
-  for (const tier of Object.keys(MACRO_COVERAGE_TARGET)) {
-    if (tierCoverage[tier] < MACRO_COVERAGE_TARGET[tier]) {
-      shortGroups.add(tier);
-    }
-  }
-
-  if (shortGroups.size > 0) {
-    const fallbackCandidates = TRUSTED_MACRO_SOURCES.filter(
-      (s) => !s.primary && shortGroups.has(s.tier)
-    );
-    if (fallbackCandidates.length > 0) {
-      console.log(
-        `[MACRO] Pass 1 short on tiers [${[...shortGroups].join(",")}] — ` +
-        `trying ${fallbackCandidates.length} fallback source(s)`
-      );
-      const pass2 = await Promise.all(
-        fallbackCandidates.map((s) => fetchFromSource(s, cutoff))
-      );
-      for (const r of pass2) {
-        if (r.ok) {
-          sourceHealth[r.src.name] = "ok-fallback";
-          tierCoverage[r.src.tier] = (tierCoverage[r.src.tier] || 0) + 1;
-          allHeadlines.push(...r.headlines);
-          fallbacksUsed.push(r.src.name);
-        } else {
-          sourceHealth[r.src.name] = "blocked";
-        }
-      }
-    }
-  }
-
-  // Mark any source we didn't touch as "skipped" so the debug view is complete
-  for (const src of TRUSTED_MACRO_SOURCES) {
-    if (!(src.name in sourceHealth)) sourceHealth[src.name] = "skipped";
-  }
-
-  // ─── Dedupe by normalized title prefix, sort newest first, cap at 60 ───
-  const seen = new Set();
-  const unique = [];
-  for (const h of allHeadlines) {
-    if (!h.title) continue;
-    const key = h.title.toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 80);
-    if (seen.has(key)) continue;
-    seen.add(key);
-    unique.push(h);
-  }
-  unique.sort((a, b) => {
-    const da = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
-    const db = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
-    return db - da;
-  });
-  const top = unique.slice(0, 60);
-
-  // Per-request log so we can diagnose on Vercel
-  const okSources = Object.values(sourceHealth).filter((v) => v === "ok" || v === "ok-fallback").length;
-  const fbStr = fallbacksUsed.length > 0 ? ` fallbacks-used=${fallbacksUsed.join(",")}` : "";
-  console.log(
-    `[MACRO] headlines=${top.length} sources=ok(${okSources}/${TRUSTED_MACRO_SOURCES.length}) ` +
-    `tierCoverage={A+:${tierCoverage["A+"]},A:${tierCoverage["A"]},B:${tierCoverage["B"]}}${fbStr}`
-  );
-
-  // Attach metadata as a non-enumerable field on the headlines array so callers
-  // that only read `.length` / iterate still work, but refreshMacroRegime can
-  // reach into it for logging.
-  Object.defineProperty(top, "meta", {
-    value: { sourceHealth, tierCoverage, fallbacksUsed, okSources, totalSources: TRUSTED_MACRO_SOURCES.length },
-    enumerable: false,
-  });
-  return top;
-}
-
-function bumpSourceFailure(name) {
-  const count = (macroSourceFailures.get(name) || 0) + 1;
-  macroSourceFailures.set(name, count);
-  if (count === 3) {
-    console.warn(`[MACRO] ⚠ Source "${name}" failed 3 times in a row. It may be blocked or down.`);
-  }
-}
+//
+// TRUSTED_MACRO_SOURCES, MACRO_COVERAGE_TARGET, fetchMacroHeadlines,
+// bumpSourceFailure, macroSourceFailures, and parseRSS now live in
+// macroHeadlineFetcher.js (see the import block near the top of this file).
+// The extraction lets scripts/refresh-macro-regime.mjs share the exact same
+// fetch + dedupe + tier-coverage logic — divergence between in-process and
+// out-of-process refresh is what would otherwise cause the on-disk file and
+// the live cache to drift apart.
 
 /**
  * In-flight promise for `refreshMacroRegime` — ensures concurrent callers
@@ -3816,13 +3839,27 @@ const trackCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
  * Query params:
  *   ?type=buynow_nifty100|smallcap_buynow|fundamental_deep_value  — filter
  *   ?days=30                                                      — last N days
+ *   ?symbol=HDFCBANK                                              — single-symbol filter (PR T6)
  *   ?bust=1                                                       — skip cache
+ *
+ * PR T6 — symbol filter underwrites the per-stock "we said X N days ago"
+ * strip on the stock-detail modal. The normaliser strips .NS / .BO / BSE:
+ * / NSE: prefixes + uppercases so the caller doesn't have to canonicalise.
  */
+function _normaliseTrackSymbol(s) {
+  if (!s) return "";
+  return String(s)
+    .toUpperCase()
+    .replace(/^(BSE|NSE):/, "")
+    .replace(/\.(NS|BO)$/, "")
+    .trim();
+}
 app.get("/api/track/history", async (req, res) => {
   try {
     const filterType = req.query.type || null;
     const dayLimit = req.query.days ? parseInt(req.query.days, 10) : null;
-    const cacheKey = `track_history_${filterType || "all"}_${dayLimit || "all"}`;
+    const symbolFilter = req.query.symbol ? _normaliseTrackSymbol(req.query.symbol) : null;
+    const cacheKey = `track_history_${filterType || "all"}_${dayLimit || "all"}_${symbolFilter || "all"}`;
 
     if (!req.query.bust) {
       const cached = trackCache.get(cacheKey);
@@ -3835,6 +3872,9 @@ app.get("/api/track/history", async (req, res) => {
     let trades = await readAllTrades();
 
     if (filterType) trades = trades.filter((t) => t.type === filterType);
+    if (symbolFilter) {
+      trades = trades.filter((t) => _normaliseTrackSymbol(t.symbol) === symbolFilter);
+    }
     if (dayLimit) {
       const cutoff = Date.now() - dayLimit * 86400000;
       trades = trades.filter((t) => new Date(t.snapshotAt).getTime() >= cutoff);
@@ -3907,6 +3947,27 @@ app.get("/api/track/history", async (req, res) => {
   } catch (err) {
     console.error("[PAPERTRADES] /api/track/history failed:", err.message);
     res.status(500).json({ error: "Track history failed: " + err.message });
+  }
+});
+
+/**
+ * GET /api/track/calibration  — PR T7
+ *
+ * Builds the 5-bucket calibration profile for the front-end SVG plot.
+ * Backed by services/trackRecord/calibration.js; thin (n < 30) buckets
+ * are flagged so the UI greys them out rather than implying confidence.
+ */
+app.get("/api/track/calibration", async (req, res) => {
+  try {
+    const trades = await readAllTrades();
+    const payload = buildTrackCalibration(trades);
+    res.json({
+      ...payload,
+      computedAt: new Date().toISOString(),
+    });
+  } catch (err) {
+    console.error("[TRACK] /api/track/calibration failed:", err && err.message);
+    res.status(500).json({ error: "calibration failed: " + (err && err.message) });
   }
 });
 
@@ -4202,32 +4263,9 @@ app.all("/api/cron/resolve-forward-returns", async (req, res) => {
   }
 });
 
-/** Parse RSS XML into article objects */
-function parseRSS(xml, defaultSource) {
-  if (!xml) return [];
-  const articles = [];
-  const itemRegex = /<item>([\s\S]*?)<\/item>/g;
-  let match;
-  while ((match = itemRegex.exec(xml)) !== null) {
-    const block = match[1];
-    const title = (block.match(/<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/)?.[1] || "").trim();
-    const link = (block.match(/<link>([\s\S]*?)<\/link>/)?.[1] || "").trim();
-    const pubDate = (block.match(/<pubDate>([\s\S]*?)<\/pubDate>/)?.[1] || "").trim();
-    const source = (block.match(/<source[^>]*>([\s\S]*?)<\/source>/)?.[1] || "").trim();
-    const desc = (block.match(/<description>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/description>/)?.[1] || "").trim();
-
-    if (title) {
-      articles.push({
-        title: title.replace(/<!\[CDATA\[|\]\]>/g, "").trim(),
-        link: link || null,
-        publishedAt: safeDateParse(pubDate),
-        publisher: source || defaultSource,
-        description: desc ? desc.replace(/<[^>]*>/g, "").slice(0, 200) : null,
-      });
-    }
-  }
-  return articles;
-}
+// parseRSS + safeDateParse now live in macroHeadlineFetcher.js (imported above).
+// The news aggregator at /api/news/market uses the imported parseRSS — they
+// stay in sync with the macro fetcher's parsing rules automatically.
 
 // ==================== HELPERS ====================
 
@@ -4345,6 +4383,17 @@ app.get("/api/watchlist", async (req, res) => {
 app.post("/api/watchlist/add", express.json(), async (req, res) => {
   const { symbol, name, sector } = req.body || {};
   if (!symbol) return res.status(400).json({ error: "symbol required" });
+
+  // Validate against the tracked universe before persisting. The handler
+  // used to accept any string — garbage symbols (and even raw HTML) landed
+  // in storage, then broke downstream price / SWS lookups that assume a real
+  // ticker. findBySymbol canonicalises (uppercase, strip whitespace, match
+  // bare or .NS form) and returns null on a miss.
+  const resolved = findBySymbol(symbol);
+  if (!resolved) {
+    return res.status(400).json({ error: "Unknown symbol — not in the tracked universe." });
+  }
+
   const storage = getWatchlistStorage();
 
   // Capture the price at add-time so the watchlist can show the user
@@ -4353,14 +4402,14 @@ app.post("/api/watchlist/add", express.json(), async (req, res) => {
   // forge it). Failures are non-fatal — we still save the entry.
   let addedPrice = null;
   try {
-    const q = await fetchQuote(symbol);
+    const q = await fetchQuote(resolved.symbol);
     if (q && typeof q.regularMarketPrice === "number") addedPrice = q.regularMarketPrice;
   } catch { /* keep addedPrice null */ }
 
   const result = await storage.add({
-    symbol,
-    name: name || symbol,
-    sector: sector || null,
+    symbol: resolved.symbol,
+    name: resolved.name || name || resolved.symbol,
+    sector: resolved.sector || sector || null,
     addedAt: new Date().toISOString(),
     addedPrice,
   });
@@ -5094,9 +5143,23 @@ async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sour
     history,
   });
 
-  // Rerun path: suppression-only, no writes.
+  // Rerun path: suppression-only, no writes. We still want the cooldown gate
+  // to demote recently-executed names out of Tier A — otherwise opening the
+  // tab a day after a trim would re-flag the same name even though the gate
+  // already suppressed the ledger write. So we call memBuildIssued with an
+  // empty reconcile pass purely to recover the cooldownEntries, then apply
+  // the demotion. No ISSUED events are persisted on this code path.
   if (isRerun) {
     const openRecs = memDeriveOpenRecs(ledger.events);
+    const { cooldownEntries: rerunCooldownEntries = [] } = memBuildIssued({
+      scoredHoldings: swsResult._scoredHoldings || [],
+      newSnap,
+      openRecsAfterReconcile: openRecs,
+      ledgerEvents: ledger.events,
+      reconcileEvents: [],
+    });
+    const demoted = memApplyCooldownDemotion(swsResult._scoredHoldings || [], rerunCooldownEntries);
+    if (demoted.size > 0) rebuildTierAggregates(swsResult.report, swsResult._scoredHoldings || []);
     memApplyToReport(swsResult.report, {
       newSnap,
       prevSnap: history.snapshots[0] || null,
@@ -5105,6 +5168,7 @@ async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sour
       issuedEvents: [],
       suppressedCandidateRecIds: new Set(),
       supersedeMap: new Map(),
+      cooldownEntries: rerunCooldownEntries,
       isBackdated: newSnap.backdated,
       historySnapshots: history.snapshots,
     });
@@ -5151,6 +5215,13 @@ async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sour
     ledgerEvents: ledger.events,
     reconcileEvents,
   });
+
+  // Wire the cooldown gate into the visible report: demote any holding the
+  // gate just suppressed from "Reduction-25%" to "HOLD" and rebuild Tier
+  // aggregates so it falls out of Tier A and into Tier C with a "trimmed
+  // recently, no further action" marker the UI renders.
+  const demoted = memApplyCooldownDemotion(swsResult._scoredHoldings || [], cooldownEntries);
+  if (demoted.size > 0) rebuildTierAggregates(swsResult.report, swsResult._scoredHoldings || []);
 
   memApplyToReport(swsResult.report, {
     newSnap,
@@ -5648,14 +5719,28 @@ if (!process.env.VERCEL) {
       console.warn("[GOVERNANCE] KV prime failed at startup:", e.message)
     );
 
-    // Warm macro regime cache at startup + schedule 15-min background refresh.
-    // Non-blocking: we don't await the first refresh so the server starts fast.
-    refreshMacroRegime().then((r) => {
-      console.log(`  Macro regime warmed: ${r.regime} (sev ${r.severity}, conf ${r.confidence.toFixed(2)})`);
-    });
-    setInterval(() => {
-      refreshMacroRegime().catch((e) => console.error("[MACRO] scheduled refresh failed:", e.message));
-    }, 15 * 60 * 1000);
+    // LOCAL-DEV ONLY: warm macro regime cache + schedule 15-min refresh.
+    // This block lives inside the `app.listen()` callback, so it never runs
+    // on Vercel (serverless invocations don't reach the listen call). On
+    // prod, the macro file is refreshed by scripts/refresh-macro-regime.mjs
+    // (fired from sws-nightly.sh via launchd at 02:00 + 16:30 IST) and
+    // committed to data/macroRegime.json. Vercel reads fresh disk on the
+    // next deploy. See services/macroRegimeStorage.js for the rationale.
+    //
+    // Skipped under NODE_ENV=test: the Playwright e2e harness boots a real
+    // server (playwright.config.mjs `webServer`), so this block would
+    // otherwise fire an RSS-fetch + LLM classification on every run and
+    // rewrite the tracked data/macroRegime.json — leaving the working tree
+    // dirty after each suite. The committed file is still served via the
+    // read path (getMacroRegime → macroStorage.read).
+    if (!isTestEnv) {
+      refreshMacroRegime().then((r) => {
+        console.log(`  Macro regime warmed: ${r.regime} (sev ${r.severity}, conf ${r.confidence.toFixed(2)})`);
+      });
+      setInterval(() => {
+        refreshMacroRegime().catch((e) => console.error("[MACRO] scheduled refresh failed:", e.message));
+      }, 15 * 60 * 1000);
+    }
 
     // Warm the SWS DAL cache from Neon when SWS_READ_FROM_DB=1; no-op
     // otherwise so this is safe to leave unconditional. Non-blocking —
@@ -5733,17 +5818,64 @@ function readJsonSafe(p, fallback = null) {
   try { return JSON.parse(fs.readFileSync(p, "utf-8")); } catch { return fallback; }
 }
 
-// Slim scored-universe index — every scored stock (~5,439) with the fields
+// Shared per-row enrich for the SWS picks tab. Two routes feed the tab:
+//   • /api/sws-picks ships curated section rows from picks-latest.json
+//   • /api/sws-universe ships off-section search hits from sws-scored-universe.json
+// Both must hand the renderer rows with the same shape, or the cards diverge
+// (no DISCOUNT chip / "—" verdict on off-section, but populated on curated).
+// This function makes that invariant a single line at the call site.
+//
+// Back-fills:
+//   • composite_verdict ← v3_verdict   (PR 2.3 alias, renderer prefers it)
+//   • valuation_band    ← upside_pct   (renders DISCOUNT/PREMIUM/… chip)
+//
+// Live-price overlay (issue 2.10): picks-latest.json is typically 12-24h old,
+// so baked current_price_inr drifts vs the market during the trading day. We
+// piggyback on the in-process quoteCache (60s TTL, populated by scanners and
+// other consumers) — NO fanout to Yahoo here, because 5,500+ rows on a single
+// tab-open would be catastrophic. If the cache is cold for a ticker, leave
+// the baked price untouched. FV stays as-baked (AnalystConsensus number,
+// not a live tape value); only the live close moves and upside_pct + band
+// are recomputed from (FV - live) / live.
+//
+// `valuationBandFromUpside` is imported from services/swsScoring.js so both
+// the back-fill and the live-overlay use the same null-aware mapping
+// (Number(null) === 0 is finite, which would otherwise wrongly band null
+// upsides as FAIR — visible on ~3k universe rows that lack a fair value).
+function enrichPickRow(it) {
+  if (!it || !it.ticker) return;
+  if (it.composite_verdict == null && it.v3_verdict != null) {
+    it.composite_verdict = it.v3_verdict;
+  }
+  if (it.valuation_band == null && typeof it.upside_pct === "number") {
+    it.valuation_band = valuationBandFromUpside(it.upside_pct);
+  }
+  if (typeof it.fair_value_inr === "number" && Number.isFinite(it.fair_value_inr)) {
+    const cachedQuote = quoteCache.get(`${it.ticker}.NS`);
+    const livePx = cachedQuote && Number(cachedQuote.regularMarketPrice);
+    if (Number.isFinite(livePx) && livePx > 0) {
+      const liveUpside = ((it.fair_value_inr - livePx) / livePx) * 100;
+      it.current_price_inr = livePx;
+      it.upside_pct = Math.round(liveUpside * 10) / 10;
+      it.valuation_band = valuationBandFromUpside(liveUpside);
+      it.live_price = true;
+    }
+  }
+}
+
+// Slim scored-universe index — every scored stock (~5,500) with the fields
 // renderPickCard needs, plus `in_sections` so the picks-tab search can dedupe
 // against the curated 11 sections. Generated by scripts/sws-scoring.mjs as a
 // sibling of picks-latest.json (atomic write). Mirrors the nifty500 injection
-// pattern used by /api/sws-picks.
+// + enrichPickRow pattern used by /api/sws-picks so off-section search hits
+// render with the same card shape as curated rows.
 app.get("/api/sws-universe", (req, res) => {
   const data = swsDal.getScoredUniverse();
   if (!data) return res.status(404).json({ error: "no_universe_yet", hint: "Run `node scripts/sws-build-scored-universe.mjs` to backfill, or wait for the next refresh." });
   if (Array.isArray(data.stocks)) {
     for (const it of data.stocks) {
       if (it && it.ticker) it.nifty500 = NIFTY500_SYMBOLS.has(`${it.ticker}.NS`);
+      enrichPickRow(it);
     }
   }
   res.json(data);
@@ -5765,13 +5897,6 @@ app.get("/api/sws-picks", (req, res) => {
       const valSnow = Number((it?.snowflake || {}).valuation);
       return (Number.isFinite(upside) && upside >= 0) || (Number.isFinite(valSnow) && valSnow >= 4);
     };
-    // Helper to map upside → band so the live-overlay and back-fill paths
-    // stay in sync. Mirrors services/swsScoring.js::valuationBandFromUpside.
-    const bandFromUpside = (u) =>
-      u >= 25 ? "DEEP_DISCOUNT" :
-      u >= 10 ? "DISCOUNT" :
-      u >= -5 ? "FAIR" :
-      u >= -20 ? "PREMIUM" : "EXPENSIVE";
 
     for (const [key, items] of Object.entries(data.sections)) {
       if (!Array.isArray(items)) continue;
@@ -5782,43 +5907,7 @@ app.get("/api/sws-picks", (req, res) => {
       data.sections[key] = filtered;
       for (const it of filtered) {
         if (it && it.ticker) it.nifty500 = NIFTY500_SYMBOLS.has(`${it.ticker}.NS`);
-        // PR 2.3 — back-fill the new alias fields when the cached JSON
-        // predates the pickCardFields change. UI prefers these names so the
-        // composite-vs-valuation distinction renders even on stale snapshots.
-        if (it && it.composite_verdict == null && it.v3_verdict != null) {
-          it.composite_verdict = it.v3_verdict;
-        }
-        if (it && it.valuation_band == null) {
-          const u = Number(it.upside_pct);
-          if (Number.isFinite(u)) {
-            it.valuation_band = bandFromUpside(u);
-          }
-        }
-
-        // Live-price overlay (issue 2.10) — picks-latest.json is typically
-        // 12-24h old, so the baked current_price_inr drifts vs the market
-        // during the trading day. That makes the DISCOUNT/PREMIUM chip
-        // shown on the card subtly wrong for boundary names. We piggyback
-        // on the in-process quoteCache (60s TTL, populated by scanners and
-        // other consumers) — NO fanout to Yahoo here, because 800+ rows on
-        // a single tab-open would be catastrophic. If the cache is cold for
-        // a ticker, leave the baked price untouched.
-        //
-        // FV stays as-baked (it's an AnalystConsensus number, not a live
-        // tape value). Only the live close moves; upside_pct + band are
-        // recomputed from (FV - live) / live.
-        if (it && it.ticker && Number.isFinite(Number(it.fair_value_inr))) {
-          const cachedQuote = quoteCache.get(`${it.ticker}.NS`);
-          const livePx = cachedQuote && Number(cachedQuote.regularMarketPrice);
-          if (Number.isFinite(livePx) && livePx > 0) {
-            const fv = Number(it.fair_value_inr);
-            const liveUpside = ((fv - livePx) / livePx) * 100;
-            it.current_price_inr = livePx;
-            it.upside_pct = Math.round(liveUpside * 10) / 10;
-            it.valuation_band = bandFromUpside(liveUpside);
-            it.live_price = true;
-          }
-        }
+        enrichPickRow(it);
       }
     }
   }

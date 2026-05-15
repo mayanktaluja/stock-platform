@@ -218,8 +218,36 @@ fi
 # threshold table and AVOID carve-out.
 
 echo "[refresh-api] stamping section status (newly added / trending)..."
-STAMP_OUT="$(node scripts/sws-stamp-section-status.mjs 2>&1 || true)"
-echo "${STAMP_OUT}" | tail -5 | sed 's/^/[stamp] /'
+STAMP_FAILED=0
+if STAMP_OUT="$(node scripts/sws-stamp-section-status.mjs 2>&1)"; then
+  :
+else
+  STAMP_FAILED=1
+  echo "[refresh-api] STAMP FAILED — section_status will be missing from picks-latest.json"
+fi
+echo "${STAMP_OUT}" | tail -8 | sed 's/^/[stamp] /'
+
+# Defence-in-depth: even if the stamper returned exit 0, verify section_status
+# actually landed on every stock. Catches future regressions where the script
+# runs but writes the wrong thing (e.g. a silently-empty diff). The original
+# May-11 incident — see commit history of this file for context — was a
+# SyntaxError swallowed by the old `|| true`; this check would have caught it
+# even after that was fixed.
+STAMPED_COUNT="$(node -e '
+  const p = JSON.parse(require("fs").readFileSync("data/sws/picks-latest.json", "utf-8"));
+  let n = 0;
+  for (const items of Object.values(p.sections || {})) {
+    if (!Array.isArray(items)) continue;
+    for (const s of items) if (s && s.section_status) n++;
+  }
+  console.log(n);
+' 2>/dev/null || echo "0")"
+if [ "${STAMPED_COUNT}" = "0" ]; then
+  STAMP_FAILED=1
+  echo "[refresh-api] STAMP SMOKE CHECK FAILED — 0 stocks have section_status in picks-latest.json"
+else
+  echo "[refresh-api] stamp smoke check: ${STAMPED_COUNT} stocks have section_status"
+fi
 
 # ---------- 9. PDF ----------
 
@@ -252,12 +280,16 @@ for (const sid of [1, 2, 3]) {
     };
   }
 }
-// News population stats — read every deep/<T>.json once, count stocks with
-// non-empty \`news\` (Brief + Event from /dashboard/company REST endpoint,
-// extracted by sws-api-parser.mjs). Surfaces silent breakage of the news
-// endpoint: if SWS changes shape, deep files quietly revert to news: []
-// and the gate in sws-nightly.sh refuses to push.
+// News + rewards/risks population stats — read every deep/<T>.json once,
+// count stocks with non-empty \`news\` (Brief + Event from
+// /dashboard/company) and with non-empty \`overview.rewards\` /
+// \`overview.risks\` (from /backend/statements, extracted by
+// sws-api-parser.mjs). Surfaces silent breakage of those endpoints: if SWS
+// changes shape the deep files quietly revert to empty arrays, and the L1
+// canary in sws-sanity-gate.mjs refuses to push. Note: news is top-level
+// but rewards/risks live under \`overview\`.
 let newsPopulatedCount = 0, newsItemsTotal = 0, deepFilesScanned = 0;
+let rewardsPopulatedCount = 0, risksPopulatedCount = 0;
 try {
   const dir = "data/sws/deep";
   if (existsSync(dir)) {
@@ -270,6 +302,9 @@ try {
           newsPopulatedCount++;
           newsItemsTotal += d.news.length;
         }
+        const ov = d.overview || {};
+        if (Array.isArray(ov.rewards) && ov.rewards.length > 0) rewardsPopulatedCount++;
+        if (Array.isArray(ov.risks) && ov.risks.length > 0) risksPopulatedCount++;
       } catch {}
     }
   }
@@ -285,13 +320,16 @@ const summary = {
   per_shard_progress: progress,
   news_populated_count: newsPopulatedCount,
   news_items_total: newsItemsTotal,
+  rewards_populated_count: rewardsPopulatedCount,
+  risks_populated_count: risksPopulatedCount,
   deep_files_scanned: deepFilesScanned,
+  stamping_status: ${STAMP_FAILED:-0} > 0 ? "failed" : "success",
   pipeline_status: ${SCRAPE_SKIPPED}
     ? "skipped_scrape_already_running"
     : (${FAIL} > 0 ? "partial" : "success"),
 };
 writeFileSync("${SUMMARY}", JSON.stringify(summary, null, 2));
-console.log("[refresh-api] summary written: scored=" + scoredCount + " news_stocks=" + newsPopulatedCount + " news_items=" + newsItemsTotal + " shards=" + JSON.stringify(progress));
+console.log("[refresh-api] summary written: scored=" + scoredCount + " news_stocks=" + newsPopulatedCount + " news_items=" + newsItemsTotal + " rewards_stocks=" + rewardsPopulatedCount + " risks_stocks=" + risksPopulatedCount + " shards=" + JSON.stringify(progress));
 EOF
 
 echo "=== refresh-api complete: $(ts) elapsed=${ELAPSED}s ==="
@@ -401,6 +439,16 @@ const lines = [
   `Duration: ${h}h ${m}m (${dur}s)`,
   `Scored: ${j.scored_count} stocks · Shards failed: ${j.shards_failed}`,
   `Finished: ${j.finished_at}`,
+];
+if (j.stamping_status === "failed") {
+  lines.push(
+    "",
+    "⚠️ STAMPING FAILED — section_status missing from picks-latest.json.",
+    "   The 'New' / '↑N' / 'Newly Flagged' badges will not render on cards",
+    "   until the next successful run. Check scripts/sws-stamp-section-status.mjs.",
+  );
+}
+lines.push(
   "",
   "Sections:",
   ...Object.entries(j.sections_count || {}).map(([k, v]) => `  ${k}: ${v}`),
@@ -410,7 +458,7 @@ const lines = [
     `  shard ${sid}: ${p.done_count} done · today ${p.today_count} · last ${p.last_ticker}`),
   "",
   "Prod: https://stock-platform-gamma.vercel.app/",
-];
+);
 if (pr.length) lines.push("", `Auto-PR opened: ${pr}`);
 else lines.push("", "Auto-PR not opened (skipped or disabled — manual sync needed for prod to see fresh data).");
 console.log(lines.join("\n"));
@@ -419,6 +467,7 @@ NODE_EOF
 
 MAIL_STATUS_ICON="✅"
 [ "${FAIL}" -gt 0 ] && MAIL_STATUS_ICON="⚠️"
+[ "${STAMP_FAILED:-0}" -gt 0 ] && MAIL_STATUS_ICON="⚠️"
 MAIL_DATE="$(date -u +%Y-%m-%d)"
 MAIL_SCORED="$(node -p "JSON.parse(require('fs').readFileSync('data/sws/last-refresh.json','utf-8')).scored_count" 2>/dev/null || echo "?")"
 

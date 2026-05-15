@@ -5,6 +5,7 @@
 # Code dependency.
 #
 # Pipeline:
+#   0. Mail: "run started" heads-up (sent before pre-flight; pairs with abort mail)
 #   1. Pre-flight  — panic flag, AC power, network reachable
 #   2. git pull main (so we're not racing a human commit)
 #   3. bash scripts/sws-refresh-api.sh (full scrape → parse → score → PDF)
@@ -43,6 +44,21 @@ exec >> >(tee -a "${LOG}") 2>&1
 ts() { date "+%Y-%m-%d %H:%M:%S %Z"; }
 START_EPOCH="$(date +%s)"
 
+# Portable timeout wrapper: GNU `timeout` ships with Linux but not macOS
+# (stock macOS has no equivalent; Homebrew's coreutils provides `gtimeout`).
+# Prefer gtimeout, then timeout, then fall back to running the command
+# directly with no hard cap. The chain steps that use this are all
+# non-fatal and wrapped in `if !` — losing the cap on a vanilla mac is
+# acceptable; silently failing every step because `timeout` doesn't exist
+# is not (cf. #186 regression on 2026-05-12/13).
+if command -v gtimeout >/dev/null 2>&1; then
+  with_timeout() { gtimeout "$@"; }
+elif command -v timeout >/dev/null 2>&1; then
+  with_timeout() { timeout "$@"; }
+else
+  with_timeout() { shift; "$@"; }
+fi
+
 DRY_RUN=0
 [ "${1:-}" = "--dry-run" ] && DRY_RUN=1
 [ "${SWS_NIGHTLY_DRY_RUN:-0}" = "1" ] && DRY_RUN=1
@@ -61,6 +77,23 @@ send_mail() {
     printf "%s" "${body}" | node scripts/sws-mail-summary.mjs "${subject}" - 2>&1 | sed 's/^/[mail] /' || true
   fi
 }
+
+# ---- 0. Mail: run-started heads-up ----
+# Fires BEFORE pre-flight so the operator always gets a kickoff notice — even
+# when a pre-flight check aborts the run seconds later. Aborts send their own
+# 🚨 mail, so a started→aborted pair in the inbox is expected, not a bug.
+START_SUBJECT="🚀 SWS nightly started — $(ts)"
+[ "${DRY_RUN}" = "1" ] && START_SUBJECT="🚀 SWS nightly started (DRY RUN) — $(ts)"
+send_mail "${START_SUBJECT}" "SWS nightly run kicked off at $(ts).
+
+pid:        $$
+dry run:    ${DRY_RUN}
+auto-merge: ${AUTO_MERGE}
+host:       $(hostname)
+
+Pre-flight (panic flag / battery / network / git sync) runs next. A second
+mail follows when the run finishes — ✅ on success, 🚨/⚠️ on abort or warning.
+Typical full run is ~3h, so expect the completion mail around then."
 
 # ---- 1. Pre-flight ----
 
@@ -96,9 +129,9 @@ fi
 # ---- 2. Sync main ----
 #
 # Self-healing sync: autostash any local working-tree changes (tracked +
-# untracked) before pulling, so dashboard-time transient files never block
-# the nightly. Only diverged local commits are treated as fatal — those
-# need a human because resetting would destroy real work.
+# untracked) before the origin/main checkout, so dashboard-time transient
+# files never block the nightly. Only diverged local commits on the main
+# ref are treated as fatal — those need a human, resetting would lose work.
 
 echo "[nightly] syncing main..."
 if ! git fetch origin main 2>&1 | sed 's/^/[git] /'; then
@@ -107,22 +140,27 @@ if ! git fetch origin main 2>&1 | sed 's/^/[git] /'; then
   exit 5
 fi
 
-CUR_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-if [ "${CUR_BRANCH}" != "main" ]; then
-  echo "[nightly] not on main (was: ${CUR_BRANCH}) — switching"
-  git checkout main 2>&1 | sed 's/^/[git] /'
-fi
-
-LOCAL_AHEAD="$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)"
+# Genuine-unpushed-work guard. Measure the `main` REF against origin/main —
+# NOT HEAD. HEAD is frequently a leftover auto-refresh branch from a prior
+# run (the commit/push stage checks out chore/sws-auto-refresh-* and never
+# restores main), and that branch's commit is already pushed as a PR head,
+# so origin/main..HEAD false-positives. origin/main..main only counts real
+# human commits sitting unpushed on the main ref — that needs a human. A
+# `main` ref that is BEHIND origin, or merely stale, yields 0 and is fine.
+LOCAL_AHEAD="$(git rev-list --count origin/main..main 2>/dev/null || echo 0)"
 if [ "${LOCAL_AHEAD}" -gt 0 ]; then
-  echo "[nightly] local main is ${LOCAL_AHEAD} commit(s) ahead of origin — refusing to run"
+  echo "[nightly] local main ref is ${LOCAL_AHEAD} commit(s) ahead of origin/main — refusing to run"
   send_mail "🚨 SWS nightly aborted — local main has unpushed commits" \
-"Local main is ${LOCAL_AHEAD} commit(s) ahead of origin/main at $(ts). Push or reset manually before the next run.
+"Local main is ${LOCAL_AHEAD} commit(s) ahead of origin/main at $(ts). Push or reset main manually before the next run.
 
-$(git log --oneline origin/main..HEAD)"
+$(git log --oneline origin/main..main)"
   exit 5
 fi
 
+# Autostash BEFORE we move the working copy. The tree is routinely dirty
+# with regenerated files (.claude/launch.json, data/coverage/*,
+# data/macroRegime.json, data/sws/_sanity/_latest.json); a dirty tracked
+# file would otherwise block the checkout below.
 STASH_TAG="sws-nightly-autostash-$(date +%s)"
 STASHED=0
 if [ -n "$(git status --porcelain)" ]; then
@@ -139,18 +177,36 @@ $(git status 2>&1 | head -40)"
   fi
 fi
 
-if ! git pull --ff-only origin main 2>&1 | sed 's/^/[git] /'; then
-  echo "[nightly] git pull --ff-only failed even after autostash"
+# Move the working copy to origin/main's tip WITHOUT `git checkout main`.
+# A worktree under .claude/worktrees/ may hold the `main` branch ref, which
+# makes `git checkout main` fail with
+#   fatal: 'main' is already used by worktree at ...
+# `git checkout -B sws-nightly-base origin/main` sidesteps that: a worktree
+# reserves the branch NAME `main`, not the commit it points at and not other
+# branch names. -B force-resets sws-nightly-base to origin/main every run,
+# so the branch is reused, never drifts, and needs no cleanup. The commit/
+# push stage later does its own `git checkout -b chore/sws-auto-refresh-*`,
+# so the literal `main` branch never needs to be checked out here.
+echo "[nightly] checking out sws-nightly-base at origin/main..."
+if ! git checkout -B sws-nightly-base origin/main 2>&1 | sed 's/^/[git] /'; then
+  echo "[nightly] could not check out sws-nightly-base at origin/main"
   if [ "${STASHED}" -eq 1 ]; then
     git stash pop 2>&1 | sed 's/^/[git] /' || true
   fi
-  send_mail "🚨 SWS nightly aborted — git pull failed" \
-"git pull --ff-only origin main failed at $(ts) even after autostash. Investigate manually.
+  send_mail "🚨 SWS nightly aborted — git checkout failed" \
+"git checkout -B sws-nightly-base origin/main failed at $(ts).
 
-$(git status 2>&1 | head -30)"
+This is NOT the worktree-holds-main case (we deliberately avoid 'git checkout main').
+Likely a dirty file that survived autostash, or a branch named 'sws-nightly-base'
+held by a worktree. Inspect manually:
+
+$(git status 2>&1 | head -30)
+
+$(git worktree list 2>&1)"
   exit 5
 fi
 
+# Re-apply the autostashed working-tree changes onto sws-nightly-base.
 if [ "${STASHED}" -eq 1 ]; then
   if ! git stash pop 2>&1 | sed 's/^/[git] /'; then
     echo "[nightly] stash pop conflicted — stash ${STASH_TAG} left on list"
@@ -211,63 +267,104 @@ fi
 # gate FAIL path below ships a separate data-only PR with whichever of
 # these files changed.
 #
-# Each step is wrapped in `timeout` and treated as warning-only — a
-# transient NSE failure here MUST NOT block the SWS push that may still
-# succeed below. Mirrors the news-refresh pattern at step 3b.
+# Each step is wrapped in `with_timeout` (GNU timeout / gtimeout when
+# available, falls through to a no-op cap on stock macOS — see helper
+# definition near the top) and treated as warning-only. A transient NSE
+# failure here MUST NOT block the SWS push that may still succeed below.
+# Mirrors the news-refresh pattern at step 3b.
 #
 # Order matters:
 #   1. refresh-catalysts.mjs      → data/catalysts/events-latest.json
 #   2. refresh-nse-corporate.mjs  → nse-announcements-rolling + bulk-block
 #   3. refresh-fo-oi.sh           → data/nse-fo/oi-deltas-latest.json
-#   4. refresh-fundamentals.mjs   → fundamentals.json (NSE; DAILY now, with
-#                                    a 20h freshness skip so only one of
-#                                    the two daily fires actually re-runs).
+#   4. refresh-fundamentals.mjs   → fundamentals.json (NSE; 8h freshness gate
+#                                    so BOTH daily fires refresh — keeps it
+#                                    well under the 48h staleness banner).
 #                                    Used by stock detail modals — not the
 #                                    earnings tab, which reads
 #                                    fundamentalsHistory.json.
-#   5. refresh-earnings.mjs       → data/catalysts/earnings-watch-*.json
-# (Phase E will add refresh-earnings-actuals.mjs as step 6 once it lands.)
-#
-# NOTE: fundamentalsHistory.json (Yahoo, used by the earnings tab's
-# trajectory component) is currently refreshed manually via
-# scripts/fetch-fundamentals-history.mjs. Phase A.2 of the SEBI-RA upgrade
-# plan will extend that script to also capture forwardEps +
-# numberOfAnalystOpinions, then add it to this chain on a weekly cadence.
+#   5. refresh-surveillance.mjs   → surveillance.json (NSE ASM/GSM; every run)
+#   6. refresh-governance.mjs     → governance.json (NSE shareholding; 144h
+#                                    gate — quarterly data. MUST follow step 4:
+#                                    reads getAllFundamentals(), exits 1 if
+#                                    the fundamentals snapshot is empty).
+#   7. refresh-earnings.mjs       → data/catalysts/earnings-watch-*.json
+#   8. step 3d (below)            → fundamentalsHistory.json (Yahoo per-quarter
+#                                    EPS/revenue, 18h gate). Folded in here
+#                                    after the standalone com.starbhai.sws-
+#                                    fundamentals-history launchd job was
+#                                    found dormant 2026-05-13 (script path
+#                                    missing → exit 127 silently; file went
+#                                    23 days stale). A budget-capped Yahoo
+#                                    fetch in the nightly chain is more
+#                                    reliable than a separate launchd job
+#                                    that can rot when paths drift.
+# (Phase E will add refresh-earnings-actuals.mjs as step 9 once it lands.)
+
+# Step-3c auxiliary refresh status — each non-fatal refresh below records its
+# outcome here; the COMMIT_BODY builder (step 5) reads this file and appends
+# an "Auxiliary refreshes:" section to the commit + PR body, so a silently
+# failed or skipped refresh shows up in the PR rather than only the log.
+AUX_STATUS_FILE="data/sws/_aux-refresh-status.tmp"
+: > "${AUX_STATUS_FILE}"
+aux_status() {
+  # aux_status <file> <OK|SKIPPED-fresh|FAILED|...> [age-hours]
+  printf 'STEP3C: %s %s %s\n' "$1" "$2" "${3:-}" >> "${AUX_STATUS_FILE}"
+}
 
 echo "[nightly] running catalysts + fundamentals + earnings refresh chain..."
 
-if ! timeout 600 node scripts/refresh-catalysts.mjs 2>&1 | sed 's/^/[catalysts] /'; then
+if with_timeout 600 node scripts/refresh-catalysts.mjs 2>&1 | sed 's/^/[catalysts] /'; then
+  aux_status "events-latest.json" "OK"
+else
   echo "[nightly] refresh-catalysts.mjs failed — non-fatal, continuing"
+  aux_status "events-latest.json" "FAILED"
 fi
 
-if ! timeout 600 node scripts/refresh-nse-corporate.mjs 2>&1 | sed 's/^/[nse-corp] /'; then
+if with_timeout 600 node scripts/refresh-nse-corporate.mjs 2>&1 | sed 's/^/[nse-corp] /'; then
+  aux_status "nse-announcements-rolling.json" "OK"
+else
   echo "[nightly] refresh-nse-corporate.mjs failed — non-fatal, continuing"
+  aux_status "nse-announcements-rolling.json" "FAILED"
 fi
 
-# Governance (NSE shareholding-pattern → governance.json). Lives in the
-# local nightly because /api/cron/refresh-governance (Vercel) cannot get
-# past NSE's cookie-gated /api/corporate-share-holdings-master endpoint
-# from Vercel datacenter IPs — same constraint as nse-corporate /
-# bulk-block / event-calendar. Without this, governance.json sits at
-# counts: { ok: 0, empty: 744 } in prod (observed 2026-05-12) and the
-# Portfolio Analyzer / Track Record tabs silently degrade on every
-# Indian-specific risk overlay (promoter pledge, FII flight, RPT).
-#
-# Timeout 1800s: 744 symbols × ~250ms = ~3 min nominal; the ceiling
-# leaves headroom for NSE retry storms without hogging the nightly slot.
-if ! timeout 1800 node scripts/refresh-governance.mjs 2>&1 | sed 's/^/[governance] /'; then
-  echo "[nightly] refresh-governance.mjs failed — non-fatal, continuing"
-fi
-
-if ! timeout 600 bash scripts/refresh-fo-oi.sh 2>&1 | sed 's/^/[fo-oi] /'; then
+if with_timeout 600 bash scripts/refresh-fo-oi.sh 2>&1 | sed 's/^/[fo-oi] /'; then
+  aux_status "oi-deltas-latest.json" "OK"
+else
   echo "[nightly] refresh-fo-oi.sh failed — non-fatal, continuing"
+  aux_status "oi-deltas-latest.json" "FAILED"
 fi
 
-# Daily fundamentals refresh: self-paced via a 20h freshness check. Two
-# launchd fires per day (02:00 IST pre-market + 16:30 IST post-close), so
-# 20h ensures the second fire coasts when the first succeeded. Saves
-# ~10-15 min of NSE traffic per day. Skips entirely (age=9999) if the
-# file is missing or unparseable, which forces a fresh pull.
+# Macro regime refresh: ~10-15s (RSS fetches + 1 LLM call). Writes
+# data/macroRegime.json which production reads to render the global
+# macro banner. Exit 2 = LLM auth_error (rotate keys) — non-fatal here
+# but worth surfacing in the PR body. Exit 1 = no headlines AND no
+# prior file — non-fatal; the banner falls back to last-known data.
+MACRO_RC=0
+if with_timeout 120 node scripts/refresh-macro-regime.mjs 2>&1 | sed 's/^/[macro] /'; then
+  aux_status "macroRegime.json" "OK"
+else
+  MACRO_RC=$?
+  if [ "${MACRO_RC}" = "2" ]; then
+    echo "[nightly] refresh-macro-regime.mjs returned exit 2 — LLM auth_error, rotate keys"
+    aux_status "macroRegime.json" "OK-llm-degraded"
+  elif [ "${MACRO_RC}" = "9" ]; then
+    echo "[nightly] refresh-macro-regime.mjs returned exit 9 — LLM keys not loaded in env; prior data/macroRegime.json preserved"
+    aux_status "macroRegime.json" "SKIPPED-no-llm-keys"
+  else
+    echo "[nightly] refresh-macro-regime.mjs failed (exit ${MACRO_RC}) — non-fatal, continuing"
+    aux_status "macroRegime.json" "FAILED"
+  fi
+fi
+
+# Fundamentals refresh: self-paced via an 8h freshness check. Two launchd
+# fires per day (02:00 IST pre-market + 16:30 IST post-close, ~14.5h and
+# ~9.5h apart); an 8h gate lets BOTH fires refresh, so the file never
+# drifts past the 48h staleness banner even if a fire is missed. The
+# earlier 20h gate let both fires coast — the file only refreshed once it
+# had ALREADY drifted >20h, which is how it reached the user-visible "2d
+# old" banner. Skips entirely (age=9999) if the file is missing or
+# unparseable, which forces a fresh pull.
 FUND_AGE_HOURS=$(node --input-type=module -e '
 import {readFileSync, existsSync} from "fs";
 if (!existsSync("fundamentals.json")) { console.log(9999); process.exit(0); }
@@ -280,18 +377,67 @@ try {
 ' 2>/dev/null)
 FUND_AGE_HOURS="${FUND_AGE_HOURS:-9999}"
 
-if [ "${FUND_AGE_HOURS}" -lt 20 ]; then
-  echo "[nightly] fundamentals.json is ${FUND_AGE_HOURS}h old — skipping refresh (< 20h freshness)"
+if [ "${FUND_AGE_HOURS}" -lt 8 ]; then
+  echo "[nightly] fundamentals.json is ${FUND_AGE_HOURS}h old — skipping refresh (< 8h freshness)"
+  aux_status "fundamentals.json" "SKIPPED-fresh" "${FUND_AGE_HOURS}"
 else
   echo "[nightly] fundamentals.json is ${FUND_AGE_HOURS}h old — running refresh..."
-  if ! timeout 1800 node scripts/refresh-fundamentals.mjs 2>&1 | sed 's/^/[fundamentals] /'; then
+  if with_timeout 1800 node scripts/refresh-fundamentals.mjs 2>&1 | sed 's/^/[fundamentals] /'; then
+    aux_status "fundamentals.json" "OK"
+  else
     echo "[nightly] refresh-fundamentals.mjs failed — non-fatal, continuing"
+    aux_status "fundamentals.json" "FAILED" "${FUND_AGE_HOURS}"
+  fi
+fi
+
+# Surveillance (NSE ASM/GSM) — tiny (2 NSE calls), refreshed every run.
+# Previously only the Vercel cron refreshed this, and that silently no-ops
+# (NSE blocks Vercel datacenter IPs) — so surveillance.json went stale in
+# prod. The local nightly is now the reliable refresh path.
+if with_timeout 300 node scripts/refresh-surveillance.mjs 2>&1 | sed 's/^/[surveillance] /'; then
+  aux_status "surveillance.json" "OK"
+else
+  echo "[nightly] refresh-surveillance.mjs failed — non-fatal, continuing"
+  aux_status "surveillance.json" "FAILED"
+fi
+
+# Governance (NSE shareholding) — quarterly-cadence data, so a ~weekly
+# (144h) freshness gate avoids pure-waste daily refreshes (cf. the
+# /api/cron/refresh-governance comment in server.js). MUST run after the
+# fundamentals block: refresh-governance.mjs reads getAllFundamentals()
+# and exits 1 if that snapshot is empty. Same Vercel-IP no-op problem as
+# surveillance — the local nightly is the reliable refresh path.
+GOV_AGE_HOURS=$(node --input-type=module -e '
+import {readFileSync, existsSync} from "fs";
+if (!existsSync("governance.json")) { console.log(9999); process.exit(0); }
+try {
+  const j = JSON.parse(readFileSync("governance.json", "utf-8"));
+  if (!j.fetchedAt) { console.log(9999); process.exit(0); }
+  const ms = Date.now() - new Date(j.fetchedAt).getTime();
+  console.log(Math.floor(ms / 3600000));
+} catch { console.log(9999); }
+' 2>/dev/null)
+GOV_AGE_HOURS="${GOV_AGE_HOURS:-9999}"
+
+if [ "${GOV_AGE_HOURS}" -lt 144 ]; then
+  echo "[nightly] governance.json is ${GOV_AGE_HOURS}h old — skipping refresh (< 144h freshness)"
+  aux_status "governance.json" "SKIPPED-fresh" "${GOV_AGE_HOURS}"
+else
+  echo "[nightly] governance.json is ${GOV_AGE_HOURS}h old — running refresh..."
+  if with_timeout 600 node scripts/refresh-governance.mjs 2>&1 | sed 's/^/[governance] /'; then
+    aux_status "governance.json" "OK"
+  else
+    echo "[nightly] refresh-governance.mjs failed — non-fatal, continuing"
+    aux_status "governance.json" "FAILED" "${GOV_AGE_HOURS}"
   fi
 fi
 
 echo "[nightly] running refresh-earnings.mjs (depends on the above)..."
-if ! timeout 600 node scripts/refresh-earnings.mjs 2>&1 | sed 's/^/[earnings] /'; then
+if with_timeout 600 node scripts/refresh-earnings.mjs 2>&1 | sed 's/^/[earnings] /'; then
+  aux_status "earnings-watch-latest.json" "OK"
+else
   echo "[nightly] refresh-earnings.mjs failed — non-fatal; tab stays on prior snapshot"
+  aux_status "earnings-watch-latest.json" "FAILED"
 fi
 
 # ---- 3d. fundamentalsHistory refresh (Yahoo per-quarter EPS/revenue) ----
@@ -374,9 +520,11 @@ if [ ${GATE_RC} -ne 0 ]; then
   DATA_FILES=(
     data/catalysts/
     data/nse-fo/oi-deltas-latest.json
+    data/macroRegime.json
     fundamentals.json
-    fundamentalsHistory.json
+    surveillance.json
     governance.json
+    fundamentalsHistory.json
   )
   DATA_CHANGED=$(git status --short "${DATA_FILES[@]}" 2>/dev/null | wc -l | tr -d ' ')
   DATA_PR_NOTE="(no non-SWS data changes detected — nothing to ship separately)"
@@ -385,7 +533,11 @@ if [ ${GATE_RC} -ne 0 ]; then
     echo "[nightly] sanity FAIL but ${DATA_CHANGED} non-SWS data file(s) changed — opening data-only PR..."
     DATA_BRANCH="chore/sws-data-only-${DATE}-${RUN_TIME}"
     git branch -D "${DATA_BRANCH}" >/dev/null 2>&1 || true
-    git checkout -b "${DATA_BRANCH}" 2>&1 | sed 's/^/[git] /'
+    git checkout -b "${DATA_BRANCH}" 2>&1 | sed 's/^/[git] /' \
+      || { echo "[nightly] WARNING: git checkout -b ${DATA_BRANCH} failed — data-only PR may be malformed"; \
+           send_mail "⚠️ SWS nightly — data-only branch checkout failed" \
+"git checkout -b ${DATA_BRANCH} failed at $(ts). The non-SWS data refresh could not be
+shipped as a separate PR cleanly. SWS sanity gate had already failed this run."; }
     git add "${DATA_FILES[@]}"
 
     if git commit -m "chore(data): non-SWS refresh ${RUN_LABEL} — sanity blocked SWS scrape
@@ -411,8 +563,9 @@ Auto-generated by \`scripts/sws-nightly.sh\` when the SWS scrape is blocked by t
         if [ -n "${DATA_PR_URL}" ]; then
           DATA_PR_NOTE="Data-only PR shipped: ${DATA_PR_URL}"
           if [ "${AUTO_MERGE}" = "1" ]; then
-            gh pr merge "${DATA_PR_URL}" --squash --auto --delete-branch 2>&1 | sed 's/^/[gh] /' || \
-              gh pr merge "${DATA_PR_URL}" --squash --delete-branch 2>&1 | sed 's/^/[gh] /' || \
+            # No --delete-branch — see the AUTO_MERGE block in step 6 (#218).
+            gh pr merge "${DATA_PR_URL}" --squash --auto 2>&1 | sed 's/^/[gh] /' || \
+              gh pr merge "${DATA_PR_URL}" --squash 2>&1 | sed 's/^/[gh] /' || \
               echo "[nightly] data-only PR auto-merge failed — manual review required"
           fi
         else
@@ -425,9 +578,12 @@ Auto-generated by \`scripts/sws-nightly.sh\` when the SWS scrape is blocked by t
       DATA_PR_NOTE="Data-only commit produced no changes (likely all files identical to main)"
     fi
 
-    # Return to main so the next run starts clean. Uncommitted SWS scrape
-    # files stay on disk for inspection; the next run's autostash tidies them.
-    git checkout main 2>&1 | sed 's/^/[git] /' || echo "[nightly] couldn't switch back to main — next run will autostash"
+    # Return the working copy to a clean base. Do NOT `git checkout main` —
+    # a worktree may hold the main ref. -B sws-nightly-base mirrors the
+    # git-sync stage and is worktree-safe. Uncommitted SWS scrape files are
+    # left on disk for inspection; the next run's autostash tidies them.
+    git checkout -B sws-nightly-base origin/main 2>&1 | sed 's/^/[git] /' \
+      || echo "[nightly] couldn't return to sws-nightly-base — next run's git-sync will recover"
   fi
 
   send_mail "🚨 SWS nightly — sanity gate failed (${SANITY_SUMMARY:-no summary})" "Scrape completed but sanity gate REJECTED the SWS output at $(ts). SWS data NOT pushed to prod.
@@ -478,9 +634,11 @@ CHANGED_FILES=$(git status --short \
   data/sws/v3-universe-stats.json \
   data/catalysts/ \
   data/nse-fo/oi-deltas-latest.json \
+  data/macroRegime.json \
   fundamentals.json \
-  fundamentalsHistory.json \
+  surveillance.json \
   governance.json \
+  fundamentalsHistory.json \
   2>/dev/null | wc -l | tr -d ' ')
 if [ "${CHANGED_FILES}" -eq 0 ]; then
   echo "[nightly] no SWS data changes detected — nothing to commit"
@@ -494,7 +652,23 @@ BRANCH="chore/sws-auto-refresh-${DATE}-${RUN_TIME}"   # unique per fire even if 
 
 # Clean up any prior local branch with same name (e.g., from interrupted run)
 git branch -D "${BRANCH}" >/dev/null 2>&1 || true
-git checkout -b "${BRANCH}"
+# Loud-fail: a swallowed checkout here would commit SWS output onto the wrong
+# branch. ${BRANCH} is chore/sws-auto-refresh-${DATE}-${RUN_TIME}, force-deleted
+# just above, so a worktree collision is near-impossible — but mail + exit if so.
+if ! git checkout -b "${BRANCH}" 2>&1 | sed 's/^/[git] /'; then
+  echo "[nightly] could not create branch ${BRANCH}"
+  send_mail "🚨 SWS nightly — git checkout -b failed" \
+"git checkout -b ${BRANCH} failed at $(ts). SWS scrape output is uncommitted on disk
+(branch sws-nightly-base). The next run's autostash will tidy it. Inspect manually:
+
+$(git status 2>&1 | head -30)
+
+$(git worktree list 2>&1)"
+  exit 8
+fi
+# NOTE: the working copy is intentionally left on ${BRANCH} at end of run.
+# The next run's git-sync (git checkout -B sws-nightly-base origin/main) does
+# not care what branch it starts on, so no restore step is needed here.
 
 git add data/sws/deep/ \
         data/sws/picks-latest.json \
@@ -503,9 +677,11 @@ git add data/sws/deep/ \
         data/sws/v3-universe-stats.json \
         data/catalysts/ \
         data/nse-fo/oi-deltas-latest.json \
+        data/macroRegime.json \
         fundamentals.json \
-        fundamentalsHistory.json \
-        governance.json
+        surveillance.json \
+        governance.json \
+        fundamentalsHistory.json
 
 # Inner pipeline regenerates the daily picks PDF — ship it in this same PR
 # (previously the inner script's auto-PR added it; now we own that step).
@@ -539,6 +715,22 @@ try {
             lines.push(`- ${layer}/${c.name}`);
           }
         }
+      }
+    }
+  }
+} catch {}
+// Auxiliary (step-3c) refresh outcomes — surfaces a silently failed or
+// skipped non-SWS refresh in the PR body instead of only the launchd log.
+try {
+  const ax = "data/sws/_aux-refresh-status.tmp";
+  if (existsSync(ax)) {
+    const rows = readFileSync(ax, "utf-8").split("\n")
+      .filter((l) => l.startsWith("STEP3C: "))
+      .map((l) => l.slice(8).trim().split(/\s+/));
+    if (rows.length > 0) {
+      lines.push(``, `Auxiliary refreshes:`);
+      for (const [file, status, age] of rows) {
+        lines.push(`- ${file}: ${status}${age ? ` (${age}h old)` : ""}`);
       }
     }
   }
@@ -599,9 +791,10 @@ if [ "${AUTO_MERGE}" = "1" ]; then
   echo "[nightly] enabling auto-merge..."
   # --auto queues merge after required status checks pass (Smoke + unit tests).
   # Falls back to immediate --squash if --auto isn't enabled on the repo.
-  if ! gh pr merge "${PR_URL}" --squash --auto --delete-branch 2>&1 | sed 's/^/[gh] /'; then
+  # No --delete-branch: its local cleanup fails when a worktree holds main (cf. #218); the repo's delete_branch_on_merge does remote cleanup.
+  if ! gh pr merge "${PR_URL}" --squash --auto 2>&1 | sed 's/^/[gh] /'; then
     echo "[nightly] --auto failed, attempting immediate squash-merge..."
-    gh pr merge "${PR_URL}" --squash --delete-branch 2>&1 | sed 's/^/[gh] /' || {
+    gh pr merge "${PR_URL}" --squash 2>&1 | sed 's/^/[gh] /' || {
       echo "[nightly] both auto and immediate merge failed — manual merge required"
       send_mail "⚠️ SWS nightly — PR open but unmerged" "PR ${PR_URL} created but auto-merge failed. Manual review/merge required.
 

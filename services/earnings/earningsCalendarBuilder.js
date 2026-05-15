@@ -164,9 +164,9 @@ export function inferFiscalQuarter(eventIsoDate) {
  * @param {object} [opts]
  * @param {number} [opts.nowMs]       Override "now" for testing.
  * @param {number} [opts.windowDays]  Only emit events within this many
- *                                    forward days. Defaults to 14 to
- *                                    keep the tab focused. Pass Infinity
- *                                    to disable.
+ *                                    forward days. Defaults to 30 to
+ *                                    cover roughly one earnings month.
+ *                                    Pass Infinity to disable.
  * @param {boolean} [opts.includePast] Include events with negative
  *                                    days_until (default false). We
  *                                    keep T+0 events because the user
@@ -177,7 +177,7 @@ export function inferFiscalQuarter(eventIsoDate) {
  */
 export function buildEarningsCalendar(rawEvents, opts = {}) {
   const nowMs = typeof opts.nowMs === "number" ? opts.nowMs : Date.now();
-  const windowDays = Number.isFinite(opts.windowDays) ? opts.windowDays : 14;
+  const windowDays = Number.isFinite(opts.windowDays) ? opts.windowDays : 30;
   const includePast = !!opts.includePast;
   const todayIso = istTodayIso(nowMs);
 
@@ -288,7 +288,7 @@ export function buildEarningsCalendarFromPayload(payload, opts = {}) {
     built_at: new Date().toISOString(),
     upstream_fetched_at: payload?.fetched_at || null,
     upstream_event_count: payload?.event_count ?? events.length,
-    window_days: Number.isFinite(opts.windowDays) ? opts.windowDays : 14,
+    window_days: Number.isFinite(opts.windowDays) ? opts.windowDays : 30,
     today_iso: istTodayIso(typeof opts.nowMs === "number" ? opts.nowMs : Date.now()),
     event_count: calendar.length,
     events: calendar,

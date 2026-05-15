@@ -23,7 +23,21 @@
   // without re-fetching. Refresh button blows them away.
   let _earningsSnapshot = null;
   let _earningsStats = null;
-  let _earningsFilters = { days: 14, symbol: "", quality: "ALL", runup: "ALL", verdict: "ALL", sector: "ALL" };
+  let _earningsFilters = { days: 30, symbol: "", quality: "ALL", runup: "ALL", verdict: "ALL", sector: "ALL" };
+
+  // Per-date collapsed state for the calendar — persisted across reloads
+  // so a user who collapsed e.g. May 30 doesn't see it re-expand the next
+  // time they open the tab. Mirrors the SWS Picks collapse pattern in
+  // app.js without sharing the helper (earnings.js is an isolated IIFE).
+  const EARNINGS_COLLAPSED_KEY = "earningsCollapsedDates";
+
+  function loadEarningsCollapsedState() {
+    try { return JSON.parse(localStorage.getItem(EARNINGS_COLLAPSED_KEY)) || {}; }
+    catch { return {}; }
+  }
+  function saveEarningsCollapsedState(state) {
+    try { localStorage.setItem(EARNINGS_COLLAPSED_KEY, JSON.stringify(state)); } catch {}
+  }
 
   // ────────── Tiny safe formatters ──────────
   // We intentionally do not depend on the app.js helpers being loaded
@@ -97,6 +111,7 @@
       { label: "Next 1–3d", value: buckets.d1to3 || 0, accent: "#fbbf24" },
       { label: "4–7d", value: buckets.d4to7 || 0, accent: "#facc15" },
       { label: "8–14d", value: buckets.d8to14 || 0, accent: "#94a3b8" },
+      { label: "15–30d", value: buckets.d15to30 || 0, accent: "#94a3b8" },
       { label: "Total", value: stats.event_count || 0, accent: "#60a5fa" },
     ];
     const verdictCells = [
@@ -154,8 +169,8 @@
           <option value="0">today</option>
           <option value="3">3 days</option>
           <option value="7">7 days</option>
-          <option value="14" selected>14 days</option>
-          <option value="30">30 days</option>
+          <option value="14">14 days</option>
+          <option value="30" selected>30 days</option>
         </select>
       </label>
       <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
@@ -257,7 +272,7 @@
     }
     if (clearBtn) {
       clearBtn.addEventListener("click", () => {
-        _earningsFilters = { days: 14, symbol: "", quality: "ALL", runup: "ALL", verdict: "ALL", sector: "ALL" };
+        _earningsFilters = { days: 30, symbol: "", quality: "ALL", runup: "ALL", verdict: "ALL", sector: "ALL" };
         renderEarningsFilterBar();
         applyEarningsFilters();
       });
@@ -454,6 +469,137 @@
       <div style="font-size:11.5px; color:#cbd5e1; line-height:1.45; padding-top:6px;">
         ${escHtml(rationale.headline)}
       </div>`;
+  }
+
+  // ────────── "How this prediction was built" expander ──────────
+  // A collapsible audit panel on each card. Surfaces the top-3 component
+  // impacts, the SWS V3 breakdown bars, the LLM qualitative read, and
+  // the version audit trail.
+  //
+  // SEBI-RA boundary: the LLM read renders in a SEPARATELY-LABELLED,
+  // visually-distinct block — it is NEVER woven into the deterministic
+  // rationale paragraphs. The label says so explicitly.
+  //
+  // onclick:stopPropagation on the <details> so toggling the expander
+  // doesn't also fire the card's open-modal handler. <details>/<summary>
+  // is natively keyboard-accessible; the bars carry ARIA progressbar
+  // roles. Collapsed by default on every viewport — no layout cost
+  // until the user opts in.
+
+  const COMPONENT_LABELS = {
+    v3_future_past: "V3 future + past",
+    v3_valuation: "V3 valuation",
+    v3_overlay: "V3 risk overlay",
+    runup: "Pre-runup vs sector",
+    sector_momentum: "Sector momentum",
+    trajectory: "EPS YoY trajectory",
+    last_quarter_echo: "Last-quarter echo",
+    announcements: "Corporate announcements",
+    deal_flow: "Bulk/block deal flow",
+    llm_signal: "LLM qualitative signal",
+  };
+
+  function v3Bar(label, value, max, opts) {
+    const negative = !!(opts && opts.negative);
+    const mag = Math.abs(Number(value) || 0);
+    const pct = max > 0 ? Math.min(100, (mag / max) * 100) : 0;
+    const fill = negative ? "#fca5a5" : "#86efac";
+    const valLabel = negative ? `−${mag.toFixed(0)}` : `${(Number(value) || 0).toFixed(0)}`;
+    return `
+      <div style="display:flex; align-items:center; gap:8px; font-size:10px;">
+        <span style="width:88px; flex-shrink:0; color:var(--text-muted);">${escHtml(label)}</span>
+        <div role="progressbar" aria-label="${escHtml(label)}" aria-valuenow="${mag}" aria-valuemin="0" aria-valuemax="${max}"
+             style="flex:1; height:6px; background:rgba(148,163,184,0.12); border-radius:3px; overflow:hidden;">
+          <div style="width:${pct}%; height:100%; background:${fill};"></div>
+        </div>
+        <span style="width:36px; flex-shrink:0; text-align:right; color:#cbd5e1;">${valLabel}/${max}</span>
+      </div>`;
+  }
+
+  function renderPredictionBuildExpander(event) {
+    const prediction = event && event.prediction;
+    if (!prediction || prediction.verdict === "INSUFFICIENT_DATA") return "";
+    const signals = event.signals || {};
+
+    // 1 — top 3 components by absolute impact.
+    const comps = Array.isArray(prediction.components_by_impact) ? prediction.components_by_impact : [];
+    const top3 = comps.slice(0, 3).map((c) => {
+      const pts = Number(c.pts) || 0;
+      const tone = pts > 0 ? "#86efac" : pts < 0 ? "#fca5a5" : "#94a3b8";
+      const sign = pts > 0 ? "+" : "";
+      const label = COMPONENT_LABELS[c.name] || c.name;
+      return `<div style="font-size:10.5px; line-height:1.5; color:#94a3b8;">
+        <span style="color:${tone}; font-weight:700;">${sign}${pts}</span>
+        <span style="color:#cbd5e1;"> ${escHtml(label)}</span> — ${escHtml(c.why || "")}
+      </div>`;
+    }).join("");
+
+    // 2 — SWS V3 breakdown bars.
+    const v3 = signals.v3;
+    let v3Html = "";
+    if (v3 && v3.breakdown) {
+      const b = v3.breakdown;
+      v3Html = `
+        <div>
+          <div style="font-size:9px; color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:5px;">
+            SWS V3 breakdown · ${escHtml(v3.v3_verdict || "")} ${v3.v3_score_100 != null ? `(${v3.v3_score_100}/100)` : ""} · ${escHtml(v3.source || "")}
+          </div>
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            ${v3Bar("Future", b.pts_future, 20)}
+            ${v3Bar("Past", b.pts_past, 12)}
+            ${v3Bar("Valuation", b.pts_fv_upside, 12)}
+            ${v3Bar("Risk overlay", b.pts_overlay, 15, { negative: true })}
+          </div>
+        </div>`;
+    }
+
+    // 3 — AI qualitative read. SEPARATELY LABELLED, non-deterministic —
+    // never part of the deterministic rationale above it.
+    const llm = signals.llm_signal;
+    let llmHtml = "";
+    if (llm && llm.bias) {
+      const biasTone = llm.bias === "lean_beat" ? "#86efac" : llm.bias === "lean_miss" ? "#fca5a5" : "#94a3b8";
+      const delta = Number(llm.confidence_delta_pct) || 0;
+      llmHtml = `
+        <div style="background:rgba(96,165,250,0.05); border:1px dashed rgba(96,165,250,0.3); border-radius:6px; padding:8px 10px;">
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:5px; flex-wrap:wrap;">
+            <span style="font-size:9px; color:#93c5fd; letter-spacing:0.06em; text-transform:uppercase; font-weight:700;">AI qualitative read</span>
+            <span title="Non-deterministic. A separate ±10-pt input — it does NOT alter the rationale paragraphs."
+                  style="font-size:8px; color:var(--text-muted); border:1px solid #2a3349; border-radius:6px; padding:1px 5px;">non-deterministic · ${escHtml(llm.classifier_provider || "?")}</span>
+          </div>
+          <div style="font-size:10.5px; color:#cbd5e1; line-height:1.5;">
+            <span style="color:${biasTone}; font-weight:700;">${escHtml(llm.bias)}</span>${delta ? ` (${delta > 0 ? "+" : ""}${delta})` : ""} — ${escHtml(llm.top_reason || "")}
+          </div>
+          ${llm.top_risk ? `<div style="font-size:10px; color:#94a3b8; margin-top:3px;">Watch: ${escHtml(llm.top_risk)}</div>` : ""}
+        </div>`;
+    }
+
+    // 4 — version audit trail.
+    const auditRows = [
+      ["Predictor", prediction.predictor_version],
+      ["Narrator", event.rationale && event.rationale.version],
+      ["Playbook", event.playbook && event.playbook.version],
+      ["LLM", llm ? `${llm.classifier_provider || "?"} · ${llm.model_id || "?"}` : null],
+    ].filter((row) => row[1]);
+    const auditHtml = `
+      <div style="font-size:9px; color:var(--text-muted); line-height:1.7;">
+        <span style="letter-spacing:0.06em; text-transform:uppercase;">Audit trail</span> ·
+        ${auditRows.map((r) => `${escHtml(r[0])}: ${escHtml(r[1])}`).join(" · ")}
+      </div>`;
+
+    return `
+      <details class="earnings-build-expander" onclick="event.stopPropagation()" style="border-top:1px dashed #1a2233; padding-top:8px; margin-top:2px;">
+        <summary style="cursor:pointer; font-size:10px; color:var(--text-muted); letter-spacing:0.05em; text-transform:uppercase;">How this prediction was built</summary>
+        <div style="margin-top:10px; display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            <div style="font-size:9px; color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase;">Top drivers</div>
+            ${top3 || '<div style="font-size:10px; color:var(--text-muted);">No component detail.</div>'}
+          </div>
+          ${v3Html}
+          ${llmHtml}
+          ${auditHtml}
+        </div>
+      </details>`;
   }
 
   // ────────── Milestone D pills: announcements + deal flow ──────────
@@ -663,6 +809,7 @@
         ${renderPriceBand(priceBand)}
         ${renderTradingAngle(playbook)}
         ${renderCounterThesisBlurb(signals)}
+        ${renderPredictionBuildExpander(event)}
       </div>`;
   }
 
@@ -688,24 +835,59 @@
     }
     const sortedKeys = Array.from(groups.keys()).sort();
 
+    // Default-expanded date is sortedKeys[0] — groups only get keys when
+    // an event is pushed, so the first key is guaranteed non-empty. User
+    // overrides (explicit collapse/expand) always win over the default.
+    const collapsedState = loadEarningsCollapsedState();
+    const defaultOpen = sortedKeys[0];
+
     let html = "";
     for (const date of sortedKeys) {
       const items = groups.get(date);
       const long = fmtIsoToLong(date);
       const sample = items[0];
       const rel = fmtRelativeDate(date, sample?.days_until);
+      const isCollapsed = Object.prototype.hasOwnProperty.call(collapsedState, date)
+        ? !!collapsedState[date]
+        : date !== defaultOpen;
       html += `
-        <div style="margin-bottom:18px;">
-          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid #1a2233;">
+        <div data-earnings-date="${escHtml(date)}" data-collapsed="${isCollapsed ? "1" : "0"}" style="margin-bottom:18px;">
+          <div class="earnings-date-header" style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid #1a2233; cursor:pointer; user-select:none;">
+            <span class="earnings-date-caret" style="font-size:11px; color:var(--text-muted); width:10px; display:inline-block;">${isCollapsed ? "▸" : "▾"}</span>
             <span style="font-size:13px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">${escHtml(long)}</span>
             <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">${escHtml(rel)} · ${items.length} ${items.length === 1 ? "result" : "results"}</span>
           </div>
-          <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:12px;">
+          <div class="earnings-date-body" style="${isCollapsed ? "display:none;" : "display:grid;"} grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:12px;">
             ${items.map(renderEarningsCard).join("")}
           </div>
         </div>`;
     }
     el.innerHTML = html;
+
+    // One-time delegated click handler. renderEarningsCardGrid runs on
+    // every filter change so we guard with a dataset flag — without it
+    // each filter tweak would stack another listener and clicks would
+    // toggle N times.
+    if (!el.dataset.collapseBound) {
+      el.addEventListener("click", (ev) => {
+        const header = ev.target.closest(".earnings-date-header");
+        if (!header) return;
+        const wrap = header.parentElement;
+        const date = wrap && wrap.getAttribute("data-earnings-date");
+        if (!date) return;
+        const wasCollapsed = wrap.getAttribute("data-collapsed") === "1";
+        const next = !wasCollapsed;
+        wrap.setAttribute("data-collapsed", next ? "1" : "0");
+        const body = wrap.querySelector(".earnings-date-body");
+        const caret = wrap.querySelector(".earnings-date-caret");
+        if (body) body.style.display = next ? "none" : "grid";
+        if (caret) caret.textContent = next ? "▸" : "▾";
+        const state = loadEarningsCollapsedState();
+        state[date] = next;
+        saveEarningsCollapsedState(state);
+      });
+      el.dataset.collapseBound = "1";
+    }
   }
 
   // ────────── Public loader ──────────
@@ -751,7 +933,7 @@
         const built = snap?.built_at ? new Date(snap.built_at).toLocaleString() : "?";
         const upstream = snap?.upstream_fetched_at ? new Date(snap.upstream_fetched_at).toLocaleString() : "?";
         const total = snap?.total_event_count ?? snap?.event_count ?? 0;
-        meta.textContent = `${total} upcoming result events in next ${snap?.window_days ?? 14}d · built ${built} · NSE feed fetched ${upstream}`;
+        meta.textContent = `${total} upcoming result events in next ${snap?.window_days ?? 30}d · built ${built} · NSE feed fetched ${upstream}`;
       }
     } catch (err) {
       console.error("loadEarningsWatch failed:", err);
@@ -780,6 +962,8 @@
       .earnings-day-pill--later { background:rgba(148,163,184,0.12); color:#cbd5e1; border:1px solid rgba(148,163,184,0.25); }
       .earnings-day-pill--unknown { background:rgba(148,163,184,0.08); color:#94a3b8; border:1px solid rgba(148,163,184,0.18); }
       .earnings-card:hover { transform:translateY(-1px); border-color:#2a3349; }
+      .earnings-build-expander summary:hover { color:#cbd5e1; }
+      .earnings-build-expander summary:focus-visible { outline:2px solid #60a5fa; outline-offset:2px; border-radius:3px; }
     `;
     const style = document.createElement("style");
     style.id = "earnings-watch-styles";
@@ -803,8 +987,8 @@
   // 3-paragraph rationale + falsification triggers in one place.
   //
   // The panel is purely additive — never replaces existing modal
-  // content. If the API 403s (non-admin) or 404s (no upcoming event),
-  // we silently no-op so the modal renders as before.
+  // content. If the API 404s (no upcoming event for the symbol), we
+  // silently no-op so the modal renders as before.
 
   function renderModalPredictionRing(prediction) {
     if (!prediction || prediction.verdict === "INSUFFICIENT_DATA") {
@@ -967,8 +1151,7 @@
   /**
    * Public injection hook called from app.js's openStockDetailModal.
    * Probes /api/earnings/<ticker>; if the stock has an upcoming-result
-   * event AND the user is admin (the API 403s otherwise), prepends the
-   * preview panel into the modal body.
+   * event, prepends the preview panel into the modal body.
    *
    * The probe is fire-and-forget — modal continues rendering its
    * normal content while we wait. If we beat the user's next click,
@@ -1002,59 +1185,6 @@
     body.insertAdjacentHTML("afterbegin", renderEarningsPreviewPanel(event));
   }
 
-  // ────────── Admin gate (defence in depth) ──────────
-  // The Earnings Watch tab button is `hidden` by default in
-  // gated/index.html. auth.init() in app.js (main's existing OAuth
-  // bootstrap) reveals it when me.isAdmin === true and exposes
-  // `window.__starbhai_isAdmin` for any other module that needs the
-  // flag. Server-side, /api/earnings/* returns 403 for non-admins.
-  //
-  // This block adds belt-and-braces hardening: if the global resolves
-  // to non-admin (and isn't still pending init), strip the tab + shell
-  // from the DOM entirely. We retry once after auth.init() has had a
-  // chance to run, since earnings.js loads with `defer` and we can't
-  // assume strict ordering vs the auth bootstrap on a slow network.
-
-  function removeEarningsTabFromDom(reason) {
-    const btn = document.getElementById("earningsTabBtn");
-    const shell = document.getElementById("earningsTab");
-    if (btn) btn.remove();
-    if (shell) shell.remove();
-    if (typeof window.switchTab === "function") {
-      const stillActive = document.querySelector("#mainTabs .tab.active");
-      if (!stillActive) window.switchTab("picks");
-    }
-    if (reason) console.debug(`[earnings] tab hidden: ${reason}`);
-  }
-
-  function checkAdminAndMaybeHide() {
-    // window.__starbhai_isAdmin is set inside auth.init() after the
-    // /api/auth/me response lands. If it's strictly === true, we're
-    // good; if strictly === false, hide; if undefined, init hasn't
-    // run yet — defer one more tick.
-    if (window.__starbhai_isAdmin === true) return;
-    if (window.__starbhai_isAdmin === false) {
-      removeEarningsTabFromDom("non-admin session");
-      return;
-    }
-    // Still pending — wait for auth.init() to populate the flag, then
-    // re-check. We give it 2s; if still undefined, fail closed.
-    setTimeout(() => {
-      if (window.__starbhai_isAdmin === true) return;
-      removeEarningsTabFromDom(
-        window.__starbhai_isAdmin === false
-          ? "non-admin session (after init)"
-          : "auth.init() did not populate isAdmin",
-      );
-    }, 2000);
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", checkAdminAndMaybeHide, { once: true });
-  } else {
-    checkAdminAndMaybeHide();
-  }
-
   // ────────── Public exports (window globals) ──────────
   // app.js's switchTab() looks up loaders by name from window scope, so
   // these need to live there.
@@ -1064,5 +1194,10 @@
   // preview panel into the existing stock detail modal.
   window.injectEarningsPreviewIntoModal = injectEarningsPreviewIntoModal;
   // Exposed for test/debug; not used by app.js.
-  window.__earnings = { renderEarningsCard, renderEarningsCardGrid, renderEarningsPreviewPanel };
+  window.__earnings = {
+    renderEarningsCard,
+    renderEarningsCardGrid,
+    renderEarningsPreviewPanel,
+    renderPredictionBuildExpander,
+  };
 })();

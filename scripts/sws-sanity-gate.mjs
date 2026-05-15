@@ -43,7 +43,10 @@ import path from "path";
 
 // ----------------------------- paths ------------------------------------
 
-const ROOT = "data/sws";
+// SWS_SANITY_ROOT lets tests (and manual checks) point the gate at an
+// isolated fixture dir instead of mutating the real data/sws/ — the gate
+// writes its report under <ROOT>/_sanity/, which is git-tracked.
+const ROOT = process.env.SWS_SANITY_ROOT || "data/sws";
 const SANITY_DIR = path.join(ROOT, "_sanity");
 const PANIC_FLAG = path.join(ROOT, "panic-stop.flag");
 
@@ -53,6 +56,7 @@ const SCORED = path.join(ROOT, "sws-scored-universe.json");
 const UNIVERSE = path.join(ROOT, "universe.json");
 const DEEP_DIR = path.join(ROOT, "deep");
 const FAILED = path.join(ROOT, "failed.json");
+const MACRO_REGIME = path.join("data", "macroRegime.json");
 
 // --------------------------- thresholds ---------------------------------
 
@@ -61,6 +65,12 @@ const MIN_SCORED_COUNT          = 5000;   // BLOCK — preserved from inline gat
 const MIN_SCORED_COUNT_STRONG   = 5400;   // WARN — flip to BLOCK after ~1 wk calibration
 const MIN_NEWS_POPULATED        = 1000;   // BLOCK — preserved from inline gate
 const MIN_NEWS_POPULATED_STRONG = 1500;   // WARN — flip to BLOCK after ~1 wk calibration
+// Rewards/risks coverage canary. The bug #3 regression made overview.rewards /
+// overview.risks empty for the entire universe; the frozen-fixture regression
+// test proves the parser logic but can't catch a live SWS API change — this can.
+const MIN_REWARDS_POPULATED        = 1000;   // BLOCK — collapse detector (bug #3 made this 0)
+const MIN_REWARDS_POPULATED_STRONG = 4500;   // WARN — flip to BLOCK after ~1 wk calibration
+const MIN_RISKS_POPULATED          = 500;    // WARN — risks are legitimately sparse; only trips on a total collapse
 const MAX_RUN_DURATION_SEC      = 6 * 3600;
 const PICKS_MAX_AGE_HOURS       = 6;
 
@@ -160,6 +170,23 @@ function layer1(lr, picks) {
   record(layer, "news_populated_strong_threshold", WARN,
     (lr.news_populated_count ?? 0) >= MIN_NEWS_POPULATED_STRONG,
     { news_populated_count: lr.news_populated_count, threshold: MIN_NEWS_POPULATED_STRONG });
+
+  // Rewards/risks coverage canary — mirrors news_populated above. risks is
+  // WARN-only because healthy stocks legitimately carry 0 risks; rewards is
+  // near-universal so its absence is the clean collapse signal.
+  record(layer, "rewards_populated_threshold", BLOCK,
+    (lr.rewards_populated_count ?? 0) >= MIN_REWARDS_POPULATED,
+    { rewards_populated_count: lr.rewards_populated_count,
+      risks_populated_count: lr.risks_populated_count,
+      threshold: MIN_REWARDS_POPULATED });
+
+  record(layer, "rewards_populated_strong_threshold", WARN,
+    (lr.rewards_populated_count ?? 0) >= MIN_REWARDS_POPULATED_STRONG,
+    { rewards_populated_count: lr.rewards_populated_count, threshold: MIN_REWARDS_POPULATED_STRONG });
+
+  record(layer, "risks_populated_threshold", WARN,
+    (lr.risks_populated_count ?? 0) >= MIN_RISKS_POPULATED,
+    { risks_populated_count: lr.risks_populated_count, threshold: MIN_RISKS_POPULATED });
 
   if (picks?.scanned_at) {
     const ageHrs = (Date.now() - new Date(picks.scanned_at).getTime()) / 36e5;
@@ -454,6 +481,28 @@ function layer6(picks, scored, insaneOffenders) {
     { insane_top_picks: topPicksInsane.slice(0, 10) });
 }
 
+// ============================== L_macro ================================
+//
+// Defensive belt-and-suspenders for the macro-regime cache. The cron-side
+// fail-fast in scripts/refresh-macro-regime.mjs (exit 9) is the primary
+// defense against silently shipping a keyword-only macroRegime.json — this
+// gate is the second line in case .env is loaded but the keys inside it
+// are empty/whitespace, or some future refresh path skips the fail-fast.
+// WARN-only: a heuristic fallback is still a valid file, just degraded.
+function layerMacro() {
+  const layer = "L_macro_regime";
+  const mr = readJson(MACRO_REGIME);
+  if (!mr) {
+    record(layer, "macro_regime_present", WARN, false, { reason: "data/macroRegime.json missing" });
+    return;
+  }
+  const ph = mr.llmProviderHealth || {};
+  const bothMissing = ph.groq === "not_configured" && ph.gemini === "not_configured";
+  record(layer, "macro_llm_providers_configured", WARN,
+    !bothMissing,
+    { groq: ph.groq, gemini: ph.gemini, classifierProvider: mr.classifierProvider });
+}
+
 // ============================== main ===================================
 
 function main() {
@@ -467,6 +516,7 @@ function main() {
   layer2(lr);
   const insaneOffenders = layer3() || [];
   layer6(picks, scored, insaneOffenders);
+  layerMacro();
 
   const blocks = findings.filter(f => !f.ok && f.severity === BLOCK);
   const warns  = findings.filter(f => !f.ok && f.severity === WARN);

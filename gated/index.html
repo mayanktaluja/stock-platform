@@ -73,9 +73,166 @@
       --font-serif: 'Fraunces', 'Iowan Old Style', 'Palatino', serif;
       --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       --font-mono: 'JetBrains Mono', 'SF Mono', 'Menlo', monospace;
+
+      /* ============================================================
+       * PR F1 — Foundation tokens (magnitude-keyed semantic layer)
+       * Layered ON TOP of legacy --green / --red / --gold etc; nothing
+       * old breaks. New code uses these and signedColorFor().
+       * ============================================================ */
+
+      /* Magnitude-keyed positive (gain) */
+      --positive-strong: #34D27A;
+      --positive:        #2ECC71;
+      --positive-soft:   #58D68D;
+      --positive-faint:  rgba(46, 204, 113, 0.55);
+      --positive-bg-strong: rgba(52, 210, 122, 0.14);
+      --positive-bg-soft:   rgba(52, 210, 122, 0.06);
+
+      /* Magnitude-keyed negative (loss) */
+      --negative-strong: #E55858;
+      --negative:        #D64545;
+      --negative-soft:   #E57373;
+      --negative-faint:  rgba(214, 69, 69, 0.55);
+      --negative-bg-strong: rgba(229, 88, 88, 0.14);
+      --negative-bg-soft:   rgba(229, 88, 88, 0.06);
+
+      /* Calibration / status (aliases to existing tokens for context) */
+      --warn: #E0B060;   /* shared semantics with --gold; context disambiguates */
+      --info: #7FA1E8;
+
+      /* Severity ladder — heads-up → attention → red */
+      --severity-low:  #6FC3D8;
+      --severity-med:  #D88E62;
+      --severity-high: #D64545;
+
+      /* Spacing — Atlassian-style percentage scale (base 100 = 8 px) */
+      --space-0:   0;
+      --space-25:  2px;
+      --space-50:  4px;
+      --space-75:  6px;
+      --space-100: 8px;
+      --space-150: 12px;
+      --space-200: 16px;
+      --space-300: 24px;
+      --space-400: 32px;
+      --space-500: 40px;
+      --space-600: 48px;
+      --space-800: 64px;
+
+      /* Radius scale */
+      --radius-50:   2px;
+      --radius-100:  4px;
+      --radius-200:  8px;
+      --radius-300:  12px;
+      --radius-400:  16px;
+      --radius-full: 9999px;
+
+      /* Elevation (Material 3-derived) */
+      --elev-1: 0 1px 2px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.10);
+      --elev-2: 0 2px 4px rgba(0,0,0,.06), 0 4px 8px rgba(0,0,0,.08);
+      --elev-3: 0 4px 8px rgba(0,0,0,.08), 0 8px 16px rgba(0,0,0,.12);
+      --elev-4: 0 8px 16px rgba(0,0,0,.10), 0 16px 24px rgba(0,0,0,.16);
+
+      /* Motion */
+      --dur-fast:        100ms;
+      --dur-quick:       150ms;
+      --dur-normal:      200ms;
+      --dur-deliberate:  300ms;
+      --dur-slow:        500ms;
+      --ease-standard:   cubic-bezier(.2, 0, 0, 1);
+      --ease-enter:      cubic-bezier(0, 0, .2, 1);
+      --ease-exit:       cubic-bezier(.4, 0, 1, 1);
+      --ease-spring:     cubic-bezier(.34, 1.56, .64, 1);
+
+      /* Opacity ladder */
+      --opacity-disabled: 0.40;
+      --opacity-muted:    0.60;
+      --opacity-subtle:   0.80;
+
+      /* Z-index — resolves modal-over-toast disasters */
+      --z-sticky:           100;
+      --z-dropdown:        1000;
+      --z-overlay:         1100;
+      --z-drawer:          1200;
+      --z-modal-backdrop:  1300;
+      --z-modal:           1400;
+      --z-popover:         1500;
+      --z-tooltip:         1600;
+      --z-toast:           1700;
+      --z-cmdk:            1800;
+
+      /* Focus ring (paired with :focus-visible double-ring below) */
+      --focus-ring-width:  2px;
+      --focus-ring-offset: 2px;
+      --focus-ring: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--gold);
+
+      /* Line-heights */
+      --lh-tight:  1.2;
+      --lh-snug:   1.35;
+      --lh-normal: 1.5;
+
+      /* PR F2 — Type scale (6 sizes, paired with utility classes below) */
+      --fs-display:  34px;  /* Fraunces page h2 / hero number */
+      --fs-headline: 20px;  /* Fraunces section / verdict pill */
+      --fs-title:    14px;  /* Geist 700 — card title, table head */
+      --fs-body:     13px;  /* Geist 400 — body copy, table rows */
+      --fs-meta:     11px;  /* Geist 500 — sub-line, caption */
+      --fs-micro:    10px;  /* Geist 600 ALL-CAPS — eyebrow labels */
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* PR F1 — accessibility baseline.
+     * Global reduced-motion: silences every CSS animation/transition for
+     * users who set the OS preference. Component-scoped variants further
+     * down still get this for free (they don't override animation:none). */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* :focus-visible double-ring — keyboard users see a clear ring,
+     * mouse clicks don't render one. Two-layer shadow (canvas + accent)
+     * survives over both light and dark surfaces. */
+    :focus { outline: none; }
+    :focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+      border-radius: var(--radius-100);
+    }
+
+    /* Skip-link — appears at top-left on Tab from boot, hidden until then.
+     * Lets keyboard users jump straight to the main content past the
+     * persistent header / ticker / tabs row. */
+    .skip-link {
+      position: fixed;
+      top: -100px;
+      left: 8px;
+      z-index: var(--z-tooltip);
+      background: var(--gold);
+      color: var(--bg-primary);
+      padding: 8px 14px;
+      border-radius: var(--radius-100);
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      transition: top var(--dur-quick) var(--ease-enter);
+    }
+    .skip-link:focus,
+    .skip-link:focus-visible { top: 8px; }
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
 
     body {
       font-family: var(--font-sans);
@@ -90,6 +247,55 @@
         linear-gradient(180deg, var(--bg-primary), var(--bg-primary));
       background-attachment: fixed;
     }
+
+    /* ============================================================
+     * PR F2 — Type scale utilities.
+     * New code paths use these classes for consistency; old inline
+     * font-size:Npx call sites stay untouched until a PR touches them.
+     * .tx-num enables tabular numerals on any element.
+     * ============================================================ */
+    .tx-display  { font-family: var(--font-serif); font-size: var(--fs-display);  font-weight: 500; letter-spacing: -0.02em; line-height: var(--lh-tight); }
+    .tx-headline { font-family: var(--font-serif); font-size: var(--fs-headline); font-weight: 500; letter-spacing: -0.01em; line-height: var(--lh-tight); }
+    .tx-title    { font-family: var(--font-sans);  font-size: var(--fs-title);    font-weight: 700; line-height: var(--lh-snug); }
+    .tx-body     { font-family: var(--font-sans);  font-size: var(--fs-body);     font-weight: 400; line-height: var(--lh-normal); }
+    .tx-meta     { font-family: var(--font-sans);  font-size: var(--fs-meta);     font-weight: 500; color: var(--text-muted); line-height: var(--lh-snug); }
+    .tx-micro    { font-family: var(--font-sans);  font-size: var(--fs-micro);    font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+    .tx-num      { font-family: var(--font-mono);  font-variant-numeric: tabular-nums; font-feature-settings: 'tnum' 1; }
+
+    /* ============================================================
+     * PR F2 — CSS-only layout primitives (Every-Layout style).
+     * Use as `<div class="l-stack" style="--gap: var(--space-300)">`.
+     * Composes ~90% of any UI; no JS, no framework required.
+     *
+     * DISCLOSURE DECISION TREE — walk these rules in order:
+     *   1. Essential for the current task?
+     *      → Tier 1, always visible.
+     *   2. Expands context inline (component breakdowns, "show more")?
+     *      → <details><summary>. Native HTML, no JS state.
+     *   3. 2–5 mutually exclusive views of the same entity?
+     *      → Tabs.
+     *   4. Focused sub-task that keeps surrounding context?
+     *      → Right-side drawer (<dialog position:fixed right:0>).
+     *   5. Destructive / irreversible confirmation?
+     *      → Modal <dialog aria-modal="true">.
+     *   6. Tiny auxiliary info (definition, "What is Snowflake?")?
+     *      → Native `popover` attribute WITH <details> fallback for
+     *        Chromium < 114 / Samsung Internet < 23 (still ~15% of
+     *        Indian retail mobile).
+     *   Doesn't fit → separate page.
+     * ============================================================ */
+    .l-stack    { display:flex; flex-direction:column; gap: var(--gap, var(--space-200)); }
+    .l-cluster  { display:flex; flex-wrap:wrap; gap: var(--gap, var(--space-100)); align-items:center; }
+    .l-frame    { aspect-ratio: var(--ratio, 16 / 9); overflow:hidden; }
+    .l-frame > * { width:100%; height:100%; object-fit:cover; }
+    .l-grid     { display:grid; grid-template-columns: repeat(auto-fit, minmax(var(--min, 240px), 1fr)); gap: var(--gap, var(--space-200)); }
+    .l-box      { padding: var(--pad, var(--space-200)); border-radius: var(--radius, var(--radius-200)); background: var(--bg, var(--bg-card)); border: 1px solid var(--border); }
+    .l-switcher { display:flex; flex-wrap:wrap; gap: var(--gap, var(--space-200)); }
+    .l-switcher > * { flex-grow:1; flex-basis: calc((var(--threshold, 32rem) - 100%) * 999); }
+    .l-center   { box-sizing:content-box; max-width: var(--max, 64rem); margin-inline:auto; padding-inline: var(--pad, var(--space-300)); }
+    .l-sidebar  { display:flex; flex-wrap:wrap; gap: var(--gap, var(--space-300)); }
+    .l-sidebar > :first-child { flex-basis: var(--side, 16rem); flex-grow:1; }
+    .l-sidebar > :last-child  { flex-basis:0; flex-grow:999; min-inline-size: var(--min, 50%); }
 
     /* Phase 8B utility classes — selective upgrade */
     .editorial-headline {
@@ -620,10 +826,68 @@
       letter-spacing: 0.3px;
     }
 
-    .positive { color: var(--green); }
-    .negative { color: var(--red); }
-    .positive-bg { background: var(--green-bg); color: var(--green); }
-    .negative-bg { background: var(--red-bg); color: var(--red); }
+    /* PR F1 — softer day-one default. The legacy --green / --red are neon on
+     * the near-black background; --positive-soft / --negative-soft pull the
+     * brightness down. New code paths upgrade further via signedColorFor()
+     * so |Δ|<0.5 reads as muted ◆, |Δ|≥5 reads as deep ▲/▼. */
+    .positive { color: var(--positive-soft); }
+    .negative { color: var(--negative-soft); }
+    .positive-bg { background: var(--positive-bg-soft); color: var(--positive-soft); }
+    .negative-bg { background: var(--negative-bg-soft); color: var(--negative-soft); }
+
+    /* PR W3 — Watchlist mobile collapse.
+     * At ≤ 480 px we keep only Stock + Verdict + Day Change visible.
+     * Price / Since Added move into the chevron <details> via JS toggle. */
+    @media (max-width: 480px) {
+      .watchlist-table { min-width: 0 !important; }
+      .watchlist-table th:nth-child(4),
+      .watchlist-table td.wl-col-price,
+      .watchlist-table th:nth-child(6),
+      .watchlist-table td.wl-col-since { display: none; }
+      .watchlist-table th, .watchlist-table td { padding-inline: 6px; }
+    }
+
+    /* PR A10 — Portfolio Analyzer reflow details + bar marker reset. */
+    details.analyzer-tier-details > summary,
+    details.analyzer-secondary-kpis > summary { list-style: none; }
+    details.analyzer-tier-details > summary::-webkit-details-marker,
+    details.analyzer-secondary-kpis > summary::-webkit-details-marker { display: none; }
+    details.analyzer-tier-details > summary::before { content: "▶ "; color: var(--text-muted); margin-right: 6px; transition: transform var(--dur-quick) var(--ease-standard); display: inline-block; }
+    details.analyzer-tier-details[open] > summary::before { transform: rotate(90deg); }
+    /* Mobile (≤ 480 px): hero trio collapses to single column, action-mix
+     * bar grows to 44 px so the segment labels stay legible. */
+    @media (max-width: 480px) {
+      .analyzer-hero-trio { grid-template-columns: 1fr !important; }
+      .analyzer-actionmix-bar { height: 44px !important; }
+    }
+
+    /* PR P9 — inline ★ on pick cards.
+     * Sits inside .sws-pick-card-score so it floats at the top-right of
+     * the card without disrupting the score/verdict block beneath. The
+     * button itself is the existing .watchlist-btn primitive. */
+    .sws-pick-inline-star {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 2;
+    }
+    .sws-pick-card { position: relative; }
+
+    /* PR E4 — Earnings filter popover styling.
+     * The native `summary::-webkit-details-marker` and `summary::marker`
+     * arrows clash with the inline ▾ glyph in the markup; hide both. */
+    details.earnings-filter-popover > summary { list-style: none; }
+    details.earnings-filter-popover > summary::-webkit-details-marker { display: none; }
+    details.earnings-filter-popover[open] > summary > span:last-child { transform: rotate(180deg); display: inline-block; }
+    /* Mobile (≤ 480 px): confidence ring shrinks, popover spans full width,
+     * filter fields wrap to a column to stay readable on a 375 px phone. */
+    @media (max-width: 480px) {
+      .earnings-conf-ring { width: 18px !important; height: 18px !important; }
+      .earnings-filter-popover .earnings-filter-popover-body { flex-direction: column; align-items: stretch; }
+      .earnings-filter-popover .earnings-filter-popover-body label,
+      .earnings-filter-popover .earnings-filter-popover-body select,
+      .earnings-filter-popover .earnings-filter-popover-body input { width: 100%; }
+    }
 
     /* Main Content */
     .main-content {
@@ -3064,6 +3328,7 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to main content</a>
   <!-- Header -->
   <header class="header">
     <div class="header-inner">
@@ -3124,7 +3389,7 @@
   </div>
 
   <!-- Main Content -->
-  <div class="main-content">
+  <div class="main-content" id="main" tabindex="-1">
     <!-- Stock Detail View -->
     <div class="stock-detail" id="stockDetail"></div>
 
@@ -3159,9 +3424,7 @@
       <button class="tab" role="tab" aria-selected="false" onclick="switchTab('watchlist')">Watchlist</button>
       <!-- Admin-only. Hidden by default; auth.init() unhides for users with isAdmin=true. -->
       <button class="tab" id="usersTabBtn" role="tab" aria-selected="false" hidden onclick="switchTab('users')">Users</button>
-      <!-- Admin-only. Hidden by default; auth.init() unhides for users with isAdmin=true.
-           Server-side: /api/earnings/* is also gated to isAdmin. -->
-      <button class="tab" id="earningsTabBtn" role="tab" aria-selected="false" hidden onclick="switchTab('earnings')">Earnings Watch</button>
+      <button class="tab" id="earningsTabBtn" role="tab" aria-selected="false" onclick="switchTab('earnings')">Earnings Watch</button>
     </div>
 
     <!-- Track Record Tab -->
@@ -3214,23 +3477,105 @@
       <!-- Signal maturity warning — hidden when sample size is sufficient -->
       <div id="trackMaturityWarning" style="display:none;"></div>
 
-      <div id="trackHeadlineMetrics" class="grid-4" style="margin-bottom:24px;">
-        <div class="card">
-          <div class="card-title">Total Picks</div>
-          <div class="card-value" id="trackTotalPicks">—</div>
+      <!-- PR T5 — Track Record 5-tile hero strip.
+           Trust-grade scorecard band:
+             1. Hit Rate            (#trackHitRateValue)
+             2. Avg α               (#trackAvgAlphaValue)
+             3. % Beat Nifty        (#trackBeatNiftyValue)
+             4. Brier (→ 0.18)      (#trackBrierValue) + methodology popover
+             5. Misses Shown toggle (#trackMissesShownToggle) — sticky-ON
+           Legacy IDs (#trackTotalPicks/#trackWinRate/#trackAvgReturn
+           /#trackBeatsNifty) are kept hidden but still written to by
+           loadTrackRecord() so downstream features (signal-maturity
+           banner, history-count label, etc.) keep their hooks. -->
+      <div id="trackHeroStrip" class="track-hero-strip" style="margin-bottom: var(--space-200, 16px); display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--space-150, 12px);">
+        <div class="track-hero-tile l-box" style="--pad: var(--space-200);">
+          <div class="tx-micro">Hit Rate</div>
+          <div class="tx-display tx-num" id="trackHitRateValue" style="font-size: 28px; line-height: 1.15;">—</div>
+          <div class="tx-meta" id="trackHitRateSub">picks ending positive</div>
         </div>
-        <div class="card">
-          <div class="card-title">Win Rate <span class="info-icon" data-term-id="win_rate" tabindex="0">i</span></div>
-          <div class="card-value" id="trackWinRate">—</div>
+        <div class="track-hero-tile l-box" style="--pad: var(--space-200);">
+          <div class="tx-micro">Avg α</div>
+          <div class="tx-display tx-num" id="trackAvgAlphaValue" style="font-size: 28px; line-height: 1.15;">—</div>
+          <div class="tx-meta">net of Nifty</div>
         </div>
-        <div class="card">
-          <div class="card-title">Avg Return <span class="info-icon" data-term-id="forward_return" tabindex="0">i</span></div>
-          <div class="card-value" id="trackAvgReturn">—</div>
+        <div class="track-hero-tile l-box" style="--pad: var(--space-200);">
+          <div class="tx-micro">% Beat Nifty</div>
+          <div class="tx-display tx-num" id="trackBeatNiftyValue" style="font-size: 28px; line-height: 1.15;">—</div>
+          <div class="tx-meta" id="trackBeatNiftySub">picks vs benchmark</div>
         </div>
-        <div class="card">
-          <div class="card-title">Beats Nifty <span class="info-icon" data-term-id="beats_nifty" tabindex="0">i</span></div>
-          <div class="card-value" id="trackBeatsNifty">—</div>
+        <div class="track-hero-tile l-box" style="--pad: var(--space-200); position: relative;">
+          <div class="tx-micro" style="display:flex; align-items:center; gap:6px;">
+            Brier
+            <details class="brier-methodology" style="display:inline-block;">
+              <summary aria-label="Methodology — what the Brier score measures" style="cursor:pointer; list-style:none; padding:0 4px; border:1px solid var(--border); border-radius:9px; color:var(--text-muted); font-size:10px; font-weight:700; line-height:14px;">?</summary>
+              <div style="position:absolute; right:8px; top:48px; z-index: var(--z-popover, 1500); background: var(--bg-card); border:1px solid var(--border); border-radius: var(--radius-200); padding: var(--space-200); box-shadow: var(--elev-3); width: 280px; font-size: 12px; line-height: 1.45; color: var(--text-secondary);">
+                <strong>Brier score</strong> measures calibration: predicted-probability vs realized outcome on every forecast. 0 = perfect, 0.25 = random. Target ≤ 0.18 (Polymarket benchmark). Forecasts cite snapshot windows
+                30 / 90 / 180 / 365 d; benchmark is Nifty 50 over the same window.
+              </div>
+            </details>
+          </div>
+          <div class="tx-display tx-num" id="trackBrierValue" style="font-size: 28px; line-height: 1.15;">—</div>
+          <div class="tx-meta" id="trackBrierSub">backfilling — PR B8</div>
         </div>
+        <div class="track-hero-tile l-box" style="--pad: var(--space-200);">
+          <div class="tx-micro">Misses</div>
+          <label style="display:flex; align-items:center; gap:8px; margin-top: 6px; cursor:pointer; font-size: 14px;">
+            <input type="checkbox" id="trackMissesShownToggle" checked
+                   style="width:18px; height:18px; cursor:pointer;"
+                   onchange="window.onTrackMissesShownToggle && window.onTrackMissesShownToggle(this.checked)" />
+            <span><strong id="trackMissesShownLabel">Shown</strong></span>
+          </label>
+          <div class="tx-meta" style="margin-top: 4px;">Hiding losers breaks trust — kept on by default.</div>
+        </div>
+      </div>
+      <div id="trackHeroSubline" class="tx-meta" style="margin: 4px 2px 16px; opacity: 0.85;"></div>
+
+      <!-- PR D11 — Past-performance disclaimer. SEBI Research Analyst
+           Regulations + IA Regulations both require this language on
+           any surface that publishes hypothetical / forward-tested
+           performance. We keep it on Track Record because that's where
+           the Brier / hit-rate / alpha numbers live; the per-stock
+           strip in the SWS modal carries a footer pointer back here. -->
+      <div class="sebi-past-performance-chip" role="note"
+           style="margin: 0 0 var(--space-300); padding: 10px 14px; border-radius: var(--radius-200); background: rgba(224,176,96,0.06); border: 1px solid rgba(224,176,96,0.18); font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
+        <strong style="color: var(--gold);">Past performance does not guarantee future results.</strong>
+        SWS-pick performance shown is hypothetical, net of typical costs, and not personalised investment advice.
+        Read the full <a href="#" onclick="event.preventDefault(); document.getElementById('sebiSiteFooter')?.scrollIntoView({behavior:'smooth'}); return false;" style="color: var(--gold); text-decoration: underline;">SEBI disclosures</a> before acting.
+      </div>
+
+      <!-- PR B8 — Earnings backtest snapshot. Admin-only mount. The
+           loader returns silently when the user isn't admin so the slot
+           collapses to zero height for everyone else. -->
+      <div id="trackEarningsBacktestHost"></div>
+
+      <!-- PR T7 — Calibration plot. 5-bucket SVG bar grid populated by
+           loadTrackCalibration() against /api/track/calibration. Thin
+           buckets (n < 30) render greyed with a "thin data" sub-line. -->
+      <div id="trackCalibrationPanel" class="l-box" style="--pad: var(--space-300); margin: 0 0 var(--space-300, 24px); position: relative;">
+        <div style="display:flex; align-items:flex-end; gap:12px; margin-bottom: 6px; flex-wrap: wrap;">
+          <div>
+            <div class="tx-headline">Calibration</div>
+            <div class="tx-meta" id="trackCalibrationSub">predicted-confidence bucket → realised hit-rate</div>
+          </div>
+          <div style="margin-left:auto;" class="tx-meta" id="trackCalibrationLegend">
+            <span style="display:inline-block; width:10px; height:10px; background: var(--positive); border-radius:2px; margin-right:4px; vertical-align: middle;"></span>realised
+            &nbsp;·&nbsp;
+            <span style="display:inline-block; width:14px; height:0; border-top:1.5px dashed var(--text-muted); vertical-align: middle;"></span>&nbsp;perfect (45°)
+          </div>
+        </div>
+        <div id="trackCalibrationSvgWrap" style="width:100%; overflow-x:auto;">
+          <div class="tx-meta" style="padding:20px 0;">Loading calibration…</div>
+        </div>
+      </div>
+      <!-- Legacy IDs retained off-screen so prior render paths keep working
+           until the call sites migrate. The signal-maturity banner reads
+           trackTotalPicks; the history-count chip reads trackHistoryCount. -->
+      <div hidden aria-hidden="true">
+        <span id="trackTotalPicks">—</span>
+        <span id="trackWinRate">—</span>
+        <span id="trackAvgReturn">—</span>
+        <span id="trackBeatsNifty">—</span>
       </div>
 
       <!-- ═══════════════════════════════════════════════════════════════════ -->
@@ -3555,6 +3900,11 @@
         <strong>Earnings are binary events.</strong> Pre-result predictions are algorithmic signals derived from public data (calendar, news, fundamentals, momentum, peer reactions). Confidence reflects model agreement, not certainty. Position sizing and stop-loss discipline are personal — this surface is research, not a buy/sell call.
       </div>
 
+      <!-- PR B8 — earnings backtest snapshot card. Admin-gated; the
+           loader returns silently when the user isn't admin so non-admins
+           see nothing in this slot. -->
+      <div id="earningsBacktestCardHost"></div>
+
       <!-- Stats strip — fed by /api/earnings/upcoming/stats. -->
       <div id="earningsStatsStrip" style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px;"></div>
 
@@ -3627,6 +3977,25 @@
 
   <!-- Shared glossary tooltip element — positioned dynamically by JS -->
   <div id="starbhaiTooltip" role="tooltip" aria-hidden="true"></div>
+
+  <!-- PR D11 — SEBI sticky-footer disclosure. Renders on every tab so
+       the regulatory text isn't buried in a /legal page. Two-line layout
+       covering (1) the mandatory market-risk warning and (2) the
+       Research Analyst non-guarantee statement. Educational platform
+       — no SEBI RA registration — and the text says so plainly. -->
+  <footer id="sebiSiteFooter" role="contentinfo"
+          style="margin-top: var(--space-400, 32px); padding: 14px 20px; border-top: 1px solid var(--border); background: var(--bg-secondary); font-size: 11px; line-height: 1.55; color: var(--text-muted);">
+    <div style="max-width: 1100px; margin-inline: auto; display: flex; flex-direction: column; gap: 6px;">
+      <div>
+        <strong style="color: var(--text-secondary);">Investments in securities market are subject to market risks. Read all related documents carefully before investing.</strong>
+      </div>
+      <div>
+        Starbhai is an educational research platform; it is <strong style="color: var(--text-secondary);">not a SEBI-registered Research Analyst or Investment Adviser.</strong>
+        Nothing here is personalised advice. Past performance — including hypothetical SWS-pick performance — does not guarantee future results.
+        SEBI registration (where applicable to underlying analyst data) does not in any way guarantee the performance of the intermediary or assure returns to investors.
+      </div>
+    </div>
+  </footer>
 
   <script src="glossary.js"></script>
   <script src="app.js"></script>
