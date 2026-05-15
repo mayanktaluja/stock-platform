@@ -5414,10 +5414,19 @@ function renderSWSTierA(tier) {
   </div>`;
 }
 
-// Upcoming results calendar — every held equity sorted ascending by its next
-// quarterly/annual result date. Unknowns and stale past dates collapse to "—"
-// at the bottom. Data source: report.holdingsByAction (one entry per scored
-// holding, Tier A∪C∪D), each h carries h.sws.next_earnings_date populated by
+// Upcoming results calendar — every held equity sorted by its next
+// quarterly/annual result date. Three blocks rendered in order:
+//   1. Future + today        — ascending by date (soonest first)
+//   2. Past (stale)          — most-recently-past first; date rendered with
+//                              "(past)" suffix and days-ago marker. Useful
+//                              while the data source catches up post-result.
+//   3. Truly unknown         — "—" / "—". Bottom of table.
+// Sort encoding packs the three blocks into a single comparator key:
+//   future → ms (small ~1.78e12 range)
+//   past   → 1e15 + (nowMs - ms), so newer past < older past
+//   unknown→ Infinity
+// Data source: report.holdingsByAction (one entry per scored holding, Tier
+// A∪C∪D), each h carries h.sws.next_earnings_date populated by
 // services/swsPortfolioAggregate.js:253 from the SWS deep file's overview.
 // Date math mirrors the catalyst layer pattern at swsCatalystLayer.js:31
 // (UTC midnight + Math.ceil) so an IST user sees days=0 ("today") for the
@@ -5434,16 +5443,17 @@ function renderSWSEarningsCalendar(report) {
   }
   if (equity.length === 0) return "";
 
-  const FAR = Number.POSITIVE_INFINITY;
+  const PAST_BLOCK = 1e15;
+  const UNKNOWN_KEY = Number.POSITIVE_INFINITY;
   const nowMs = Date.now();
   const keyOf = (h) => {
     const d = h?.sws?.next_earnings_date;
-    if (!d) return FAR;
+    if (!d) return UNKNOWN_KEY;
     const ms = Date.parse(d + "T00:00:00Z");
-    if (!Number.isFinite(ms)) return FAR;
+    if (!Number.isFinite(ms)) return UNKNOWN_KEY;
     const days = Math.ceil((ms - nowMs) / 86_400_000);
-    if (days < 0) return FAR;
-    return ms;
+    if (days >= 0) return ms;
+    return PAST_BLOCK + (nowMs - ms);
   };
   const rows = equity.slice().sort((a, b) => {
     const ka = keyOf(a), kb = keyOf(b);
@@ -5457,17 +5467,29 @@ function renderSWSEarningsCalendar(report) {
     const d = h?.sws?.next_earnings_date;
     const ms = d ? Date.parse(d + "T00:00:00Z") : NaN;
     const days = Number.isFinite(ms) ? Math.ceil((ms - nowMs) / 86_400_000) : null;
-    const isKnown = Number.isFinite(ms) && days != null && days >= 0;
-    const showDate = isKnown
-      ? new Date(ms).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })
-      : "—";
-    const showDays = isKnown ? (days === 0 ? "today" : `${days}d`) : "—";
+    const isFuture = Number.isFinite(ms) && days != null && days >= 0;
+    const isPast = Number.isFinite(ms) && days != null && days < 0;
+    let showDate, showDays, daysColor;
+    if (isFuture) {
+      showDate = new Date(ms).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+      showDays = days === 0 ? "today" : `${days}d`;
+      daysColor = days <= 7 ? "#fbbf24" : "var(--text-muted)";
+    } else if (isPast) {
+      const iso = new Date(ms).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+      showDate = `${iso} <span style="color:var(--text-muted); font-size:11px;">(past)</span>`;
+      showDays = `${Math.abs(days)}d ago`;
+      daysColor = "var(--text-muted)";
+    } else {
+      showDate = "—";
+      showDays = "—";
+      daysColor = "var(--text-muted)";
+    }
+    const rowOpacity = isPast ? "0.7" : "1";
     const tickerCell = stripSuffix(h?.sws?.ticker || h?.symbol || "");
     const position = (typeof formatINR === "function")
       ? formatINR(h?.currentValue ?? h?.invested ?? 0, { compact: true })
       : "—";
-    const daysColor = isKnown && days <= 7 ? "#fbbf24" : "var(--text-muted)";
-    return `<tr style="border-bottom:1px solid #1a2238;">
+    return `<tr style="border-bottom:1px solid #1a2238; opacity:${rowOpacity};">
       <td style="padding:10px 12px; color:var(--text-muted);">${i + 1}</td>
       <td style="padding:10px 12px;">
         <strong style="font-size:13px;">${swsEscapeAttr(tickerCell)}</strong>

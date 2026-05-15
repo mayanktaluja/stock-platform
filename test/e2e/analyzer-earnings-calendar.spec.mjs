@@ -1,9 +1,12 @@
 // E2E for the new "Upcoming results calendar" section at the bottom of the
 // Portfolio Analyzer tab. After uploading the fixture portfolio the analyzer
 // report must include a collapsible <details> labelled "Upcoming results
-// calendar" with one row per scored equity holding. Rows are sorted ascending
-// by h.sws.next_earnings_date; unknown / past dates collapse to "—" and sink
-// to the bottom of the table.
+// calendar" with one row per scored equity holding.
+//
+// Sort order (three blocks):
+//   1. Future + today        — ascending by date (soonest first)
+//   2. Past (stale)          — most-recently-past first, date suffixed " (past)"
+//   3. Truly unknown / null  — "—"
 //
 // Self-skips when the fixture or live-price-dependent report doesn't surface,
 // matching the convention in analyzer-reflow.spec.mjs and
@@ -21,7 +24,7 @@ const FIXTURE = resolve(here, "fixtures", "groww-sample.xlsx");
 test.describe("Portfolio Analyzer — Upcoming results calendar", () => {
   test.skip(!existsSync(FIXTURE), "fixture missing");
 
-  test("renders, sorts ascending, and pushes unknowns to the bottom", async ({ page }) => {
+  test("renders three sorted blocks: future asc, past newer-first, unknown last", async ({ page }) => {
     await gotoApp(page, { tab: "analyzer" });
     await page.locator("#analyzerFileInput").setInputFiles(FIXTURE);
 
@@ -62,15 +65,11 @@ test.describe("Portfolio Analyzer — Upcoming results calendar", () => {
     );
     await expect(tableDetails).toHaveAttribute("open", /.*/);
 
-    // The table should have at least one body row.
     const tableRows = tableDetails.locator("tbody tr");
     const rowCount = await tableRows.count();
     expect(rowCount).toBeGreaterThan(0);
 
-    // Pull the date column (5th cell, index 4) for every row and assert:
-    //   1. all real ISO/date-looking strings appear BEFORE all "—" rows
-    //   2. real dates are non-decreasing across consecutive rows
-    //   3. no real date is strictly in the past (the renderer suppresses past)
+    // Pull the date column (5th cell, index 4) for every row.
     const dateStrings = [];
     for (let i = 0; i < rowCount; i++) {
       const text = (await tableRows.nth(i).locator("td").nth(4).innerText()).trim();
@@ -78,20 +77,32 @@ test.describe("Portfolio Analyzer — Upcoming results calendar", () => {
     }
 
     const DASH = "—";
-    let firstDashIdx = dateStrings.indexOf(DASH);
-    if (firstDashIdx === -1) firstDashIdx = dateStrings.length;
-    // After the first "—" every remaining row must also be "—".
-    for (let i = firstDashIdx; i < dateStrings.length; i++) {
-      expect(dateStrings[i]).toBe(DASH);
+    const PAST_SUFFIX = "(past)";
+    const classify = (s) => {
+      if (s === DASH) return "unknown";
+      if (s.includes(PAST_SUFFIX)) return "past";
+      return "future";
+    };
+
+    // Block ordering: the sequence of classifications must follow
+    //   future* → past* → unknown*
+    // with each block contiguous and in that order. No future row may follow
+    // a past row; no past row may follow an unknown row.
+    let phase = 0; // 0=future, 1=past, 2=unknown
+    const phaseFor = { future: 0, past: 1, unknown: 2 };
+    for (let i = 0; i < dateStrings.length; i++) {
+      const ph = phaseFor[classify(dateStrings[i])];
+      expect(ph, `row ${i} "${dateStrings[i]}" violates block order`).toBeGreaterThanOrEqual(phase);
+      phase = ph;
     }
 
-    // Parse "16 May 2026" → ms for the dated rows and confirm monotonic asc.
+    // Parse "16 May 2026" or "16 May 2026 (past)" → ms.
     const MONTHS = {
       Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
       Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
     };
     const parseEnIn = (s) => {
-      const m = s.match(/^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$/);
+      const m = s.match(/(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})/);
       if (!m) return null;
       const month = MONTHS[m[2]];
       if (month == null) return null;
@@ -104,15 +115,29 @@ test.describe("Portfolio Analyzer — Upcoming results calendar", () => {
       new Date().getUTCDate()
     );
 
-    let prevMs = -Infinity;
-    for (let i = 0; i < firstDashIdx; i++) {
+    // Future block: monotonically non-decreasing AND every date is today-or-later.
+    let prevFutureMs = -Infinity;
+    for (let i = 0; i < dateStrings.length; i++) {
+      if (classify(dateStrings[i]) !== "future") break;
       const ms = parseEnIn(dateStrings[i]);
-      // If the date string didn't parse, fail loudly — the renderer should
-      // only emit en-IN-formatted strings for the known case.
-      expect(ms, `row ${i} date "${dateStrings[i]}" did not parse`).not.toBeNull();
-      expect(ms, `row ${i} date "${dateStrings[i]}" is before today UTC`).toBeGreaterThanOrEqual(todayUtcMs - 86_400_000);
-      expect(ms, `row ${i} date "${dateStrings[i]}" out of order vs row ${i - 1}`).toBeGreaterThanOrEqual(prevMs);
-      prevMs = ms;
+      expect(ms, `future row ${i} "${dateStrings[i]}" did not parse`).not.toBeNull();
+      expect(ms, `future row ${i} "${dateStrings[i]}" must be today-or-later`).toBeGreaterThanOrEqual(todayUtcMs - 86_400_000);
+      expect(ms, `future row ${i} "${dateStrings[i]}" out of order`).toBeGreaterThanOrEqual(prevFutureMs);
+      prevFutureMs = ms;
+    }
+
+    // Past block: every date is strictly before today, and order is
+    // most-recent-first (descending). Note: we don't enforce strict descending
+    // here because two rows could share the same past date — only "not earlier
+    // than the next row" which is `prev >= curr`.
+    let prevPastMs = Infinity;
+    for (let i = 0; i < dateStrings.length; i++) {
+      if (classify(dateStrings[i]) !== "past") continue;
+      const ms = parseEnIn(dateStrings[i]);
+      expect(ms, `past row ${i} "${dateStrings[i]}" did not parse`).not.toBeNull();
+      expect(ms, `past row ${i} "${dateStrings[i]}" must be before today`).toBeLessThan(todayUtcMs);
+      expect(ms, `past row ${i} "${dateStrings[i]}" out of order (should be newer-first)`).toBeLessThanOrEqual(prevPastMs);
+      prevPastMs = ms;
     }
   });
 });
