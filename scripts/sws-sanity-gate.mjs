@@ -100,7 +100,14 @@ const UUID_REGEX = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}
 // L6
 const TOP_PICK_MIN_SCORE     = 60;
 const MIN_BEST_TO_BUY_NOW    = 20;
-const MIN_UPCOMING_EARNINGS  = 50;
+// Threshold split — same pattern as MIN_SCORED_COUNT / MIN_NEWS_POPULATED /
+// MIN_REWARDS_POPULATED above. NSE only publishes earnings dates ~2-3 weeks
+// ahead, so the 0-75d categorisation window in services/swsScoring.js is
+// naturally bounded upstream — daily counts oscillate 30-70 as the reporting
+// wave moves through. Real pipeline failures (NSE parser broken, by_symbol
+// join collapse) drop count to 0-5, comfortably below the 25 BLOCK floor.
+const MIN_UPCOMING_EARNINGS         = 25;   // BLOCK — collapse detector
+const MIN_UPCOMING_EARNINGS_STRONG  = 50;   // WARN  — preserves prior visibility
 
 // ---------------------------- severities -------------------------------
 
@@ -207,6 +214,9 @@ function layer1(lr, picks) {
   record(layer, "section_upcoming_earnings", BLOCK,
     (sec.upcoming_earnings?.length ?? 0) >= MIN_UPCOMING_EARNINGS,
     { count: sec.upcoming_earnings?.length, threshold: MIN_UPCOMING_EARNINGS });
+  record(layer, "section_upcoming_earnings_strong", WARN,
+    (sec.upcoming_earnings?.length ?? 0) >= MIN_UPCOMING_EARNINGS_STRONG,
+    { count: sec.upcoming_earnings?.length, threshold: MIN_UPCOMING_EARNINGS_STRONG });
 }
 
 // ============================== L2 =====================================
