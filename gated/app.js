@@ -189,6 +189,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // hourly. Silent when everything is fresh.
   loadSnapshotHealth();
   setInterval(loadSnapshotHealth, 60 * 60 * 1000);
+  // P2.1 — LLM signal degraded banner (chip appended after snapshot health).
+  // Fires when GROQ/Gemini keys aren't configured on the refresh host so the
+  // earnings predictor's LLM-signal component is running on keyword fallback.
+  loadLlmSignalBanner();
+  setInterval(loadLlmSignalBanner, 60 * 60 * 1000);
 });
 
 // PR W3 — fire-and-forget watchlist Set hydration. Run on boot so the
@@ -225,6 +230,9 @@ function hydrateMissesShownToggle() {
 // originates NSE traffic that Vercel's datacenter IPs can't reach, so the
 // prod cron silently no-ops. Without a banner, users have no way to know
 // they're seeing 19-day-old fundamentals.
+//
+// P2.1 (2026-05-16) — loadLlmSignalBanner runs AFTER this fn so its chip
+// appends to the same banner element. Both surfaces use chip styling.
 
 async function loadSnapshotHealth() {
   let health;
@@ -293,6 +301,74 @@ async function loadSnapshotHealth() {
   banner.innerHTML = chips.join("");
   banner.hidden = chips.length === 0;
 }
+
+// ==================== LLM SIGNAL HEALTH BANNER (P2.1) ====================
+//
+// Polls /api/health and surfaces a chip when the earnings LLM signal is
+// running on the heuristic fallback (Groq/Gemini keys not configured or
+// quota exhausted). Without this, the predictor's "LLM signal" component
+// (±10 pts in the composite) is a deterministic keyword classifier
+// wearing an LLM badge — friends would have no way to know.
+//
+// Separate from loadSnapshotHealth() (which covers MACRO regime LLM
+// status); they share the #snapshotHealthBanner element via chip
+// appending so we don't add a second always-on UI surface.
+async function loadLlmSignalBanner() {
+  let health;
+  try {
+    const res = await fetch("/api/health", { credentials: "same-origin" });
+    if (!res.ok) return;
+    health = await res.json();
+  } catch { return; }
+  if (!health) return;
+  const banner = document.getElementById("snapshotHealthBanner");
+  if (!banner) return;
+  const provider = health.llm_provider;
+  let isHeuristic = false;
+  if (provider == null) isHeuristic = true;
+  else if (typeof provider === "string" && /heuristic/i.test(provider)) isHeuristic = true;
+  else if (typeof provider === "object") {
+    // llm_provider_split shape from earningsHealth.js: { heuristic, groq, gemini }
+    const total = (provider.heuristic || 0) + (provider.groq || 0) + (provider.gemini || 0);
+    if (total > 0 && (provider.heuristic / total) > 0.5) isHeuristic = true;
+  }
+  if (!isHeuristic) return;
+  const chip = `
+    <div data-testid="llm-signal-heuristic-banner" style="color:#C8A06A; padding:2px 0;">
+      <span style="font-weight:600;">ℹ Earnings LLM signal — heuristic fallback active.</span>
+      <span style="opacity:0.75;font-size:11px;margin-left:6px;">
+        GROQ_API_KEY / GEMINI_API_KEY not configured on refresh host; predictions still ship but the qualitative-news component runs on keyword matching, not LLM.
+      </span>
+    </div>`;
+  banner.insertAdjacentHTML("beforeend", chip);
+  banner.hidden = false;
+}
+
+// ==================== LAST-UPDATED STAMP HELPER (P1.6) ====================
+//
+// Single source of truth for "X minutes ago" / "Y hours ago" / absolute-
+// date rendering used by pick cards, earnings cards, and the analyzer
+// report header. Lets a friend tell whether a recommendation is 5 min
+// old or 7 days old without inferring it from the cron schedule.
+function renderLastUpdated(isoOrEpoch) {
+  if (!isoOrEpoch) return "";
+  let ms;
+  if (typeof isoOrEpoch === "string") ms = Date.parse(isoOrEpoch);
+  else if (typeof isoOrEpoch === "number") ms = isoOrEpoch;
+  if (!isFinite(ms)) return "";
+  const delta = Date.now() - ms;
+  if (delta < 0) return "";
+  const mins = Math.floor(delta / 60000);
+  if (mins < 1) return `<span data-testid="last-updated" style="font-size:11px;color:var(--text-muted);">updated just now</span>`;
+  if (mins < 60) return `<span data-testid="last-updated" style="font-size:11px;color:var(--text-muted);">updated ${mins}m ago</span>`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 48) return `<span data-testid="last-updated" style="font-size:11px;color:var(--text-muted);">updated ${hours}h ago</span>`;
+  const days = Math.floor(hours / 24);
+  if (days < 30) return `<span data-testid="last-updated" style="font-size:11px;color:var(--text-muted);">updated ${days}d ago</span>`;
+  const d = new Date(ms);
+  return `<span data-testid="last-updated" style="font-size:11px;color:var(--text-muted);">updated ${d.toISOString().slice(0,10)}</span>`;
+}
+window.renderLastUpdated = renderLastUpdated;
 
 // ==================== GLOSSARY TOOLTIP SYSTEM ====================
 //
