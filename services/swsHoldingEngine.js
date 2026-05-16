@@ -416,8 +416,14 @@ export function _buildPredictionReasoningBullet(action, prediction) {
  * NSE market state from IST clock, macro-regime severity, sector
  * impact). Existing callers still hit this name; new callers use
  * computeTimingObservationFromModule directly.
+ *
+ * As of May 2026 the shim also forwards predictionVerdict /
+ * predictionConfidence / predictionQuality so the timing chip's reason
+ * surfaces the upcoming-earnings prediction in every market state — see
+ * services/timingObservation.js for the bug fix this enables (market-closed
+ * branches previously hid the earnings warning).
  */
-export function computeTimingObservation({ deep, scored, action, livePrice, now, marketState, regimeSeverity, sectorImpact } = {}) {
+export function computeTimingObservation({ deep, scored, action, livePrice, now, marketState, regimeSeverity, sectorImpact, predictionVerdict, predictionConfidence, predictionQuality } = {}) {
   return computeTimingObservationFromModule({
     action,
     scored,
@@ -425,6 +431,9 @@ export function computeTimingObservation({ deep, scored, action, livePrice, now,
     marketState,
     regimeSeverity,
     sectorImpact,
+    predictionVerdict,
+    predictionConfidence,
+    predictionQuality,
   });
 }
 
@@ -475,6 +484,26 @@ export function scoreHolding(holding, portfolioContext = {}) {
   const earningsEvent = portfolioContext.earningsSnapshot
     ? findEventBySymbol(portfolioContext.earningsSnapshot, _tickerForLookup)
     : null;
+  // Distilled prediction metadata — shared by the reasoning bullet (below)
+  // and the timing observer (which uses it to enrich the timing chip's
+  // reason string + emit an earnings_alert badge). Same suppression rules
+  // as services/swsCatalystLayer.js:_buildPredictionMeta so we don't surface
+  // INSUFFICIENT_DATA / LOW-quality predictions anywhere.
+  const _predictionMeta = (() => {
+    if (!earningsEvent || !earningsEvent.prediction) return null;
+    const p = earningsEvent.prediction;
+    if (!p.verdict || p.verdict === "INSUFFICIENT_DATA") return null;
+    const dq = earningsEvent?.signals?.data_quality;
+    if (dq === "LOW") return null;
+    return {
+      verdict: p.verdict,
+      confidence_pct: num(p.confidence_pct, 0),
+      fiscal_quarter: earningsEvent.fiscal_quarter || null,
+      days_until: num(earningsEvent.days_until, null),
+      data_quality: dq || "MEDIUM",
+      event_iso_date: earningsEvent.event_iso_date || null,
+    };
+  })();
 
   const hard = evaluateHardOverrides({
     scored, holding, snow, fiscal,
@@ -504,21 +533,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
   // the user explicitly asked for: when the analyzer says REDUCE and the
   // earnings modal says BEAT, the analyzer's reasoning will name the
   // conflict instead of leaving the user to spot it themselves.
-  if (earningsEvent) {
-    const _predictionMeta = (() => {
-      const p = earningsEvent.prediction;
-      if (!p || !p.verdict || p.verdict === "INSUFFICIENT_DATA") return null;
-      const dq = earningsEvent?.signals?.data_quality;
-      if (dq === "LOW") return null;
-      return {
-        verdict: p.verdict,
-        confidence_pct: num(p.confidence_pct, 0),
-        fiscal_quarter: earningsEvent.fiscal_quarter || null,
-        days_until: num(earningsEvent.days_until, null),
-        data_quality: dq || "MEDIUM",
-        event_iso_date: earningsEvent.event_iso_date || null,
-      };
-    })();
+  if (_predictionMeta) {
     const predictionBullet = _buildPredictionReasoningBullet(action, _predictionMeta);
     if (predictionBullet) reasons = [...reasons, predictionBullet];
   }
@@ -528,6 +543,12 @@ export function scoreHolding(holding, portfolioContext = {}) {
   // request from the macro-regime layer). When missing, the timing
   // module degrades gracefully — momentum + earnings + market-state
   // signals remain.
+  //
+  // Prediction fields are passed through so the timing observer can append
+  // a "Q-result in Xd predicted BEAT" suffix to its reason and attach an
+  // earnings_alert badge — including in the market-closed branches that
+  // previously hid this signal from the user (see services/timingObservation.js
+  // for the bug-fix details).
   const timing = computeTimingObservation({
     deep: scored,
     scored,
@@ -536,6 +557,9 @@ export function scoreHolding(holding, portfolioContext = {}) {
     marketState: portfolioContext.marketState,
     regimeSeverity: num(portfolioContext.regimeSeverity, 0),
     sectorImpact: num(portfolioContext.sectorImpactBySector?.[scored.sector], 0),
+    predictionVerdict: _predictionMeta?.verdict || null,
+    predictionConfidence: _predictionMeta?.confidence_pct ?? null,
+    predictionQuality: _predictionMeta?.data_quality || null,
   });
 
   // Layer-2 independent-fundamentals cross-check — shadow attach only.
