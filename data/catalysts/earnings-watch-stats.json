@@ -1,72 +1,72 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-05-16T01:56:15.286Z",
+  "built_at": "2026-05-16T17:34:14.513Z",
   "today_iso": "2026-05-16",
   "window_days": 30,
-  "upstream_event_count": 540,
-  "upstream_fetched_at": "2026-05-16T01:54:58.273Z",
-  "event_count": 516,
+  "upstream_event_count": 570,
+  "upstream_fetched_at": "2026-05-16T17:32:50.270Z",
+  "event_count": 544,
   "bucket_by_days": {
     "d0": 0,
     "d1to3": 142,
-    "d4to7": 240,
-    "d8to14": 134,
+    "d4to7": 256,
+    "d8to14": 146,
     "d15to30": 0
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 507,
-      "MEDIUM": 0,
-      "LOW": 9
+      "HIGH": 531,
+      "MEDIUM": 3,
+      "LOW": 10
     },
     "by_pre_runup": {
-      "spike": 74,
-      "smooth": 70,
-      "lagging": 157,
-      "neutral": 215
+      "spike": 78,
+      "smooth": 72,
+      "lagging": 170,
+      "neutral": 224
     },
     "sector_count": 23,
     "top_sectors": [
       {
         "sector": "Materials",
-        "count": 101
+        "count": 106
       },
       {
         "sector": "Capital Goods",
-        "count": 83
+        "count": 91
       },
       {
         "sector": "Consumer Durables",
-        "count": 50
+        "count": 54
       },
       {
         "sector": "Diversified Financials",
-        "count": 44
+        "count": 45
       },
       {
         "sector": "Pharmaceuticals & Biotech",
-        "count": 34
+        "count": 37
       }
     ]
   },
   "predictions": {
     "by_verdict": {
-      "BEAT": 105,
-      "INLINE": 235,
-      "MISS": 167,
-      "INSUFFICIENT_DATA": 9
+      "BEAT": 107,
+      "INLINE": 250,
+      "MISS": 177,
+      "INSUFFICIENT_DATA": 10
     },
     "avg_confidence_pct": 58,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v2-2026-05"
   },
   "playbooks": {
-    "tradable_count": 507,
+    "tradable_count": 534,
     "by_highlighted_branch": {
-      "RAISE": 227,
-      "MAINTAIN": 206,
-      "CUT": 74,
-      "none": 9
+      "RAISE": 242,
+      "MAINTAIN": 214,
+      "CUT": 78,
+      "none": 10
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   }
