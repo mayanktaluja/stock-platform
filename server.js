@@ -246,10 +246,49 @@ const macroHistory = [];
 // alongside the headline-fetcher functions so the standalone refresh script
 // (scripts/refresh-macro-regime.mjs) and the in-process refresh share state.
 
-// CORS — permissive by default so the frontend works from anywhere (mobile,
-// embeds, dev tunnels). The platform doesn't expose any user-specific data
-// that would justify a stricter origin allow-list right now.
-app.use(cors());
+// CORS — origin allowlist for the friends-and-family tier (P0.2, 2026-05-16).
+//
+// Pre-fix this was `cors()` — wide-open. Combined with session cookies
+// being sent automatically on credentialed fetch, any site a logged-in
+// friend visited could fire fetch('/api/portfolio', {credentials:'include'})
+// and read their book. SameSite=Lax on the session cookie (set in
+// buildCookie at line 410) blocks the subresource case in modern browsers,
+// but CORS-open is still belt-and-braces wrong: it advertises the API as
+// usable from anywhere.
+//
+// Allowlist covers: the canonical Vercel alias (-gamma), Vercel preview
+// URLs under the same project (rotated per push), localhost for dev (3000)
+// and Playwright (4011). Custom domain (starbhai.com) is intentionally NOT
+// listed yet — see CLAUDE.md note that starbhai.com points at the WP site.
+//
+// Set CORS_ALLOWED_ORIGINS=foo.com,bar.com to add extras at runtime
+// without a deploy (used by integration tunnels e.g. ngrok).
+const CORS_ALLOWLIST = [
+  "https://stock-platform-gamma.vercel.app",
+  "http://localhost:3000",
+  "http://localhost:4011",
+  ...(process.env.CORS_ALLOWED_ORIGINS || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean),
+];
+const CORS_PREVIEW_REGEX =
+  /^https:\/\/stock-platform-[a-z0-9-]+-mtaluja11-3604s-projects\.vercel\.app$/;
+app.use(
+  cors({
+    credentials: true,
+    origin(origin, callback) {
+      // Same-origin (no Origin header on same-host fetch) → always allow.
+      if (!origin) return callback(null, true);
+      if (CORS_ALLOWLIST.includes(origin)) return callback(null, true);
+      if (CORS_PREVIEW_REGEX.test(origin)) return callback(null, true);
+      // Reject — no CORS headers means the browser blocks the response.
+      // We do NOT throw because that would 500 the request; instead the
+      // upstream handler runs but the browser can't read the result.
+      return callback(null, false);
+    },
+  }),
+);
 
 // Rate limiting — protects the LLM API budget and underlying data sources
 // from abuse. The audit found that 50 burst requests succeeded with no
