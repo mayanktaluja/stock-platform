@@ -92,6 +92,20 @@ function nsSymbol(symbol) {
 export function buildAggregatorContext(opts = {}) {
   const fundamentalsHistory =
     opts.fundamentalsHistory ?? readJsonSafe(FUNDAMENTALS_HISTORY_PATH) ?? { stocks: {} };
+  // P3.7 — fundamentalsHistory age in days (null when file missing). Tests
+  // can inject opts.fundamentalsHistoryAgeDays directly to exercise the
+  // stale path without touching the filesystem.
+  let fundamentalsHistoryAgeDays = opts.fundamentalsHistoryAgeDays;
+  if (fundamentalsHistoryAgeDays === undefined) {
+    try {
+      if (fs.existsSync(FUNDAMENTALS_HISTORY_PATH)) {
+        const ms = Date.now() - fs.statSync(FUNDAMENTALS_HISTORY_PATH).mtimeMs;
+        fundamentalsHistoryAgeDays = ms / (1000 * 60 * 60 * 24);
+      } else {
+        fundamentalsHistoryAgeDays = null;
+      }
+    } catch { fundamentalsHistoryAgeDays = null; }
+  }
 
   const picksLatest =
     opts.picksLatest ?? dal.getPicksLatest() ?? { sections: {} };
@@ -151,6 +165,7 @@ export function buildAggregatorContext(opts = {}) {
 
   return {
     fundamentalsHistory,
+    fundamentalsHistoryAgeDays,
     picksMap,
     upcomingMap,
     announcementIndex,
@@ -381,7 +396,16 @@ export function aggregateSignalsForEvent(event, ctx, opts = {}) {
   // "UNKNOWN, not BAD" so the score is not silently understated. We
   // require >=2 quarters with non-null EPS — anything less can't form
   // a YoY pair anyway, so the trajectory was effectively absent.
-  const trajectoryCoverage = quartersWithEps >= 2 ? "covered" : "absent";
+  //
+  // P3.7 (2026-05-16) — Stale-fundamentals soft-disable. When
+  // fundamentalsHistory.json is >14d old the trajectory signal is
+  // suspect even when coverage is present (Yahoo earnings revisions,
+  // ticker reshuffles). Downgrade "covered" → "stale" so the predictor
+  // returns 0 pts and the UI rationale calls it out.
+  let trajectoryCoverage = quartersWithEps >= 2 ? "covered" : "absent";
+  if (trajectoryCoverage === "covered" && ctx.fundamentalsHistoryAgeDays != null) {
+    if (ctx.fundamentalsHistoryAgeDays > 14) trajectoryCoverage = "stale";
+  }
 
   // ── Picks universe enrichment (optional) ──
   const inPicksUniverse = ctx.picksMap.has(symbol);
