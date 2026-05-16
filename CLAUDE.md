@@ -1,4 +1,28 @@
 <!-- code-review-graph MCP tools -->
+## Multi-agent parallelism — stock-platform patterns
+
+When the task touches multiple independent surfaces, parallelise. The most
+common patterns that apply to this repo:
+
+| Pattern | How to parallelise |
+|---------|---------------------|
+| **E2E audit / regression sweep** | 5 parallel discovery agents in one message: UI inventory (`gated/index.html` + `gated/app.js`), API routes (`server.js`), test coverage (`test/` + `npx playwright test --list`), prod smoke (curl `-gamma.vercel.app`), architecture (`code-review-graph` MCP). |
+| **Multi-module unit-test gap-fill** | One background agent per `services/*.js` file. Each writes its own `test/<name>.test.mjs`, runs it locally, reports findings. Wire all into `npm test` in a final single commit. Files don't overlap so no race. |
+| **Multi-spec e2e additions** | One agent per new `test/e2e/*.spec.mjs` if specs cover disjoint tabs. Don't parallelise across the same tab — they'll race on `gotoApp` state and the cached `_analyzerCache` / `_newsDigest` module-level globals. |
+| **One-shot security fix + spec** | Foreground only — the server.js edit + its e2e spec belong in one commit and one mental model. Don't shard. |
+| **Refactor inside `gated/app.js`** | Don't parallelise. The 10,562-LOC monolith means concurrent edits collide. Sequential commits per logical section. |
+| **Backtest harness changes** | Don't parallelise across the 9× duplicated `scripts/backtest-*` files. They're forks of the same logic; one human edits one, then propagates manually. |
+
+Discovery is always parallel. Implementation is parallel when files are
+disjoint. Reviews always have ONE adversarial agent — never chain a second.
+
+A worked example covering this entire playbook lives at
+`~/.claude/plans/e2e-audit-2026-05-16.md` (5 discovery agents → 1
+adversarial → 4 background test-writing agents in parallel with 5
+foreground commits → ship).
+
+---
+
 ## Production URL
 
 **The platform lives at `https://stock-platform-gamma.vercel.app`** — the Vercel
