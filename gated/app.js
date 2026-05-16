@@ -2700,6 +2700,29 @@ function renderPortfolioAnalyticsRow(intel) {
  *   Break-even: ₹1,308.98 (+74% needed) · Low probability
  * Only shown on holdings in loss.
  */
+// Sell-trigger chip — concrete rupee stop based on the higher of:
+// 15% below avg cost OR 8% below current OR 1% above 52W low. Hidden when
+// the holding has no avgPrice/currentPrice (e.g. delisted, MF in cash leg).
+// P0.4 (2026-05-16) — see computeSellTrigger() in portfolioIntelligence.js.
+function renderSellTrigger(sellTrigger) {
+  if (!sellTrigger || sellTrigger.stopPriceInr == null) return "";
+  const sev = sellTrigger.severity === "tight" ? "#ef4444" : "#fb923c";
+  const pct = sellTrigger.pctFromCurrent;
+  const pctLabel = pct >= 0
+    ? `+${pct.toFixed(1)}%`
+    : `${pct.toFixed(1)}%`;
+  return `
+    <div data-testid="sell-trigger" style="display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;padding:8px 10px;background:rgba(251,146,60,0.05);border:1px solid rgba(251,146,60,0.20);border-radius:6px;font-size:11px;">
+      <div style="color:var(--text-muted);">Sell trigger</div>
+      <div style="text-align:right;">
+        <span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:${sev};">₹${formatNumber(sellTrigger.stopPriceInr)}</span>
+        <span style="color:var(--text-muted);">&nbsp;·&nbsp;</span>
+        <span style="font-family:'JetBrains Mono',monospace;color:${sev};">${pctLabel}</span>
+        <span style="color:var(--text-muted);">&nbsp;from current · ${sellTrigger.rationale}</span>
+      </div>
+    </div>`;
+}
+
 function renderRecoveryInfo(recoveryMath) {
   if (!recoveryMath) return "";
   const probColors = {
@@ -2891,6 +2914,7 @@ function renderPortfolioHoldingCard(h) {
         ${scoreBar(combinedScore, "Total")}
       </div>
 
+      ${renderSellTrigger(intel.sellTrigger)}
       ${renderRecoveryInfo(intel.recoveryMath)}
 
       ${h.catalysts && h.catalysts.length > 0 ? renderCatalyst(h.catalysts) : ""}

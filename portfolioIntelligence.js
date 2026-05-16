@@ -822,6 +822,74 @@ export function computeRecoveryMath(holding, quote) {
   };
 }
 
+// ──────────────────── Sell trigger / stop loss ────────────────────
+//
+// Pre-2026-05-16 the analyser told users when to BUY/TOP-UP but never when
+// to SELL. The closest thing was the "Review — deep drawdown" advisory
+// firing at −40%, which is advisory text, not a price-action stop. The
+// SEBI-RA review flagged this as P0 because friends on a 50% drawdown
+// will hold a "HOLD" label all the way to zero waiting for the platform
+// to say something concrete.
+//
+// computeSellTrigger() returns a concrete rupee-priced stop based on the
+// stronger of three floors:
+//
+//   1. AVG_COST_FLOOR  — 15% below the user's average cost. Caps total
+//      drawdown on this position. This is the SEBI-defensible "no more
+//      than X% loss on any single line" rule.
+//   2. TRAILING_8PCT  — 8% below current price. Locks in gains as the
+//      stock runs up; the stop moves with current price.
+//   3. NEAR_52W_LOW    — 1% above the trailing 52-week low. Don't sell
+//      AT the bottom; if the stock has held the low through prior
+//      shocks, that level has technical support.
+//
+// The output picks the HIGHEST of these (the most conservative stop —
+// closest to current price, smallest loss tolerated). A holding without
+// avgPrice or currentPrice returns null (the UI hides the chip).
+//
+// This is intentionally a simple price floor, NOT regime-aware. A real
+// ATR-based trailing stop would need volatility data per stock; that's
+// a P2 improvement. For friends-and-family, "stop at this rupee price"
+// is concrete enough to act on.
+export function computeSellTrigger(holding, quote) {
+  if (!holding || holding.avgPrice == null || holding.currentPrice == null) return null;
+  if (!isFinite(holding.avgPrice) || !isFinite(holding.currentPrice)) return null;
+  if (holding.avgPrice <= 0 || holding.currentPrice <= 0) return null;
+
+  const avgCostFloor = holding.avgPrice * 0.85;
+  const trailing8 = holding.currentPrice * 0.92;
+  const candidates = [
+    { type: "AVG_COST_FLOOR", price: avgCostFloor, note: "15% below your average cost" },
+    { type: "TRAILING_8PCT", price: trailing8, note: "8% below current price" },
+  ];
+
+  const lowKey = quote?.fiftyTwoWeekLow ?? holding.fiftyTwoWeekLow ?? null;
+  if (lowKey != null && isFinite(lowKey) && lowKey > 0) {
+    candidates.push({
+      type: "NEAR_52W_LOW",
+      price: lowKey * 1.01,
+      note: "1% above the trailing 52-week low",
+    });
+  }
+
+  // Pick the highest stop (the most conservative — smallest loss).
+  candidates.sort((a, b) => b.price - a.price);
+  const winner = candidates[0];
+
+  // Distance from current price — readable percent for the UI chip.
+  const pctFromCurrent = ((winner.price - holding.currentPrice) / holding.currentPrice) * 100;
+
+  return {
+    stopPriceInr: parseFloat(winner.price.toFixed(2)),
+    triggerType: winner.type,
+    rationale: winner.note,
+    pctFromCurrent: parseFloat(pctFromCurrent.toFixed(2)),
+    // Severity is a UI hint only — "tight" means the stop is within 5%
+    // of current; "wide" means there's runway. Doesn't change the action.
+    severity: Math.abs(pctFromCurrent) < 5 ? "tight" : "wide",
+  };
+}
+
 // ──────────────────── Position size recommendations ────────────────────
 
 /**
@@ -963,8 +1031,12 @@ export function buildPortfolioIntelligence(enrichedHoldings, analysesBySymbol, o
       fiftyTwoWeekLow: holding.fiftyTwoWeekLow,
     });
     const positionSizing = computeTargetPositionSize(scores.combinedScore, weight);
+    // P0.4 (2026-05-16) — concrete sell trigger so friends don't hold to zero.
+    const sellTrigger = computeSellTrigger(holding, {
+      fiftyTwoWeekLow: holding.fiftyTwoWeekLow,
+    });
 
-    return { holding, scores, weight, action, recoveryMath, positionSizing, macroInfo };
+    return { holding, scores, weight, action, recoveryMath, positionSizing, sellTrigger, macroInfo };
   });
 
   // Portfolio health score
@@ -992,6 +1064,7 @@ export function buildPortfolioIntelligence(enrichedHoldings, analysesBySymbol, o
       fundamentalVerdict: intel.scores.fundamentalVerdict ?? null,
       recoveryMath: intel.recoveryMath,
       positionSizing: intel.positionSizing,
+      sellTrigger: intel.sellTrigger,
       // Macro context (null when regime is calm/missing or the sector has no impact)
       macroInfo: intel.macroInfo || null,
       macroWarning: intel.action.macroWarning || null,
