@@ -3787,26 +3787,53 @@ app.get("/api/macro/debug", (req, res) => {
  * waiting for real macro news. Gated by MACRO_OVERRIDE_TOKEN env var or by
  * running outside Vercel production. Example:
  *
- *   curl '/api/macro/override?regime=WAR_ESCALATION&sector=Defence&impact=3&severity=4'
+ *   curl -H 'Authorization: Bearer XXX' \
+ *     '/api/macro/override?regime=WAR_ESCALATION&sector=Defence&impact=3&severity=4'
  *
  * Writes directly to macroRegimeCache. Cleared on next scheduled refresh or by
  * calling /api/macro/regime?refresh=1.
  */
+// extractAdminToken — pulls the MACRO_OVERRIDE_TOKEN-style admin token from
+// (a) Authorization: Bearer <token> header (preferred), or
+// (b) ?token=... query param (DEPRECATED — kept for compatibility with
+//     existing curl scripts and historical cron callers, but logs a
+//     migration warning).
+// Returns the token string or null. The query-param form is dangerous
+// because URLs land in server access logs, Vercel logs, browser history,
+// and any proxy in-between; the header form keeps the token off those
+// surfaces. (P0.3, 2026-05-16)
+function extractAdminToken(req) {
+  const authHeader = req.get("authorization") || req.get("Authorization") || "";
+  const m = authHeader.match(/^Bearer\s+(.+)$/i);
+  if (m) return m[1].trim();
+  const queryToken = req.query?.token;
+  if (queryToken) {
+    console.warn(
+      `[ADMIN-TOKEN] DEPRECATED: ?token= query-param on ${req.method} ${req.path} — ` +
+      `move to 'Authorization: Bearer <token>' header. ` +
+      `Query-param tokens leak via access logs, Vercel logs, and browser history.`,
+    );
+    return String(queryToken);
+  }
+  return null;
+}
+
 app.get("/api/macro/override", (req, res) => {
   // Allowed when:
   //   (a) running locally (VERCEL env var not set), OR
-  //   (b) running on Vercel AND a matching MACRO_OVERRIDE_TOKEN env var is set
-  //       AND the request passes the token in ?token=...
+  //   (b) running on Vercel AND a matching MACRO_OVERRIDE_TOKEN env var is
+  //       set AND the request passes the token via 'Authorization: Bearer
+  //       <token>' header (preferred) or ?token=... query param (deprecated).
   //
   // The explicit token-presence check prevents the "undefined === undefined"
   // loophole that would otherwise let any unauthenticated Vercel request
   // force-set the regime.
   const envToken = process.env.MACRO_OVERRIDE_TOKEN;
-  const queryToken = req.query.token;
+  const supplied = extractAdminToken(req);
   const isLocal = !process.env.VERCEL;
-  const tokenOk = envToken && queryToken && queryToken === envToken;
+  const tokenOk = envToken && supplied && supplied === envToken;
   if (!isLocal && !tokenOk) {
-    return res.status(403).json({ error: "Override not allowed in this environment. Set MACRO_OVERRIDE_TOKEN env var and pass ?token=... to enable." });
+    return res.status(403).json({ error: "Override not allowed in this environment. Set MACRO_OVERRIDE_TOKEN env var and pass via 'Authorization: Bearer <token>' header." });
   }
 
   // Validate regime against the canonical enum — anything else would silently
@@ -4089,18 +4116,19 @@ app.post("/api/track/snapshot", express.json(), async (req, res) => {
  * log with arbitrary entries.
  *
  * Usage:
- *   curl -X POST https://stock-platform-gamma.vercel.app/api/track/migrate?token=XXX \
+ *   curl -X POST https://stock-platform-gamma.vercel.app/api/track/migrate \
+ *     -H 'Authorization: Bearer XXX' \
  *     -H 'Content-Type: application/json' \
  *     --data @.paper-trades-export.json
  */
 app.post("/api/track/migrate", express.json({ limit: "5mb" }), async (req, res) => {
   // Same security gate as /api/macro/override
   const envToken = process.env.MACRO_OVERRIDE_TOKEN;
-  const queryToken = req.query.token;
+  const supplied = extractAdminToken(req);
   const isLocal = !process.env.VERCEL;
-  const tokenOk = envToken && queryToken && queryToken === envToken;
+  const tokenOk = envToken && supplied && supplied === envToken;
   if (!isLocal && !tokenOk) {
-    return res.status(403).json({ error: "Migration requires MACRO_OVERRIDE_TOKEN. Set the env var on Vercel and pass ?token=..." });
+    return res.status(403).json({ error: "Migration requires MACRO_OVERRIDE_TOKEN. Set the env var on Vercel and pass via 'Authorization: Bearer <token>' header." });
   }
 
   try {
@@ -4155,11 +4183,11 @@ app.post("/api/track/migrate", express.json({ limit: "5mb" }), async (req, res) 
  */
 app.post("/api/track/snapshot-sws-now", async (req, res) => {
   const envToken = process.env.MACRO_OVERRIDE_TOKEN;
-  const queryToken = req.query.token;
+  const supplied = extractAdminToken(req);
   const isLocal = !process.env.VERCEL;
-  const tokenOk = envToken && queryToken && queryToken === envToken;
+  const tokenOk = envToken && supplied && supplied === envToken;
   if (!isLocal && !tokenOk) {
-    return res.status(403).json({ error: "Requires MACRO_OVERRIDE_TOKEN. Set the env var on Vercel and pass ?token=..." });
+    return res.status(403).json({ error: "Requires MACRO_OVERRIDE_TOKEN. Set the env var on Vercel and pass via 'Authorization: Bearer <token>' header." });
   }
   try {
     const picksPath = path.join(__dirname, "data", "sws", "picks-latest.json");
