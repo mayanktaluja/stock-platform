@@ -203,6 +203,35 @@ const portfolioCache = new NodeCache({ stdTTL: 30, checkperiod: 15 });
 // enrichment pipeline. 30-minute TTL is plenty for an interactive session;
 // users tweaking past that just trigger a fresh analyze.
 const analyzerCache = new NodeCache({ stdTTL: 1800, checkperiod: 300 });
+
+// Per-user "what did the analyzer say about ticker X" lookup. Powers the
+// ANALYZER STANCE pill in the stock-detail modal — when the user opens
+// the modal from search or any non-analyzer tab, the pill needs a quick
+// way to show "Reduction-25% · MEDIUM-LOW" without re-running the full
+// 30s analyzer. Populated by /api/portfolio/analyze and /api/portfolio/
+// analyze/rerun on success. 30-min TTL matches analyzerCache.
+const analyzerStanceCache = new NodeCache({ stdTTL: 1800, checkperiod: 300 });
+
+// Extract a small per-symbol stance map from a runSWSAnalysis result.
+// Keeps only the fields the modal pill actually renders — keeps cache
+// memory small even on 100-stock portfolios.
+function _buildStanceMap(swsResult) {
+  const out = {};
+  const rows = Array.isArray(swsResult?._scoredHoldings) ? swsResult._scoredHoldings : [];
+  for (const h of rows) {
+    const sym = (h && (h.symbol || h.ticker || h.sws?.ticker) || "").toString().trim().toUpperCase();
+    if (!sym) continue;
+    out[sym] = {
+      action: h.action || null,
+      conviction: h?.sws?.v2_recommendation?.conviction || null,
+      reasons: Array.isArray(h.reasons) ? h.reasons.slice(0, 2) : [],
+      event_iso_date: h?.sws?.next_earnings_date || null,
+      position_weight: typeof h.positionWeight === "number" ? h.positionWeight : null,
+      pnl_percent: typeof h.pnlPercent === "number" ? h.pnlPercent : null,
+    };
+  }
+  return out;
+}
 // Macro regime — refreshed every 2 hours. LLM-classified market regime
 // (war/rate/oil/policy/calm) plus sector-level impact scores used by the
 // Buy Now scanner to tilt recommendations.
@@ -5894,6 +5923,15 @@ app.post("/api/portfolio/analyze", requireUploadQuota, requireRiskProfile, portf
       console.warn("[ANALYZE] memory pipeline failed:", e.message);
     }
 
+    // Populate the per-user stance cache so the stock-detail modal's
+    // ANALYZER STANCE pill can resolve actions without re-running the
+    // full analysis. Non-fatal if it fails — the pill silently falls back.
+    try {
+      analyzerStanceCache.set(sub, _buildStanceMap(swsResult));
+    } catch (e) {
+      console.warn("[ANALYZE] stance cache write failed:", e.message);
+    }
+
     return res.json({
       ok: true,
       elapsedMs: Date.now() - t0,
@@ -6010,6 +6048,14 @@ app.post("/api/portfolio/analyze/rerun", requireRiskProfile, express.json(), asy
       console.warn("[RERUN] memory pipeline failed:", e.message);
     }
 
+    // Refresh the stance cache on every rerun so the modal pill stays in
+    // sync as the user tweaks tax-slab / fresh-capital knobs and re-runs.
+    try {
+      analyzerStanceCache.set(sub, _buildStanceMap(swsResult));
+    } catch (e) {
+      console.warn("[RERUN] stance cache write failed:", e.message);
+    }
+
     return res.json({
       ok: true,
       elapsedMs: Date.now() - t0,
@@ -6020,6 +6066,37 @@ app.post("/api/portfolio/analyze/rerun", requireRiskProfile, express.json(), asy
   } catch (err) {
     console.error("Portfolio rerun error:", err.message, err.stack);
     res.status(500).json({ error: "Failed to rerun analysis", details: err.message });
+  }
+});
+
+// Per-symbol stance lookup for the stock-detail modal's ANALYZER STANCE
+// pill. Read-only — pulls from the in-memory cache populated by
+// /api/portfolio/analyze and /api/portfolio/analyze/rerun. Returns the
+// analyzer's most-recent action/conviction/reasons/event_iso_date for the
+// requested symbol, or 404 when (a) the user hasn't run an analysis yet,
+// (b) the cache entry has expired (30-min TTL), or (c) the symbol isn't
+// in their current portfolio.
+//
+// Auth: same session gate as /api/portfolio/analyze; admin gate would be
+// inappropriate here since this powers a user-facing modal on stocks the
+// user actually owns.
+app.get("/api/portfolio/stance/:symbol", async (req, res) => {
+  try {
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
+    const symbol = String(req.params.symbol || "").trim().toUpperCase();
+    if (!symbol) return res.status(400).json({ error: "missing-symbol" });
+    const stanceMap = analyzerStanceCache.get(sub);
+    if (!stanceMap || typeof stanceMap !== "object") {
+      return res.status(404).json({ error: "no-cached-analysis", hint: "Run /api/portfolio/analyze or /analyze/rerun first." });
+    }
+    const stance = stanceMap[symbol];
+    if (!stance) return res.status(404).json({ error: "symbol-not-in-portfolio" });
+    res.set("Cache-Control", "private, max-age=30");
+    res.json({ symbol, ...stance });
+  } catch (err) {
+    console.error("[STANCE] lookup failed:", err.message);
+    res.status(500).json({ error: "stance-lookup-failed", details: err.message });
   }
 });
 

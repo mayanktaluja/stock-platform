@@ -6176,6 +6176,33 @@ function swsRenderFreedCapitalBanner(report) {
 }
 
 function renderSWSAnalyzerReport(report, elapsedMs) {
+  // Publish the per-ticker action map to window so the stock-detail
+  // modal's ANALYZER STANCE pill (gated/earnings.js) can resolve a
+  // stance instantly without round-tripping to /api/portfolio/stance.
+  // Fires for BOTH V1 and V2 dispatch paths since this runs before the
+  // dispatcher. Idempotent — overwrites the prior map cleanly so stale
+  // entries from an earlier analysis don't bleed through after a rerun.
+  try {
+    const stanceMap = {};
+    const holdings = Array.isArray(report?.holdings) ? report.holdings : [];
+    for (const h of holdings) {
+      const sym = (h && (h.symbol || h.ticker || h.sws?.ticker) || "").toString().trim().toUpperCase();
+      if (!sym || !h.action) continue;
+      stanceMap[sym] = {
+        action: h.action,
+        conviction: h?.sws?.v2_recommendation?.conviction || null,
+        reasons: Array.isArray(h.reasons) ? h.reasons.slice(0, 2) : [],
+        event_iso_date: h?.sws?.next_earnings_date || null,
+        position_weight: typeof h.positionWeight === "number" ? h.positionWeight : null,
+        pnl_percent: typeof h.pnlPercent === "number" ? h.pnlPercent : null,
+      };
+    }
+    window.analyzerStanceByTicker = stanceMap;
+  } catch (e) {
+    // Non-fatal — the modal pill simply falls back to /api/portfolio/stance.
+    if (window.console && console.warn) console.warn("[analyzer] stance map publish failed:", e?.message);
+  }
+
   // ANALYZER_UI_V2 dispatcher for the SWS path — the only path now.
   // Adds a hero card + glossary chips on technical KPI labels when V2
   // is on. Sub-renderers (TierA/B/C/D, MfSection, etc.) are unchanged
