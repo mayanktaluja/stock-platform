@@ -4533,6 +4533,10 @@ function resetAnalyzer() {
   if (errEl) errEl.style.display = "none";
   const input = document.getElementById("analyzerFileInput");
   if (input) input.value = "";
+  // Drop the in-memory analyzer cache so a tab-switch before a new file is
+  // picked can't re-render the pre-reset report from loadAnalyzerOnTabOpen's
+  // 60s cache window.
+  _analyzerCache = null;
 }
 
 async function analyzePortfolioFile(file) {
@@ -4906,6 +4910,61 @@ function swsTimingBadge(timing) {
 
 function swsEscapeAttr(s) {
   return String(s || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// Banner timestamp formatter — shared by v1 + v2 renderers so the two
+// "Snapshot" / "SWS data" labels stay in sync.
+function swsFormatBannerTs(iso) {
+  if (!iso) return "—";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "—";
+  return d.toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" });
+}
+
+// Broker-reconciliation chip — surfaces the broker statement's own
+// invested / current / unrealised P&L next to the SWS-derived hero trio
+// so the user can reconcile to their broker app. Pure read of the
+// banner.broker_summary block; renders nothing when absent (e.g. on
+// rerun before the next upload restamps it).
+function swsRenderBrokerReconciliationChip(banner) {
+  const brokerSummary = banner && banner.broker_summary;
+  if (!brokerSummary) return "";
+  const invested = Number(brokerSummary.invested);
+  const current = Number(brokerSummary.current);
+  const pnl = Number(brokerSummary.unrealisedPL);
+  const haveAny = Number.isFinite(invested) || Number.isFinite(current) || Number.isFinite(pnl);
+  if (!haveAny) return "";
+  const asOfIso = brokerSummary.asOfDate;
+  const asOfLabel = asOfIso
+    ? new Date(asOfIso).toLocaleDateString("en-IN", { dateStyle: "medium" })
+    : null;
+  const pnlPct = (Number.isFinite(pnl) && Number.isFinite(invested) && invested > 0)
+    ? (pnl / invested) * 100
+    : null;
+  const pnlColor = Number.isFinite(pnl)
+    ? (pnl >= 0 ? "var(--green, #22c55e)" : "var(--red, #ef4444)")
+    : "var(--text-muted)";
+  const parts = [];
+  if (Number.isFinite(invested)) parts.push(`Invested <strong>${inr(invested)}</strong>`);
+  if (Number.isFinite(current)) parts.push(`Current <strong>${inr(current)}</strong>`);
+  if (Number.isFinite(pnl)) {
+    const pnlSign = pnl >= 0 ? "+" : "−";
+    const pnlAmt = inr(Math.abs(pnl));
+    const pctStr = pnlPct != null
+      ? ` (${pnlPct >= 0 ? "+" : ""}${pnlPct.toFixed(2)}%)`
+      : "";
+    parts.push(`P&L <strong style="color:${pnlColor};">${pnlSign}${pnlAmt}${pctStr}</strong>`);
+  }
+  const heading = asOfLabel
+    ? `Per your broker statement (${swsEscapeAttr(asOfLabel)})`
+    : "Per your broker statement";
+  return `
+    <div style="margin: -6px 0 18px; padding: 10px 14px; background: rgba(148,163,184,0.06); border: 1px dashed rgba(148,163,184,0.25); border-radius: 8px; font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+      <span style="font-weight: 600; color: var(--text);">${heading}:</span>
+      <span style="display:inline-flex; gap: 14px; flex-wrap: wrap;">${parts.join("<span style=\"color:#3a4358;\">·</span>")}</span>
+      <span style="margin-left:auto; font-size:11px; color:var(--text-muted); font-style:italic;">SWS hero trio above uses live prices, so totals can differ.</span>
+    </div>
+  `;
 }
 
 function swsSnowflakeMini(snow) {
@@ -6019,7 +6078,8 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
   const sectorOverlay = report.sectorOverlay || [];
   const outsidePicks = report.outsidePicks || null;
 
-  const snapshotAt = banner.snapshot_at ? new Date(banner.snapshot_at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "—";
+  const yourPortfolioAt = swsFormatBannerTs(banner.snapshot_at);
+  const swsScannedAt = swsFormatBannerTs(banner.sws_scanned_at);
   const elapsed = elapsedMs != null ? `${elapsedMs}ms` : "—";
 
   root.innerHTML = `
@@ -6027,13 +6087,14 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
       <div>
         <div style="font-size:14px; font-weight:700; color:#93c5fd;">${banner.engine || "SWS Engine (Beta)"}</div>
         <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">
-          Snapshot: ${snapshotAt} · ${swsEscapeAttr(banner.coverage_text || "")} · scored in ${elapsed}
+          Your portfolio: <span title="When you uploaded this holdings statement">${yourPortfolioAt}</span> · SWS data: <span title="When the SWS universe scan last refreshed">${swsScannedAt}</span> · ${swsEscapeAttr(banner.coverage_text || "")} · scored in ${elapsed}
         </div>
       </div>
       <button onclick="resetAnalyzer()" style="background:transparent; border:1px solid #2a3349; color:var(--text); padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px;">Re-upload</button>
     </div>
 
     ${swsRenderBackdatedNotice(report)}
+    ${swsRenderBrokerReconciliationChip(banner)}
     ${swsRenderMemoryHeader(report)}
     ${swsRenderFreedCapitalBanner(report)}
 
@@ -6108,7 +6169,8 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
   const sectorOverlay = report.sectorOverlay || [];
   const outsidePicks = report.outsidePicks || null;
 
-  const snapshotAt = banner.snapshot_at ? new Date(banner.snapshot_at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "—";
+  const yourPortfolioAt = swsFormatBannerTs(banner.snapshot_at);
+  const swsScannedAt = swsFormatBannerTs(banner.sws_scanned_at);
   const elapsed = elapsedMs != null ? `${elapsedMs}ms` : "—";
 
   // Hero copy — 1–2 sentences derived deterministically from snap.* fields.
@@ -6183,13 +6245,14 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
       <div>
         <div style="font-size:14px; font-weight:700; color:#93c5fd;">${banner.engine || "SWS Engine (Beta)"}</div>
         <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">
-          Snapshot: ${snapshotAt} · ${swsEscapeAttr(banner.coverage_text || "")} · scored in ${elapsed}
+          Your portfolio: <span title="When you uploaded this holdings statement">${yourPortfolioAt}</span> · SWS data: <span title="When the SWS universe scan last refreshed">${swsScannedAt}</span> · ${swsEscapeAttr(banner.coverage_text || "")} · scored in ${elapsed}
         </div>
       </div>
       <button onclick="resetAnalyzer()" style="background:transparent; border:1px solid #2a3349; color:var(--text); padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px;">Re-upload</button>
     </div>
 
     ${swsRenderBackdatedNotice(report)}
+    ${swsRenderBrokerReconciliationChip(banner)}
     ${swsRenderMemoryHeader(report)}
     ${swsRenderFreedCapitalBanner(report)}
 
