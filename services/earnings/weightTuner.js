@@ -22,7 +22,24 @@
  *   - >= 80 resolved actuals (small samples overfit)
  *   - across >= 2 fiscal quarters (one quarter is a regime, not a model)
  *   - >= 5 sectors with >= 10 resolved events each (no IT/FMCG dominance)
- * and the sweep is run on an 80% train split with a 20% held-out check.
+ *
+ * P2.2 (walk-forward CV) — for time-series predictions, a random
+ * train/holdout split leaks future information back into training
+ * because tomorrow's earnings outcomes carry no information that
+ * wasn't (in principle) knowable today. A SEBI-style backtest needs
+ * rolling-origin (a.k.a. walk-forward) CV: sort events by date, bucket
+ * them by fiscal quarter, then for each fold k train on quarters 1..k
+ * and test on quarter k+1. The aggregated test metrics are the honest
+ * out-of-sample estimate.
+ *
+ * `splitTrainHoldoutWalkForward` is the new default returned in the
+ * tuner output. The earlier random-split implementation remains as
+ * `splitTrainHoldoutRandom` for backward compatibility (and for the
+ * unit tests that pin the deterministic 80/20 behaviour). The
+ * historical export name `splitTrainHoldout` continues to point at the
+ * random implementation so external callers don't break — the new
+ * walk-forward function carries its own name and the tuner script
+ * picks which one to call explicitly.
  */
 
 import crypto from "node:crypto";
@@ -234,8 +251,18 @@ export function rankConfigs(rows, configs) {
  * Deterministic 80/20 train/holdout split — sorts by a hash of
  * (symbol|event_iso_date) so the split is stable across runs and
  * independent of archive file order.
+ *
+ * IMPORTANT: this is the v1 (random) splitter. It treats every
+ * resolved event as exchangeable, which leaks future information back
+ * into the training set when the predictor's components themselves
+ * depend on time-evolving inputs (sector regime, runup window,
+ * trajectory). Prefer `splitTrainHoldoutWalkForward` for any new
+ * tuning run. This function is kept exported under both its original
+ * name (`splitTrainHoldout`) and the more explicit alias
+ * (`splitTrainHoldoutRandom`) for backward compatibility with callers
+ * and existing tests.
  */
-export function splitTrainHoldout(rows, holdoutFrac = 0.2) {
+export function splitTrainHoldoutRandom(rows, holdoutFrac = 0.2) {
   const keyed = rows
     .map((r) => ({
       r,
@@ -247,4 +274,202 @@ export function splitTrainHoldout(rows, holdoutFrac = 0.2) {
     holdout: keyed.slice(0, holdoutN).map((x) => x.r),
     train: keyed.slice(holdoutN).map((x) => x.r),
   };
+}
+
+// Legacy export — preserved so older callers and tests continue to
+// work. Points at the random implementation.
+export const splitTrainHoldout = splitTrainHoldoutRandom;
+
+/* ──────────────── walk-forward (rolling-origin) CV ──────────────── */
+
+/**
+ * Quarterly buckets, sorted oldest→newest. The bucket key is
+ * `fiscal_quarter` when available (e.g. "Q1 FY27", "Q4 FY26"),
+ * otherwise a derived "YYYY-Qn" key from `event_iso_date`. Rows
+ * without either field are dropped — the tuner cannot place them on
+ * the timeline.
+ *
+ * Returns `[{ key, rows }]` in chronological order.
+ */
+export function bucketRowsByQuarter(rows) {
+  const buckets = new Map();
+  for (const r of rows || []) {
+    const key = quarterKeyForRow(r);
+    if (!key) continue;
+    if (!buckets.has(key)) buckets.set(key, []);
+    buckets.get(key).push(r);
+  }
+  return [...buckets.entries()]
+    .map(([key, rs]) => ({ key, rows: rs }))
+    .sort((a, b) => (quarterSortKey(a.key) < quarterSortKey(b.key) ? -1 : 1));
+}
+
+/**
+ * Walk-forward (rolling-origin) cross-validation split.
+ *
+ * Buckets the rows into quarterly folds in chronological order, then
+ * for each fold k = 1..N-1 returns a train set (quarters 1..k) and a
+ * test set (quarter k+1). The very first quarter never appears as a
+ * test set because its training set would be empty.
+ *
+ * Returns:
+ *   {
+ *     cv_method: "walk-forward",
+ *     folds: [
+ *       { fold_index, train_quarter_keys, test_quarter_key, train, test },
+ *       ...
+ *     ],
+ *     quarter_keys,   // chronological quarter keys
+ *     skipped_no_quarter,  // rows we couldn't place on the timeline
+ *   }
+ *
+ * Empty buckets (e.g. the train side at fold 0) cause the fold to be
+ * dropped silently — a fold with zero training rows would just echo
+ * the verdict thresholds rather than test the predictor.
+ */
+export function splitTrainHoldoutWalkForward(rows) {
+  const skipped = (rows || []).filter((r) => !quarterKeyForRow(r)).length;
+  const buckets = bucketRowsByQuarter(rows);
+  const quarterKeys = buckets.map((b) => b.key);
+
+  const folds = [];
+  for (let k = 0; k < buckets.length - 1; k++) {
+    const train = buckets.slice(0, k + 1).flatMap((b) => b.rows);
+    const test = buckets[k + 1].rows;
+    // Skip degenerate folds: zero train rows would just measure the
+    // verdict thresholds. (Shouldn't happen because we always include
+    // at least one bucket on the train side, but defensive.)
+    if (train.length === 0 || test.length === 0) continue;
+    folds.push({
+      fold_index: folds.length,
+      train_quarter_keys: buckets.slice(0, k + 1).map((b) => b.key),
+      test_quarter_key: buckets[k + 1].key,
+      train,
+      test,
+    });
+  }
+
+  return {
+    cv_method: "walk-forward",
+    folds,
+    quarter_keys: quarterKeys,
+    skipped_no_quarter: skipped,
+  };
+}
+
+/**
+ * Aggregate the per-fold test metrics into a single hit-rate + Brier
+ * by summing hits/sample-sizes across folds (so a fold with 50 test
+ * rows counts 5x a fold with 10).
+ *
+ * Each fold result is the output of `evaluateConfig(fold.test, ...)`.
+ */
+export function aggregateWalkForwardFolds(foldResults) {
+  let totalN = 0;
+  let totalHits = 0;
+  let weightedBrierSum = 0;
+  for (const fr of foldResults || []) {
+    const n = fr?.n ?? 0;
+    const hr = fr?.hit_rate_pct;
+    const br = fr?.brier;
+    if (!n) continue;
+    totalN += n;
+    if (hr != null) totalHits += (hr / 100) * n;
+    if (br != null) weightedBrierSum += br * n;
+  }
+  return {
+    aggregated_n: totalN,
+    aggregated_hit_rate_pct: totalN ? Math.round((totalHits / totalN) * 1000) / 10 : null,
+    aggregated_brier: totalN ? Math.round((weightedBrierSum / totalN) * 1000) / 1000 : null,
+  };
+}
+
+/**
+ * Run a walk-forward CV against one multiplier config end-to-end:
+ * bucket → for each fold evaluate the test set under `multipliers` →
+ * aggregate. Returns:
+ *
+ *   {
+ *     cv_method: "walk-forward",
+ *     folds: [{ fold_index, train_quarter_keys, test_quarter_key,
+ *               train_n, test_n, test_result }],
+ *     aggregated_n,
+ *     aggregated_hit_rate_pct,
+ *     aggregated_brier,
+ *     quarter_keys,
+ *     skipped_no_quarter,
+ *   }
+ *
+ * The train_n / test_n fields are kept (not the raw rows) so the
+ * output is JSON-serialisable.
+ */
+export function walkForwardEvaluate(rows, multipliers) {
+  const split = splitTrainHoldoutWalkForward(rows);
+  const foldResults = split.folds.map((fold) => {
+    const testResult = evaluateConfig(fold.test, multipliers);
+    return {
+      fold_index: fold.fold_index,
+      train_quarter_keys: fold.train_quarter_keys,
+      test_quarter_key: fold.test_quarter_key,
+      train_n: fold.train.length,
+      test_n: fold.test.length,
+      test_result: testResult,
+    };
+  });
+  const agg = aggregateWalkForwardFolds(foldResults.map((f) => f.test_result));
+  return {
+    cv_method: "walk-forward",
+    folds: foldResults,
+    quarter_keys: split.quarter_keys,
+    skipped_no_quarter: split.skipped_no_quarter,
+    ...agg,
+  };
+}
+
+/* ──────────────── quarter-key parsing helpers ──────────────────── */
+
+/**
+ * Extract a quarter key from a row. Prefer the explicit
+ * `fiscal_quarter` (e.g. "Q1 FY27") because that's the canonical
+ * source of truth; fall back to deriving "YYYY-Qn" from
+ * `event_iso_date` if absent.
+ */
+function quarterKeyForRow(r) {
+  if (!r) return null;
+  const fq = typeof r.fiscal_quarter === "string" ? r.fiscal_quarter.trim() : "";
+  if (fq) return fq;
+  const iso = typeof r.event_iso_date === "string" ? r.event_iso_date : "";
+  const m = iso.match(/^(\d{4})-(\d{2})-\d{2}$/);
+  if (!m) return null;
+  const year = parseInt(m[1], 10);
+  const month = parseInt(m[2], 10);
+  const qn = Math.floor((month - 1) / 3) + 1; // 1..4
+  return `CY${year}-Q${qn}`;
+}
+
+/**
+ * Sort key for quarter labels so "Q4 FY26" sorts before "Q1 FY27".
+ * Indian fiscal-year convention: Q1 = Apr-Jun, Q2 = Jul-Sep,
+ * Q3 = Oct-Dec, Q4 = Jan-Mar of FY label's calendar year.
+ * Returns a string that lexicographically orders correctly.
+ */
+function quarterSortKey(key) {
+  // FYxx-Qn style: "Q1 FY27" → calendar quarter = 2026-Q2 (Apr-Jun 2026)
+  let m = String(key).match(/^Q([1-4])\s*FY(\d{2,4})$/i);
+  if (m) {
+    const qn = parseInt(m[1], 10);
+    let fy = parseInt(m[2], 10);
+    if (fy < 100) fy = 2000 + fy; // FY27 → 2027
+    // FYxx means: Apr (xx-1) … Mar xx in calendar terms.
+    // Q1 of FYxx = (xx-1) Apr-Jun, Q4 of FYxx = xx Jan-Mar.
+    const calendarYear = qn === 4 ? fy : fy - 1;
+    const calendarQuarter =
+      qn === 1 ? 2 : qn === 2 ? 3 : qn === 3 ? 4 : 1;
+    return `${calendarYear}-Q${calendarQuarter}`;
+  }
+  // Already a CY key
+  m = String(key).match(/^CY?(\d{4})-Q([1-4])$/);
+  if (m) return `${m[1]}-Q${m[2]}`;
+  // Unknown — sort lexicographically as a last resort.
+  return String(key);
 }

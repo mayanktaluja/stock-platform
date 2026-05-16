@@ -12,6 +12,11 @@ import {
   evaluateConfig,
   rankConfigs,
   splitTrainHoldout,
+  splitTrainHoldoutRandom,
+  splitTrainHoldoutWalkForward,
+  bucketRowsByQuarter,
+  aggregateWalkForwardFolds,
+  walkForwardEvaluate,
   buildCandidateConfigs,
   COMPONENT_KEYS,
 } from "../services/earnings/weightTuner.js";
@@ -173,6 +178,139 @@ it("includes baseline + named hypotheses + a full coordinate sweep", () => {
   for (const k of COMPONENT_KEYS) {
     assert.ok([...names].some((n) => n.startsWith(`${k}_x`)), `no sweep config for ${k}`);
   }
+});
+
+/* ─────────────────── walk-forward (rolling-origin) CV ──────────── */
+
+console.log("[8] walk-forward CV (P2.2)");
+
+// Build a synthetic deck spanning 3 fiscal quarters with disjoint
+// row counts so the bucketing + ordering is unambiguous in the
+// assertions below.
+function synthRows() {
+  const out = [];
+  // Q4 FY26 (Jan-Mar 2026) — 6 rows
+  for (let i = 0; i < 6; i++) {
+    out.push({
+      symbol: `Q4-${i}`, fiscal_quarter: "Q4 FY26", event_iso_date: "2026-02-10",
+      sector: "IT", actual_verdict: "BEAT", score_breakdown: sb({ trajectory: 20 }),
+    });
+  }
+  // Q1 FY27 (Apr-Jun 2026) — 10 rows
+  for (let i = 0; i < 10; i++) {
+    out.push({
+      symbol: `Q1-${i}`, fiscal_quarter: "Q1 FY27", event_iso_date: "2026-05-15",
+      sector: "Banks", actual_verdict: "INLINE", score_breakdown: sb(),
+    });
+  }
+  // Q2 FY27 (Jul-Sep 2026) — 8 rows
+  for (let i = 0; i < 8; i++) {
+    out.push({
+      symbol: `Q2-${i}`, fiscal_quarter: "Q2 FY27", event_iso_date: "2026-08-12",
+      sector: "Pharma", actual_verdict: "MISS", score_breakdown: sb({ trajectory: -20 }),
+    });
+  }
+  return out;
+}
+
+it("sort-by-date / quarterly bucketing: rows are bucketed by fiscal_quarter in chronological order", () => {
+  const rows = synthRows();
+  const buckets = bucketRowsByQuarter(rows);
+  assert.equal(buckets.length, 3);
+  assert.deepEqual(buckets.map((b) => b.key), ["Q4 FY26", "Q1 FY27", "Q2 FY27"]);
+  assert.equal(buckets[0].rows.length, 6);
+  assert.equal(buckets[1].rows.length, 10);
+  assert.equal(buckets[2].rows.length, 8);
+});
+
+it("bucketing falls back to event_iso_date when fiscal_quarter is missing", () => {
+  const rows = [
+    { symbol: "A", event_iso_date: "2026-02-10", actual_verdict: "BEAT", score_breakdown: sb() },
+    { symbol: "B", event_iso_date: "2026-05-10", actual_verdict: "BEAT", score_breakdown: sb() },
+  ];
+  const buckets = bucketRowsByQuarter(rows);
+  assert.equal(buckets.length, 2);
+  // First quarter is calendar Q1 (Feb), second is Q2 (May)
+  assert.ok(buckets[0].key.includes("Q1"), buckets[0].key);
+  assert.ok(buckets[1].key.includes("Q2"), buckets[1].key);
+});
+
+it("rows missing both fiscal_quarter and a parseable event_iso_date are counted as skipped", () => {
+  const rows = [
+    { symbol: "A", fiscal_quarter: "Q4 FY26", event_iso_date: "2026-02-10", actual_verdict: "BEAT", score_breakdown: sb() },
+    { symbol: "B", event_iso_date: "garbled", actual_verdict: "BEAT", score_breakdown: sb() }, // unplaceable
+    { symbol: "C", actual_verdict: "BEAT", score_breakdown: sb() }, // unplaceable
+  ];
+  const split = splitTrainHoldoutWalkForward(rows);
+  assert.equal(split.skipped_no_quarter, 2);
+  assert.equal(split.quarter_keys.length, 1);
+});
+
+it("first fold never has an empty train set: fold 0 trains on quarter 1, tests on quarter 2", () => {
+  const rows = synthRows();
+  const split = splitTrainHoldoutWalkForward(rows);
+  // 3 quarters → 2 folds
+  assert.equal(split.folds.length, 2);
+  // Fold 0: train on Q4 FY26 (6 rows), test on Q1 FY27 (10 rows)
+  assert.ok(split.folds[0].train.length > 0, "fold-0 train is empty");
+  assert.equal(split.folds[0].train.length, 6);
+  assert.equal(split.folds[0].test.length, 10);
+  assert.deepEqual(split.folds[0].train_quarter_keys, ["Q4 FY26"]);
+  assert.equal(split.folds[0].test_quarter_key, "Q1 FY27");
+  // Fold 1: train on Q4 FY26 + Q1 FY27 (6+10=16 rows), test on Q2 FY27 (8)
+  assert.equal(split.folds[1].train.length, 16);
+  assert.equal(split.folds[1].test.length, 8);
+  assert.deepEqual(split.folds[1].train_quarter_keys, ["Q4 FY26", "Q1 FY27"]);
+  assert.equal(split.folds[1].test_quarter_key, "Q2 FY27");
+});
+
+it("a single quarter yields zero folds (nothing to walk forward to)", () => {
+  const rows = [
+    { symbol: "A", fiscal_quarter: "Q1 FY27", event_iso_date: "2026-05-10", actual_verdict: "BEAT", score_breakdown: sb() },
+    { symbol: "B", fiscal_quarter: "Q1 FY27", event_iso_date: "2026-05-11", actual_verdict: "BEAT", score_breakdown: sb() },
+  ];
+  const split = splitTrainHoldoutWalkForward(rows);
+  assert.equal(split.folds.length, 0);
+  assert.equal(split.quarter_keys.length, 1);
+});
+
+it("walkForwardEvaluate returns cv_method='walk-forward' + aggregated metrics", () => {
+  const rows = synthRows();
+  const wf = walkForwardEvaluate(rows, {});
+  assert.equal(wf.cv_method, "walk-forward");
+  assert.equal(wf.folds.length, 2);
+  // Aggregated_n is sum of test-set sizes: 10 (Q1 FY27) + 8 (Q2 FY27) = 18
+  assert.equal(wf.aggregated_n, 18);
+  assert.ok(wf.aggregated_hit_rate_pct != null, "aggregated_hit_rate_pct should be set");
+  assert.ok(wf.aggregated_brier != null, "aggregated_brier should be set");
+});
+
+it("aggregateWalkForwardFolds weights hit-rate by test-set size (larger fold dominates)", () => {
+  // Fold A: 100% hit, n=100. Fold B: 0% hit, n=10. Weighted = 100/110 ≈ 90.9%.
+  const agg = aggregateWalkForwardFolds([
+    { n: 100, hit_rate_pct: 100, brier: 0.1 },
+    { n: 10, hit_rate_pct: 0, brier: 0.5 },
+  ]);
+  assert.equal(agg.aggregated_n, 110);
+  assert.ok(Math.abs(agg.aggregated_hit_rate_pct - 90.9) < 0.1, agg.aggregated_hit_rate_pct);
+  // Weighted brier = (0.1*100 + 0.5*10) / 110 = 15/110 ≈ 0.136
+  assert.ok(Math.abs(agg.aggregated_brier - 0.136) < 0.01, agg.aggregated_brier);
+});
+
+it("aggregateWalkForwardFolds returns null metrics for an empty fold list", () => {
+  const agg = aggregateWalkForwardFolds([]);
+  assert.equal(agg.aggregated_n, 0);
+  assert.equal(agg.aggregated_hit_rate_pct, null);
+  assert.equal(agg.aggregated_brier, null);
+});
+
+it("backward-compat: splitTrainHoldoutRandom matches splitTrainHoldout (legacy alias still exported)", () => {
+  const rows = Array.from({ length: 50 }, (_, i) => ({ symbol: `S${i}`, event_iso_date: "2026-05-08" }));
+  const a = splitTrainHoldoutRandom(rows, 0.2);
+  const b = splitTrainHoldout(rows, 0.2);
+  assert.equal(a.train.length, b.train.length);
+  assert.equal(a.holdout.length, b.holdout.length);
+  assert.deepEqual(a.train.map((r) => r.symbol), b.train.map((r) => r.symbol));
 });
 
 console.log(`\n=== ${ok} passed, ${fail} failed ===`);
