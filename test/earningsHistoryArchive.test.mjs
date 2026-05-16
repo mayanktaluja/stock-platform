@@ -42,6 +42,7 @@ import {
   HISTORY_SCHEMA_VERSION,
   computeCalibration,
   bootstrapHitRateCI,
+  dedupePredictions,
 } from "../services/earnings/earningsHistoryArchive.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -656,6 +657,47 @@ it("output shape is strictly backwards-compatible — every legacy field still p
   assert.ok("hit_rate_overall_sample_size" in v1);
   assert.ok("hit_rate_by_confidence_bucket_ci" in v1);
   assert.ok("hit_rate_by_verdict_ci" in v1);
+});
+
+/* ─────────────────── dedupePredictions — public export ────────────── */
+//
+// dedupePredictions was made public so recentResultsBuilder can reuse
+// the same (symbol, event_iso_date) reconciliation logic the calibration
+// path already relies on. Lock down the contract with direct tests.
+
+console.log("[11] dedupePredictions — direct public API");
+
+it("collapses (symbol, event_iso_date) across snapshots, tags each row with _today_iso", () => {
+  const out = dedupePredictions([
+    day("2026-05-14", [row({ symbol: "TCS", event_iso_date: "2026-05-14", actual_verdict: null })]),
+    day("2026-05-15", [row({ symbol: "TCS", event_iso_date: "2026-05-14", actual_verdict: "BEAT" })]),
+  ]);
+  assert.equal(out.length, 1);
+  assert.equal(out[0].symbol, "TCS");
+  assert.equal(out[0].actual_verdict, "BEAT");
+  assert.equal(out[0]._today_iso, "2026-05-15");
+});
+
+it("freshest resolved wins among multiple resolved snapshots", () => {
+  const out = dedupePredictions([
+    day("2026-05-15", [row({ symbol: "TCS", event_iso_date: "2026-05-14", actual_verdict: "INLINE" })]),
+    day("2026-05-16", [row({ symbol: "TCS", event_iso_date: "2026-05-14", actual_verdict: "BEAT" })]),
+  ]);
+  assert.equal(out.length, 1);
+  assert.equal(out[0].actual_verdict, "BEAT");
+  assert.equal(out[0]._today_iso, "2026-05-16");
+});
+
+it("rows missing symbol or event_iso_date are silently dropped", () => {
+  const out = dedupePredictions([
+    day("2026-05-15", [
+      row({ symbol: null, event_iso_date: "2026-05-14", actual_verdict: "BEAT" }),
+      row({ symbol: "OK", event_iso_date: null, actual_verdict: "BEAT" }),
+      row({ symbol: "OK", event_iso_date: "2026-05-14", actual_verdict: "BEAT" }),
+    ]),
+  ]);
+  assert.equal(out.length, 1);
+  assert.equal(out[0].symbol, "OK");
 });
 
 /* ───────────────────────── runner ─────────────────────────────────── */

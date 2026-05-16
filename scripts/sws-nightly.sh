@@ -457,14 +457,6 @@ else
   fi
 fi
 
-echo "[nightly] running refresh-earnings.mjs (depends on the above)..."
-if with_timeout 600 node scripts/refresh-earnings.mjs 2>&1 | sed 's/^/[earnings] /'; then
-  aux_status "earnings-watch-latest.json" "OK"
-else
-  echo "[nightly] refresh-earnings.mjs failed — non-fatal; tab stays on prior snapshot"
-  aux_status "earnings-watch-latest.json" "FAILED"
-fi
-
 # ---- 3d. fundamentalsHistory refresh (Yahoo per-quarter EPS/revenue) ----
 #
 # Required by services/earnings/signalAggregator.js:362-364 for the YoY
@@ -480,6 +472,15 @@ fi
 # 127 silently). Folding into the unified pipeline removes a class of
 # silent-failure modes — same pattern that produced the empty
 # governance.json above.
+#
+# ORDERING: runs BEFORE refresh-earnings.mjs so the predictor's YoY-EPS
+# trajectory component (component 8 in earningsPredictor.js) sees a fresh
+# fundamentalsHistory.json instead of one that's up to 22 hours stale by
+# the time the 02:00 IST fire reads it. Before this move, the 02:00 fire
+# ran earnings → fundamentalsHistory; the 04:00 standalone job that was
+# meant to keep fundamentalsHistory fresh had been silently dead since
+# 2026-05-13. Earnings is the only consumer of fundamentalsHistory, so
+# this ordering is what makes the bundling sound.
 #
 # 18h freshness gate mirrors the fundamentals.json pattern (lines 251-275):
 # two fires per day means the second fire coasts when the first succeeded.
@@ -511,6 +512,14 @@ else
   if ! timeout 2400 node "${FH_SCRIPT}" 2>&1 | sed 's/^/[fund-history] /'; then
     echo "[nightly] ${FH_SCRIPT} failed — non-fatal; Earnings Watch trajectories stay on prior snapshot"
   fi
+fi
+
+echo "[nightly] running refresh-earnings.mjs (depends on the above)..."
+if with_timeout 600 node scripts/refresh-earnings.mjs 2>&1 | sed 's/^/[earnings] /'; then
+  aux_status "earnings-watch-latest.json" "OK"
+else
+  echo "[nightly] refresh-earnings.mjs failed — non-fatal; tab stays on prior snapshot"
+  aux_status "earnings-watch-latest.json" "FAILED"
 fi
 
 # Date/branch labels — computed here so both the PASS path (step 5) and

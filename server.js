@@ -102,6 +102,7 @@ import {
   loadEarningsStats,
   filterEvents,
   findEventBySymbol,
+  recomputeDaysUntil,
 } from "./services/earnings/earningsWatchService.js";
 import {
   computeCombinedScore,
@@ -2617,7 +2618,14 @@ app.get("/api/earnings/backtest", async (req, res) => {
 
 app.get("/api/earnings/upcoming", async (req, res) => {
   try {
-    const snap = loadCachedEarningsSnapshot();
+    // Pull the cached raw snapshot (5-min TTL), then recompute
+    // days_until + today_iso PER REQUEST against IST-now. The recompute
+    // sits outside the cache because the snapshot's days_until drifts
+    // up to ~12h between the 02:00 and 16:30 refreshes and can cross
+    // midnight IST inside a single cache window — which would otherwise
+    // show "today" cards yesterday.
+    const cached = loadCachedEarningsSnapshot();
+    const snap = recomputeDaysUntil(cached);
     const events = filterEvents(snap.events, {
       days: req.query.days,
       symbol: req.query.symbol,
@@ -2633,6 +2641,8 @@ app.get("/api/earnings/upcoming", async (req, res) => {
       event_count: events.length,
       total_event_count: snap.event_count,
       events,
+      recent_results: Array.isArray(snap.recent_results) ? snap.recent_results : [],
+      past_window_days: snap.past_window_days ?? null,
       missing: snap._missing === true,
     });
   } catch (err) {

@@ -77,10 +77,12 @@
   }
 
   function dayPillClass(daysUntil) {
-    // Visual urgency cue. Red-amber-yellow-grey; matches the platform's
-    // existing semantic palette without introducing new tokens.
+    // Visual urgency cue. Red-amber-yellow-grey for upcoming; a muted
+    // slate variant for past events so they don't visually compete with
+    // today's. Matches the platform's existing semantic palette.
     if (typeof daysUntil !== "number") return "earnings-day-pill earnings-day-pill--unknown";
-    if (daysUntil <= 0) return "earnings-day-pill earnings-day-pill--today";
+    if (daysUntil < 0) return "earnings-day-pill earnings-day-pill--past";
+    if (daysUntil === 0) return "earnings-day-pill earnings-day-pill--today";
     if (daysUntil <= 3) return "earnings-day-pill earnings-day-pill--soon";
     if (daysUntil <= 7) return "earnings-day-pill earnings-day-pill--this-week";
     return "earnings-day-pill earnings-day-pill--later";
@@ -310,6 +312,11 @@
       return true;
     });
     renderEarningsCardGrid(events);
+
+    // Recent results section: symbol + sector filters apply; the days /
+    // verdict / quality / runup filters intentionally don't (past rows
+    // have no signals block, and "Within N days" is forward-only).
+    renderRecentResultsSection(applyRecentFilters(_earningsSnapshot.recent_results));
   }
 
   // ────────── Card rendering ──────────
@@ -890,6 +897,128 @@
     }
   }
 
+  // ────────── Recent results (past N days) ──────────
+  //
+  // Renders a "Recent results · past N days" section above the upcoming
+  // card grid. Each card shows the original predicted verdict next to
+  // the actual result + a hit/miss accuracy badge. Slim variant — no
+  // signals/playbook/rationale expanders, since those were prediction-
+  // time noise and the actual result either confirmed or refuted them.
+
+  function applyRecentFilters(rows) {
+    if (!Array.isArray(rows)) return [];
+    const sym = (_earningsFilters.symbol || "").toUpperCase();
+    const sector = _earningsFilters.sector || "ALL";
+    return rows.filter((r) => {
+      if (sym && !String(r.symbol || "").toUpperCase().startsWith(sym)) return false;
+      if (sector !== "ALL" && (r.sector || "") !== sector) return false;
+      return true;
+    });
+  }
+
+  function renderRecentResultCard(row) {
+    if (!row || !row.symbol) return "";
+    const eventDate = fmtIsoToLong(row.event_iso_date);
+    const dayLabel = fmtRelativeDate(row.event_iso_date, row.days_until);
+    const dayPill = dayPillClass(row.days_until);
+
+    const predTone = predictedVerdictTone(row.predicted_verdict);
+    const actualTone = predictedVerdictTone(row.actual_verdict);
+    const acc = row.prediction_accuracy;
+    const accBadge =
+      acc === "hit"
+        ? `<span title="Predicted verdict matched actual outcome" style="display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:10px; background:rgba(34,197,94,0.18); border:1px solid rgba(34,197,94,0.4); color:#86efac; font-size:10px; font-weight:700; letter-spacing:0.06em;">✓ HIT</span>`
+        : acc === "miss"
+          ? `<span title="Predicted verdict did not match actual outcome" style="display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:10px; background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.4); color:#fca5a5; font-size:10px; font-weight:700; letter-spacing:0.06em;">✗ MISS</span>`
+          : "";
+
+    const conf = typeof row.confidence_pct === "number" ? `${row.confidence_pct}%` : "—";
+    const closeStr =
+      typeof row.actual_t1_close_inr === "number"
+        ? `₹${row.actual_t1_close_inr.toLocaleString("en-IN", { maximumFractionDigits: 2 })}`
+        : null;
+    const gapPct = typeof row.actual_t1_open_gap_pct === "number" ? row.actual_t1_open_gap_pct : null;
+    const gapStr =
+      gapPct == null
+        ? null
+        : `${gapPct >= 0 ? "+" : ""}${gapPct.toFixed(2)}%`;
+    const gapColor = gapPct == null ? "#cbd5e1" : gapPct >= 0 ? "#86efac" : "#fca5a5";
+
+    const safeClick = `if(typeof openStockDetailModal==='function'){openStockDetailModal('${escHtml(row.symbol)}','earnings');}`;
+    const fq = row.fiscal_quarter ? escHtml(row.fiscal_quarter) : "";
+    const sectorLabel = row.sector
+      ? `<span style="font-size:10px; color:var(--text-muted); letter-spacing:0.04em;">· ${escHtml(row.sector)}</span>`
+      : "";
+    const sourceLabel = row.actual_source
+      ? `<span style="font-size:10px; color:var(--text-muted);">via ${escHtml(row.actual_source)}</span>`
+      : "";
+
+    return `
+      <div class="earnings-recent-card" data-symbol="${escHtml(row.symbol)}" data-accuracy="${escHtml(acc || "")}" onclick="${safeClick}" style="background:var(--panel,#0f1422); border:1px solid #1a2233; border-top:2px solid ${actualTone.border}; border-radius:10px; padding:14px 16px; cursor:pointer; transition:transform 120ms ease, border-color 120ms ease; display:flex; flex-direction:column; gap:9px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+          <div style="min-width:0; flex:1;">
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <span style="font-size:15px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">${escHtml(row.symbol)}</span>
+              ${fq ? `<span style="font-size:11px; color:var(--text-muted); letter-spacing:0.04em;">${fq}</span>` : ""}
+              ${accBadge}
+            </div>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escHtml(row.company || row.symbol)} ${sectorLabel}</div>
+          </div>
+          <div style="text-align:right; flex-shrink:0;">
+            <span class="${dayPill}" style="display:inline-block; padding:3px 9px; border-radius:11px; font-size:10px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;">${escHtml(dayLabel)}</span>
+            <div style="font-size:10px; color:var(--text-muted); margin-top:4px;">${escHtml(eventDate)}</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+          <div style="display:inline-flex; align-items:center; gap:6px; padding:3px 9px; border-radius:12px; background:${predTone.bg}; border:1px solid ${predTone.border}; color:${predTone.color};">
+            <span style="font-size:9px; opacity:0.7; font-weight:600; letter-spacing:0.06em;">PREDICTED</span>
+            <span style="font-size:11px; font-weight:700; letter-spacing:0.04em;">${escHtml(row.predicted_verdict || "—")}</span>
+            <span style="font-size:10px; opacity:0.85;">${escHtml(conf)}</span>
+          </div>
+          <div style="display:inline-flex; align-items:center; gap:6px; padding:3px 9px; border-radius:12px; background:${actualTone.bg}; border:1px solid ${actualTone.border}; color:${actualTone.color};">
+            <span style="font-size:9px; opacity:0.7; font-weight:600; letter-spacing:0.06em;">ACTUAL</span>
+            <span style="font-size:11px; font-weight:700; letter-spacing:0.04em;">${escHtml(row.actual_verdict || "—")}</span>
+          </div>
+        </div>
+        ${
+          closeStr || gapStr
+            ? `<div style="display:flex; gap:14px; flex-wrap:wrap; font-size:11px; color:var(--text-muted);">
+                ${closeStr ? `<div><span style="opacity:0.7;">T+1 close</span> <span style="color:#e2e8f0; font-weight:500;">${escHtml(closeStr)}</span></div>` : ""}
+                ${gapStr ? `<div><span style="opacity:0.7;">T+1 gap</span> <span style="color:${gapColor}; font-weight:500;">${escHtml(gapStr)}</span></div>` : ""}
+              </div>`
+            : ""
+        }
+        ${sourceLabel ? `<div style="margin-top:-2px;">${sourceLabel}</div>` : ""}
+      </div>`;
+  }
+
+  function renderRecentResultsSection(rows) {
+    const el = document.getElementById("earningsRecentResults");
+    if (!el) return;
+    if (!Array.isArray(rows) || rows.length === 0) {
+      el.innerHTML = "";
+      el.style.display = "none";
+      return;
+    }
+    el.style.display = "block";
+    const pastWindow = _earningsSnapshot?.past_window_days ?? 7;
+    const hits = rows.filter((r) => r.prediction_accuracy === "hit").length;
+    const misses = rows.filter((r) => r.prediction_accuracy === "miss").length;
+    const accuracyChip =
+      hits + misses > 0
+        ? `<span style="font-size:11px; color:var(--text-muted); letter-spacing:0.04em;">${hits}/${hits + misses} predictions correct</span>`
+        : "";
+    el.innerHTML = `
+      <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid #1a2233;">
+        <span style="font-size:13px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">Recent results</span>
+        <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">past ${pastWindow}d · ${rows.length} ${rows.length === 1 ? "result" : "results"}</span>
+        ${accuracyChip}
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:12px;">
+        ${rows.map(renderRecentResultCard).join("")}
+      </div>`;
+  }
+
   // ────────── Public loader ──────────
 
   async function loadEarningsWatch() {
@@ -933,7 +1062,10 @@
         const built = snap?.built_at ? new Date(snap.built_at).toLocaleString() : "?";
         const upstream = snap?.upstream_fetched_at ? new Date(snap.upstream_fetched_at).toLocaleString() : "?";
         const total = snap?.total_event_count ?? snap?.event_count ?? 0;
-        meta.textContent = `${total} upcoming result events in next ${snap?.window_days ?? 30}d · built ${built} · NSE feed fetched ${upstream}`;
+        const recent = Array.isArray(snap?.recent_results) ? snap.recent_results.length : 0;
+        const pastN = snap?.past_window_days ?? 7;
+        const recentLabel = recent > 0 ? ` · ${recent} resolved in past ${pastN}d` : "";
+        meta.textContent = `${total} upcoming result events in next ${snap?.window_days ?? 30}d${recentLabel} · built ${built} · NSE feed fetched ${upstream}`;
       }
     } catch (err) {
       console.error("loadEarningsWatch failed:", err);
@@ -960,8 +1092,10 @@
       .earnings-day-pill--soon { background:rgba(245,158,11,0.15); color:#fbbf24; border:1px solid rgba(245,158,11,0.3); }
       .earnings-day-pill--this-week { background:rgba(250,204,21,0.12); color:#facc15; border:1px solid rgba(250,204,21,0.28); }
       .earnings-day-pill--later { background:rgba(148,163,184,0.12); color:#cbd5e1; border:1px solid rgba(148,163,184,0.25); }
+      .earnings-day-pill--past { background:rgba(71,85,105,0.18); color:#94a3b8; border:1px solid rgba(71,85,105,0.35); }
       .earnings-day-pill--unknown { background:rgba(148,163,184,0.08); color:#94a3b8; border:1px solid rgba(148,163,184,0.18); }
       .earnings-card:hover { transform:translateY(-1px); border-color:#2a3349; }
+      .earnings-recent-card:hover { transform:translateY(-1px); border-color:#2a3349; }
       .earnings-build-expander summary:hover { color:#cbd5e1; }
       .earnings-build-expander summary:focus-visible { outline:2px solid #60a5fa; outline-offset:2px; border-radius:3px; }
     `;

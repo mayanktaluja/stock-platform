@@ -3911,6 +3911,12 @@
       <!-- Filter bar — days, verdict, quality, runup, sector, symbol. -->
       <div id="earningsFilterBar" style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:18px;"></div>
 
+      <!-- Recent results (past N days, default 7) — slim cards with
+           original prediction + actual verdict + accuracy badge.
+           Renderer hides the section entirely when there are no
+           resolved past events to show. -->
+      <div id="earningsRecentResults" style="margin-bottom:22px;"></div>
+
       <!-- Card grid (one card per upcoming event). Renderer ships in
            gated/earnings.js to keep app.js below 12k lines. -->
       <div id="earningsCardGrid">
