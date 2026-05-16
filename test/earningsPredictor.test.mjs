@@ -249,5 +249,203 @@ function makeSignals(overrides = {}) {
   assert("neutral LLM bias → 0 pts", neutral.score_breakdown.llm_signal === 0, neutral.score_breakdown);
 }
 
+// ──── P2.4 — Trajectory data-quality flag ────
+// covered=normal scoring; absent=0 pts + breakdown.status="absent" + note.
+// Verdict math is identical between "absent" and "no flag at all"
+// (both yield 0 trajectory pts) — only the breakdown shape changes.
+{
+  // Case 1: covered (data present, normal positive trajectory) — should
+  // get full points like before and a status:"covered" stamp.
+  const covered = predictEarningsOutcome({
+    signals: makeSignals({
+      data_quality: "HIGH",
+      trajectory: { eps_yoy_pct: 30 },
+      data_quality_flags: { trajectory: "covered" },
+    }),
+  });
+  assert(
+    "P2.4: covered trajectory scores positive pts",
+    covered.score_breakdown.trajectory > 0,
+    covered.score_breakdown,
+  );
+}
+{
+  // Case 2: absent — null eps_yoy + flag="absent" → 0 pts + status note.
+  // We can't read the breakdown.status off score_breakdown.trajectory
+  // (that's just the number), so we inspect the components_by_impact
+  // entry instead.
+  const absent = predictEarningsOutcome({
+    signals: makeSignals({
+      data_quality: "HIGH",
+      trajectory: { eps_yoy_pct: null },
+      data_quality_flags: { trajectory: "absent" },
+    }),
+  });
+  assert(
+    "P2.4: absent trajectory scores 0 pts",
+    absent.score_breakdown.trajectory === 0,
+    absent.score_breakdown,
+  );
+  const trajCmp = absent.components_by_impact.find((c) => c.name === "trajectory");
+  assert(
+    "P2.4: absent trajectory exposes UNKNOWN-not-NEGATIVE narrator hook",
+    trajCmp && /unknown/i.test(trajCmp.why || ""),
+    trajCmp,
+  );
+}
+{
+  // Case 3: verdict identical for absent vs no-flag (both yield 0 pts).
+  // This is the prompt's hard constraint: P2.4 must not change the
+  // verdict for previously-uncovered tickers.
+  const base = makeSignals({
+    data_quality: "HIGH",
+    trajectory: { eps_yoy_pct: null },
+  });
+  const noFlag = predictEarningsOutcome({ signals: { ...base } });
+  const absentFlag = predictEarningsOutcome({
+    signals: { ...base, data_quality_flags: { trajectory: "absent" } },
+  });
+  assert(
+    "P2.4: absent flag yields same score as no-flag (back-compat)",
+    noFlag.score_100 === absentFlag.score_100,
+    { noFlag: noFlag.score_100, absentFlag: absentFlag.score_100 },
+  );
+  assert(
+    "P2.4: absent flag yields same verdict as no-flag (back-compat)",
+    noFlag.verdict === absentFlag.verdict,
+    { noFlag: noFlag.verdict, absentFlag: absentFlag.verdict },
+  );
+}
+{
+  // Case 4: covered + null eps_yoy still scores 0 — covered with no
+  // numeric trajectory is the rare "in fundamentalsHistory but YoY-
+  // uncomputable" path. Verdict should not be flipped.
+  const r = predictEarningsOutcome({
+    signals: makeSignals({
+      data_quality: "HIGH",
+      trajectory: { eps_yoy_pct: null },
+      data_quality_flags: { trajectory: "covered" },
+    }),
+  });
+  assert(
+    "P2.4: covered + null eps_yoy → 0 trajectory pts (no UNKNOWN note)",
+    r.score_breakdown.trajectory === 0,
+    r.score_breakdown,
+  );
+  const trajCmp = r.components_by_impact.find((c) => c.name === "trajectory");
+  assert(
+    "P2.4: covered + null eps_yoy does NOT raise UNKNOWN note",
+    trajCmp && !/unknown/i.test(trajCmp.why || ""),
+    trajCmp,
+  );
+}
+
+// ──── P2.7 — Vol-scaled sector momentum ────
+// Same raw sector_avg should yield identical pts when vol is null
+// (legacy path), lower pts when vol is high, and unchanged pts when
+// vol < 2% (the "noisy-zero" floor).
+{
+  // Baseline: null vol → legacy unscaled. +10% sector avg = +5 pts.
+  const nullVol = predictEarningsOutcome({
+    signals: makeSignals({
+      data_quality: "HIGH",
+      momentum: {
+        ret_1m_pct: 2,
+        sector_avg_1m_pct: 10,
+        sector_volatility_1m_pct: null,
+        pre_runup_signal: "neutral",
+        runup_vs_sector_pct: -8,
+      },
+    }),
+  });
+  assert(
+    "P2.7: null vol preserves legacy sector pts (≈5 for +10% sector)",
+    Math.abs(nullVol.score_breakdown.sector_momentum - 5) < 0.1,
+    nullVol.score_breakdown,
+  );
+}
+{
+  // Low vol (<2%): full points retained, but flag records "scaled".
+  const lowVol = predictEarningsOutcome({
+    signals: makeSignals({
+      data_quality: "HIGH",
+      momentum: {
+        ret_1m_pct: 2,
+        sector_avg_1m_pct: 10,
+        sector_volatility_1m_pct: 1.5,
+        pre_runup_signal: "neutral",
+        runup_vs_sector_pct: -8,
+      },
+    }),
+  });
+  assert(
+    "P2.7: low vol (<2%) retains full pts (1.0× multiplier)",
+    Math.abs(lowVol.score_breakdown.sector_momentum - 5) < 0.1,
+    lowVol.score_breakdown,
+  );
+}
+{
+  // High vol (10%): multiplier = 2/10 = 0.2×. Raw +5 → +1 pts.
+  const highVol = predictEarningsOutcome({
+    signals: makeSignals({
+      data_quality: "HIGH",
+      momentum: {
+        ret_1m_pct: 2,
+        sector_avg_1m_pct: 10,
+        sector_volatility_1m_pct: 10,
+        pre_runup_signal: "neutral",
+        runup_vs_sector_pct: -8,
+      },
+    }),
+  });
+  assert(
+    "P2.7: high vol (10%) downweights pts to ~1 (0.2× multiplier)",
+    Math.abs(highVol.score_breakdown.sector_momentum - 1) < 0.1,
+    highVol.score_breakdown,
+  );
+}
+{
+  // Negative-direction: a -10% bear sector with high vol — the penalty
+  // should ALSO shrink, not just rewards. Same multiplier shape.
+  const bearHighVol = predictEarningsOutcome({
+    signals: makeSignals({
+      data_quality: "HIGH",
+      momentum: {
+        ret_1m_pct: 2,
+        sector_avg_1m_pct: -10,
+        sector_volatility_1m_pct: 10,
+        pre_runup_signal: "neutral",
+        runup_vs_sector_pct: 12,
+      },
+    }),
+  });
+  assert(
+    "P2.7: bear sector + high vol downweights penalty symmetrically",
+    Math.abs(bearHighVol.score_breakdown.sector_momentum - -1) < 0.1,
+    bearHighVol.score_breakdown,
+  );
+}
+{
+  // Boundary: vol exactly 2%. Multiplier = min(2/2, 1) = 1.0 — full
+  // points kept. (Below 2% also yields 1.0 — the floor is non-strict.)
+  const boundaryVol = predictEarningsOutcome({
+    signals: makeSignals({
+      data_quality: "HIGH",
+      momentum: {
+        ret_1m_pct: 2,
+        sector_avg_1m_pct: 10,
+        sector_volatility_1m_pct: 2,
+        pre_runup_signal: "neutral",
+        runup_vs_sector_pct: -8,
+      },
+    }),
+  });
+  assert(
+    "P2.7: boundary vol=2% holds multiplier at 1.0 (no downweight)",
+    Math.abs(boundaryVol.score_breakdown.sector_momentum - 5) < 0.1,
+    boundaryVol.score_breakdown,
+  );
+}
+
 console.log(`\n${pass} pass, ${fail} fail`);
 process.exit(fail ? 1 : 0);

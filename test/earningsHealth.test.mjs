@@ -150,5 +150,225 @@ it("produces a scannable one-line summary", () => {
   assert.match(line, /cap-gate not-met/);
 });
 
+/* ─────────────── P2.6 source-disagreement summary ───────────────── */
+
+console.log("[6] source_conflicts block");
+
+// Fabricate a history where 5 events resolved in the last 30d (so the
+// rate denominator is non-zero) and a conflict log with rows of varied
+// ages.
+const RESOLVED_30D_HISTORY = [
+  {
+    filename: "2026-05-10.json", today_iso: "2026-05-10", schema_version: "earnings-history-v4",
+    predictions: [
+      { symbol: "R1", event_iso_date: "2026-05-09", actual_verdict: "BEAT", resolved_at_iso: "2026-05-10T00:00:00Z" },
+      { symbol: "R2", event_iso_date: "2026-05-09", actual_verdict: "MISS", resolved_at_iso: "2026-05-10T00:00:00Z" },
+      { symbol: "R3", event_iso_date: "2026-05-08", actual_verdict: "INLINE", resolved_at_iso: "2026-05-10T00:00:00Z" },
+      { symbol: "R4", event_iso_date: "2026-05-07", actual_verdict: "BEAT", resolved_at_iso: "2026-05-09T00:00:00Z" },
+      { symbol: "R5", event_iso_date: "2026-05-06", actual_verdict: "BEAT", resolved_at_iso: "2026-05-08T00:00:00Z" },
+    ],
+  },
+];
+
+it("source_conflicts counts last-30-day conflicts + computes rate_pct", () => {
+  const log = [
+    { symbol: "R1", event_iso_date: "2026-05-09", sws_verdict: "BEAT", yahoo_verdict: "MISS", chosen_source: "sws_news", chosen_verdict: "BEAT", logged_at: "2026-05-10T00:00:00Z" },
+    { symbol: "R2", event_iso_date: "2026-05-09", sws_verdict: "MISS", yahoo_verdict: "BEAT", chosen_source: "sws_news", chosen_verdict: "MISS", logged_at: "2026-05-11T00:00:00Z" },
+  ];
+  const h = buildHealthSummary({ history: RESOLVED_30D_HISTORY, sourceConflictLog: log, nowIso: NOW });
+  assert.ok(h.source_conflicts, "block missing");
+  assert.equal(h.source_conflicts.count_total, 2);
+  assert.equal(h.source_conflicts.count_30d, 2);
+  // 2 / 5 resolved = 40%
+  assert.equal(h.source_conflicts.rate_pct, 40);
+  assert.equal(h.source_conflicts.examples.length, 2);
+  // Most-recent example first.
+  assert.equal(h.source_conflicts.examples[0].symbol, "R2");
+});
+
+it("source_conflicts excludes log rows older than 30d", () => {
+  const log = [
+    // 60d old — outside window.
+    { symbol: "OLD", event_iso_date: "2026-03-10", sws_verdict: "BEAT", yahoo_verdict: "MISS", chosen_source: "sws_news", chosen_verdict: "BEAT", logged_at: "2026-03-11T00:00:00Z" },
+    // Recent.
+    { symbol: "NEW", event_iso_date: "2026-05-09", sws_verdict: "BEAT", yahoo_verdict: "MISS", chosen_source: "sws_news", chosen_verdict: "BEAT", logged_at: "2026-05-10T00:00:00Z" },
+  ];
+  const h = buildHealthSummary({ history: RESOLVED_30D_HISTORY, sourceConflictLog: log, nowIso: NOW });
+  assert.equal(h.source_conflicts.count_total, 2);
+  assert.equal(h.source_conflicts.count_30d, 1);
+  assert.equal(h.source_conflicts.examples[0].symbol, "NEW");
+});
+
+it("source_conflicts caps examples at 5", () => {
+  const log = Array.from({ length: 9 }, (_, i) => ({
+    symbol: `S${i}`,
+    event_iso_date: "2026-05-09",
+    sws_verdict: "BEAT",
+    yahoo_verdict: "MISS",
+    chosen_source: "sws_news",
+    chosen_verdict: "BEAT",
+    logged_at: `2026-05-${String(10 + i).padStart(2, "0")}T00:00:00Z`,
+  }));
+  const h = buildHealthSummary({ history: RESOLVED_30D_HISTORY, sourceConflictLog: log, nowIso: NOW });
+  assert.equal(h.source_conflicts.count_30d, 9);
+  assert.equal(h.source_conflicts.examples.length, 5);
+});
+
+it("source_conflicts > 5 in last 30d raises an alert", () => {
+  const log = Array.from({ length: 6 }, (_, i) => ({
+    symbol: `S${i}`,
+    event_iso_date: "2026-05-09",
+    sws_verdict: "BEAT",
+    yahoo_verdict: "MISS",
+    chosen_source: "sws_news",
+    chosen_verdict: "BEAT",
+    logged_at: `2026-05-${String(10 + i).padStart(2, "0")}T00:00:00Z`,
+  }));
+  const h = buildHealthSummary({ history: RESOLVED_30D_HISTORY, sourceConflictLog: log, nowIso: NOW });
+  assert.ok(h.alerts.some((a) => /source-disagreement/i.test(a)), JSON.stringify(h.alerts));
+});
+
+it("source_conflicts ≤5 → no alert", () => {
+  const log = [
+    { symbol: "X", event_iso_date: "2026-05-09", sws_verdict: "BEAT", yahoo_verdict: "MISS", chosen_source: "sws_news", chosen_verdict: "BEAT", logged_at: "2026-05-10T00:00:00Z" },
+  ];
+  const h = buildHealthSummary({ history: RESOLVED_30D_HISTORY, sourceConflictLog: log, nowIso: NOW });
+  assert.ok(!h.alerts.some((a) => /source-disagreement/i.test(a)), JSON.stringify(h.alerts));
+});
+
+/* ─────────────── P4.4 INSUFFICIENT_DATA tracker ─────────────────── */
+
+console.log("[7] insufficient_data block");
+
+it("insufficient_data counts unique events with INSUFFICIENT_DATA verdict", () => {
+  const hist = [
+    {
+      filename: "2026-05-14.json", today_iso: "2026-05-14", schema_version: "earnings-history-v4",
+      predictions: [
+        { symbol: "LO1", event_iso_date: "2026-05-15", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" },
+        { symbol: "LO2", event_iso_date: "2026-05-16", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" },
+        { symbol: "OK1", event_iso_date: "2026-05-17", predicted_verdict: "BEAT", data_quality: "HIGH" },
+      ],
+    },
+    {
+      filename: "2026-05-15.json", today_iso: "2026-05-15", schema_version: "earnings-history-v4",
+      predictions: [
+        // Duplicate of LO1 — should NOT double-count.
+        { symbol: "LO1", event_iso_date: "2026-05-15", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" },
+      ],
+    },
+  ];
+  const h = buildHealthSummary({ history: hist, nowIso: NOW });
+  assert.ok(h.insufficient_data, "block missing");
+  assert.equal(h.insufficient_data.count_total, 2);
+});
+
+it("insufficient_data buckets by 7d and 30d using snapshot today_iso", () => {
+  // NOW = 2026-05-15. 7d-ago = 2026-05-08. 30d-ago = 2026-04-15.
+  const hist = [
+    {
+      filename: "2026-05-14.json", today_iso: "2026-05-14",
+      predictions: [{ symbol: "LO_RECENT", event_iso_date: "2026-05-14", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" }],
+    },
+    {
+      filename: "2026-04-25.json", today_iso: "2026-04-25",
+      predictions: [{ symbol: "LO_MID", event_iso_date: "2026-04-25", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" }],
+    },
+    {
+      filename: "2026-03-01.json", today_iso: "2026-03-01",
+      predictions: [{ symbol: "LO_OLD", event_iso_date: "2026-03-01", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" }],
+    },
+  ];
+  const h = buildHealthSummary({ history: hist, nowIso: NOW });
+  assert.equal(h.insufficient_data.count_total, 3);
+  // LO_RECENT is within 7d.
+  assert.equal(h.insufficient_data.count_7d, 1);
+  // LO_RECENT + LO_MID are within 30d. LO_OLD is outside.
+  assert.equal(h.insufficient_data.count_30d, 2);
+});
+
+it("insufficient_data trend_pct_30d_vs_prior is computed from prior 30d window", () => {
+  // Prior 30d window (days 30-60 ago from NOW=2026-05-15): roughly 2026-03-16 → 2026-04-15.
+  // Latest 30d (days 0-30 ago): roughly 2026-04-15 → 2026-05-15.
+  // 4 recent vs 2 prior → +100%.
+  const hist = [
+    {
+      filename: "2026-05-14.json", today_iso: "2026-05-14",
+      predictions: [
+        { symbol: "R1", event_iso_date: "2026-05-14", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" },
+        { symbol: "R2", event_iso_date: "2026-05-14", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" },
+        { symbol: "R3", event_iso_date: "2026-05-14", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" },
+        { symbol: "R4", event_iso_date: "2026-05-14", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" },
+      ],
+    },
+    {
+      filename: "2026-04-01.json", today_iso: "2026-04-01",
+      predictions: [
+        { symbol: "P1", event_iso_date: "2026-04-01", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" },
+        { symbol: "P2", event_iso_date: "2026-04-01", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" },
+      ],
+    },
+  ];
+  const h = buildHealthSummary({ history: hist, nowIso: NOW });
+  assert.equal(h.insufficient_data.count_30d, 4);
+  assert.equal(h.insufficient_data.count_prior_30d, 2);
+  assert.equal(h.insufficient_data.trend_pct_30d_vs_prior, 100);
+});
+
+it("insufficient_data positive trend raises an alert", () => {
+  const hist = [
+    {
+      filename: "2026-05-14.json", today_iso: "2026-05-14",
+      predictions: [
+        { symbol: "R1", event_iso_date: "2026-05-14", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" },
+        { symbol: "R2", event_iso_date: "2026-05-14", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" },
+      ],
+    },
+    {
+      filename: "2026-04-01.json", today_iso: "2026-04-01",
+      predictions: [
+        { symbol: "P1", event_iso_date: "2026-04-01", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" },
+      ],
+    },
+  ];
+  const h = buildHealthSummary({ history: hist, nowIso: NOW });
+  assert.ok(h.alerts.some((a) => /INSUFFICIENT_DATA.*trending UP/i.test(a)), JSON.stringify(h.alerts));
+});
+
+it("insufficient_data flat-or-decreasing trend → no alert", () => {
+  // 1 recent vs 3 prior → −66.7%. No alert.
+  const hist = [
+    {
+      filename: "2026-05-14.json", today_iso: "2026-05-14",
+      predictions: [{ symbol: "R1", event_iso_date: "2026-05-14", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" }],
+    },
+    {
+      filename: "2026-04-01.json", today_iso: "2026-04-01",
+      predictions: [
+        { symbol: "P1", event_iso_date: "2026-04-01", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" },
+        { symbol: "P2", event_iso_date: "2026-04-01", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" },
+        { symbol: "P3", event_iso_date: "2026-04-01", predicted_verdict: "INSUFFICIENT_DATA", data_quality: "LOW" },
+      ],
+    },
+  ];
+  const h = buildHealthSummary({ history: hist, nowIso: NOW });
+  assert.ok(!h.alerts.some((a) => /trending UP/i.test(a)), JSON.stringify(h.alerts));
+});
+
+it("data_quality:LOW with non-INSUFFICIENT_DATA verdict is still counted (defensive)", () => {
+  // The predictor sets INSUFFICIENT_DATA when data_quality=LOW today,
+  // but the tracker counts either signal so it survives upstream label drift.
+  const hist = [
+    {
+      filename: "2026-05-14.json", today_iso: "2026-05-14",
+      predictions: [
+        { symbol: "L1", event_iso_date: "2026-05-14", predicted_verdict: "INLINE", data_quality: "LOW" },
+      ],
+    },
+  ];
+  const h = buildHealthSummary({ history: hist, nowIso: NOW });
+  assert.equal(h.insufficient_data.count_total, 1);
+});
+
 console.log(`\n=== ${ok} passed, ${fail} failed ===`);
 if (fail) process.exit(1);

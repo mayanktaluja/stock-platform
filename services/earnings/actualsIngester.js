@@ -29,12 +29,25 @@
  * without a network round-trip.
  */
 
+import fs from "node:fs";
+import path from "node:path";
+
 import YahooFinance from "yahoo-finance2";
 
 // Earnings-result classification thresholds — mirror the locked rule in
 // scripts/sws-fetch-earnings-beat.mjs so SWS-news and Yahoo paths agree.
 const BEAT_RATIO = 0.02;
 const MISS_RATIO = -0.02;
+
+// P2.6 source-disagreement log — when both SWS news brief AND Yahoo
+// earningsHistory resolve the same event but disagree on the verdict,
+// we append a row here for later auditing. The chosen verdict is still
+// SWS-news (no logic change) — this is observability only.
+//
+// File is capped at SOURCE_CONFLICT_LOG_MAX entries; oldest entries are
+// dropped first when the cap is exceeded.
+const SOURCE_CONFLICT_LOG_PATH = path.join(process.cwd(), "data", "catalysts", "source-conflict-log.json");
+export const SOURCE_CONFLICT_LOG_MAX = 200;
 
 // SWS publishes a result brief within SEBI's reporting limit (45d for
 // Q1-Q3, 60d for Q4/annual) plus a few days of its own ingest lag. An
@@ -320,10 +333,96 @@ export async function fetchActualFromYahoo(symbol, fiscalQuarter, eventIsoDate, 
   return out;
 }
 
+/* ─────────────── P2.6 source-disagreement log helpers ──────────── */
+
+/**
+ * Build a row for the source-conflict log when SWS news brief and Yahoo
+ * earningsHistory both resolve the same event but disagree on the
+ * BEAT/INLINE/MISS verdict.
+ *
+ * Pure — no I/O, no Date.now(). The caller threads `logged_at` so tests
+ * can pin a clock and the writer keeps the wall-clock side-effect to
+ * one place.
+ *
+ * @param {object} args
+ * @param {string} args.symbol
+ * @param {string} args.eventIsoDate
+ * @param {object} args.sws          SWS resolution (actual_verdict + evidence)
+ * @param {object} args.yahoo        Yahoo resolution (actual_verdict + evidence)
+ * @param {string} args.chosenSource which source won (always "sws_news" today)
+ * @param {string} args.chosenVerdict the recorded verdict
+ * @param {string} args.loggedAtIso  wall-clock for the log entry
+ * @returns {object}
+ */
+export function buildSourceConflictRow({ symbol, eventIsoDate, sws, yahoo, chosenSource, chosenVerdict, loggedAtIso }) {
+  return {
+    event_iso_date: eventIsoDate,
+    symbol,
+    sws_verdict: sws ? sws.actual_verdict : null,
+    sws_value: sws ? sws.actual_evidence : null,
+    yahoo_verdict: yahoo ? yahoo.actual_verdict : null,
+    yahoo_value: yahoo ? yahoo.actual_evidence : null,
+    chosen_source: chosenSource,
+    chosen_verdict: chosenVerdict,
+    logged_at: loggedAtIso,
+  };
+}
+
+/**
+ * Append a conflict row to the source-conflict log, capping at the
+ * most-recent SOURCE_CONFLICT_LOG_MAX entries.
+ *
+ * Pure on its inputs (no fs reads) — the caller supplies the current
+ * log array. Returns the new capped array. Use {@link appendSourceConflictToDisk}
+ * for the file-side wrapper.
+ */
+export function appendSourceConflictRow(existingLog, row) {
+  const arr = Array.isArray(existingLog) ? existingLog.slice() : [];
+  arr.push(row);
+  // Cap at the last N rows (oldest dropped). The log is append-only in
+  // semantic terms — we just keep a bounded tail.
+  if (arr.length > SOURCE_CONFLICT_LOG_MAX) {
+    return arr.slice(arr.length - SOURCE_CONFLICT_LOG_MAX);
+  }
+  return arr;
+}
+
+/**
+ * Read-modify-write the source-conflict log on disk. Best-effort: a
+ * read or write failure is swallowed and logged to stderr — we never
+ * let a logging failure sink a resolution.
+ */
+export function appendSourceConflictToDisk(row, opts = {}) {
+  const filePath = opts.filePath || SOURCE_CONFLICT_LOG_PATH;
+  try {
+    let existing = [];
+    if (fs.existsSync(filePath)) {
+      const raw = fs.readFileSync(filePath, "utf8");
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) existing = parsed;
+    }
+    const next = appendSourceConflictRow(existing, row);
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
+    const tmp = filePath + ".tmp." + process.pid;
+    fs.writeFileSync(tmp, JSON.stringify(next, null, 2));
+    fs.renameSync(tmp, filePath);
+  } catch (err) {
+    // Best-effort — logging is observability, not load-bearing.
+    if (process.env.DEBUG) {
+      console.warn(`[actualsIngester] source-conflict log write failed: ${err && err.message}`);
+    }
+  }
+}
+
 /* ─────────────────────── combined resolution ────────────────────── */
 
 /**
  * Resolve one event's actuals — SWS news primary, Yahoo fallback.
+ *
+ * P2.6: when both SWS and Yahoo resolve and DISAGREE on the verdict,
+ * the disagreement is appended to data/catalysts/source-conflict-log.json.
+ * The chosen verdict still comes from SWS — this is observability only,
+ * not a logic change. Disable via `opts.logSourceConflicts = false`.
  *
  * @param {object} args
  * @param {string} args.symbol
@@ -331,14 +430,43 @@ export async function fetchActualFromYahoo(symbol, fiscalQuarter, eventIsoDate, 
  * @param {string} args.eventIsoDate
  * @param {Array}  [args.swsNews]   deep file `.news[]` (omit to skip SWS)
  * @param {object} [args.opts]
+ * @param {boolean}[args.opts.logSourceConflicts] default true
+ * @param {Function}[args.opts.onSourceConflict]  injectable logger (tests)
+ *                                                signature: (row) => void
  * @returns {Promise<object|null>} the `actual_*` patch, or null when
  *          neither source can resolve the quarter yet.
  */
 export async function resolveActualForEvent({ symbol, fiscalQuarter, eventIsoDate, swsNews, opts = {} }) {
   const nowIso = new Date().toISOString();
+  const logConflicts = opts.logSourceConflicts !== false;
+  const onConflict = typeof opts.onSourceConflict === "function"
+    ? opts.onSourceConflict
+    : (row) => appendSourceConflictToDisk(row);
 
   const sws = extractActualVerdictFromSwsNews(swsNews || [], fiscalQuarter, opts);
   if (sws) {
+    // P2.6: When SWS resolves AND Yahoo also resolves AND they disagree
+    // on the verdict, log the conflict. We never change which source
+    // wins — SWS-news always wins per the existing primary-source rule.
+    if (logConflicts) {
+      try {
+        const yahoo = await fetchActualFromYahoo(symbol, fiscalQuarter, eventIsoDate, opts);
+        if (yahoo && yahoo.actual_verdict && yahoo.actual_verdict !== sws.actual_verdict) {
+          const row = buildSourceConflictRow({
+            symbol,
+            eventIsoDate,
+            sws,
+            yahoo,
+            chosenSource: sws.actual_source,
+            chosenVerdict: sws.actual_verdict,
+            loggedAtIso: nowIso,
+          });
+          onConflict(row);
+        }
+      } catch {
+        // Comparison failure must never break resolution. Swallow.
+      }
+    }
     return {
       actual_verdict: sws.actual_verdict,
       actual_source: sws.actual_source,

@@ -86,6 +86,129 @@ function findRestatements(history) {
   return { count: symbols.length, symbols };
 }
 
+/**
+ * P2.6 — summarise the source-conflict log (SWS vs Yahoo disagreements
+ * on the same event's verdict). Reports last-30-days conflict count,
+ * up-to-5 most-recent examples, and the conflict rate vs all resolved
+ * events in the same window.
+ */
+function summariseSourceConflicts(conflictLog, history, nowIso) {
+  const log = Array.isArray(conflictLog) ? conflictLog : [];
+  const todayMs = new Date(nowIso).getTime();
+  const cutoff30Ms = todayMs - 30 * 86400000;
+
+  // Sort newest-first by logged_at so "examples" reads most-recent.
+  const sorted = log.slice().sort((a, b) => {
+    const ta = a && a.logged_at ? new Date(a.logged_at).getTime() : 0;
+    const tb = b && b.logged_at ? new Date(b.logged_at).getTime() : 0;
+    return tb - ta;
+  });
+
+  const recent = sorted.filter((r) => {
+    if (!r || !r.logged_at) return false;
+    const t = new Date(r.logged_at).getTime();
+    return Number.isFinite(t) && t >= cutoff30Ms;
+  });
+
+  // Conflict rate is conflicts / resolved-in-the-same-30d-window. We
+  // count resolved events whose resolved_at_iso falls in the 30d
+  // window — that's the population the conflicts came out of.
+  let resolved30d = 0;
+  const seenResolved = new Set();
+  for (const day of history || []) {
+    for (const r of day.predictions || []) {
+      if (!r || !r.symbol || !r.event_iso_date) continue;
+      if (!r.actual_verdict) continue;
+      const key = `${r.symbol}|${r.event_iso_date}`;
+      if (seenResolved.has(key)) continue;
+      seenResolved.add(key);
+      if (!r.resolved_at_iso) continue;
+      const t = new Date(r.resolved_at_iso).getTime();
+      if (Number.isFinite(t) && t >= cutoff30Ms) resolved30d += 1;
+    }
+  }
+
+  const ratePct = resolved30d > 0 ? +((recent.length / resolved30d) * 100).toFixed(1) : 0;
+
+  return {
+    count_total: log.length,
+    count_30d: recent.length,
+    rate_pct: ratePct,
+    examples: recent.slice(0, 5),
+  };
+}
+
+/**
+ * P4.4 — count predictions whose data was too thin for the predictor.
+ * A row is "insufficient" if predicted_verdict==="INSUFFICIENT_DATA"
+ * OR data_quality==="LOW" (the predictor sets the former when the
+ * latter holds, but counting both makes the metric robust to upstream
+ * label drift).
+ *
+ * Dedupes by (symbol, event_iso_date) so the same event archived into
+ * multiple daily snapshots only counts once. Buckets by 7d / 30d using
+ * the snapshot's today_iso. The trend compares the most-recent 30d
+ * against the prior 30d (days 30-60 ago) as a percentage delta.
+ */
+function summariseInsufficientData(history, nowIso) {
+  const todayIso = (nowIso || new Date().toISOString()).slice(0, 10);
+  const todayMs = new Date(todayIso + "T00:00:00Z").getTime();
+  const MS_PER_DAY = 86400000;
+  const iso7Ago = new Date(todayMs - 7 * MS_PER_DAY).toISOString().slice(0, 10);
+  const iso30Ago = new Date(todayMs - 30 * MS_PER_DAY).toISOString().slice(0, 10);
+  const iso60Ago = new Date(todayMs - 60 * MS_PER_DAY).toISOString().slice(0, 10);
+
+  // Track first-seen snapshot date per event so 7d/30d buckets are
+  // stable (the same event in 4 snapshots doesn't tilt the count).
+  const firstSeenByKey = new Map();
+  const insufficientKeys = new Set();
+  for (const day of history || []) {
+    const dayIso = day.today_iso || (day.filename ? String(day.filename).replace(/\.json$/, "") : null);
+    if (!dayIso) continue;
+    for (const r of day.predictions || []) {
+      if (!r || !r.symbol || !r.event_iso_date) continue;
+      const key = `${r.symbol}|${r.event_iso_date}`;
+      const isLowData = r.predicted_verdict === "INSUFFICIENT_DATA" || r.data_quality === "LOW";
+      if (!isLowData) continue;
+      if (!firstSeenByKey.has(key)) firstSeenByKey.set(key, dayIso);
+      insufficientKeys.add(key);
+    }
+  }
+
+  let count7d = 0;
+  let count30d = 0;
+  let countPrior30d = 0;
+  for (const key of insufficientKeys) {
+    const firstSeenIso = firstSeenByKey.get(key);
+    if (!firstSeenIso) continue;
+    if (firstSeenIso >= iso7Ago) count7d += 1;
+    if (firstSeenIso >= iso30Ago) count30d += 1;
+    else if (firstSeenIso >= iso60Ago) countPrior30d += 1;
+  }
+
+  // Trend is the % change of the latest 30d window vs the prior 30d
+  // window. With a zero baseline we report null — division-by-zero would
+  // be infinite, and "n/a" is the honest reading.
+  let trendPct30dVsPrior = null;
+  if (countPrior30d > 0) {
+    trendPct30dVsPrior = +(((count30d - countPrior30d) / countPrior30d) * 100).toFixed(1);
+  } else if (count30d > 0) {
+    // Crossed zero — flag the trend as +Infinity sentinel via a large
+    // positive number so the alert rule fires (genuine new degradation).
+    trendPct30dVsPrior = 100;
+  } else {
+    trendPct30dVsPrior = 0;
+  }
+
+  return {
+    count_total: insufficientKeys.size,
+    count_7d: count7d,
+    count_30d: count30d,
+    count_prior_30d: countPrior30d,
+    trend_pct_30d_vs_prior: trendPct30dVsPrior,
+  };
+}
+
 /* ───────────────────────── main builder ─────────────────────────── */
 
 /**
@@ -95,10 +218,12 @@ function findRestatements(history) {
  * @param {Array}  [args.watchEvents]      earnings-watch-latest.json .events
  * @param {object} [args.priorHealth]      the previous earnings-health.json
  * @param {string} [args.nowIso]           injectable clock
+ * @param {Array}  [args.sourceConflictLog] data/catalysts/source-conflict-log.json
+ *                                          contents (P2.6); empty when omitted
  * @returns {object} the health summary
  */
 export function buildHealthSummary(args = {}) {
-  const { history = [], backtestSnapshot = null, watchEvents = [], priorHealth = null } = args;
+  const { history = [], backtestSnapshot = null, watchEvents = [], priorHealth = null, sourceConflictLog = [] } = args;
   const nowIso = args.nowIso || new Date().toISOString();
 
   const resolvedCount = countResolved(history);
@@ -108,6 +233,9 @@ export function buildHealthSummary(args = {}) {
   const schema = archiveSchemaDistribution(history);
   const predictorVersions = predictorVersionDistribution(watchEvents);
   const restatements = findRestatements(history);
+  // P2.6 source-disagreement summary + P4.4 insufficient-data tracker.
+  const sourceConflicts = summariseSourceConflicts(sourceConflictLog, history, nowIso);
+  const insufficientData = summariseInsufficientData(history, nowIso);
 
   // Cap-lift gate + days-in-state. The gate "state" is the boolean
   // enough_data_to_lift_cap; we tick a day counter while it holds.
@@ -149,6 +277,26 @@ export function buildHealthSummary(args = {}) {
   if (Object.keys(predictorVersions).length > 1) {
     alerts.push(`Live snapshot mixes predictor versions: ${Object.keys(predictorVersions).sort().join(", ")}`);
   }
+  // P2.6 — more than a handful of SWS-vs-Yahoo verdict disagreements in
+  // the last 30 days suggests the classifier rules (keyword set, ratio
+  // thresholds) need a look. The threshold is intentionally low (>5) —
+  // these conflicts are usually rare; a sudden burst is the signal.
+  if (sourceConflicts.count_30d > 5) {
+    alerts.push(
+      `${sourceConflicts.count_30d} source-disagreement(s) (SWS vs Yahoo) in last 30d ` +
+      `(${sourceConflicts.rate_pct}% of resolved) — review classifyEarningsTitle / classifyYahooRow rules`,
+    );
+  }
+  // P4.4 — INSUFFICIENT_DATA trending UP means the predictor is losing
+  // coverage over time (V3 breakdown gaps, missing sector data). A flat
+  // or improving trend is fine; a positive trend is the alert.
+  if (insufficientData.trend_pct_30d_vs_prior != null && insufficientData.trend_pct_30d_vs_prior > 0) {
+    alerts.push(
+      `INSUFFICIENT_DATA predictions trending UP: ${insufficientData.count_30d} in last 30d ` +
+      `vs ${insufficientData.count_prior_30d} prior 30d (+${insufficientData.trend_pct_30d_vs_prior}%) — ` +
+      `predictor coverage may be degrading`,
+    );
+  }
 
   return {
     schema_version: HEALTH_SCHEMA_VERSION,
@@ -163,6 +311,8 @@ export function buildHealthSummary(args = {}) {
     archive_schema: schema,
     predictor_versions: predictorVersions,
     restatements,
+    source_conflicts: sourceConflicts,
+    insufficient_data: insufficientData,
     history_files: (history || []).length,
     alerts,
     healthy: alerts.length === 0,

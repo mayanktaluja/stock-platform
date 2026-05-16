@@ -41,6 +41,7 @@ import { fileURLToPath } from "node:url";
 import {
   HISTORY_SCHEMA_VERSION,
   computeCalibration,
+  bootstrapHitRateCI,
 } from "../services/earnings/earningsHistoryArchive.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -480,6 +481,181 @@ it("archivePredictions → loadAllHistory → computeCalibration coherent", () =
     assert.equal(result.cal.unresolved_count, 2);
     assert.equal(result.cal.hit_rate_overall_pct, null);
   } finally { cleanup(dir); }
+});
+
+/* ─────────────────── bootstrap CI on hit-rate (P2.3) ──────────────── */
+//
+// SEBI-RA roadmap P2.3: bootstrap CIs alongside every hit-rate field
+// so a 55% point-estimate over n=47 can be statistically distinguished
+// from 50% random chance. These tests cover both the helper directly
+// and the additive shape change inside computeCalibration().
+
+console.log("[9] bootstrap CI on hit-rate");
+
+it("normal n>=30 sample returns numeric CI with low<=hit<=high", () => {
+  // 30 resolved rows, 18 hits and 12 misses — a realistic n with a
+  // non-degenerate distribution so the bootstrap actually has spread.
+  const preds = [];
+  for (let i = 0; i < 18; i++) preds.push({ predicted_verdict: "BEAT", actual_verdict: "BEAT" });
+  for (let i = 0; i < 12; i++) preds.push({ predicted_verdict: "BEAT", actual_verdict: "MISS" });
+  const ci = bootstrapHitRateCI(preds);
+  assert.equal(ci.sample_size, 30);
+  assert.equal(typeof ci.hit_rate, "number");
+  assert.equal(typeof ci.ci_low, "number");
+  assert.equal(typeof ci.ci_high, "number");
+  assert.ok(ci.ci_low <= ci.hit_rate, `ci_low ${ci.ci_low} > hit_rate ${ci.hit_rate}`);
+  assert.ok(ci.hit_rate <= ci.ci_high, `hit_rate ${ci.hit_rate} > ci_high ${ci.ci_high}`);
+  // Sanity-check on the bootstrap spread: with n=30 and p=0.6 the
+  // 95% CI should plausibly be ≥0.10 wide and definitely not >0.5.
+  const width = ci.ci_high - ci.ci_low;
+  assert.ok(width > 0.05 && width < 0.5, `unrealistic CI width ${width}`);
+});
+
+it("sample_size < 5 returns null CI bounds (hit_rate still computed)", () => {
+  // 4 rows — too few for a meaningful bootstrap percentile.
+  const preds = [
+    { predicted_verdict: "BEAT", actual_verdict: "BEAT" },
+    { predicted_verdict: "BEAT", actual_verdict: "MISS" },
+    { predicted_verdict: "BEAT", actual_verdict: "BEAT" },
+    { predicted_verdict: "BEAT", actual_verdict: "MISS" },
+  ];
+  const ci = bootstrapHitRateCI(preds);
+  assert.equal(ci.sample_size, 4);
+  assert.equal(ci.hit_rate, 0.5);
+  assert.equal(ci.ci_low, null);
+  assert.equal(ci.ci_high, null);
+
+  // n=0 is the degenerate case: no point estimate either.
+  const empty = bootstrapHitRateCI([]);
+  assert.equal(empty.sample_size, 0);
+  assert.equal(empty.hit_rate, null);
+  assert.equal(empty.ci_low, null);
+  assert.equal(empty.ci_high, null);
+});
+
+it("all-hits sample → CI collapses to 1.0/1.0/1.0", () => {
+  const preds = Array.from({ length: 12 }, () => ({ predicted_verdict: "BEAT", actual_verdict: "BEAT" }));
+  const ci = bootstrapHitRateCI(preds);
+  assert.equal(ci.hit_rate, 1.0);
+  assert.equal(ci.ci_low, 1.0);
+  assert.equal(ci.ci_high, 1.0);
+  assert.equal(ci.sample_size, 12);
+});
+
+it("all-misses sample → CI collapses to 0.0/0.0/0.0", () => {
+  const preds = Array.from({ length: 12 }, () => ({ predicted_verdict: "BEAT", actual_verdict: "MISS" }));
+  const ci = bootstrapHitRateCI(preds);
+  assert.equal(ci.hit_rate, 0.0);
+  assert.equal(ci.ci_low, 0.0);
+  assert.equal(ci.ci_high, 0.0);
+  assert.equal(ci.sample_size, 12);
+});
+
+console.log("[10] computeCalibration — CI field shape");
+
+it("computeCalibration emits CI siblings for overall hit-rate", () => {
+  // 10 BEATs predicted, 6 hit / 4 miss — n=10 is enough for the
+  // bootstrap to return numeric bounds.
+  const rows = [];
+  for (let i = 0; i < 6; i++) rows.push(row({ symbol: `H${i}`, event_iso_date: `2026-04-${10 + i}`, actual_verdict: "BEAT" }));
+  for (let i = 0; i < 4; i++) rows.push(row({ symbol: `M${i}`, event_iso_date: `2026-04-${20 + i}`, actual_verdict: "MISS" }));
+  const cal = computeCalibration([day("2026-04-26", rows)]);
+
+  // Existing fields untouched.
+  assert.equal(cal.resolved_count, 10);
+  assert.equal(cal.hit_rate_overall_pct, 60);
+
+  // CI siblings present with the documented shape.
+  assert.equal(typeof cal.hit_rate_overall_ci_low_pct, "number");
+  assert.equal(typeof cal.hit_rate_overall_ci_high_pct, "number");
+  assert.equal(cal.hit_rate_overall_sample_size, 10);
+  assert.ok(cal.hit_rate_overall_ci_low_pct <= cal.hit_rate_overall_pct);
+  assert.ok(cal.hit_rate_overall_pct <= cal.hit_rate_overall_ci_high_pct);
+  // CI bounds are on the 0–100 scale, matching the rest of the `_pct`
+  // fields in this module.
+  assert.ok(cal.hit_rate_overall_ci_low_pct >= 0 && cal.hit_rate_overall_ci_high_pct <= 100);
+});
+
+it("per-bucket CIs computed independently — small bucket gets null, large bucket gets numeric", () => {
+  // Two buckets:
+  //   • 60-64: 10 rows at confidence 62 (5 hit, 5 miss) → numeric CI
+  //   • 80-84: 3 rows at confidence 82 (1 hit, 2 miss) → null CI (n<5)
+  const rows = [];
+  for (let i = 0; i < 5; i++) rows.push(row({ symbol: `A${i}`, event_iso_date: `2026-04-${10 + i}`, confidence_pct: 62, actual_verdict: "BEAT" }));
+  for (let i = 0; i < 5; i++) rows.push(row({ symbol: `B${i}`, event_iso_date: `2026-04-${15 + i}`, confidence_pct: 62, actual_verdict: "MISS" }));
+  rows.push(row({ symbol: "C1", event_iso_date: "2026-04-20", confidence_pct: 82, actual_verdict: "BEAT" }));
+  rows.push(row({ symbol: "C2", event_iso_date: "2026-04-21", confidence_pct: 82, actual_verdict: "MISS" }));
+  rows.push(row({ symbol: "C3", event_iso_date: "2026-04-22", confidence_pct: 82, actual_verdict: "MISS" }));
+
+  const cal = computeCalibration([day("2026-04-26", rows)]);
+  assert.ok(cal.hit_rate_by_confidence_bucket_ci, "ci map must exist");
+  assert.ok(cal.hit_rate_by_confidence_bucket_ci["60-64"], "60-64 bucket CI must exist");
+  assert.ok(cal.hit_rate_by_confidence_bucket_ci["80-84"], "80-84 bucket CI must exist");
+
+  const b6064 = cal.hit_rate_by_confidence_bucket_ci["60-64"];
+  assert.equal(b6064.sample_size, 10);
+  assert.equal(typeof b6064.ci_low_pct, "number");
+  assert.equal(typeof b6064.ci_high_pct, "number");
+  assert.ok(b6064.ci_low_pct <= b6064.hit_rate_pct);
+  assert.ok(b6064.hit_rate_pct <= b6064.ci_high_pct);
+
+  const b8084 = cal.hit_rate_by_confidence_bucket_ci["80-84"];
+  assert.equal(b8084.sample_size, 3);
+  assert.equal(b8084.ci_low_pct, null, "n<5 bucket must return null low");
+  assert.equal(b8084.ci_high_pct, null, "n<5 bucket must return null high");
+
+  // Per-verdict CIs follow the same shape (smoke-check the BEAT verdict
+  // since every row above is a predicted-BEAT).
+  assert.ok(cal.hit_rate_by_verdict_ci, "verdict ci map must exist");
+  assert.ok(cal.hit_rate_by_verdict_ci.BEAT, "BEAT verdict CI must exist");
+  assert.equal(cal.hit_rate_by_verdict_ci.BEAT.sample_size, 13);
+});
+
+it("output shape is strictly backwards-compatible — every legacy field still present", () => {
+  // Single bucket / single verdict so we can assert deep field
+  // presence without listing every key combination.
+  const rows = [
+    row({ symbol: "A", event_iso_date: "2026-04-22", actual_verdict: "BEAT" }),
+    row({ symbol: "B", event_iso_date: "2026-04-23", actual_verdict: "MISS" }),
+  ];
+  const cal = computeCalibration([day("2026-04-26", rows)]);
+
+  // Top-level legacy fields all present.
+  for (const k of [
+    "resolved_count", "unresolved_count",
+    "hit_rate_overall_pct",
+    "hit_rate_by_confidence_bucket", "hit_rate_by_verdict",
+    "brier_score", "enough_data_to_lift_cap", "cap_lift_gate",
+    "by_predictor_version", "latest_predictor_version",
+  ]) {
+    assert.ok(k in cal, `legacy field ${k} missing`);
+  }
+  // cap_lift_gate legacy fields all present.
+  for (const k of [
+    "resolved_required", "bucket_60_64_hit_rate_required", "max_brier_required",
+    "current_resolved", "current_bucket_60_64_hit_rate", "current_brier",
+  ]) {
+    assert.ok(k in cal.cap_lift_gate, `legacy cap_lift_gate.${k} missing`);
+  }
+  // hit_rate_by_confidence_bucket / _by_verdict still emit bare numbers
+  // (not the new CI-wrapped objects) — otherwise scripts/backtest-
+  // earnings-predictions.mjs's fmtBucket() breaks.
+  for (const v of Object.values(cal.hit_rate_by_confidence_bucket)) {
+    assert.ok(v === null || typeof v === "number", "bucket map must stay bare numbers");
+  }
+  for (const v of Object.values(cal.hit_rate_by_verdict)) {
+    assert.ok(v === null || typeof v === "number", "verdict map must stay bare numbers");
+  }
+
+  // by_predictor_version blocks inherit the same shape — CI siblings
+  // appear there too.
+  const v1 = cal.by_predictor_version.v1;
+  assert.ok("hit_rate_overall_pct" in v1);
+  assert.ok("hit_rate_overall_ci_low_pct" in v1);
+  assert.ok("hit_rate_overall_ci_high_pct" in v1);
+  assert.ok("hit_rate_overall_sample_size" in v1);
+  assert.ok("hit_rate_by_confidence_bucket_ci" in v1);
+  assert.ok("hit_rate_by_verdict_ci" in v1);
 });
 
 /* ───────────────────────── runner ─────────────────────────────────── */

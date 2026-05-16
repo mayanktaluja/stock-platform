@@ -189,6 +189,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // hourly. Silent when everything is fresh.
   loadSnapshotHealth();
   setInterval(loadSnapshotHealth, 60 * 60 * 1000);
+  // P2.1 — LLM signal degraded banner (chip appended after snapshot health).
+  // Fires when GROQ/Gemini keys aren't configured on the refresh host so the
+  // earnings predictor's LLM-signal component is running on keyword fallback.
+  loadLlmSignalBanner();
+  setInterval(loadLlmSignalBanner, 60 * 60 * 1000);
 });
 
 // PR W3 — fire-and-forget watchlist Set hydration. Run on boot so the
@@ -225,6 +230,9 @@ function hydrateMissesShownToggle() {
 // originates NSE traffic that Vercel's datacenter IPs can't reach, so the
 // prod cron silently no-ops. Without a banner, users have no way to know
 // they're seeing 19-day-old fundamentals.
+//
+// P2.1 (2026-05-16) — loadLlmSignalBanner runs AFTER this fn so its chip
+// appends to the same banner element. Both surfaces use chip styling.
 
 async function loadSnapshotHealth() {
   let health;
@@ -293,6 +301,74 @@ async function loadSnapshotHealth() {
   banner.innerHTML = chips.join("");
   banner.hidden = chips.length === 0;
 }
+
+// ==================== LLM SIGNAL HEALTH BANNER (P2.1) ====================
+//
+// Polls /api/health and surfaces a chip when the earnings LLM signal is
+// running on the heuristic fallback (Groq/Gemini keys not configured or
+// quota exhausted). Without this, the predictor's "LLM signal" component
+// (±10 pts in the composite) is a deterministic keyword classifier
+// wearing an LLM badge — friends would have no way to know.
+//
+// Separate from loadSnapshotHealth() (which covers MACRO regime LLM
+// status); they share the #snapshotHealthBanner element via chip
+// appending so we don't add a second always-on UI surface.
+async function loadLlmSignalBanner() {
+  let health;
+  try {
+    const res = await fetch("/api/health", { credentials: "same-origin" });
+    if (!res.ok) return;
+    health = await res.json();
+  } catch { return; }
+  if (!health) return;
+  const banner = document.getElementById("snapshotHealthBanner");
+  if (!banner) return;
+  const provider = health.llm_provider;
+  let isHeuristic = false;
+  if (provider == null) isHeuristic = true;
+  else if (typeof provider === "string" && /heuristic/i.test(provider)) isHeuristic = true;
+  else if (typeof provider === "object") {
+    // llm_provider_split shape from earningsHealth.js: { heuristic, groq, gemini }
+    const total = (provider.heuristic || 0) + (provider.groq || 0) + (provider.gemini || 0);
+    if (total > 0 && (provider.heuristic / total) > 0.5) isHeuristic = true;
+  }
+  if (!isHeuristic) return;
+  const chip = `
+    <div data-testid="llm-signal-heuristic-banner" style="color:#C8A06A; padding:2px 0;">
+      <span style="font-weight:600;">ℹ Earnings LLM signal — heuristic fallback active.</span>
+      <span style="opacity:0.75;font-size:11px;margin-left:6px;">
+        GROQ_API_KEY / GEMINI_API_KEY not configured on refresh host; predictions still ship but the qualitative-news component runs on keyword matching, not LLM.
+      </span>
+    </div>`;
+  banner.insertAdjacentHTML("beforeend", chip);
+  banner.hidden = false;
+}
+
+// ==================== LAST-UPDATED STAMP HELPER (P1.6) ====================
+//
+// Single source of truth for "X minutes ago" / "Y hours ago" / absolute-
+// date rendering used by pick cards, earnings cards, and the analyzer
+// report header. Lets a friend tell whether a recommendation is 5 min
+// old or 7 days old without inferring it from the cron schedule.
+function renderLastUpdated(isoOrEpoch) {
+  if (!isoOrEpoch) return "";
+  let ms;
+  if (typeof isoOrEpoch === "string") ms = Date.parse(isoOrEpoch);
+  else if (typeof isoOrEpoch === "number") ms = isoOrEpoch;
+  if (!isFinite(ms)) return "";
+  const delta = Date.now() - ms;
+  if (delta < 0) return "";
+  const mins = Math.floor(delta / 60000);
+  if (mins < 1) return `<span data-testid="last-updated" style="font-size:11px;color:var(--text-muted);">updated just now</span>`;
+  if (mins < 60) return `<span data-testid="last-updated" style="font-size:11px;color:var(--text-muted);">updated ${mins}m ago</span>`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 48) return `<span data-testid="last-updated" style="font-size:11px;color:var(--text-muted);">updated ${hours}h ago</span>`;
+  const days = Math.floor(hours / 24);
+  if (days < 30) return `<span data-testid="last-updated" style="font-size:11px;color:var(--text-muted);">updated ${days}d ago</span>`;
+  const d = new Date(ms);
+  return `<span data-testid="last-updated" style="font-size:11px;color:var(--text-muted);">updated ${d.toISOString().slice(0,10)}</span>`;
+}
+window.renderLastUpdated = renderLastUpdated;
 
 // ==================== GLOSSARY TOOLTIP SYSTEM ====================
 //
@@ -2700,6 +2776,29 @@ function renderPortfolioAnalyticsRow(intel) {
  *   Break-even: ₹1,308.98 (+74% needed) · Low probability
  * Only shown on holdings in loss.
  */
+// Sell-trigger chip — concrete rupee stop based on the higher of:
+// 15% below avg cost OR 8% below current OR 1% above 52W low. Hidden when
+// the holding has no avgPrice/currentPrice (e.g. delisted, MF in cash leg).
+// P0.4 (2026-05-16) — see computeSellTrigger() in portfolioIntelligence.js.
+function renderSellTrigger(sellTrigger) {
+  if (!sellTrigger || sellTrigger.stopPriceInr == null) return "";
+  const sev = sellTrigger.severity === "tight" ? "#ef4444" : "#fb923c";
+  const pct = sellTrigger.pctFromCurrent;
+  const pctLabel = pct >= 0
+    ? `+${pct.toFixed(1)}%`
+    : `${pct.toFixed(1)}%`;
+  return `
+    <div data-testid="sell-trigger" style="display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;padding:8px 10px;background:rgba(251,146,60,0.05);border:1px solid rgba(251,146,60,0.20);border-radius:6px;font-size:11px;">
+      <div style="color:var(--text-muted);">Sell trigger</div>
+      <div style="text-align:right;">
+        <span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:${sev};">₹${formatNumber(sellTrigger.stopPriceInr)}</span>
+        <span style="color:var(--text-muted);">&nbsp;·&nbsp;</span>
+        <span style="font-family:'JetBrains Mono',monospace;color:${sev};">${pctLabel}</span>
+        <span style="color:var(--text-muted);">&nbsp;from current · ${sellTrigger.rationale}</span>
+      </div>
+    </div>`;
+}
+
 function renderRecoveryInfo(recoveryMath) {
   if (!recoveryMath) return "";
   const probColors = {
@@ -2891,6 +2990,7 @@ function renderPortfolioHoldingCard(h) {
         ${scoreBar(combinedScore, "Total")}
       </div>
 
+      ${renderSellTrigger(intel.sellTrigger)}
       ${renderRecoveryInfo(intel.recoveryMath)}
 
       ${h.catalysts && h.catalysts.length > 0 ? renderCatalyst(h.catalysts) : ""}
@@ -4562,6 +4662,11 @@ async function analyzePortfolioFile(file) {
     const res = await fetch("/api/portfolio/analyze", { method: "POST", body: fd });
 
     const data = await res.json();
+    if (res.status === 412 && data?.code === "RISK_PROFILE_REQUIRED") {
+      setAnalyzerState("upload");
+      renderRiskProfileGate({ context: "analyzer", onComplete: () => analyzePortfolioFile(file) });
+      return;
+    }
     if (!res.ok) {
       throw new Error(data.error + (data.hint ? `\n\nHint: ${data.hint}` : ""));
     }
@@ -4636,6 +4741,12 @@ async function loadAnalyzerOnTabOpen() {
     }
 
     const data = await res.json();
+    if (res.status === 412 && data?.code === "RISK_PROFILE_REQUIRED") {
+      _analyzerCache = null;
+      setAnalyzerState("upload");
+      renderRiskProfileGate({ context: "analyzer", onComplete: () => loadAnalyzerOnTabOpen() });
+      return;
+    }
     if (!res.ok) {
       throw new Error(data.error + (data.hint ? `\n\nHint: ${data.hint}` : ""));
     }
@@ -6831,10 +6942,10 @@ async function renderAnalyzerRiskProfile(rpBlock) {
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:14px;">
         <div>
           <div style="font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:10px;">
-            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.4); border-radius:6px; color:#fde68a; text-transform:uppercase; letter-spacing:0.4px;">recommended</span>
+            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.45); border-radius:6px; color:#fca5a5; text-transform:uppercase; letter-spacing:0.4px;">required</span>
           </div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
-            SEBI IA-Reg 2013 requires risk profiling before any portfolio recommendation. Without it, the analyser uses default MODERATE assumptions.
+            SEBI IA-Reg 2013 requires risk profiling before any portfolio recommendation. The analyser will not run until this 30-second survey is complete.
           </div>
         </div>
       </div>
@@ -6882,6 +6993,124 @@ async function renderAnalyzerRiskProfile(rpBlock) {
           <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.4); border-radius:8px; padding:10px 14px; margin-bottom:12px; font-size:12px; color:#86efac;">
             ✓ Profile saved. Re-upload your holdings file (or re-run the analyser) to refresh allocation targets and per-fund alignment chips.
           </div>`);
+      }
+    } catch (err) {
+      status.textContent = `Save failed: ${err.message}`;
+      status.style.color = "#fca5a5";
+    }
+  });
+}
+
+// ──────────────────── Risk-profile hard-gate (P0.1, 2026-05-16) ────────────────────
+//
+// Self-contained survey rendered in front of the analyser upload zone when
+// the server returns 412 RISK_PROFILE_REQUIRED. Distinct from the
+// renderAnalyzerRiskProfile card (which sits alongside report output) —
+// this gate is BLOCKING: the user cannot proceed to upload until they
+// complete the survey. After save, the gate calls onComplete (which is
+// typically the original request, e.g. loadAnalyzerOnTabOpen or
+// analyzePortfolioFile) so the user lands on the analyser report without a
+// manual retry.
+async function renderRiskProfileGate({ context = "analyzer", onComplete } = {}) {
+  const upload = document.getElementById("analyzerUploadZone");
+  if (upload) upload.style.display = "none";
+  const analyzing = document.getElementById("analyzerAnalyzing");
+  if (analyzing) analyzing.style.display = "none";
+  const report = document.getElementById("analyzerReport");
+  if (report) report.style.display = "none";
+
+  let gate = document.getElementById("analyzerRiskProfileGate");
+  if (!gate) {
+    gate = document.createElement("div");
+    gate.id = "analyzerRiskProfileGate";
+    gate.style.padding = "24px 0";
+    const anchor = upload?.parentNode || document.getElementById("analyzerTab") || document.body;
+    anchor.insertBefore(gate, upload || anchor.firstChild);
+  }
+
+  let questions = window.__rpQuestionsCache;
+  if (!questions) {
+    try {
+      const r = await fetch("/api/risk-profile");
+      const j = await r.json();
+      questions = j.questions || [];
+      window.__rpQuestionsCache = questions;
+    } catch {
+      questions = [];
+    }
+  }
+
+  if (!Array.isArray(questions) || questions.length === 0) {
+    gate.innerHTML = `<div style="color:#fca5a5; padding:18px; background:var(--panel); border:1px solid rgba(239,68,68,0.4); border-radius:10px;">Risk-profile questionnaire unavailable; please reload.</div>`;
+    return;
+  }
+
+  const questionsHtml = questions.map((q) => `
+    <div style="margin-bottom:14px;">
+      <div style="font-size:13px; color:var(--text); font-weight:600; margin-bottom:6px;">${q.label}</div>
+      ${q.helper ? `<div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">${q.helper}</div>` : ""}
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        ${q.options.map((o) => `
+          <label style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:#0f172a; border:1px solid #1a2233; border-radius:6px; cursor:pointer; font-size:12px; color:var(--text);">
+            <input type="radio" name="rpgate_${q.id}" value="${o.value}" style="margin:0;" />
+            ${o.label}
+          </label>
+        `).join("")}
+      </div>
+    </div>
+  `).join("");
+
+  gate.innerHTML = `
+    <div data-testid="risk-profile-gate" style="background:var(--panel); border:1px solid rgba(239,68,68,0.45); border-radius:10px; padding:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:14px;">
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:10px;">
+            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.45); border-radius:6px; color:#fca5a5; text-transform:uppercase; letter-spacing:0.4px;">required</span>
+          </div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+            SEBI IA-Reg 2013 requires risk profiling before any portfolio recommendation. The analyser will not run until this 30-second survey is complete.
+          </div>
+        </div>
+      </div>
+      <div id="riskProfileGateForm">${questionsHtml}</div>
+      <div style="display:flex; gap:10px; align-items:center; margin-top:14px;">
+        <button id="riskProfileGateSubmit" type="button" style="background:#16a34a; color:white; border:none; border-radius:6px; padding:8px 16px; font-weight:600; font-size:13px; cursor:pointer;">Save profile &amp; continue</button>
+        <span id="riskProfileGateStatus" style="font-size:11px; color:var(--text-muted);"></span>
+      </div>
+    </div>`;
+
+  gate.scrollIntoView({ behavior: "smooth", block: "center" });
+
+  document.getElementById("riskProfileGateSubmit").addEventListener("click", async () => {
+    const status = document.getElementById("riskProfileGateStatus");
+    const answers = {};
+    let missing = 0;
+    for (const q of questions) {
+      const checked = document.querySelector(`input[name="rpgate_${q.id}"]:checked`);
+      if (!checked) { missing += 1; continue; }
+      answers[q.id] = checked.value;
+    }
+    if (missing > 0) {
+      status.textContent = `Please answer all ${questions.length} questions (${missing} remaining).`;
+      status.style.color = "#fca5a5";
+      return;
+    }
+    status.textContent = "Saving…";
+    status.style.color = "var(--text-muted)";
+    try {
+      const r = await fetch("/api/risk-profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers }),
+      });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error || "save failed");
+      status.textContent = `Saved → ${j.riskProfile.bucket}. Continuing…`;
+      status.style.color = "#86efac";
+      gate.remove();
+      if (upload) upload.style.display = "";
+      if (typeof onComplete === "function") {
+        try { await onComplete(); } catch (e) { console.error("onComplete failed:", e); }
       }
     } catch (err) {
       status.textContent = `Save failed: ${err.message}`;
@@ -8255,10 +8484,10 @@ async function renderAnalyzerRiskProfileV2(rpBlock) {
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:14px;">
         <div>
           <div style="font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:10px;">
-            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.4); border-radius:6px; color:#fde68a; text-transform:uppercase; letter-spacing:0.4px;">recommended</span>
+            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.45); border-radius:6px; color:#fca5a5; text-transform:uppercase; letter-spacing:0.4px;">required</span>
           </div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
-            SEBI IA-Reg 2013 requires risk profiling before any portfolio recommendation. Without it, the analyser uses default MODERATE assumptions.
+            SEBI IA-Reg 2013 requires risk profiling before any portfolio recommendation. The analyser will not run until this 30-second survey is complete.
           </div>
         </div>
       </div>

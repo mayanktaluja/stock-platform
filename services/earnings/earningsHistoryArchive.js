@@ -219,13 +219,127 @@ function dedupePredictions(history) {
 }
 
 /**
+ * Bootstrap a 95%-CI on hit-rate for a set of resolved (predicted, actual)
+ * pairs using resampling-with-replacement.
+ *
+ * Why this exists (P2.3 SEBI-RA roadmap): a bare `hit_rate = 0.55` over
+ * n=47 resolved actuals cannot be statistically distinguished from random
+ * chance (50%) — any SEBI-RA submission needs a CI alongside the point
+ * estimate. The bootstrap is the right tool because hit-rate is bounded
+ * (a Gaussian-approx CI like Wald can spill outside [0, 1]) and because
+ * we have no closed-form for the per-bucket case where sample sizes are
+ * small and skewed.
+ *
+ * Algorithm: draw `iterations` resamples of size n from `predictions`
+ * with replacement, compute hit-rate for each, then take the empirical
+ * percentiles at (1-ciLevel)/2 and 1-(1-ciLevel)/2 — the textbook
+ * "percentile method" (Efron 1979). 1000 iterations is enough to
+ * stabilise a 95% CI to ±~1pt; faster than O(n^2) jackknife.
+ *
+ * @param {Array<{predicted_verdict, actual_verdict}>} predictions  Resolved rows.
+ * @param {{iterations?: number, ciLevel?: number}} [opts]
+ * @returns {{hit_rate: number|null, ci_low: number|null, ci_high: number|null, sample_size: number}}
+ *   Values are PROPORTIONS (0–1), NOT percentages. Callers that emit
+ *   the `_pct` fields are expected to multiply by 100. For sample_size
+ *   < 5 the CI is undefined and ci_low/ci_high are null (hit_rate is
+ *   still computed for n ≥ 1; null only if n=0).
+ */
+export function bootstrapHitRateCI(predictions, opts = {}) {
+  const iterations = opts.iterations ?? 1000;
+  const ciLevel = opts.ciLevel ?? 0.95;
+
+  const n = (predictions || []).length;
+  if (n === 0) {
+    return { hit_rate: null, ci_low: null, ci_high: null, sample_size: 0 };
+  }
+
+  // Pre-compute the per-row hit (0 or 1) so the inner loop is just an
+  // array index + sum, not a string compare per iteration. With 1000
+  // iterations × n rows that's the difference between ~milliseconds and
+  // ~tens of milliseconds for the largest realistic samples.
+  const hits = new Array(n);
+  let totalHits = 0;
+  for (let i = 0; i < n; i++) {
+    const r = predictions[i];
+    const isHit = r && r.predicted_verdict && r.actual_verdict && r.predicted_verdict === r.actual_verdict ? 1 : 0;
+    hits[i] = isHit;
+    totalHits += isHit;
+  }
+  const hitRate = totalHits / n;
+
+  // For tiny samples the bootstrap CI is meaningless — a single resampled
+  // index gives the same row repeatedly, so the percentile spread is
+  // dominated by sampling-of-index noise rather than the underlying
+  // accuracy. Return null and let the caller decide whether to display
+  // "n too small" in the UI.
+  if (n < 5) {
+    return { hit_rate: hitRate, ci_low: null, ci_high: null, sample_size: n };
+  }
+
+  // All-hits or all-misses: every resample yields the same hit-rate,
+  // so the CI collapses to the point estimate. Skip the loop — it's
+  // not just an optimisation, it also guarantees the documented
+  // identity behaviour (1.0/1.0/1.0 or 0.0/0.0/0.0) without any
+  // floating-point rounding artefact.
+  if (totalHits === 0 || totalHits === n) {
+    return { hit_rate: hitRate, ci_low: hitRate, ci_high: hitRate, sample_size: n };
+  }
+
+  const samples = new Array(iterations);
+  for (let it = 0; it < iterations; it++) {
+    let s = 0;
+    for (let j = 0; j < n; j++) {
+      // Math.random is fine for bootstrap CIs — we're not doing
+      // cryptography, just empirical resampling. Fast enough for
+      // 1000 × n on the small samples this module operates on.
+      s += hits[Math.floor(Math.random() * n)];
+    }
+    samples[it] = s / n;
+  }
+  samples.sort((a, b) => a - b);
+
+  const alpha = (1 - ciLevel) / 2;
+  const loIdx = Math.floor(alpha * iterations);
+  // Use ceil-1 for the upper bound so a 95% CI at iterations=1000 reads
+  // samples[974] (the 97.5th percentile cut-off) rather than spilling
+  // past the array end.
+  const hiIdx = Math.min(iterations - 1, Math.ceil((1 - alpha) * iterations) - 1);
+
+  return {
+    hit_rate: hitRate,
+    ci_low: samples[loIdx],
+    ci_high: samples[hiIdx],
+    sample_size: n,
+  };
+}
+
+// Internal helper: format a bootstrap result as a `_pct` triple
+// (hit_rate, ci_low, ci_high all scaled 0-100 and rounded to 1dp),
+// matching the rest of this file's `_pct` convention. Returns null
+// for fields that the bootstrap couldn't compute.
+function ciToPct(ci) {
+  return {
+    hit_rate_pct: ci.hit_rate == null ? null : Math.round(ci.hit_rate * 1000) / 10,
+    ci_low_pct: ci.ci_low == null ? null : Math.round(ci.ci_low * 1000) / 10,
+    ci_high_pct: ci.ci_high == null ? null : Math.round(ci.ci_high * 1000) / 10,
+    sample_size: ci.sample_size,
+  };
+}
+
+/**
  * Compute the calibration block for one flat set of (deduped) rows.
  * Shape is stable — see computeCalibration's return docs.
  */
 function calibrationFor(rows) {
   let resolved = 0, unresolved = 0, hits = 0;
-  const byBucket = new Map(); // "60-64" → { hits, total }
-  const byVerdict = new Map(); // "BEAT" → { hits, total }
+  // Per-bucket / per-verdict accumulators now keep the RAW row list
+  // (slim {predicted_verdict, actual_verdict} pairs) so we can pass
+  // each subset to bootstrapHitRateCI separately — a per-bucket CI
+  // is the whole point of P2.3. The {hits, total} counters are kept
+  // alongside for the existing point-estimate path.
+  const byBucket = new Map(); // "60-64" → { hits, total, rows: [] }
+  const byVerdict = new Map(); // "BEAT" → { hits, total, rows: [] }
+  const resolvedRows = [];     // slim list of all resolved rows
   let brierSum = 0, brierCount = 0;
 
   for (const r of rows || []) {
@@ -236,15 +350,18 @@ function calibrationFor(rows) {
     resolved += 1;
     const hit = r.predicted_verdict === r.actual_verdict;
     if (hit) hits += 1;
+    const slim = { predicted_verdict: r.predicted_verdict, actual_verdict: r.actual_verdict };
+    resolvedRows.push(slim);
 
     // Bucket confidence into 5pt windows.
     const c = num(r.confidence_pct);
     if (c != null) {
       const lo = Math.floor(c / 5) * 5;
       const key = `${lo}-${lo + 4}`;
-      const e = byBucket.get(key) || { hits: 0, total: 0 };
+      const e = byBucket.get(key) || { hits: 0, total: 0, rows: [] };
       e.total += 1;
       if (hit) e.hits += 1;
+      e.rows.push(slim);
       byBucket.set(key, e);
 
       // Brier: (predicted_prob - actual_outcome)^2 averaged. We treat
@@ -257,22 +374,33 @@ function calibrationFor(rows) {
 
     const v = r.predicted_verdict;
     if (v) {
-      const e = byVerdict.get(v) || { hits: 0, total: 0 };
+      const e = byVerdict.get(v) || { hits: 0, total: 0, rows: [] };
       e.total += 1;
       if (hit) e.hits += 1;
+      e.rows.push(slim);
       byVerdict.set(v, e);
     }
   }
 
   const hit_rate_overall_pct = resolved > 0 ? Math.round((hits / resolved) * 1000) / 10 : null;
 
+  // Bootstrap CIs. The overall CI is computed once over the full
+  // resolved set; per-bucket / per-verdict CIs are computed
+  // independently over each subset (a small subset gets its own
+  // sample_size and may legitimately return null bounds for n<5).
+  const overallCI = bootstrapHitRateCI(resolvedRows);
+
   const bucketMap = {};
+  const bucketCIMap = {};
   for (const [k, v] of byBucket) {
     bucketMap[k] = v.total > 0 ? Math.round((v.hits / v.total) * 1000) / 10 : null;
+    bucketCIMap[k] = ciToPct(bootstrapHitRateCI(v.rows));
   }
   const verdictMap = {};
+  const verdictCIMap = {};
   for (const [k, v] of byVerdict) {
     verdictMap[k] = v.total > 0 ? Math.round((v.hits / v.total) * 1000) / 10 : null;
+    verdictCIMap[k] = ciToPct(bootstrapHitRateCI(v.rows));
   }
 
   const brier = brierCount > 0 ? Math.round((brierSum / brierCount) * 1000) / 1000 : null;
@@ -284,12 +412,30 @@ function calibrationFor(rows) {
   const enough_data_to_lift_cap =
     resolved >= 30 && bucketHitRate >= 55 && (brier ?? 1) < 0.20;
 
+  // CI fields are ADDITIVE — every existing field above stays exactly
+  // where it was, so existing callers (scripts/backtest-earnings-
+  // predictions.mjs, /api/earnings/backtest, computeCalibration's
+  // recursive by_predictor_version) keep working unchanged.
   return {
     resolved_count: resolved,
     unresolved_count: unresolved,
     hit_rate_overall_pct,
+    // P2.3 — bootstrap CI on the overall hit-rate. `*_ci_*_pct` mirrors
+    // the existing `_pct` convention; `sample_size` is equal to
+    // `resolved_count` but documenting it explicitly keeps the CI block
+    // self-contained for serialisation.
+    hit_rate_overall_ci_low_pct: overallCI.ci_low == null ? null : Math.round(overallCI.ci_low * 1000) / 10,
+    hit_rate_overall_ci_high_pct: overallCI.ci_high == null ? null : Math.round(overallCI.ci_high * 1000) / 10,
+    hit_rate_overall_sample_size: overallCI.sample_size,
     hit_rate_by_confidence_bucket: bucketMap,
+    // P2.3 — per-bucket CIs. Map shape is `{ bucket: { hit_rate_pct,
+    // ci_low_pct, ci_high_pct, sample_size } }`. Buckets with n<5
+    // get null low/high (sample_size carried regardless).
+    hit_rate_by_confidence_bucket_ci: bucketCIMap,
     hit_rate_by_verdict: verdictMap,
+    // P2.3 — per-predicted-verdict CIs. Same shape as
+    // `_by_confidence_bucket_ci`.
+    hit_rate_by_verdict_ci: verdictCIMap,
     brier_score: brier,
     enough_data_to_lift_cap,
     cap_lift_gate: {
@@ -313,13 +459,24 @@ function calibrationFor(rows) {
  * Returns the overall (deduped) block PLUS:
  *   - by_predictor_version: { "<version>": <calibration block> } — a
  *     weight change makes v(N) and v(N+1) predictions incomparable, so
- *     they are never averaged together.
+ *     they are never averaged together. Each version's block carries
+ *     its own bootstrap CIs.
  *   - latest_predictor_version: the highest version tag seen.
  *
  * The top-level cap-lift gate (`enough_data_to_lift_cap`, `cap_lift_gate`)
  * is computed over the LATEST predictor version's rows only, so a
  * stale-version sample can never green-light a cap lift for the
  * current model.
+ *
+ * P2.3 (SEBI-RA roadmap): every hit-rate field carries a 95% bootstrap
+ * CI sibling — `hit_rate_overall_pct` gets `hit_rate_overall_ci_low_pct`
+ * / `hit_rate_overall_ci_high_pct` / `hit_rate_overall_sample_size`;
+ * `hit_rate_by_confidence_bucket` gets a parallel `_ci` map keyed by
+ * the same bucket labels; `hit_rate_by_verdict` similarly. CIs at
+ * sample_size < 5 are null; CIs collapse to the point estimate when
+ * the sample is all-hits or all-misses (the bootstrap is degenerate
+ * there by definition). Existing point-estimate fields are untouched —
+ * the CI fields are strictly additive.
  */
 export function computeCalibration(history) {
   const rows = dedupePredictions(history);

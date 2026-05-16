@@ -246,10 +246,49 @@ const macroHistory = [];
 // alongside the headline-fetcher functions so the standalone refresh script
 // (scripts/refresh-macro-regime.mjs) and the in-process refresh share state.
 
-// CORS — permissive by default so the frontend works from anywhere (mobile,
-// embeds, dev tunnels). The platform doesn't expose any user-specific data
-// that would justify a stricter origin allow-list right now.
-app.use(cors());
+// CORS — origin allowlist for the friends-and-family tier (P0.2, 2026-05-16).
+//
+// Pre-fix this was `cors()` — wide-open. Combined with session cookies
+// being sent automatically on credentialed fetch, any site a logged-in
+// friend visited could fire fetch('/api/portfolio', {credentials:'include'})
+// and read their book. SameSite=Lax on the session cookie (set in
+// buildCookie at line 410) blocks the subresource case in modern browsers,
+// but CORS-open is still belt-and-braces wrong: it advertises the API as
+// usable from anywhere.
+//
+// Allowlist covers: the canonical Vercel alias (-gamma), Vercel preview
+// URLs under the same project (rotated per push), localhost for dev (3000)
+// and Playwright (4011). Custom domain (starbhai.com) is intentionally NOT
+// listed yet — see CLAUDE.md note that starbhai.com points at the WP site.
+//
+// Set CORS_ALLOWED_ORIGINS=foo.com,bar.com to add extras at runtime
+// without a deploy (used by integration tunnels e.g. ngrok).
+const CORS_ALLOWLIST = [
+  "https://stock-platform-gamma.vercel.app",
+  "http://localhost:3000",
+  "http://localhost:4011",
+  ...(process.env.CORS_ALLOWED_ORIGINS || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean),
+];
+const CORS_PREVIEW_REGEX =
+  /^https:\/\/stock-platform-[a-z0-9-]+-mtaluja11-3604s-projects\.vercel\.app$/;
+app.use(
+  cors({
+    credentials: true,
+    origin(origin, callback) {
+      // Same-origin (no Origin header on same-host fetch) → always allow.
+      if (!origin) return callback(null, true);
+      if (CORS_ALLOWLIST.includes(origin)) return callback(null, true);
+      if (CORS_PREVIEW_REGEX.test(origin)) return callback(null, true);
+      // Reject — no CORS headers means the browser blocks the response.
+      // We do NOT throw because that would 500 the request; instead the
+      // upstream handler runs but the browser can't read the result.
+      return callback(null, false);
+    },
+  }),
+);
 
 // Rate limiting — protects the LLM API budget and underlying data sources
 // from abuse. The audit found that 50 burst requests succeeded with no
@@ -329,6 +368,31 @@ const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || "";
 const GOOGLE_OAUTH_REDIRECT_URI = process.env.GOOGLE_OAUTH_REDIRECT_URI || "";
 const AUTH_ENABLED = !!(SESSION_SECRET && GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET && GOOGLE_OAUTH_REDIRECT_URI);
+
+// P3.5 (2026-05-16) — Session-secret strength check.
+//
+// When AUTH_ENABLED is true (production / any environment with OAuth
+// configured), STARBHAI_SESSION_SECRET must be at least 64 hex chars
+// (32 bytes of entropy). A weaker secret makes session-token forgery
+// economically feasible. The check is enforced at startup, not at
+// request time, so a deploy with a weak secret is rejected before any
+// session is signed. Dev/test paths (AUTH_ENABLED=false) are exempt —
+// no session is ever signed so there's nothing to forge.
+if (AUTH_ENABLED) {
+  const looksHex = /^[0-9a-fA-F]+$/.test(SESSION_SECRET);
+  if (SESSION_SECRET.length < 64) {
+    throw new Error(
+      `STARBHAI_SESSION_SECRET is too short (${SESSION_SECRET.length} chars; need >=64 hex). ` +
+      `Generate one with:  node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`,
+    );
+  }
+  if (!looksHex) {
+    console.warn(
+      `[SECURITY] STARBHAI_SESSION_SECRET is not pure hex. Length is OK but consider regenerating ` +
+      `via crypto.randomBytes(32).toString("hex") for predictable entropy.`,
+    );
+  }
+}
 
 const oauthClient = AUTH_ENABLED
   ? new OAuth2Client({
@@ -3748,26 +3812,53 @@ app.get("/api/macro/debug", (req, res) => {
  * waiting for real macro news. Gated by MACRO_OVERRIDE_TOKEN env var or by
  * running outside Vercel production. Example:
  *
- *   curl '/api/macro/override?regime=WAR_ESCALATION&sector=Defence&impact=3&severity=4'
+ *   curl -H 'Authorization: Bearer XXX' \
+ *     '/api/macro/override?regime=WAR_ESCALATION&sector=Defence&impact=3&severity=4'
  *
  * Writes directly to macroRegimeCache. Cleared on next scheduled refresh or by
  * calling /api/macro/regime?refresh=1.
  */
+// extractAdminToken — pulls the MACRO_OVERRIDE_TOKEN-style admin token from
+// (a) Authorization: Bearer <token> header (preferred), or
+// (b) ?token=... query param (DEPRECATED — kept for compatibility with
+//     existing curl scripts and historical cron callers, but logs a
+//     migration warning).
+// Returns the token string or null. The query-param form is dangerous
+// because URLs land in server access logs, Vercel logs, browser history,
+// and any proxy in-between; the header form keeps the token off those
+// surfaces. (P0.3, 2026-05-16)
+function extractAdminToken(req) {
+  const authHeader = req.get("authorization") || req.get("Authorization") || "";
+  const m = authHeader.match(/^Bearer\s+(.+)$/i);
+  if (m) return m[1].trim();
+  const queryToken = req.query?.token;
+  if (queryToken) {
+    console.warn(
+      `[ADMIN-TOKEN] DEPRECATED: ?token= query-param on ${req.method} ${req.path} — ` +
+      `move to 'Authorization: Bearer <token>' header. ` +
+      `Query-param tokens leak via access logs, Vercel logs, and browser history.`,
+    );
+    return String(queryToken);
+  }
+  return null;
+}
+
 app.get("/api/macro/override", (req, res) => {
   // Allowed when:
   //   (a) running locally (VERCEL env var not set), OR
-  //   (b) running on Vercel AND a matching MACRO_OVERRIDE_TOKEN env var is set
-  //       AND the request passes the token in ?token=...
+  //   (b) running on Vercel AND a matching MACRO_OVERRIDE_TOKEN env var is
+  //       set AND the request passes the token via 'Authorization: Bearer
+  //       <token>' header (preferred) or ?token=... query param (deprecated).
   //
   // The explicit token-presence check prevents the "undefined === undefined"
   // loophole that would otherwise let any unauthenticated Vercel request
   // force-set the regime.
   const envToken = process.env.MACRO_OVERRIDE_TOKEN;
-  const queryToken = req.query.token;
+  const supplied = extractAdminToken(req);
   const isLocal = !process.env.VERCEL;
-  const tokenOk = envToken && queryToken && queryToken === envToken;
+  const tokenOk = envToken && supplied && supplied === envToken;
   if (!isLocal && !tokenOk) {
-    return res.status(403).json({ error: "Override not allowed in this environment. Set MACRO_OVERRIDE_TOKEN env var and pass ?token=... to enable." });
+    return res.status(403).json({ error: "Override not allowed in this environment. Set MACRO_OVERRIDE_TOKEN env var and pass via 'Authorization: Bearer <token>' header." });
   }
 
   // Validate regime against the canonical enum — anything else would silently
@@ -4050,18 +4141,19 @@ app.post("/api/track/snapshot", express.json(), async (req, res) => {
  * log with arbitrary entries.
  *
  * Usage:
- *   curl -X POST https://stock-platform-gamma.vercel.app/api/track/migrate?token=XXX \
+ *   curl -X POST https://stock-platform-gamma.vercel.app/api/track/migrate \
+ *     -H 'Authorization: Bearer XXX' \
  *     -H 'Content-Type: application/json' \
  *     --data @.paper-trades-export.json
  */
 app.post("/api/track/migrate", express.json({ limit: "5mb" }), async (req, res) => {
   // Same security gate as /api/macro/override
   const envToken = process.env.MACRO_OVERRIDE_TOKEN;
-  const queryToken = req.query.token;
+  const supplied = extractAdminToken(req);
   const isLocal = !process.env.VERCEL;
-  const tokenOk = envToken && queryToken && queryToken === envToken;
+  const tokenOk = envToken && supplied && supplied === envToken;
   if (!isLocal && !tokenOk) {
-    return res.status(403).json({ error: "Migration requires MACRO_OVERRIDE_TOKEN. Set the env var on Vercel and pass ?token=..." });
+    return res.status(403).json({ error: "Migration requires MACRO_OVERRIDE_TOKEN. Set the env var on Vercel and pass via 'Authorization: Bearer <token>' header." });
   }
 
   try {
@@ -4116,11 +4208,11 @@ app.post("/api/track/migrate", express.json({ limit: "5mb" }), async (req, res) 
  */
 app.post("/api/track/snapshot-sws-now", async (req, res) => {
   const envToken = process.env.MACRO_OVERRIDE_TOKEN;
-  const queryToken = req.query.token;
+  const supplied = extractAdminToken(req);
   const isLocal = !process.env.VERCEL;
-  const tokenOk = envToken && queryToken && queryToken === envToken;
+  const tokenOk = envToken && supplied && supplied === envToken;
   if (!isLocal && !tokenOk) {
-    return res.status(403).json({ error: "Requires MACRO_OVERRIDE_TOKEN. Set the env var on Vercel and pass ?token=..." });
+    return res.status(403).json({ error: "Requires MACRO_OVERRIDE_TOKEN. Set the env var on Vercel and pass via 'Authorization: Bearer <token>' header." });
   }
   try {
     const picksPath = path.join(__dirname, "data", "sws", "picks-latest.json");
@@ -4793,6 +4885,170 @@ app.post("/api/portfolio", async (req, res) => {
 
 import { scoreRiskProfile, RISK_PROFILE_QUESTIONS } from "./riskProfile.js";
 
+// ─── /api/health — operational stage-age + provider state (P3.1) ───
+//
+// Reports mtimes of the data files that downstream tabs consume, plus
+// the currently-active LLM provider (from earnings-health.json). First-
+// line observability — alerting hangs off this in a later PR.
+// Public endpoint (no auth) so external uptime checks can hit it without
+// session cookies, but no per-user data is included.
+function fileAgeHours(p) {
+  try {
+    if (!fs.existsSync(p)) return null;
+    const ms = Date.now() - fs.statSync(p).mtimeMs;
+    return Math.round((ms / 36e5) * 100) / 100;
+  } catch { return null; }
+}
+app.get("/api/health", (req, res) => {
+  const dataDir = path.join(__dirname, "data");
+  const ages = {
+    sws_picks_age_h: fileAgeHours(path.join(dataDir, "sws", "picks-latest.json")),
+    earnings_watch_age_h: fileAgeHours(path.join(dataDir, "catalysts", "earnings-watch-latest.json")),
+    nse_corp_age_h: fileAgeHours(path.join(dataDir, "catalysts", "nse-announcements-rolling.json")),
+    fundamentals_history_age_h: fileAgeHours(path.join(__dirname, "fundamentalsHistory.json")),
+    earnings_health_age_h: fileAgeHours(path.join(dataDir, "catalysts", "earnings-health.json")),
+    earnings_backtest_age_h: fileAgeHours(path.join(dataDir, "catalysts", "earnings-backtest-latest.json")),
+    ablation_age_h: fileAgeHours(path.join(dataDir, "catalysts", "ablation-latest.json")),
+  };
+  // Surface the LLM provider currently in use (heuristic / groq / gemini)
+  // from earnings-health.json if it's been written today.
+  let llm_provider = null, cap_lift_gate = null, source_conflicts_30d = null, insufficient_data_30d = null;
+  try {
+    const healthPath = path.join(dataDir, "catalysts", "earnings-health.json");
+    if (fs.existsSync(healthPath)) {
+      const h = JSON.parse(fs.readFileSync(healthPath, "utf-8"));
+      llm_provider = h?.llm_provider_split || h?.llm_provider || null;
+      cap_lift_gate = h?.cap_lift_gate || null;
+      source_conflicts_30d = h?.source_conflicts?.count_30d ?? null;
+      insufficient_data_30d = h?.insufficient_data?.count_30d ?? null;
+    }
+  } catch {}
+  // Status: ok if all critical-tier ages are < 48h; degraded if any is older.
+  const critical = [ages.sws_picks_age_h, ages.earnings_watch_age_h];
+  const status =
+    critical.some((a) => a == null || a > 48) ? "degraded" : "ok";
+  res.json({
+    ok: status === "ok",
+    status,
+    auth_enabled: AUTH_ENABLED,
+    cors_allowlist_size: CORS_ALLOWLIST.length,
+    upload_quota_per_hour: PORTFOLIO_UPLOADS_PER_HOUR,
+    ages,
+    llm_provider,
+    cap_lift_gate,
+    source_conflicts_30d,
+    insufficient_data_30d,
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// ─── /legal/* — static legal pages (P1.3 grievance, P1.4 methodology,
+// P4.1 Investor Charter). These are served from /gated/*.html so the
+// per-session auth gate still applies in production; in dev (AUTH_ENABLED
+// false) they're publicly readable, which is the desired friends-and-
+// family behaviour.
+function serveGatedHtml(filename) {
+  return (req, res) => {
+    const p = path.join(__dirname, "gated", filename);
+    if (!fs.existsSync(p)) {
+      return res.status(404).send(`<h1>Page not found</h1><p>${filename} is missing.</p>`);
+    }
+    res.type("text/html").sendFile(p);
+  };
+}
+app.get("/legal/grievance", serveGatedHtml("grievance.html"));
+app.get("/legal/charter", serveGatedHtml("charter.html"));
+app.get("/methodology", serveGatedHtml("methodology.html"));
+
+// ─── /api/audit/earnings/:symbol/:event_iso_date — per-prediction
+// audit trail (P4.2, 2026-05-16). Reg-25-style basis disclosure: returns
+// the full archived prediction row for the requested (symbol, event_date)
+// pair, including the score_breakdown, all 9 component values, the
+// predictor version, and the data_quality flags. A friend can ask
+// "why did you tell me X on date Y" and get the exact inputs that fed
+// the model on that day. Reads from data/catalysts/earnings-history/
+// (per-day snapshots written atomically by earningsHistoryArchive.js).
+app.get("/api/audit/earnings/:symbol/:event_iso_date", (req, res) => {
+  try {
+    const symbol = String(req.params.symbol || "").toUpperCase().trim();
+    const eventDate = String(req.params.event_iso_date || "").trim();
+    if (!/^[A-Z0-9.\-_]{1,20}$/.test(symbol)) {
+      return res.status(400).json({ error: "Invalid symbol" });
+    }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(eventDate)) {
+      return res.status(400).json({ error: "Invalid event_iso_date — must be YYYY-MM-DD" });
+    }
+    const histDir = path.join(__dirname, "data", "catalysts", "earnings-history");
+    if (!fs.existsSync(histDir)) {
+      return res.status(404).json({ error: "No earnings history archive yet." });
+    }
+    // Scan all daily snapshots, NEWEST first, to find the most-recent row
+    // for this (symbol, event_iso_date). Multiple snapshots may carry the
+    // same prediction across days; the latest is authoritative because
+    // actuals would have landed on it post-event.
+    const files = fs.readdirSync(histDir)
+      .filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
+      .sort()
+      .reverse();
+    for (const f of files) {
+      try {
+        const snap = JSON.parse(fs.readFileSync(path.join(histDir, f), "utf-8"));
+        const rows = Array.isArray(snap?.predictions) ? snap.predictions :
+                     Array.isArray(snap?.rows) ? snap.rows :
+                     Array.isArray(snap) ? snap : [];
+        const hit = rows.find((r) =>
+          (r?.symbol || "").toUpperCase() === symbol &&
+          (r?.event_iso_date === eventDate || r?.event_date === eventDate)
+        );
+        if (hit) {
+          return res.json({
+            symbol,
+            event_iso_date: eventDate,
+            snapshot_file: f,
+            snapshot_date: f.replace(".json", ""),
+            row: hit,
+            note: "Read the row's predictor_version + score_breakdown for the basis. Multiple snapshots may carry this prediction; the row returned is from the newest snapshot containing it.",
+          });
+        }
+      } catch {
+        // Skip malformed snapshot files; keep scanning.
+      }
+    }
+    return res.status(404).json({
+      error: "No prediction found for this (symbol, event_iso_date) pair.",
+      hint: "Check the spelling (symbol is uppercase NSE ticker; date is fiscal-quarter event in YYYY-MM-DD).",
+    });
+  } catch (err) {
+    console.error("[AUDIT] /api/audit/earnings error:", err.message);
+    res.status(500).json({ error: "Audit trail read failed" });
+  }
+});
+
+// ─── /api/disclosures/holdings — author position + COI disclosure (P0.5) ───
+//
+// SEBI RA Reg 24(2) requires research analysts to disclose positions in
+// covered securities at the time of publication; even though Starbhai is
+// not registered, the convention is followed so a friend can answer "does
+// the author own this stock?" without asking. Served straight from
+// data/disclosures/holdings.json — edited by hand, rotated quarterly.
+// Footer of every page links here.
+app.get("/api/disclosures/holdings", (req, res) => {
+  try {
+    const p = path.join(__dirname, "data", "disclosures", "holdings.json");
+    if (!fs.existsSync(p)) {
+      return res.status(404).json({
+        error: "No disclosure file yet.",
+        hint: "Author has not published the holdings disclosure for this period.",
+      });
+    }
+    const raw = fs.readFileSync(p, "utf-8");
+    res.type("application/json").send(raw);
+  } catch (err) {
+    console.error("[DISCLOSURES] holdings read error:", err.message);
+    res.status(500).json({ error: "Failed to read holdings disclosure" });
+  }
+});
+
 app.get("/api/risk-profile", async (req, res) => {
   try {
     const sub = userSub(req);
@@ -4849,6 +5105,37 @@ app.delete("/api/risk-profile", async (req, res) => {
   }
 });
 
+// ─── requireRiskProfile() — hard-gate for personalised advisory endpoints ───
+//
+// Returns 412 Precondition Failed with code RISK_PROFILE_REQUIRED when the
+// authenticated user has no completed risk profile. SEBI IA Reg 2013
+// Schedule III requires risk profiling before personalised recommendations;
+// soft-gating (the pre-2026-05-16 behaviour) had the analyser silently
+// fall back to MODERATE assumptions even when no profile was set, so a
+// 25-year-old day trader and a 60-year-old retiree saw identical advice.
+// Universal data endpoints (sws-picks, earnings calendar, watchlist) stay
+// open — only the personalised /api/portfolio/analyze, /api/portfolio/
+// analyze/rerun and /api/portfolio/optimize endpoints are gated.
+async function requireRiskProfile(req, res, next) {
+  try {
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
+    const portfolio = await readPortfolio(sub);
+    const bucket = portfolio?.riskProfile?.bucket;
+    if (!bucket) {
+      return res.status(412).json({
+        error: "Risk profile required before personalised analysis.",
+        code: "RISK_PROFILE_REQUIRED",
+        profile_endpoint: "/api/risk-profile",
+      });
+    }
+    next();
+  } catch (err) {
+    console.error("[REQUIRE-RISK-PROFILE] error:", err.message);
+    res.status(500).json({ error: "Failed to verify risk profile" });
+  }
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
 // Portfolio Analyzer — SWS-powered deep analysis with per-user persistence.
 //
@@ -4863,6 +5150,45 @@ app.delete("/api/risk-profile", async (req, res) => {
 //                                     Called by the UI on every analyzer
 //                                     tab open so the report is always fresh.
 // ═══════════════════════════════════════════════════════════════════════════
+
+// P3.6 (2026-05-16) — per-user upload quota.
+//
+// Multer keeps the parsed file in process memory (memoryStorage). A
+// malicious or buggy client uploading repeatedly could exhaust the
+// Vercel function's heap before the 2MB-per-file cap matters. This map
+// tracks { sub: [timestamps] } in-process and rejects more than
+// PORTFOLIO_UPLOADS_PER_HOUR uploads per sub per rolling hour. The map
+// is in-process (resets on each lambda cold-start), which is acceptable
+// for the friends-and-family threat model — the goal is to limit a
+// single user's burst impact, not to defend against a distributed
+// attack. For that you'd need Vercel KV or a Redis bucket.
+const PORTFOLIO_UPLOADS_PER_HOUR = 10;
+const uploadQuotaMap = new Map(); // sub → number[] of timestamps
+function checkUploadQuota(sub) {
+  const now = Date.now();
+  const hourAgo = now - 60 * 60 * 1000;
+  const history = (uploadQuotaMap.get(sub) || []).filter((t) => t > hourAgo);
+  if (history.length >= PORTFOLIO_UPLOADS_PER_HOUR) {
+    return { ok: false, retryAfterSec: Math.ceil((history[0] + 60 * 60 * 1000 - now) / 1000) };
+  }
+  history.push(now);
+  uploadQuotaMap.set(sub, history);
+  return { ok: true };
+}
+async function requireUploadQuota(req, res, next) {
+  const sub = userSub(req);
+  if (!sub) return res.status(401).json({ error: "auth-required" });
+  const q = checkUploadQuota(sub);
+  if (!q.ok) {
+    res.set("Retry-After", String(q.retryAfterSec));
+    return res.status(429).json({
+      error: `Upload quota exceeded — max ${PORTFOLIO_UPLOADS_PER_HOUR} per hour per user.`,
+      code: "UPLOAD_QUOTA_EXCEEDED",
+      retry_after_seconds: q.retryAfterSec,
+    });
+  }
+  next();
+}
 
 const portfolioUpload = multer({
   storage: multer.memoryStorage(),
@@ -5288,7 +5614,7 @@ async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sour
   };
 }
 
-app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, res) => {
+app.post("/api/portfolio/analyze", requireUploadQuota, requireRiskProfile, portfolioUpload.single("file"), async (req, res) => {
   const t0 = Date.now();
   try {
     const sub = userSub(req);
@@ -5557,7 +5883,7 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
 // the report is always fresh against current SWS data + live quotes.
 // 404s when the user has no stored upload (caller falls back to the
 // upload zone).
-app.post("/api/portfolio/analyze/rerun", express.json(), async (req, res) => {
+app.post("/api/portfolio/analyze/rerun", requireRiskProfile, express.json(), async (req, res) => {
   const t0 = Date.now();
   try {
     const sub = userSub(req);
@@ -5675,7 +6001,7 @@ app.post("/api/portfolio/analyze/rerun", express.json(), async (req, res) => {
 // updated summary.xirr fields), not the full report.
 //
 // Body: { sessionId, preset?, taxSlabPct?, assumedHoldingMonths?, ltcgRealisedYtd? }
-app.post("/api/portfolio/optimize", express.json(), async (req, res) => {
+app.post("/api/portfolio/optimize", requireRiskProfile, express.json(), async (req, res) => {
   try {
     const sessionId = String(req.body?.sessionId || "");
     if (!sessionId) {

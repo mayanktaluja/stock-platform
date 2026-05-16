@@ -1,0 +1,76 @@
+{
+  "schema_version": "ablation-v1",
+  "generated_at": "2026-05-16T10:22:29.729Z",
+  "history_files": 5,
+  "span": {
+    "from": "2026-05-09",
+    "to": "2026-05-16"
+  },
+  "baseline_hit_rate": null,
+  "baseline_sample_size": 0,
+  "total_resolved": 47,
+  "skipped_no_breakdown": 47,
+  "components": [
+    {
+      "name": "v3_future_past",
+      "hit_rate_without": null,
+      "delta_vs_baseline": null,
+      "importance_rank": 1
+    },
+    {
+      "name": "v3_valuation",
+      "hit_rate_without": null,
+      "delta_vs_baseline": null,
+      "importance_rank": 2
+    },
+    {
+      "name": "v3_overlay",
+      "hit_rate_without": null,
+      "delta_vs_baseline": null,
+      "importance_rank": 3
+    },
+    {
+      "name": "runup",
+      "hit_rate_without": null,
+      "delta_vs_baseline": null,
+      "importance_rank": 4
+    },
+    {
+      "name": "sector_momentum",
+      "hit_rate_without": null,
+      "delta_vs_baseline": null,
+      "importance_rank": 5
+    },
+    {
+      "name": "trajectory",
+      "hit_rate_without": null,
+      "delta_vs_baseline": null,
+      "importance_rank": 6
+    },
+    {
+      "name": "last_quarter_echo",
+      "hit_rate_without": null,
+      "delta_vs_baseline": null,
+      "importance_rank": 7
+    },
+    {
+      "name": "announcements",
+      "hit_rate_without": null,
+      "delta_vs_baseline": null,
+      "importance_rank": 8
+    },
+    {
+      "name": "deal_flow",
+      "hit_rate_without": null,
+      "delta_vs_baseline": null,
+      "importance_rank": 9
+    },
+    {
+      "name": "llm_signal",
+      "hit_rate_without": null,
+      "delta_vs_baseline": null,
+      "importance_rank": 10
+    }
+  ],
+  "note": "Ablation re-scores each archived prediction with one component weight set to zero, then compares the hit-rate against baseline. Components are ranked by abs(delta) — highest absolute delta is the most-impactful component. score_breakdown only entered the archive in schema v4; pre-v4 resolved rows are skipped."
+}

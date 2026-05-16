@@ -18,6 +18,10 @@ import {
   extractActualVerdictFromSwsNews,
   fetchActualFromYahoo,
   selectResolvableKeys,
+  resolveActualForEvent,
+  appendSourceConflictRow,
+  buildSourceConflictRow,
+  SOURCE_CONFLICT_LOG_MAX,
 } from "../services/earnings/actualsIngester.js";
 
 let ok = 0, fail = 0;
@@ -275,6 +279,149 @@ it("--since-days lookback excludes old events", () => {
   }];
   const keys = selectResolvableKeys(hist, { todayIso: "2026-05-14", sinceDays: 30 });
   assert.deepEqual(keys.map((k) => k.symbol), ["RECENT"]);
+});
+
+/* ─────────────── P2.6 source-disagreement log ───────────────────── */
+
+console.log("[7] resolveActualForEvent — source-disagreement log");
+
+// Mock Yahoo client returning a fixed verdict row.
+function yahooReturningVerdict(verdict) {
+  const epsActual = verdict === "BEAT" ? 12 : verdict === "MISS" ? 8 : 10;
+  return {
+    async quoteSummary() {
+      return {
+        earningsHistory: {
+          history: [
+            { quarter: new Date("2026-03-31"), epsActual, epsEstimate: 10, surprisePercent: (epsActual - 10) / 10 },
+          ],
+        },
+      };
+    },
+    async chart() { return { quotes: [] }; },
+  };
+}
+
+it("SWS+Yahoo AGREE → no conflict logged", async () => {
+  const conflicts = [];
+  const swsNews = [
+    { type: "brief", date: "2026-04-26T22:54:28.000Z", title: "Full year 2026 earnings: EPS exceeds analyst expectations" },
+  ];
+  const r = await resolveActualForEvent({
+    symbol: "RELIANCE",
+    fiscalQuarter: "Q4 FY26",
+    eventIsoDate: "2026-04-24",
+    swsNews,
+    opts: { yf: yahooReturningVerdict("BEAT"), onSourceConflict: (row) => conflicts.push(row) },
+  });
+  assert.equal(r.actual_verdict, "BEAT");
+  assert.equal(r.actual_source, "sws_news");
+  assert.equal(conflicts.length, 0, JSON.stringify(conflicts));
+});
+
+it("SWS+Yahoo DISAGREE → conflict logged, SWS verdict still chosen", async () => {
+  const conflicts = [];
+  // SWS says BEAT; Yahoo says MISS.
+  const swsNews = [
+    { type: "brief", date: "2026-04-26T22:54:28.000Z", title: "Full year 2026 earnings: EPS exceeds analyst expectations" },
+  ];
+  const r = await resolveActualForEvent({
+    symbol: "INFY",
+    fiscalQuarter: "Q4 FY26",
+    eventIsoDate: "2026-04-24",
+    swsNews,
+    opts: { yf: yahooReturningVerdict("MISS"), onSourceConflict: (row) => conflicts.push(row) },
+  });
+  // SWS still wins — no logic change.
+  assert.equal(r.actual_verdict, "BEAT");
+  assert.equal(r.actual_source, "sws_news");
+  // One conflict row, with both verdicts captured.
+  assert.equal(conflicts.length, 1);
+  const row = conflicts[0];
+  assert.equal(row.symbol, "INFY");
+  assert.equal(row.event_iso_date, "2026-04-24");
+  assert.equal(row.sws_verdict, "BEAT");
+  assert.equal(row.yahoo_verdict, "MISS");
+  assert.equal(row.chosen_source, "sws_news");
+  assert.equal(row.chosen_verdict, "BEAT");
+  assert.ok(row.logged_at);
+  assert.ok(row.sws_value); // evidence string
+  assert.ok(row.yahoo_value);
+});
+
+it("SWS resolves but Yahoo has no row → no conflict (nothing to compare)", async () => {
+  const conflicts = [];
+  const swsNews = [
+    { type: "brief", date: "2026-04-26T22:54:28.000Z", title: "Full year 2026 earnings: EPS exceeds analyst expectations" },
+  ];
+  // Yahoo returns no earningsHistory rows — comparison can't run.
+  const emptyYf = {
+    async quoteSummary() { return { earningsHistory: { history: [] } }; },
+    async chart() { return { quotes: [] }; },
+  };
+  const r = await resolveActualForEvent({
+    symbol: "TCS",
+    fiscalQuarter: "Q4 FY26",
+    eventIsoDate: "2026-04-24",
+    swsNews,
+    opts: { yf: emptyYf, onSourceConflict: (row) => conflicts.push(row) },
+  });
+  assert.equal(r.actual_verdict, "BEAT");
+  assert.equal(conflicts.length, 0);
+});
+
+it("logSourceConflicts:false disables the comparison entirely", async () => {
+  const conflicts = [];
+  const swsNews = [
+    { type: "brief", date: "2026-04-26T22:54:28.000Z", title: "Full year 2026 earnings: EPS exceeds analyst expectations" },
+  ];
+  // Even though Yahoo would disagree, no conflict is logged.
+  const r = await resolveActualForEvent({
+    symbol: "WIPRO",
+    fiscalQuarter: "Q4 FY26",
+    eventIsoDate: "2026-04-24",
+    swsNews,
+    opts: {
+      yf: yahooReturningVerdict("MISS"),
+      onSourceConflict: (row) => conflicts.push(row),
+      logSourceConflicts: false,
+    },
+  });
+  assert.equal(r.actual_verdict, "BEAT");
+  assert.equal(conflicts.length, 0);
+});
+
+console.log("[8] appendSourceConflictRow — cap behaviour");
+
+it("appendSourceConflictRow appends a row to an empty array", () => {
+  const row = buildSourceConflictRow({
+    symbol: "X", eventIsoDate: "2026-04-24",
+    sws: { actual_verdict: "BEAT", actual_evidence: "sws-ev" },
+    yahoo: { actual_verdict: "MISS", actual_evidence: "y-ev" },
+    chosenSource: "sws_news", chosenVerdict: "BEAT", loggedAtIso: "2026-05-15T00:00:00Z",
+  });
+  const out = appendSourceConflictRow([], row);
+  assert.equal(out.length, 1);
+  assert.equal(out[0].symbol, "X");
+});
+
+it("appendSourceConflictRow caps at SOURCE_CONFLICT_LOG_MAX (oldest dropped)", () => {
+  const existing = Array.from({ length: SOURCE_CONFLICT_LOG_MAX }, (_, i) => ({
+    symbol: `OLD${i}`, event_iso_date: "2026-01-01", logged_at: "2026-01-01T00:00:00Z",
+  }));
+  const newRow = { symbol: "NEW", event_iso_date: "2026-05-15", logged_at: "2026-05-15T00:00:00Z" };
+  const out = appendSourceConflictRow(existing, newRow);
+  assert.equal(out.length, SOURCE_CONFLICT_LOG_MAX);
+  // Newest is preserved at the tail; oldest (OLD0) is dropped.
+  assert.equal(out[out.length - 1].symbol, "NEW");
+  assert.equal(out[0].symbol, "OLD1");
+});
+
+it("appendSourceConflictRow tolerates a non-array `existing` (defensive)", () => {
+  const row = { symbol: "X", event_iso_date: "2026-04-24", logged_at: "2026-05-15T00:00:00Z" };
+  const out = appendSourceConflictRow(null, row);
+  assert.equal(out.length, 1);
+  assert.equal(out[0].symbol, "X");
 });
 
 /* ─────────────────────────── runner ─────────────────────────────── */

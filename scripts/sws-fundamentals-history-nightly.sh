@@ -35,11 +35,32 @@ REPO_DIR="/Users/mayanktaluja/code/stock-platform"
 cd "${REPO_DIR}" || { echo "[fh-nightly] cannot cd to ${REPO_DIR}"; exit 5; }
 
 LOG="data/sws/fundamentals-history-nightly.log"
+LOG_PATH="${REPO_DIR}/${LOG}"
 mkdir -p data/sws
 exec >> >(tee -a "${LOG}") 2>&1
 
 ts() { date "+%Y-%m-%d %H:%M:%S %Z"; }
 START_EPOCH="$(date +%s)"
+
+# ---- Slack failure trap (P3.3) ----
+#
+# Catch-all for any non-zero exit — including signals, uncaught `set -u` /
+# `set -o pipefail` triggers, and crashes that happen BEFORE the existing
+# send_mail handlers run. Silent no-op when SLACK_WEBHOOK_URL is unset (the
+# common case for interactive runs).
+#
+# Installed EARLY so a pre-flight or git-sync failure still alerts. Cleared
+# at every clean exit (success, dry-run, no-op) so those paths don't fire it.
+# The mid-script `exit N` paths DO fire this trap by design.
+slack_notify_on_exit() {
+  local rc=$?
+  if [ "${rc}" -ne 0 ]; then
+    bash "${REPO_DIR}/scripts/slack-notify.sh" \
+      ":warning: fundamentalsHistory nightly (sws-fundamentals-history-nightly.sh) failed at $(ts) with exit code ${rc} — see ${LOG_PATH}" \
+      >/dev/null 2>&1 || true
+  fi
+}
+trap slack_notify_on_exit EXIT
 
 # Portable timeout wrapper — same chain as sws-nightly.sh (gtimeout on macOS
 # via Homebrew coreutils, timeout on Linux, no-op fallback on stock macOS).
@@ -75,6 +96,7 @@ send_mail() {
 if [ ${DRY_RUN} -eq 1 ]; then
   echo "[fh-nightly] DRY RUN — setup OK; skipping pre-flight, git sync, refresh, commit, PR"
   echo "[fh-nightly] DRY RUN done in $(($(date +%s) - START_EPOCH))s"
+  trap - EXIT  # dry-run success — don't fire Slack failure trap
   exit 0
 fi
 
@@ -164,6 +186,7 @@ if [ -z "$(git status --short fundamentalsHistory.json)" ]; then
   echo "[fh-nightly] fundamentalsHistory.json unchanged — nothing to commit"
   send_mail "ℹ️ fundamentalsHistory nightly — no changes" "Refresh ran clean but fundamentalsHistory.json did not change at $(ts) (universe already fresh)."
   echo "[fh-nightly] DONE in $(($(date +%s) - START_EPOCH))s"
+  trap - EXIT  # clean no-op exit — don't fire Slack failure trap
   exit 0
 fi
 
@@ -252,4 +275,9 @@ ${COMMIT_BODY}
 Vercel will redeploy main once CI is green."
 
 echo "[fh-nightly] DONE in ${ELAPSED}s ($(ts))"
+
+# Successful run — clear the Slack failure trap so the final `exit 0` doesn't
+# fire it. Mid-script `exit N` paths (panic flag, network, push failure, etc.)
+# still trigger the trap by design.
+trap - EXIT
 exit 0

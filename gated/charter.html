@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investor Charter — Starbhai</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .legal-wrap { max-width: 720px; margin: 40px auto; padding: 0 24px; line-height: 1.6; }
+    .legal-wrap h1 { font-family: 'Fraunces', serif; font-size: 32px; margin-bottom: 8px; color: var(--text); }
+    .legal-wrap .lede { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+    .legal-wrap h2 { font-size: 18px; margin-top: 28px; margin-bottom: 8px; color: var(--text); }
+    .legal-wrap p, .legal-wrap li { font-size: 14px; color: var(--text); }
+    .legal-wrap ul, .legal-wrap ol { padding-left: 20px; }
+    .legal-wrap .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin: 16px 0; }
+    .legal-wrap a { color: var(--gold); }
+    .legal-wrap .promise { background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.25); border-radius: 8px; padding: 12px 16px; margin: 12px 0; }
+    .legal-wrap .negative { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.25); border-radius: 8px; padding: 12px 16px; margin: 12px 0; }
+    .legal-wrap .back { display: inline-block; margin-bottom: 16px; color: var(--text-muted); font-size: 12px; text-decoration: none; }
+    .legal-wrap .back:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+  <main class="legal-wrap" role="main">
+    <a class="back" href="/index.html">&larr; Back to dashboard</a>
+    <h1>Investor Charter</h1>
+    <p class="lede">
+      Plain-English commitments and explicit limitations. Modelled on SEBI's Investor Charter
+      convention even though this platform is not formally registered as a Research Analyst or
+      Investment Adviser.
+    </p>
+
+    <h2>What this platform promises</h2>
+    <div class="promise">
+      <ol>
+        <li><strong>Honest disclosures.</strong> Every scoring decision is auditable in the
+          <a href="/methodology">methodology document</a>. The author's personal positions and
+          third-party data relationships are published at
+          <a href="/api/disclosures/holdings" target="_blank" rel="noopener">/api/disclosures/holdings</a>
+          and rotated quarterly.</li>
+        <li><strong>Honest backtest reporting.</strong> Hit-rate and Brier score are computed on
+          archived predictions with walk-forward cross-validation and bootstrap 95% confidence
+          intervals. The platform refuses to claim a confidence-cap lift until the
+          sample-size + bucket-hit-rate + Brier gate clears.</li>
+        <li><strong>Hard gates before recommendations.</strong> The portfolio analyser refuses to
+          score until the 3-question risk profile is complete (not "advisable", required).</li>
+        <li><strong>Concrete sell triggers.</strong> Every position gets a rupee-priced stop, not
+          just an "advisory drawdown" label.</li>
+        <li><strong>NSE Surveillance respect.</strong> Stocks under ASM/GSM are loudly flagged
+          and EXCLUDED from picks, regardless of score.</li>
+        <li><strong>Grievance response.</strong> 24-hour acknowledgement, 5-working-day initial
+          response, 30-day closure. See <a href="/legal/grievance">/legal/grievance</a> for the
+          full procedure.</li>
+        <li><strong>No paid placements.</strong> No third-party data provider compensates the author
+          for inclusion or favourable scoring (see disclosure for relationship details).</li>
+      </ol>
+    </div>
+
+    <h2>What this platform explicitly does NOT do</h2>
+    <div class="negative">
+      <ol>
+        <li><strong>Issue personalised investment advice.</strong> Recommendations are educational
+          research, not advice tailored to your specific financial situation, goals, or tax position.</li>
+        <li><strong>Handle client money or securities.</strong> The platform never takes custody of
+          funds or holdings. There is no demat link, no order routing, no transaction execution.</li>
+        <li><strong>Guarantee returns or hit-rate.</strong> Past performance — including the
+          calibration plot on the Track Record tab — does not guarantee future results. Markets move;
+          methodology has limits.</li>
+        <li><strong>Operate as a SEBI-registered Research Analyst or Investment Adviser.</strong>
+          The formal SCORES grievance route does not apply. Disputes are handled directly with the
+          author via the grievance procedure.</li>
+        <li><strong>Subscribe to or charge a fee.</strong> The platform is unmonetised and operates
+          at the friends-and-family scale. There is no commercial relationship between the author and
+          any user.</li>
+        <li><strong>Onboard arbitrary users.</strong> Access is gated behind Google OAuth + an admin
+          allow-list. Coverage stops at the people the author knows.</li>
+      </ol>
+    </div>
+
+    <h2>Your rights as a user</h2>
+    <ul>
+      <li>To see the basis for any recommendation — check the methodology, the per-component breakdown
+        on the Earnings Watch card, or the audit-trail endpoint if curious.</li>
+      <li>To export your portfolio data — uploaded files are stored per-user and downloadable on
+        request.</li>
+      <li>To delete your data — email the author with subject "Data deletion" and your account email.
+        Deletion completes within 7 working days.</li>
+      <li>To file a grievance — see <a href="/legal/grievance">/legal/grievance</a>.</li>
+      <li>To opt out at any time — sign out and stop using the platform; no further obligation.</li>
+    </ul>
+
+    <h2>Update cadence</h2>
+    <p>
+      This Charter is reviewed quarterly. Material changes (new commitments removed, scope changes)
+      are emailed directly to active users at the previous-quarter's review cycle. The
+      <a href="/methodology">methodology document</a> is updated whenever scoring weights change or
+      new components are added.
+    </p>
+
+    <p class="lede" style="margin-top: 32px;">
+      Last reviewed: 2026-05-16. Next review: 2026-08-16.
+    </p>
+  </main>
+</body>
+</html>

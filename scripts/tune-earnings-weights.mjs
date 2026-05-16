@@ -41,7 +41,9 @@ import {
   buildCandidateConfigs,
   rankConfigs,
   evaluateConfig,
-  splitTrainHoldout,
+  splitTrainHoldoutRandom,
+  splitTrainHoldoutWalkForward,
+  walkForwardEvaluate,
 } from "../services/earnings/weightTuner.js";
 
 const ROOT = process.cwd();
@@ -97,31 +99,51 @@ function main() {
     return;
   }
 
-  // ── Gate met — run the sweep on the train split, check on holdout ──
-  const { train, holdout } = splitTrainHoldout(rows, 0.2);
-  const ranked = rankConfigs(train, buildCandidateConfigs());
-  const top = ranked.slice(0, 10);
-  const baseline = ranked.find((c) => c.name === "baseline");
-  const best = ranked[0];
-  const holdoutCheck = {
-    best_on_holdout: evaluateConfig(holdout, best.multipliers),
-    baseline_on_holdout: evaluateConfig(holdout, baseline ? baseline.multipliers : {}),
+  // ── Gate met — primary: walk-forward CV; secondary: legacy 80/20 ──
+  //
+  // P2.2 (walk-forward CV): the primary out-of-sample signal is now
+  // rolling-origin — train on quarters 1..k, test on quarter k+1, walk
+  // the origin forward. Random 80/20 is preserved as a secondary check
+  // for backward-compat with prior weight-tuning runs and to surface
+  // when the two splits disagree.
+  const walkForward = splitTrainHoldoutWalkForward(rows);
+  const wfRanked = rankConfigs(rows, buildCandidateConfigs());
+  const top = wfRanked.slice(0, 10);
+  const baseline = wfRanked.find((c) => c.name === "baseline");
+  const best = wfRanked[0];
+
+  const walkForwardCheck = {
+    best_on_walk_forward: walkForwardEvaluate(rows, best.multipliers),
+    baseline_on_walk_forward: walkForwardEvaluate(rows, baseline ? baseline.multipliers : {}),
+  };
+  const { train: legacyTrain, holdout: legacyHoldout } = splitTrainHoldoutRandom(rows, 0.2);
+  const legacyHoldoutCheck = {
+    best_on_holdout: evaluateConfig(legacyHoldout, best.multipliers),
+    baseline_on_holdout: evaluateConfig(legacyHoldout, baseline ? baseline.multipliers : {}),
   };
 
   const report = {
     ...base,
-    train_count: train.length,
-    holdout_count: holdout.length,
+    cv_method: "walk-forward",
+    cv_fold_count: walkForward.folds.length,
+    cv_quarter_keys: walkForward.quarter_keys,
+    cv_skipped_no_quarter: walkForward.skipped_no_quarter,
+    // legacy fields kept for snapshot-shape stability
+    train_count: legacyTrain.length,
+    holdout_count: legacyHoldout.length,
     baseline: baseline ? { name: baseline.name, result: baseline.result } : null,
     top_configs: top.map((c) => ({ name: c.name, multipliers: c.multipliers, result: c.result })),
     best: { name: best.name, multipliers: best.multipliers, train_result: best.result },
-    holdout_check: holdoutCheck,
+    walk_forward_check: walkForwardCheck,
+    holdout_check: legacyHoldoutCheck,
     recommendation:
       best.name === "baseline"
         ? "Baseline already optimal on this sample — no change recommended."
-        : `Candidate "${best.name}" beat baseline on train ` +
+        : `Candidate "${best.name}" beat baseline overall ` +
           `(${best.result.hit_rate_pct}% vs ${baseline?.result.hit_rate_pct ?? "?"}%). ` +
-          `Confirm it also wins on the holdout split before editing earningsPredictor.js by hand.`,
+          `Walk-forward CV: best ${walkForwardCheck.best_on_walk_forward.aggregated_hit_rate_pct}% ` +
+          `vs baseline ${walkForwardCheck.baseline_on_walk_forward.aggregated_hit_rate_pct}% across ` +
+          `${walkForward.folds.length} folds. Confirm both signals agree before editing earningsPredictor.js by hand.`,
   };
   writeJsonAtomic(OUT_PATH, report);
 
@@ -131,16 +153,18 @@ function main() {
   }
   console.log("Earnings Weight Tuner — Sweep Report");
   console.log("====================================");
-  console.log(`Resolved: ${rows.length}  (train ${train.length} / holdout ${holdout.length})`);
+  console.log(`Resolved: ${rows.length}  (walk-forward folds: ${walkForward.folds.length}, legacy 80/20 train ${legacyTrain.length} / holdout ${legacyHoldout.length})`);
+  console.log(`CV method: walk-forward (rolling-origin) across quarters: ${walkForward.quarter_keys.join(", ") || "—"}`);
   console.log("");
-  console.log("Top configs (train hit-rate):");
+  console.log("Top configs (overall hit-rate):");
   for (const c of top) {
     console.log(`  ${c.name.padEnd(24)} ${String(c.result.hit_rate_pct).padStart(5)}%  brier ${c.result.brier}`);
   }
   console.log("");
   console.log(`Best: ${best.name}`);
-  console.log(`  train   hit-rate ${best.result.hit_rate_pct}%`);
-  console.log(`  holdout hit-rate ${holdoutCheck.best_on_holdout.hit_rate_pct}% (baseline ${holdoutCheck.baseline_on_holdout.hit_rate_pct}%)`);
+  console.log(`  overall      hit-rate ${best.result.hit_rate_pct}%`);
+  console.log(`  walk-forward hit-rate ${walkForwardCheck.best_on_walk_forward.aggregated_hit_rate_pct}% (baseline ${walkForwardCheck.baseline_on_walk_forward.aggregated_hit_rate_pct}%)`);
+  console.log(`  legacy 80/20 hit-rate ${legacyHoldoutCheck.best_on_holdout.hit_rate_pct}% (baseline ${legacyHoldoutCheck.baseline_on_holdout.hit_rate_pct}%)`);
   console.log("");
   console.log(report.recommendation);
 }

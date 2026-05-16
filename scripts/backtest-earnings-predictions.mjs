@@ -31,12 +31,17 @@ import {
   loadAllHistory,
   computeCalibration,
 } from "../services/earnings/earningsHistoryArchive.js";
+import {
+  COMPONENT_KEYS,
+  rescoreUnderMultipliers,
+} from "../services/earnings/weightTuner.js";
 import { writeFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const argJson = process.argv.includes("--json");
 const argNoSnapshot = process.argv.includes("--no-snapshot");
+const argAblation = process.argv.includes("--ablation");
 
 // PR B8 — writes data/catalysts/earnings-backtest-latest.json on every
 // run so /api/earnings/backtest serves a fresh snapshot without re-running
@@ -44,6 +49,7 @@ const argNoSnapshot = process.argv.includes("--no-snapshot");
 const _here = path.dirname(fileURLToPath(import.meta.url));
 const SNAPSHOT_DIR = path.resolve(_here, "..", "data", "catalysts");
 const SNAPSHOT_PATH = path.join(SNAPSHOT_DIR, "earnings-backtest-latest.json");
+const ABLATION_PATH = path.join(SNAPSHOT_DIR, "ablation-latest.json");
 function writeSnapshot(history, cal) {
   if (argNoSnapshot) return;
   try {
@@ -82,6 +88,138 @@ function pctOrDash(v) {
   return v == null ? "—" : `${v}%`;
 }
 
+/* ──────────────── P2.5 — component ablation ─────────────────────── */
+
+/**
+ * Deduped resolved+breakdown rows for ablation. Same dedup rule as
+ * the weight tuner: keep one row per (symbol, event_iso_date),
+ * preferring the latest snapshot. We need both `actual_verdict`
+ * (to score against) and `score_breakdown` (to re-score). Rows
+ * missing the breakdown are counted as `skipped_no_breakdown` so
+ * the user knows why the eligible-N differs from the headline
+ * resolved count.
+ */
+function dedupResolvedWithBreakdown(history) {
+  const byKey = new Map();
+  let skippedNoBreakdown = 0;
+  let totalResolved = 0;
+  for (const day of history || []) {
+    const todayIso = day.today_iso || day.filename || "";
+    for (const r of day.predictions || []) {
+      if (!r || !r.actual_verdict) continue;
+      totalResolved += 1;
+      if (!r.score_breakdown) { skippedNoBreakdown += 1; continue; }
+      const key = `${r.symbol}|${r.event_iso_date}`;
+      const existing = byKey.get(key);
+      if (!existing || todayIso >= existing._today_iso) {
+        byKey.set(key, { ...r, _today_iso: todayIso });
+      }
+    }
+  }
+  return {
+    rows: [...byKey.values()],
+    total_resolved: totalResolved,
+    skipped_no_breakdown: skippedNoBreakdown,
+  };
+}
+
+/**
+ * Compute baseline + per-component hit-rate when each component's
+ * weight multiplier is zeroed. The most-important component is the
+ * one whose removal causes the largest absolute hit-rate change
+ * (positive OR negative — a strongly anti-correlated component would
+ * register as important too, surfaced as a positive delta when
+ * removed). Sorts components by abs(delta) descending and assigns
+ * importance_rank starting at 1.
+ *
+ * Reuses each archived prediction's stored `score_breakdown`; never
+ * re-fetches SWS data. Older rows missing the breakdown are skipped
+ * (count surfaced in the snapshot).
+ */
+function runAblation(history) {
+  const { rows, total_resolved, skipped_no_breakdown } = dedupResolvedWithBreakdown(history);
+
+  const baselineHitRate = computeHitRateForMultipliers(rows, {});
+  const components = COMPONENT_KEYS.map((name) => {
+    const hr = computeHitRateForMultipliers(rows, { [name]: 0 });
+    return {
+      name,
+      hit_rate_without: hr,
+      delta_vs_baseline: hr == null || baselineHitRate == null
+        ? null
+        : Math.round((hr - baselineHitRate) * 10) / 10,
+    };
+  });
+  // Sort by abs(delta) descending (null deltas sink to the bottom).
+  components.sort((a, b) => {
+    const aa = a.delta_vs_baseline == null ? -Infinity : Math.abs(a.delta_vs_baseline);
+    const bb = b.delta_vs_baseline == null ? -Infinity : Math.abs(b.delta_vs_baseline);
+    return bb - aa;
+  });
+  components.forEach((c, i) => { c.importance_rank = i + 1; });
+
+  return {
+    schema_version: "ablation-v1",
+    generated_at: new Date().toISOString(),
+    history_files: history.length,
+    span: history.length
+      ? { from: history[0].today_iso, to: history[history.length - 1].today_iso }
+      : null,
+    baseline_hit_rate: baselineHitRate,
+    baseline_sample_size: rows.length,
+    total_resolved,
+    skipped_no_breakdown,
+    components,
+    note:
+      "Ablation re-scores each archived prediction with one component " +
+      "weight set to zero, then compares the hit-rate against baseline. " +
+      "Components are ranked by abs(delta) — highest absolute delta is " +
+      "the most-impactful component. score_breakdown only entered the " +
+      "archive in schema v4; pre-v4 resolved rows are skipped.",
+  };
+}
+
+function computeHitRateForMultipliers(rows, multipliers) {
+  if (!rows || rows.length === 0) return null;
+  let hits = 0;
+  for (const r of rows) {
+    const { verdict } = rescoreUnderMultipliers(r.score_breakdown, multipliers);
+    if (verdict === r.actual_verdict) hits += 1;
+  }
+  return Math.round((hits / rows.length) * 1000) / 10;
+}
+
+function writeAblation(ablation) {
+  try {
+    mkdirSync(SNAPSHOT_DIR, { recursive: true });
+    writeFileSync(ABLATION_PATH, JSON.stringify(ablation, null, 2) + "\n");
+    if (!argJson) console.log(`Ablation snapshot written: ${ABLATION_PATH}`);
+  } catch (err) {
+    console.warn(`[BACKTEST] ablation write failed: ${err && err.message}`);
+  }
+}
+
+function printAblation(ablation) {
+  console.log("");
+  console.log("Component Ablation");
+  console.log("==================");
+  console.log(`Baseline hit-rate: ${pctOrDash(ablation.baseline_hit_rate)}  (n=${ablation.baseline_sample_size})`);
+  console.log(`Resolved skipped (no score_breakdown): ${ablation.skipped_no_breakdown}`);
+  console.log("");
+  if (ablation.baseline_sample_size === 0) {
+    console.log("No eligible rows — ablation skipped.");
+    console.log("(Need >=1 resolved actual whose archive row carries score_breakdown, i.e. schema v4+.)");
+    return;
+  }
+  console.log("Rank  Component               HR(without)  Δ vs baseline");
+  console.log("----  ----------------------  -----------  -------------");
+  for (const c of ablation.components) {
+    const hr = c.hit_rate_without == null ? "—" : `${c.hit_rate_without}%`;
+    const d = c.delta_vs_baseline == null ? "—" : (c.delta_vs_baseline > 0 ? `+${c.delta_vs_baseline}` : `${c.delta_vs_baseline}`);
+    console.log(`${String(c.importance_rank).padStart(4)}  ${c.name.padEnd(22)}  ${hr.padStart(11)}  ${d.padStart(13)}`);
+  }
+}
+
 function fmtBucket(map) {
   const keys = Object.keys(map).sort();
   if (keys.length === 0) return "  (no buckets populated)";
@@ -94,6 +232,7 @@ function main() {
   const history = loadAllHistory();
   if (history.length === 0) {
     writeSnapshot([], null);
+    if (argAblation) writeAblation(runAblation([]));
     if (argJson) {
       console.log(JSON.stringify({
         history_files: 0,
@@ -109,14 +248,23 @@ function main() {
   const cal = computeCalibration(history);
   writeSnapshot(history, cal);
 
+  // P2.5 — component ablation (additive; only runs with --ablation).
+  let ablation = null;
+  if (argAblation) {
+    ablation = runAblation(history);
+    writeAblation(ablation);
+  }
+
   if (argJson) {
-    console.log(JSON.stringify({
+    const payload = {
       history_files: history.length,
       span: history.length
         ? `${history[0].today_iso} → ${history[history.length - 1].today_iso}`
         : null,
       calibration: cal,
-    }, null, 2));
+    };
+    if (argAblation) payload.ablation = ablation;
+    console.log(JSON.stringify(payload, null, 2));
     return;
   }
 
@@ -151,6 +299,8 @@ function main() {
     console.log(`      filled in (post-Q4 results, ~mid-July 2026 for Q4 FY26),`);
     console.log(`      re-run this report.`);
   }
+
+  if (argAblation && ablation) printAblation(ablation);
 }
 
 try {
