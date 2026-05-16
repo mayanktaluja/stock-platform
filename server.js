@@ -4849,6 +4849,37 @@ app.delete("/api/risk-profile", async (req, res) => {
   }
 });
 
+// ─── requireRiskProfile() — hard-gate for personalised advisory endpoints ───
+//
+// Returns 412 Precondition Failed with code RISK_PROFILE_REQUIRED when the
+// authenticated user has no completed risk profile. SEBI IA Reg 2013
+// Schedule III requires risk profiling before personalised recommendations;
+// soft-gating (the pre-2026-05-16 behaviour) had the analyser silently
+// fall back to MODERATE assumptions even when no profile was set, so a
+// 25-year-old day trader and a 60-year-old retiree saw identical advice.
+// Universal data endpoints (sws-picks, earnings calendar, watchlist) stay
+// open — only the personalised /api/portfolio/analyze, /api/portfolio/
+// analyze/rerun and /api/portfolio/optimize endpoints are gated.
+async function requireRiskProfile(req, res, next) {
+  try {
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
+    const portfolio = await readPortfolio(sub);
+    const bucket = portfolio?.riskProfile?.bucket;
+    if (!bucket) {
+      return res.status(412).json({
+        error: "Risk profile required before personalised analysis.",
+        code: "RISK_PROFILE_REQUIRED",
+        profile_endpoint: "/api/risk-profile",
+      });
+    }
+    next();
+  } catch (err) {
+    console.error("[REQUIRE-RISK-PROFILE] error:", err.message);
+    res.status(500).json({ error: "Failed to verify risk profile" });
+  }
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
 // Portfolio Analyzer — SWS-powered deep analysis with per-user persistence.
 //
@@ -5288,7 +5319,7 @@ async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sour
   };
 }
 
-app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, res) => {
+app.post("/api/portfolio/analyze", requireRiskProfile, portfolioUpload.single("file"), async (req, res) => {
   const t0 = Date.now();
   try {
     const sub = userSub(req);
@@ -5557,7 +5588,7 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
 // the report is always fresh against current SWS data + live quotes.
 // 404s when the user has no stored upload (caller falls back to the
 // upload zone).
-app.post("/api/portfolio/analyze/rerun", express.json(), async (req, res) => {
+app.post("/api/portfolio/analyze/rerun", requireRiskProfile, express.json(), async (req, res) => {
   const t0 = Date.now();
   try {
     const sub = userSub(req);
@@ -5675,7 +5706,7 @@ app.post("/api/portfolio/analyze/rerun", express.json(), async (req, res) => {
 // updated summary.xirr fields), not the full report.
 //
 // Body: { sessionId, preset?, taxSlabPct?, assumedHoldingMonths?, ltcgRealisedYtd? }
-app.post("/api/portfolio/optimize", express.json(), async (req, res) => {
+app.post("/api/portfolio/optimize", requireRiskProfile, express.json(), async (req, res) => {
   try {
     const sessionId = String(req.body?.sessionId || "");
     if (!sessionId) {

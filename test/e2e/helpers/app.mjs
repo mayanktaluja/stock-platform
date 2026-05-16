@@ -6,13 +6,42 @@
 
 import { expect } from "@playwright/test";
 
-export async function gotoApp(page, { tab } = {}) {
+// Default-bucket answer maps for the 3-question risk profile (see
+// riskProfile.js). Used by gotoApp() to pre-set a MODERATE profile so the
+// 2026-05-16 hard-gate doesn't break tests that don't care about it.
+const RISK_PROFILE_DEFAULTS = {
+  CONSERVATIVE: { horizon: "short",  loss_tolerance: "low",    age_bracket: "older" },
+  MODERATE:     { horizon: "medium", loss_tolerance: "medium", age_bracket: "mid"   },
+  AGGRESSIVE:   { horizon: "long",   loss_tolerance: "high",   age_bracket: "young" },
+};
+
+export async function setRiskProfile(page, bucket = "MODERATE") {
+  if (!bucket) {
+    await page.request.delete("/api/risk-profile").catch(() => {});
+    return;
+  }
+  const answers = RISK_PROFILE_DEFAULTS[bucket] || RISK_PROFILE_DEFAULTS.MODERATE;
+  await page.request.post("/api/risk-profile", {
+    data: { answers },
+    headers: { "Content-Type": "application/json" },
+  }).catch(() => {});
+}
+
+export async function clearRiskProfile(page) {
+  await page.request.delete("/api/risk-profile").catch(() => {});
+}
+
+export async function gotoApp(page, { tab, riskProfile = "MODERATE" } = {}) {
   await page.addInitScript(() => {
     try {
       localStorage.clear();
       sessionStorage.clear();
     } catch {}
   });
+  // Set (or clear) the per-user risk profile via API before navigating so
+  // the hard-gated /api/portfolio/* routes work for the default fast-path.
+  // Tests that exercise the gate itself pass riskProfile: null.
+  await setRiskProfile(page, riskProfile);
   await page.goto("/index.html", { waitUntil: "domcontentloaded" });
   await page.waitForFunction(() => typeof window.switchTab === "function", null, {
     timeout: 10_000,

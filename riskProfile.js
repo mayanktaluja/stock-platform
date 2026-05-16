@@ -9,9 +9,12 @@
  * SEBI-defensible.
  *
  * This module is the bare-minimum risk profiler: three questions, scored
- * to a CONSERVATIVE / MODERATE / AGGRESSIVE bucket. Soft-gated — when no
- * profile exists, recommendations still render but carry a banner asking
- * the user to complete the survey for personalised analysis.
+ * to a CONSERVATIVE / MODERATE / AGGRESSIVE bucket. Hard-gated as of
+ * 2026-05-16 — the analyser's personalised endpoints (/api/portfolio/
+ * analyze, /api/portfolio/analyze/rerun, /api/portfolio/optimize) refuse
+ * to run with a 412 RISK_PROFILE_REQUIRED until this survey is completed.
+ * Universal-data endpoints (sws-picks, earnings calendar, watchlist) stay
+ * open so the friend can browse before committing to the survey.
  *
  * Three questions:
  *   1. Investment horizon (when do you need this money?)

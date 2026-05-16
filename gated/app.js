@@ -4562,6 +4562,11 @@ async function analyzePortfolioFile(file) {
     const res = await fetch("/api/portfolio/analyze", { method: "POST", body: fd });
 
     const data = await res.json();
+    if (res.status === 412 && data?.code === "RISK_PROFILE_REQUIRED") {
+      setAnalyzerState("upload");
+      renderRiskProfileGate({ context: "analyzer", onComplete: () => analyzePortfolioFile(file) });
+      return;
+    }
     if (!res.ok) {
       throw new Error(data.error + (data.hint ? `\n\nHint: ${data.hint}` : ""));
     }
@@ -4636,6 +4641,12 @@ async function loadAnalyzerOnTabOpen() {
     }
 
     const data = await res.json();
+    if (res.status === 412 && data?.code === "RISK_PROFILE_REQUIRED") {
+      _analyzerCache = null;
+      setAnalyzerState("upload");
+      renderRiskProfileGate({ context: "analyzer", onComplete: () => loadAnalyzerOnTabOpen() });
+      return;
+    }
     if (!res.ok) {
       throw new Error(data.error + (data.hint ? `\n\nHint: ${data.hint}` : ""));
     }
@@ -6831,10 +6842,10 @@ async function renderAnalyzerRiskProfile(rpBlock) {
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:14px;">
         <div>
           <div style="font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:10px;">
-            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.4); border-radius:6px; color:#fde68a; text-transform:uppercase; letter-spacing:0.4px;">recommended</span>
+            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.45); border-radius:6px; color:#fca5a5; text-transform:uppercase; letter-spacing:0.4px;">required</span>
           </div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
-            SEBI IA-Reg 2013 requires risk profiling before any portfolio recommendation. Without it, the analyser uses default MODERATE assumptions.
+            SEBI IA-Reg 2013 requires risk profiling before any portfolio recommendation. The analyser will not run until this 30-second survey is complete.
           </div>
         </div>
       </div>
@@ -6882,6 +6893,124 @@ async function renderAnalyzerRiskProfile(rpBlock) {
           <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.4); border-radius:8px; padding:10px 14px; margin-bottom:12px; font-size:12px; color:#86efac;">
             ✓ Profile saved. Re-upload your holdings file (or re-run the analyser) to refresh allocation targets and per-fund alignment chips.
           </div>`);
+      }
+    } catch (err) {
+      status.textContent = `Save failed: ${err.message}`;
+      status.style.color = "#fca5a5";
+    }
+  });
+}
+
+// ──────────────────── Risk-profile hard-gate (P0.1, 2026-05-16) ────────────────────
+//
+// Self-contained survey rendered in front of the analyser upload zone when
+// the server returns 412 RISK_PROFILE_REQUIRED. Distinct from the
+// renderAnalyzerRiskProfile card (which sits alongside report output) —
+// this gate is BLOCKING: the user cannot proceed to upload until they
+// complete the survey. After save, the gate calls onComplete (which is
+// typically the original request, e.g. loadAnalyzerOnTabOpen or
+// analyzePortfolioFile) so the user lands on the analyser report without a
+// manual retry.
+async function renderRiskProfileGate({ context = "analyzer", onComplete } = {}) {
+  const upload = document.getElementById("analyzerUploadZone");
+  if (upload) upload.style.display = "none";
+  const analyzing = document.getElementById("analyzerAnalyzing");
+  if (analyzing) analyzing.style.display = "none";
+  const report = document.getElementById("analyzerReport");
+  if (report) report.style.display = "none";
+
+  let gate = document.getElementById("analyzerRiskProfileGate");
+  if (!gate) {
+    gate = document.createElement("div");
+    gate.id = "analyzerRiskProfileGate";
+    gate.style.padding = "24px 0";
+    const anchor = upload?.parentNode || document.getElementById("analyzerTab") || document.body;
+    anchor.insertBefore(gate, upload || anchor.firstChild);
+  }
+
+  let questions = window.__rpQuestionsCache;
+  if (!questions) {
+    try {
+      const r = await fetch("/api/risk-profile");
+      const j = await r.json();
+      questions = j.questions || [];
+      window.__rpQuestionsCache = questions;
+    } catch {
+      questions = [];
+    }
+  }
+
+  if (!Array.isArray(questions) || questions.length === 0) {
+    gate.innerHTML = `<div style="color:#fca5a5; padding:18px; background:var(--panel); border:1px solid rgba(239,68,68,0.4); border-radius:10px;">Risk-profile questionnaire unavailable; please reload.</div>`;
+    return;
+  }
+
+  const questionsHtml = questions.map((q) => `
+    <div style="margin-bottom:14px;">
+      <div style="font-size:13px; color:var(--text); font-weight:600; margin-bottom:6px;">${q.label}</div>
+      ${q.helper ? `<div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">${q.helper}</div>` : ""}
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        ${q.options.map((o) => `
+          <label style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:#0f172a; border:1px solid #1a2233; border-radius:6px; cursor:pointer; font-size:12px; color:var(--text);">
+            <input type="radio" name="rpgate_${q.id}" value="${o.value}" style="margin:0;" />
+            ${o.label}
+          </label>
+        `).join("")}
+      </div>
+    </div>
+  `).join("");
+
+  gate.innerHTML = `
+    <div data-testid="risk-profile-gate" style="background:var(--panel); border:1px solid rgba(239,68,68,0.45); border-radius:10px; padding:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:14px;">
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:10px;">
+            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.45); border-radius:6px; color:#fca5a5; text-transform:uppercase; letter-spacing:0.4px;">required</span>
+          </div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+            SEBI IA-Reg 2013 requires risk profiling before any portfolio recommendation. The analyser will not run until this 30-second survey is complete.
+          </div>
+        </div>
+      </div>
+      <div id="riskProfileGateForm">${questionsHtml}</div>
+      <div style="display:flex; gap:10px; align-items:center; margin-top:14px;">
+        <button id="riskProfileGateSubmit" type="button" style="background:#16a34a; color:white; border:none; border-radius:6px; padding:8px 16px; font-weight:600; font-size:13px; cursor:pointer;">Save profile &amp; continue</button>
+        <span id="riskProfileGateStatus" style="font-size:11px; color:var(--text-muted);"></span>
+      </div>
+    </div>`;
+
+  gate.scrollIntoView({ behavior: "smooth", block: "center" });
+
+  document.getElementById("riskProfileGateSubmit").addEventListener("click", async () => {
+    const status = document.getElementById("riskProfileGateStatus");
+    const answers = {};
+    let missing = 0;
+    for (const q of questions) {
+      const checked = document.querySelector(`input[name="rpgate_${q.id}"]:checked`);
+      if (!checked) { missing += 1; continue; }
+      answers[q.id] = checked.value;
+    }
+    if (missing > 0) {
+      status.textContent = `Please answer all ${questions.length} questions (${missing} remaining).`;
+      status.style.color = "#fca5a5";
+      return;
+    }
+    status.textContent = "Saving…";
+    status.style.color = "var(--text-muted)";
+    try {
+      const r = await fetch("/api/risk-profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers }),
+      });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error || "save failed");
+      status.textContent = `Saved → ${j.riskProfile.bucket}. Continuing…`;
+      status.style.color = "#86efac";
+      gate.remove();
+      if (upload) upload.style.display = "";
+      if (typeof onComplete === "function") {
+        try { await onComplete(); } catch (e) { console.error("onComplete failed:", e); }
       }
     } catch (err) {
       status.textContent = `Save failed: ${err.message}`;
@@ -8255,10 +8384,10 @@ async function renderAnalyzerRiskProfileV2(rpBlock) {
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:14px;">
         <div>
           <div style="font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:10px;">
-            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.4); border-radius:6px; color:#fde68a; text-transform:uppercase; letter-spacing:0.4px;">recommended</span>
+            Complete your risk profile <span style="font-size:10px; padding:2px 8px; background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.45); border-radius:6px; color:#fca5a5; text-transform:uppercase; letter-spacing:0.4px;">required</span>
           </div>
           <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
-            SEBI IA-Reg 2013 requires risk profiling before any portfolio recommendation. Without it, the analyser uses default MODERATE assumptions.
+            SEBI IA-Reg 2013 requires risk profiling before any portfolio recommendation. The analyser will not run until this 30-second survey is complete.
           </div>
         </div>
       </div>
