@@ -5548,7 +5548,10 @@ function renderSWSEarningsCalendar(report) {
     const position = (typeof formatINR === "function")
       ? formatINR(h?.currentValue ?? h?.invested ?? 0, { compact: true })
       : "—";
-    return `<tr style="border-bottom:1px solid #1a2238; opacity:${rowOpacity};">
+    const trOpen = tickerCell
+      ? `<tr style="border-bottom:1px solid #1a2238; opacity:${rowOpacity}; cursor:pointer; background:transparent; transition:background 0.15s;" title="Open ${swsEscapeAttr(tickerCell)} detail" onclick="openStockDetailModal('${escapeHtml(tickerCell)}','analyzer-earnings')" onmouseover="this.style.background='rgba(255,255,255,0.04)';" onmouseout="this.style.background='transparent';">`
+      : `<tr style="border-bottom:1px solid #1a2238; opacity:${rowOpacity};">`;
+    return `${trOpen}
       <td style="padding:10px 12px; color:var(--text-muted);">${i + 1}</td>
       <td style="padding:10px 12px;">
         <strong style="font-size:13px;">${swsEscapeAttr(tickerCell)}</strong>
