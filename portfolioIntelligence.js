@@ -822,6 +822,66 @@ export function computeRecoveryMath(holding, quote) {
   };
 }
 
+// ──────────────────── Drawdown disclosure (P1.1) ────────────────────
+//
+// SEBI-RA review called this out as the single number that determines
+// whether a friend can emotionally hold a position. Pre-fix the pick
+// card showed conviction + upside but no max-drawdown. A friend who
+// has never seen a stock down 35% may panic-sell at a level where the
+// platform's data shows that's been a routine drawdown range.
+//
+// computeDrawdownInfo() returns:
+//   {
+//     drawdown_from_52w_high_pct: -28.4,   // negative = below high
+//     fiftyTwoWeekHighInr: 1830.50,
+//     fiftyTwoWeekLowInr: 1200.00,
+//     position_in_52w_range_pct: 35.2,     // 0 = at low; 100 = at high
+//     drawdown_severity: "mild"|"moderate"|"deep"|"severe",
+//     narrative: "Down 28.4% from 52W high — moderate drawdown range."
+//   }
+//
+// Heuristic only — does NOT change action recommendations; the chip is
+// purely informational. ATR-based volatility-aware drawdown stats are
+// out of scope (P2 follow-up alongside vol-scaled sector momentum).
+export function computeDrawdownInfo(holding, quote) {
+  if (!holding || !quote) return null;
+  const high = Number(quote.fiftyTwoWeekHigh ?? holding.fiftyTwoWeekHigh);
+  const low  = Number(quote.fiftyTwoWeekLow  ?? holding.fiftyTwoWeekLow);
+  const cur  = Number(holding.currentPrice);
+  if (!isFinite(high) || !isFinite(cur) || high <= 0 || cur <= 0) return null;
+
+  const drawdownFromHighPct = ((cur - high) / high) * 100;
+  const positionInRangePct = (isFinite(low) && high > low)
+    ? ((cur - low) / (high - low)) * 100
+    : null;
+
+  // Severity bands — round-numbered cuts chosen to map onto retail
+  // intuition; not regime-aware.
+  const absDD = Math.abs(drawdownFromHighPct);
+  let severity = "mild";
+  if (absDD >= 50) severity = "severe";
+  else if (absDD >= 30) severity = "deep";
+  else if (absDD >= 15) severity = "moderate";
+
+  let narrative;
+  if (absDD < 5) narrative = `Near 52W high (₹${high.toFixed(2)}).`;
+  else if (absDD < 15) narrative = `Down ${absDD.toFixed(1)}% from 52W high — mild drawdown.`;
+  else if (absDD < 30) narrative = `Down ${absDD.toFixed(1)}% from 52W high — moderate drawdown range.`;
+  else if (absDD < 50) narrative = `Down ${absDD.toFixed(1)}% from 52W high — deep drawdown; check thesis.`;
+  else narrative = `Down ${absDD.toFixed(1)}% from 52W high — severe drawdown; thesis under heavy stress.`;
+
+  return {
+    drawdown_from_52w_high_pct: parseFloat(drawdownFromHighPct.toFixed(2)),
+    fiftyTwoWeekHighInr: parseFloat(high.toFixed(2)),
+    fiftyTwoWeekLowInr: isFinite(low) ? parseFloat(low.toFixed(2)) : null,
+    position_in_52w_range_pct: positionInRangePct != null
+      ? parseFloat(positionInRangePct.toFixed(2))
+      : null,
+    drawdown_severity: severity,
+    narrative,
+  };
+}
+
 // ──────────────────── Sell trigger / stop loss ────────────────────
 //
 // Pre-2026-05-16 the analyser told users when to BUY/TOP-UP but never when
@@ -887,6 +947,52 @@ export function computeSellTrigger(holding, quote) {
     // Severity is a UI hint only — "tight" means the stop is within 5%
     // of current; "wide" means there's runway. Doesn't change the action.
     severity: Math.abs(pctFromCurrent) < 5 ? "tight" : "wide",
+  };
+}
+
+// ──────────────────── Rebalance suggestion (P1.2) ────────────────────
+//
+// SEBI-RA review flagged the UX gap: assetAllocation flags "RELIANCE at
+// 22% (concentration risk)" but the user has to INFER the trim target.
+// Friends won't infer — they'll see the warning and ignore it. This
+// helper emits an explicit "Trim X from Y% to Z% (sell ~₹A worth)" so
+// the action is one number to look up, not a calculation.
+//
+// Trigger thresholds (single-line caps from SEBI-RA convention):
+//   * > 15% → trim to 15%
+//   * > 25% → trim to 15% (severe concentration)
+// Below 15% returns null (no rebalance needed).
+//
+// Inputs are decoupled from action / score so the helper is callable
+// from any place that has (currentWeightPct, investedValueInr).
+export function computeRebalanceSuggestion(holding, weightPct) {
+  if (!holding || !isFinite(weightPct) || weightPct <= 15) return null;
+  if (holding.investedValue == null || !isFinite(holding.investedValue)) return null;
+  if (holding.investedValue <= 0) return null;
+
+  const targetWeightPct = 15;
+  const deltaPct = weightPct - targetWeightPct;
+  // sellInr = investedValue * (deltaPct / weightPct) — proportional carve-out.
+  const sellInr = holding.investedValue * (deltaPct / weightPct);
+  const severity = weightPct > 25 ? "severe" : "elevated";
+
+  const narrative = severity === "severe"
+    ? `Trim ${holding.symbol} from ${weightPct.toFixed(1)}% → ${targetWeightPct}%; ` +
+      `sell ~₹${Math.round(sellInr).toLocaleString("en-IN")} worth. ` +
+      `Single-line at >25% is a severe concentration risk — one bad earnings ` +
+      `can move the whole book.`
+    : `Trim ${holding.symbol} from ${weightPct.toFixed(1)}% → ${targetWeightPct}%; ` +
+      `sell ~₹${Math.round(sellInr).toLocaleString("en-IN")} worth. ` +
+      `Single-line above 15% is the SEBI-RA convention cap for non-conviction-bet exposure.`;
+
+  return {
+    symbol: holding.symbol,
+    current_weight_pct: parseFloat(weightPct.toFixed(2)),
+    target_weight_pct: targetWeightPct,
+    delta_weight_pct: parseFloat(deltaPct.toFixed(2)),
+    sell_inr: Math.round(sellInr),
+    severity,
+    narrative,
   };
 }
 
@@ -1035,8 +1141,15 @@ export function buildPortfolioIntelligence(enrichedHoldings, analysesBySymbol, o
     const sellTrigger = computeSellTrigger(holding, {
       fiftyTwoWeekLow: holding.fiftyTwoWeekLow,
     });
+    // P1.1 — drawdown disclosure (informational chip).
+    const drawdownInfo = computeDrawdownInfo(holding, {
+      fiftyTwoWeekHigh: holding.fiftyTwoWeekHigh,
+      fiftyTwoWeekLow: holding.fiftyTwoWeekLow,
+    });
+    // P1.2 — explicit rebalance suggestion when single-line >15%.
+    const rebalanceSuggestion = computeRebalanceSuggestion(holding, weight);
 
-    return { holding, scores, weight, action, recoveryMath, positionSizing, sellTrigger, macroInfo };
+    return { holding, scores, weight, action, recoveryMath, positionSizing, sellTrigger, drawdownInfo, rebalanceSuggestion, macroInfo };
   });
 
   // Portfolio health score
@@ -1065,6 +1178,8 @@ export function buildPortfolioIntelligence(enrichedHoldings, analysesBySymbol, o
       recoveryMath: intel.recoveryMath,
       positionSizing: intel.positionSizing,
       sellTrigger: intel.sellTrigger,
+      drawdownInfo: intel.drawdownInfo,
+      rebalanceSuggestion: intel.rebalanceSuggestion,
       // Macro context (null when regime is calm/missing or the sector has no impact)
       macroInfo: intel.macroInfo || null,
       macroWarning: intel.action.macroWarning || null,
