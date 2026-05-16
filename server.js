@@ -369,6 +369,31 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || "";
 const GOOGLE_OAUTH_REDIRECT_URI = process.env.GOOGLE_OAUTH_REDIRECT_URI || "";
 const AUTH_ENABLED = !!(SESSION_SECRET && GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET && GOOGLE_OAUTH_REDIRECT_URI);
 
+// P3.5 (2026-05-16) — Session-secret strength check.
+//
+// When AUTH_ENABLED is true (production / any environment with OAuth
+// configured), STARBHAI_SESSION_SECRET must be at least 64 hex chars
+// (32 bytes of entropy). A weaker secret makes session-token forgery
+// economically feasible. The check is enforced at startup, not at
+// request time, so a deploy with a weak secret is rejected before any
+// session is signed. Dev/test paths (AUTH_ENABLED=false) are exempt —
+// no session is ever signed so there's nothing to forge.
+if (AUTH_ENABLED) {
+  const looksHex = /^[0-9a-fA-F]+$/.test(SESSION_SECRET);
+  if (SESSION_SECRET.length < 64) {
+    throw new Error(
+      `STARBHAI_SESSION_SECRET is too short (${SESSION_SECRET.length} chars; need >=64 hex). ` +
+      `Generate one with:  node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`,
+    );
+  }
+  if (!looksHex) {
+    console.warn(
+      `[SECURITY] STARBHAI_SESSION_SECRET is not pure hex. Length is OK but consider regenerating ` +
+      `via crypto.randomBytes(32).toString("hex") for predictable entropy.`,
+    );
+  }
+}
+
 const oauthClient = AUTH_ENABLED
   ? new OAuth2Client({
       clientId: GOOGLE_CLIENT_ID,
@@ -4860,6 +4885,63 @@ app.post("/api/portfolio", async (req, res) => {
 
 import { scoreRiskProfile, RISK_PROFILE_QUESTIONS } from "./riskProfile.js";
 
+// ─── /api/health — operational stage-age + provider state (P3.1) ───
+//
+// Reports mtimes of the data files that downstream tabs consume, plus
+// the currently-active LLM provider (from earnings-health.json). First-
+// line observability — alerting hangs off this in a later PR.
+// Public endpoint (no auth) so external uptime checks can hit it without
+// session cookies, but no per-user data is included.
+function fileAgeHours(p) {
+  try {
+    if (!fs.existsSync(p)) return null;
+    const ms = Date.now() - fs.statSync(p).mtimeMs;
+    return Math.round((ms / 36e5) * 100) / 100;
+  } catch { return null; }
+}
+app.get("/api/health", (req, res) => {
+  const dataDir = path.join(__dirname, "data");
+  const ages = {
+    sws_picks_age_h: fileAgeHours(path.join(dataDir, "sws", "picks-latest.json")),
+    earnings_watch_age_h: fileAgeHours(path.join(dataDir, "catalysts", "earnings-watch-latest.json")),
+    nse_corp_age_h: fileAgeHours(path.join(dataDir, "catalysts", "nse-announcements-rolling.json")),
+    fundamentals_history_age_h: fileAgeHours(path.join(__dirname, "fundamentalsHistory.json")),
+    earnings_health_age_h: fileAgeHours(path.join(dataDir, "catalysts", "earnings-health.json")),
+    earnings_backtest_age_h: fileAgeHours(path.join(dataDir, "catalysts", "earnings-backtest-latest.json")),
+    ablation_age_h: fileAgeHours(path.join(dataDir, "catalysts", "ablation-latest.json")),
+  };
+  // Surface the LLM provider currently in use (heuristic / groq / gemini)
+  // from earnings-health.json if it's been written today.
+  let llm_provider = null, cap_lift_gate = null, source_conflicts_30d = null, insufficient_data_30d = null;
+  try {
+    const healthPath = path.join(dataDir, "catalysts", "earnings-health.json");
+    if (fs.existsSync(healthPath)) {
+      const h = JSON.parse(fs.readFileSync(healthPath, "utf-8"));
+      llm_provider = h?.llm_provider_split || h?.llm_provider || null;
+      cap_lift_gate = h?.cap_lift_gate || null;
+      source_conflicts_30d = h?.source_conflicts?.count_30d ?? null;
+      insufficient_data_30d = h?.insufficient_data?.count_30d ?? null;
+    }
+  } catch {}
+  // Status: ok if all critical-tier ages are < 48h; degraded if any is older.
+  const critical = [ages.sws_picks_age_h, ages.earnings_watch_age_h];
+  const status =
+    critical.some((a) => a == null || a > 48) ? "degraded" : "ok";
+  res.json({
+    ok: status === "ok",
+    status,
+    auth_enabled: AUTH_ENABLED,
+    cors_allowlist_size: CORS_ALLOWLIST.length,
+    upload_quota_per_hour: PORTFOLIO_UPLOADS_PER_HOUR,
+    ages,
+    llm_provider,
+    cap_lift_gate,
+    source_conflicts_30d,
+    insufficient_data_30d,
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // ─── /legal/* — static legal pages (P1.3 grievance, P1.4 methodology,
 // P4.1 Investor Charter). These are served from /gated/*.html so the
 // per-session auth gate still applies in production; in dev (AUTH_ENABLED
@@ -5004,6 +5086,45 @@ async function requireRiskProfile(req, res, next) {
 //                                     Called by the UI on every analyzer
 //                                     tab open so the report is always fresh.
 // ═══════════════════════════════════════════════════════════════════════════
+
+// P3.6 (2026-05-16) — per-user upload quota.
+//
+// Multer keeps the parsed file in process memory (memoryStorage). A
+// malicious or buggy client uploading repeatedly could exhaust the
+// Vercel function's heap before the 2MB-per-file cap matters. This map
+// tracks { sub: [timestamps] } in-process and rejects more than
+// PORTFOLIO_UPLOADS_PER_HOUR uploads per sub per rolling hour. The map
+// is in-process (resets on each lambda cold-start), which is acceptable
+// for the friends-and-family threat model — the goal is to limit a
+// single user's burst impact, not to defend against a distributed
+// attack. For that you'd need Vercel KV or a Redis bucket.
+const PORTFOLIO_UPLOADS_PER_HOUR = 10;
+const uploadQuotaMap = new Map(); // sub → number[] of timestamps
+function checkUploadQuota(sub) {
+  const now = Date.now();
+  const hourAgo = now - 60 * 60 * 1000;
+  const history = (uploadQuotaMap.get(sub) || []).filter((t) => t > hourAgo);
+  if (history.length >= PORTFOLIO_UPLOADS_PER_HOUR) {
+    return { ok: false, retryAfterSec: Math.ceil((history[0] + 60 * 60 * 1000 - now) / 1000) };
+  }
+  history.push(now);
+  uploadQuotaMap.set(sub, history);
+  return { ok: true };
+}
+async function requireUploadQuota(req, res, next) {
+  const sub = userSub(req);
+  if (!sub) return res.status(401).json({ error: "auth-required" });
+  const q = checkUploadQuota(sub);
+  if (!q.ok) {
+    res.set("Retry-After", String(q.retryAfterSec));
+    return res.status(429).json({
+      error: `Upload quota exceeded — max ${PORTFOLIO_UPLOADS_PER_HOUR} per hour per user.`,
+      code: "UPLOAD_QUOTA_EXCEEDED",
+      retry_after_seconds: q.retryAfterSec,
+    });
+  }
+  next();
+}
 
 const portfolioUpload = multer({
   storage: multer.memoryStorage(),
@@ -5429,7 +5550,7 @@ async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sour
   };
 }
 
-app.post("/api/portfolio/analyze", requireRiskProfile, portfolioUpload.single("file"), async (req, res) => {
+app.post("/api/portfolio/analyze", requireUploadQuota, requireRiskProfile, portfolioUpload.single("file"), async (req, res) => {
   const t0 = Date.now();
   try {
     const sub = userSub(req);
