@@ -4860,6 +4860,31 @@ app.post("/api/portfolio", async (req, res) => {
 
 import { scoreRiskProfile, RISK_PROFILE_QUESTIONS } from "./riskProfile.js";
 
+// ─── /api/disclosures/holdings — author position + COI disclosure (P0.5) ───
+//
+// SEBI RA Reg 24(2) requires research analysts to disclose positions in
+// covered securities at the time of publication; even though Starbhai is
+// not registered, the convention is followed so a friend can answer "does
+// the author own this stock?" without asking. Served straight from
+// data/disclosures/holdings.json — edited by hand, rotated quarterly.
+// Footer of every page links here.
+app.get("/api/disclosures/holdings", (req, res) => {
+  try {
+    const p = path.join(__dirname, "data", "disclosures", "holdings.json");
+    if (!fs.existsSync(p)) {
+      return res.status(404).json({
+        error: "No disclosure file yet.",
+        hint: "Author has not published the holdings disclosure for this period.",
+      });
+    }
+    const raw = fs.readFileSync(p, "utf-8");
+    res.type("application/json").send(raw);
+  } catch (err) {
+    console.error("[DISCLOSURES] holdings read error:", err.message);
+    res.status(500).json({ error: "Failed to read holdings disclosure" });
+  }
+});
+
 app.get("/api/risk-profile", async (req, res) => {
   try {
     const sub = userSub(req);

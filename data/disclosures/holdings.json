@@ -1,0 +1,54 @@
+{
+  "$comment": "Author-holdings and conflict-of-interest disclosure. Served by GET /api/disclosures/holdings and linked from the SEBI footer. SEBI RA Reg 24(2) requires research analysts to disclose positions in covered securities at the time of publication; even unregistered, this platform follows the convention so a friend can answer 'does the author own this stock?' without asking. Rotate quarterly. Edit by hand — no automation feeds this file.",
+  "as_of": "2026-05-16",
+  "author_handle": "starbhai",
+  "author_role": "Platform owner & developer (Mayank Taluja)",
+  "disclosure_statement": "Starbhai is an educational research platform built and maintained by a single person ('starbhai'). The author may hold positions in some securities listed in the SWS Picks or Earnings Watch sections. This file lists those positions with as-of dates. None of the third-party data providers compensate the author or the platform for inclusion or favourable scoring; underlying data is sourced under commercial licences listed below.",
+  "stock_holdings": [
+    {
+      "$comment": "Populate as a JSON array of { symbol, exchange, sharesHeld, avgEntryInr, firstEntryDate, mostRecentTxnDate, notes }. Empty array means no positions disclosed at the as_of date.",
+      "_placeholder": true
+    }
+  ],
+  "mf_holdings": [
+    {
+      "$comment": "Populate as { schemeCode, schemeName, units, avgNavInr, firstSubscriptionDate, notes }. Empty array means no positions disclosed at the as_of date.",
+      "_placeholder": true
+    }
+  ],
+  "third_party_data_providers": [
+    {
+      "name": "Simply Wall Street (SWS)",
+      "url": "https://simplywall.st",
+      "relationship": "Data scraped via the platform's deep-stock endpoints; no commercial relationship",
+      "compensation_to_author": "none",
+      "platform_used_for": "Snowflake scores, fair-value, news briefs, V3 decomposition for ~5,500 NSE/BSE names"
+    },
+    {
+      "name": "Yahoo Finance",
+      "url": "https://finance.yahoo.com",
+      "relationship": "Public API consumed via yahoo-finance2 npm package; no commercial relationship",
+      "compensation_to_author": "none",
+      "platform_used_for": "Live quotes, earnings history, fundamentals history (~494 covered names)"
+    },
+    {
+      "name": "National Stock Exchange of India (NSE)",
+      "url": "https://www.nseindia.com",
+      "relationship": "Public data scraped via authenticated session cookies (run from a local machine — see CLAUDE.md). No commercial relationship",
+      "compensation_to_author": "none",
+      "platform_used_for": "Event calendar, corporate announcements, bulk/block deals, surveillance lists"
+    },
+    {
+      "name": "Groq / Google Gemini",
+      "url": "https://groq.com / https://ai.google.dev",
+      "relationship": "Pay-per-token LLM APIs for the earnings qualitative-signal component and macro-regime classifier",
+      "compensation_to_author": "none — author pays provider",
+      "platform_used_for": "earningsLlmSignal.js, macroRegime.js"
+    }
+  ],
+  "grievance_contact": {
+    "email": "mtaluja11@gmail.com",
+    "expected_response_within_hours": 24,
+    "$comment": "Friends-and-family scale only — no formal SCORES integration since the platform is not SEBI RA registered"
+  }
+}
