@@ -4960,6 +4960,70 @@ app.get("/legal/grievance", serveGatedHtml("grievance.html"));
 app.get("/legal/charter", serveGatedHtml("charter.html"));
 app.get("/methodology", serveGatedHtml("methodology.html"));
 
+// ─── /api/audit/earnings/:symbol/:event_iso_date — per-prediction
+// audit trail (P4.2, 2026-05-16). Reg-25-style basis disclosure: returns
+// the full archived prediction row for the requested (symbol, event_date)
+// pair, including the score_breakdown, all 9 component values, the
+// predictor version, and the data_quality flags. A friend can ask
+// "why did you tell me X on date Y" and get the exact inputs that fed
+// the model on that day. Reads from data/catalysts/earnings-history/
+// (per-day snapshots written atomically by earningsHistoryArchive.js).
+app.get("/api/audit/earnings/:symbol/:event_iso_date", (req, res) => {
+  try {
+    const symbol = String(req.params.symbol || "").toUpperCase().trim();
+    const eventDate = String(req.params.event_iso_date || "").trim();
+    if (!/^[A-Z0-9.\-_]{1,20}$/.test(symbol)) {
+      return res.status(400).json({ error: "Invalid symbol" });
+    }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(eventDate)) {
+      return res.status(400).json({ error: "Invalid event_iso_date — must be YYYY-MM-DD" });
+    }
+    const histDir = path.join(__dirname, "data", "catalysts", "earnings-history");
+    if (!fs.existsSync(histDir)) {
+      return res.status(404).json({ error: "No earnings history archive yet." });
+    }
+    // Scan all daily snapshots, NEWEST first, to find the most-recent row
+    // for this (symbol, event_iso_date). Multiple snapshots may carry the
+    // same prediction across days; the latest is authoritative because
+    // actuals would have landed on it post-event.
+    const files = fs.readdirSync(histDir)
+      .filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
+      .sort()
+      .reverse();
+    for (const f of files) {
+      try {
+        const snap = JSON.parse(fs.readFileSync(path.join(histDir, f), "utf-8"));
+        const rows = Array.isArray(snap?.predictions) ? snap.predictions :
+                     Array.isArray(snap?.rows) ? snap.rows :
+                     Array.isArray(snap) ? snap : [];
+        const hit = rows.find((r) =>
+          (r?.symbol || "").toUpperCase() === symbol &&
+          (r?.event_iso_date === eventDate || r?.event_date === eventDate)
+        );
+        if (hit) {
+          return res.json({
+            symbol,
+            event_iso_date: eventDate,
+            snapshot_file: f,
+            snapshot_date: f.replace(".json", ""),
+            row: hit,
+            note: "Read the row's predictor_version + score_breakdown for the basis. Multiple snapshots may carry this prediction; the row returned is from the newest snapshot containing it.",
+          });
+        }
+      } catch {
+        // Skip malformed snapshot files; keep scanning.
+      }
+    }
+    return res.status(404).json({
+      error: "No prediction found for this (symbol, event_iso_date) pair.",
+      hint: "Check the spelling (symbol is uppercase NSE ticker; date is fiscal-quarter event in YYYY-MM-DD).",
+    });
+  } catch (err) {
+    console.error("[AUDIT] /api/audit/earnings error:", err.message);
+    res.status(500).json({ error: "Audit trail read failed" });
+  }
+});
+
 // ─── /api/disclosures/holdings — author position + COI disclosure (P0.5) ───
 //
 // SEBI RA Reg 24(2) requires research analysts to disclose positions in
