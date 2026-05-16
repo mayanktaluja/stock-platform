@@ -2616,6 +2616,23 @@ app.get("/api/earnings/backtest", async (req, res) => {
   }
 });
 
+// PR3 — read a slim earnings-health snapshot for the snapshot API so the
+// UI can render operational pills ("qualitative signal: deterministic-
+// only" when llm_offline=true). Cheap file read; no allocation pressure.
+function readEarningsHealthSlim() {
+  try {
+    const healthPath = path.join(__dirname, "data", "catalysts", "earnings-health.json");
+    if (!fs.existsSync(healthPath)) return null;
+    const h = JSON.parse(fs.readFileSync(healthPath, "utf-8"));
+    return {
+      llm_offline: h?.llm_offline === true,
+      llm_heuristic_share_pct:
+        typeof h?.llm_heuristic_share_pct === "number" ? h.llm_heuristic_share_pct : null,
+      generated_at: h?.generated_at || null,
+    };
+  } catch { return null; }
+}
+
 app.get("/api/earnings/upcoming", async (req, res) => {
   try {
     // Pull the cached raw snapshot (5-min TTL), then recompute
@@ -2644,6 +2661,7 @@ app.get("/api/earnings/upcoming", async (req, res) => {
       recent_results: Array.isArray(snap.recent_results) ? snap.recent_results : [],
       past_window_days: snap.past_window_days ?? null,
       missing: snap._missing === true,
+      health: readEarningsHealthSlim(),
     });
   } catch (err) {
     console.error("[/api/earnings/upcoming] failed:", err);

@@ -1,6 +1,6 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-05-14T09:29:39.264Z",
+  "generated_at": "2026-05-16T21:23:37.106Z",
   "resolved": {
     "count": 47,
     "delta_vs_prior": 0,
@@ -9,38 +9,54 @@
   "llm_providers": {
     "groq": 0,
     "gemini": 0,
-    "heuristic": 474,
-    "none": 14,
-    "total": 488
+    "heuristic": 534,
+    "none": 10,
+    "total": 544
   },
+  "llm_offline": true,
+  "llm_heuristic_share_pct": 98,
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 3,
-    "current_resolved": 47,
+    "days_in_current_state": 5,
+    "current_resolved": 0,
     "detail": {
       "resolved_required": 30,
       "bucket_60_64_hit_rate_required": 55,
       "max_brier_required": 0.2,
-      "current_resolved": 47,
-      "current_bucket_60_64_hit_rate": 25,
-      "current_brier": 0.296,
-      "predictor_version": "earnings-predict-v1-2026-05"
+      "current_resolved": 0,
+      "current_bucket_60_64_hit_rate": 0,
+      "current_brier": null,
+      "predictor_version": "earnings-predict-v2-2026-05"
     }
   },
   "archive_schema": {
-    "earnings-history-v4": 3
+    "earnings-history-v4": 6
   },
   "predictor_versions": {
-    "earnings-predict-v2-2026-05": 488
+    "earnings-predict-v3-2026-05": 544
   },
   "restatements": {
     "count": 0,
     "symbols": []
   },
-  "history_files": 3,
+  "source_conflicts": {
+    "count_total": 0,
+    "count_30d": 0,
+    "rate_pct": 0,
+    "examples": []
+  },
+  "insufficient_data": {
+    "count_total": 24,
+    "count_7d": 24,
+    "count_30d": 24,
+    "count_prior_30d": 0,
+    "trend_pct_30d_vs_prior": 100
+  },
+  "history_files": 6,
   "alerts": [
-    "LLM signal is 100% heuristic (474/488) — GROQ_API_KEY / GEMINI_API_KEY likely not configured on the refresh host"
+    "LLM signal is 100% heuristic (534/544) — GROQ_API_KEY / GEMINI_API_KEY likely not configured on the refresh host",
+    "INSUFFICIENT_DATA predictions trending UP: 24 in last 30d vs 0 prior 30d (+100%) — predictor coverage may be degrading"
   ],
   "healthy": false
 }

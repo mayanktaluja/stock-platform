@@ -31,7 +31,7 @@ const GROQ_BASE_URL = "https://api.groq.com/openai/v1";
 const GEMINI_MODEL = process.env.EARNINGS_LLM_GEMINI_MODEL || "gemini-2.5-flash";
 const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/";
 
-export const LLM_SIGNAL_VERSION = "earnings-llm-v1-2026-05";
+export const LLM_SIGNAL_VERSION = "earnings-llm-v2-2026-05";
 export const BIAS_VALUES = ["lean_beat", "neutral", "lean_miss"];
 
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
@@ -51,6 +51,17 @@ function countMatches(re, text) {
 
 /**
  * Deterministic keyword + structured-signal classifier. Never throws.
+ *
+ * v2 strengthening (P0-PR3 2026-05): the heuristic now weights
+ * SWS-vetted reward + risk bullets and scales analyst revisions by
+ * net count. The pre-v2 heuristic returned `neutral` for 98% of
+ * stocks (per data/catalysts/earnings-health.json), neutralising the
+ * predictor's only qualitative signal whenever GROQ/GEMINI API keys
+ * were absent. v2 uses already-vetted SWS framings rather than
+ * expanding the (intentionally narrow) keyword list, per adversarial
+ * review — keyword expansion is high-recall but low-precision on
+ * India-pattern news where the same phrase can carry either polarity.
+ *
  * @param {object} eventCtx  output of buildEventContext (see batcher)
  * @returns {object} normalised signal
  */
@@ -72,14 +83,41 @@ export function heuristicClassify(eventCtx) {
   if (ctx.counter_thesis_bias === "bullish") { score += 2; reasons.push("SWS counter-thesis leans bullish"); }
   else if (ctx.counter_thesis_bias === "bearish") { score -= 2; risks.push("SWS counter-thesis leans bearish"); }
 
-  // Analyst revisions, if SWS surfaced any.
+  // v2 — SWS-vetted risk bullets each count as -1 lean_miss (cap -4).
+  // Rationale: the risks[] array is sanitised + curated by SWS as
+  // explicitly bearish framings; trust them more than ad-hoc news
+  // keyword matches. A stock with 4+ risk bullets is materially more
+  // likely to MISS its next print.
+  const swsRiskBullets = Array.isArray(ctx.risks) ? ctx.risks.length : 0;
+  const riskBulletPts = -Math.min(swsRiskBullets, 4);
+  if (riskBulletPts < 0) {
+    score += riskBulletPts;
+    risks.push(`${swsRiskBullets} SWS-vetted risk bullet(s) on file`);
+  }
+
+  // v2 — SWS-vetted reward bullets each count as +0.5 lean_beat (cap
+  // +3). Lighter weight than risks per SEBI-RA stance ("absence of
+  // evidence ≠ evidence of absence" — reward bullets are aspirational
+  // narrative whereas risk bullets are vetted concrete concerns).
+  const swsRewardBullets = Array.isArray(ctx.rewards) ? ctx.rewards.length : 0;
+  const rewardBulletPts = Math.min(swsRewardBullets * 0.5, 3);
+  if (rewardBulletPts > 0) {
+    score += rewardBulletPts;
+    reasons.push(`${swsRewardBullets} SWS-vetted reward bullet(s) on file`);
+  }
+
+  // v2 — Analyst revisions now scale by net count (was fixed ±1).
   const revs = Array.isArray(ctx.analyst_revisions) ? ctx.analyst_revisions : [];
   const upRevs = revs.filter((r) => r && /increase|raised|up/i.test(String(r.direction || r))).length;
   const downRevs = revs.filter((r) => r && /decrease|cut|down/i.test(String(r.direction || r))).length;
-  if (upRevs > downRevs) { score += 1; reasons.push(`${upRevs} recent upward analyst revision(s)`); }
-  else if (downRevs > upRevs) { score -= 1; risks.push(`${downRevs} recent downward analyst revision(s)`); }
+  const netRevs = upRevs - downRevs;
+  const revPts = clamp(netRevs / 2, -2, 2);
+  if (revPts > 0) { score += revPts; reasons.push(`net +${netRevs} analyst revision(s) (up vs down)`); }
+  else if (revPts < 0) { score += revPts; risks.push(`net ${netRevs} analyst revision(s) (down vs up)`); }
 
   // Keyword scan — capped contribution so a noisy news feed can't dominate.
+  // (Unchanged from v1; keyword list deliberately stays narrow per
+  // adversarial review.)
   const pos = countMatches(POS_KW, corpus);
   const neg = countMatches(NEG_KW, corpus);
   score += clamp(pos, 0, 3);
@@ -92,8 +130,8 @@ export function heuristicClassify(eventCtx) {
   else if (score <= -2) bias = "lean_miss";
 
   const confidence_delta_pct =
-    bias === "lean_beat" ? clamp(score, 1, 5)
-    : bias === "lean_miss" ? clamp(score, -5, -1)
+    bias === "lean_beat" ? clamp(Math.round(score), 1, 5)
+    : bias === "lean_miss" ? clamp(Math.round(score), -5, -1)
     : 0;
 
   return normaliseSignal(
@@ -103,7 +141,7 @@ export function heuristicClassify(eventCtx) {
       top_reason: reasons[0] || "no clear qualitative catalyst",
       top_risk: risks[0] || "no clear qualitative risk flag",
     },
-    { provider: "heuristic", model_id: "heuristic-v1" },
+    { provider: "heuristic", model_id: "heuristic-v2" },
   );
 }
 
