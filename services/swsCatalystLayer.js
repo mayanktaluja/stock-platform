@@ -112,13 +112,48 @@ function _buildSummary({ score, pending, ptCount }) {
   return `${head} (score ${score >= 0 ? "+" : ""}${score}/10): ${top || "no specific events"}.`;
 }
 
+// Build the optional `prediction` metadata block from an earningsEvent (the
+// shape returned by services/earnings/earningsWatchService.js:findEventBySymbol).
+// Returns null when no event is provided, the verdict is INSUFFICIENT_DATA,
+// or data_quality is LOW — those signals aren't trustworthy enough to surface
+// in the analyzer reasoning.
+//
+// IMPORTANT: contributed_delta is always 0. This is METADATA only — the
+// catalystScore is NOT modified by the prediction. The backtest hit-rate in
+// the 60-64% confidence bucket is currently 25% (gate requires ≥55%) and
+// enough_data_to_lift_cap is false, so folding the prediction into the score
+// would soften REDUCE decisions on signals that are wrong ~75% of the time.
+// When the predictor passes its own cap-lift gate, a follow-up PR can wire
+// confidence_delta to reflect a non-zero contributed_delta.
+function _buildPredictionMeta(earningsEvent) {
+  if (!earningsEvent || !earningsEvent.prediction) return null;
+  const p = earningsEvent.prediction;
+  if (!p.verdict || p.verdict === "INSUFFICIENT_DATA") return null;
+  const dq = earningsEvent?.signals?.data_quality;
+  if (dq === "LOW") return null;
+  return {
+    verdict: p.verdict,
+    confidence_pct: num(p.confidence_pct, 0),
+    fiscal_quarter: earningsEvent.fiscal_quarter || null,
+    days_until: num(earningsEvent.days_until, null),
+    data_quality: dq || "MEDIUM",
+    event_iso_date: earningsEvent.event_iso_date || null,
+    score_100: num(p.score_100, null),
+    contributed_delta: 0,
+  };
+}
+
 // Catalyst layer entrypoint. Inputs:
 //   deep   — the SWS deep snapshot (deep.overview.*, deep.news, etc.)
+//   opts   — { earningsEvent } optional. The upcoming-earnings event from
+//            services/earnings/earningsWatchService.js — used to surface
+//            BEAT/INLINE/MISS prediction metadata for the reasoning layer.
+//            Has no effect on catalystScore (see _buildPredictionMeta).
 //
 // Always returns a populated object — never throws. When `deep` is null
 // returns { available: false, ... } so callers can short-circuit.
-export function extractCatalystSignals(deep) {
-  if (!deep) return { available: false, reason: "no deep snapshot", catalystScore: 0, confidence_delta: 0 };
+export function extractCatalystSignals(deep, opts = {}) {
+  if (!deep) return { available: false, reason: "no deep snapshot", catalystScore: 0, confidence_delta: 0, prediction: null };
 
   const epsDays = _earningsDays(deep);
   const ptActions = _ptActions(deep);
@@ -130,6 +165,7 @@ export function extractCatalystSignals(deep) {
   const pending = _buildPendingCatalysts({ epsDays, ptActions, lastQtr, insiderBuys, ret1m });
   const score = _computeCatalystScore({ epsDays, ptActions, lastQtr, insiderBuys, ret1m });
   const confidence_delta = _confidenceDelta(score);
+  const prediction = _buildPredictionMeta(opts.earningsEvent);
 
   return {
     available: true,
@@ -142,6 +178,7 @@ export function extractCatalystSignals(deep) {
     momentum_1m: ret1m,
     momentum_3m: ret3m,
     pending_catalysts: pending,
+    prediction,
     summary: _buildSummary({ score, pending, ptCount: ptActions.length }),
   };
 }

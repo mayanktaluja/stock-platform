@@ -1121,30 +1121,96 @@
       </div>`;
   }
 
+  // Compact one-liner for the collapsed-state summary. Renders the verdict +
+  // confidence + bull/base/bear levels at-a-glance. Empty when the prediction
+  // is missing — caller still shows the date/quarter line.
+  function _renderEarningsSummaryStrip(prediction, priceBand) {
+    if (!prediction && !priceBand) return "";
+    let predictionFrag = "";
+    if (prediction && prediction.verdict) {
+      const v = prediction.verdict;
+      const conf = Number.isFinite(prediction.confidence_pct) ? `${Math.round(prediction.confidence_pct)}%` : null;
+      const verdictColor = v === "BEAT" ? "#86efac" : v === "MISS" ? "#fca5a5" : "#cbd5e1";
+      predictionFrag = `
+        <span style="display:inline-flex; align-items:center; gap:6px; font-size:12px;">
+          <strong style="color:${verdictColor}; font-weight:700; letter-spacing:0.02em;">${escHtml(v)}</strong>
+          ${conf ? `<span style="color:var(--text-muted); font-size:11px;">${escHtml(conf)} conf</span>` : ""}
+        </span>`;
+    }
+    let bandFrag = "";
+    if (priceBand && priceBand.bear && priceBand.base && priceBand.bull) {
+      const cell = (label, c, color) => {
+        const val = priceBand.anchored && c.price_inr != null
+          ? `₹${c.price_inr.toLocaleString("en-IN")}`
+          : `${c.pct >= 0 ? "+" : ""}${c.pct}%`;
+        return `<span style="color:var(--text-muted); font-size:11px;">${label} <span style="color:${color}; font-weight:600;">${escHtml(val)}</span></span>`;
+      };
+      bandFrag = `
+        <span style="display:inline-flex; gap:10px; align-items:center;">
+          ${cell("Bear", priceBand.bear, "#fca5a5")}
+          ${cell("Base", priceBand.base, "#cbd5e1")}
+          ${cell("Bull", priceBand.bull, "#86efac")}
+        </span>`;
+    }
+    if (!predictionFrag && !bandFrag) return "";
+    return `
+      <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-top:6px;">
+        ${predictionFrag}
+        ${bandFrag ? `<span style="color:#1a2233;">•</span>${bandFrag}` : ""}
+      </div>`;
+  }
+
+  // localStorage key for the user's expanded/collapsed preference on the
+  // earnings preview. Persists per browser — defaults to COLLAPSED so the
+  // modal's main content (SWS scoring, snowflake, action chip) stays
+  // above-the-fold instead of being pushed below 600+ px of earnings UI.
+  const _EARNINGS_PREVIEW_PREF_KEY = "swsEarningsPreviewExpanded";
+  function _readEarningsPreviewPref() {
+    try { return window.localStorage.getItem(_EARNINGS_PREVIEW_PREF_KEY) === "true"; }
+    catch { return false; }
+  }
+  function _writeEarningsPreviewPref(open) {
+    try { window.localStorage.setItem(_EARNINGS_PREVIEW_PREF_KEY, open ? "true" : "false"); }
+    catch {}
+  }
+
   function renderEarningsPreviewPanel(event) {
     if (!event) return "";
     const { fiscal_quarter, days_until, event_iso_date } = event;
     const dayLabel = fmtRelativeDate(event_iso_date, days_until);
+    const isOpen = _readEarningsPreviewPref();
+    const summaryStrip = _renderEarningsSummaryStrip(event.prediction, event.price_band);
     return `
-      <div id="modalEarningsPreviewSection" style="background:rgba(245,158,11,0.04); border:1px solid rgba(245,158,11,0.2); border-radius:10px; padding:18px 20px; margin-bottom:18px;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;">
-          <div>
-            <div style="font-size:11px; color:#fbbf24; letter-spacing:0.06em; text-transform:uppercase; font-weight:700;">Upcoming earnings preview</div>
-            <div style="font-size:13px; color:#cbd5e1; margin-top:4px;">${escHtml(fiscal_quarter || "next result")} · ${escHtml(dayLabel)} (${escHtml(fmtIsoToLong(event_iso_date))})</div>
+      <div id="modalEarningsPreviewSection" style="background:rgba(245,158,11,0.04); border:1px solid rgba(245,158,11,0.2); border-radius:10px; padding:0; margin-bottom:18px; overflow:hidden;">
+        <details id="modalEarningsPreviewDetails"${isOpen ? " open" : ""} style="margin:0;">
+          <summary style="cursor:pointer; padding:14px 20px; list-style:none; outline:none;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:16px;">
+              <div style="flex:1; min-width:0;">
+                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                  <span style="font-size:11px; color:#fbbf24; letter-spacing:0.06em; text-transform:uppercase; font-weight:700;">Upcoming earnings preview</span>
+                  <span id="modalAnalyzerStance" style="display:inline-flex;"></span>
+                  <span data-earnings-toggle-hint style="font-size:10px; color:var(--text-muted); font-style:italic;">click to ${isOpen ? "collapse" : "expand"}</span>
+                </div>
+                <div style="font-size:13px; color:#cbd5e1; margin-top:4px;">${escHtml(fiscal_quarter || "next result")} · ${escHtml(dayLabel)} (${escHtml(fmtIsoToLong(event_iso_date))})</div>
+                ${summaryStrip}
+              </div>
+              <div style="font-size:10px; color:var(--text-muted); max-width:240px; text-align:right; line-height:1.4;">
+                Algorithmic preview from public data. Confidence reflects model agreement, not certainty. Earnings are binary events.
+              </div>
+            </div>
+          </summary>
+          <div style="padding:0 20px 18px 20px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:8px;">
+              <div>${renderModalPredictionRing(event.prediction)}</div>
+              <div>${renderPriceBand(event.price_band)}</div>
+            </div>
+            ${renderModalRationaleParagraphs(event.rationale)}
+            ${renderModalPlaybookBranches(event.playbook)}
+            ${renderModalAnnouncementsList(event.signals)}
+            ${renderModalDealsTable(event.signals)}
+            ${renderModalFalsificationList(event.rationale)}
           </div>
-          <div style="font-size:10px; color:var(--text-muted); max-width:240px; text-align:right; line-height:1.4;">
-            Algorithmic preview from public data. Confidence reflects model agreement, not certainty. Earnings are binary events.
-          </div>
-        </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-          <div>${renderModalPredictionRing(event.prediction)}</div>
-          <div>${renderPriceBand(event.price_band)}</div>
-        </div>
-        ${renderModalRationaleParagraphs(event.rationale)}
-        ${renderModalPlaybookBranches(event.playbook)}
-        ${renderModalAnnouncementsList(event.signals)}
-        ${renderModalDealsTable(event.signals)}
-        ${renderModalFalsificationList(event.rationale)}
+        </details>
       </div>`;
   }
 
@@ -1158,6 +1224,85 @@
    * the panel slots in. If they navigate away, we no-op via the
    * ticker-match guard.
    */
+  // Render the analyzer-stance pill into the modal header. Used by the
+  // post-injection logic AND by the analyzer tab when it pushes a fresh
+  // stance into window.analyzerStanceByTicker.
+  function _renderAnalyzerStancePill(stance) {
+    if (!stance || !stance.action) return "";
+    const action = stance.action;
+    const isBearish = /^(EXIT|Reduction)/.test(action);
+    const isBullish = /^Top-up|STRONG Top-up/.test(action);
+    const bg = isBearish ? "rgba(248,113,113,0.14)" : isBullish ? "rgba(134,239,172,0.14)" : "rgba(251,191,36,0.14)";
+    const fg = isBearish ? "#fca5a5" : isBullish ? "#86efac" : "#fbbf24";
+    const border = isBearish ? "rgba(248,113,113,0.28)" : isBullish ? "rgba(134,239,172,0.28)" : "rgba(251,191,36,0.28)";
+    const convictionFrag = stance.conviction
+      ? ` <span style="color:var(--text-muted); font-size:9.5px; margin-left:4px;">${escHtml(stance.conviction)}</span>`
+      : "";
+    return `
+      <button type="button" data-analyzer-stance-pill style="display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:999px; background:${bg}; color:${fg}; border:1px solid ${border}; font-size:10px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; cursor:pointer;" title="Analyzer's current action for this holding. Click to jump to the Portfolio Analyzer tab.">
+        <span>Analyzer: ${escHtml(action)}</span>${convictionFrag}
+      </button>`;
+  }
+
+  // Fetch the stance for the given ticker. First checks the fast-path
+  // window.analyzerStanceByTicker (populated by the analyzer tab on render),
+  // then falls back to /api/portfolio/stance/:symbol. Returns null when both
+  // paths come up empty — pill simply doesn't render in that case.
+  async function _resolveAnalyzerStance(ticker) {
+    const t = String(ticker).toUpperCase();
+    if (window.analyzerStanceByTicker && window.analyzerStanceByTicker[t]) {
+      return window.analyzerStanceByTicker[t];
+    }
+    try {
+      const res = await fetch(`/api/portfolio/stance/${encodeURIComponent(t)}`, { credentials: "same-origin" });
+      if (!res.ok) return null;
+      return await res.json();
+    } catch {
+      return null;
+    }
+  }
+
+  async function _populateAnalyzerStanceInModal(ticker) {
+    const slot = document.getElementById("modalAnalyzerStance");
+    if (!slot) return;
+    const stance = await _resolveAnalyzerStance(ticker);
+    if (!stance) return;
+    // Same ticker-match guard as the earnings injection — user may have
+    // moved to another modal by the time the fetch resolves.
+    if (typeof window.swsModalCurrentTicker === "string" &&
+        window.swsModalCurrentTicker.toUpperCase() !== String(ticker).toUpperCase()) {
+      return;
+    }
+    slot.innerHTML = _renderAnalyzerStancePill(stance);
+    const btn = slot.querySelector("[data-analyzer-stance-pill]");
+    if (btn) {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        // Close the modal then switch to the analyzer tab. Both functions
+        // are top-level declarations in gated/app.js so they're available
+        // on window in the browser global scope.
+        if (typeof window.closeSwsModal === "function") window.closeSwsModal();
+        if (typeof window.switchTab === "function") window.switchTab("analyzer");
+      });
+    }
+  }
+
+  // Wire the <details> toggle to persist the user's preference so
+  // expanded-by-default sticks across page loads. Idempotent — safe to call
+  // every time the modal re-opens (we re-bind the listener on a freshly
+  // injected element).
+  function _wireEarningsPreviewToggle() {
+    const det = document.getElementById("modalEarningsPreviewDetails");
+    if (!det) return;
+    det.addEventListener("toggle", () => {
+      _writeEarningsPreviewPref(det.open);
+      // Keep the inline hint text in sync with the actual state.
+      const hint = det.querySelector("[data-earnings-toggle-hint]");
+      if (hint) hint.textContent = `click to ${det.open ? "collapse" : "expand"}`;
+    });
+  }
+
   async function injectEarningsPreviewIntoModal(ticker) {
     if (!ticker) return;
     const targetTicker = String(ticker).toUpperCase();
@@ -1183,6 +1328,10 @@
     // Don't double-inject (race / re-open).
     if (body.querySelector("#modalEarningsPreviewSection")) return;
     body.insertAdjacentHTML("afterbegin", renderEarningsPreviewPanel(event));
+    _wireEarningsPreviewToggle();
+    // Stance pill is fired in parallel — it has its own ticker guard so
+    // it's safe to not await here.
+    _populateAnalyzerStanceInModal(targetTicker);
   }
 
   // ────────── Public exports (window globals) ──────────
