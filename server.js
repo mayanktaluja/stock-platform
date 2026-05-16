@@ -6118,22 +6118,51 @@ function writeRefreshRequest(mode) {
   }, null, 2));
 }
 
-app.post("/api/sws-scan/initial-start", express.json(), (req, res) => {
+// Admin-only gate. These endpoints write `data/sws/refresh-requested.json`,
+// the marker that the SWS pipeline (launchd job + slash commands) reads to
+// know a refresh was requested. The marker isn't expensive on its own, but
+// it tees up multi-hour scrape work — ANY signed-in user being able to
+// queue that is a privilege-escalation footgun. Match the existing
+// `/api/admin/*` convention: in local dev (AUTH_ENABLED=false) return
+// 401 "auth-disabled"; in prod require the persisted isAdmin flag.
+async function requireAdminForSwsRefresh(req, res) {
+  if (!AUTH_ENABLED) {
+    res.status(401).json({ error: "auth-disabled" });
+    return false;
+  }
+  const sub = req.user && req.user.sub;
+  if (!sub) {
+    res.status(401).json({ error: "unauthenticated" });
+    return false;
+  }
+  const me = await getUserStorage().read(sub);
+  if (!me || !me.isAdmin) {
+    res.status(403).json({ error: "forbidden" });
+    return false;
+  }
+  return true;
+}
+
+app.post("/api/sws-scan/initial-start", express.json(), async (req, res) => {
+  if (!(await requireAdminForSwsRefresh(req, res))) return;
   writeRefreshRequest("initial");
   res.json({
     queued: true,
     next_step: "Open 3 terminal windows. In each, run `claude`. Then type `/sws-scan-shard 1` (term 1), `/sws-scan-shard 2` (term 2), `/sws-scan-shard 3` (term 3). Stagger: start shard 2 after shard 1 has done ~50 stocks; start shard 3 after shard 2 has done ~50.",
   });
 });
-app.post("/api/sws-refresh/quick", express.json(), (req, res) => {
+app.post("/api/sws-refresh/quick", express.json(), async (req, res) => {
+  if (!(await requireAdminForSwsRefresh(req, res))) return;
   writeRefreshRequest("quick");
   res.json({ queued: true, next_step: "Open 3 terminals, run `claude`, type `/sws-resume` in each." });
 });
-app.post("/api/sws-refresh/earnings", express.json(), (req, res) => {
+app.post("/api/sws-refresh/earnings", express.json(), async (req, res) => {
+  if (!(await requireAdminForSwsRefresh(req, res))) return;
   writeRefreshRequest("earnings");
   res.json({ queued: true, next_step: "Open 1 terminal, run `claude`, type `/sws-resume` (earnings refresh is small enough for one shard)." });
 });
-app.post("/api/sws-refresh/full", express.json(), (req, res) => {
+app.post("/api/sws-refresh/full", express.json(), async (req, res) => {
+  if (!(await requireAdminForSwsRefresh(req, res))) return;
   writeRefreshRequest("full");
   res.json({ queued: true, next_step: "Open 3 terminals, run `claude`, type `/sws-resume` in each." });
 });
