@@ -34,13 +34,57 @@ const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 
 // ────────── Constants ──────────
 
-export const PREDICTOR_VERSION = "earnings-predict-v2-2026-05";
+export const PREDICTOR_VERSION = "earnings-predict-v3-2026-05";
 
 /**
  * V1 confidence ceiling. The predictor will never claim more confidence
  * than this until earningsHistoryArchive (M-F) confirms calibration.
  */
 export const V1_CONFIDENCE_CAP_PCT = 65;
+
+/**
+ * Verdict thresholds — v3 (P0-PR2 2026-05).
+ *
+ * Pre-v3 used static 65/35 cuts unconditionally. After the v2.1
+ * missing-data penalty shipped, the observed score distribution
+ * across 534 forward-looking predictions (refresh on 2026-05-17)
+ * had mean=44.3, std=21.5, p33=33.8, p67=54.3. The empirical p67 of
+ * 54.3 is dramatically below the static 65 BEAT cut — the predictor
+ * was systematically under-emitting BEAT (17.8% vs ~36% actual base
+ * rate).
+ *
+ * Empirical thresholds (frozen — not computed live to avoid the
+ * feedback loop where the predictor's own distribution defines its
+ * own thresholds and the MISS-pulling intent is neutralised):
+ *
+ *   MISS_CUT_EMPIRICAL = 34  (was 35; near observed p33)
+ *   BEAT_CUT_EMPIRICAL = 56  (was 65; near observed p67)
+ *
+ * Static fallback retained for back-compat — used when called outside
+ * the v3+ predictor or when an explicit override sets the env var
+ * `EARNINGS_PREDICTOR_STATIC_THRESHOLDS=1`.
+ */
+export const MISS_CUT_EMPIRICAL = 34;
+export const BEAT_CUT_EMPIRICAL = 56;
+export const MISS_CUT_STATIC = 35;
+export const BEAT_CUT_STATIC = 65;
+
+function activeThresholds() {
+  if (process.env.EARNINGS_PREDICTOR_STATIC_THRESHOLDS === "1") {
+    return {
+      missCut: MISS_CUT_STATIC,
+      beatCut: BEAT_CUT_STATIC,
+      source: "static_fallback",
+      version: "v1",
+    };
+  }
+  return {
+    missCut: MISS_CUT_EMPIRICAL,
+    beatCut: BEAT_CUT_EMPIRICAL,
+    source: "empirical",
+    version: "v3-2026-05",
+  };
+}
 
 /**
  * Small directional nudge from the V3 composite verdict. Deliberately
@@ -452,6 +496,58 @@ function scoreLlmSignal(signals) {
   };
 }
 
+/**
+ * Component 10 — Missing-data caution penalty (v2.1, P0-PR1 2026-05).
+ *
+ * SEBI-RA stance: absence of evidence is NOT evidence of absence. When
+ * the key qualitative inputs we'd use to identify a MISS are missing
+ * (V3 breakdown, EPS trajectory, recent announcements, LLM signal),
+ * the predictor leans toward caution by a small capped amount rather
+ * than scoring as if those signals were neutral.
+ *
+ * Pre-v2.1 the predictor never emitted MISS across 47 resolved history
+ * rows (vs. 34% actual MISS rate). Root cause: ~80% of NSE tickers
+ * landed near score=50 because all four missing-data branches silently
+ * returned 0 pts.
+ *
+ * Gated by data_quality so we don't double-penalise the MEDIUM rows
+ * that lack inUpcomingEarnings + V3 by definition:
+ *   HIGH:   -2 pts per missing component, capped at -6 total.
+ *   MEDIUM: total capped at -3 (single small lean, not a stack).
+ *   LOW:    n/a (predictor returns INSUFFICIENT_DATA upstream).
+ *
+ * Distinguishes LLM=null (signal failed to produce) from LLM=neutral
+ * (we read the news and it was genuinely neutral): only null counts
+ * as missing. A non-null `classifier_provider` proves we read it.
+ *
+ * Max: 0 to -6 pts.
+ */
+function scoreMissingDataPenalty(signals) {
+  const missing = [];
+  if (!signals.v3?.breakdown) missing.push("v3");
+  if (signals.data_quality_flags?.trajectory === "absent") missing.push("trajectory");
+  const annTop3 = signals.announcements?.top3;
+  if (!Array.isArray(annTop3) || annTop3.length === 0) missing.push("announcements");
+  if (!signals.llm_signal || !signals.llm_signal.classifier_provider) missing.push("llm");
+
+  if (missing.length === 0) {
+    return { pts: 0, breakdown: { missingDataPenaltyPts: 0, missing: [] }, why: "all qualitative signals present" };
+  }
+
+  const dq = signals.data_quality || "MEDIUM";
+  const perComponent = -2;
+  const cap = dq === "HIGH" ? -6 : -3;
+
+  const raw = missing.length * perComponent;
+  const pts = Math.max(raw, cap);
+
+  return {
+    pts,
+    breakdown: { missingDataPenaltyPts: pts, missing, data_quality: dq, cap },
+    why: `missing-data caution: ${missing.join(", ")} unavailable (${pts} pts, ${dq})`,
+  };
+}
+
 // ────────── Main predictor ──────────
 
 /**
@@ -500,36 +596,43 @@ export function predictEarningsOutcome(event) {
   const announcements = scoreAnnouncements(signals);
   const dealFlow = scoreDealFlow(signals);
   const llmSignal = scoreLlmSignal(signals);
+  const missingDataPenalty = scoreMissingDataPenalty(signals);
 
   // ── Sum to a 0–100 scale anchored at 50 = neutral INLINE ──
-  // Component max sums to ~108 (18+8+10+15+10+15+5+10+7+10 on the
-  // positive side; overlay is penalty-only). Anchor at 50 so a truly
-  // neutral stock (0 from every component) lands in the middle. The
-  // hard clamp at [0,100] catches the rare extreme.
+  // Component max sums to ~108 on the positive side (18+8+10+15+10+15+
+  // 5+10+7+10); overlay is penalty-only and missingDataPenalty is also
+  // penalty-only (v2.1, 0 to -6). Anchor at 50 so a truly neutral
+  // stock (0 from every component) lands in the middle. The hard
+  // clamp at [0,100] catches the rare extreme.
   const raw =
     v3FuturePast.pts + v3Valuation.pts + v3Overlay.pts + runup.pts +
     sectorMom.pts + trajectory.pts + echo.pts + announcements.pts +
-    dealFlow.pts + llmSignal.pts;
+    dealFlow.pts + llmSignal.pts + missingDataPenalty.pts;
   const score_100 = clamp(Math.round((50 + raw) * 10) / 10, 0, 100);
 
-  // ── Verdict mapping ──
+  // ── Verdict mapping (v3 — empirical thresholds) ──
+  const thresholds = activeThresholds();
   let verdict;
-  if (score_100 >= 65) verdict = "BEAT";
-  else if (score_100 < 35) verdict = "MISS";
+  if (score_100 >= thresholds.beatCut) verdict = "BEAT";
+  else if (score_100 < thresholds.missCut) verdict = "MISS";
   else verdict = "INLINE";
 
   // ── Confidence ──
   // Distance from the nearest verdict boundary, scaled and capped.
-  // Score 65 → 50% confidence (just over the line)
-  // Score 80 → 65% confidence (V1 cap reached)
-  // Score 35 → 50% confidence (just under the line)
-  // Score 20 → 65% confidence
-  // Score 50 (dead-centre INLINE) → 50% confidence (we know it's a
-  // coin-flip, that's a confident INLINE call).
+  // The formula parameterises on the active thresholds so a borderline
+  // BEAT at the new (lower) BEAT_CUT still computes a positive
+  // distance — pre-v3 the formula was hardcoded to 65/35 and would
+  // produce negative confidence numbers for borderline calls at
+  // empirical thresholds, all of which then clamped to the 50% floor
+  // (creating a flat-50 cluster the user couldn't distinguish from
+  // dead-centre INLINE).
+  const { missCut, beatCut } = thresholds;
+  const inlineCenter = (missCut + beatCut) / 2;
+  const inlineHalfWidth = (beatCut - missCut) / 2;
   let conf;
-  if (verdict === "BEAT") conf = 50 + (score_100 - 65) * 1.0;
-  else if (verdict === "MISS") conf = 50 + (35 - score_100) * 1.0;
-  else conf = 50 + (15 - Math.abs(score_100 - 50)) * 0.6;
+  if (verdict === "BEAT") conf = 50 + (score_100 - beatCut) * 1.0;
+  else if (verdict === "MISS") conf = 50 + (missCut - score_100) * 1.0;
+  else conf = 50 + (inlineHalfWidth - Math.abs(score_100 - inlineCenter)) * 0.6;
   const confidence_pct = clamp(Math.round(conf), 50, V1_CONFIDENCE_CAP_PCT);
 
   // ── Pull top reasons in/against the verdict for the rationale narrator ──
@@ -544,6 +647,7 @@ export function predictEarningsOutcome(event) {
     { name: "announcements", ...announcements },
     { name: "deal_flow", ...dealFlow },
     { name: "llm_signal", ...llmSignal },
+    { name: "missing_data_penalty", ...missingDataPenalty },
   ];
   const sortedByImpact = allComponents.slice().sort((a, b) => Math.abs(b.pts) - Math.abs(a.pts));
   const inFavour = (verdict === "BEAT")
@@ -582,11 +686,18 @@ export function predictEarningsOutcome(event) {
       announcements: announcements.pts,
       deal_flow: dealFlow.pts,
       llm_signal: llmSignal.pts,
+      missing_data_penalty: missingDataPenalty.pts,
+      missing_data_components: missingDataPenalty.breakdown?.missing || [],
       raw_sum: Math.round(raw * 10) / 10,
       // v1→v2 aliases — kept one release so the UI never renders NaN for
       // archived or mid-rollout rows. Removed in PR 6.
       sws_quality: v3FuturePast.pts,
       fv_upside: v3Valuation.pts,
+      // v3 — threshold provenance for backtest version-isolation.
+      threshold_version: thresholds.version,
+      threshold_source: thresholds.source,
+      miss_cut: thresholds.missCut,
+      beat_cut: thresholds.beatCut,
     },
     reasons_top,
     reasons_against,

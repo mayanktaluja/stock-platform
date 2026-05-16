@@ -109,6 +109,29 @@ it("100%-heuristic LLM raises an alert", () => {
   const h = buildHealthSummary({ history: HISTORY, watchEvents: allHeur, nowIso: NOW });
   assert.ok(h.alerts.some((a) => /100% heuristic/i.test(a)), JSON.stringify(h.alerts));
 });
+it("PR3: 100%-heuristic raises llm_offline=true + heuristic_share_pct=100", () => {
+  const allHeur = [
+    { signals: { llm_signal: { classifier_provider: "heuristic" } } },
+    { signals: { llm_signal: { classifier_provider: "heuristic" } } },
+  ];
+  const h = buildHealthSummary({ history: HISTORY, watchEvents: allHeur, nowIso: NOW });
+  assert.equal(h.llm_offline, true, JSON.stringify(h));
+  assert.equal(h.llm_heuristic_share_pct, 100);
+});
+it("PR3: any Groq/Gemini signal flips llm_offline=false", () => {
+  const mixed = [
+    { signals: { llm_signal: { classifier_provider: "groq" } } },
+    { signals: { llm_signal: { classifier_provider: "heuristic" } } },
+  ];
+  const h = buildHealthSummary({ history: HISTORY, watchEvents: mixed, nowIso: NOW });
+  assert.equal(h.llm_offline, false, JSON.stringify(h));
+  assert.equal(h.llm_heuristic_share_pct, 50);
+});
+it("PR3: empty watchEvents → llm_offline=false (no provider data ≠ offline)", () => {
+  const h = buildHealthSummary({ history: HISTORY, watchEvents: [], nowIso: NOW });
+  assert.equal(h.llm_offline, false);
+  assert.equal(h.llm_heuristic_share_pct, 0);
+});
 it("a restatement raises an alert", () => {
   const h = buildHealthSummary({ history: HISTORY, watchEvents: WATCH_EVENTS, nowIso: NOW });
   assert.ok(h.alerts.some((a) => /restated actual/i.test(a)), JSON.stringify(h.alerts));

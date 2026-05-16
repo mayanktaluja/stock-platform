@@ -223,6 +223,93 @@ it("eventInputHash is stable for identical inputs, differs on change", () => {
   assert.notEqual(a, eventInputHash(buildEventContext(changed, sampleDeep)));
 });
 
+/* ───────── v2 — heuristic strengthening (P0-PR3 2026-05) ─────────── */
+
+console.log("[8b] heuristic v2 — SWS risk/reward bullets + scaled analyst revisions");
+
+it("v2: 4+ SWS risk bullets push to lean_miss even without bearish counter-thesis", () => {
+  const r = heuristicClassify({
+    one_line: "Quiet quarter ahead",
+    risks: ["Asset quality concerns", "Margin compression", "Slippages rising", "Auditor flagged"],
+    rewards: [],
+    news: [],
+  });
+  // 4 risk bullets = -4; threshold for lean_miss is -2. Should fire.
+  assert.equal(r.bias, "lean_miss", JSON.stringify(r));
+  assert.match(r.top_risk, /SWS-vetted risk bullet/);
+});
+
+it("v2: risk bullets capped at -4 (5+ doesn't compound further)", () => {
+  const r = heuristicClassify({
+    risks: ["a", "b", "c", "d", "e", "f"], // 6 risks
+    rewards: [],
+    news: [],
+  });
+  // 6 risks but capped at -4. With no other inputs, score=-4. delta clamped to -4 (within range).
+  assert.equal(r.bias, "lean_miss");
+  assert.ok(Math.abs(r.confidence_delta_pct) <= 5, r.confidence_delta_pct);
+});
+
+it("v2: reward bullets contribute (0.5 each, capped +3) but lighter than risks", () => {
+  const onlyRewards = heuristicClassify({
+    rewards: ["Trading below FV", "Strong order book", "Margin tailwinds", "Capacity coming"],
+    risks: [],
+    news: [],
+  });
+  // 4 rewards * 0.5 = +2. Threshold for lean_beat is +2. Fires.
+  assert.equal(onlyRewards.bias, "lean_beat");
+
+  // Symmetric stress: 4 risks (4 pts) vs 8 rewards (capped +3) — risks
+  // win in absolute terms (-4 risks > +3 rewards).
+  const both = heuristicClassify({
+    risks: ["a", "b", "c", "d"],
+    rewards: ["a", "b", "c", "d", "e", "f", "g", "h"],
+    news: [],
+  });
+  // score = -4 + min(8*0.5, 3) = -4 + 3 = -1 → neutral.
+  assert.equal(both.bias, "neutral", JSON.stringify(both));
+});
+
+it("v2: analyst revisions scale by net count (was fixed ±1)", () => {
+  const big = heuristicClassify({
+    risks: [],
+    rewards: [],
+    analyst_revisions: [
+      { direction: "up" }, { direction: "up" }, { direction: "up" }, { direction: "up" },
+      { direction: "up" }, { direction: "up" },
+    ],
+    news: [],
+  });
+  // net +6 → /2 = +3 → clamped to +2 → threshold 2 → lean_beat
+  assert.equal(big.bias, "lean_beat", JSON.stringify(big));
+
+  const small = heuristicClassify({
+    risks: [],
+    rewards: [],
+    analyst_revisions: [{ direction: "up" }],
+    news: [],
+  });
+  // net +1 → /2 = 0.5 → below threshold → neutral
+  assert.equal(small.bias, "neutral");
+});
+
+it("v2: ambiguous stock with mixed signals stays neutral (no false bias)", () => {
+  const r = heuristicClassify({
+    counter_thesis_bias: null,
+    risks: ["a", "b"],     // -2
+    rewards: ["x", "y"],   // +1
+    analyst_revisions: [],
+    news: [],
+  });
+  // score = -2 + 1 = -1 → neutral (just below threshold)
+  assert.equal(r.bias, "neutral", JSON.stringify(r));
+});
+
+it("v2: heuristic version stamp bumped to heuristic-v2", () => {
+  const r = heuristicClassify({ risks: ["x"], rewards: [], news: [] });
+  assert.equal(r.model_id, "heuristic-v2", r.model_id);
+});
+
 console.log("[9] classifyBatchForCalendar — --skip-llm path (deterministic, no cache I/O)");
 it("--skip-llm attaches a heuristic llm_signal to every scored event", async () => {
   const events = [

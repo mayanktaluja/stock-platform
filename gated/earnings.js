@@ -992,6 +992,24 @@
       </div>`;
   }
 
+  // PR3 — renders the "qualitative signal: deterministic-only" pill in
+  // the Recent Results header when the LLM lever is operating on the
+  // heuristic-only fallback (GROQ/GEMINI keys not configured on the
+  // refresh host). SEBI-RA-grade transparency — the user can see when
+  // the predictor's qualitative read is degraded.
+  function renderLlmOfflinePill(snap) {
+    const health = snap && snap.health;
+    if (!health || health.llm_offline !== true) return "";
+    const sharePct = typeof health.llm_heuristic_share_pct === "number"
+      ? `${health.llm_heuristic_share_pct}% heuristic`
+      : "heuristic-only";
+    return `<span
+      data-testid="llm-signal-mode-pill"
+      title="The qualitative LLM read is running on the deterministic heuristic fallback (${sharePct}). Set GROQ_API_KEY or GEMINI_API_KEY on the refresh host to restore Groq/Gemini classification."
+      style="font-size:10px; color:#fbbf24; border:1px solid rgba(245,158,11,0.45); border-radius:6px; padding:1px 6px; letter-spacing:0.04em; text-transform:uppercase;"
+    >qualitative signal: deterministic-only</span>`;
+  }
+
   function renderRecentResultsSection(rows) {
     const el = document.getElementById("earningsRecentResults");
     if (!el) return;
@@ -1008,11 +1026,13 @@
       hits + misses > 0
         ? `<span style="font-size:11px; color:var(--text-muted); letter-spacing:0.04em;">${hits}/${hits + misses} predictions correct</span>`
         : "";
+    const llmPill = renderLlmOfflinePill(_earningsSnapshot);
     el.innerHTML = `
-      <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid #1a2233;">
+      <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid #1a2233; flex-wrap:wrap;">
         <span style="font-size:13px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">Recent results</span>
         <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">past ${pastWindow}d · ${rows.length} ${rows.length === 1 ? "result" : "results"}</span>
         ${accuracyChip}
+        ${llmPill}
       </div>
       <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:12px;">
         ${rows.map(renderRecentResultCard).join("")}

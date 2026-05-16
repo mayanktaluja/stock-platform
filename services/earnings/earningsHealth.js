@@ -298,6 +298,15 @@ export function buildHealthSummary(args = {}) {
     );
   }
 
+  // PR3 — structured llm_offline flag for the snapshot API. The UI
+  // renders a "qualitative signal: deterministic-only" pill when this
+  // is true, so the user knows the LLM lever is producing heuristic
+  // (not Groq/Gemini) reads. Threshold: ≥80% heuristic over a non-
+  // empty sample. Mirrors the alert-line condition but as a typed
+  // boolean the snapshot serialiser can pass through.
+  const heuristicShare = llm.total > 0 ? llm.heuristic / llm.total : 0;
+  const llmOffline = llm.total > 0 && llm.groq === 0 && llm.gemini === 0 && heuristicShare >= 0.8;
+
   return {
     schema_version: HEALTH_SCHEMA_VERSION,
     generated_at: nowIso,
@@ -307,6 +316,8 @@ export function buildHealthSummary(args = {}) {
       prior_count: priorResolved,
     },
     llm_providers: llm,
+    llm_offline: llmOffline,
+    llm_heuristic_share_pct: Math.round(heuristicShare * 100),
     cap_lift_gate: capLiftGate,
     archive_schema: schema,
     predictor_versions: predictorVersions,

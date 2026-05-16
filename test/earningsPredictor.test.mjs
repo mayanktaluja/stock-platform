@@ -186,7 +186,7 @@ function makeSignals(overrides = {}) {
   assert("score_breakdown keeps v1 aliases for one release", r.score_breakdown &&
     "sws_quality" in r.score_breakdown && "fv_upside" in r.score_breakdown, Object.keys(r.score_breakdown || {}));
   assert("reasons_top is an array", Array.isArray(r.reasons_top), typeof r.reasons_top);
-  assert("predictor_version is v2", PREDICTOR_VERSION.includes("v2"), PREDICTOR_VERSION);
+  assert("predictor_version is v3", PREDICTOR_VERSION.includes("v3"), PREDICTOR_VERSION);
 }
 
 // ──── Announcements signal: positive vs negative ────
@@ -294,9 +294,12 @@ function makeSignals(overrides = {}) {
   );
 }
 {
-  // Case 3: verdict identical for absent vs no-flag (both yield 0 pts).
-  // This is the prompt's hard constraint: P2.4 must not change the
-  // verdict for previously-uncovered tickers.
+  // Case 3: v2.1 — the absent flag now signals "we explicitly know we
+  // don't have trajectory data" and triggers the -2 caution penalty in
+  // scoreMissingDataPenalty. Pre-v2.1 this case was identical to no-
+  // flag (both yielded 0 trajectory pts and no penalty); v2.1 makes
+  // the flag load-bearing. Verdict typically stays the same — the
+  // penalty is small enough that only borderline scores tip a bucket.
   const base = makeSignals({
     data_quality: "HIGH",
     trajectory: { eps_yoy_pct: null },
@@ -306,12 +309,12 @@ function makeSignals(overrides = {}) {
     signals: { ...base, data_quality_flags: { trajectory: "absent" } },
   });
   assert(
-    "P2.4: absent flag yields same score as no-flag (back-compat)",
-    noFlag.score_100 === absentFlag.score_100,
+    "P2.4 v2.1: absent flag is 2 pts lower than no-flag (caution penalty)",
+    Math.abs((noFlag.score_100 - absentFlag.score_100) - 2) < 0.01,
     { noFlag: noFlag.score_100, absentFlag: absentFlag.score_100 },
   );
   assert(
-    "P2.4: absent flag yields same verdict as no-flag (back-compat)",
+    "P2.4: absent flag yields same verdict as no-flag (back-compat for typical)",
     noFlag.verdict === absentFlag.verdict,
     { noFlag: noFlag.verdict, absentFlag: absentFlag.verdict },
   );
