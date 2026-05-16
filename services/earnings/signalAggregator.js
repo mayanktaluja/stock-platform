@@ -356,12 +356,32 @@ export function aggregateSignalsForEvent(event, ctx, opts = {}) {
   }
   const preRunup = classifyRunup(returns.ret_1m_pct, sectorMom?.avg_1m_pct ?? null);
 
+  // P2.7 — Sector 1M volatility (cross-sectional dispersion proxy).
+  // True intraday daily-returns volatility would require a raw price
+  // series the DAL does not expose today; until that data lands, the
+  // sector-momentum map can carry an optional `vol_1m_pct` field
+  // (computed externally in Phase 4 by SQL `stddev(returns_1m_pct)
+  // GROUP BY sector` or injected by tests). When absent the predictor
+  // falls back to today's unscaled behaviour — see the vol-scaling
+  // block in earningsPredictor.scoreSectorMomentum.
+  const sectorVolatility1mPct = num(sectorMom?.vol_1m_pct);
+
   // ── Trajectory from fundamentalsHistory ──
   const yahooSym = nsSymbol(symbol);
   const histEntry = ctx.fundamentalsHistory?.stocks?.[yahooSym] || null;
   const quarters = Array.isArray(histEntry?.quarterly) ? histEntry.quarterly : [];
   const trajectory = computeYoYTrajectory(quarters);
   const quartersWithEps = quarters.filter((q) => q && q.dilutedEPS != null).length;
+
+  // P2.4 — Trajectory data-quality flag.
+  // fundamentalsHistory currently covers ~1,086 of the 5,400+ NSE names
+  // we score. The other ~4,000 tickers silently received 0 trajectory
+  // points which the predictor previously could not distinguish from
+  // "data is bad". The flag below lets the predictor + UI surface
+  // "UNKNOWN, not BAD" so the score is not silently understated. We
+  // require >=2 quarters with non-null EPS — anything less can't form
+  // a YoY pair anyway, so the trajectory was effectively absent.
+  const trajectoryCoverage = quartersWithEps >= 2 ? "covered" : "absent";
 
   // ── Picks universe enrichment (optional) ──
   const inPicksUniverse = ctx.picksMap.has(symbol);
@@ -414,8 +434,19 @@ export function aggregateSignalsForEvent(event, ctx, opts = {}) {
   });
 
   // ── Compose signals block ──
+  // data_quality_flags is a NEW sibling of the existing string tier
+  // `data_quality` (HIGH/MEDIUM/LOW). It carries per-component coverage
+  // labels the predictor uses to distinguish "absent" from "negative"
+  // (P2.4 trajectory) and "scaled" from "unscaled" (P2.7 sector vol).
+  // Older consumers that only look at the string tier keep working.
+  const dataQualityFlags = {
+    trajectory: trajectoryCoverage,            // "covered" | "absent"
+    sector_vol: sectorVolatility1mPct != null ? "scaled" : "unscaled",
+  };
+
   const signals = {
     data_quality,
+    data_quality_flags: dataQualityFlags,
     data_quality_inputs: {
       sws_deep: !!swsDeep,
       quarters_with_eps: quartersWithEps,
@@ -423,6 +454,8 @@ export function aggregateSignalsForEvent(event, ctx, opts = {}) {
       has_returns: hasReturns,
       has_sector: !!sector,
       in_picks_universe: inPicksUniverse,
+      trajectory_coverage: trajectoryCoverage,
+      sector_volatility_known: sectorVolatility1mPct != null,
     },
     sector,
     market_cap_inr: num(overview.market_cap_inr),
@@ -439,6 +472,12 @@ export function aggregateSignalsForEvent(event, ctx, opts = {}) {
       ...returns,
       sector_avg_1m_pct: sectorMom?.avg_1m_pct ?? null,
       sector_sample_size: sectorMom?.sample_size ?? null,
+      // P2.7 — Cross-sectional 1M sector volatility (null when not
+      // computed). The predictor uses this to Sharpe-scale the sector
+      // momentum component so a high-vol dead-cat-bounce contributes
+      // fewer points than a low-vol structural rotation. Null = legacy
+      // unscaled behaviour.
+      sector_volatility_1m_pct: sectorVolatility1mPct,
       pre_runup_signal: preRunup,
       runup_vs_sector_pct:
         returns.ret_1m_pct != null && sectorMom?.avg_1m_pct != null

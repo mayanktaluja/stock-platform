@@ -190,6 +190,21 @@ function scoreRunup(signals) {
  * rallying, the sector tide lifts even mediocre results. Compute from
  * the sector's avg 1M return relative to a neutral baseline (0%).
  *
+ * P2.7 — Vol-scaled (Sharpe-like). The legacy scaler treated a noisy
+ * +8% sector month identically to a clean +8% rotation. We now divide
+ * by the cross-sectional 1M dispersion when available:
+ *   - vol < 2%  : low-noise sector → full points (1.0× multiplier).
+ *   - vol >= 2% : multiplier = min(2 / vol_pct, 1.0). A 4%-vol sector
+ *                 gets half points; a 10%-vol sector gets 0.2× — high-
+ *                 vol bounces are downweighted.
+ *   - vol null  : legacy unscaled path, preserves prior verdicts.
+ *
+ * The 2% floor + cap-at-1.0 is a heuristic — when the raw daily-returns
+ * data lands (Phase 4 SQL `stddev(returns_daily) GROUP BY sector` over
+ * a 21-trading-day window), this multiplier should be retuned against
+ * the backtest. For now it's the most-defensible shape we can ship
+ * without breaking the legacy behaviour for null-vol callers.
+ *
  * Max: ±10 pts.
  */
 function scoreSectorMomentum(signals) {
@@ -198,25 +213,80 @@ function scoreSectorMomentum(signals) {
 
   // Linear scale: +10% sector return = +5 pts; ±20% = ±10 pts.
   let pts = clamp(sectorAvg / 2, -10, 10);
+
+  // P2.7 — Sharpe-like vol scaling.
+  const sectorVol = num(signals.momentum?.sector_volatility_1m_pct);
+  let volMultiplier = 1;
+  let volScaled = false;
+  if (sectorVol != null && sectorVol >= 2) {
+    volMultiplier = Math.min(2 / sectorVol, 1);
+    pts = pts * volMultiplier;
+    volScaled = true;
+  } else if (sectorVol != null) {
+    // vol < 2% — treat as noisy-zero, no downweight applied. The flag
+    // still records "scaled" so the audit trail is honest about the
+    // path taken.
+    volScaled = true;
+  }
   pts = Math.round(pts * 10) / 10;
+  const volNote =
+    sectorVol == null
+      ? ""
+      : volScaled && sectorVol >= 2
+        ? ` (vol ${sectorVol.toFixed(1)}% → ${volMultiplier.toFixed(2)}× downweight)`
+        : ` (vol ${sectorVol.toFixed(1)}%)`;
   return {
     pts,
-    breakdown: { sectorPts: pts },
-    why: `sector ${signals.sector || "?"} ${sectorAvg >= 0 ? "+" : ""}${sectorAvg.toFixed(1)}% over 1M`,
+    breakdown: {
+      sectorPts: pts,
+      sector_vol_1m_pct: sectorVol,
+      vol_multiplier: Math.round(volMultiplier * 100) / 100,
+      vol_scaled: volScaled,
+    },
+    why:
+      `sector ${signals.sector || "?"} ${sectorAvg >= 0 ? "+" : ""}${sectorAvg.toFixed(1)}% over 1M` +
+      volNote,
   };
 }
 
 /**
  * Component 4 — Trajectory. EPS YoY growth from the last reported
- * quarter pair. Often null (fundamentalsHistory only covers 494
- * symbols) — the function returns 0 pts in that case rather than
- * imputing.
+ * quarter pair. Often null (fundamentalsHistory only covers ~1,086 of
+ * the 5,400+ NSE names) — the function returns 0 pts in that case
+ * rather than imputing.
+ *
+ * P2.4 — When data_quality_flags.trajectory === "absent", the 0 pts
+ * stay (so the verdict math is unchanged from legacy behaviour) but
+ * the breakdown surfaces a `status: "absent"` + an explicit note so
+ * the rationale narrator and the UI can say "UNKNOWN, not BAD". This
+ * fixes the silent score-understatement for the ~80% of NSE tickers
+ * that fundamentalsHistory does not cover.
  *
  * Max: ±15 pts. Symmetric.
  */
 function scoreTrajectory(signals) {
   const epsYoY = num(signals.trajectory?.eps_yoy_pct);
+  const trajectoryFlag = signals.data_quality_flags?.trajectory || null;
+
   if (epsYoY == null) {
+    // Distinguish "absent" (data we do not have) from "present but
+    // null" (data we have but cannot compute YoY for). Both score 0
+    // pts; only "absent" gets the explicit UNKNOWN note. This keeps
+    // the verdict identical for both paths but lets the narrator
+    // surface the data-quality story.
+    if (trajectoryFlag === "absent") {
+      return {
+        pts: 0,
+        breakdown: {
+          trajectoryPts: 0,
+          status: "absent",
+          note:
+            "EPS trajectory data unavailable for this ticker — " +
+            "component scored as neutral 0 (NOT negative)",
+        },
+        why: "EPS trajectory unknown (not negative)",
+      };
+    }
     return { pts: 0, breakdown: { trajectoryPts: 0 }, why: "no trajectory data" };
   }
   // 25%+ YoY EPS growth → +10 pts; 50%+ → +15 cap; -25% → -10; -50% → -15.
@@ -224,7 +294,7 @@ function scoreTrajectory(signals) {
   pts = Math.round(pts * 10) / 10;
   return {
     pts,
-    breakdown: { trajectoryPts: pts },
+    breakdown: { trajectoryPts: pts, status: "covered" },
     why: `EPS YoY ${epsYoY >= 0 ? "+" : ""}${epsYoY.toFixed(1)}%`,
   };
 }
