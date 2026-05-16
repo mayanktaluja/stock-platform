@@ -124,3 +124,56 @@ export function findEventBySymbol(snapshot, symbol) {
   }
   return null;
 }
+
+/**
+ * IST midnight date in YYYY-MM-DD form. Mirrors earningsCalendarBuilder.js
+ * and earningsHistoryArchive.js so every layer agrees on what "today" is.
+ */
+export function istTodayIso(nowMs = Date.now()) {
+  return new Date(nowMs + 5.5 * 3600 * 1000).toISOString().slice(0, 10);
+}
+
+function daysBetween(aIso, bIso) {
+  const a = Date.UTC(+aIso.slice(0, 4), +aIso.slice(5, 7) - 1, +aIso.slice(8, 10));
+  const b = Date.UTC(+bIso.slice(0, 4), +bIso.slice(5, 7) - 1, +bIso.slice(8, 10));
+  return Math.round((b - a) / 86400000);
+}
+
+/**
+ * Recompute `days_until` on every event + recent_result row against
+ * IST-now, and rewrite the snapshot's `today_iso` to match. Returns a
+ * fresh snapshot — never mutates input.
+ *
+ * Why: the snapshot is built twice daily (02:00 + 16:30 IST) and the
+ * server caches it for 5 minutes. Without this recompute, days_until
+ * drifts up to ~12h between fires and the cache can carry yesterday's
+ * "today" across the midnight IST boundary. Cost is one Date diff per
+ * row (<0.5ms for 600 rows) — cheap enough to run per-request.
+ *
+ * Past events (days_until < 0) keep their negative value — the UI uses
+ * the sign to decide which section the row belongs in.
+ */
+export function recomputeDaysUntil(snapshot, nowMs = Date.now()) {
+  if (!snapshot || typeof snapshot !== "object") return snapshot;
+  const today = istTodayIso(nowMs);
+  const events = Array.isArray(snapshot.events)
+    ? snapshot.events.map((e) =>
+        e && typeof e.event_iso_date === "string"
+          ? { ...e, days_until: daysBetween(today, e.event_iso_date) }
+          : e,
+      )
+    : snapshot.events;
+  const recent = Array.isArray(snapshot.recent_results)
+    ? snapshot.recent_results.map((r) =>
+        r && typeof r.event_iso_date === "string"
+          ? { ...r, days_until: daysBetween(today, r.event_iso_date) }
+          : r,
+      )
+    : snapshot.recent_results;
+  return {
+    ...snapshot,
+    today_iso: today,
+    events,
+    recent_results: recent,
+  };
+}

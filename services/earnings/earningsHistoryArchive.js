@@ -194,7 +194,7 @@ export function loadAllHistory() {
  *
  * Returns a flat array of rows, each tagged with `_today_iso`.
  */
-function dedupePredictions(history) {
+export function dedupePredictions(history) {
   const byKey = new Map();
   for (const day of history || []) {
     const todayIso = day.today_iso || day.filename || "";

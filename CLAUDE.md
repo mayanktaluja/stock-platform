@@ -127,7 +127,7 @@ The `data/catalysts/` JSON files (`events-latest`, `nse-announcements-rolling`,
 `llm-signal-cache`, `earnings-history/<date>.json`) all need to be committed
 for Vercel to read them.
 
-### Fundamentals history refresh (separate nightly job — NOT chained)
+### Fundamentals history refresh (chained into sws-nightly.sh, ahead of earnings)
 
 ```bash
 node scripts/refresh-fundamentals-history.mjs              # incremental, budget-capped
@@ -139,13 +139,17 @@ Feeds the predictor's YoY-EPS-trajectory component. Universe is the curated
 `stockList` ∪ current Earnings Watch symbols; NEW stocks (coverage) are fetched
 before STALE ones (freshness); Yahoo calls are budget-capped (`--max-fetches`,
 default 1800) with overflow deferred to the next run. This is a ~30-min Yahoo
-job — it runs on its OWN nightly launchd job: `com.starbhai.sws-fundamentals-history`
-(fires 04:00 IST; wrapper `scripts/sws-fundamentals-history-nightly.sh`, plist
-template `scripts/com.starbhai.sws-fundamentals-history.plist`). It is **never**
-chained into `refresh-earnings.mjs` or `sws-nightly.sh`, and never on a Vercel
-cron. `refresh-earnings.mjs` logs a
-warning if `fundamentalsHistory.json` goes >7 days stale. Manual corrections go
-in `data/fundamentals-history-overrides.json` (reapplied after every refresh).
+job — **chained into `scripts/sws-nightly.sh` immediately before `refresh-
+earnings.mjs`** behind an 18h freshness gate (sws-nightly.sh:460-515), so the
+predictor always reads a fresh trajectory file. Previously a standalone 04:00
+IST launchd job (`com.starbhai.sws-fundamentals-history`, wrapper
+`scripts/sws-fundamentals-history-nightly.sh`, plist
+`scripts/com.starbhai.sws-fundamentals-history.plist`) — that job is dormant
+after silently exiting 127 for 23 days when its script path moved. Never on a
+Vercel cron. `refresh-earnings.mjs` still logs a warning if
+`fundamentalsHistory.json` goes >7 days stale as defence-in-depth. Manual
+corrections go in `data/fundamentals-history-overrides.json` (reapplied after
+every refresh).
 
 ### Resolving actuals (run locally, then commit)
 

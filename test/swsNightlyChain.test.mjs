@@ -68,5 +68,27 @@ for (const f of ["surveillance.json", "governance.json"]) {
   assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
 }
 
+// Ordering constraint: the fundamentalsHistory refresh MUST run BEFORE
+// refresh-earnings.mjs. Earnings reads fundamentalsHistory.json for the
+// YoY-EPS-trajectory predictor component — running earnings first leaves
+// it on yesterday's snapshot for up to 22h (the gap between fires).
+const earningsIdx = nightly.indexOf("scripts/refresh-earnings.mjs 2>&1");
+const fhIdx = (() => {
+  // The script picks between refresh-fundamentals-history.mjs (preferred)
+  // and fetch-fundamentals-history.mjs (fallback) — match either invocation.
+  const m = nightly.match(/timeout\s+\d+\s+node\s+"\$\{FH_SCRIPT\}"/);
+  return m ? nightly.indexOf(m[0]) : -1;
+})();
+assert(
+  "fundamentalsHistory refresh runs before refresh-earnings.mjs",
+  fhIdx > -1 && earningsIdx > -1 && fhIdx < earningsIdx,
+  { fhIdx, earningsIdx },
+);
+assert(
+  "fundamentalsHistory still has its 18h freshness gate",
+  /FH_AGE_HOURS[\s\S]*?-lt\s+18/.test(nightly),
+  null,
+);
+
 console.log(`\n  ${pass} passed, ${fail} failed\n`);
 process.exit(fail === 0 ? 0 : 1);

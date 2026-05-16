@@ -50,6 +50,7 @@ import {
   summarisePlaybooks,
 } from "../services/earnings/reactionPlaybook.js";
 import { archivePredictions } from "../services/earnings/earningsHistoryArchive.js";
+import { buildRecentResults } from "../services/earnings/recentResultsBuilder.js";
 
 const ROOT = process.cwd();
 const IN_PATH = path.join(ROOT, "data", "catalysts", "events-latest.json");
@@ -76,12 +77,15 @@ function warnIfFundamentalsStale() {
 }
 
 function parseArgs(argv) {
-  const out = { windowDays: 30, skipLlm: false };
+  const out = { windowDays: 30, skipLlm: false, pastWindowDays: 7 };
   for (let i = 2; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--window") {
       const next = Number(argv[++i]);
       if (Number.isFinite(next) && next > 0) out.windowDays = next;
+    } else if (a === "--past-window-days") {
+      const next = Number(argv[++i]);
+      if (Number.isFinite(next) && next >= 0) out.pastWindowDays = next;
     } else if (a === "--skip-llm") {
       // Force the deterministic heuristic for the LLM component — used
       // in CI and any offline run where network LLM calls aren't wanted.
@@ -148,6 +152,8 @@ function buildStats(snapshot) {
     upstream_event_count: snapshot.upstream_event_count,
     upstream_fetched_at: snapshot.upstream_fetched_at,
     event_count: snapshot.event_count,
+    recent_results_count: Array.isArray(snapshot.recent_results) ? snapshot.recent_results.length : 0,
+    past_window_days: snapshot.past_window_days ?? null,
     bucket_by_days: byDays,
     signals: signalSummary,
     predictions: predictionSummary,
@@ -241,10 +247,52 @@ async function main() {
   console.log(`[earnings-watch] attaching reaction playbooks...`);
   const fullEvents = attachPlaybooksToCalendar(narratedEvents);
 
+  // Past-7-days resolved results. Built from the history archive — the
+  // current calendar's `events` array is upcoming-only by construction,
+  // so the recent_results field is the only way the UI sees past rows.
+  // companyByEventKey lets the slim recent records carry the company
+  // name (history rows only know the symbol). Two-source fallback:
+  //   1) current calendar events — exact (symbol, event_iso_date) match
+  //   2) SWS universe.json — symbol-only fallback for past events whose
+  //      ticker rolled off the NSE calendar.
+  const companyByEventKey = new Map();
+  const companyBySymbol = new Map();
+  for (const e of fullEvents) {
+    if (e && e.symbol && e.event_iso_date && e.company) {
+      companyByEventKey.set(`${e.symbol}|${e.event_iso_date}`, e.company);
+      companyBySymbol.set(e.symbol, e.company);
+    }
+  }
+  try {
+    const universePath = path.join(ROOT, "data", "sws", "universe.json");
+    if (fs.existsSync(universePath)) {
+      const universe = JSON.parse(fs.readFileSync(universePath, "utf8"));
+      for (const u of Array.isArray(universe) ? universe : []) {
+        if (u && u.ticker && u.name && !companyBySymbol.has(u.ticker)) {
+          companyBySymbol.set(u.ticker, u.name);
+        }
+      }
+    }
+  } catch (err) {
+    console.warn(`[earnings-watch] companyBySymbol fallback failed: ${err.message}`);
+  }
+  const recentResults = buildRecentResults({
+    todayIso: calendar.today_iso,
+    pastWindowDays: args.pastWindowDays,
+    companyByEventKey,
+    companyBySymbol,
+  });
+  console.log(
+    `[earnings-watch] recent_results: ${recentResults.length} resolved past events ` +
+      `(window ${args.pastWindowDays}d back from ${calendar.today_iso})`,
+  );
+
   const snapshot = {
     ...calendar,
     schema_version: "earnings-watch-v4",
     events: fullEvents,
+    recent_results: recentResults,
+    past_window_days: args.pastWindowDays,
   };
 
   writeJsonAtomic(OUT_PATH, snapshot);
