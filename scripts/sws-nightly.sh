@@ -38,11 +38,35 @@ REPO_DIR="/Users/mayanktaluja/code/stock-platform"
 cd "${REPO_DIR}" || { echo "[nightly] cannot cd to ${REPO_DIR}"; exit 5; }
 
 LOG="data/sws/sws-nightly.log"
+LOG_PATH="${REPO_DIR}/${LOG}"
 mkdir -p data/sws
 exec >> >(tee -a "${LOG}") 2>&1
 
 ts() { date "+%Y-%m-%d %H:%M:%S %Z"; }
 START_EPOCH="$(date +%s)"
+
+# ---- Slack failure trap (P3.3) ----
+#
+# Catch-all for any non-zero exit — including signals (SIGTERM/SIGHUP from
+# launchd), uncaught `set -u`/`set -o pipefail` triggers, and crashes that
+# happen BEFORE the existing send_mail handlers run. Silent no-op when
+# SLACK_WEBHOOK_URL is unset (the common case for interactive runs).
+#
+# Installed EARLY so a pre-flight or git-sync failure still alerts. Cleared
+# at the bottom of the script (just before the success-path `exit 0`) so the
+# normal completion doesn't fire it. The mid-script `exit N` paths DO fire
+# this trap — that's intentional: Slack gets a terse ping (a few minutes,
+# any phone), the existing send_mail call gets the rich detail. They're
+# additive, not replacements.
+slack_notify_on_exit() {
+  local rc=$?
+  if [ "${rc}" -ne 0 ]; then
+    bash "${REPO_DIR}/scripts/slack-notify.sh" \
+      ":warning: SWS nightly (sws-nightly.sh) failed at $(ts) with exit code ${rc} — see ${LOG_PATH}" \
+      >/dev/null 2>&1 || true
+  fi
+}
+trap slack_notify_on_exit EXIT
 
 # Portable timeout wrapper: GNU `timeout` ships with Linux but not macOS
 # (stock macOS has no equivalent; Homebrew's coreutils provides `gtimeout`).
@@ -222,6 +246,7 @@ if [ ${DRY_RUN} -eq 1 ]; then
   echo "[nightly] DRY RUN — skipping scrape, sanity gate, commit, PR"
   send_mail "✅ SWS nightly DRY RUN OK" "Dry run completed at $(ts). Pre-flight + git sync OK. The real run would now invoke sws-refresh-api.sh."
   echo "[nightly] DRY RUN done in $(($(date +%s) - START_EPOCH))s"
+  trap - EXIT  # dry-run success — don't fire Slack failure trap
   exit 0
 fi
 
@@ -644,6 +669,7 @@ CHANGED_FILES=$(git status --short \
 if [ "${CHANGED_FILES}" -eq 0 ]; then
   echo "[nightly] no SWS data changes detected — nothing to commit"
   send_mail "ℹ️ SWS nightly — no data changes" "Pipeline ran clean but no files changed. Likely SWS upstream returned identical data, or scrape was skipped."
+  trap - EXIT  # clean no-op exit — don't fire Slack failure trap
   exit 0
 fi
 
@@ -801,6 +827,7 @@ if [ "${AUTO_MERGE}" = "1" ]; then
       send_mail "⚠️ SWS nightly — PR open but unmerged" "PR ${PR_URL} created but auto-merge failed. Manual review/merge required.
 
 $(tail -30 ${LOG})"
+      trap - EXIT  # warning, but commit/push succeeded — don't fire Slack failure trap
       exit 0
     }
   fi
@@ -837,4 +864,9 @@ Full sanity report: data/sws/_sanity/_latest.json
 Vercel will redeploy main once CI green. Production data should be fresh shortly."
 
 echo "[nightly] DONE in ${ELAPSED}s ($(ts))"
+
+# Successful run — clear the Slack failure trap so the final `exit 0` doesn't
+# fire it. Mid-script `exit N` paths (panic flag, battery, sanity gate, push
+# failure, etc.) still trigger the trap by design.
+trap - EXIT
 exit 0
