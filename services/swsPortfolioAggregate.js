@@ -792,6 +792,9 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
   const freshCapitalInr = opts.freshCapitalInr ?? null;
   const freshPickLimit = opts.freshPickLimit ?? 8;
   const macroRegime = opts.macroRegime ?? null;
+  const uploadedAtIso = opts.uploadedAtIso ?? null;
+  const asOfDateIso = opts.asOfDateIso ?? null;
+  const brokerSummary = opts.brokerSummary ?? null;
 
   const tiers = buildTiers(scoredHoldings);
   // sectorOverlay must be built before baskets — buildBaskets uses the
@@ -841,11 +844,26 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
   const sectorWipeouts = detectSectorWipeout({ scoredHoldings, reductionTickers });
 
   const picks = loadPicksLatest();
+  // Banner timestamp = when the user gave us this data, NOT when we last
+  // scanned the universe. The legacy behaviour (snapshot_at = picks.scanned_at)
+  // made every fresh upload look stale because the SWS pipeline timestamp
+  // could be hours older than the upload. SWS scan time stays available as
+  // a separate field (sws_scanned_at) so the renderer can show both.
   const banner = {
     engine: "SWS Engine (Beta)",
-    snapshot_at: picks?.scanned_at ?? null,
+    snapshot_at: uploadedAtIso ?? null,
+    statement_as_of: asOfDateIso ?? null,
+    sws_scanned_at: picks?.scanned_at ?? null,
     universe_size: picks?.universe_size ?? null,
     coverage_text: `${snapshot.coveredCount}/${snapshot.holdingsCount} holdings have SWS data`,
+    broker_summary: brokerSummary
+      ? {
+          invested: Number.isFinite(brokerSummary.invested) ? brokerSummary.invested : null,
+          current: Number.isFinite(brokerSummary.current) ? brokerSummary.current : null,
+          unrealisedPL: Number.isFinite(brokerSummary.unrealisedPL) ? brokerSummary.unrealisedPL : null,
+          asOfDate: brokerSummary.asOfDate || null,
+        }
+      : null,
   };
 
   // Group every scored holding by its action so the Action Mix pills in

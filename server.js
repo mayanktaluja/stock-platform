@@ -4918,6 +4918,7 @@ async function runSWSAnalysis({
   optTaxSlabPct,
   ltcgRealisedYtdRupees,
   freshCapitalInr,
+  uploadedAtIso,
 }) {
   const swsT0 = Date.now();
   const swsTimings = {};
@@ -5020,10 +5021,26 @@ async function runSWSAnalysis({
 
   swsTimings.score_ms = Date.now() - swsT0;
   const aggT0 = Date.now();
+  // asOfDate from the broker statement is "DD-MM-YYYY"; toIsoDate normalises
+  // it to ISO. uploadedAtIso comes in already-ISO from the call site.
+  const asOfDateIso = parsed?.summary?.asOfDate
+    ? toIsoDate(parsed.summary.asOfDate)
+    : null;
+  const brokerSummary = parsed?.summary
+    ? {
+        invested: Number.isFinite(parsed.summary.invested) ? parsed.summary.invested : null,
+        current: Number.isFinite(parsed.summary.current) ? parsed.summary.current : null,
+        unrealisedPL: Number.isFinite(parsed.summary.unrealisedPL) ? parsed.summary.unrealisedPL : null,
+        asOfDate: asOfDateIso,
+      }
+    : null;
   const swsReport = buildSWSReport(scoredHoldings, {
     freshCapitalInr,
     freshPickLimit: 8,
     macroRegime: cachedRegime,
+    uploadedAtIso: uploadedAtIso ?? null,
+    asOfDateIso,
+    brokerSummary,
   });
   swsTimings.aggregate_ms = Date.now() - aggT0;
 
@@ -5374,11 +5391,22 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
     // Per-user, keyed by sub. Failures here are non-fatal — analysis still
     // returns; we just lose the "remember this upload" benefit.
     try {
+      // Capture broker statement totals so the broker-reconciliation chip
+      // survives reruns. Without this the chip would disappear after a
+      // tab-switch (rerun synth has no access to the original parsed.summary).
+      const summary = parsed?.summary || {};
+      const brokerSummaryToStore = {
+        invested: Number.isFinite(summary.invested) ? summary.invested : null,
+        current: Number.isFinite(summary.current) ? summary.current : null,
+        unrealisedPL: Number.isFinite(summary.unrealisedPL) ? summary.unrealisedPL : null,
+        asOfDate: summary.asOfDate || null,
+      };
       await getAnalyzerStorage().write(sub, {
         holdings: savable.stocks,
         mfHoldings: savable.mutualFunds,
         uploadedAt: savable.parsedAt,
         sourceFile: req.file.originalname || null,
+        brokerSummary: brokerSummaryToStore,
       });
     } catch (e) {
       console.warn("[ANALYZE] analyzer-cache write failed:", e.message);
@@ -5492,6 +5520,7 @@ app.post("/api/portfolio/analyze", portfolioUpload.single("file"), async (req, r
       optTaxSlabPct,
       ltcgRealisedYtdRupees,
       freshCapitalInr,
+      uploadedAtIso: savable.parsedAt,
     });
 
     // Recommendation-memory pipeline: reconcile against prior snapshot,
@@ -5568,6 +5597,9 @@ app.post("/api/portfolio/analyze/rerun", express.json(), async (req, res) => {
     // Synthesize the parsed-shape object the SWS pipeline expects.
     // Stored holdings were already symbol-resolved at upload time, so we
     // skip the live NSE resolution step.
+    const storedBrokerSummary = stored.brokerSummary && typeof stored.brokerSummary === "object"
+      ? stored.brokerSummary
+      : {};
     const parsed = {
       holdings: stored.holdings.map((h) => ({
         symbol: h.symbol,
@@ -5587,7 +5619,15 @@ app.post("/api/portfolio/analyze/rerun", express.json(), async (req, res) => {
       unmatched: [],
       warnings: [],
       source: "rerun:" + (stored.sourceFile || "stored"),
-      summary: { asOfDate: stored.uploadedAt || null },
+      // The legacy summary.asOfDate = stored.uploadedAt is preserved for the
+      // recommendationMemory idempotency guard. Broker totals come from a
+      // separate persisted block so the chip survives reruns.
+      summary: {
+        asOfDate: storedBrokerSummary.asOfDate || stored.uploadedAt || null,
+        invested: Number.isFinite(storedBrokerSummary.invested) ? storedBrokerSummary.invested : null,
+        current: Number.isFinite(storedBrokerSummary.current) ? storedBrokerSummary.current : null,
+        unrealisedPL: Number.isFinite(storedBrokerSummary.unrealisedPL) ? storedBrokerSummary.unrealisedPL : null,
+      },
     };
 
     const swsResult = await runSWSAnalysis({
@@ -5597,6 +5637,7 @@ app.post("/api/portfolio/analyze/rerun", express.json(), async (req, res) => {
       optTaxSlabPct,
       ltcgRealisedYtdRupees,
       freshCapitalInr,
+      uploadedAtIso: stored.uploadedAt || new Date().toISOString(),
     });
 
     // Memory pipeline (rerun-mode): suppression-only, no writes. Reads the
