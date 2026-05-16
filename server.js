@@ -5249,6 +5249,34 @@ async function runSWSAnalysis({
   const swsT0 = Date.now();
   const swsTimings = {};
 
+  // Earnings-watch snapshot for the prediction-aware reasoning bullet
+  // (services/swsHoldingEngine.js consumes this via portfolioContext).
+  // Loaded once per analyzer run — the 300s NodeCache in
+  // loadCachedEarningsSnapshot keeps this cheap across repeated /analyze
+  // and /analyze/rerun calls within the cache window.
+  //
+  // Staleness gate: if the snapshot is >7 days old or missing, we pass
+  // null down so the holding engine falls back to its legacy behaviour
+  // (no prediction bullet). A single warning per run keeps the log noise
+  // bounded — we don't want 70× the same line for a 70-stock portfolio.
+  let earningsSnapshot = null;
+  try {
+    const _snap = loadCachedEarningsSnapshot();
+    if (_snap && !_snap._missing && _snap.upstream_fetched_at) {
+      const _ageMs = Date.now() - Date.parse(_snap.upstream_fetched_at);
+      const _ageDays = Number.isFinite(_ageMs) ? _ageMs / 86_400_000 : null;
+      if (_ageDays != null && _ageDays > 7) {
+        console.warn(`[ANALYZER] earnings-watch snapshot stale (${_ageDays.toFixed(1)}d) — prediction reasoning disabled this run`);
+      } else {
+        earningsSnapshot = _snap;
+      }
+    } else {
+      console.warn("[ANALYZER] earnings-watch snapshot missing — prediction reasoning disabled this run");
+    }
+  } catch (err) {
+    console.warn(`[ANALYZER] earnings-watch snapshot load failed: ${err && err.message} — prediction reasoning disabled this run`);
+  }
+
   const equityHoldings = parsed.holdings.map((h) => {
     const qty = Number(h.quantity) || 0;
     const avg = Number(h.avgPrice) || 0;
@@ -5331,7 +5359,7 @@ async function runSWSAnalysis({
     const pnlPercent = row.invested > 0 ? ((row.currentValue - row.invested) / row.invested) * 100 : 0;
     const rescored = swsScoreHolding(
       { ...row, positionWeight, sectorWeight, pnlPercent },
-      { sectorWeights, fyContext, taxSlabPct: optTaxSlabPct, regimeSeverity, sectorImpactBySector },
+      { sectorWeights, fyContext, taxSlabPct: optTaxSlabPct, regimeSeverity, sectorImpactBySector, earningsSnapshot },
     );
     return {
       ...rescored,

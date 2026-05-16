@@ -22,6 +22,7 @@ import * as dal from "./swsDal/index.js";
 import { crosscheckHolding } from "./swsLayerCrosscheck.js";
 import { extractCatalystSignals } from "./swsCatalystLayer.js";
 import { extractIndianRiskSignals } from "./swsIndianRiskLayer.js";
+import { findEventBySymbol } from "./earnings/earningsWatchService.js";
 import { computeRecommendationV2 } from "./swsConvictionEngine.js";
 import { isV1Only, isV2Primary, getRecommenderMode } from "./swsRecommenderMode.js";
 import { findPeerSubstitutes } from "./swsPeerLayer.js";
@@ -346,6 +347,69 @@ function buildSWSReasons({ scored, snow, fiscal, action, band, reconciled }) {
   return reasons;
 }
 
+// Classify an action label as bullish / bearish / neutral. Mirrors the
+// helpers in swsConvictionEngine but kept local — we only need a 3-way
+// classification here, not the full ladder math. Exported for unit tests
+// (test/swsHoldingEngine.predictionReasoning.test.mjs).
+export function _actionDirection(action) {
+  if (!action) return "neutral";
+  if (action === "HOLD") return "neutral";
+  if (action === "EXIT") return "bearish";
+  if (action.startsWith("EXIT-")) return "bearish";
+  if (action.startsWith("Reduction")) return "bearish";
+  if (action.startsWith("Top-up") || action === "STRONG Top-up") return "bullish";
+  return "neutral";
+}
+
+// Build a single reasoning bullet that surfaces the upcoming earnings
+// prediction alongside the analyzer's action. Returns null when the
+// prediction metadata isn't actionable (missing, out-of-window, etc.).
+//
+// Why this exists: the earnings predictor doesn't pass its own cap-lift gate
+// yet (60-64% confidence bucket hit-rate is 25%) so we deliberately don't
+// let it CHANGE the action. But the user sees both views in the UI — the
+// analyzer's REDUCE and the modal's BEAT — and the silence between them
+// reads as a self-contradiction. This bullet makes the relationship
+// explicit: concurring / conflicting / neutral, with the actual numbers.
+//
+// Exported for unit tests (test/swsHoldingEngine.predictionReasoning.test.mjs).
+export function _buildPredictionReasoningBullet(action, prediction) {
+  if (!prediction || !prediction.verdict) return null;
+  const days = prediction.days_until;
+  if (days == null || days < 0 || days > 14) return null;
+  const verdict = prediction.verdict;
+  const conf = Math.round(num(prediction.confidence_pct, 0));
+  const fq = prediction.fiscal_quarter || "next Q-result";
+  const dq = prediction.data_quality || "MEDIUM";
+  const dayLabel = days === 0 ? "today" : days === 1 ? "tomorrow" : `in ${days}d`;
+
+  if (verdict === "INLINE") {
+    return `${fq} predicted INLINE ${dayLabel} (${conf}% conf, ${dq} quality) — no directional read; act on the existing thesis.`;
+  }
+
+  const dir = _actionDirection(action);
+
+  // Confirming (analyzer and predictor agree on direction)
+  if ((verdict === "BEAT" && dir === "bullish") || (verdict === "MISS" && dir === "bearish")) {
+    const tailwind = verdict === "BEAT" ? "Tailwind" : "Headwind";
+    return `${tailwind}: ${fq} predicted ${verdict} ${dayLabel} (${conf}% conf, ${dq} quality) — supports the current view.`;
+  }
+
+  // Conflicting (analyzer recommends one direction, predictor the other)
+  if ((verdict === "BEAT" && dir === "bearish") || (verdict === "MISS" && dir === "bullish")) {
+    const direction = dir === "bearish" ? "reduction" : "top-up";
+    return `Note: ${fq} predicted ${verdict} ${dayLabel} (${conf}% conf, ${dq} quality) — conflicts with the ${direction}. Predictor is in calibration; re-evaluate post-result.`;
+  }
+
+  // Neutral analyzer action (HOLD) with a directional forecast
+  if (dir === "neutral") {
+    const tilt = verdict === "BEAT" ? "upside tilt" : "downside tilt";
+    return `Watch: ${fq} predicted ${verdict} ${dayLabel} (${conf}% conf, ${dq} quality) — ${tilt} into the print.`;
+  }
+
+  return null;
+}
+
 /**
  * Backward-compatibility shim. The real timing logic moved to
  * services/timingObservation.js as part of PR-3 (richer inputs:
@@ -402,6 +466,16 @@ export function scoreHolding(holding, portfolioContext = {}) {
 
   const surveillance = scored.v2_breakdown?.surveillance || null;
 
+  // Look up the upcoming-earnings event for this ticker. Passed into the
+  // catalyst layer (for the prediction metadata block) AND used directly
+  // below to append a reasoning bullet that cross-references the predictor.
+  // When portfolioContext doesn't carry a snapshot (legacy callers, stale
+  // data, missing file), this is null and downstream logic skips.
+  const _tickerForLookup = scored.ticker || holding?.symbol || holding?.ticker;
+  const earningsEvent = portfolioContext.earningsSnapshot
+    ? findEventBySymbol(portfolioContext.earningsSnapshot, _tickerForLookup)
+    : null;
+
   const hard = evaluateHardOverrides({
     scored, holding, snow, fiscal,
     position_weight, sector_weight, upside,
@@ -423,6 +497,30 @@ export function scoreHolding(holding, portfolioContext = {}) {
     action = sb.action;
     band = sb.band;
     reasons = buildSWSReasons({ scored, snow, fiscal, action, band, reconciled });
+  }
+
+  // Append the upcoming-earnings prediction bullet to whichever reasons set
+  // we landed on (hard-override OR scoreBand). This is the cross-reference
+  // the user explicitly asked for: when the analyzer says REDUCE and the
+  // earnings modal says BEAT, the analyzer's reasoning will name the
+  // conflict instead of leaving the user to spot it themselves.
+  if (earningsEvent) {
+    const _predictionMeta = (() => {
+      const p = earningsEvent.prediction;
+      if (!p || !p.verdict || p.verdict === "INSUFFICIENT_DATA") return null;
+      const dq = earningsEvent?.signals?.data_quality;
+      if (dq === "LOW") return null;
+      return {
+        verdict: p.verdict,
+        confidence_pct: num(p.confidence_pct, 0),
+        fiscal_quarter: earningsEvent.fiscal_quarter || null,
+        days_until: num(earningsEvent.days_until, null),
+        data_quality: dq || "MEDIUM",
+        event_iso_date: earningsEvent.event_iso_date || null,
+      };
+    })();
+    const predictionBullet = _buildPredictionReasoningBullet(action, _predictionMeta);
+    if (predictionBullet) reasons = [...reasons, predictionBullet];
   }
 
   // Pass regime severity + sector impact from portfolioContext when the
@@ -453,7 +551,11 @@ export function scoreHolding(holding, portfolioContext = {}) {
   });
 
   // Layer-3 (Indian-specific risk) and Layer-4 (catalyst) shadow attaches.
-  const catalyst = extractCatalystSignals(scored);
+  // The catalyst layer now receives the upcoming-earnings event so it can
+  // surface a `prediction` metadata block on the result. The catalystScore
+  // itself is unchanged — see _buildPredictionMeta in swsCatalystLayer.js
+  // for why we don't fold the prediction into the score yet.
+  const catalyst = extractCatalystSignals(scored, { earningsEvent });
   const indianRisk = extractIndianRiskSignals({
     ticker: scored.ticker || holding?.symbol || holding?.ticker,
     deep: scored,
