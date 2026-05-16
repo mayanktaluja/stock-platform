@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-05-15",
-  "fetchedAt": "2026-05-15T17:49:28.645Z",
+  "fetchedAt": "2026-05-16T01:55:02.656Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20260515_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -796,6 +796,25 @@
         "interpretation": "No meaningful conviction — OI/price moves both within noise."
       },
       {
+        "underlying": "PRESTIGE",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-05-26",
+        "nearMonthSettle": 1340.7,
+        "underlyingPrice": 1342.2,
+        "oiTotal": 5759100,
+        "oiChangeTotal": 202050,
+        "volumeTotal": 1444,
+        "oiDeltaPct": 3.6359219369989475,
+        "priceDeltaPct": -2.331172142492897,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_buildup",
+        "decoupled": false,
+        "score": 4,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
+      },
+      {
         "underlying": "BHARATFORG",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -902,25 +921,6 @@
         "volumeTotal": 6383,
         "oiDeltaPct": -3.4184580572167445,
         "priceDeltaPct": -0.8137998191556068,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "long_unwinding",
-        "decoupled": false,
-        "score": 4,
-        "interpretation": "Longs being booked — OI falling with price."
-      },
-      {
-        "underlying": "LICHSGFIN",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-05-26",
-        "nearMonthSettle": 547.1,
-        "underlyingPrice": 547.05,
-        "oiTotal": 31941000,
-        "oiChangeTotal": -1126000,
-        "volumeTotal": 4560,
-        "oiDeltaPct": -3.405207608794266,
-        "priceDeltaPct": -2.4255395041911934,
         "volumeRatio": null,
         "volumeBucket": "unknown",
         "signal": "long_unwinding",
@@ -1140,25 +1140,6 @@
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
-        "underlying": "PRESTIGE",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-05-26",
-        "nearMonthSettle": 1340.7,
-        "underlyingPrice": 1342.2,
-        "oiTotal": 5759100,
-        "oiChangeTotal": 202050,
-        "volumeTotal": 1444,
-        "oiDeltaPct": 3.6359219369989475,
-        "priceDeltaPct": -2.331172142492897,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_buildup",
-        "decoupled": false,
-        "score": 4,
-        "interpretation": "Bears adding fresh shorts — OI up while price drops."
-      },
-      {
         "underlying": "COCHINSHIP",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -1214,6 +1195,25 @@
         "decoupled": false,
         "score": 4,
         "interpretation": "Bulls adding fresh longs — OI up with price."
+      },
+      {
+        "underlying": "LAURUSLABS",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-05-26",
+        "nearMonthSettle": 1322.6,
+        "underlyingPrice": 1323.8,
+        "oiTotal": 19639250,
+        "oiChangeTotal": -753950,
+        "volumeTotal": 4009,
+        "oiDeltaPct": -3.697065688562854,
+        "priceDeltaPct": 0.3870967741935415,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "neutral",
+        "decoupled": false,
+        "score": 4,
+        "interpretation": "No meaningful conviction — OI/price moves both within noise."
       }
     ]
   }
