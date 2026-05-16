@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Methodology — Starbhai</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .legal-wrap { max-width: 880px; margin: 40px auto; padding: 0 24px; line-height: 1.6; }
+    .legal-wrap h1 { font-family: 'Fraunces', serif; font-size: 32px; margin-bottom: 8px; color: var(--text); }
+    .legal-wrap .lede { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+    .legal-wrap h2 { font-size: 18px; margin-top: 32px; margin-bottom: 8px; color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+    .legal-wrap h3 { font-size: 14px; margin-top: 20px; margin-bottom: 4px; color: var(--text); }
+    .legal-wrap p, .legal-wrap li { font-size: 13.5px; color: var(--text); }
+    .legal-wrap ul { padding-left: 20px; }
+    .legal-wrap table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 12px 0; }
+    .legal-wrap th, .legal-wrap td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
+    .legal-wrap th { background: var(--panel); font-weight: 600; }
+    .legal-wrap td.num { font-family: 'JetBrains Mono', monospace; text-align: right; }
+    .legal-wrap .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin: 16px 0; font-size: 13px; }
+    .legal-wrap a { color: var(--gold); }
+    .legal-wrap .back { display: inline-block; margin-bottom: 16px; color: var(--text-muted); font-size: 12px; text-decoration: none; }
+    .legal-wrap .back:hover { color: var(--text); }
+    .legal-wrap code { background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 3px; font-size: 12px; }
+    .legal-wrap .live { font-size: 11px; color: var(--text-muted); margin-left: 6px; }
+    .legal-wrap .live-val { color: #86efac; font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body>
+  <main class="legal-wrap" role="main">
+    <a class="back" href="/index.html">&larr; Back to dashboard</a>
+    <h1>Methodology</h1>
+    <p class="lede">
+      Exactly what the platform measures, how the scores are produced, and what the
+      current backtest says about how often the predictions are right.
+    </p>
+
+    <h2>1. Universe and data sources</h2>
+    <p>
+      Coverage: ~5,500 NSE/BSE names. The author does not curate — every ticker SWS
+      tracks shows up unless an NSE surveillance flag (ASM/GSM) blocks it.
+    </p>
+    <ul>
+      <li><strong>Simply Wall Street (SWS)</strong> — Snowflake score, fair-value upside, V3 100-pt breakdown, 90-day news briefs.</li>
+      <li><strong>Yahoo Finance</strong> — live quotes, earnings history (~494 covered names for fundamentals trajectory).</li>
+      <li><strong>NSE (scraped locally)</strong> — event calendar, corporate announcements, bulk/block deals, surveillance flags.</li>
+      <li><strong>Groq / Gemini LLMs</strong> — qualitative news classifier for the earnings predictor. Heuristic keyword fallback when keys are absent (UI surfaces a banner when this happens).</li>
+    </ul>
+
+    <h2>2. SWS Picks — how a stock becomes a recommendation</h2>
+    <p>
+      The picks come straight from SWS's V3 framework (100-pt composite of Future, Past, Health,
+      Dividends, Valuation). The platform doesn't re-score — it bands the SWS score into
+      <strong>STRONG&nbsp;BUY → BUY → HOLD → TRIM → SELL</strong> bands and pairs each with the live
+      fair-value upside %. The bands are conservative: STRONG BUY requires score ≥ 75 + upside ≥ 30%
+      together, not either-or.
+    </p>
+    <p>
+      Hard gates that REMOVE a stock from picks regardless of score:
+    </p>
+    <ul>
+      <li>NSE Surveillance (ASM/GSM) flag — surfaces a loud red banner instead of a recommendation.</li>
+      <li>Governance issues (pledged-share spike, auditor exit) flagged by the governance gate.</li>
+      <li>Fundamentals gate failures (NaN/zero/unparseable critical metrics).</li>
+    </ul>
+
+    <h2>3. Earnings Predictor — 9-component score (max ±100)</h2>
+    <p>
+      For every upcoming NSE earnings event in the next 30 days, the predictor produces a
+      BEAT / INLINE / MISS verdict with a confidence bucket. The score is a weighted sum of nine
+      components; each can contribute positive or negative points. The verdict is just a threshold
+      on the composite (≥65 → BEAT, &lt;35 → MISS, else INLINE).
+    </p>
+    <table>
+      <thead><tr><th>Component</th><th>Source</th><th>Max ±pts</th><th>What it captures</th></tr></thead>
+      <tbody>
+        <tr><td>V3 Future / Past</td><td>SWS V3 breakdown</td><td class="num">±18</td><td>Forward earnings growth + earnings trajectory, anchored at neutral midpoint.</td></tr>
+        <tr><td>V3 Valuation</td><td>SWS fair-value</td><td class="num">±8</td><td>Deep discount → BEAT setup; overvalued → fade.</td></tr>
+        <tr><td>V3 Overlay</td><td>SWS risk flags</td><td class="num">−10</td><td>Surveillance flags, falling-knife catalysts. One-sided (deduct only).</td></tr>
+        <tr><td>Pre-runup momentum</td><td>Yahoo quote 20d</td><td class="num">±15</td><td>Spike → priced-in; smooth informed flow → +; lagging → mild +.</td></tr>
+        <tr><td>Sector momentum</td><td>SWS sector overview</td><td class="num">±10</td><td>1-month peer average return. Vol-scaled when daily-vol series available.</td></tr>
+        <tr><td>EPS trajectory</td><td>Yahoo fundamentals</td><td class="num">±15</td><td>YoY EPS growth. Returns 0 + <code>data_quality.trajectory: "absent"</code> for the ~5,000 names without coverage.</td></tr>
+        <tr><td>Last-quarter echo</td><td>Yahoo earningsHistory</td><td class="num">±5</td><td>Mild persistence bias (beat → +4; miss → −4).</td></tr>
+        <tr><td>Announcements</td><td>NSE corp announcements 30d</td><td class="num">±10</td><td>Top-3 most material. ORDER_WIN, CAPACITY_EXPANSION → +; LITIGATION → −.</td></tr>
+        <tr><td>Bulk/block deals</td><td>NSE deals 7d</td><td class="num">±7</td><td>Net institutional flow as % of market cap.</td></tr>
+        <tr><td>LLM qualitative signal</td><td>Groq → Gemini → heuristic</td><td class="num">±10</td><td>Bias (lean_beat/neutral/lean_miss) + confidence_delta ∈ [−5,+5]. Banner appears when heuristic fallback is active.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>4. Confidence cap + the calibration gate</h2>
+    <p>
+      Confidence is hard-capped at <strong>65%</strong> in V1. The cap will not lift until the
+      backtest clears three conditions simultaneously:
+    </p>
+    <ul>
+      <li>≥ 30 resolved actuals (currently 47 ✓)</li>
+      <li>60–64% bucket hit-rate ≥ 55%</li>
+      <li>Brier score &lt; 0.20</li>
+    </ul>
+    <p>
+      Until the gate clears, every BEAT-or-MISS card carries an explicit "capped at 65%" note. The
+      backtest re-runs nightly and writes <code>data/catalysts/earnings-backtest-latest.json</code>.
+      You can also click any prediction in the Track Record tab to see the calibration plot.
+    </p>
+
+    <h2>5. Backtest discipline</h2>
+    <p>
+      Predictions are archived per day in <code>data/catalysts/earnings-history/&lt;YYYY-MM-DD&gt;.json</code>.
+      Each row is keyed on (symbol, event_iso_date) and dedup is fiscal-quarter-end based to dodge
+      IST/UTC off-by-one bugs. Restatements (NSE revising the actual) preserve the prior value in
+      <code>actual_history[]</code>. Predictor version is stamped into every row so a weight change
+      can't blur into the prior version's hit rate.
+    </p>
+    <p>
+      Cross-validation: <strong>walk-forward</strong> by fiscal quarter (rolling-origin). A random
+      80/20 hold-out leaks future information into training for time-series data; walk-forward trains
+      on quarters 1..k and tests on quarter k+1, advancing the window. Bootstrap 95% confidence
+      intervals are reported on every hit-rate metric — the platform refuses to claim "55%" when n is
+      too small to distinguish that from random.
+    </p>
+
+    <h2>6. Portfolio analyser — what the action grid actually does</h2>
+    <p>
+      The analyser hard-gates on the 3-question risk profile (CONSERVATIVE / MODERATE / AGGRESSIVE).
+      Without it, the analyser refuses to score and shows the survey instead. With it, every position
+      gets:
+    </p>
+    <ul>
+      <li><strong>Action</strong> — REDUCE / TRIM / HOLD / TOP-UP / BUY based on combined score, macro regime, and concentration.</li>
+      <li><strong>Sell trigger</strong> — concrete rupee stop = max(avg cost × 0.85, current × 0.92, 52w low × 1.01). The most conservative of the three floors wins.</li>
+      <li><strong>Recovery math</strong> — break-even price + upside-needed % + recovery probability heuristic.</li>
+      <li><strong>Position sizing</strong> — earned weight vs current weight (over/right-sized/under).</li>
+    </ul>
+
+    <h2>7. What the platform does NOT do</h2>
+    <ul>
+      <li>Issue personalised investment advice (not registered as a SEBI RA/IA).</li>
+      <li>Handle or hold client money or securities.</li>
+      <li>Guarantee any return, hit-rate, or risk-adjusted outcome.</li>
+      <li>Pay any third-party for inclusion or favourable scoring — see the
+        <a href="/api/disclosures/holdings" target="_blank" rel="noopener">holdings disclosure</a> for
+        the full conflict-of-interest statement.</li>
+    </ul>
+
+    <div class="panel">
+      <strong>Want to dig into the source?</strong> The code is on the author's local worktree. Every
+      scoring component is a separate pure function with unit tests covering edge cases. Grievances
+      and methodology questions go to
+      <a href="mailto:mtaluja11@gmail.com?subject=Starbhai%20methodology">mtaluja11@gmail.com</a>
+      (24h response target).
+    </div>
+  </main>
+</body>
+</html>

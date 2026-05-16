@@ -4875,6 +4875,8 @@ function serveGatedHtml(filename) {
   };
 }
 app.get("/legal/grievance", serveGatedHtml("grievance.html"));
+app.get("/legal/charter", serveGatedHtml("charter.html"));
+app.get("/methodology", serveGatedHtml("methodology.html"));
 
 // ─── /api/disclosures/holdings — author position + COI disclosure (P0.5) ───
 //
