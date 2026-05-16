@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grievance Procedure — Starbhai</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .legal-wrap { max-width: 720px; margin: 40px auto; padding: 0 24px; line-height: 1.6; }
+    .legal-wrap h1 { font-family: 'Fraunces', serif; font-size: 32px; margin-bottom: 8px; color: var(--text); }
+    .legal-wrap .lede { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+    .legal-wrap h2 { font-size: 18px; margin-top: 28px; margin-bottom: 8px; color: var(--text); }
+    .legal-wrap p, .legal-wrap li { font-size: 14px; color: var(--text); }
+    .legal-wrap ul, .legal-wrap ol { padding-left: 20px; }
+    .legal-wrap .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin: 16px 0; }
+    .legal-wrap a { color: var(--gold); }
+    .legal-wrap .back { display: inline-block; margin-bottom: 16px; color: var(--text-muted); font-size: 12px; text-decoration: none; }
+    .legal-wrap .back:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+  <main class="legal-wrap" role="main">
+    <a class="back" href="/index.html">&larr; Back to dashboard</a>
+    <h1>Grievance Procedure</h1>
+    <p class="lede">How to raise a concern about anything you've seen, read, or acted on through the Starbhai platform.</p>
+
+    <h2>Scope</h2>
+    <p>
+      Starbhai is an educational research platform built and maintained by a single person.
+      It is <strong>not</strong> a SEBI-registered Research Analyst or Investment Adviser, so the formal
+      SCORES grievance route does not apply. However, at the friends-and-family tier, every concern is
+      treated as a personal matter and answered directly by the author.
+    </p>
+
+    <h2>What to file a grievance about</h2>
+    <ul>
+      <li>A recommendation that materially misled you — wrong direction, wrong scoring inputs, factually incorrect rationale.</li>
+      <li>A bug that resulted in stale data being shown as fresh, or a stop-loss / sell-trigger value computed incorrectly.</li>
+      <li>A privacy concern — your portfolio data was exposed, or another user could see your holdings.</li>
+      <li>A conflict-of-interest concern — the author appeared to favour a stock they held without disclosing it on the
+        <a href="/api/disclosures/holdings" target="_blank" rel="noopener">holdings disclosure</a>.</li>
+      <li>Anything else that, on reflection, the platform should not have done.</li>
+    </ul>
+
+    <h2>How to file</h2>
+    <div class="panel">
+      <p>
+        Email <a href="mailto:mtaluja11@gmail.com?subject=Starbhai%20grievance">mtaluja11@gmail.com</a>
+        with subject line <code>Starbhai grievance</code>. Include:
+      </p>
+      <ol>
+        <li>The recommendation or screen that triggered the concern (URL, ticker, or screenshot).</li>
+        <li>The date / time you acted on it (if applicable).</li>
+        <li>The concrete harm or risk (financial impact, privacy concern, data accuracy).</li>
+        <li>What outcome you'd like — fix, retraction, clarification, refund (if applicable).</li>
+      </ol>
+    </div>
+
+    <h2>What to expect</h2>
+    <ul>
+      <li><strong>Acknowledgement within 24 hours.</strong> If you don't get one, your mail likely went to spam — re-send from a different address.</li>
+      <li><strong>Initial response within 5 working days</strong> with the author's diagnosis and proposed remediation.</li>
+      <li><strong>Closure within 30 days.</strong> Substantive grievances result in a public-facing post-incident note attached to the
+        <a href="/api/disclosures/holdings" target="_blank" rel="noopener">holdings disclosure</a> file, so others see the lesson learned.</li>
+    </ul>
+
+    <h2>Escalation</h2>
+    <p>
+      There is no second-level escalation route (the author is also the platform maintainer). If a grievance is unresolved
+      to your satisfaction after 30 days, you are welcome to share the matter with peers in the
+      friends-and-family group directly.
+    </p>
+
+    <h2>What this is not</h2>
+    <p>
+      This grievance procedure does NOT create an advisor-client relationship. Starbhai does not issue personalised
+      investment advice, does not handle client money, and does not have fiduciary obligations under SEBI IA / RA
+      regulations. The content of the platform remains educational research, with all the limitations set out in the
+      <a href="/index.html#sebiSiteFooter">site footer</a>.
+    </p>
+  </main>
+</body>
+</html>

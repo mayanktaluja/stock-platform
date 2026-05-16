@@ -4860,6 +4860,22 @@ app.post("/api/portfolio", async (req, res) => {
 
 import { scoreRiskProfile, RISK_PROFILE_QUESTIONS } from "./riskProfile.js";
 
+// ─── /legal/* — static legal pages (P1.3 grievance, P1.4 methodology,
+// P4.1 Investor Charter). These are served from /gated/*.html so the
+// per-session auth gate still applies in production; in dev (AUTH_ENABLED
+// false) they're publicly readable, which is the desired friends-and-
+// family behaviour.
+function serveGatedHtml(filename) {
+  return (req, res) => {
+    const p = path.join(__dirname, "gated", filename);
+    if (!fs.existsSync(p)) {
+      return res.status(404).send(`<h1>Page not found</h1><p>${filename} is missing.</p>`);
+    }
+    res.type("text/html").sendFile(p);
+  };
+}
+app.get("/legal/grievance", serveGatedHtml("grievance.html"));
+
 // ─── /api/disclosures/holdings — author position + COI disclosure (P0.5) ───
 //
 // SEBI RA Reg 24(2) requires research analysts to disclose positions in
