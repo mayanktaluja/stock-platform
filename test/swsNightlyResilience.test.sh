@@ -23,6 +23,13 @@ trap "rm -rf '${TMP_DIR}'" EXIT
 
 cd "${TMP_DIR}"
 
+# Pre-push and other git hooks export GIT_DIR / GIT_WORK_TREE / GIT_INDEX_FILE
+# pointing at the OUTER repo. Inheriting those into our throwaway test repo
+# makes `git init` succeed but every subsequent command fail with "fatal:
+# this operation must be run in a work tree" (the inherited GIT_DIR wins).
+# Clear them so the test repo is genuinely isolated.
+unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE GIT_OBJECT_DIRECTORY GIT_COMMON_DIR
+
 ok=0
 fail=0
 
