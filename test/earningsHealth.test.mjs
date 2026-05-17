@@ -393,5 +393,78 @@ it("data_quality:LOW with non-INSUFFICIENT_DATA verdict is still counted (defens
   assert.equal(h.insufficient_data.count_total, 1);
 });
 
+console.log("[P4] macro regime freshness (2026-05-17 fix)");
+
+it("macro regime missing → present:false, no alert", () => {
+  const h = buildHealthSummary({ history: [], nowIso: NOW });
+  assert.equal(h.macro_regime.present, false);
+  assert.equal(h.macro_regime.age_hours, null);
+  assert.equal(h.macro_regime.stale, false);
+  assert.ok(!h.alerts.some((a) => /macro regime/i.test(a)));
+});
+
+it("macro regime missing generatedAt → present:false, no alert", () => {
+  const h = buildHealthSummary({
+    history: [],
+    macroRegime: { regime: "CALM" },  // no generatedAt
+    nowIso: NOW,
+  });
+  assert.equal(h.macro_regime.present, false);
+  assert.ok(!h.alerts.some((a) => /macro regime/i.test(a)));
+});
+
+it("macro regime 5h old → fresh, no alert, age_hours reported", () => {
+  const fiveHoursAgo = new Date(new Date(NOW).getTime() - 5 * 3600 * 1000).toISOString();
+  const h = buildHealthSummary({
+    history: [],
+    macroRegime: { regime: "OIL_SHOCK", generatedAt: fiveHoursAgo, classifierProvider: "groq" },
+    nowIso: NOW,
+  });
+  assert.equal(h.macro_regime.present, true);
+  assert.equal(h.macro_regime.age_hours, 5);
+  assert.equal(h.macro_regime.stale, false);
+  assert.equal(h.macro_regime.regime, "OIL_SHOCK");
+  assert.equal(h.macro_regime.classifier_provider, "groq");
+  assert.ok(!h.alerts.some((a) => /macro regime/i.test(a)));
+});
+
+it("macro regime exactly 17h old → fresh, no alert (just under 18h threshold)", () => {
+  const seventeenHoursAgo = new Date(new Date(NOW).getTime() - 17 * 3600 * 1000).toISOString();
+  const h = buildHealthSummary({
+    history: [],
+    macroRegime: { regime: "CALM", generatedAt: seventeenHoursAgo, classifierProvider: "groq" },
+    nowIso: NOW,
+  });
+  assert.equal(h.macro_regime.stale, false);
+  assert.ok(!h.alerts.some((a) => /macro regime/i.test(a)));
+});
+
+it("macro regime exactly 18h old → stale, alert fires", () => {
+  const eighteenHoursAgo = new Date(new Date(NOW).getTime() - 18 * 3600 * 1000).toISOString();
+  const h = buildHealthSummary({
+    history: [],
+    macroRegime: { regime: "CALM", generatedAt: eighteenHoursAgo, classifierProvider: "groq" },
+    nowIso: NOW,
+  });
+  assert.equal(h.macro_regime.stale, true);
+  assert.equal(h.macro_regime.age_hours, 18);
+  assert.ok(h.alerts.some((a) => /Macro regime is 18h old/i.test(a)),
+    `alerts: ${JSON.stringify(h.alerts)}`);
+  assert.ok(h.alerts.some((a) => /macro-only cron is unhealthy/i.test(a)),
+    `alerts should name the cron: ${JSON.stringify(h.alerts)}`);
+});
+
+it("macro regime 24h old → alert with correct age, not healthy", () => {
+  const twentyFourHoursAgo = new Date(new Date(NOW).getTime() - 24 * 3600 * 1000).toISOString();
+  const h = buildHealthSummary({
+    history: [],
+    macroRegime: { regime: "CALM", generatedAt: twentyFourHoursAgo, classifierProvider: "groq" },
+    nowIso: NOW,
+  });
+  assert.equal(h.macro_regime.age_hours, 24);
+  assert.equal(h.healthy, false);
+  assert.ok(h.alerts.some((a) => /Macro regime is 24h old/i.test(a)));
+});
+
 console.log(`\n=== ${ok} passed, ${fail} failed ===`);
 if (fail) process.exit(1);

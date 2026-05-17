@@ -85,6 +85,27 @@ class FileMacroRegimeStorage {
     // call sites. The canonical refresh (scripts/refresh-macro-regime.mjs)
     // writes via its own writeAtomic(), not this adapter, so it is unaffected.
     if (process.env.NODE_ENV === "test") return;
+
+    // Defensive log (2026-05-17 fix): warn if the incoming regime's
+    // generatedAt would go BACKWARDS vs the existing file. We don't refuse
+    // the write (clock corrections, restatements, and manual reruns are
+    // legitimate), but we surface the anomaly so a regression like the one
+    // that prompted the original Phase 3 plan (mtime fresh, generatedAt
+    // stale) is visible in the logs immediately rather than only via the
+    // user-facing banner hours later.
+    try {
+      if (existsSync(FILE_PATH) && regime?.generatedAt) {
+        const existing = JSON.parse(readFileSync(FILE_PATH, "utf-8"));
+        if (existing?.generatedAt && new Date(regime.generatedAt) < new Date(existing.generatedAt)) {
+          const ageDeltaMs = new Date(existing.generatedAt) - new Date(regime.generatedAt);
+          console.warn(
+            `[MACRO:FILE] write would regress generatedAt by ${Math.round(ageDeltaMs / 1000)}s ` +
+            `(existing=${existing.generatedAt}, incoming=${regime.generatedAt}) — proceeding but flagging`
+          );
+        }
+      }
+    } catch { /* read-for-comparison errors are silent; the actual write below is what matters */ }
+
     try {
       mkdirSync(path.dirname(FILE_PATH), { recursive: true });
       const tmp = `${FILE_PATH}.${process.pid}.tmp`;

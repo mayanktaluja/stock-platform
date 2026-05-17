@@ -36,6 +36,7 @@ const CATALYSTS_DIR = path.join(ROOT, "data", "catalysts");
 const BACKTEST_PATH = path.join(CATALYSTS_DIR, "earnings-backtest-latest.json");
 const WATCH_PATH = path.join(CATALYSTS_DIR, "earnings-watch-latest.json");
 const HEALTH_PATH = path.join(CATALYSTS_DIR, "earnings-health.json");
+const MACRO_REGIME_PATH = path.join(ROOT, "data", "macroRegime.json");
 
 const argJson = process.argv.includes("--json");
 
@@ -79,11 +80,14 @@ async function main() {
   const watch = readJsonSafe(WATCH_PATH);
   const priorHealth = readJsonSafe(HEALTH_PATH);
 
+  const macroRegime = readJsonSafe(MACRO_REGIME_PATH);
+
   const health = buildHealthSummary({
     history,
     backtestSnapshot,
     watchEvents: watch && Array.isArray(watch.events) ? watch.events : [],
     priorHealth,
+    macroRegime,
   });
 
   writeJsonAtomic(HEALTH_PATH, health);
@@ -108,6 +112,12 @@ async function main() {
   console.log(`Archive schema:      ${Object.entries(health.archive_schema).map(([k, v]) => `${k}×${v}`).join(", ") || "—"}`);
   console.log(`Predictor versions:  ${Object.entries(health.predictor_versions).map(([k, v]) => `${k}×${v}`).join(", ") || "—"}`);
   console.log(`Restatements:        ${health.restatements.count}`);
+  if (health.macro_regime && health.macro_regime.present) {
+    const m = health.macro_regime;
+    console.log(`Macro regime:        ${m.regime || "?"} via ${m.classifier_provider || "?"} · ${m.age_hours}h old${m.stale ? " ⚠ STALE" : ""}`);
+  } else {
+    console.log(`Macro regime:        (missing — data/macroRegime.json not present)`);
+  }
   console.log("");
   if (health.alerts.length === 0) {
     console.log("✅ No alerts — pipeline healthy.");
