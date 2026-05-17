@@ -405,6 +405,17 @@ else
   aux_status "nse-announcements-rolling.json" "FAILED"
 fi
 
+# NSE index constituents (Nifty 100 / Midcap 150 / Smallcap 250 / 500).
+# Powers the universe-filter dropdown on the SWS Picks tab. Runs locally
+# only (Vercel datacenter IPs would 403). Non-fatal: the server falls
+# back to the hardcoded NIFTY500_SYMBOLS set if the JSON is stale/missing.
+if with_timeout 300 node scripts/refresh-nse-index-constituents.mjs 2>&1 | sed 's/^/[nse-idx] /'; then
+  aux_status "nse-index-constituents.json" "OK"
+else
+  echo "[nightly] refresh-nse-index-constituents.mjs failed — non-fatal, continuing"
+  aux_status "nse-index-constituents.json" "FAILED"
+fi
+
 if with_timeout 600 bash scripts/refresh-fo-oi.sh 2>&1 | sed 's/^/[fo-oi] /'; then
   aux_status "oi-deltas-latest.json" "OK"
 else
@@ -724,6 +735,7 @@ CHANGED_FILES=$(git status --short \
   data/sws/sws-scored-universe.json \
   data/sws/v3-universe-stats.json \
   data/sws/nse-event-calendar.json \
+  data/nse-index-constituents.json \
   data/catalysts/ \
   data/nse-fo/oi-deltas-latest.json \
   fundamentals.json \
@@ -770,6 +782,7 @@ git add data/sws/deep/ \
         data/sws/sws-scored-universe.json \
         data/sws/v3-universe-stats.json \
         data/sws/nse-event-calendar.json \
+        data/nse-index-constituents.json \
         data/catalysts/ \
         data/nse-fo/oi-deltas-latest.json \
         fundamentals.json \
