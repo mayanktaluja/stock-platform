@@ -323,21 +323,44 @@ async function loadLlmSignalBanner() {
   if (!health) return;
   const banner = document.getElementById("snapshotHealthBanner");
   if (!banner) return;
-  const provider = health.llm_provider;
+  // Single source of truth: the typed `llm_offline` flag from
+  // earningsHealth.js. Fires only when groq===0 AND gemini===0 AND
+  // heuristic share >= 80% — matches the alert in earnings-health.json
+  // so the banner and the Slack ping say the same thing. Falls back to
+  // the older share-only heuristic for pre-v1 health snapshots that don't
+  // carry the typed flag.
   let isHeuristic = false;
-  if (provider == null) isHeuristic = true;
-  else if (typeof provider === "string" && /heuristic/i.test(provider)) isHeuristic = true;
-  else if (typeof provider === "object") {
-    // llm_provider_split shape from earningsHealth.js: { heuristic, groq, gemini }
-    const total = (provider.heuristic || 0) + (provider.groq || 0) + (provider.gemini || 0);
-    if (total > 0 && (provider.heuristic / total) > 0.5) isHeuristic = true;
+  if (typeof health.llm_offline === "boolean") {
+    isHeuristic = health.llm_offline;
+  } else {
+    const provider = health.llm_provider;
+    if (provider == null) isHeuristic = true;
+    else if (typeof provider === "string" && /heuristic/i.test(provider)) isHeuristic = true;
+    else if (typeof provider === "object") {
+      const total = (provider.heuristic || 0) + (provider.groq || 0) + (provider.gemini || 0);
+      if (total > 0 && (provider.heuristic / total) > 0.5) isHeuristic = true;
+    }
   }
   if (!isHeuristic) return;
+
+  // Honest copy: differentiate the two failure modes so a friend reading
+  // this actually knows what's broken.
+  //   1. No keys / refresh host can't reach the LLM tier → operator config.
+  //   2. Keys present, providers rate-limited or erroring → degrade-and-ride.
+  const providers = health.llm_providers || {};
+  const noKeys = (providers.groq || 0) === 0 && (providers.gemini || 0) === 0;
+  const sharePct = typeof health.llm_heuristic_share_pct === "number"
+    ? health.llm_heuristic_share_pct
+    : null;
+  const reason = noKeys
+    ? "qualitative-news component is running on keyword matching"
+    : `${sharePct != null ? sharePct + "%" : "most"} of events fell back to keyword matching (LLM provider rate-limited or erroring)`;
+
   const chip = `
     <div data-testid="llm-signal-heuristic-banner" style="color:#C8A06A; padding:2px 0;">
       <span style="font-weight:600;">ℹ Earnings LLM signal — heuristic fallback active.</span>
       <span style="opacity:0.75;font-size:11px;margin-left:6px;">
-        GROQ_API_KEY / GEMINI_API_KEY not configured on refresh host; predictions still ship but the qualitative-news component runs on keyword matching, not LLM.
+        ${reason}; predictions still ship but qualitative signal is deterministic-only.
       </span>
     </div>`;
   banner.insertAdjacentHTML("beforeend", chip);

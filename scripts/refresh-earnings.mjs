@@ -58,7 +58,12 @@ import {
   summariseSignals,
 } from "../services/earnings/signalAggregator.js";
 import { predictCalendar, summarisePredictions } from "../services/earnings/earningsPredictor.js";
-import { classifyBatchForCalendar } from "../services/earnings/earningsLlmBatcher.js";
+import {
+  classifyBatchForCalendar,
+  loadCache,
+  writeCacheAtomic,
+  CACHE_PATH as LLM_CACHE_PATH,
+} from "../services/earnings/earningsLlmBatcher.js";
 import { buildBandsForCalendar } from "../services/earnings/priceBandBuilder.js";
 import { narrateCalendar } from "../services/earnings/earningsRationaleNarrator.js";
 import {
@@ -73,6 +78,12 @@ const IN_PATH = path.join(ROOT, "data", "catalysts", "events-latest.json");
 const OUT_PATH = path.join(ROOT, "data", "catalysts", "earnings-watch-latest.json");
 const STATS_PATH = path.join(ROOT, "data", "catalysts", "earnings-watch-stats.json");
 const FUNDAMENTALS_PATH = path.join(ROOT, "fundamentalsHistory.json");
+// Concurrency lock — sws-nightly launchd fires twice daily (02:00 + 16:30
+// IST per com.starbhai.sws-nightly.plist). Without a lock, an ad-hoc
+// manual refresh that overlaps a launchd run races on the cache write and
+// silently discards ~hundreds of LLM calls. `data/.locks/` is gitignored.
+const LOCK_PATH = path.join(ROOT, "data", ".locks", "earnings-refresh.lock");
+const CACHE_BACKUP_DIR = path.join(ROOT, "data", ".backups");
 
 // fundamentalsHistory.json feeds the predictor's YoY-EPS trajectory
 // component. It's refreshed by its own nightly job (scripts/refresh-
@@ -93,7 +104,13 @@ function warnIfFundamentalsStale() {
 }
 
 function parseArgs(argv) {
-  const out = { windowDays: 30, skipLlm: false, pastWindowDays: 7 };
+  const out = {
+    windowDays: 30,
+    skipLlm: false,
+    pastWindowDays: 7,
+    purgeHeuristicCache: false,
+    yes: false,
+  };
   for (let i = 2; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--window") {
@@ -106,9 +123,82 @@ function parseArgs(argv) {
       // Force the deterministic heuristic for the LLM component — used
       // in CI and any offline run where network LLM calls aren't wanted.
       out.skipLlm = true;
+    } else if (a === "--purge-heuristic-cache") {
+      // One-shot maintenance: drop heuristic cache entries whose
+      // _last_provider_attempt indicates the LLM never actually ran
+      // (so the next refresh re-classifies them). Cache is backed up
+      // to data/.backups/ first. Dry-run by default; --yes applies.
+      out.purgeHeuristicCache = true;
+    } else if (a === "--yes" || a === "-y") {
+      out.yes = true;
     }
   }
   return out;
+}
+
+// ─── Lockfile + purge helpers (Layers B + D) ───
+
+function acquireLock() {
+  fs.mkdirSync(path.dirname(LOCK_PATH), { recursive: true });
+  let lockFd;
+  try {
+    lockFd = fs.openSync(LOCK_PATH, "wx");
+    fs.writeSync(lockFd, `pid=${process.pid} started=${new Date().toISOString()}\n`);
+  } catch (err) {
+    if (err.code === "EEXIST") {
+      console.error(
+        `[earnings-watch] another refresh is in progress — exiting cleanly. ` +
+          `Lock at ${path.relative(ROOT, LOCK_PATH)} — delete if stale.`,
+      );
+      process.exit(0);
+    }
+    throw err;
+  }
+  const release = () => {
+    try { fs.closeSync(lockFd); } catch {}
+    try { fs.unlinkSync(LOCK_PATH); } catch {}
+  };
+  process.on("exit", release);
+  process.on("SIGTERM", () => process.exit(143));
+  process.on("SIGINT", () => process.exit(130));
+  return release;
+}
+
+// Drop heuristic-from-no-keys entries. Failed-LLM heuristics
+// (_last_provider_attempt === "failed") are preserved so we don't
+// hammer the events most likely to keep timing out. Always backs up
+// the cache to data/.backups/ before writing.
+function runPurgeHeuristicCache({ apply }) {
+  if (!fs.existsSync(LLM_CACHE_PATH)) {
+    console.log(`[purge] no cache at ${path.relative(ROOT, LLM_CACHE_PATH)} — nothing to do.`);
+    return;
+  }
+  const cache = loadCache();
+  const allEntries = Object.entries(cache.entries || {});
+  const toPurge = allEntries.filter(([, v]) => {
+    if (!v || v.classifier_provider !== "heuristic") return false;
+    // _last_provider_attempt missing (pre-v2 entry) is treated as "none"
+    // — eligible for re-classify. Only entries explicitly marked "failed"
+    // are preserved.
+    return v._last_provider_attempt !== "failed";
+  });
+  console.log(
+    `[purge] heuristic-no-keys entries to remove: ${toPurge.length} (preserving ` +
+      `${allEntries.length - toPurge.length} entries: real LLM results + failed-LLM heuristics)`,
+  );
+  if (!apply) {
+    console.log(`[purge] dry-run only — re-run with --yes to apply.`);
+    return;
+  }
+  fs.mkdirSync(CACHE_BACKUP_DIR, { recursive: true });
+  const stamp = new Date().toISOString().replace(/[-:T.Z]/g, "").slice(0, 14);
+  const bakPath = path.join(CACHE_BACKUP_DIR, `llm-signal-cache.${stamp}.bak`);
+  fs.copyFileSync(LLM_CACHE_PATH, bakPath);
+  for (const [k] of toPurge) delete cache.entries[k];
+  writeCacheAtomic(cache);
+  console.log(
+    `[purge] removed ${toPurge.length} entries; backup at ${path.relative(ROOT, bakPath)}`,
+  );
 }
 
 function writeJsonAtomic(p, obj) {
@@ -141,7 +231,7 @@ function loadEventsPayload() {
  * Milestone-A stats are simple counts; later milestones will add
  * data_quality breakdown (HIGH/MED/LOW) and predicted-verdict counts.
  */
-function buildStats(snapshot) {
+function buildStats(snapshot, llmStats) {
   const events = snapshot.events || [];
   const byDays = { d0: 0, d1to3: 0, d4to7: 0, d8to14: 0, d15to30: 0 };
   for (const e of events) {
@@ -174,11 +264,47 @@ function buildStats(snapshot) {
     signals: signalSummary,
     predictions: predictionSummary,
     playbooks: playbookSummary,
+    // LLM batcher stats — picked up by earnings-health-summary.mjs to alert
+    // on heuristic_cache_invalidations spikes. Null when --skip-llm or no
+    // events were classified.
+    llm_stats: llmStats || null,
   };
 }
 
 async function main() {
   const args = parseArgs(process.argv);
+
+  // ── Layer D: --purge-heuristic-cache short-circuit ──
+  // Acquires the lock first so a concurrent refresh can't be racing on
+  // the cache write. Backs up the cache before deleting any entries.
+  if (args.purgeHeuristicCache) {
+    acquireLock();
+    runPurgeHeuristicCache({ apply: args.yes });
+    return;
+  }
+
+  // ── Layer C: hard-exit-9 self-check (matches refresh-macro-regime.mjs) ──
+  // PR #247 added dotenv loading + sws-nightly.sh env sourcing to fix the
+  // long-standing "0 LLM calls" silent degradation. This is the regression
+  // guard so a future env-pipeline break fails LOUDLY within hours instead
+  // of silently shipping a heuristic-only snapshot over a known-good one
+  // for weeks (the failure mode PR #247 spent weeks invisibly producing).
+  // --skip-llm is the legitimate offline / CI escape hatch.
+  const hasLlmKeys = !!(process.env.GROQ_API_KEY || process.env.GEMINI_API_KEY);
+  const cacheExists = fs.existsSync(LLM_CACHE_PATH);
+  if (!hasLlmKeys && cacheExists && !args.skipLlm) {
+    console.error(`[earnings-watch] FATAL: no LLM keys loaded AND a non-empty cache exists.`);
+    console.error(`                  refusing to overwrite a known-good snapshot with heuristic-only output.`);
+    console.error(`                  - confirm .env contains GROQ_API_KEY and/or GEMINI_API_KEY`);
+    console.error(`                  - confirm the invoker exports them (sws-nightly.sh does;`);
+    console.error(`                    ad-hoc \`node scripts/refresh-earnings.mjs\` relies on dotenv.config above)`);
+    console.error(`                  - for genuine offline / CI runs, pass --skip-llm explicitly`);
+    process.exit(9);
+  }
+
+  // ── Layer B: acquire concurrency lock for the normal refresh path ──
+  acquireLock();
+
   console.log(`[earnings-watch] reading ${path.relative(ROOT, IN_PATH)} ...`);
   warnIfFundamentalsStale();
 
@@ -239,7 +365,8 @@ async function main() {
   console.log(
     `[earnings-watch] LLM signal done in ${((Date.now() - tLlm) / 1000).toFixed(1)}s ` +
       `(cache hits ${llmStats.cache_hits ?? 0}, llm calls ${llmStats.llm_calls ?? 0}, ` +
-      `heuristic ${llmStats.heuristic ?? 0})`,
+      `heuristic ${llmStats.heuristic ?? 0}, ` +
+      `below V3 floor ${llmStats.below_v3_floor ?? 0}/${llmStats.composite_floor ?? "?"})`,
   );
 
   // ── Milestone C: predict + price bands + 3-paragraph rationale ──
@@ -312,7 +439,7 @@ async function main() {
   };
 
   writeJsonAtomic(OUT_PATH, snapshot);
-  writeJsonAtomic(STATS_PATH, buildStats(snapshot));
+  writeJsonAtomic(STATS_PATH, buildStats(snapshot, llmStats));
 
   // ── Milestone F: archive today's predictions for future backtest ──
   // Idempotent across reruns within the same day. Preserves any

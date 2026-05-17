@@ -5022,15 +5022,41 @@ app.get("/api/health", (req, res) => {
   };
   // Surface the LLM provider currently in use (heuristic / groq / gemini)
   // from earnings-health.json if it's been written today.
-  let llm_provider = null, cap_lift_gate = null, source_conflicts_30d = null, insufficient_data_30d = null;
+  //
+  // `llm_providers` is the current field name (see earningsHealth.js
+  // buildHealthSummary). The two older names (`llm_provider_split`,
+  // `llm_provider`) are kept in the fallback chain so a pre-v1 health
+  // file still resolves to something. `llm_offline` is the typed flag the
+  // banner reads — single source of truth for the heuristic-fallback
+  // chip, aligned with the >=80% heuristic && groq=0 && gemini=0
+  // threshold inside earningsHealth.js (NOT the older 50% rule).
+  let llm_provider = null,
+      llm_providers = null,
+      llm_offline = false,
+      llm_heuristic_share_pct = null,
+      cap_lift_gate = null,
+      source_conflicts_30d = null,
+      insufficient_data_30d = null,
+      llm_stats = null;
   try {
     const healthPath = path.join(dataDir, "catalysts", "earnings-health.json");
     if (fs.existsSync(healthPath)) {
       const h = JSON.parse(fs.readFileSync(healthPath, "utf-8"));
-      llm_provider = h?.llm_provider_split || h?.llm_provider || null;
+      llm_providers = h?.llm_providers || h?.llm_provider_split || null;
+      llm_provider = llm_providers || h?.llm_provider || null;
+      llm_offline = h?.llm_offline === true;
+      llm_heuristic_share_pct =
+        typeof h?.llm_heuristic_share_pct === "number" ? h.llm_heuristic_share_pct : null;
       cap_lift_gate = h?.cap_lift_gate || null;
       source_conflicts_30d = h?.source_conflicts?.count_30d ?? null;
       insufficient_data_30d = h?.insufficient_data?.count_30d ?? null;
+    }
+    // Surface the last refresh's batcher stats so a cache-invalidation
+    // spike is visible without scraping logs.
+    const statsPath = path.join(dataDir, "catalysts", "earnings-watch-stats.json");
+    if (fs.existsSync(statsPath)) {
+      const s = JSON.parse(fs.readFileSync(statsPath, "utf-8"));
+      llm_stats = s?.llm_stats || null;
     }
   } catch {}
   // Status: ok if all critical-tier ages are < 48h; degraded if any is older.
@@ -5045,6 +5071,10 @@ app.get("/api/health", (req, res) => {
     upload_quota_per_hour: PORTFOLIO_UPLOADS_PER_HOUR,
     ages,
     llm_provider,
+    llm_providers,
+    llm_offline,
+    llm_heuristic_share_pct,
+    llm_stats,
     cap_lift_gate,
     source_conflicts_30d,
     insufficient_data_30d,

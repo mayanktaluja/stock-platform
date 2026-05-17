@@ -35,6 +35,7 @@ const ROOT = process.cwd();
 const CATALYSTS_DIR = path.join(ROOT, "data", "catalysts");
 const BACKTEST_PATH = path.join(CATALYSTS_DIR, "earnings-backtest-latest.json");
 const WATCH_PATH = path.join(CATALYSTS_DIR, "earnings-watch-latest.json");
+const WATCH_STATS_PATH = path.join(CATALYSTS_DIR, "earnings-watch-stats.json");
 const HEALTH_PATH = path.join(CATALYSTS_DIR, "earnings-health.json");
 const MACRO_REGIME_PATH = path.join(ROOT, "data", "macroRegime.json");
 
@@ -78,6 +79,7 @@ async function main() {
   const history = loadAllHistory();
   const backtestSnapshot = readJsonSafe(BACKTEST_PATH);
   const watch = readJsonSafe(WATCH_PATH);
+  const watchStats = readJsonSafe(WATCH_STATS_PATH);
   const priorHealth = readJsonSafe(HEALTH_PATH);
 
   const macroRegime = readJsonSafe(MACRO_REGIME_PATH);
@@ -86,6 +88,9 @@ async function main() {
     history,
     backtestSnapshot,
     watchEvents: watch && Array.isArray(watch.events) ? watch.events : [],
+    // PR after #247: pass the LLM batcher stats so a heuristic_cache_invalidations
+    // spike is surfaced as a Slack-able alert. Null on pre-stats files / first runs.
+    llmStats: watchStats?.llm_stats || null,
     priorHealth,
     macroRegime,
   });
