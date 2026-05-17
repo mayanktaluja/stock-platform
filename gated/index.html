@@ -3003,7 +3003,7 @@
       .sws-pick-chipnav { top: 48px; }
     }
 
-    /* Universe radio toggle: All vs Nifty 500. Sits above the chip-nav. */
+    /* Universe + Sector dropdowns. Sits above the chip-nav. */
     .sws-pick-index-filter {
       display: flex;
       align-items: center;
@@ -3024,25 +3024,50 @@
       text-transform: uppercase;
       color: var(--text-muted);
     }
-    .sws-pick-index-filter label {
+    .sws-pick-filter-field {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       cursor: pointer;
       user-select: none;
     }
-    .sws-pick-index-filter input[type="radio"] {
-      accent-color: var(--blue, #4a90e2);
+    .sws-pick-filter-select {
+      appearance: none;
+      -webkit-appearance: none;
+      background: var(--bg-elevated, #0a0f1c);
+      border: 1px solid var(--border-soft, #1a2233);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 13px;
+      padding: 6px 28px 6px 10px;
       cursor: pointer;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%23808a9d' d='M0 0l5 6 5-6z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: border-color 0.12s, box-shadow 0.12s;
     }
-    .sws-filter-count {
+    .sws-pick-filter-select:hover { border-color: #2f4068; }
+    .sws-pick-filter-select:focus {
+      outline: none;
+      border-color: var(--blue, #4a90e2);
+      box-shadow: 0 0 0 2px rgba(74,144,226,0.18);
+    }
+    .sws-pick-filter-select:disabled,
+    .sws-pick-filter-select option:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .sws-pick-filter-summary {
       font-size: 11px;
       color: var(--text-muted);
-      background: rgba(74,144,226,0.10);
-      padding: 1px 8px;
-      border-radius: 10px;
-      min-width: 24px;
-      text-align: center;
+      margin-left: auto;
+      letter-spacing: 0.02em;
+    }
+    @media (max-width: 480px) {
+      .sws-pick-index-filter { gap: 10px; }
+      .sws-pick-filter-field { width: 100%; justify-content: space-between; }
+      .sws-pick-filter-select { flex: 1; max-width: 240px; }
+      .sws-pick-filter-summary { margin-left: 0; width: 100%; text-align: right; }
     }
 
     /* Two-column row: universe radio (left) + search input (right). Stacks on mobile. */
@@ -3850,10 +3875,24 @@
       <div id="picksStatusBanner" style="display:none; padding:12px 16px; border-radius:6px; margin-bottom:16px;"></div>
 
       <div id="picksFilters" class="sws-pick-filters">
-        <div id="picksIndexFilter" class="sws-pick-index-filter" role="radiogroup" aria-label="Index filter">
-          <span class="sws-pick-index-filter-label">Universe:</span>
-          <label><input type="radio" name="picksIndex" value="all" checked onchange="onPicksIndexFilterChange(this.value)"> All <span class="sws-filter-count" data-count-for="all">—</span></label>
-          <label><input type="radio" name="picksIndex" value="nifty500" onchange="onPicksIndexFilterChange(this.value)"> Nifty 500 only <span class="sws-filter-count" data-count-for="nifty500">—</span></label>
+        <div id="picksIndexFilter" class="sws-pick-index-filter" aria-label="Picks filters">
+          <label class="sws-pick-filter-field">
+            <span class="sws-pick-index-filter-label">Universe</span>
+            <select id="picksUniverseFilter" class="sws-pick-filter-select" onchange="onPicksUniverseChange(this.value)" aria-label="Universe filter">
+              <option value="all">All stocks</option>
+              <option value="nifty100">Nifty 100 — Large caps</option>
+              <option value="niftyMidcap150">Nifty Midcap 150</option>
+              <option value="niftySmallcap250">Nifty Smallcap 250</option>
+              <option value="nifty500">Nifty 500</option>
+            </select>
+          </label>
+          <label class="sws-pick-filter-field">
+            <span class="sws-pick-index-filter-label">Sector</span>
+            <select id="picksSectorFilter" class="sws-pick-filter-select" onchange="onPicksSectorChange(this.value)" aria-label="Sector filter">
+              <option value="all">All sectors</option>
+            </select>
+          </label>
+          <span class="sws-pick-filter-summary" id="picksFilterSummary" aria-live="polite">Showing — of —</span>
         </div>
         <div class="sws-pick-search-wrap">
           <span class="sws-pick-search-icon" aria-hidden="true">&#128269;</span>

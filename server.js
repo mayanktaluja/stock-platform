@@ -77,6 +77,7 @@ import { buildCalibration as buildTrackCalibration } from "./services/trackRecor
 import { buildSymbolEarningsCalibration } from "./services/trackRecord/earningsCalibration.js";
 import { deriveGovernanceGate } from "./services/swsIndianRiskLayer.js";
 import * as swsDal from "./services/swsDal/index.js";
+import { loadIndexConstituentsFromFile, stampIndexFlags } from "./services/indexConstituents.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
 import { buildSWSReport, surfaceOutsidePicks, rebuildTierAggregates } from "./services/swsPortfolioAggregate.js";
 import { getPortfolioHistoryStorage } from "./portfolioHistoryStorage.js";
@@ -6425,6 +6426,23 @@ function readJsonSafe(p, fallback = null) {
 // the back-fill and the live-overlay use the same null-aware mapping
 // (Number(null) === 0 is finite, which would otherwise wrongly band null
 // upsides as FAIR — visible on ~3k universe rows that lack a fair value).
+
+// NSE index constituents — loaded once at module init, refreshed nightly
+// by scripts/refresh-nse-index-constituents.mjs. Powers the universe-filter
+// dropdown on the SWS Picks tab (Nifty 100 / Midcap 150 / Smallcap 250 / 500).
+// If the JSON is missing the three new sets stay empty; the existing nifty500
+// stamp falls back to NIFTY500_SYMBOLS so today's "Nifty 500" filter keeps
+// working. The UI hides the three new dropdown options when
+// indexConstituentsAvailable === false. Pure helpers live in
+// services/indexConstituents.js for unit-test isolation.
+const NSE_INDEX_CONSTITUENTS_PATH = path.join(__dirname, "data", "nse-index-constituents.json");
+let { sets: NSE_INDEX_SETS, available: NSE_INDEX_AVAILABLE } =
+  loadIndexConstituentsFromFile(NSE_INDEX_CONSTITUENTS_PATH);
+
+function stampIndexFlagsOnRow(it) {
+  stampIndexFlags(it, NSE_INDEX_SETS, NIFTY500_SYMBOLS);
+}
+
 function enrichPickRow(it) {
   if (!it || !it.ticker) return;
   if (it.composite_verdict == null && it.v3_verdict != null) {
@@ -6457,10 +6475,11 @@ app.get("/api/sws-universe", (req, res) => {
   if (!data) return res.status(404).json({ error: "no_universe_yet", hint: "Run `node scripts/sws-build-scored-universe.mjs` to backfill, or wait for the next refresh." });
   if (Array.isArray(data.stocks)) {
     for (const it of data.stocks) {
-      if (it && it.ticker) it.nifty500 = NIFTY500_SYMBOLS.has(`${it.ticker}.NS`);
+      stampIndexFlagsOnRow(it);
       enrichPickRow(it);
     }
   }
+  data.indexConstituentsAvailable = NSE_INDEX_AVAILABLE;
   res.json(data);
 });
 
@@ -6489,7 +6508,7 @@ app.get("/api/sws-picks", (req, res) => {
       if (key === "dividend_aristocrats") filtered = filtered.filter(passesDividendGate);
       data.sections[key] = filtered;
       for (const it of filtered) {
-        if (it && it.ticker) it.nifty500 = NIFTY500_SYMBOLS.has(`${it.ticker}.NS`);
+        stampIndexFlagsOnRow(it);
         enrichPickRow(it);
       }
     }
@@ -6498,6 +6517,7 @@ app.get("/api/sws-picks", (req, res) => {
   // when a refresh is mid-flight or last-refresh.json is stale.
   data.last_refresh = swsDal.getLastRefresh();
   data.shard_progress_api = swsDal.getAllShardProgressApi();
+  data.indexConstituentsAvailable = NSE_INDEX_AVAILABLE;
   res.json(data);
 });
 
