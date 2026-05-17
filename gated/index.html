@@ -2295,25 +2295,6 @@
       .sebi-banner strong { white-space: normal; }
     }
 
-    /* Single source of SEBI-compliance disclosure for the whole app.
-       Per-card chips stay brief; the legally-meaningful text lives here. */
-    .compliance-footer {
-      margin-top: 32px;
-      padding: 14px 14px 18px;
-      border-top: 1px solid var(--border);
-      font-size: 10px;
-      line-height: 1.55;
-      color: var(--text-muted);
-      letter-spacing: 0.01em;
-      text-align: center;
-      opacity: 0.75;
-    }
-    .compliance-footer strong {
-      color: var(--text-secondary);
-      font-weight: 600;
-    }
-
-
     /* NSE surveillance warning banner — shown on stock detail when the
        symbol is under ASM or GSM. Loud red strip, non-dismissible, sits
        above the recommendation banner so retail users see the regulatory
@@ -3584,17 +3565,15 @@
       </div>
       <div id="trackHeroSubline" class="tx-meta" style="margin: 4px 2px 16px; opacity: 0.85;"></div>
 
-      <!-- PR D11 — Past-performance disclaimer. SEBI Research Analyst
-           Regulations + IA Regulations both require this language on
-           any surface that publishes hypothetical / forward-tested
-           performance. We keep it on Track Record because that's where
-           the Brier / hit-rate / alpha numbers live; the per-stock
-           strip in the SWS modal carries a footer pointer back here. -->
+      <!-- SEBI past-performance disclosure for the Track Record tab,
+           where hypothetical Brier / hit-rate / alpha numbers are shown.
+           Required substring preserved for e2e: "past performance does
+           not guarantee future results". -->
       <div class="sebi-past-performance-chip" role="note"
-           style="margin: 0 0 var(--space-300); padding: 10px 14px; border-radius: var(--radius-200); background: rgba(224,176,96,0.06); border: 1px solid rgba(224,176,96,0.18); font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
+           style="margin: 0 0 var(--space-300); padding: 6px 12px; border-radius: var(--radius-100); background: rgba(224,176,96,0.05); border: 1px solid rgba(224,176,96,0.15); font-size: 10px; color: var(--text-muted); line-height: 1.5; text-align: center;">
         <strong style="color: var(--gold);">Past performance does not guarantee future results.</strong>
-        SWS-pick performance shown is hypothetical, net of typical costs, and not personalised investment advice.
-        Read the full <a href="#" onclick="event.preventDefault(); document.getElementById('sebiSiteFooter')?.scrollIntoView({behavior:'smooth'}); return false;" style="color: var(--gold); text-decoration: underline;">SEBI disclosures</a> before acting.
+        Hypothetical, net of typical costs, not personalised advice.
+        <a href="#" onclick="event.preventDefault(); document.getElementById('sebiSiteFooter')?.scrollIntoView({behavior:'smooth'}); return false;" style="color: var(--gold); text-decoration: underline;">Full disclosures</a>.
       </div>
 
       <!-- PR B8 — Earnings backtest snapshot. Admin-only mount. The
@@ -4016,14 +3995,6 @@
       </div>
     </div>
 
-    <!-- Minimum SEBI-compliance disclosure. Load-bearing legal text — do not remove
-         without consulting compliance. Per-card chips stay brief because of this. -->
-    <footer class="compliance-footer" role="contentinfo">
-      <strong>Starbhai is not a SEBI-registered investment adviser or research analyst.</strong>
-      Content is educational research only &mdash; not personalised investment advice.
-      Past performance does not guarantee future returns.
-      Consult a SEBI-registered adviser before acting.
-    </footer>
   </div>
 
   <!-- Stock detail modal — populated by openSwsModal(ticker) for SWS Picks, or openStockDetailModal(symbol, sourceTab) for every other clickable stock surface -->
@@ -4049,35 +4020,28 @@
   <!-- Shared glossary tooltip element — positioned dynamically by JS -->
   <div id="starbhaiTooltip" role="tooltip" aria-hidden="true"></div>
 
-  <!-- PR D11 — SEBI sticky-footer disclosure. Renders on every tab so
-       the regulatory text isn't buried in a /legal page. Two-line layout
-       covering (1) the mandatory market-risk warning and (2) the
-       Research Analyst non-guarantee statement. Educational platform
-       — no SEBI RA registration — and the text says so plainly. -->
+  <!-- SEBI minimum disclosure — single-line footer for an educational,
+       unregistered platform. Keeps the three mandated phrases (market
+       risks / not SEBI-registered / past performance) + holdings + grievance
+       + legal-page links. Verbose RA Reg 24(2) explanation, third-party
+       data-provider compensation note, and "target response" line have
+       been moved to /api/disclosures/holdings and the linked legal pages. -->
   <footer id="sebiSiteFooter" role="contentinfo"
-          style="margin-top: var(--space-400, 32px); padding: 14px 20px; border-top: 1px solid var(--border); background: var(--bg-secondary); font-size: 11px; line-height: 1.55; color: var(--text-muted);">
-    <div style="max-width: 1100px; margin-inline: auto; display: flex; flex-direction: column; gap: 6px;">
-      <div>
-        <strong style="color: var(--text-secondary);">Investments in securities market are subject to market risks. Read all related documents carefully before investing.</strong>
-      </div>
-      <div>
-        Starbhai is an educational research platform; it is <strong style="color: var(--text-secondary);">not a SEBI-registered Research Analyst or Investment Adviser.</strong>
-        Nothing here is personalised advice. Past performance — including hypothetical SWS-pick performance — does not guarantee future results.
-        SEBI registration (where applicable to underlying analyst data) does not in any way guarantee the performance of the intermediary or assure returns to investors.
-      </div>
-      <div data-testid="holdings-disclosure-link" style="margin-top: 4px;">
-        <strong style="color: var(--text-secondary);">Author holdings &amp; conflict-of-interest disclosure:</strong>
-        the author may hold positions in some covered names; third-party data providers (SWS, Yahoo, NSE, Groq/Gemini) do not compensate the author for inclusion or favourable scoring. Current disclosure (rotated quarterly) at
-        <a href="/api/disclosures/holdings" target="_blank" rel="noopener" style="color: var(--gold); text-decoration: underline;">/api/disclosures/holdings</a>.
-        Grievances: <a href="mailto:mtaluja11@gmail.com" style="color: var(--gold); text-decoration: underline;">mtaluja11@gmail.com</a> (target response &lt; 24 h).
-      </div>
-      <div data-testid="legal-links" style="margin-top: 4px;">
-        <a href="/methodology" style="color: var(--gold); text-decoration: underline;">Methodology</a>
-        &nbsp;·&nbsp;
-        <a href="/legal/charter" style="color: var(--gold); text-decoration: underline;">Investor Charter</a>
-        &nbsp;·&nbsp;
-        <a href="/legal/grievance" style="color: var(--gold); text-decoration: underline;">Grievance procedure</a>
-      </div>
+          style="margin-top: var(--space-300, 24px); padding: 8px 16px; border-top: 1px solid var(--border); background: var(--bg-secondary); font-size: 10px; line-height: 1.5; color: var(--text-muted); text-align: center;">
+    <div style="max-width: 1100px; margin-inline: auto;">
+      <strong style="color: var(--text-secondary);">Investments in securities market are subject to market risks.</strong>
+      Educational research only — <strong style="color: var(--text-secondary);">not a SEBI-registered</strong> Research Analyst / Investment Adviser. Past performance ≠ future results.
+      <span data-testid="holdings-disclosure-link">
+        <a href="/api/disclosures/holdings" target="_blank" rel="noopener" style="color: var(--gold); text-decoration: underline;">Holdings</a>
+        ·
+        <a href="mailto:mtaluja11@gmail.com" style="color: var(--gold); text-decoration: underline;">Grievances</a>
+      </span>
+      ·
+      <a href="/methodology" style="color: var(--gold); text-decoration: underline;">Methodology</a>
+      ·
+      <a href="/legal/charter" style="color: var(--gold); text-decoration: underline;">Charter</a>
+      ·
+      <a href="/legal/grievance" style="color: var(--gold); text-decoration: underline;">Procedure</a>
     </div>
   </footer>
 
