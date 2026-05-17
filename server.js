@@ -15,6 +15,7 @@ dotenv.config({ path: path.join(__dirnameForEnv, ".env"), override: true });
 import express from "express";
 import compression from "compression";
 import cors from "cors";
+import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import NodeCache from "node-cache";
 
@@ -328,6 +329,76 @@ app.use(
       // upstream handler runs but the browser can't read the result.
       return callback(null, false);
     },
+  }),
+);
+
+// Security headers (helmet) — sits AFTER CORS so preflight OPTIONS still flow
+// through the CORS allowlist first, and BEFORE rate limiting + routes so every
+// response (including static assets) carries the hardening headers.
+//
+// Pre-fix prod only carried `strict-transport-security` (Vercel injects it at
+// the edge). Audit finding #4 (2026-05-18): missing CSP, X-Frame-Options,
+// X-Content-Type-Options, Referrer-Policy. Clickjacking + MIME-sniff surface.
+//
+// CSP policy notes:
+//   • script-src: 'self' covers the four file-based scripts (glossary.js,
+//     app.js, swsV2Render.js, earnings.js). The gated UI ALSO carries ~28
+//     onclick= handlers and the login page has inline <style> + the body of
+//     gated/index.html has 150+ inline style="" attributes, so 'unsafe-inline'
+//     is required for BOTH script-src and style-src as a temporary trade-off.
+//     A follow-up PR can refactor inline handlers to addEventListener and
+//     migrate inline styles to classes, then tighten the policy to nonce-based.
+//   • style-src: must include https://fonts.googleapis.com (Google Fonts
+//     stylesheet used by gated/index.html + public/login.html).
+//   • font-src: must include https://fonts.gstatic.com (the font files
+//     themselves, served from a different host than the CSS).
+//   • img-src: data: + 'self' covers the inline SVG favicon and chart sprites.
+//   • connect-src: 'self' is enough — all XHR/fetch goes to /api/* on the
+//     same origin.
+//   • frameAncestors: 'none' (clickjacking defence; equivalent to
+//     X-Frame-Options: DENY, which helmet ALSO sets via the frameguard mw).
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        "default-src": ["'self'"],
+        "script-src": ["'self'", "'unsafe-inline'"],
+        "style-src": [
+          "'self'",
+          "'unsafe-inline'",
+          "https://fonts.googleapis.com",
+        ],
+        "font-src": ["'self'", "data:", "https://fonts.gstatic.com"],
+        "img-src": ["'self'", "data:", "blob:"],
+        "connect-src": ["'self'"],
+        "frame-ancestors": ["'none'"],
+        "object-src": ["'none'"],
+        "base-uri": ["'self'"],
+        "form-action": ["'self'"],
+      },
+    },
+    // helmet defaults already set X-Frame-Options: SAMEORIGIN; bump to DENY
+    // since the platform is never legitimately framed.
+    frameguard: { action: "deny" },
+    // Strict-origin-when-cross-origin is the modern best practice — sends
+    // the full URL to same-origin endpoints, just the origin on https→https
+    // crossings, and nothing on https→http downgrades.
+    referrerPolicy: { policy: "strict-origin-when-cross-origin" },
+    // X-Content-Type-Options: nosniff (default true in helmet, but explicit
+    // here for grep-ability and audit traceability).
+    noSniff: true,
+    // HSTS is already injected by Vercel; helmet's default is fine for local
+    // dev but we leave it on so the header is consistent in both environments.
+    hsts: { maxAge: 15552000, includeSubDomains: true },
+    // crossOriginEmbedderPolicy: false → keep COEP off. The platform embeds
+    // Google Fonts (a cross-origin resource) and turning COEP on would
+    // require every cross-origin response to send Cross-Origin-Resource-Policy,
+    // which we don't control for the Google CDN.
+    crossOriginEmbedderPolicy: false,
+    // crossOriginOpenerPolicy stays on (default same-origin) for OAuth popup
+    // isolation, but allow popups so the Google OAuth /api/auth/google
+    // redirect can still complete.
+    crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
   }),
 );
 
