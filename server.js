@@ -1857,9 +1857,14 @@ app.get("/api/stock/:symbol", async (req, res) => {
  * GET /api/admin/users
  *
  * Admin-only directory of every user who has ever signed in. Sorted by
- * lastLoginAt desc. The auth gate above sets req.user.sub for any
- * authenticated request; this handler additionally checks the persisted
- * isAdmin flag (computed from ADMIN_EMAILS) before returning data.
+ * `lastSeenAt || lastLoginAt` desc — the same composite the "Last seen"
+ * column renders client-side, so the table is visibly ordered by what the
+ * admin sees. (`lastSeenAt` advances on every authenticated request,
+ * `lastLoginAt` only on a fresh OAuth login — sorting by `lastLoginAt`
+ * alone hid recently-active users who hadn't re-logged in.)
+ * The auth gate above sets req.user.sub for any authenticated request; this
+ * handler additionally checks the persisted isAdmin flag (computed from
+ * ADMIN_EMAILS) before returning data.
  */
 app.get("/api/admin/users", async (req, res) => {
   if (!AUTH_ENABLED) return res.status(401).json({ error: "auth-disabled" });
@@ -1869,7 +1874,10 @@ app.get("/api/admin/users", async (req, res) => {
   const me = await userStore.read(sub);
   if (!me || !me.isAdmin) return res.status(403).json({ error: "forbidden" });
   const all = await userStore.list();
-  all.sort((a, b) => (b.lastLoginAt || 0) - (a.lastLoginAt || 0));
+  all.sort((a, b) =>
+    (b.lastSeenAt || b.lastLoginAt || 0) -
+    (a.lastSeenAt || a.lastLoginAt || 0)
+  );
   // Annotate each user with a hasPortfolio flag so the admin Users tab can
   // render an XLSX download link vs a disabled "—" without an N+1 client roundtrip.
   const portfolioStore = getPortfolioStorage();
