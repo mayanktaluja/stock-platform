@@ -140,12 +140,49 @@ for (const sid of [1, 2, 3]) {
 EOF
   fi
 
+  # Bounded auto-retry: when a shard exits non-zero (crash, Neon disconnect,
+  # any unhandled rejection caught by installFatalHandlers in
+  # sws-api-scrape.mjs), restart it up to SHARD_MAX_RETRIES times. Each retry
+  # passes SWS_RESUME=1 so the scraper picks up at the saved
+  # next_local_index (per-stock progress is persisted by saveProgress() after
+  # every stock — no work is lost). Only counts as FAIL once retries are
+  # exhausted, preventing a single transient crash from blocking the
+  # sanity gate (the failure mode that crashed shard 2 on 2026-05-17).
+  SHARD_MAX_RETRIES=${SHARD_MAX_RETRIES:-2}
+  SHARD_RETRY_SLEEP_SEC=${SHARD_RETRY_SLEEP_SEC:-30}
+
+  run_shard_with_retry() {
+    local SHARD="$1"
+    local LOG="data/sws/refresh-api-shard-${SHARD}.log"
+    : > "${LOG}"
+    local attempt=0
+    local rc=0
+    while : ; do
+      local resume=0
+      [ "${attempt}" -gt 0 ] && resume=1
+      echo "[refresh-api] shard ${SHARD} attempt $((attempt+1)) (SWS_RESUME=${resume})" >> "${LOG}"
+      # Capture rc BEFORE any `if` test — bash resets $? to 0 after a failed
+      # `if cmd; then ...; fi` with no else branch, which would silently
+      # mask the real exit code in this helper.
+      SWS_RESUME="${resume}" node scripts/sws-api-scrape.mjs "${SHARD}" >> "${LOG}" 2>&1
+      rc=$?
+      if [ "${rc}" -eq 0 ]; then
+        return 0
+      fi
+      attempt=$((attempt + 1))
+      if [ "${attempt}" -gt "${SHARD_MAX_RETRIES}" ]; then
+        echo "[refresh-api] shard ${SHARD} failed after ${SHARD_MAX_RETRIES} retries (last rc=${rc})" >> "${LOG}"
+        return "${rc}"
+      fi
+      echo "[refresh-api] shard ${SHARD} exited rc=${rc} — retrying (${attempt}/${SHARD_MAX_RETRIES}) with SWS_RESUME=1" >> "${LOG}"
+      sleep "${SHARD_RETRY_SLEEP_SEC}"
+    done
+  }
+
   for SHARD in 1 2 3; do
-    : > "data/sws/refresh-api-shard-${SHARD}.log"
-    node scripts/sws-api-scrape.mjs "${SHARD}" \
-      >> "data/sws/refresh-api-shard-${SHARD}.log" 2>&1 &
+    run_shard_with_retry "${SHARD}" &
     PIDS+=("$!")
-    echo "[refresh-api] shard ${SHARD} → PID $!"
+    echo "[refresh-api] shard ${SHARD} → PID $! (up to ${SHARD_MAX_RETRIES} retries)"
     sleep 15  # gentle stagger
   done
 
@@ -153,7 +190,7 @@ EOF
   for P in "${PIDS[@]}"; do
     if ! wait "${P}"; then
       FAIL=$((FAIL + 1))
-      echo "[refresh-api] shard PID ${P} exited non-zero"
+      echo "[refresh-api] shard PID ${P} exited non-zero after all retries"
     fi
   done
   ELAPSED=$(( $(date +%s) - START_EPOCH ))
