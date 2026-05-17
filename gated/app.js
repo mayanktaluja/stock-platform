@@ -9954,7 +9954,11 @@ function renderPickCard(s, sectionKey, rank = null) {
       </div>
       <div class="sws-pick-card-stats">
         <div class="sws-pick-stat"><span class="sws-pick-stat-label">Px</span> ${fmtInr(s.current_price_inr)}</div>
-        <div class="sws-pick-stat"><span class="sws-pick-stat-label">FV${infoIcon("analyst_fair_value")}</span> ${fmtInr(s.fair_value_inr)}</div>
+        <div class="sws-pick-stat"><span class="sws-pick-stat-label">FV${infoIcon("analyst_fair_value")}</span> ${
+          s.fair_value_inr == null
+            ? `<span class="sws-pick-fv-unavailable" title="Source fair value outside sanity bounds — likely an SWS scraper artefact. This card stays in the section based on its Snowflake quality pillars; no discount-to-FV claim is being made for this stock.">unavailable</span>`
+            : fmtInr(s.fair_value_inr)
+        }</div>
         <div class="sws-pick-stat" style="color:${upsideColor};">${upside}${infoIcon("upside_pct")}${valBandChip ? " " + valBandChip : ""}</div>
         <div class="sws-pick-stat sws-pick-stat-snow"><span class="sws-pick-stat-label">Snow${infoIcon("snowflake_score")}</span> ${sn}/30</div>
       </div>

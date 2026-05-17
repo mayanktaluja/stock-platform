@@ -3182,6 +3182,17 @@
       text-transform: uppercase;
       background: transparent;
     }
+    /* "FV unavailable" label — rendered when fair_value_inr was nulled by the
+       leaderboard sanitiser (FV/Price ratio out of [0.2, 5] or upside out of
+       [-90%, +400%]). Distinguishes a deliberate "no FV" state from a bare
+       em-dash, which reads as "data failed to load". */
+    .sws-pick-fv-unavailable {
+      color: var(--text-muted);
+      font-style: italic;
+      font-size: 0.85em;
+      cursor: help;
+      border-bottom: 1px dotted var(--text-muted);
+    }
     /* Section-membership badges — see scripts/sws-section-status.mjs.
        Outlined pill style mirrors sws-pick-valband-chip so the per-card visual
        grammar stays consistent. Colour split: cyan = informational (new buy-side
