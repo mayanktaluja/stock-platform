@@ -3917,6 +3917,11 @@
            resolved past events to show. -->
       <div id="earningsRecentResults" style="margin-bottom:22px;"></div>
 
+      <!-- Search empty-state — shown when the Symbol search box has text
+           but matches nothing in either the upcoming or recent_results
+           snapshot. Hidden by default; populated from gated/earnings.js. -->
+      <div id="earningsSearchEmptyState" hidden style="margin-bottom:18px;"></div>
+
       <!-- Card grid (one card per upcoming event). Renderer ships in
            gated/earnings.js to keep app.js below 12k lines. -->
       <div id="earningsCardGrid">

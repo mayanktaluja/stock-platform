@@ -175,6 +175,224 @@
     return Array.from(set).sort();
   }
 
+  // ────────── Search match + autocomplete ──────────
+  // Symbol-prefix OR company-name substring match, case-insensitive. The
+  // top-bar global search hits /api/search across the full NSE/BSE universe;
+  // this one searches ONLY what's already in memory (upcoming + recent-7d
+  // snapshot) so it's instant and gives the "is this stock in this tab?"
+  // answer the user actually wants.
+
+  function matchesSearchQuery(row, queryUpper) {
+    if (!queryUpper) return true;
+    const sym = String(row.symbol || "").toUpperCase();
+    if (sym.startsWith(queryUpper)) return true;
+    const co = String(row.company || "").toUpperCase();
+    if (co.includes(queryUpper)) return true;
+    return false;
+  }
+
+  // Build typeahead suggestions from the in-memory snapshot. Upcoming wins
+  // over recent for the same symbol (a stock about to report is more
+  // actionable than the same stock's past result). Capped at 8 — past that
+  // the user should narrow the query.
+  function buildSymbolSuggestions(queryUpper) {
+    if (!queryUpper || !_earningsSnapshot) return [];
+    const seen = new Set();
+    const matches = [];
+    for (const e of _earningsSnapshot.events || []) {
+      if (!e?.symbol || seen.has(e.symbol)) continue;
+      if (!matchesSearchQuery(e, queryUpper)) continue;
+      seen.add(e.symbol);
+      matches.push({
+        symbol: e.symbol,
+        company: e.company || e.symbol,
+        days_until: typeof e.days_until === "number" ? e.days_until : null,
+        event_iso_date: e.event_iso_date || null,
+        source: "upcoming",
+      });
+    }
+    for (const r of _earningsSnapshot.recent_results || []) {
+      if (!r?.symbol || seen.has(r.symbol)) continue;
+      if (!matchesSearchQuery(r, queryUpper)) continue;
+      seen.add(r.symbol);
+      matches.push({
+        symbol: r.symbol,
+        company: r.company || r.symbol,
+        days_until: typeof r.days_until === "number" ? r.days_until : null,
+        event_iso_date: r.event_iso_date || null,
+        source: "recent",
+      });
+    }
+    matches.sort((a, b) => {
+      if (a.source !== b.source) return a.source === "upcoming" ? -1 : 1;
+      const aDays = a.days_until ?? Infinity;
+      const bDays = b.days_until ?? Infinity;
+      if (a.source === "upcoming") return aDays - bDays;
+      // recent: both ≤ 0; closer-to-today (larger value) first.
+      return bDays - aDays;
+    });
+    return matches.slice(0, 8);
+  }
+
+  function renderSymbolSuggestions(matches) {
+    const el = document.getElementById("earningsSymbolSuggestions");
+    if (!el) return;
+    const input = document.getElementById("earningsSymbolFilter");
+    if (!Array.isArray(matches) || matches.length === 0) {
+      el.hidden = true;
+      el.innerHTML = "";
+      if (input) input.setAttribute("aria-expanded", "false");
+      return;
+    }
+    el.innerHTML = matches
+      .map((m, i) => {
+        const dayLabel = fmtRelativeDate(m.event_iso_date, m.days_until);
+        const sourceBadge =
+          m.source === "recent"
+            ? `<span style="font-size:9px; color:#94a3b8; border:1px solid #2a3349; border-radius:5px; padding:1px 5px; letter-spacing:0.05em; text-transform:uppercase;">Past</span>`
+            : "";
+        return `
+          <div class="earnings-symbol-suggestion" role="option" data-symbol="${escHtml(m.symbol)}" data-index="${i}" aria-selected="false"
+               style="display:flex; align-items:center; gap:10px; padding:8px 12px; cursor:pointer; border-bottom:1px solid rgba(42,51,73,0.4);">
+            <div style="flex:1; min-width:0;">
+              <div style="font-size:12px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">${escHtml(m.symbol)}</div>
+              <div style="font-size:11px; color:var(--text-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escHtml(m.company)}</div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:3px; flex-shrink:0;">
+              ${sourceBadge}
+              <span style="font-size:10px; color:#cbd5e1; font-weight:500;">${escHtml(dayLabel)}</span>
+            </div>
+          </div>`;
+      })
+      .join("");
+    el.hidden = false;
+    if (input) input.setAttribute("aria-expanded", "true");
+  }
+
+  function attachSymbolSearchHandlers() {
+    const input = document.getElementById("earningsSymbolFilter");
+    const dropdown = document.getElementById("earningsSymbolSuggestions");
+    if (!input || !dropdown) return;
+
+    let activeIndex = -1;
+
+    function setActive(idx) {
+      const items = dropdown.querySelectorAll(".earnings-symbol-suggestion");
+      if (!items.length) return;
+      if (idx < 0) idx = items.length - 1;
+      if (idx >= items.length) idx = 0;
+      activeIndex = idx;
+      items.forEach((it, i) => {
+        const on = i === idx;
+        it.setAttribute("aria-selected", on ? "true" : "false");
+        it.style.background = on ? "rgba(96,165,250,0.12)" : "transparent";
+      });
+      items[idx].scrollIntoView({ block: "nearest" });
+    }
+
+    function selectSymbol(symbol) {
+      input.value = symbol;
+      _earningsFilters.symbol = symbol.toUpperCase();
+      dropdown.hidden = true;
+      dropdown.innerHTML = "";
+      input.setAttribute("aria-expanded", "false");
+      applyEarningsFilters();
+    }
+
+    input.addEventListener("focus", () => {
+      const q = input.value.trim().toUpperCase();
+      if (q.length === 0) return;
+      const matches = buildSymbolSuggestions(q);
+      // If the typed value IS an exact symbol match for the only suggestion,
+      // the user already settled (typed it fully or clicked the row) — don't
+      // re-pop the dropdown on every focus return.
+      if (matches.length === 1 && matches[0].symbol === q) return;
+      renderSymbolSuggestions(matches);
+    });
+
+    input.addEventListener("keydown", (e) => {
+      const items = dropdown.querySelectorAll(".earnings-symbol-suggestion");
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (dropdown.hidden) {
+          renderSymbolSuggestions(buildSymbolSuggestions(input.value.trim().toUpperCase()));
+        }
+        setActive(activeIndex + 1);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (dropdown.hidden) return;
+        setActive(activeIndex - 1);
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        if (!dropdown.hidden && activeIndex >= 0 && items[activeIndex]) {
+          selectSymbol(items[activeIndex].dataset.symbol);
+        } else {
+          // No row selected — apply current typed text immediately
+          // (bypass the 200ms debounce on the input listener).
+          _earningsFilters.symbol = input.value.trim().toUpperCase();
+          dropdown.hidden = true;
+          input.setAttribute("aria-expanded", "false");
+          applyEarningsFilters();
+        }
+      } else if (e.key === "Escape") {
+        dropdown.hidden = true;
+        input.setAttribute("aria-expanded", "false");
+        activeIndex = -1;
+      }
+    });
+
+    dropdown.addEventListener("click", (e) => {
+      const row = e.target.closest(".earnings-symbol-suggestion");
+      if (!row) return;
+      selectSymbol(row.dataset.symbol);
+    });
+
+    dropdown.addEventListener("mousemove", (e) => {
+      const row = e.target.closest(".earnings-symbol-suggestion");
+      if (!row) return;
+      const idx = Number(row.dataset.index);
+      if (Number.isFinite(idx)) setActive(idx);
+    });
+
+    // Bind document outside-click handler once. renderEarningsFilterBar
+    // calls attachSymbolSearchHandlers() on every re-render (filter clear,
+    // snapshot reload), so we guard with a body dataset flag to avoid
+    // stacking listeners.
+    if (!document.body.dataset.earningsSearchBound) {
+      document.addEventListener("click", (ev) => {
+        const dd = document.getElementById("earningsSymbolSuggestions");
+        const inp = document.getElementById("earningsSymbolFilter");
+        if (!dd || !inp || dd.hidden) return;
+        if (ev.target.closest(".earnings-symbol-search")) return;
+        dd.hidden = true;
+        inp.setAttribute("aria-expanded", "false");
+      });
+      document.body.dataset.earningsSearchBound = "1";
+    }
+  }
+
+  // Empty-state for "search returned nothing in either upcoming or recent"
+  // — gives the user explicit feedback instead of two empty containers.
+  function renderSearchEmptyState({ query, hasUpcomingMatches, hasRecentMatches }) {
+    const el = document.getElementById("earningsSearchEmptyState");
+    if (!el) return;
+    if (!query || hasUpcomingMatches || hasRecentMatches) {
+      el.hidden = true;
+      el.innerHTML = "";
+      return;
+    }
+    el.hidden = false;
+    el.innerHTML = `
+      <div style="padding:18px 22px; border:1px dashed #2a3349; border-radius:10px; background:rgba(15,20,34,0.5); display:flex; flex-direction:column; gap:6px;">
+        <div style="font-size:13px; color:#e2e8f0; font-weight:500;">
+          <span style="color:#fbbf24; font-weight:600;">${escHtml(query)}</span> — no earnings in the next 30 days or past 7 days.
+        </div>
+        <div style="font-size:12px; color:var(--text-muted);">
+          Try a different ticker, or use the search bar at the top of the page to look up the full NSE / BSE stock universe.
+        </div>
+      </div>`;
+  }
+
   function renderEarningsFilterBar() {
     const el = document.getElementById("earningsFilterBar");
     if (!el) return;
@@ -229,7 +447,10 @@
       </label>
       <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
         Symbol
-        <input id="earningsSymbolFilter" type="text" placeholder="e.g. RELIANCE" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; width:140px;" />
+        <div class="earnings-symbol-search" style="position:relative;">
+          <input id="earningsSymbolFilter" type="text" placeholder="e.g. RELIANCE or 'tata'" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="earningsSymbolSuggestions" style="background:var(--panel,#0f1422); color:#e2e8f0; border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; width:170px;" />
+          <div id="earningsSymbolSuggestions" role="listbox" aria-label="Matching stocks in upcoming or recent earnings" hidden style="position:absolute; top:100%; left:0; right:0; z-index:50; background:var(--panel,#0f1422); border:1px solid #2a3349; border-radius:6px; margin-top:4px; max-height:280px; overflow-y:auto; box-shadow:0 8px 24px rgba(0,0,0,0.5);"></div>
+        </div>
       </label>
       <button id="earningsClearFilters" style="background:transparent; color:var(--text-muted); border:1px solid #2a3349; border-radius:6px; padding:6px 10px; font-size:12px; cursor:pointer;">Clear</button>
     `;
@@ -282,9 +503,16 @@
       symInp.value = _earningsFilters.symbol || "";
       let debounceTimer = null;
       symInp.addEventListener("input", () => {
+        // Zero-latency typeahead — refresh suggestions on every keystroke
+        // so the user gets immediate visual feedback.
+        const q = symInp.value.trim().toUpperCase();
+        renderSymbolSuggestions(buildSymbolSuggestions(q));
+        // Debounced grid filter — re-rendering the whole card grid on
+        // every keystroke would jank in slow tabs, so wait 200ms after
+        // the user stops typing.
         if (debounceTimer) clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
-          _earningsFilters.symbol = symInp.value.trim().toUpperCase();
+          _earningsFilters.symbol = q;
           applyEarningsFilters();
         }, 200);
       });
@@ -296,16 +524,26 @@
         applyEarningsFilters();
       });
     }
+    // Wire the autocomplete dropdown's focus/keyboard/click handlers.
+    // Re-runs on every filter-bar render (the input element is replaced),
+    // but the document-level outside-click listener inside is guarded
+    // against re-binding.
+    attachSymbolSearchHandlers();
   }
 
   function applyEarningsFilters() {
     if (!_earningsSnapshot) return;
+    const query = _earningsFilters.symbol || "";
     const events = (_earningsSnapshot.events || []).filter((e) => {
+      // Search overrides sibling filters: when the user has typed a query,
+      // a stock that matches symbol-prefix OR company-substring surfaces
+      // regardless of days / verdict / quality / runup / sector. That way
+      // a user who set Verdict=BEAT and then searches a known MISS stock
+      // still finds it instead of getting an empty grid.
+      if (query) return matchesSearchQuery(e, query);
+
       if (typeof _earningsFilters.days === "number" && Number.isFinite(_earningsFilters.days)) {
         if (typeof e.days_until === "number" && e.days_until > _earningsFilters.days) return false;
-      }
-      if (_earningsFilters.symbol) {
-        if (!String(e.symbol || "").toUpperCase().startsWith(_earningsFilters.symbol)) return false;
       }
       if (_earningsFilters.quality && _earningsFilters.quality !== "ALL") {
         const q = e.signals?.data_quality || "UNKNOWN";
@@ -328,12 +566,23 @@
       }
       return true;
     });
-    renderEarningsCardGrid(events);
 
     // Recent results section: symbol + sector filters apply; the days /
     // verdict / quality / runup filters intentionally don't (past rows
     // have no signals block, and "Within N days" is forward-only).
-    renderRecentResultsSection(applyRecentFilters(_earningsSnapshot.recent_results));
+    const filteredRecent = applyRecentFilters(_earningsSnapshot.recent_results);
+
+    // Suppress the grid's generic "No upcoming results" placeholder when
+    // the search itself is the reason for emptiness — the empty-state
+    // banner below the filter bar already explains it.
+    const suppressGridPlaceholder = !!query && events.length === 0;
+    renderEarningsCardGrid(events, { suppressEmptyState: suppressGridPlaceholder });
+    renderRecentResultsSection(filteredRecent);
+    renderSearchEmptyState({
+      query,
+      hasUpcomingMatches: events.length > 0,
+      hasRecentMatches: filteredRecent.length > 0,
+    });
   }
 
   // ────────── Card rendering ──────────
@@ -837,10 +1086,17 @@
       </div>`;
   }
 
-  function renderEarningsCardGrid(events) {
+  function renderEarningsCardGrid(events, opts) {
     const el = document.getElementById("earningsCardGrid");
     if (!el) return;
+    const suppressEmptyState = !!(opts && opts.suppressEmptyState);
     if (!Array.isArray(events) || events.length === 0) {
+      if (suppressEmptyState) {
+        // Search-driven emptiness — the #earningsSearchEmptyState banner
+        // is already shown above; keep this grid silent.
+        el.innerHTML = "";
+        return;
+      }
       el.innerHTML = `
         <div style="padding:40px; text-align:center; color:var(--text-muted); border:1px dashed #2a3349; border-radius:10px;">
           <div style="font-size:14px; font-weight:500; margin-bottom:6px;">No upcoming results in this window.</div>
@@ -924,10 +1180,11 @@
 
   function applyRecentFilters(rows) {
     if (!Array.isArray(rows)) return [];
-    const sym = (_earningsFilters.symbol || "").toUpperCase();
+    const query = (_earningsFilters.symbol || "").toUpperCase();
     const sector = _earningsFilters.sector || "ALL";
     return rows.filter((r) => {
-      if (sym && !String(r.symbol || "").toUpperCase().startsWith(sym)) return false;
+      // Search overrides the sector filter (mirrors applyEarningsFilters).
+      if (query) return matchesSearchQuery(r, query);
       if (sector !== "ALL" && (r.sector || "") !== sector) return false;
       return true;
     });
@@ -1542,5 +1799,13 @@
     renderEarningsCardGrid,
     renderEarningsPreviewPanel,
     renderPredictionBuildExpander,
+    matchesSearchQuery,
+    buildSymbolSuggestions,
+    renderSymbolSuggestions,
+    renderSearchEmptyState,
+    // Test-only mutator: lets e2e specs swap in a synthetic snapshot so
+    // they can exercise the search helpers without depending on whatever
+    // data happens to live in earnings-watch-latest.json that day.
+    __setSnapshotForTest(snap) { _earningsSnapshot = snap; },
   };
 })();
