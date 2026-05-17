@@ -30,6 +30,7 @@ import {
   CACHE_SCHEMA,
   loadCache,
   writeCacheAtomic,
+  meetsLlmCompositeFloor,
 } from "../services/earnings/earningsLlmBatcher.js";
 
 let ok = 0, fail = 0;
@@ -47,6 +48,7 @@ const sampleEvent = {
   signals: {
     data_quality: "HIGH",
     sector: "IT",
+    v3: { v3_score_100: 75, v3_verdict: "BUY" },  // above the 50 floor by default
     sws_upcoming_earnings: {
       one_line: "Strong order book and margin tailwinds expected.",
       counter_thesis: { text: "Slowing US BFSI demand", verdict_bias: "lean_miss" },
@@ -54,6 +56,13 @@ const sampleEvent = {
     },
   },
 };
+
+function withV3(event, score) {
+  return {
+    ...event,
+    signals: { ...event.signals, v3: score == null ? null : { v3_score_100: score, v3_verdict: "BUY" } },
+  };
+}
 
 const sampleDeep = {
   overview: { rewards: ["Trading below FV"], risks: ["Customer concentration"] },
@@ -469,6 +478,149 @@ it("when opts.llmAvailable=true is passed, behaviour is independent of GROQ/GEMI
     if (prevGroq != null) process.env.GROQ_API_KEY = prevGroq;
     if (prevGemini != null) process.env.GEMINI_API_KEY = prevGemini;
   }
+});
+
+/* ───────────────────── Layer I — V3 composite floor ───────────── */
+
+console.log("[12] meetsLlmCompositeFloor pure helper");
+it("score < 50 → below floor; >= 50 → meets floor; null/missing → below", () => {
+  const make = (s) => withV3(sampleEvent, s);
+  assert.equal(meetsLlmCompositeFloor(make(49)), false);
+  assert.equal(meetsLlmCompositeFloor(make(50)), true);
+  assert.equal(meetsLlmCompositeFloor(make(75)), true);
+  assert.equal(meetsLlmCompositeFloor(make(null)), false);
+  assert.equal(meetsLlmCompositeFloor({ signals: {} }), false);
+  assert.equal(meetsLlmCompositeFloor({}), false);
+});
+
+console.log("[13] events below the V3 floor are routed to heuristic, NOT the LLM");
+it("v3_score_100 = 40 → LLM NOT called, heuristic attached, _last_provider_attempt='below_floor'", async () => {
+  const cachePath = tmpCachePath();
+  const events = [withV3(sampleEvent, 40)];
+  const provider = makeGroqProvider();
+  const { stats } = await classifyBatchForCalendar(events, {
+    cachePath,
+    llmAvailable: true,
+    providerOverride: provider,
+    readSwsDeep: () => sampleDeep,
+  });
+  assert.equal(provider.calls, 0, "below-floor events must NOT hit the LLM");
+  assert.equal(stats.below_v3_floor, 1);
+  assert.equal(stats.llm_calls, 0);
+  assert.equal(events[0].signals.llm_signal.classifier_provider, "heuristic");
+  const cached = Object.values(loadCache(cachePath).entries)[0];
+  assert.equal(cached._last_provider_attempt, "below_floor");
+});
+
+console.log("[14] events at the floor boundary (=50) DO go to the LLM");
+it("v3_score_100 = 50 boundary → LLM IS called", async () => {
+  const cachePath = tmpCachePath();
+  const events = [withV3(sampleEvent, 50)];
+  const provider = makeGroqProvider();
+  await classifyBatchForCalendar(events, {
+    cachePath,
+    llmAvailable: true,
+    providerOverride: provider,
+    readSwsDeep: () => sampleDeep,
+  });
+  assert.equal(provider.calls, 1);
+  assert.equal(events[0].signals.llm_signal.classifier_provider, "groq");
+});
+
+console.log("[15] events with no v3 block are below floor (null score)");
+it("event.signals.v3 = null → heuristic, no LLM call", async () => {
+  const cachePath = tmpCachePath();
+  const events = [withV3(sampleEvent, null)];
+  const provider = makeGroqProvider();
+  const { stats } = await classifyBatchForCalendar(events, {
+    cachePath,
+    llmAvailable: true,
+    providerOverride: provider,
+    readSwsDeep: () => sampleDeep,
+  });
+  assert.equal(provider.calls, 0);
+  assert.equal(stats.below_v3_floor, 1);
+});
+
+console.log("[16] floor-crossing UP invalidates the cached below_floor heuristic");
+it("a stock that crossed from 40 → 75 gets re-classified by the LLM", async () => {
+  const cachePath = tmpCachePath();
+  // Seed cache: the SAME event-hash with a below_floor heuristic from a
+  // prior run. The current event passes v3=75 → must invalidate + re-classify.
+  const hash = await computeSampleHash(cachePath, false);
+  seedCache(cachePath, {
+    [hash]: {
+      bias: "neutral",
+      confidence_delta_pct: 0,
+      top_reason: "no clear catalyst",
+      top_risk: "no clear risk",
+      classifier_provider: "heuristic",
+      model_id: "heuristic-v2",
+      signal_version: "earnings-llm-v1-2026-05",
+      generated_at: new Date().toISOString(),
+      _cached_at: new Date().toISOString(),
+      _last_provider_attempt: "below_floor",
+    },
+  });
+  const events = [withV3(sampleEvent, 75)];
+  const provider = makeGroqProvider();
+  const { stats } = await classifyBatchForCalendar(events, {
+    cachePath,
+    llmAvailable: true,
+    providerOverride: provider,
+    readSwsDeep: () => sampleDeep,
+  });
+  assert.equal(provider.calls, 1, "floor-crossing UP must trigger re-classify");
+  assert.equal(stats.cross_floor_invalidations, 1);
+  assert.equal(events[0].signals.llm_signal.classifier_provider, "groq");
+});
+
+console.log("[17] floor-crossing DOWN keeps the cached LLM signal (no waste)");
+it("a stock that crossed from 75 → 40 keeps its existing groq cache hit", async () => {
+  const cachePath = tmpCachePath();
+  const hash = await computeSampleHash(cachePath, false);
+  seedCache(cachePath, {
+    [hash]: {
+      bias: "lean_beat",
+      confidence_delta_pct: 4,
+      top_reason: "real LLM read from a prior run",
+      top_risk: "real LLM risk",
+      classifier_provider: "groq",
+      model_id: "groq-model",
+      signal_version: "earnings-llm-v1-2026-05",
+      generated_at: new Date().toISOString(),
+      _cached_at: new Date().toISOString(),
+      _last_provider_attempt: "succeeded",
+    },
+  });
+  const events = [withV3(sampleEvent, 40)];   // now below floor
+  const provider = makeGroqProvider();
+  const { stats } = await classifyBatchForCalendar(events, {
+    cachePath,
+    llmAvailable: true,
+    providerOverride: provider,
+    readSwsDeep: () => sampleDeep,
+  });
+  assert.equal(provider.calls, 0, "we already paid for the groq signal — don't waste it");
+  assert.equal(stats.cache_hits, 1);
+  assert.equal(events[0].signals.llm_signal.classifier_provider, "groq");
+});
+
+console.log("[18] custom compositeFloor opt overrides the default");
+it("opts.compositeFloor=80 sends events with score 75 to heuristic", async () => {
+  const cachePath = tmpCachePath();
+  const events = [withV3(sampleEvent, 75)];
+  const provider = makeGroqProvider();
+  const { stats } = await classifyBatchForCalendar(events, {
+    cachePath,
+    llmAvailable: true,
+    compositeFloor: 80,
+    providerOverride: provider,
+    readSwsDeep: () => sampleDeep,
+  });
+  assert.equal(provider.calls, 0);
+  assert.equal(stats.below_v3_floor, 1);
+  assert.equal(stats.composite_floor, 80);
 });
 
 /* ─────────────────────────── runner ─────────────────────────────── */

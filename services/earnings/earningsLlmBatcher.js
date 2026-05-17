@@ -57,6 +57,19 @@ const CACHE_TTL_DAYS = 90;
 // permanently freezes the cache at heuristic for that event.
 const FAILED_RETRY_MS = 24 * 60 * 60 * 1000;
 
+// V3 composite floor — only events whose underlying stock has a V3 100-pt
+// composite score >= V3_COMPOSITE_FLOOR are sent to the (paid / rate-limited)
+// LLM. Stocks below the floor are platform-disliked on fundamentals; spending
+// scarce free-tier Gemini RPM / Groq TPD on them is wasted budget. They
+// still get a deterministic heuristic signal so the predictor's component 9
+// has something to score. Field: event.signals.v3.v3_score_100 (set by
+// signalAggregator.js via v3SignalAdapter). Null/missing → below floor.
+const V3_COMPOSITE_FLOOR = 50;
+export function meetsLlmCompositeFloor(event, floor = V3_COMPOSITE_FLOOR) {
+  const score = event?.signals?.v3?.v3_score_100;
+  return typeof score === "number" && score >= floor;
+}
+
 // Whitelist of fields that constitute the wire contract for an llm_signal.
 // Anything starting with "_" is treated as internal cache metadata and is
 // stripped before the entry is attached to an event. Maintaining this as
@@ -182,6 +195,9 @@ async function runChunks(chunks, fn, concurrency) {
  * @param {boolean} [opts.llmAvailable] override env-key detection (tests inject true/false
  *                                      so behaviour is independent of contributor shell env)
  * @param {string}  [opts.cachePath]    override cache file path (tests point at a tmpdir)
+ * @param {number}  [opts.compositeFloor] V3 composite floor below which events
+ *                                        are routed to heuristic instead of the
+ *                                        LLM (default V3_COMPOSITE_FLOOR = 50)
  * @param {function} [opts.readSwsDeep]      inject for tests
  * @param {function} [opts.providerOverride] inject a fake LLM for tests
  * @param {number}  [opts.chunkSize]
@@ -198,6 +214,8 @@ export async function classifyBatchForCalendar(events, opts = {}) {
   // they happen to run in. Production callers leave this undefined and
   // we read process.env.
   const llmAvailable = opts.llmAvailable ?? !!(process.env.GROQ_API_KEY || process.env.GEMINI_API_KEY);
+  const compositeFloor = Number.isFinite(opts.compositeFloor) ? opts.compositeFloor : V3_COMPOSITE_FLOOR;
+  const meetsFloor = (event) => meetsLlmCompositeFloor(event, compositeFloor);
 
   // Build a context for every event. Skip LOW data_quality — the
   // predictor returns INSUFFICIENT_DATA for those, so an LLM signal
@@ -246,6 +264,7 @@ export async function classifyBatchForCalendar(events, opts = {}) {
   const missIdx = [];
   let cacheHits = 0;
   let heuristicCacheInvalidations = 0;
+  let crossFloorInvalidations = 0;
   const nowMs = Date.now();
   for (let i = 0; i < events.length; i++) {
     if (!contexts[i]) continue;
@@ -259,29 +278,68 @@ export async function classifyBatchForCalendar(events, opts = {}) {
     const failedRetryEligible = priorAttempt === "failed"
       && Number.isFinite(cachedMs)
       && (nowMs - cachedMs) >= FAILED_RETRY_MS;
+    // Layer I — floor-crossing invalidation: if the event was cached as
+    // "below_floor" and its V3 score has now crossed up to >= floor, the
+    // LLM should get to refine it. Below-floor heuristics for events that
+    // are STILL below the floor remain valid hits (don't waste cycles).
+    const crossedFloorUp = priorAttempt === "below_floor" && meetsFloor(events[i]);
     // Invalidate when (a) we never tried the LLM (no keys / pre-v2 entry),
     // OR (b) we tried + failed >= FAILED_RETRY_MS ago (quota windows have
     // reset; safe to retry).
-    const isStaleHeuristic = isCachedHeuristic && llmAvailable
-      && (priorAttempt !== "failed" || failedRetryEligible);
+    // OR (c) the event crossed the V3 floor upward and we can now afford
+    //         a real LLM read.
+    const isStaleHeuristic = isCachedHeuristic && llmAvailable && (
+      priorAttempt === "none" || priorAttempt === undefined ||
+      (priorAttempt === "failed" && failedRetryEligible) ||
+      crossedFloorUp
+    );
     if (cached && cached.bias && !isStaleHeuristic) {
       events[i].signals = events[i].signals || {};
       events[i].signals.llm_signal = stripCacheMeta(cached);
       cacheHits += 1;
     } else {
       if (isStaleHeuristic) heuristicCacheInvalidations += 1;
+      if (crossedFloorUp) crossFloorInvalidations += 1;
       missIdx.push(i);
     }
   }
 
-  // ── chunk the misses, classify via the fallback chain ──
-  const chunks = [];
-  for (let i = 0; i < missIdx.length; i += chunkSize) {
-    chunks.push(missIdx.slice(i, i + chunkSize));
+  // ── Layer I — split misses by V3 composite floor ──
+  // Above-floor: go through the LLM chunk-classify path (paid signal).
+  // Below-floor: skip the LLM entirely, run heuristic locally, stamp
+  // `_last_provider_attempt: "below_floor"` so subsequent runs know NOT
+  // to re-attempt (unless the score crosses the floor upward — see the
+  // crossedFloorUp check above).
+  const llmMissIdx = [];
+  const belowFloorIdx = [];
+  for (const i of missIdx) {
+    if (meetsFloor(events[i])) llmMissIdx.push(i);
+    else belowFloorIdx.push(i);
   }
+
   let llmCalls = 0;
   let heuristicCount = 0;
+  let belowFloorCount = belowFloorIdx.length;
   const nowIso = new Date().toISOString();
+
+  // Below-floor: synchronous heuristic + cache stamp. No network, no provider.
+  for (const eventIdx of belowFloorIdx) {
+    const sig = heuristicClassify(contexts[eventIdx]);
+    heuristicCount += 1;
+    events[eventIdx].signals = events[eventIdx].signals || {};
+    events[eventIdx].signals.llm_signal = stripCacheMeta(sig);
+    cache.entries[hashes[eventIdx]] = {
+      ...sig,
+      _cached_at: nowIso,
+      _last_provider_attempt: "below_floor",
+    };
+  }
+
+  // Above-floor: existing chunk-classify path.
+  const chunks = [];
+  for (let i = 0; i < llmMissIdx.length; i += chunkSize) {
+    chunks.push(llmMissIdx.slice(i, i + chunkSize));
+  }
 
   const chunkResults = await runChunks(
     chunks,
@@ -328,6 +386,9 @@ export async function classifyBatchForCalendar(events, opts = {}) {
       llm_calls: llmCalls,
       heuristic: heuristicCount,
       heuristic_cache_invalidations: heuristicCacheInvalidations,
+      cross_floor_invalidations: crossFloorInvalidations,
+      below_v3_floor: belowFloorCount,
+      composite_floor: compositeFloor,
       llm_available: llmAvailable,
       skip_llm: false,
     },

@@ -365,7 +365,8 @@ async function main() {
   console.log(
     `[earnings-watch] LLM signal done in ${((Date.now() - tLlm) / 1000).toFixed(1)}s ` +
       `(cache hits ${llmStats.cache_hits ?? 0}, llm calls ${llmStats.llm_calls ?? 0}, ` +
-      `heuristic ${llmStats.heuristic ?? 0})`,
+      `heuristic ${llmStats.heuristic ?? 0}, ` +
+      `below V3 floor ${llmStats.below_v3_floor ?? 0}/${llmStats.composite_floor ?? "?"})`,
   );
 
   // ── Milestone C: predict + price bands + 3-paragraph rationale ──
