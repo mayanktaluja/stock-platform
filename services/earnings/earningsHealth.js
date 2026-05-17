@@ -212,6 +212,36 @@ function summariseInsufficientData(history, nowIso) {
 /* ───────────────────────── main builder ─────────────────────────── */
 
 /**
+ * Compute macro-regime freshness for the health summary.
+ *
+ * Threshold is 18h — generous enough to absorb one missed 2h cron slot
+ * (the standalone com.starbhai.macro-only fires 12x/day with launchd
+ * CatchUp=true, so getting to 18h+ stale requires a genuine cron break,
+ * not a transient laptop sleep). Below threshold → silent. At or above
+ * → an alert string the runner appends to the alerts array.
+ */
+function summariseMacroRegime(macroRegime, nowIso) {
+  if (!macroRegime || !macroRegime.generatedAt) {
+    return { present: false, generated_at: null, age_hours: null, stale: false, alert: null };
+  }
+  const ageMs = new Date(nowIso).getTime() - new Date(macroRegime.generatedAt).getTime();
+  const ageHours = Math.round(ageMs / 3600000);
+  const stale = ageHours >= 18;
+  const alert = stale
+    ? `Macro regime is ${ageHours}h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log`
+    : null;
+  return {
+    present: true,
+    generated_at: macroRegime.generatedAt,
+    age_hours: ageHours,
+    classifier_provider: macroRegime.classifierProvider || null,
+    regime: macroRegime.regime || null,
+    stale,
+    alert,
+  };
+}
+
+/**
  * @param {object} args
  * @param {Array}  args.history           loadAllHistory() output
  * @param {object} [args.backtestSnapshot] earnings-backtest-latest.json
@@ -220,10 +250,12 @@ function summariseInsufficientData(history, nowIso) {
  * @param {string} [args.nowIso]           injectable clock
  * @param {Array}  [args.sourceConflictLog] data/catalysts/source-conflict-log.json
  *                                          contents (P2.6); empty when omitted
+ * @param {object} [args.macroRegime]      parsed data/macroRegime.json (P4 — macro
+ *                                          freshness alert, threshold 18h)
  * @returns {object} the health summary
  */
 export function buildHealthSummary(args = {}) {
-  const { history = [], backtestSnapshot = null, watchEvents = [], priorHealth = null, sourceConflictLog = [] } = args;
+  const { history = [], backtestSnapshot = null, watchEvents = [], priorHealth = null, sourceConflictLog = [], macroRegime = null } = args;
   const nowIso = args.nowIso || new Date().toISOString();
 
   const resolvedCount = countResolved(history);
@@ -236,6 +268,9 @@ export function buildHealthSummary(args = {}) {
   // P2.6 source-disagreement summary + P4.4 insufficient-data tracker.
   const sourceConflicts = summariseSourceConflicts(sourceConflictLog, history, nowIso);
   const insufficientData = summariseInsufficientData(history, nowIso);
+  // P4 (2026-05-17 fix) — macro regime freshness. Alerts if the
+  // standalone macro-only cron has stopped writing for >18h.
+  const macroRegimeFreshness = summariseMacroRegime(macroRegime, nowIso);
 
   // Cap-lift gate + days-in-state. The gate "state" is the boolean
   // enough_data_to_lift_cap; we tick a day counter while it holds.
@@ -297,6 +332,9 @@ export function buildHealthSummary(args = {}) {
       `predictor coverage may be degrading`,
     );
   }
+  if (macroRegimeFreshness.alert) {
+    alerts.push(macroRegimeFreshness.alert);
+  }
 
   // PR3 — structured llm_offline flag for the snapshot API. The UI
   // renders a "qualitative signal: deterministic-only" pill when this
@@ -324,6 +362,7 @@ export function buildHealthSummary(args = {}) {
     restatements,
     source_conflicts: sourceConflicts,
     insufficient_data: insufficientData,
+    macro_regime: macroRegimeFreshness,
     history_files: (history || []).length,
     alerts,
     healthy: alerts.length === 0,

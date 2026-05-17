@@ -681,6 +681,10 @@ const AUTH_EXEMPT_PATHS = new Set([
   "/api/auth/google",
   "/api/auth/google/callback",
   "/api/auth/me",
+  // Public health probe — non-sensitive (just an age and a status), no PII,
+  // safe to expose so external uptime checks can verify the macro-only cron.
+  // Added 2026-05-17 as Phase 4 of the macro permanent fix.
+  "/api/macro/regime/health",
 ]);
 app.use((req, res, next) => {
   if (!AUTH_ENABLED) return next();
@@ -3844,6 +3848,47 @@ app.get("/api/macro/regime", async (req, res) => {
   } catch (err) {
     console.error("[MACRO] /api/macro/regime error:", err.message);
     res.status(500).json({ ...defaultCalmRegime(), error: err.message });
+  }
+});
+
+/**
+ * Health endpoint — answers a single question without auth: is the macro
+ * regime fresh? Designed for external monitoring (uptime probe, Slack bot,
+ * a dashboard tile). Returns `status` ∈ {fresh, stale, missing} and the
+ * age in hours. Mirrors the 18h staleness threshold used by the earnings
+ * health summary (services/earnings/earningsHealth.js) and the in-app
+ * banner so all three layers agree on what "stale" means.
+ *
+ * Added 2026-05-17 as Phase 4 of the macro permanent fix — gives the user
+ * a one-curl way to verify the standalone com.starbhai.macro-only cron is
+ * actually running, without having to log in to the dashboard or check the
+ * banner manually.
+ */
+app.get("/api/macro/regime/health", async (req, res) => {
+  try {
+    const stored = await macroStorage.read().catch(() => null);
+    if (!stored || !stored.generatedAt) {
+      return res.status(503).json({
+        status: "missing",
+        generatedAt: null,
+        ageHours: null,
+        thresholdHours: 18,
+        reason: "data/macroRegime.json not present or unreadable",
+      });
+    }
+    const ageMs = Date.now() - new Date(stored.generatedAt).getTime();
+    const ageHours = Math.round(ageMs / 36e5 * 10) / 10;
+    const stale = ageHours >= 18;
+    res.status(stale ? 503 : 200).json({
+      status: stale ? "stale" : "fresh",
+      generatedAt: stored.generatedAt,
+      ageHours,
+      thresholdHours: 18,
+      regime: stored.regime || null,
+      classifierProvider: stored.classifierProvider || null,
+    });
+  } catch (err) {
+    res.status(500).json({ status: "error", error: err.message });
   }
 });
 
