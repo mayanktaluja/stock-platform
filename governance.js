@@ -379,7 +379,83 @@ export async function buildGovernance(opts = {}) {
 
 // ==================== PERSISTENCE ====================
 
+/**
+ * Pure predicate: is this snapshot the product of a transient outage
+ * (NSE cookie expiry, datacenter-IP block, total endpoint failure) rather
+ * than a legitimate refresh?
+ *
+ * Mirrors the in-route guard at /api/cron/refresh-governance (server.js
+ * ~2406-2422): if okCount < max(5, total * 10%) we treat the run as an
+ * outage. Extracted here so BOTH writer paths (Vercel cron + local
+ * scripts/refresh-governance.mjs) benefit from the same protection — the
+ * local script previously called `saveGovernance(snap)` unconditionally,
+ * which is how governance.json zero-filled to `counts: { ok: 0, empty: 744 }`
+ * on 2026-05-12 and stayed dead until 2026-05-18.
+ *
+ * Exported for direct unit-testing (and so other writers — if any are added
+ * later — can pre-check before calling saveGovernance).
+ *
+ * Empty snapshot ({} bySymbol, no counts) is also considered an outage so a
+ * truly-empty Vercel cron payload does not wipe a populated disk file.
+ */
+export function isOutageSnapshot(snap) {
+  if (!snap || typeof snap !== "object") return true;
+  const counts = snap.counts || {};
+  const okCount = Number.isFinite(counts.ok)
+    ? counts.ok
+    : Object.keys(snap.bySymbol || {}).length;
+  const total = Number.isFinite(counts.total)
+    ? counts.total
+    : Number.isFinite(counts.ok) && Number.isFinite(counts.empty)
+      ? counts.ok + counts.empty
+      : okCount; // total unknown — fall back to okCount so threshold = max(5, ok*0.1)
+  const threshold = Math.max(5, Math.floor(total * 0.10));
+  return okCount < threshold;
+}
+
+/**
+ * Persist a governance snapshot to KV (preferred) or disk.
+ *
+ * Outage-preservation guard: if `snapshot` looks like an outage payload
+ * (per isOutageSnapshot) AND there is an existing snapshot with real
+ * coverage, the write is SKIPPED. The function returns
+ *   { skipped: true, reason, fetched, existingCount }
+ * so callers can log it accordingly. If there is no existing snapshot to
+ * preserve, the outage payload is written through so the diagnostics
+ * surface (`getGovernanceStatus()`) shows the empty state honestly rather
+ * than implying everything is fine.
+ *
+ * Both server.js /api/cron/refresh-governance AND
+ * scripts/refresh-governance.mjs rely on this guard now. The server route
+ * still does its own pre-check for observability (it returns a 200 JSON
+ * with `skipped: true` to the caller) — that's belt-and-braces; this
+ * function is the load-bearing braces.
+ */
 export async function saveGovernance(snapshot) {
+  if (isOutageSnapshot(snapshot)) {
+    const existing = getGovernanceSnapshot();
+    const existingCount = Object.keys(existing?.bySymbol || {}).length;
+    if (existingCount > 0) {
+      const counts = snapshot?.counts || {};
+      const okCount = Number.isFinite(counts.ok)
+        ? counts.ok
+        : Object.keys(snapshot?.bySymbol || {}).length;
+      console.warn(
+        `[GOVERNANCE] saveGovernance refused to overwrite: snapshot reports only ` +
+        `${okCount} populated records (of ${counts.total ?? "unknown"}); ` +
+        `preserving existing snapshot with ${existingCount} entries.`
+      );
+      return {
+        skipped: true,
+        reason: "zero_or_low_yield_preserved_existing",
+        fetched: okCount,
+        existingCount,
+      };
+    }
+    // No existing data to preserve — fall through to write the outage
+    // payload so the diagnostics surface tells the truth about the failure.
+  }
+
   const kv = await getKVClient();
   if (kv) {
     await kv.set(KV_GOVERNANCE_KEY, snapshot);
@@ -448,6 +524,17 @@ export function getGovernance(symbol) {
   if (!key) return null;
   const snap = getGovernanceSnapshot();
   return snap.bySymbol?.[key] || null;
+}
+
+/**
+ * TEST-ONLY: invalidate the in-memory cache so a subsequent
+ * getGovernanceSnapshot() / getGovernance() re-reads from disk (or KV
+ * if configured). Never call this from production code paths — the cache
+ * is load-bearing for cold-start latency.
+ */
+export function _resetGovernanceCacheForTests() {
+  _cached = null;
+  _cachedSource = null;
 }
 
 /**
