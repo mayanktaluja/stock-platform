@@ -46,6 +46,22 @@ export async function getDb(opts = {}) {
     const { Pool } = await import("pg");
     const { drizzle } = await import("drizzle-orm/node-postgres");
     const pool = new Pool({ connectionString: url, max: 5 });
+    // Neon serverless compute auto-suspends idle backends and sends FATAL
+    // "terminating connection due to administrator command". The pg.Pool
+    // emits 'error' on the disconnected idle client; without a listener
+    // Node treats it as an unhandled 'error' event and the process crashes
+    // (this killed shard 2 of the 2026-05-17 nightly). The Pool replaces
+    // the dead client transparently on the next acquire — we just need to
+    // attach a listener so EventEmitter doesn't escalate.
+    pool.on("error", (err) => {
+      console.error(JSON.stringify({
+        event: "pg_pool_idle_error",
+        message: err?.message,
+        code: err?.code,
+        severity: err?.severity,
+        at: new Date().toISOString(),
+      }));
+    });
     _db = drizzle(pool);
     _db.__pool = pool;
   } else {

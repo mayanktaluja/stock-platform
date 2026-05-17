@@ -59,6 +59,39 @@ function logEvent(obj) {
   console.log(JSON.stringify(obj));
 }
 
+// Top-level safety net for unhandled errors. Without these handlers, Node
+// terminates the process on any unhandled rejection / uncaught exception
+// (e.g. the pg.Pool 'error' that killed shard 2 on 2026-05-17 — see
+// db/client.js for the primary fix). With them, we log a grep-able JSON
+// line carrying the shard id and exit(2) so the launcher's retry loop in
+// scripts/sws-refresh-api.sh can distinguish a fatal crash from a clean
+// non-zero exit and resume from the last persisted next_local_index.
+function installFatalHandlers() {
+  const shardArg = parseInt(process.argv[2], 10);
+  const shardId = Number.isFinite(shardArg) ? shardArg : null;
+  let firing = false; // guard against re-entrancy if the handler itself throws
+  const finish = (kind, err) => {
+    if (firing) return;
+    firing = true;
+    try {
+      console.error(JSON.stringify({
+        event: "shard_fatal",
+        kind,
+        shard: shardId,
+        message: err?.message ?? String(err),
+        code: err?.code ?? null,
+        severity: err?.severity ?? null,
+        stack: err?.stack ?? null,
+        at: new Date().toISOString(),
+      }));
+    } catch { /* logging itself must never throw */ }
+    process.exit(2);
+  };
+  process.on("unhandledRejection", (err) => finish("unhandledRejection", err));
+  process.on("uncaughtException", (err) => finish("uncaughtException", err));
+}
+installFatalHandlers();
+
 function loadUniverse() {
   const raw = JSON.parse(fs.readFileSync(UNIVERSE_PATH, "utf8"));
   return Array.isArray(raw) ? raw : raw.stocks || raw.universe || [];
@@ -136,6 +169,19 @@ async function main() {
     : null;
 
   fs.mkdirSync(OUT_DIR, { recursive: true });
+
+  // Test hook: fire an unhandled rejection to exercise installFatalHandlers
+  // and the launcher's retry loop. Only fires on the FIRST attempt
+  // (SWS_RESUME != "1"), so a retried shard runs normally and the
+  // launcher can prove its retry succeeded.
+  if (process.env.SWS_INJECT_REJECTION === "1" && process.env.SWS_RESUME !== "1") {
+    setImmediate(() => {
+      Promise.reject(new Error("SWS_INJECT_REJECTION=1 — synthetic crash for retry test"));
+    });
+    // Park long enough for the rejection to fire and the handler to exit.
+    await sleep(5000);
+    return;
+  }
 
   // Pre-flight: panic check
   if (checkPanic()) {
