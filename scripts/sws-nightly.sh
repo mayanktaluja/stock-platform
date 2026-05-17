@@ -119,6 +119,54 @@ send_mail() {
   fi
 }
 
+# ---- helper: auto-resolve unmerged paths by taking --theirs ----
+#
+# The autostash flow can leave the tree "unmerged" two ways: (a) the in-
+# flight `git stash pop` conflicts on a tracked file that diverged between
+# the stashed working state and origin/main, OR (b) a prior run hit case
+# (a), exited with the conflict markers still in place, and the NEXT run's
+# `git stash push --include-untracked` then refuses to run on an unmerged
+# tree (`error: could not write index / <file>: needs merge`) and the
+# script exits 5. Case (b) is the chronic-failure mode that bit us
+# repeatedly on .claude/launch.json before that file was untracked.
+#
+# Resolution policy: take `--theirs` for every unmerged path. During pop,
+# --theirs is the stash side (the working-tree state we wanted preserved).
+# The script's commit phase only adds specific data files (data/sws/deep/,
+# data/catalysts/, fundamentals.json, ...) all of which get overwritten by
+# the pipeline before commit, so the chosen side rarely matters. For
+# anything unexpected, --theirs is no worse than leaving the tree stuck —
+# and the caller's mail surfaces what was resolved so the operator can
+# sanity-check.
+#
+# Returns 0 even when nothing was resolved (callers can invoke
+# unconditionally). The list of resolved paths is captured in the global
+# RESOLVED_PATHS for the caller to surface in mail.
+RESOLVED_PATHS=""
+resolve_unmerged() {
+  local context="$1"
+  local unmerged
+  # `git ls-files --unmerged` prints "<mode> <hash> <stage>\t<path>"; cut -f2
+  # extracts the path on the tab boundary, which is safe for paths with
+  # spaces. Stage 1/2/3 dup the path, so sort -u collapses to one entry.
+  unmerged="$(git ls-files --unmerged | cut -f2 | sort -u)"
+  if [ -z "${unmerged}" ]; then
+    RESOLVED_PATHS=""
+    return 0
+  fi
+  local count
+  count="$(printf '%s\n' "${unmerged}" | wc -l | tr -d ' ')"
+  echo "[nightly] ${context}: auto-resolving ${count} unmerged path(s) with --theirs:"
+  while IFS= read -r f; do
+    [ -z "${f}" ] && continue
+    echo "[git]   ${f}"
+    git checkout --theirs -- "${f}" 2>&1 | sed 's/^/[git] /' || true
+    git add -- "${f}" 2>&1 | sed 's/^/[git] /' || true
+  done <<< "${unmerged}"
+  RESOLVED_PATHS="${unmerged}"
+  return 0
+}
+
 # ---- 0. Mail: run-started heads-up ----
 # Fires BEFORE pre-flight so the operator always gets a kickoff notice — even
 # when a pre-flight check aborts the run seconds later. Aborts send their own
@@ -198,10 +246,19 @@ $(git log --oneline origin/main..main)"
   exit 5
 fi
 
+# Pre-autostash defensive cleanup: a prior run's stash pop may have left
+# the working tree in an unresolved-merge state (conflict markers in some
+# files, `git ls-files --unmerged` non-empty). `git stash push` refuses to
+# run on an unmerged tree (`error: could not write index / <file>: needs
+# merge`), so without this step the next nightly hard-fails with exit 5
+# and surfaces only via the abort mail. resolve_unmerged() takes --theirs
+# on any leftover paths and stages them; subsequent autostash succeeds.
+resolve_unmerged "pre-autostash leftover-state cleanup"
+
 # Autostash BEFORE we move the working copy. The tree is routinely dirty
-# with regenerated files (.claude/launch.json, data/coverage/*,
-# data/macroRegime.json, data/sws/_sanity/_latest.json); a dirty tracked
-# file would otherwise block the checkout below.
+# with regenerated files (data/coverage/*, data/macroRegime.json,
+# data/sws/_sanity/_latest.json); a dirty tracked file would otherwise
+# block the checkout below.
 STASH_TAG="sws-nightly-autostash-$(date +%s)"
 STASHED=0
 if [ -n "$(git status --porcelain)" ]; then
@@ -248,14 +305,34 @@ $(git worktree list 2>&1)"
 fi
 
 # Re-apply the autostashed working-tree changes onto sws-nightly-base.
+# On conflict, auto-resolve via resolve_unmerged (--theirs = stash side)
+# and drop the stash. Leaving conflict markers in place was the bug that
+# tripped the NEXT nightly's autostash, since `git stash push` refuses to
+# run on an unmerged tree. The original cohort of recurring offenders
+# (.claude/launch.json + the catalyst snapshots overwritten later in this
+# same run) self-heal under --theirs: launch.json is now gitignored, and
+# the catalyst data files get rewritten by refresh-catalysts.mjs /
+# refresh-earnings.mjs before commit.
 if [ "${STASHED}" -eq 1 ]; then
   if ! git stash pop 2>&1 | sed 's/^/[git] /'; then
-    echo "[nightly] stash pop conflicted — stash ${STASH_TAG} left on list"
-    send_mail "⚠️ SWS nightly — autostash pop conflicted" \
-"Autostash ${STASH_TAG} could not be popped cleanly at $(ts). Pipeline continued. Recover with:
+    echo "[nightly] stash pop conflicted — auto-resolving with --theirs"
+    resolve_unmerged "stash pop conflicted"
+    POP_RESOLVED="${RESOLVED_PATHS}"
+    # Drop the stash now that we've extracted what we want, otherwise it
+    # leaks across runs and `git stash list` grows forever.
+    git stash drop stash@{0} 2>&1 | sed 's/^/[git] /' || true
+    send_mail "⚠️ SWS nightly — autostash pop conflicted (auto-resolved)" \
+"Autostash ${STASH_TAG} pop conflicted at $(ts). Auto-resolved by taking --theirs
+(the stash side) on:
 
-  git stash list
-  git stash apply stash@{0}   # or specific stash"
+${POP_RESOLVED}
+
+Stash dropped. Pipeline continued. The catalyst snapshots get overwritten
+later in this same run; .claude/launch.json should be gitignored. If anything
+unexpected appears above, the prior contents are still recoverable from
+~90 days of git reflog:
+
+  git reflog --pretty=oneline | head -30"
   fi
 fi
 

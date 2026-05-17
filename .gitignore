@@ -45,6 +45,15 @@ users.json
 .claude/worktrees/
 .macro-regime-cache.json
 
+# Per-worktree Claude Code debug-config catalog. Each parallel worktree
+# appends its own entry, which previously caused chronic `git stash pop`
+# conflicts in scripts/sws-nightly.sh (the nightly autostash captured
+# competing additions from different worktrees, then conflicted on pop —
+# the marker-containing file then blocked the NEXT run's autostash with
+# exit 5). Untracked so each worktree owns its local copy and the file
+# never enters version control again.
+.claude/launch.json
+
 # Logs + temp output
 npm-debug.log*
 yarn-debug.log*

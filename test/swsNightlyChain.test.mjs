@@ -90,5 +90,54 @@ assert(
   null,
 );
 
+// ---- Autostash resilience: resolve_unmerged() helper + wiring ----
+//
+// Chronic stash-pop conflicts on .claude/launch.json kept leaving the
+// working tree in an unresolved-merge state; the NEXT run's `git stash
+// push` then refused to run on an unmerged tree and exited 5. The helper
+// auto-resolves unmerged paths by taking --theirs and is called both
+// before the autostash (sweep leftover state from prior runs) and after
+// the pop (recover in-flight). The post-pop branch also drops the stash
+// so the list doesn't grow without bound.
+
+assert(
+  "resolve_unmerged() helper is defined",
+  /^resolve_unmerged\(\)\s*\{/m.test(nightly),
+  null,
+);
+assert(
+  "resolve_unmerged uses cut -f2 (handles paths with spaces)",
+  /git ls-files --unmerged \| cut -f2/.test(nightly),
+  null,
+);
+assert(
+  "resolve_unmerged takes --theirs on conflict",
+  /git checkout --theirs --/.test(nightly),
+  null,
+);
+
+const preAutostashIdx = nightly.indexOf('resolve_unmerged "pre-autostash leftover-state cleanup"');
+// Match the actual invocation (with the `if` guard), not the verbatim
+// "git stash push" strings that also appear in the helper's docstring.
+const stashPushIdx = nightly.indexOf("if git stash push --include-untracked -m");
+assert(
+  "resolve_unmerged is called BEFORE the autostash push",
+  preAutostashIdx > -1 && stashPushIdx > -1 && preAutostashIdx < stashPushIdx,
+  { preAutostashIdx, stashPushIdx },
+);
+
+const popConflictIdx = nightly.indexOf('resolve_unmerged "stash pop conflicted"');
+const stashDropIdx = nightly.indexOf("git stash drop stash@{0}");
+assert(
+  "resolve_unmerged is called when stash pop conflicts",
+  popConflictIdx > stashPushIdx,
+  { popConflictIdx, stashPushIdx },
+);
+assert(
+  "stash is dropped after pop-conflict auto-resolve",
+  stashDropIdx > popConflictIdx,
+  { stashDropIdx, popConflictIdx },
+);
+
 console.log(`\n  ${pass} passed, ${fail} failed\n`);
 process.exit(fail === 0 ? 0 : 1);
