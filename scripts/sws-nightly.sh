@@ -198,10 +198,45 @@ $(git log --oneline origin/main..main)"
   exit 5
 fi
 
+# Phase 2 guard (2026-05-17 permanent fix): refuse to run if there are
+# unmerged paths in the index. Prior incidents had `.claude/launch.json`
+# left UU after a partial run, which silently bricked `git stash push`
+# below with `error: could not write index / file needs merge` → exit 5
+# → macro refresh never ran → production banner went orange. Detect
+# explicitly and mail with full diagnostics instead of letting the
+# autostash blow up with a cryptic error.
+if git ls-files -u | head -1 | grep -q .; then
+  UNMERGED_PATHS=$(git ls-files -u | awk '{print $4}' | sort -u)
+  echo "[nightly] UNMERGED paths in index — refusing to run:"
+  echo "${UNMERGED_PATHS}" | sed 's/^/  /'
+  send_mail "🚨 SWS nightly aborted — unmerged paths in index" \
+"git ls-files -u found unmerged paths at $(ts). The autostash would fail with
+'cannot write index' (this is the failure mode that bricked the 2026-05-17
+runs, now caught explicitly). Fix manually:
+
+  cd ${REPO_DIR}
+  git status
+
+For each unmerged file, pick a side or merge:
+  git checkout --theirs <file>     # or --ours, or hand-merge
+  git add <file>
+
+Then re-run:
+  launchctl start com.starbhai.sws-nightly
+
+Unmerged paths:
+${UNMERGED_PATHS}
+
+Full status:
+$(git status 2>&1 | head -40)"
+  exit 5
+fi
+
 # Autostash BEFORE we move the working copy. The tree is routinely dirty
-# with regenerated files (.claude/launch.json, data/coverage/*,
-# data/macroRegime.json, data/sws/_sanity/_latest.json); a dirty tracked
-# file would otherwise block the checkout below.
+# with regenerated files (data/coverage/*, data/sws/_sanity/_latest.json);
+# a dirty tracked file would otherwise block the checkout below.
+# .claude/launch.json was historically the worst offender — now gitignored
+# after PR #248 — so the autostash surface is dramatically smaller.
 STASH_TAG="sws-nightly-autostash-$(date +%s)"
 STASHED=0
 if [ -n "$(git status --porcelain)" ]; then
@@ -377,26 +412,27 @@ else
   aux_status "oi-deltas-latest.json" "FAILED"
 fi
 
-# Macro regime refresh: ~10-15s (RSS fetches + 1 LLM call). Writes
-# data/macroRegime.json which production reads to render the global
-# macro banner. Exit 2 = LLM auth_error (rotate keys) — non-fatal here
-# but worth surfacing in the PR body. Exit 1 = no headlines AND no
-# prior file — non-fatal; the banner falls back to last-known data.
-MACRO_RC=0
-if with_timeout 120 node scripts/refresh-macro-regime.mjs 2>&1 | sed 's/^/[macro] /'; then
-  aux_status "macroRegime.json" "OK"
+# Macro regime refresh: handled by the STANDALONE cron com.starbhai.macro-only
+# (scripts/refresh-macro-only.sh, every 2h). Decoupled from this nightly per
+# the 2026-05-17 permanent fix — single-writer rule for data/macroRegime.json.
+# Here we ONLY check freshness as a diagnostic; we do NOT write or commit the
+# file (that would race the standalone cron).
+MACRO_AGE_HOURS=$(node --input-type=module -e '
+import {readFileSync, existsSync} from "fs";
+if (!existsSync("data/macroRegime.json")) { console.log(9999); process.exit(0); }
+try {
+  const j = JSON.parse(readFileSync("data/macroRegime.json", "utf-8"));
+  if (!j.generatedAt) { console.log(9999); process.exit(0); }
+  const ms = Date.now() - new Date(j.generatedAt).getTime();
+  console.log(Math.floor(ms / 3600000));
+} catch { console.log(9999); }
+' 2>/dev/null)
+if [ "${MACRO_AGE_HOURS:-9999}" -ge 18 ]; then
+  echo "[nightly] data/macroRegime.json is ${MACRO_AGE_HOURS}h old — standalone macro-only cron may be unhealthy"
+  aux_status "macroRegime.json" "STALE-${MACRO_AGE_HOURS}h"
 else
-  MACRO_RC=$?
-  if [ "${MACRO_RC}" = "2" ]; then
-    echo "[nightly] refresh-macro-regime.mjs returned exit 2 — LLM auth_error, rotate keys"
-    aux_status "macroRegime.json" "OK-llm-degraded"
-  elif [ "${MACRO_RC}" = "9" ]; then
-    echo "[nightly] refresh-macro-regime.mjs returned exit 9 — LLM keys not loaded in env; prior data/macroRegime.json preserved"
-    aux_status "macroRegime.json" "SKIPPED-no-llm-keys"
-  else
-    echo "[nightly] refresh-macro-regime.mjs failed (exit ${MACRO_RC}) — non-fatal, continuing"
-    aux_status "macroRegime.json" "FAILED"
-  fi
+  echo "[nightly] data/macroRegime.json is ${MACRO_AGE_HOURS}h old — fresh"
+  aux_status "macroRegime.json" "OK-${MACRO_AGE_HOURS}h"
 fi
 
 # Fundamentals refresh: self-paced via an 8h freshness check. Two launchd
@@ -568,10 +604,12 @@ if [ ${GATE_RC} -ne 0 ]; then
   # refreshes from step 3c are INDEPENDENT and may have produced fresh
   # data. Ship those in a data-only PR so the staleness banner doesn't
   # flag Fundamentals + Earnings while we debug the scrape.
+  # data/macroRegime.json deliberately excluded — single-writer rule per
+  # the 2026-05-17 fix. The standalone com.starbhai.macro-only cron is
+  # the ONLY committer of that file.
   DATA_FILES=(
     data/catalysts/
     data/nse-fo/oi-deltas-latest.json
-    data/macroRegime.json
     fundamentals.json
     surveillance.json
     governance.json
@@ -677,6 +715,8 @@ echo "[nightly] ${COVERAGE_LINE:-coverage: <unavailable>}"
 
 # ---- 5. Commit + push ----
 
+# data/macroRegime.json deliberately excluded — single-writer rule per
+# the 2026-05-17 fix. The standalone com.starbhai.macro-only cron commits it.
 CHANGED_FILES=$(git status --short \
   data/sws/deep/ \
   data/sws/picks-latest.json \
@@ -686,7 +726,6 @@ CHANGED_FILES=$(git status --short \
   data/sws/nse-event-calendar.json \
   data/catalysts/ \
   data/nse-fo/oi-deltas-latest.json \
-  data/macroRegime.json \
   fundamentals.json \
   surveillance.json \
   governance.json \
@@ -723,6 +762,8 @@ fi
 # The next run's git-sync (git checkout -B sws-nightly-base origin/main) does
 # not care what branch it starts on, so no restore step is needed here.
 
+# data/macroRegime.json deliberately excluded — single-writer rule per
+# the 2026-05-17 fix. The standalone com.starbhai.macro-only cron commits it.
 git add data/sws/deep/ \
         data/sws/picks-latest.json \
         data/sws/last-refresh.json \
@@ -731,7 +772,6 @@ git add data/sws/deep/ \
         data/sws/nse-event-calendar.json \
         data/catalysts/ \
         data/nse-fo/oi-deltas-latest.json \
-        data/macroRegime.json \
         fundamentals.json \
         surveillance.json \
         governance.json \
