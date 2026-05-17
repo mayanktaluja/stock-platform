@@ -124,6 +124,7 @@ function row(o = {}) {
     predicted_verdict: o.predicted_verdict || "BEAT",
     confidence_pct: o.confidence_pct ?? 62,
     actual_verdict: o.actual_verdict ?? null,
+    llm_signal: "llm_signal" in o ? o.llm_signal : null,
   };
 }
 // One-day snapshot wrapper.
@@ -657,6 +658,72 @@ it("output shape is strictly backwards-compatible — every legacy field still p
   assert.ok("hit_rate_overall_sample_size" in v1);
   assert.ok("hit_rate_by_confidence_bucket_ci" in v1);
   assert.ok("hit_rate_by_verdict_ci" in v1);
+});
+
+/* ─────────────────── computeCalibration — by_classifier_provider ──── */
+//
+// 2026-05-17 — the archive's schema-v4 llm_signal block has carried
+// classifier_provider for weeks, but the calibration step never split
+// metrics by it. Without that split we can't answer the standing
+// question "is the LLM signal beating the heuristic on resolved
+// actuals?" — the whole point of paying for an LLM call at all. These
+// tests lock down the bucket-by-provider output and the bootstrap CI
+// shape that mirrors the existing by_confidence_bucket / by_verdict
+// blocks.
+
+console.log("[12] computeCalibration — per-classifier-provider split");
+
+it("splits hit-rate by classifier_provider when llm_signal is archived", () => {
+  // 6 rows tagged "groq" (4 hit / 2 miss → 66.7%) and 4 rows tagged
+  // "heuristic" (1 hit / 3 miss → 25%). Different tags → different
+  // buckets, computed independently.
+  const groqRows = [];
+  for (let i = 0; i < 4; i++) groqRows.push(row({ symbol: `G${i}`, event_iso_date: `2026-04-${10 + i}`, actual_verdict: "BEAT", llm_signal: { classifier_provider: "groq" } }));
+  for (let i = 0; i < 2; i++) groqRows.push(row({ symbol: `GM${i}`, event_iso_date: `2026-04-${14 + i}`, actual_verdict: "MISS", llm_signal: { classifier_provider: "groq" } }));
+  const heurRows = [];
+  heurRows.push(row({ symbol: "H1", event_iso_date: "2026-04-16", actual_verdict: "BEAT", llm_signal: { classifier_provider: "heuristic" } }));
+  for (let i = 0; i < 3; i++) heurRows.push(row({ symbol: `HM${i}`, event_iso_date: `2026-04-${17 + i}`, actual_verdict: "MISS", llm_signal: { classifier_provider: "heuristic" } }));
+
+  const cal = computeCalibration([day("2026-04-26", [...groqRows, ...heurRows])]);
+  assert.equal(cal.hit_rate_by_classifier_provider.groq, 66.7);
+  assert.equal(cal.hit_rate_by_classifier_provider.heuristic, 25);
+});
+
+it("rows without llm_signal are excluded from the provider map but counted overall", () => {
+  // The point of excluding null-signal rows is that they would dilute
+  // the per-provider hit-rate with rows that had no provider at all.
+  // Overall hit-rate still includes them.
+  const cal = computeCalibration([day("2026-04-26", [
+    row({ symbol: "A", event_iso_date: "2026-04-10", actual_verdict: "BEAT", llm_signal: { classifier_provider: "gemini" } }),
+    row({ symbol: "B", event_iso_date: "2026-04-11", actual_verdict: "BEAT", llm_signal: null }),
+  ])]);
+  assert.equal(cal.resolved_count, 2);
+  assert.equal(cal.hit_rate_overall_pct, 100);
+  assert.equal(cal.hit_rate_by_classifier_provider.gemini, 100);
+  assert.equal(cal.hit_rate_by_classifier_provider.heuristic, undefined);
+});
+
+it("emits per-provider CI siblings with correct shape — large bucket numeric, small bucket null", () => {
+  // 8 groq rows (n>=5 → numeric CI) and 3 gemini rows (n<5 → null CI).
+  // Mirrors the existing per-bucket / per-verdict CI behaviour.
+  const rows = [];
+  for (let i = 0; i < 5; i++) rows.push(row({ symbol: `G${i}`, event_iso_date: `2026-04-${10 + i}`, actual_verdict: "BEAT", llm_signal: { classifier_provider: "groq" } }));
+  for (let i = 0; i < 3; i++) rows.push(row({ symbol: `GG${i}`, event_iso_date: `2026-04-${15 + i}`, actual_verdict: "MISS", llm_signal: { classifier_provider: "groq" } }));
+  for (let i = 0; i < 3; i++) rows.push(row({ symbol: `M${i}`, event_iso_date: `2026-04-${20 + i}`, actual_verdict: "BEAT", llm_signal: { classifier_provider: "gemini" } }));
+
+  const cal = computeCalibration([day("2026-04-26", rows)]);
+  const groqCI = cal.hit_rate_by_classifier_provider_ci.groq;
+  assert.equal(groqCI.sample_size, 8);
+  assert.equal(typeof groqCI.hit_rate_pct, "number");
+  assert.equal(typeof groqCI.ci_low_pct, "number");
+  assert.equal(typeof groqCI.ci_high_pct, "number");
+  assert.ok(groqCI.ci_low_pct <= groqCI.hit_rate_pct);
+  assert.ok(groqCI.hit_rate_pct <= groqCI.ci_high_pct);
+
+  const geminiCI = cal.hit_rate_by_classifier_provider_ci.gemini;
+  assert.equal(geminiCI.sample_size, 3);
+  assert.equal(geminiCI.ci_low_pct, null);
+  assert.equal(geminiCI.ci_high_pct, null);
 });
 
 /* ─────────────────── dedupePredictions — public export ────────────── */

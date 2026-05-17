@@ -70,6 +70,11 @@ function writeSnapshot(history, cal) {
       hit_rate_overall_pct: cal && cal.hit_rate_overall_pct != null ? cal.hit_rate_overall_pct : null,
       hit_rate_by_confidence_bucket: cal ? cal.hit_rate_by_confidence_bucket : null,
       hit_rate_by_verdict: cal ? cal.hit_rate_by_verdict : null,
+      // Surface the per-LLM-tier split so /api/earnings/backtest can
+      // render "groq vs heuristic" hit-rates and the user can finally
+      // decide whether the LLM signal is earning its keep.
+      hit_rate_by_classifier_provider: cal ? cal.hit_rate_by_classifier_provider : null,
+      hit_rate_by_classifier_provider_ci: cal ? cal.hit_rate_by_classifier_provider_ci : null,
       v1_gate: cal ? cal.cap_lift_gate : null,
       enough_data_to_lift_cap: !!(cal && cal.enough_data_to_lift_cap),
       // v2 — never average across predictor versions; surface the
@@ -285,6 +290,9 @@ function main() {
   console.log(``);
   console.log(`Hit rate by predicted verdict:`);
   console.log(fmtBucket(cal.hit_rate_by_verdict));
+  console.log(``);
+  console.log(`Hit rate by classifier provider (LLM tier vs heuristic):`);
+  console.log(fmtBucket(cal.hit_rate_by_classifier_provider || {}));
   console.log(``);
   console.log(`V1 confidence-cap lift gate:`);
   console.log(`  resolved ≥ ${cal.cap_lift_gate.resolved_required}        : ${cal.cap_lift_gate.current_resolved} ${cal.cap_lift_gate.current_resolved >= cal.cap_lift_gate.resolved_required ? "✅" : "❌"}`);

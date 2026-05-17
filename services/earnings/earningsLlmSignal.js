@@ -6,8 +6,17 @@
  * collapsed to {bias, confidence_delta_pct, top_reason, top_risk}.
  *
  * Mirrors macroRegime.js: a three-tier fallback chain
- *   Groq (llama-3.3-70b, free) → Gemini (2.5-flash, free) → heuristic
+ *   Gemini (2.5-flash, free) → Groq (llama-3.3-70b, free) → heuristic
  * that NEVER throws — a refresh always gets a signal, even offline.
+ *
+ * Why Gemini-first (swapped 2026-05-17): on the free tier Google's API
+ * is the more reliable structured-JSON endpoint for this 3-bucket task
+ * (`responseSchema` adherence, India-context post-training, uptime).
+ * Groq's LPU latency advantage doesn't translate to a 2×/day cron, and
+ * Groq's free tier has historically had quota wobbles that send us to
+ * heuristic mid-run. Keeping Groq as the fallback preserves the
+ * "always have a non-heuristic signal" guarantee whenever one provider
+ * is degraded.
  *
  * Hardening:
  *   - News bodies are sanitised + delimiter-wrapped by llmPromptHardener
@@ -318,19 +327,8 @@ export async function classifyBatch(eventCtxs, opts = {}) {
     return eventCtxs.map(heuristicClassify);
   }
 
-  // Tier 1 — Groq.
-  const groq = getGroqClient();
-  if (groq && !getGroqQuotaState().limited) {
-    try {
-      return await classifyBatchViaProvider(eventCtxs, {
-        client: groq, model: GROQ_MODEL, label: "EARNINGS-LLM/groq",
-      });
-    } catch (err) {
-      console.warn(`[earnings-llm] Groq failed: ${err.message} — trying Gemini`);
-    }
-  }
-
-  // Tier 2 — Gemini.
+  // Tier 1 — Gemini (preferred: stronger structured-JSON adherence
+  // on free tier, more reliable uptime, India-context post-training).
   const gemini = getGeminiClient();
   if (gemini) {
     try {
@@ -339,7 +337,21 @@ export async function classifyBatch(eventCtxs, opts = {}) {
         extraParams: { reasoning_effort: "none" },
       });
     } catch (err) {
-      console.warn(`[earnings-llm] Gemini failed: ${err.message} — using heuristic`);
+      console.warn(`[earnings-llm] Gemini failed: ${err.message} — trying Groq`);
+    }
+  }
+
+  // Tier 2 — Groq (fallback: faster but free-tier quota can wobble;
+  // the quota gate prevents a wasted retry when we already know we're
+  // limited).
+  const groq = getGroqClient();
+  if (groq && !getGroqQuotaState().limited) {
+    try {
+      return await classifyBatchViaProvider(eventCtxs, {
+        client: groq, model: GROQ_MODEL, label: "EARNINGS-LLM/groq",
+      });
+    } catch (err) {
+      console.warn(`[earnings-llm] Groq failed: ${err.message} — using heuristic`);
     }
   }
 
