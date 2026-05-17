@@ -34,6 +34,22 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+import dotenv from "dotenv";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load .env from the repo root BEFORE importing modules that read
+// process.env at import-time. Launchd invokes this script via
+// scripts/sws-nightly.sh with a minimal environment (PATH/HOME only),
+// so without this load GROQ_API_KEY / GEMINI_API_KEY would be undefined
+// and earningsLlmSignal.js would skip straight to the keyword heuristic
+// (cf. data/catalysts/earnings-health.json showing 0 groq / 0 gemini /
+// 474 heuristic until this load was added). Derived from __dirname so
+// the load is robust against the script being invoked from anywhere.
+// `override: false` lets a real shell-set env var win over the .env file.
+dotenv.config({ path: path.join(__dirname, "..", ".env"), override: false });
 
 import { buildEarningsCalendarFromPayload } from "../services/earnings/earningsCalendarBuilder.js";
 import {
