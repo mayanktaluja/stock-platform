@@ -88,6 +88,13 @@ test.describe("Earnings Watch — recent results (past 7 days)", () => {
     await page.goto("/");
     // Wait for the gated SPA shell + earnings module to register.
     await page.waitForFunction(() => typeof window.switchTab === "function" && typeof window.loadEarningsWatch === "function", { timeout: 15000 });
+    // Clear the localStorage preference so we exercise the first-visit
+    // default (collapsed). Without this, a previously-expanded preference
+    // from a prior test run on the same Playwright profile would mask the
+    // default-state assertion below.
+    await page.evaluate(() => {
+      try { localStorage.removeItem("earningsRecentResultsCollapsed"); } catch {}
+    });
     await page.evaluate(() => window.switchTab("earnings"));
 
     // Wait for the recent-results section to populate (loadEarningsWatch
@@ -112,8 +119,48 @@ test.describe("Earnings Watch — recent results (past 7 days)", () => {
     });
     expect(order).toBe("recent-before-grid");
 
+    // First-visit default: section is collapsed (caret ▸, body hidden).
+    // This is the new behaviour — past results are reference, the upcoming
+    // calendar is the primary affordance.
+    const initial = await page.evaluate(() => {
+      const el = document.getElementById("earningsRecentResults");
+      const body = el?.querySelector(".earnings-date-body");
+      const caret = el?.querySelector(".earnings-date-caret");
+      return {
+        collapsed: el?.getAttribute("data-collapsed"),
+        bodyDisplay: body ? getComputedStyle(body).display : null,
+        caretText: caret?.textContent?.trim() ?? null,
+      };
+    });
+    expect(initial.collapsed).toBe("1");
+    expect(initial.bodyDisplay).toBe("none");
+    expect(initial.caretText).toBe("▸");
+
+    // Click the header → section expands, caret flips, body becomes grid.
+    await page.click("#earningsRecentResults .earnings-date-header");
+    await page.waitForFunction(
+      () => document.getElementById("earningsRecentResults")?.getAttribute("data-collapsed") === "0",
+      { timeout: 2000 },
+    );
+    const expanded = await page.evaluate(() => {
+      const el = document.getElementById("earningsRecentResults");
+      const body = el?.querySelector(".earnings-date-body");
+      const caret = el?.querySelector(".earnings-date-caret");
+      return {
+        collapsed: el?.getAttribute("data-collapsed"),
+        bodyDisplay: body ? getComputedStyle(body).display : null,
+        caretText: caret?.textContent?.trim() ?? null,
+        persisted: localStorage.getItem("earningsRecentResultsCollapsed"),
+      };
+    });
+    expect(expanded.collapsed).toBe("0");
+    expect(expanded.bodyDisplay).toBe("grid");
+    expect(expanded.caretText).toBe("▾");
+    expect(expanded.persisted).toBe("0");
+
     // At least one card with both a predicted+actual chip and a
-    // hit/miss accuracy badge.
+    // hit/miss accuracy badge. (innerText now works because the body is
+    // visible after the expand above.)
     const firstCard = await page.evaluate(() => {
       const card = document.querySelector(".earnings-recent-card");
       if (!card) return null;
