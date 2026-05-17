@@ -5016,6 +5016,15 @@ const SWS_ACTION_COLORS = {
   "Top-up-33%":        { bg: "rgba(34,197,94,0.14)",  border: "rgba(34,197,94,0.45)", text: "#86efac" },
   "Top-up-50%":        { bg: "rgba(34,197,94,0.18)",  border: "rgba(34,197,94,0.6)",  text: "#86efac" },
   "Top-up-100%":       { bg: "rgba(34,197,94,0.28)",  border: "rgba(34,197,94,0.75)", text: "#bbf7d0" },
+  // Bucket rollups — used by the Action Mix bar's per-segment modal
+  // (renderAnalyzerActionMixBar → openActionListModalForBucket). The badge
+  // inside the modal header shows the bucket name; each row inside still
+  // renders its own sub-tier badge. Colours mirror the lightest shade of
+  // each family so the rollup reads as "all of the above".
+  // ("Top-up" bucket reuses the existing legacy "Top-up" entry above.)
+  "Reduce":            { bg: "rgba(250,204,21,0.10)", border: "rgba(250,204,21,0.35)", text: "#fde68a" },
+  "Hold":              { bg: "rgba(59,130,246,0.10)", border: "rgba(59,130,246,0.35)", text: "#93c5fd" },
+  "Exit":              { bg: "rgba(239,68,68,0.14)",  border: "rgba(239,68,68,0.45)",  text: "#fca5a5" },
   "n/a":               { bg: "rgba(107,114,128,0.12)", border: "rgba(107,114,128,0.4)", text: "#9ca3af" },
 };
 
@@ -5223,18 +5232,22 @@ function renderAnalyzerActionMixBar(snap) {
 }
 
 // PR A10 — bucket-level openActionListModal. Bridges the bar segments
-// (Reduce/Hold/Top-up/Exit) into the existing per-action modal by picking
-// a representative member action — openActionListModal pre-filters by
-// action so the modal still surfaces the right rows.
+// (Reduce/Hold/Top-up/Exit) into the per-action modal by passing the bucket
+// LABEL through to openActionListModal, which then aggregates every
+// matching sub-tier (Top-up-25/33/50/100%, Reduction-25/33/50/66%, …) into
+// a single rows array. Previously this map flattened each bucket to a
+// single hardcoded sub-tier ("Topup → Top-up-33%"), which made the modal
+// show only the rows in that one sub-tier — so a bar reading "TOP-UP 22"
+// would open a modal listing 1.
 window.openActionListModalForBucket = function openActionListModalForBucket(slug) {
-  const REPRESENTATIVE = {
-    Reduce: "Reduction-33%",
-    Hold:   "HOLD",
-    Topup:  "Top-up-33%",
-    Exit:   "EXIT",
+  const BUCKET_LABEL = {
+    Reduce: "Reduce",
+    Hold:   "Hold",
+    Topup:  "Top-up",
+    Exit:   "Exit",
   };
-  const action = REPRESENTATIVE[slug];
-  if (action && typeof openActionListModal === "function") openActionListModal(action);
+  const label = BUCKET_LABEL[slug];
+  if (label && typeof openActionListModal === "function") openActionListModal(label);
 };
 
 function swsKpiCard(label, valueHtml) {
@@ -10220,11 +10233,27 @@ const ACTION_HELP_TEXT = {
 function actionHelpText(action) {
   if (!action) return "";
   if (ACTION_HELP_TEXT[action]) return ACTION_HELP_TEXT[action];
-  if (action.startsWith("Reduction-")) return ACTION_HELP_TEXT.Reduction;
-  if (action.startsWith("Top-up")) return ACTION_HELP_TEXT["Top-up"];
-  if (action.startsWith("EXIT")) return ACTION_HELP_TEXT.EXIT;
+  // Bucket-label aliases — used when openActionListModal is opened from
+  // the Action Mix bar (which passes "Reduce" / "Hold" / "Top-up" / "Exit"
+  // instead of a specific sub-tier).
+  if (action === "Reduce" || action.startsWith("Reduction-")) return ACTION_HELP_TEXT.Reduction;
+  if (action === "Top-up" || action.startsWith("Top-up")) return ACTION_HELP_TEXT["Top-up"];
+  if (action === "Exit" || action.startsWith("EXIT")) return ACTION_HELP_TEXT.EXIT;
+  if (action === "Hold") return ACTION_HELP_TEXT.HOLD;
   return "";
 }
+
+// Bucket → predicate matching every sub-tier action key that rolls up to
+// that bucket. Used by openActionListModal when invoked from the Action
+// Mix bar with a bucket label (e.g. "Top-up") so the modal aggregates
+// every sub-tier (Top-up-25/33/50/100%) instead of looking up one
+// exact-string key and finding only one of them.
+const ACTION_BUCKET_MATCHERS = {
+  "Reduce": (k) => k === "Reduction" || k.startsWith("Reduction-"),
+  "Hold":   (k) => k === "HOLD",
+  "Top-up": (k) => k === "Top-up" || k.startsWith("Top-up-"),
+  "Exit":   (k) => k === "EXIT" || k.startsWith("EXIT-"),
+};
 
 function openActionListModal(action) {
   if (!action) return;
@@ -10233,8 +10262,14 @@ function openActionListModal(action) {
   if (!backdrop || !body) return;
 
   const report = _analyzerCache?.report || null;
-  const rows = report?.holdingsByAction?.[action] || [];
-  const isReduction = action === "EXIT" || action.startsWith("EXIT-") || action.startsWith("Reduction-");
+  const holdingsByAction = report?.holdingsByAction || {};
+  const bucketMatcher = ACTION_BUCKET_MATCHERS[action];
+  const rows = bucketMatcher
+    ? Object.keys(holdingsByAction).filter(bucketMatcher).flatMap((k) => holdingsByAction[k] || [])
+    : (holdingsByAction[action] || []);
+  const isReduction =
+    action === "Reduce" || action === "Exit" ||
+    action === "EXIT" || action.startsWith("EXIT-") || action.startsWith("Reduction-");
   const freedCol = isReduction
     ? `<th style="padding:10px 12px; text-align:right;">Freed ₹</th>`
     : "";
