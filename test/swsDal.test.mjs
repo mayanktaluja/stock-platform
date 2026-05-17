@@ -22,6 +22,7 @@ test("DAL exports a stable surface", () => {
     "getScoredUniverse",
     "getSectorMomentum",
     "getShardProgressApi",
+    "getSnapshotFvMap",
     "getStockByTicker",
     "getUniverseIndex",
     "getUniverseIndexMtime",
@@ -156,6 +157,70 @@ test("makeFakeBackend builds a universe index from a scoredUniverse array", () =
     assert.ok(idx instanceof Map);
     assert.equal(idx.get("AAA").v3_score, 50);
     assert.equal(idx.get("BBB").v3_score, 30, "ticker key upper-cased");
+  } finally {
+    dal.__setBackend(null);
+  }
+});
+
+test("getSnapshotFvMap returns Map<bareTicker, {fair_value_inr, current_price_inr, upside_pct}> for the requested tickers", async () => {
+  // Skip when running against the real backend without data on disk.
+  const realTickers = dal.listDeepTickers();
+  if (realTickers.length === 0) return;
+
+  const sample = realTickers.slice(0, 5);
+  const map = await dal.getSnapshotFvMap(sample);
+  assert.ok(map instanceof Map, "expected a Map");
+  // Every key that maps back should match the deep-file overview values.
+  for (const [ticker, fv] of map.entries()) {
+    assert.equal(typeof ticker, "string");
+    const deep = dal.getStockByTicker(ticker);
+    if (!deep) continue;
+    const ov = deep.overview || {};
+    if (typeof ov.fair_value_inr === "number") {
+      assert.equal(fv.fair_value_inr, ov.fair_value_inr, `FV mismatch for ${ticker}`);
+    } else {
+      assert.equal(fv.fair_value_inr, null);
+    }
+    if (typeof ov.current_price_inr === "number") {
+      assert.equal(fv.current_price_inr, ov.current_price_inr, `price mismatch for ${ticker}`);
+    }
+  }
+});
+
+test("getSnapshotFvMap returns empty Map for empty/invalid inputs", async () => {
+  assert.equal((await dal.getSnapshotFvMap([])).size, 0);
+  assert.equal((await dal.getSnapshotFvMap(null)).size, 0);
+  assert.equal((await dal.getSnapshotFvMap(undefined)).size, 0);
+  // Non-array, non-null
+  assert.equal((await dal.getSnapshotFvMap("STAR")).size, 0);
+});
+
+test("getSnapshotFvMap normalises .NS/.BO suffixes and dedupes", async () => {
+  const fake = makeFakeBackend({
+    deepByTicker: {
+      RELIANCE: { ticker: "RELIANCE", overview: { fair_value_inr: 1500, current_price_inr: 1400, upside_pct: 7.1 } },
+      INFY: { ticker: "INFY", overview: { fair_value_inr: 1900, current_price_inr: 1800, upside_pct: 5.6 } },
+    },
+  });
+  try {
+    dal.__setBackend(fake);
+    // Note: dispatcher routes getSnapshotFvMap through jsonBackend (or sqlBackend
+    // when SWS_READ_FROM_DB=1), NOT through _backend. So we exercise the fake
+    // backend's getSnapshotFvMap directly here to verify the fixture mirrors the
+    // dispatcher's contract — the e2e spec exercises the real dispatcher path.
+    const map = await fake.getSnapshotFvMap([
+      "RELIANCE.NS",
+      "INFY",
+      "INFY.BO",       // dedupe
+      "MISSING",        // not in fake
+      "",               // skip
+      null,             // skip
+    ]);
+    assert.equal(map.size, 2, "expected 2 unique entries");
+    assert.equal(map.get("RELIANCE").fair_value_inr, 1500);
+    assert.equal(map.get("RELIANCE").current_price_inr, 1400);
+    assert.equal(map.get("INFY").fair_value_inr, 1900);
+    assert.equal(map.get("MISSING"), undefined);
   } finally {
     dal.__setBackend(null);
   }

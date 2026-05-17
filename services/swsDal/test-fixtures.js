@@ -70,6 +70,23 @@ export function makeFakeBackend(opts = {}) {
       map: sectorMomentumMap instanceof Map ? sectorMomentumMap : new Map(),
       scanned: Object.keys(deepByTicker).length,
     }),
+    getSnapshotFvMap: async (tickers) => {
+      const map = new Map();
+      if (!Array.isArray(tickers)) return map;
+      for (const t of tickers) {
+        if (!t) continue;
+        const key = String(t).trim().replace(/\.(NS|BO|BSE|NSE)$/i, "").toUpperCase();
+        const deep = deepByTicker[key] ?? deepByTicker[t];
+        if (!deep) continue;
+        const ov = deep.overview || {};
+        map.set(key, {
+          fair_value_inr: typeof ov.fair_value_inr === "number" ? ov.fair_value_inr : null,
+          current_price_inr: typeof ov.current_price_inr === "number" ? ov.current_price_inr : null,
+          upside_pct: typeof ov.upside_pct === "number" ? ov.upside_pct : null,
+        });
+      }
+      return map;
+    },
     invalidateAll: () => {},
     DATA_DIR: "/fake/data/sws",
     DEEP_DIR: "/fake/data/sws/deep",
