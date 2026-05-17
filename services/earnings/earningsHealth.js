@@ -358,13 +358,31 @@ export function buildHealthSummary(args = {}) {
   if (priorHealth && priorHealth.cap_lift_gate && priorHealth.cap_lift_gate.state === gateMet) {
     daysInState = (priorHealth.cap_lift_gate.days_in_current_state || 1) + 1;
   }
+  // `current_resolved` is the resolved-actuals count for the LATEST
+  // predictor version only (sourced from backtestSnapshot.v1_gate). This
+  // is correct per the cap-lift design — the gate is per-version, not
+  // a cross-version average — but the bare number was confusing when
+  // it read "0" next to a top-level resolved.count of 47 (= overall
+  // across v1+v2+…). `current_resolved_note` spells out both counts
+  // so a human (or a Slack consumer) can't misread it. The original
+  // `current_resolved` field is preserved as-is for downstream readers
+  // (earnings-health-summary.mjs).
+  const currentResolvedLatest = backtestSnapshot && backtestSnapshot.v1_gate
+    ? backtestSnapshot.v1_gate.current_resolved
+    : resolvedCount;
+  const latestPredictorVersion = (backtestSnapshot && backtestSnapshot.v1_gate && backtestSnapshot.v1_gate.predictor_version)
+    || (backtestSnapshot && backtestSnapshot.latest_predictor_version)
+    || null;
+  const versionLabel = latestPredictorVersion ? ` (${latestPredictorVersion})` : "";
+  const currentResolvedNote = currentResolvedLatest === resolvedCount
+    ? `${currentResolvedLatest} resolved${versionLabel}`
+    : `${currentResolvedLatest} of latest predictor version${versionLabel} (${resolvedCount} across all versions)`;
   const capLiftGate = {
     state: gateMet,
     enough_data_to_lift_cap: gateMet,
     days_in_current_state: daysInState,
-    current_resolved: backtestSnapshot && backtestSnapshot.v1_gate
-      ? backtestSnapshot.v1_gate.current_resolved
-      : resolvedCount,
+    current_resolved: currentResolvedLatest,
+    current_resolved_note: currentResolvedNote,
     detail: backtestSnapshot ? backtestSnapshot.v1_gate || null : null,
   };
 

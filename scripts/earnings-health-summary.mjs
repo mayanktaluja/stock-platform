@@ -146,7 +146,7 @@ async function main() {
   console.log(`Resolved actuals:    ${health.resolved.count}` +
     (health.resolved.delta_vs_prior != null ? `  (${health.resolved.delta_vs_prior >= 0 ? "+" : ""}${health.resolved.delta_vs_prior} vs prior run)` : ""));
   console.log(`LLM providers:       groq ${health.llm_providers.groq} · gemini ${health.llm_providers.gemini} · heuristic ${health.llm_providers.heuristic} · none ${health.llm_providers.none}`);
-  console.log(`Cap-lift gate:       ${health.cap_lift_gate.state ? "MET" : "not met"} (${health.cap_lift_gate.days_in_current_state}d in state) · ${health.cap_lift_gate.current_resolved} resolved`);
+  console.log(`Cap-lift gate:       ${health.cap_lift_gate.state ? "MET" : "not met"} (${health.cap_lift_gate.days_in_current_state}d in state) · ${health.cap_lift_gate.current_resolved_note || `${health.cap_lift_gate.current_resolved} resolved`}`);
   console.log(`Archive schema:      ${Object.entries(health.archive_schema).map(([k, v]) => `${k}×${v}`).join(", ") || "—"}`);
   console.log(`Predictor versions:  ${Object.entries(health.predictor_versions).map(([k, v]) => `${k}×${v}`).join(", ") || "—"}`);
   console.log(`Restatements:        ${health.restatements.count}`);
