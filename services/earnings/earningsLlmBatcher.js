@@ -16,6 +16,15 @@
  *
  * Runs LOCALLY inside refresh-earnings.mjs (between signal aggregation
  * and prediction) — never on a Vercel cron, never in CI (`--skip-llm`).
+ *
+ * Cache schema v2 (was v1): each entry now carries `_last_provider_attempt`
+ * so the lookup can distinguish a "heuristic because keys were missing"
+ * entry (eligible for re-classify the moment keys come back) from a
+ * "heuristic because both LLMs failed at runtime" entry (keep until input
+ * hash or TTL changes, otherwise we'd burn quota retrying the events most
+ * likely to keep failing). v1 entries still parse — they're treated as
+ * `"none"` attempts and get re-classified once on the next run with keys.
+ * See PR after #247 for the cache-poisoning incident that motivated this.
  */
 
 import fs from "node:fs";
@@ -27,12 +36,43 @@ import { classifyBatch, heuristicClassify } from "./earningsLlmSignal.js";
 
 const ROOT = process.cwd();
 const DEEP_DIR = path.join(ROOT, "data", "sws", "deep");
-const CACHE_PATH = path.join(ROOT, "data", "catalysts", "llm-signal-cache.json");
+export const CACHE_PATH = path.join(ROOT, "data", "catalysts", "llm-signal-cache.json");
 
 const DEFAULT_CHUNK_SIZE = 8;
-const DEFAULT_CONCURRENCY = 4;
-const CACHE_SCHEMA = "earnings-llm-cache-v1";
+// Concurrency 2 (was 4) — Gemini-2.5-flash free tier is ~15 RPM. With
+// chunk size 8 and ~100+ chunks on a cold cache, concurrency 4 would
+// burst past the per-minute ceiling → 429s → fallback to heuristic, which
+// the new cache-invalidation logic would then keep retrying. Two
+// concurrent chunks stay comfortably under provider limits even on cold
+// caches and still finish a ~100-chunk run in ~60s.
+const DEFAULT_CONCURRENCY = 2;
+export const CACHE_SCHEMA = "earnings-llm-cache-v2";
 const CACHE_TTL_DAYS = 90;
+// "failed" attempts are kept for FAILED_RETRY_MS so we don't loop on
+// events the LLM is actively failing on (a per-minute Gemini 429 or a
+// Groq TPD that clears in ~25min). After this window, a failed entry
+// is eligible for re-classification — daily quota will have fully
+// reset, so a stuck-at-the-end-of-yesterday's-window snapshot can
+// recover on tomorrow's run. Without this, ONE quota-exhausted refresh
+// permanently freezes the cache at heuristic for that event.
+const FAILED_RETRY_MS = 24 * 60 * 60 * 1000;
+
+// Whitelist of fields that constitute the wire contract for an llm_signal.
+// Anything starting with "_" is treated as internal cache metadata and is
+// stripped before the entry is attached to an event. Maintaining this as
+// an explicit list (vs blacklisting `_cached_at`) means future internal
+// fields like `_last_provider_attempt` never accidentally leak into
+// data/catalysts/earnings-watch-latest.json.
+const SIGNAL_WIRE_FIELDS = [
+  "bias",
+  "confidence_delta_pct",
+  "top_reason",
+  "top_risk",
+  "classifier_provider",
+  "model_id",
+  "signal_version",
+  "generated_at",
+];
 
 /* ──────────────────── event-context builder ─────────────────────── */
 
@@ -97,21 +137,23 @@ export function eventInputHash(ctx) {
 
 /* ──────────────────────────── cache ─────────────────────────────── */
 
-function loadCache() {
-  if (!fs.existsSync(CACHE_PATH)) return { schema_version: CACHE_SCHEMA, entries: {} };
+// Optional path override on both helpers so unit tests can point at a
+// tmpdir without trampling the real cache. Production callers omit `p`.
+export function loadCache(p = CACHE_PATH) {
+  if (!fs.existsSync(p)) return { schema_version: CACHE_SCHEMA, entries: {} };
   try {
-    const j = JSON.parse(fs.readFileSync(CACHE_PATH, "utf8"));
+    const j = JSON.parse(fs.readFileSync(p, "utf8"));
     return j && j.entries ? j : { schema_version: CACHE_SCHEMA, entries: {} };
   } catch {
     return { schema_version: CACHE_SCHEMA, entries: {} };
   }
 }
 
-function writeCacheAtomic(cache) {
-  const tmp = CACHE_PATH + ".tmp." + process.pid;
-  fs.mkdirSync(path.dirname(CACHE_PATH), { recursive: true });
+export function writeCacheAtomic(cache, p = CACHE_PATH) {
+  const tmp = p + ".tmp." + process.pid;
+  fs.mkdirSync(path.dirname(p), { recursive: true });
   fs.writeFileSync(tmp, JSON.stringify(cache, null, 2));
-  fs.renameSync(tmp, CACHE_PATH);
+  fs.renameSync(tmp, p);
 }
 
 // Worker-pool over chunk indices.
@@ -137,6 +179,9 @@ async function runChunks(chunks, fn, concurrency) {
  * @param {object} [opts]
  * @param {boolean} [opts.skipLlm]   force the deterministic heuristic
  *                                   (CI / offline) — no network, no cache writes
+ * @param {boolean} [opts.llmAvailable] override env-key detection (tests inject true/false
+ *                                      so behaviour is independent of contributor shell env)
+ * @param {string}  [opts.cachePath]    override cache file path (tests point at a tmpdir)
  * @param {function} [opts.readSwsDeep]      inject for tests
  * @param {function} [opts.providerOverride] inject a fake LLM for tests
  * @param {number}  [opts.chunkSize]
@@ -149,6 +194,10 @@ export async function classifyBatchForCalendar(events, opts = {}) {
   }
   const chunkSize = Number.isFinite(opts.chunkSize) ? opts.chunkSize : DEFAULT_CHUNK_SIZE;
   const concurrency = Number.isFinite(opts.concurrency) ? opts.concurrency : DEFAULT_CONCURRENCY;
+  // Injectable so unit tests can pin behaviour regardless of the shell env
+  // they happen to run in. Production callers leave this undefined and
+  // we read process.env.
+  const llmAvailable = opts.llmAvailable ?? !!(process.env.GROQ_API_KEY || process.env.GEMINI_API_KEY);
 
   // Build a context for every event. Skip LOW data_quality — the
   // predictor returns INSUFFICIENT_DATA for those, so an LLM signal
@@ -169,22 +218,58 @@ export async function classifyBatchForCalendar(events, opts = {}) {
       events[i].signals.llm_signal = heuristicClassify(contexts[i]);
       n += 1;
     }
-    return { events, stats: { total: events.length, classified: n, heuristic: n, cache_hits: 0, llm_calls: 0, skip_llm: true } };
+    return {
+      events,
+      stats: {
+        total: events.length,
+        classified: n,
+        heuristic: n,
+        cache_hits: 0,
+        llm_calls: 0,
+        heuristic_cache_invalidations: 0,
+        skip_llm: true,
+      },
+    };
   }
 
   // ── cache lookup ──
-  const cache = loadCache();
+  // A cached entry is a hit unless it's a "stale heuristic":
+  //   classifier_provider === "heuristic"
+  //   AND LLM is available now
+  //   AND the prior attempt was NOT "failed" (i.e. the LLM never actually
+  //       ran — entry came from a no-keys run or is a pre-v2 entry).
+  // Failed-LLM heuristics keep their slot so we don't infinite-loop
+  // retrying the events most likely to keep timing out.
+  const cachePath = opts.cachePath || CACHE_PATH;
+  const cache = loadCache(cachePath);
   const hashes = contexts.map((c) => (c ? eventInputHash(c) : null));
   const missIdx = [];
   let cacheHits = 0;
+  let heuristicCacheInvalidations = 0;
+  const nowMs = Date.now();
   for (let i = 0; i < events.length; i++) {
     if (!contexts[i]) continue;
     const cached = cache.entries[hashes[i]];
-    if (cached && cached.bias) {
+    const isCachedHeuristic = cached && cached.classifier_provider === "heuristic";
+    // Pre-v2 entries have no `_last_provider_attempt`; treat undefined as "none"
+    // (the cautious default — invalidate once, re-classify with the LLM, and
+    // the next write stamps the real attempt outcome).
+    const priorAttempt = cached && cached._last_provider_attempt;
+    const cachedMs = cached && cached._cached_at ? new Date(cached._cached_at).getTime() : 0;
+    const failedRetryEligible = priorAttempt === "failed"
+      && Number.isFinite(cachedMs)
+      && (nowMs - cachedMs) >= FAILED_RETRY_MS;
+    // Invalidate when (a) we never tried the LLM (no keys / pre-v2 entry),
+    // OR (b) we tried + failed >= FAILED_RETRY_MS ago (quota windows have
+    // reset; safe to retry).
+    const isStaleHeuristic = isCachedHeuristic && llmAvailable
+      && (priorAttempt !== "failed" || failedRetryEligible);
+    if (cached && cached.bias && !isStaleHeuristic) {
       events[i].signals = events[i].signals || {};
       events[i].signals.llm_signal = stripCacheMeta(cached);
       cacheHits += 1;
     } else {
+      if (isStaleHeuristic) heuristicCacheInvalidations += 1;
       missIdx.push(i);
     }
   }
@@ -214,8 +299,17 @@ export async function classifyBatchForCalendar(events, opts = {}) {
       const sig = signals[j] || heuristicClassify(contexts[eventIdx]);
       if (sig.classifier_provider === "heuristic") heuristicCount += 1;
       events[eventIdx].signals = events[eventIdx].signals || {};
-      events[eventIdx].signals.llm_signal = sig;
-      cache.entries[hashes[eventIdx]] = { ...sig, _cached_at: nowIso };
+      events[eventIdx].signals.llm_signal = stripCacheMeta(sig);
+      // Stamp `_last_provider_attempt` so a future run knows whether
+      // this heuristic came from no-keys or from a real LLM failure.
+      cache.entries[hashes[eventIdx]] = {
+        ...sig,
+        _cached_at: nowIso,
+        _last_provider_attempt:
+          sig.classifier_provider === "heuristic"
+            ? (llmAvailable ? "failed" : "none")
+            : "succeeded",
+      };
     });
   }
 
@@ -223,7 +317,7 @@ export async function classifyBatchForCalendar(events, opts = {}) {
   pruneCache(cache, new Set(hashes.filter(Boolean)));
   cache.schema_version = CACHE_SCHEMA;
   cache.updated_at = nowIso;
-  writeCacheAtomic(cache);
+  writeCacheAtomic(cache, cachePath);
 
   return {
     events,
@@ -233,14 +327,22 @@ export async function classifyBatchForCalendar(events, opts = {}) {
       cache_hits: cacheHits,
       llm_calls: llmCalls,
       heuristic: heuristicCount,
+      heuristic_cache_invalidations: heuristicCacheInvalidations,
+      llm_available: llmAvailable,
       skip_llm: false,
     },
   };
 }
 
-function stripCacheMeta(entry) {
-  const { _cached_at, ...rest } = entry;
-  return rest;
+// Whitelist-based — preserves only documented signal wire fields, drops
+// internal metadata (`_cached_at`, `_last_provider_attempt`, anything
+// added in future). Exported for the unit tests.
+export function stripCacheMeta(entry) {
+  const out = {};
+  for (const k of SIGNAL_WIRE_FIELDS) {
+    if (entry[k] !== undefined) out[k] = entry[k];
+  }
+  return out;
 }
 
 // Keep entries used this run, plus anything cached within the TTL.

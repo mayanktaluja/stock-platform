@@ -1,6 +1,6 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-05-16T21:23:36.152Z",
+  "built_at": "2026-05-17T16:16:46.327Z",
   "today_iso": "2026-05-17",
   "window_days": 30,
   "upstream_event_count": 570,
@@ -53,9 +53,9 @@
   },
   "predictions": {
     "by_verdict": {
-      "BEAT": 171,
-      "INLINE": 181,
-      "MISS": 182,
+      "BEAT": 157,
+      "INLINE": 185,
+      "MISS": 192,
       "INSUFFICIENT_DATA": 10
     },
     "avg_confidence_pct": 58,
@@ -71,5 +71,15 @@
       "none": 10
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
+  },
+  "llm_stats": {
+    "total": 544,
+    "classified": 534,
+    "cache_hits": 256,
+    "llm_calls": 35,
+    "heuristic": 278,
+    "heuristic_cache_invalidations": 278,
+    "llm_available": true,
+    "skip_llm": false
   }
 }

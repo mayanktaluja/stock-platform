@@ -1,24 +1,34 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-05-16T21:23:37.106Z",
+  "generated_at": "2026-05-17T16:21:08.943Z",
   "resolved": {
     "count": 47,
     "delta_vs_prior": 0,
     "prior_count": 47
   },
   "llm_providers": {
-    "groq": 0,
-    "gemini": 0,
-    "heuristic": 534,
+    "groq": 160,
+    "gemini": 96,
+    "heuristic": 278,
     "none": 10,
     "total": 544
   },
-  "llm_offline": true,
-  "llm_heuristic_share_pct": 98,
+  "llm_offline": false,
+  "llm_heuristic_share_pct": 51,
+  "llm_stats": {
+    "total": 544,
+    "classified": 534,
+    "cache_hits": 256,
+    "llm_calls": 35,
+    "heuristic": 278,
+    "heuristic_cache_invalidations": 278,
+    "llm_available": true,
+    "skip_llm": false
+  },
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 5,
+    "days_in_current_state": 6,
     "current_resolved": 0,
     "detail": {
       "resolved_required": 30,
@@ -48,14 +58,23 @@
   },
   "insufficient_data": {
     "count_total": 24,
-    "count_7d": 24,
+    "count_7d": 21,
     "count_30d": 24,
     "count_prior_30d": 0,
     "trend_pct_30d_vs_prior": 100
   },
+  "macro_regime": {
+    "present": true,
+    "generated_at": "2026-05-17T11:19:24.621Z",
+    "age_hours": 5,
+    "classifier_provider": "groq",
+    "regime": "OIL_SHOCK",
+    "stale": false,
+    "alert": null
+  },
   "history_files": 6,
   "alerts": [
-    "LLM signal is 100% heuristic (534/544) — GROQ_API_KEY / GEMINI_API_KEY likely not configured on the refresh host",
+    "Heuristic cache invalidations: 278 in last refresh (steady state is <10) — LLM provider may be rate-limited or erroring; check earningsLlmSignal.js logs",
     "INSUFFICIENT_DATA predictions trending UP: 24 in last 30d vs 0 prior 30d (+100%) — predictor coverage may be degrading"
   ],
   "healthy": false

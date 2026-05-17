@@ -252,10 +252,16 @@ function summariseMacroRegime(macroRegime, nowIso) {
  *                                          contents (P2.6); empty when omitted
  * @param {object} [args.macroRegime]      parsed data/macroRegime.json (P4 — macro
  *                                          freshness alert, threshold 18h)
+ * @param {object} [args.llmStats]         the last refresh's batcher stats
+ *                                          (heuristic_cache_invalidations,
+ *                                          cache_hits, llm_calls). Drives the
+ *                                          invalidation-spike alert that flags
+ *                                          real provider failures (vs a quiet
+ *                                          run sitting on a healthy cache).
  * @returns {object} the health summary
  */
 export function buildHealthSummary(args = {}) {
-  const { history = [], backtestSnapshot = null, watchEvents = [], priorHealth = null, sourceConflictLog = [], macroRegime = null } = args;
+  const { history = [], backtestSnapshot = null, watchEvents = [], priorHealth = null, sourceConflictLog = [], macroRegime = null, llmStats = null } = args;
   const nowIso = args.nowIso || new Date().toISOString();
 
   const resolvedCount = countResolved(history);
@@ -295,7 +301,19 @@ export function buildHealthSummary(args = {}) {
     alerts.push(`Archive holds mixed schema versions: ${Object.keys(schema).sort().join(", ")} — run scripts/migrate-earnings-history-schema.mjs`);
   }
   if (llm.total > 0 && llm.groq === 0 && llm.gemini === 0) {
-    alerts.push(`LLM signal is 100% heuristic (${llm.heuristic}/${llm.total}) — GROQ_API_KEY / GEMINI_API_KEY likely not configured on the refresh host`);
+    alerts.push(`LLM signal is 100% heuristic (${llm.heuristic}/${llm.total}) — GROQ_API_KEY / GEMINI_API_KEY likely not configured on the refresh host, OR every cached entry is from a no-keys run and the cache hasn't been re-classified (try \`node scripts/refresh-earnings.mjs --purge-heuristic-cache --yes\` followed by a refresh)`);
+  }
+  // Heuristic cache invalidation spike — Layer A in the post-#247 fix added
+  // invalidate-on-no-keys behaviour, so 0-50 invalidations/run is steady
+  // state (the cache is mostly LLM-classified). Sustained >50/run means
+  // the LLM tier is failing at runtime (quota, 5xx, parse) and we keep
+  // returning to the same events. Threshold tuned for a ~500-event
+  // calendar — adjust if calendars grow.
+  if (llmStats && Number.isFinite(llmStats.heuristic_cache_invalidations) && llmStats.heuristic_cache_invalidations > 50) {
+    alerts.push(
+      `Heuristic cache invalidations: ${llmStats.heuristic_cache_invalidations} in last refresh ` +
+      `(steady state is <10) — LLM provider may be rate-limited or erroring; check earningsLlmSignal.js logs`,
+    );
   }
   if (restatements.count > 0) {
     alerts.push(`${restatements.count} restated actual(s): ${restatements.symbols.slice(0, 5).join(", ")}${restatements.count > 5 ? "…" : ""}`);
@@ -356,6 +374,7 @@ export function buildHealthSummary(args = {}) {
     llm_providers: llm,
     llm_offline: llmOffline,
     llm_heuristic_share_pct: Math.round(heuristicShare * 100),
+    llm_stats: llmStats || null,
     cap_lift_gate: capLiftGate,
     archive_schema: schema,
     predictor_versions: predictorVersions,

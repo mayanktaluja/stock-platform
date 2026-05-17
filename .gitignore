@@ -139,6 +139,13 @@ recommendation-ledger.json
 
 # Telemetry NDJSON log (local dev only; Vercel disables the writer)
 data/telemetry/
+
+# Earnings refresh concurrency lockfile + cache backups (local dev only).
+# .locks/ is the runtime guard so an ad-hoc `node scripts/refresh-earnings.mjs`
+# can't race the nightly launchd run; .backups/ holds timestamped copies of
+# llm-signal-cache.json snapshotted by --purge-heuristic-cache.
+data/.locks/
+data/.backups/
 # Playwright e2e artefacts
 playwright-report/
 test-results/
