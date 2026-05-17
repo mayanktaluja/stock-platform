@@ -9374,31 +9374,144 @@ const picksExpandedSections = new Set();
 const picksChunkBuffers = new Map();
 let picksChunkObserver = null;
 
-// Universe filter for the picks tab. "all" (default) shows everything;
-// "nifty500" hides any item whose ticker isn't in the Nifty 500 list
-// (server tags each item with `nifty500: boolean` at request time).
-const PICKS_INDEX_FILTER_LS_KEY = "swsPicksIndexFilter_v1";
-let picksIndexFilter = (() => {
-  try { return localStorage.getItem(PICKS_INDEX_FILTER_LS_KEY) || "all"; }
-  catch { return "all"; }
-})();
+// Universe + sector filters for the picks tab. Each card on the server is
+// stamped with four booleans (nifty100, niftyMidcap150, niftySmallcap250,
+// nifty500) plus a sector string — the filter helpers below just consume
+// those. State persists in localStorage under v2 schema:
+//   swsPicksFilters_v2 = { universe: "all"|"nifty100"|..., sector: "all"|<name> }
+// The v1 single-radio key (swsPicksIndexFilter_v1) migrates once on boot,
+// gated by swsPicksFiltersMigrated_v2 so concurrent tabs can't double-migrate.
+const PICKS_FILTERS_LS_KEY    = "swsPicksFilters_v2";
+const PICKS_FILTERS_V1_LS_KEY = "swsPicksIndexFilter_v1";
+const PICKS_FILTERS_MIGRATED_KEY = "swsPicksFiltersMigrated_v2";
+
+// Sections that intentionally bypass the universe + sector filters. The
+// Avoid list is a portfolio cross-check dashboard — narrowing it to e.g.
+// "Nifty 100" would silently hide avoid-tagged stocks the user holds in
+// mid/small-caps. Search still applies (typing a ticker is explicit intent).
+const BYPASS_FILTERS_SECTIONS = new Set(["avoid"]);
+
+function loadPicksFilters() {
+  try {
+    // One-time v1 → v2 migration, gated by the sentinel so two tabs can't
+    // both run it and clobber each other's writes.
+    if (localStorage.getItem(PICKS_FILTERS_MIGRATED_KEY) !== "true") {
+      const v1 = localStorage.getItem(PICKS_FILTERS_V1_LS_KEY);
+      const seed = { universe: v1 || "all", sector: "all" };
+      localStorage.setItem(PICKS_FILTERS_LS_KEY, JSON.stringify(seed));
+      localStorage.removeItem(PICKS_FILTERS_V1_LS_KEY);
+      localStorage.setItem(PICKS_FILTERS_MIGRATED_KEY, "true");
+      return seed;
+    }
+    const raw = localStorage.getItem(PICKS_FILTERS_LS_KEY);
+    if (!raw) return { universe: "all", sector: "all" };
+    const parsed = JSON.parse(raw);
+    return {
+      universe: typeof parsed?.universe === "string" ? parsed.universe : "all",
+      sector:   typeof parsed?.sector   === "string" ? parsed.sector   : "all",
+    };
+  } catch {
+    return { universe: "all", sector: "all" };
+  }
+}
+
+let picksFilters = loadPicksFilters();
+// Back-compat alias for any older references that may still exist.
+let picksIndexFilter = picksFilters.universe;
+
+function savePicksFilters() {
+  try { localStorage.setItem(PICKS_FILTERS_LS_KEY, JSON.stringify(picksFilters)); } catch {}
+}
 
 function setPicksLoadingBanner(visible) {
   const banner = document.getElementById("picksLoadingBanner");
   if (banner) banner.hidden = !visible;
 }
 
-// Hydrate the radio's checked state from localStorage. Called once when
-// the SWS Picks tab is shown; safe to re-call (idempotent).
-function hydratePicksIndexFilterRadio() {
-  const radios = document.querySelectorAll('input[name="picksIndex"]');
-  radios.forEach((r) => { r.checked = (r.value === picksIndexFilter); });
+// Sector dropdown is populated from the FULL response set on first render
+// (not after universe narrowing) so switching universe never silently
+// shrinks the sector list and confuses users.
+let picksSectorOptionsRendered = false;
+
+function hydratePicksFilterDropdowns(indexConstituentsAvailable) {
+  const uSel = document.getElementById("picksUniverseFilter");
+  if (uSel) {
+    uSel.value = picksFilters.universe;
+    // Disable Large/Mid/Small options when the NSE constituent JSON didn't
+    // load — server falls back to NIFTY500_SYMBOLS for "Nifty 500" but the
+    // three new buckets have no fallback set.
+    for (const opt of uSel.options) {
+      const needsConstituents = opt.value === "nifty100"
+        || opt.value === "niftyMidcap150"
+        || opt.value === "niftySmallcap250";
+      if (needsConstituents) {
+        opt.disabled = !indexConstituentsAvailable;
+        opt.title = indexConstituentsAvailable ? "" : "Index data refreshing — try again later";
+      }
+    }
+    // If the user's saved filter points to a now-disabled bucket, fall back
+    // to "all" rather than render with no results and no explanation.
+    const selectedOpt = uSel.options[uSel.selectedIndex];
+    if (selectedOpt && selectedOpt.disabled) {
+      picksFilters.universe = "all";
+      picksIndexFilter = "all";
+      uSel.value = "all";
+      savePicksFilters();
+    }
+  }
+  const sSel = document.getElementById("picksSectorFilter");
+  if (sSel) sSel.value = picksFilters.sector;
 }
 
-// Radio change handler — wired via inline onchange in index.html.
-function onPicksIndexFilterChange(value) {
-  picksIndexFilter = value === "nifty500" ? "nifty500" : "all";
-  try { localStorage.setItem(PICKS_INDEX_FILTER_LS_KEY, picksIndexFilter); } catch {}
+function populatePicksSectorOptions(rawSectionsByKey) {
+  if (picksSectorOptionsRendered) return;
+  const sel = document.getElementById("picksSectorFilter");
+  if (!sel) return;
+  const sectorSet = new Set();
+  for (const items of Object.values(rawSectionsByKey || {})) {
+    if (!Array.isArray(items)) continue;
+    for (const it of items) {
+      if (it && typeof it.sector === "string" && it.sector.trim()) {
+        sectorSet.add(it.sector.trim());
+      }
+    }
+  }
+  const sectors = [...sectorSet].sort((a, b) => a.localeCompare(b));
+  // Preserve the "All sectors" option, append the rest.
+  const frag = document.createDocumentFragment();
+  for (const sec of sectors) {
+    const opt = document.createElement("option");
+    opt.value = sec;
+    opt.textContent = sec;
+    frag.appendChild(opt);
+  }
+  sel.appendChild(frag);
+  sel.value = picksFilters.sector;
+  picksSectorOptionsRendered = true;
+}
+
+function matchesUniverse(it, universe) {
+  if (universe === "all" || !universe) return true;
+  return !!(it && it[universe] === true);
+}
+
+function matchesSector(it, sector) {
+  if (sector === "all" || !sector) return true;
+  return !!(it && typeof it.sector === "string" && it.sector === sector);
+}
+
+// Universe dropdown handler — wired via inline onchange in index.html.
+function onPicksUniverseChange(value) {
+  picksFilters.universe = typeof value === "string" ? value : "all";
+  picksIndexFilter = picksFilters.universe;
+  savePicksFilters();
+  if (currentPicksData) renderPicks(currentPicksData);
+}
+
+// Sector dropdown handler — wired via inline onchange in index.html.
+function onPicksSectorChange(value) {
+  picksFilters.sector = typeof value === "string" ? value : "all";
+  savePicksFilters();
   if (currentPicksData) renderPicks(currentPicksData);
 }
 
@@ -9527,7 +9640,10 @@ function renderPicksMetaBanner(data) {
 async function loadPicks() {
   const containerEl = document.getElementById("picksContainer");
   const metaEl = document.getElementById("picksMeta");
-  hydratePicksIndexFilterRadio();
+  // Initial hydrate before fetch — pass `true` so the dropdown isn't briefly
+  // disabled while the response is in flight. The real availability flag from
+  // the response is applied after fetch (see further down in this function).
+  hydratePicksFilterDropdowns(true);
   setPicksLoadingBanner(true);
   containerEl.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading picks…</div></div>`;
 
@@ -9542,6 +9658,12 @@ async function loadPicks() {
     }
     const data = await res.json();
     currentPicksData = data;
+    // Disable Large/Mid/Small dropdown options if the server says the
+    // constituent JSON isn't loaded (e.g. fresh deploy before first refresh).
+    hydratePicksFilterDropdowns(!!data?.indexConstituentsAvailable);
+    // Populate the sector dropdown from the full response so its options
+    // don't shrink as the user changes the universe filter.
+    populatePicksSectorOptions(data?.sections);
     renderPicks(data);
     metaEl.innerHTML = renderPicksMetaBanner(data);
     pollPicksStatus();
@@ -9667,13 +9789,20 @@ function setAllPicksCollapsed(collapsed) {
   syncPicksChipActiveStates();
 }
 
-// Write the running totals next to each radio label so the user can see
-// how many stocks each filter would yield (e.g. "All 412" / "Nifty 500 only 287").
-function updatePicksFilterCounts(totalAll, totalN500) {
-  const a = document.querySelector('[data-count-for="all"]');
-  const n = document.querySelector('[data-count-for="nifty500"]');
-  if (a) a.textContent = totalAll;
-  if (n) n.textContent = totalN500;
+// "Showing N of M stocks" summary next to the filter dropdowns.
+// N = unique tickers passing universe + sector + search across all sections
+//     (deduped — a stock appearing in both Top 30 and Deep Value counts once,
+//     and NOT capped by the per-section inline cap, so the number doesn't
+//     jump when the user scrolls).
+// M = unique tickers in the API response (fixed per page load).
+function updatePicksFilterSummary(uniqueShown, uniqueTotal) {
+  const el = document.getElementById("picksFilterSummary");
+  if (!el) return;
+  if (!Number.isFinite(uniqueShown) || !Number.isFinite(uniqueTotal)) {
+    el.textContent = "Showing — of —";
+    return;
+  }
+  el.textContent = `Showing ${uniqueShown.toLocaleString()} of ${uniqueTotal.toLocaleString()} stocks`;
 }
 
 function renderPicksChipNav(visibleSections, collapsedState) {
@@ -9702,30 +9831,35 @@ function renderPicks(data) {
   const containerEl = document.getElementById("picksContainer");
   const collapsedState = loadPicksCollapsedState();
 
-  // Filter once so chip-nav and the section list stay in sync. The Nifty 500
-  // toggle drops items the server tagged with nifty500=false; section/chip
-  // counts and overflow text all derive from `visibleSections` so they
-  // update automatically.
+  // Filter once so chip-nav and the section list stay in sync. Order:
+  // universe → sector → search. Avoid section bypasses universe + sector
+  // because the user uses it as a portfolio cross-check (narrowing it to
+  // e.g. "Nifty 100" would silently hide held mid/small-cap avoid names).
   const visibleSections = [];
   let totalShown = 0;
-  let totalAll = 0;
-  let totalN500 = 0;
+  // Deduped ticker sets so the "Showing N of M" summary counts a stock
+  // once even if it appears in multiple sections (e.g. Top 30 + Deep Value).
+  const shownTickers  = new Set();
+  const totalTickers  = new Set();
   for (const section of PICKS_SECTIONS) {
     const rawItems = (data.sections && data.sections[section.key]) || [];
-    totalAll += rawItems.length;
-    totalN500 += rawItems.filter((it) => it && it.nifty500).length;
-    // Universe filter (Nifty 500) AND ephemeral search — both narrow the same
-    // items array so chip counts, overflow, and section visibility update
-    // together. Order: universe first (fewer items to scan for search).
+    for (const it of rawItems) {
+      if (it && it.ticker) totalTickers.add(it.ticker);
+    }
+    const bypass = BYPASS_FILTERS_SECTIONS.has(section.key);
     const items = rawItems
-      .filter((it) => picksIndexFilter !== "nifty500" || (it && it.nifty500))
+      .filter((it) => bypass || matchesUniverse(it, picksFilters.universe))
+      .filter((it) => bypass || matchesSector(it, picksFilters.sector))
       .filter((it) => pickMatchesSearch(it, picksSearchQuery));
     if (items.length === 0) continue;
     visibleSections.push({ section, items });
     totalShown += items.length;
+    if (!bypass) {
+      for (const it of items) if (it && it.ticker) shownTickers.add(it.ticker);
+    }
   }
 
-  updatePicksFilterCounts(totalAll, totalN500);
+  updatePicksFilterSummary(shownTickers.size, totalTickers.size);
 
   // Off-section matches: when search is active and the scored-universe index
   // has loaded, surface any matching stock that ISN'T already shown above.
@@ -9739,7 +9873,8 @@ function renderPicks(data) {
     const offSection = swsScoredUniverse.filter((it) => {
       if (!it || !it.ticker) return false;
       if (shown.has(it.ticker)) return false;
-      if (picksIndexFilter === "nifty500" && !it.nifty500) return false;
+      if (!matchesUniverse(it, picksFilters.universe)) return false;
+      if (!matchesSector(it, picksFilters.sector)) return false;
       return pickMatchesSearch(it, picksSearchQuery);
     });
     if (offSection.length > 0) {
@@ -9750,11 +9885,24 @@ function renderPicks(data) {
   }
 
   if (!totalShown) {
+    const uniLabel = ({
+      all: "all stocks",
+      nifty100: "the Nifty 100 universe",
+      niftyMidcap150: "the Nifty Midcap 150 universe",
+      niftySmallcap250: "the Nifty Smallcap 250 universe",
+      nifty500: "the Nifty 500 universe",
+    })[picksFilters.universe] || "the selected universe";
+    const secLabel = picksFilters.sector && picksFilters.sector !== "all"
+      ? ` in ${escapeHtml(picksFilters.sector)}`
+      : "";
+    const filterActive = picksFilters.universe !== "all" || picksFilters.sector !== "all";
     let msg;
-    if (picksSearchQuery) {
+    if (picksSearchQuery && filterActive) {
+      msg = `No picks match "<strong>${escapeHtml(picksSearchQuery)}</strong>" within ${uniLabel}${secLabel}. Widen the filter or clear the search.`;
+    } else if (picksSearchQuery) {
       msg = `No picks match "<strong>${escapeHtml(picksSearchQuery)}</strong>". Try a different ticker, name, or sector — or clear the search.`;
-    } else if (picksIndexFilter === "nifty500") {
-      msg = `No Nifty 500 stocks in the current scan. Switch back to <strong>All</strong> above to see the full universe.`;
+    } else if (filterActive) {
+      msg = `No picks match ${uniLabel}${secLabel}. Widen the universe or pick a different sector.`;
     } else {
       msg = `Scan completed but no stocks matched any section filters. Check thresholds in scripts/sws-scoring.mjs.`;
     }
