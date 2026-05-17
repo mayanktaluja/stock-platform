@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "stockpulse-main",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.js"],
+      "port": 3000,
+      "autoPort": true,
+      "env": {
+        "ADMIN_EMAILS": "you@example.com"
+      },
+      "cwd": "/path/to/stock-platform"
+    },
+    {
+      "name": "stockpulse-worktree-template",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.js"],
+      "port": 4000,
+      "autoPort": true,
+      "env": {
+        "ADMIN_EMAILS": "you@example.com",
+        "AUTH_ENABLED": "false",
+        "NODE_ENV": "test"
+      },
+      "cwd": "/path/to/stock-platform/.claude/worktrees/<branch-name>"
+    }
+  ]
+}

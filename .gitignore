@@ -45,6 +45,13 @@ users.json
 .claude/worktrees/
 .macro-regime-cache.json
 
+# Per-worktree mutable launch config. Tracking this file is the root cause
+# of recurring `.claude/launch.json` merge conflicts that brick sws-nightly's
+# `git stash push` and silently stale data/macroRegime.json (see PRs #183,
+# #188, #201, #205, #221 + the 2026-05-17 incident). Each worktree maintains
+# its own local copy; use .claude/launch.example.json as a template.
+.claude/launch.json
+
 # Logs + temp output
 npm-debug.log*
 yarn-debug.log*
