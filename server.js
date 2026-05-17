@@ -13,6 +13,7 @@ const __dirnameForEnv = path.dirname(__filenameForEnv);
 dotenv.config({ path: path.join(__dirnameForEnv, ".env"), override: true });
 
 import express from "express";
+import compression from "compression";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 import NodeCache from "node-cache";
@@ -180,6 +181,14 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// gzip every response before it leaves the function. Critical for Vercel:
+// /api/sws-picks ships ~5.1 MB of JSON uncompressed, which exceeds the
+// ~5.5 MB AWS Lambda sync-payload cap and 504s in production. Gzip brings
+// it under 1 MB (typical 10× ratio for sectional JSON). This MUST be the
+// first middleware so it wraps every downstream response, including
+// express.static + every /api/* route.
+app.use(compression());
 
 // Cache: short TTL for real-time feel
 const quoteCache = new NodeCache({ stdTTL: 60, checkperiod: 30 });
