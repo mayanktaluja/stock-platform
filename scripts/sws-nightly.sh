@@ -37,6 +37,23 @@ set -uo pipefail
 REPO_DIR="/Users/mayanktaluja/code/stock-platform"
 cd "${REPO_DIR}" || { echo "[nightly] cannot cd to ${REPO_DIR}"; exit 5; }
 
+# ---- Load .env into the environment ----
+#
+# launchd invokes this script with a near-empty environment (PATH / HOME
+# only), so any node child reading process.env.GROQ_API_KEY /
+# GEMINI_API_KEY / SLACK_WEBHOOK_URL / etc. sees `undefined` unless we
+# source the committed .env first. Belt-and-braces with the per-script
+# `dotenv.config(...)` calls in refresh-earnings.mjs and
+# refresh-macro-regime.mjs — sourcing here covers scripts that haven't
+# (yet) wired dotenv themselves. `set -a` auto-exports everything sourced;
+# `[ -f .env ]` is the no-op guard for a fresh checkout without a .env.
+if [ -f .env ]; then
+  set -a
+  # shellcheck disable=SC1091
+  source .env
+  set +a
+fi
+
 LOG="data/sws/sws-nightly.log"
 LOG_PATH="${REPO_DIR}/${LOG}"
 mkdir -p data/sws
