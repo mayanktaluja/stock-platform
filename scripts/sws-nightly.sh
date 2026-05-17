@@ -573,7 +573,14 @@ else
   else
     FH_SCRIPT="scripts/fetch-fundamentals-history.mjs"
   fi
-  if ! timeout 2400 node "${FH_SCRIPT}" 2>&1 | sed 's/^/[fund-history] /'; then
+  # NOTE: must be `with_timeout`, NOT bare `timeout` — stock macOS has no
+  # `timeout` binary (only `gtimeout` when Homebrew's coreutils is installed).
+  # The wrapper at line 95-101 bridges all three platforms; calling `timeout`
+  # directly here silently failed every macOS nightly run with
+  # "line N: timeout: command not found" and `refresh-fundamentals-history.mjs`
+  # was skipped — which meant the earnings predictor's YoY-EPS trajectory
+  # component (`earningsPredictor.js` component 8) read a stale snapshot.
+  if ! with_timeout 2400 node "${FH_SCRIPT}" 2>&1 | sed 's/^/[fund-history] /'; then
     echo "[nightly] ${FH_SCRIPT} failed — non-fatal; Earnings Watch trajectories stay on prior snapshot"
   fi
 fi

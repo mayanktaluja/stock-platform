@@ -76,7 +76,9 @@ const earningsIdx = nightly.indexOf("scripts/refresh-earnings.mjs 2>&1");
 const fhIdx = (() => {
   // The script picks between refresh-fundamentals-history.mjs (preferred)
   // and fetch-fundamentals-history.mjs (fallback) — match either invocation.
-  const m = nightly.match(/timeout\s+\d+\s+node\s+"\$\{FH_SCRIPT\}"/);
+  // Allow `with_timeout` OR `timeout` so this test remains the timing-order
+  // guard, while the regression check below pins the wrapper-call form.
+  const m = nightly.match(/(?:with_)?timeout\s+\d+\s+node\s+"\$\{FH_SCRIPT\}"/);
   return m ? nightly.indexOf(m[0]) : -1;
 })();
 assert(
@@ -88,6 +90,20 @@ assert(
   "fundamentalsHistory still has its 18h freshness gate",
   /FH_AGE_HOURS[\s\S]*?-lt\s+18/.test(nightly),
   null,
+);
+
+// Regression guard for the 2026-05-18 fix — stock macOS has no `timeout`
+// binary. Every long-running node call must go through the `with_timeout`
+// wrapper at lines 95-101, never `timeout` directly. A bare `timeout N node`
+// silently fails on macOS with "timeout: command not found", and the chained
+// `if !` swallows the error → the step is skipped without anyone noticing.
+// One regression of this kind hid the fundamentals-history refresh on every
+// nightly run for an unknown number of days.
+const bareTimeoutCalls = (nightly.match(/^\s*(?:if\s+!\s+)?timeout\s+\d+\s+/gm) || []);
+assert(
+  "no bare `timeout` calls — all long-running steps must use with_timeout",
+  bareTimeoutCalls.length === 0,
+  { offenders: bareTimeoutCalls },
 );
 
 console.log(`\n  ${pass} passed, ${fail} failed\n`);
