@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.starbhai.macro-only</string>
+
+    <!--
+      Standalone macro-regime refresh. Decoupled from com.starbhai.sws-nightly
+      after the 2026-05-17 incident, where sws-nightly's autostash failed on
+      an unrelated tracked file (.claude/launch.json merge conflict), exit-5'd
+      before reaching the macro refresh, and the production banner went orange.
+
+      Single-writer rule: this is the ONLY cron that should write to
+      data/macroRegime.json. sws-nightly.sh has had its macro refresh + commit
+      step removed in the same PR.
+
+      Refresh is ~30 seconds (RSS fetch + LLM call). Running 12x/day keeps the
+      file well within the 18h staleness threshold even if 2 consecutive runs
+      are missed (laptop asleep, no network).
+    -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/caffeinate</string>
+        <string>-imsu</string>
+        <string>/bin/bash</string>
+        <string>/Users/mayanktaluja/code/stock-platform/scripts/refresh-macro-only.sh</string>
+    </array>
+
+    <!--
+      Every 2 hours, on the hour. 12 fires/day means even if the laptop sleeps
+      through 2 consecutive slots (4h gap), the file stays well under the 18h
+      staleness threshold. Anchored to wall-clock hours so the user can predict
+      when fresh data lands.
+    -->
+    <key>StartCalendarInterval</key>
+    <array>
+        <dict><key>Hour</key><integer>0</integer><key>Minute</key><integer>0</integer></dict>
+        <dict><key>Hour</key><integer>2</integer><key>Minute</key><integer>0</integer></dict>
+        <dict><key>Hour</key><integer>4</integer><key>Minute</key><integer>0</integer></dict>
+        <dict><key>Hour</key><integer>6</integer><key>Minute</key><integer>0</integer></dict>
+        <dict><key>Hour</key><integer>8</integer><key>Minute</key><integer>0</integer></dict>
+        <dict><key>Hour</key><integer>10</integer><key>Minute</key><integer>0</integer></dict>
+        <dict><key>Hour</key><integer>12</integer><key>Minute</key><integer>0</integer></dict>
+        <dict><key>Hour</key><integer>14</integer><key>Minute</key><integer>0</integer></dict>
+        <dict><key>Hour</key><integer>16</integer><key>Minute</key><integer>0</integer></dict>
+        <dict><key>Hour</key><integer>18</integer><key>Minute</key><integer>0</integer></dict>
+        <dict><key>Hour</key><integer>20</integer><key>Minute</key><integer>0</integer></dict>
+        <dict><key>Hour</key><integer>22</integer><key>Minute</key><integer>0</integer></dict>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/mayanktaluja/code/stock-platform</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/mayanktaluja/code/stock-platform/data/macroRegime-launchd-stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/mayanktaluja/code/stock-platform/data/macroRegime-launchd-stderr.log</string>
+
+    <!-- launchd starts with a minimal PATH; explicit values for tools the script needs. -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>HOME</key>
+        <string>/Users/mayanktaluja</string>
+        <key>LANG</key>
+        <string>en_US.UTF-8</string>
+    </dict>
+
+    <!-- Don't run on launchctl load; wait for the next scheduled fire. -->
+    <key>RunAtLoad</key>
+    <false/>
+
+    <!-- If a fire was missed (laptop off), run on next wake. -->
+    <key>StartCalendarIntervalCatchUp</key>
+    <true/>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>
