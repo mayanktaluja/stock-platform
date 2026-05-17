@@ -76,6 +76,7 @@ import { scoreStock as swsScoreStock, valuationBandFromUpside } from "./services
 import { buildCalibration as buildTrackCalibration } from "./services/trackRecord/calibration.js";
 import { buildSymbolEarningsCalibration } from "./services/trackRecord/earningsCalibration.js";
 import { deriveGovernanceGate } from "./services/swsIndianRiskLayer.js";
+import { dedupeByBareSymbol } from "./services/searchDedup.js";
 import * as swsDal from "./services/swsDal/index.js";
 import { loadIndexConstituentsFromFile, stampIndexFlags } from "./services/indexConstituents.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
@@ -1087,7 +1088,10 @@ async function searchYahoo(query) {
     return filtered.map((q) => ({
       symbol: q.symbol,
       name: q.shortname || q.longname || q.symbol,
-      exchange: q.exchange,
+      // Yahoo's exchDisp for NSE India is "NSI"; the rest of the app
+      // (badges, picks, watchlist) consistently says "NSE". Normalise
+      // once here so every caller gets the same label.
+      exchange: q.exchange === "NSI" ? "NSE" : q.exchange,
       type: q.quoteType,
     }));
   } catch (err) {
@@ -1203,17 +1207,24 @@ app.get("/api/search", async (req, res) => {
       return res.json({ results: cached });
     }
 
-    const q = query.toLowerCase();
+    const q = query.toLowerCase().trim();
+    // Strip a trailing exchange suffix so "AJAXENGG.BO" and "AJAXENGG.NS"
+    // both behave like "AJAXENGG". Without this, the local filter never
+    // matches an explicit .BO query (it's .NS-suffix-aware only), and
+    // Yahoo may echo back only the explicitly-requested variant — both
+    // of which prevent the NSE-preference dedup from doing its job.
+    const qBare = q.replace(/\.(ns|bo)$/i, "");
+
     const localResults = SEARCH_UNIVERSE.filter(
       (s) =>
-        s.name.toLowerCase().includes(q) ||
-        s.symbol.toLowerCase().includes(q.replace(".ns", "") + ".ns") ||
-        s.symbol.toLowerCase().replace(".ns", "").includes(q)
+        s.name.toLowerCase().includes(qBare) ||
+        s.symbol.toLowerCase().includes(qBare + ".ns") ||
+        s.symbol.toLowerCase().replace(".ns", "").includes(qBare)
     ).slice(0, 10);
 
     // Yahoo only fires when local has zero hits — typos, brand-new IPOs,
     // obscure BSE-only names. Cuts ~95% of round-trips at 750-stock coverage.
-    const yahooResults = localResults.length === 0 ? await searchYahoo(query) : [];
+    const yahooResults = localResults.length === 0 ? await searchYahoo(qBare) : [];
 
     const allResults = [...localResults];
     for (const yr of yahooResults) {
@@ -1222,7 +1233,9 @@ app.get("/api/search", async (req, res) => {
       }
     }
 
-    const finalResults = allResults.slice(0, 15);
+    // Collapse NSE/BSE pairs to one row per company, preferring .NS.
+    const deduped = dedupeByBareSymbol(allResults);
+    const finalResults = deduped.slice(0, 15);
     searchCache.set(cacheKey, finalResults);
     res.set("X-Search-Cache", "MISS");
     res.set("X-Search-Yahoo", localResults.length === 0 ? "called" : "skipped");
