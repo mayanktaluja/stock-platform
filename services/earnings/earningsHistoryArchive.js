@@ -339,6 +339,14 @@ function calibrationFor(rows) {
   // alongside for the existing point-estimate path.
   const byBucket = new Map(); // "60-64" → { hits, total, rows: [] }
   const byVerdict = new Map(); // "BEAT" → { hits, total, rows: [] }
+  // Per-classifier-provider split lets the backtest answer "is the LLM
+  // signal actually earning its keep vs the heuristic?" — rows whose
+  // archived llm_signal.classifier_provider is "groq" / "gemini" /
+  // "heuristic" are bucketed separately; rows with no llm_signal
+  // (pre-v3 schema) are excluded so the comparison only spans rows
+  // that had A signal of some kind. Same {hits, total, rows[]} shape
+  // as byBucket / byVerdict so bootstrap CI plugs in identically.
+  const byClassifierProvider = new Map(); // "groq" → { hits, total, rows: [] }
   const resolvedRows = [];     // slim list of all resolved rows
   let brierSum = 0, brierCount = 0;
 
@@ -380,6 +388,19 @@ function calibrationFor(rows) {
       e.rows.push(slim);
       byVerdict.set(v, e);
     }
+
+    // Classifier-provider bucketing. The archived llm_signal block was
+    // added in schema v3 — rows older than that have no provider tag
+    // and are skipped so the per-provider hit-rate isn't diluted by
+    // unattributed rows.
+    const cp = r.llm_signal && r.llm_signal.classifier_provider;
+    if (cp) {
+      const e = byClassifierProvider.get(cp) || { hits: 0, total: 0, rows: [] };
+      e.total += 1;
+      if (hit) e.hits += 1;
+      e.rows.push(slim);
+      byClassifierProvider.set(cp, e);
+    }
   }
 
   const hit_rate_overall_pct = resolved > 0 ? Math.round((hits / resolved) * 1000) / 10 : null;
@@ -401,6 +422,12 @@ function calibrationFor(rows) {
   for (const [k, v] of byVerdict) {
     verdictMap[k] = v.total > 0 ? Math.round((v.hits / v.total) * 1000) / 10 : null;
     verdictCIMap[k] = ciToPct(bootstrapHitRateCI(v.rows));
+  }
+  const providerMap = {};
+  const providerCIMap = {};
+  for (const [k, v] of byClassifierProvider) {
+    providerMap[k] = v.total > 0 ? Math.round((v.hits / v.total) * 1000) / 10 : null;
+    providerCIMap[k] = ciToPct(bootstrapHitRateCI(v.rows));
   }
 
   const brier = brierCount > 0 ? Math.round((brierSum / brierCount) * 1000) / 1000 : null;
@@ -436,6 +463,12 @@ function calibrationFor(rows) {
     // P2.3 — per-predicted-verdict CIs. Same shape as
     // `_by_confidence_bucket_ci`.
     hit_rate_by_verdict_ci: verdictCIMap,
+    // Per-classifier-provider hit-rate. Bare-numbers map keyed by
+    // provider tag ("groq" / "gemini" / "heuristic") parallels
+    // hit_rate_by_verdict; the `_ci` sibling carries the bootstrap
+    // bounds (null when sample_size < 5).
+    hit_rate_by_classifier_provider: providerMap,
+    hit_rate_by_classifier_provider_ci: providerCIMap,
     brier_score: brier,
     enough_data_to_lift_cap,
     cap_lift_gate: {
@@ -477,6 +510,14 @@ function calibrationFor(rows) {
  * the sample is all-hits or all-misses (the bootstrap is degenerate
  * there by definition). Existing point-estimate fields are untouched —
  * the CI fields are strictly additive.
+ *
+ * `hit_rate_by_classifier_provider` (+ `_ci` sibling, added 2026-05-17):
+ * splits hit-rate by which LLM tier produced the signal ("groq",
+ * "gemini", or "heuristic"). Rows from pre-v3 schema (no llm_signal
+ * archived) are excluded from this map only — they still count toward
+ * the overall hit-rate. The point of this field is to answer the
+ * standing question "is the LLM signal actually beating the heuristic
+ * on resolved actuals?" once we have ≥5 resolved rows per provider.
  */
 export function computeCalibration(history) {
   const rows = dedupePredictions(history);
