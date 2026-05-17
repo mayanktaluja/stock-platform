@@ -68,6 +68,57 @@ it("days_in_current_state starts at 1 with no prior", () => {
   assert.equal(h.cap_lift_gate.state, false);
   assert.equal(h.cap_lift_gate.days_in_current_state, 1);
 });
+
+it("PR-C1: current_resolved_note clarifies per-version vs overall when the two differ", () => {
+  // HISTORY has 2 resolved; backtest reports v1_gate.current_resolved=0
+  // for the latest predictor version → note must show BOTH numbers.
+  const h = buildHealthSummary({
+    history: HISTORY,
+    backtestSnapshot: {
+      enough_data_to_lift_cap: false,
+      v1_gate: { current_resolved: 0, predictor_version: "earnings-predict-v2-2026-05" },
+    },
+    nowIso: NOW,
+  });
+  assert.equal(h.cap_lift_gate.current_resolved, 0);
+  assert.match(h.cap_lift_gate.current_resolved_note, /0 of latest predictor version/);
+  assert.match(h.cap_lift_gate.current_resolved_note, /earnings-predict-v2-2026-05/);
+  assert.match(h.cap_lift_gate.current_resolved_note, /2 across all versions/);
+});
+
+it("PR-C1: current_resolved_note collapses to a short form when per-version == overall", () => {
+  // Both counts agree (5 resolved, 5 in latest version) → short note.
+  const matchedHistory = [
+    {
+      filename: "2026-05-14.json", today_iso: "2026-05-14", schema_version: "earnings-history-v4",
+      predictions: [
+        { symbol: "A", event_iso_date: "2026-05-08", actual_verdict: "BEAT" },
+        { symbol: "B", event_iso_date: "2026-05-08", actual_verdict: "MISS" },
+      ],
+    },
+  ];
+  const h = buildHealthSummary({
+    history: matchedHistory,
+    backtestSnapshot: {
+      enough_data_to_lift_cap: false,
+      v1_gate: { current_resolved: 2, predictor_version: "earnings-predict-v2-2026-05" },
+    },
+    nowIso: NOW,
+  });
+  assert.equal(h.cap_lift_gate.current_resolved, 2);
+  assert.match(h.cap_lift_gate.current_resolved_note, /^2 resolved/);
+  assert.match(h.cap_lift_gate.current_resolved_note, /earnings-predict-v2-2026-05/);
+  assert.doesNotMatch(h.cap_lift_gate.current_resolved_note, /across all versions/);
+});
+
+it("PR-C1: current_resolved_note works with no backtest snapshot (falls back to history count)", () => {
+  // No backtest snapshot → current_resolved is the history count itself,
+  // and the note should not reference a predictor version.
+  const h = buildHealthSummary({ history: HISTORY, nowIso: NOW });
+  assert.equal(h.cap_lift_gate.current_resolved, 2);
+  assert.match(h.cap_lift_gate.current_resolved_note, /^2 resolved/);
+  assert.doesNotMatch(h.cap_lift_gate.current_resolved_note, /across all versions/);
+});
 it("days_in_current_state increments when the gate state holds", () => {
   const prior = { cap_lift_gate: { state: false, days_in_current_state: 4 } };
   const h = buildHealthSummary({ history: HISTORY, backtestSnapshot: { enough_data_to_lift_cap: false }, priorHealth: prior, nowIso: NOW });
