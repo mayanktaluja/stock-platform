@@ -466,5 +466,85 @@ it("macro regime 24h old → alert with correct age, not healthy", () => {
   assert.ok(h.alerts.some((a) => /Macro regime is 24h old/i.test(a)));
 });
 
+console.log("[picks-fv-drift] Layer 3 telemetry surface");
+it("absent both sources → picks_snapshot_fv_drift.pipeline/runtime_24h null, no alert", () => {
+  const h = buildHealthSummary({ history: [], nowIso: NOW });
+  assert.ok(h.picks_snapshot_fv_drift);
+  assert.equal(h.picks_snapshot_fv_drift.pipeline, null);
+  assert.equal(h.picks_snapshot_fv_drift.runtime_24h, null);
+  assert.equal(h.picks_snapshot_fv_drift.alert, null);
+  assert.ok(!h.alerts.some((a) => /picks.snapshot/i.test(a)));
+});
+
+it("pipeline drift > 0 → alert fires with top tickers", () => {
+  const h = buildHealthSummary({
+    history: [],
+    picksFvDriftReport: {
+      run_id: "r1",
+      checked_at: NOW,
+      drifted_count: 3,
+      drifted_top: [
+        { ticker: "STAR", section: "upcoming_earnings", pick_fv: 1264, snap_fv: 1078.5, delta: 185.5 },
+        { ticker: "TCS", section: "top_ranked_30_v3", pick_fv: 3450, snap_fv: 3500, delta: -50 },
+        { ticker: "INFY", section: "quality_growth", pick_fv: 1800, snap_fv: 1810, delta: -10 },
+      ],
+    },
+    nowIso: NOW,
+  });
+  assert.equal(h.picks_snapshot_fv_drift.pipeline.drifted_count, 3);
+  assert.deepEqual(h.picks_snapshot_fv_drift.pipeline.top_tickers, ["STAR", "TCS", "INFY"]);
+  assert.ok(h.alerts.some((a) => /picks.snapshot Fair-Value drift/i.test(a) && /STAR/.test(a)),
+    `alerts: ${JSON.stringify(h.alerts)}`);
+  assert.equal(h.healthy, false);
+});
+
+it("runtime probe peak > 0 in 24h → alert fires even without pipeline drift", () => {
+  const tsRecent = new Date(new Date(NOW).getTime() - 60 * 60 * 1000).toISOString();
+  const tsOld = new Date(new Date(NOW).getTime() - 26 * 60 * 60 * 1000).toISOString();
+  const h = buildHealthSummary({
+    history: [],
+    picksFvDriftJsonl: [
+      { ts: tsRecent, fv_drift_count: 4, source: "probe" },
+      { ts: tsRecent, fv_drift_count: 2, source: "probe" },
+      { ts: tsOld, fv_drift_count: 99, source: "probe" },
+    ],
+    nowIso: NOW,
+  });
+  assert.equal(h.picks_snapshot_fv_drift.runtime_24h.samples, 2,
+    "26h-old sample should be excluded from the 24h window");
+  assert.equal(h.picks_snapshot_fv_drift.runtime_24h.max_drift_count, 4);
+  assert.ok(h.alerts.some((a) => /runtime probe peak 4/i.test(a)),
+    `alerts: ${JSON.stringify(h.alerts)}`);
+});
+
+it("runtime probe all zero in 24h → no alert (steady-state)", () => {
+  const tsRecent = new Date(new Date(NOW).getTime() - 60 * 60 * 1000).toISOString();
+  const h = buildHealthSummary({
+    history: [],
+    picksFvDriftJsonl: [
+      { ts: tsRecent, fv_drift_count: 0, source: "probe" },
+      { ts: tsRecent, fv_drift_count: 0, source: "probe" },
+    ],
+    nowIso: NOW,
+  });
+  assert.equal(h.picks_snapshot_fv_drift.runtime_24h.max_drift_count, 0);
+  assert.equal(h.picks_snapshot_fv_drift.alert, null);
+  assert.ok(!h.alerts.some((a) => /picks.snapshot/i.test(a)));
+});
+
+it("both sources drifted → alert mentions both", () => {
+  const tsRecent = new Date(new Date(NOW).getTime() - 60 * 60 * 1000).toISOString();
+  const h = buildHealthSummary({
+    history: [],
+    picksFvDriftReport: { run_id: "r1", checked_at: NOW, drifted_count: 5, drifted_top: [{ ticker: "STAR" }] },
+    picksFvDriftJsonl: [{ ts: tsRecent, fv_drift_count: 7, source: "probe" }],
+    nowIso: NOW,
+  });
+  const alert = h.alerts.find((a) => /picks.snapshot Fair-Value drift/i.test(a));
+  assert.ok(alert, `expected alert; got ${JSON.stringify(h.alerts)}`);
+  assert.ok(/pipeline check found 5/.test(alert), alert);
+  assert.ok(/runtime probe peak 7/.test(alert), alert);
+});
+
 console.log(`\n=== ${ok} passed, ${fail} failed ===`);
 if (fail) process.exit(1);

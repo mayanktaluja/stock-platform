@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.starbhai.picks-fv-drift-probe</string>
+
+    <!--
+      Picks-vs-snapshots Fair-Value drift probe — Layer 3 telemetry of the
+      fix planned in ~/.claude/plans/so-i-have-attached-virtual-sphinx.md.
+
+      Hits the local dev/staging server's /api/sws-picks every 15 min and
+      appends the response's `_meta.fv_drift_count` to a rolling 24h JSONL
+      under data/sws/health/. The nightly earnings-health-summary picks
+      that file up and surfaces the 24h peak; non-zero triggers a Slack
+      alert.
+
+      Requires the local server to be running (port 3000). Probe fails
+      silently when it can't reach the server — runs at low priority and
+      never crashes the host. To enable:
+
+        cp scripts/com.starbhai.picks-fv-drift-probe.plist \
+           ~/Library/LaunchAgents/
+        launchctl load \
+           ~/Library/LaunchAgents/com.starbhai.picks-fv-drift-probe.plist
+
+      To target a remote host (e.g. -gamma) set PROBE_BASE_URL +
+      PROBE_COOKIE in the EnvironmentVariables block below.
+    -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/opt/homebrew/bin/node</string>
+        <string>/Users/mayanktaluja/code/stock-platform/scripts/probe-picks-fv-drift.mjs</string>
+    </array>
+
+    <!-- Every 15 minutes, 96 fires/day. Cheap (one HTTP call + one
+         file append). The 24h JSONL caps at ~96 lines on rotation. -->
+    <key>StartInterval</key>
+    <integer>900</integer>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/mayanktaluja/code/stock-platform</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/mayanktaluja/code/stock-platform/data/sws/health/picks-fv-drift-probe-stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/mayanktaluja/code/stock-platform/data/sws/health/picks-fv-drift-probe-stderr.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>HOME</key>
+        <string>/Users/mayanktaluja</string>
+        <key>LANG</key>
+        <string>en_US.UTF-8</string>
+        <key>PROBE_BASE_URL</key>
+        <string>http://localhost:3000</string>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>

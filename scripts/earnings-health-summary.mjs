@@ -38,6 +38,9 @@ const WATCH_PATH = path.join(CATALYSTS_DIR, "earnings-watch-latest.json");
 const WATCH_STATS_PATH = path.join(CATALYSTS_DIR, "earnings-watch-stats.json");
 const HEALTH_PATH = path.join(CATALYSTS_DIR, "earnings-health.json");
 const MACRO_REGIME_PATH = path.join(ROOT, "data", "macroRegime.json");
+const SWS_HEALTH_DIR = path.join(ROOT, "data", "sws", "health");
+const PICKS_FV_DRIFT_REPORT_PATH = path.join(SWS_HEALTH_DIR, "picks-snapshot-fv-drift.json");
+const PICKS_FV_DRIFT_JSONL_PATH = path.join(SWS_HEALTH_DIR, "picks-fv-drift-24h.jsonl");
 
 const argJson = process.argv.includes("--json");
 
@@ -47,6 +50,29 @@ function readJsonSafe(p) {
     return JSON.parse(fs.readFileSync(p, "utf8"));
   } catch {
     return null;
+  }
+}
+
+// Reads a newline-delimited JSON file, returning an array. Malformed
+// lines are dropped silently — the probe is fire-and-forget telemetry,
+// not a structured datastore.
+function readJsonlSafe(p) {
+  try {
+    if (!fs.existsSync(p)) return [];
+    const raw = fs.readFileSync(p, "utf8");
+    const out = [];
+    for (const line of raw.split("\n")) {
+      const t = line.trim();
+      if (!t) continue;
+      try {
+        out.push(JSON.parse(t));
+      } catch {
+        // ignore malformed line
+      }
+    }
+    return out;
+  } catch {
+    return [];
   }
 }
 
@@ -83,6 +109,11 @@ async function main() {
   const priorHealth = readJsonSafe(HEALTH_PATH);
 
   const macroRegime = readJsonSafe(MACRO_REGIME_PATH);
+  // picks-vs-snapshots Fair-Value drift surface — pipeline check writes
+  // the report file, the 15-min probe appends to the JSONL. See plan
+  // ~/.claude/plans/so-i-have-attached-virtual-sphinx.md (Layer 3).
+  const picksFvDriftReport = readJsonSafe(PICKS_FV_DRIFT_REPORT_PATH);
+  const picksFvDriftJsonl = readJsonlSafe(PICKS_FV_DRIFT_JSONL_PATH);
 
   const health = buildHealthSummary({
     history,
@@ -93,6 +124,8 @@ async function main() {
     llmStats: watchStats?.llm_stats || null,
     priorHealth,
     macroRegime,
+    picksFvDriftReport,
+    picksFvDriftJsonl,
   });
 
   writeJsonAtomic(HEALTH_PATH, health);
@@ -117,6 +150,12 @@ async function main() {
   console.log(`Archive schema:      ${Object.entries(health.archive_schema).map(([k, v]) => `${k}×${v}`).join(", ") || "—"}`);
   console.log(`Predictor versions:  ${Object.entries(health.predictor_versions).map(([k, v]) => `${k}×${v}`).join(", ") || "—"}`);
   console.log(`Restatements:        ${health.restatements.count}`);
+  if (health.picks_snapshot_fv_drift) {
+    const pd = health.picks_snapshot_fv_drift;
+    const pipeStr = pd.pipeline ? `pipeline ${pd.pipeline.drifted_count}` : "pipeline n/a";
+    const rtStr = pd.runtime_24h ? `runtime peak ${pd.runtime_24h.max_drift_count} (${pd.runtime_24h.samples} probes/24h)` : "runtime n/a";
+    console.log(`Picks↔Snapshot FV:   ${pipeStr} · ${rtStr}`);
+  }
   if (health.macro_regime && health.macro_regime.present) {
     const m = health.macro_regime;
     console.log(`Macro regime:        ${m.regime || "?"} via ${m.classifier_provider || "?"} · ${m.age_hours}h old${m.stale ? " ⚠ STALE" : ""}`);
