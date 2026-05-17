@@ -9319,6 +9319,16 @@ const PICKS_INLINE_CAP = {
 };
 const PICKS_INLINE_DEFAULT_CAP = 12;
 
+// Chunked progressive render for expanded sections. When the user clicks
+// "Show all (N)" on a large section (e.g. Avoid at ~1206 stocks), rendering
+// every card synchronously builds ~40 DOM nodes × N in one innerHTML
+// assignment and blocks the main thread for 2–5 s. Instead, when an expanded
+// section's filtered count > PICKS_EXPANDED_THRESHOLD, only the first
+// PICKS_EXPANDED_CHUNK_SIZE cards render inline; the rest stream in via an
+// IntersectionObserver sentinel as the user scrolls.
+const PICKS_EXPANDED_CHUNK_SIZE = 100;
+const PICKS_EXPANDED_THRESHOLD = 100;
+
 // Synthetic section prepended above curated sections when the user's search
 // matches scored stocks that didn't land in any of the 11 curated picks
 // buckets. Reuses the same section-header / chip / card pipeline so chip-nav,
@@ -9342,6 +9352,14 @@ let currentPicksData = null;
 // picksSearchQuery's ephemeral convention). Holds section.key strings whose
 // soft cap is currently bypassed.
 const picksExpandedSections = new Set();
+
+// Per-section filtered-item buffer for chunked progressive render. Populated
+// in renderPicks at the moment of click and consumed by renderNextPicksChunk
+// as the sentinel scrolls into view. Frozen at click time so chunks 1 and N
+// can't drift across filter/search changes mid-scroll. Cleared at the start
+// of every renderPicks.
+const picksChunkBuffers = new Map();
+let picksChunkObserver = null;
 
 // Universe filter for the picks tab. "all" (default) shows everything;
 // "nifty500" hides any item whose ticker isn't in the Nifty 500 list
@@ -9737,6 +9755,10 @@ function renderPicks(data) {
   // Same force-expand logic as the chip-nav: an active search query overrides
   // persistent collapse state so matches are immediately visible.
   const forceExpand = !!picksSearchQuery;
+  // Drop stale buffers from the previous render — the sentinels they fed
+  // were just wiped by the upcoming innerHTML assignment, so nothing can
+  // consume them and they'd otherwise leak across re-renders.
+  picksChunkBuffers.clear();
   const sectionsHtml = visibleSections.map(({ section, items }) => {
     const defaultCap = PICKS_INLINE_CAP[section.key] ?? PICKS_INLINE_DEFAULT_CAP;
     const expanded = picksExpandedSections.has(section.key);
@@ -9749,8 +9771,22 @@ function renderPicks(data) {
     const isHero = section.key === "top_ranked_30_v3";
     const isCollapsed = !forceExpand && isPicksSectionCollapsed(collapsedState, section.key);
     const tip = section.term_id ? infoIcon(section.term_id) : "";
+    // Chunked progressive render: only the first PICKS_EXPANDED_CHUNK_SIZE
+    // cards land inline; the rest stream in via an IntersectionObserver
+    // sentinel as the user scrolls. Buffers the full filtered slice on
+    // picksChunkBuffers so chunks 2..N can't drift if filters change.
+    const useChunked = expanded && sliced.length > PICKS_EXPANDED_THRESHOLD;
+    const firstChunkEnd = useChunked ? PICKS_EXPANDED_CHUNK_SIZE : sliced.length;
+    const firstChunk = sliced.slice(0, firstChunkEnd);
+    if (useChunked) picksChunkBuffers.set(section.key, sliced);
+    const cardsHtml = firstChunk
+      .map((s, i) => renderPickCard(s, section.key, isHero ? i + 1 : null))
+      .join("");
+    const sentinelHtml = useChunked
+      ? `<div class="sws-pick-chunk-sentinel" data-section-key="${section.key}" data-rendered="${firstChunkEnd}" aria-hidden="true"></div>`
+      : "";
     return `
-      <div class="dashboard-section sws-pick-section${isCollapsed ? " collapsed" : ""}${isHero ? " sws-pick-section-hero" : ""}" data-section-key="${section.key}">
+      <div class="dashboard-section sws-pick-section${isCollapsed ? " collapsed" : ""}${isHero ? " sws-pick-section-hero" : ""}${useChunked ? " sws-pick-section-uncapped" : ""}" data-section-key="${section.key}">
         <div class="section-header" onclick="togglePicksSection(this, event)" role="button" tabindex="0"
              onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePicksSection(this);}">
           <div class="section-header-left">
@@ -9767,7 +9803,8 @@ function renderPicks(data) {
         </div>
         <div class="section-body">
           <div class="stock-cards sws-pick-grid">
-            ${sliced.map((s, i) => renderPickCard(s, section.key, isHero ? i + 1 : null)).join("")}
+            ${cardsHtml}
+            ${sentinelHtml}
           </div>
           ${hidden > 0 ? `<div class="sws-pick-overflow">${expanded ? `Showing all <strong>${items.length}</strong> · ` : `… and <strong>${hidden}</strong> more · `}<button type="button" class="sws-pick-overflow-btn" onclick="togglePicksExpandAll('${section.key}', event)">${expanded ? `Show top ${defaultCap} ↑` : `Show all (${items.length}) ↓`}</button>${expanded ? "" : ` · or open the PDF for the full list`}</div>` : ""}
         </div>
@@ -9775,6 +9812,61 @@ function renderPicks(data) {
   }).join("");
 
   containerEl.innerHTML = statusHtml + chipNav + sectionsHtml;
+  hydratePicksChunkSentinels(containerEl);
+}
+
+// Wire the IntersectionObserver for chunked progressive render. Called once
+// per renderPicks after the innerHTML assignment lands. Disconnects any
+// previous observer first — renderPicks rebuilds the entire container, so
+// the prior observer's sentinels are already detached.
+function hydratePicksChunkSentinels(containerEl) {
+  if (picksChunkObserver) {
+    picksChunkObserver.disconnect();
+    picksChunkObserver = null;
+  }
+  const sentinels = containerEl.querySelectorAll(".sws-pick-chunk-sentinel");
+  if (!sentinels.length) return;
+
+  picksChunkObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) renderNextPicksChunk(entry.target);
+    });
+  }, { rootMargin: "400px" });
+
+  sentinels.forEach((s) => picksChunkObserver.observe(s));
+}
+
+// Pull the next PICKS_EXPANDED_CHUNK_SIZE cards from the buffer and append
+// them before the sentinel, then bump (or remove) the sentinel. Driven by
+// the IntersectionObserver in hydratePicksChunkSentinels.
+function renderNextPicksChunk(sentinelEl) {
+  if (!sentinelEl.isConnected) return;
+  // Tab switched away mid-render — bail; the next renderPicks will re-hydrate.
+  if (sentinelEl.offsetParent === null) return;
+
+  const sectionKey = sentinelEl.getAttribute("data-section-key");
+  const rendered = parseInt(sentinelEl.getAttribute("data-rendered"), 10);
+  const buffer = picksChunkBuffers.get(sectionKey);
+  if (!buffer || Number.isNaN(rendered)) {
+    sentinelEl.remove();
+    return;
+  }
+
+  const nextEnd = Math.min(rendered + PICKS_EXPANDED_CHUNK_SIZE, buffer.length);
+  const nextChunk = buffer.slice(rendered, nextEnd);
+  const isHero = (sectionKey === "top_ranked_30_v3");
+  const html = nextChunk
+    .map((s, i) => renderPickCard(s, sectionKey, isHero ? rendered + i + 1 : null))
+    .join("");
+
+  sentinelEl.insertAdjacentHTML("beforebegin", html);
+
+  if (nextEnd >= buffer.length) {
+    sentinelEl.remove();
+    picksChunkBuffers.delete(sectionKey);
+  } else {
+    sentinelEl.setAttribute("data-rendered", String(nextEnd));
+  }
 }
 
 // Status line for the picks-tab search. Surfaces lazy-load progress and the

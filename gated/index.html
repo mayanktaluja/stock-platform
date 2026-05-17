@@ -2821,6 +2821,16 @@
     .sws-pick-section .section-header:hover { opacity: 0.88; }
     .sws-pick-section.collapsed .section-header { margin-bottom: 0; border-bottom-color: transparent; padding-bottom: 0; }
     .sws-pick-section:not(.collapsed) .section-body { max-height: 20000px; opacity: 1; }
+    /* When chunked progressive render is active (Avoid expanded to 1206 cards,
+       any future huge bucket), the 20000px cap clips the section-body and
+       the IntersectionObserver sentinel falls outside the scrollable area —
+       streaming stalls. Uncap height for these sections; the collapse
+       transition still works going IN (since :not(.collapsed) is the only
+       rule it suppresses), and collapsing back snaps without animation
+       (acceptable for a 1000+ card section). */
+    .sws-pick-section.sws-pick-section-uncapped:not(.collapsed) .section-body {
+      max-height: none;
+    }
     .sws-pick-section-hero {
       padding: 18px 16px 8px;
       border: 1px solid #1f2c45;
@@ -2863,6 +2873,13 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 12px;
+    }
+    /* Invisible row spanning the full grid width — IntersectionObserver
+       sentinel for chunked progressive render (see hydratePicksChunkSentinels
+       in gated/app.js). Stays out of sight via the 400px rootMargin. */
+    .sws-pick-chunk-sentinel {
+      grid-column: 1 / -1;
+      min-height: 1px;
     }
     .sws-pick-overflow {
       margin: 12px 0 0 0;
