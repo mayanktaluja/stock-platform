@@ -39,6 +39,23 @@
     try { localStorage.setItem(EARNINGS_COLLAPSED_KEY, JSON.stringify(state)); } catch {}
   }
 
+  // Single-boolean collapse state for the "Recent results" section.
+  // Default = collapsed: the upcoming calendar is the primary affordance of
+  // the tab; past-week results are reference. User's explicit toggle wins
+  // on reload (same persistence shape as the per-date map above).
+  const EARNINGS_RECENT_COLLAPSED_KEY = "earningsRecentResultsCollapsed";
+
+  function loadRecentResultsCollapsed() {
+    try {
+      const v = localStorage.getItem(EARNINGS_RECENT_COLLAPSED_KEY);
+      if (v === "0") return false;
+      return true;
+    } catch { return true; }
+  }
+  function saveRecentResultsCollapsed(collapsed) {
+    try { localStorage.setItem(EARNINGS_RECENT_COLLAPSED_KEY, collapsed ? "1" : "0"); } catch {}
+  }
+
   // ────────── Tiny safe formatters ──────────
   // We intentionally do not depend on the app.js helpers being loaded
   // first — earnings.js has `defer` so it runs after app.js, but a
@@ -1016,6 +1033,7 @@
     if (!Array.isArray(rows) || rows.length === 0) {
       el.innerHTML = "";
       el.style.display = "none";
+      el.removeAttribute("data-collapsed");
       return;
     }
     el.style.display = "block";
@@ -1027,16 +1045,38 @@
         ? `<span style="font-size:11px; color:var(--text-muted); letter-spacing:0.04em;">${hits}/${hits + misses} predictions correct</span>`
         : "";
     const llmPill = renderLlmOfflinePill(_earningsSnapshot);
+    const isCollapsed = loadRecentResultsCollapsed();
+    el.setAttribute("data-collapsed", isCollapsed ? "1" : "0");
     el.innerHTML = `
-      <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid #1a2233; flex-wrap:wrap;">
+      <div class="earnings-date-header" style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid #1a2233; flex-wrap:wrap; cursor:pointer; user-select:none;">
+        <span class="earnings-date-caret" style="font-size:11px; color:var(--text-muted); width:10px; display:inline-block;">${isCollapsed ? "▸" : "▾"}</span>
         <span style="font-size:13px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">Recent results</span>
         <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">past ${pastWindow}d · ${rows.length} ${rows.length === 1 ? "result" : "results"}</span>
         ${accuracyChip}
         ${llmPill}
       </div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:12px;">
+      <div class="earnings-date-body" style="${isCollapsed ? "display:none;" : "display:grid;"} grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:12px;">
         ${rows.map(renderRecentResultCard).join("")}
       </div>`;
+
+    // One-time delegated click handler. Guards against stacking on re-render
+    // (renderRecentResultsSection runs on every filter change) the same way
+    // the per-date grid does at lines above.
+    if (!el.dataset.collapseBound) {
+      el.addEventListener("click", (ev) => {
+        const header = ev.target.closest(".earnings-date-header");
+        if (!header || header.parentElement !== el) return;
+        const wasCollapsed = el.getAttribute("data-collapsed") === "1";
+        const next = !wasCollapsed;
+        el.setAttribute("data-collapsed", next ? "1" : "0");
+        const body = el.querySelector(".earnings-date-body");
+        const caret = el.querySelector(".earnings-date-caret");
+        if (body) body.style.display = next ? "none" : "grid";
+        if (caret) caret.textContent = next ? "▸" : "▾";
+        saveRecentResultsCollapsed(next);
+      });
+      el.dataset.collapseBound = "1";
+    }
   }
 
   // ────────── Public loader ──────────
