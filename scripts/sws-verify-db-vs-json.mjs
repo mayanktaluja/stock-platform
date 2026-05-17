@@ -19,28 +19,66 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { isDbConfigured, getDb, closeDb } from "../db/client.js";
-import { swsCompanySnapshots, swsRuns } from "../db/schema.js";
-import { and, eq } from "drizzle-orm";
+import { swsCompanySnapshots, swsPicks, swsRuns } from "../db/schema.js";
+import { and, eq, sql } from "drizzle-orm";
 import { snapshotRowToJson } from "../services/swsDal/rowMapping.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const DEEP_DIR = path.join(ROOT, "data", "sws", "deep");
+const HEALTH_DIR = path.join(ROOT, "data", "sws", "health");
 
-const args = parseArgs(process.argv.slice(2));
+// argv parsed only when invoked directly (not when imported by unit tests
+// that only need formatPicksFvDriftReport).
+const args = isEntryPoint() ? parseArgs(process.argv.slice(2)) : { count: 50, tickers: null, runId: null, check: null };
+
+function isEntryPoint() {
+  // Note: import.meta.url uses file:// URLs; process.argv[1] is a path.
+  // The conversion goes the other way (fileURLToPath) — done at the
+  // bottom of the file where the actual call lives.
+  if (!process.argv[1]) return false;
+  try {
+    return process.argv[1] === fileURLToPath(import.meta.url);
+  } catch {
+    return false;
+  }
+}
 
 function parseArgs(argv) {
-  const out = { count: 50, tickers: null, runId: null };
+  const out = { count: 50, tickers: null, runId: null, check: null };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--count") out.count = Number(argv[++i]);
     else if (a === "--tickers") out.tickers = argv[++i].split(",").map((s) => s.trim().toUpperCase());
     else if (a === "--run-id") out.runId = argv[++i];
+    else if (a === "--check") out.check = argv[++i];
   }
   return out;
 }
 
-if (!isDbConfigured()) {
+// Formats a row set from checkPicksSnapshotFvAgreement into the JSON
+// shape written to data/sws/health/picks-snapshot-fv-drift.json. Pure
+// function for unit-testability — the SQL JOIN is unit-tested via this
+// formatter rather than against a live DB.
+export function formatPicksFvDriftReport({ runId, rows, checkedAt }) {
+  return {
+    run_id: runId,
+    checked_at: checkedAt || new Date().toISOString(),
+    drifted_count: rows.length,
+    drifted_top: rows.slice(0, 20).map((r) => ({
+      ticker: r.ticker,
+      section: r.section,
+      pick_fv: r.pickFv,
+      snap_fv: r.snapFv,
+      delta: Number((r.pickFv - r.snapFv).toFixed(2)),
+    })),
+  };
+}
+
+// DB check guarded so importing the module for unit-testing the pure
+// formatter doesn't kill the process. The actual main() call still
+// validates this before running any SQL.
+if (isEntryPoint() && !isDbConfigured()) {
   console.error("DATABASE_URL is required.");
   process.exit(1);
 }
@@ -101,6 +139,73 @@ function get(obj, dotPath) {
   return dotPath.split(".").reduce((o, k) => (o == null ? null : o[k]), obj);
 }
 
+// SQL JOIN between sws_picks and sws_company_snapshots for a given run,
+// returning every (ticker, section) where the picks-side fair_value_inr
+// differs from the snapshot-side by more than max(₹0.01, 0.1%·FV). The
+// JOIN scans both tables once — ~2.5k picks rows × ~5.5k snapshots — so
+// even on the full canonical run it returns in ms. This is the structural
+// drift gate referenced in ~/.claude/plans/so-i-have-attached-virtual-
+// sphinx.md (Layer 2) and called from scripts/sws-refresh-api.sh BEFORE
+// scripts/sws-pipeline-finalise.mjs flips is_canonical, so a drifted
+// run never becomes canonical and the picks card / stock modal can
+// never disagree on Fair Value at the response layer.
+async function checkPicksSnapshotFvAgreement(db, runId) {
+  const rows = await db
+    .select({
+      ticker: swsPicks.ticker,
+      section: swsPicks.section,
+      pickFv: swsPicks.fairValueInr,
+      snapFv: swsCompanySnapshots.fairValueInr,
+    })
+    .from(swsPicks)
+    .innerJoin(
+      swsCompanySnapshots,
+      and(
+        eq(swsCompanySnapshots.runId, swsPicks.runId),
+        eq(swsCompanySnapshots.ticker, swsPicks.ticker),
+      ),
+    )
+    .where(
+      and(
+        eq(swsPicks.runId, runId),
+        sql`${swsPicks.fairValueInr} IS NOT NULL`,
+        sql`${swsCompanySnapshots.fairValueInr} IS NOT NULL`,
+        sql`ABS(${swsPicks.fairValueInr} - ${swsCompanySnapshots.fairValueInr}) > GREATEST(0.01, 0.001 * ABS(${swsCompanySnapshots.fairValueInr}))`,
+      ),
+    )
+    .orderBy(
+      sql`ABS(${swsPicks.fairValueInr} - ${swsCompanySnapshots.fairValueInr}) DESC`,
+    );
+
+  const report = formatPicksFvDriftReport({ runId, rows });
+  // Always write the health file (success and failure both) so the daily
+  // earnings-health-summary can pick it up without log-scraping.
+  try {
+    fs.mkdirSync(HEALTH_DIR, { recursive: true });
+    fs.writeFileSync(
+      path.join(HEALTH_DIR, "picks-snapshot-fv-drift.json"),
+      JSON.stringify(report, null, 2),
+    );
+  } catch (e) {
+    console.warn(`[verify] could not write health file: ${e.message}`);
+  }
+
+  if (rows.length === 0) {
+    console.log(`[verify] picks-snapshot-fv: 0 tickers drifted (run ${runId})`);
+    return 0;
+  }
+  console.error(`[verify] PICKS-SNAPSHOT FV DRIFT: ${rows.length} tickers`);
+  for (const r of rows.slice(0, 20)) {
+    console.error(
+      `  ${r.ticker}/${r.section}: pick=${r.pickFv} snap=${r.snapFv} (Δ=${(r.pickFv - r.snapFv).toFixed(2)})`,
+    );
+  }
+  if (rows.length > 20) console.error(`  ... and ${rows.length - 20} more`);
+  // Exit code 2 = drift detected (distinct from exit 1 used for the
+  // disk/db field-level check above). Callers can branch on this.
+  return 2;
+}
+
 async function main() {
   const db = await getDb();
 
@@ -118,6 +223,15 @@ async function main() {
     runId = rows[0].id;
   }
   console.log(`[verify] run_id=${runId}`);
+
+  // --check picks-snapshot-fv: standalone drift check between sws_picks
+  // and sws_company_snapshots. Used by sws-refresh-api.sh before
+  // finaliseRun so a drifted run never flips is_canonical.
+  if (args.check === "picks-snapshot-fv") {
+    const code = await checkPicksSnapshotFvAgreement(db, runId);
+    process.exitCode = code;
+    return;
+  }
 
   let candidates;
   if (args.tickers) {
@@ -173,12 +287,14 @@ async function main() {
   if (mismatches > 0) process.exitCode = 1;
 }
 
-try {
-  await main();
-} catch (err) {
-  console.error(`[verify] FAILED: ${err.message}`);
-  console.error(err.stack);
-  process.exitCode = 1;
-} finally {
-  await closeDb();
+if (isEntryPoint()) {
+  try {
+    await main();
+  } catch (err) {
+    console.error(`[verify] FAILED: ${err.message}`);
+    console.error(err.stack);
+    process.exitCode = 1;
+  } finally {
+    await closeDb();
+  }
 }

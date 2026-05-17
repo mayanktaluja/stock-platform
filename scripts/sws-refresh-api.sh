@@ -395,15 +395,33 @@ EOF
 
 echo "=== refresh-api complete: $(ts) elapsed=${ELAPSED}s ==="
 
-# ---------- 9b. Phase 3 dual-write: finalise + verify ----------
-# Promotes the run to is_canonical=true in a transaction, then diffs the
-# DB rows against the on-disk JSON. Any drift exits non-zero and the
-# auto-PR step below sees FAIL=1 and skips.
+# ---------- 9b. Phase 3 dual-write: pre-finalise drift gate + finalise + post-flip sanity ----------
+# Three sequential checks. The FIRST is a HARD gate: a picks-vs-snapshots
+# Fair-Value drift (the bug fixed by ~/.claude/plans/so-i-have-attached-
+# virtual-sphinx.md — STAR showed FV ₹1,264 on the card vs ₹1,078.5 on
+# the modal in 2026-05-18) is a write-time consistency violation between
+# the two tables. If detected, we MUST NOT flip is_canonical because that
+# would make the drifted run visible to users at the API layer (the
+# read-time guard in /api/sws-picks covers the visible-FV symptom but
+# the score still bakes in the stale FV). On gate-fail, FAIL=1 so the
+# auto-PR step below also skips, prior-canonical keeps serving, and the
+# next nightly attempts a clean run. Loud-fail per CLAUDE.md.
+#
+# The SECOND step flips is_canonical (only when the gate passed).
+# The THIRD step is advisory: a 50-random-ticker disk/DB cross-check that
+# stays informational because a transient mismatch shouldn't roll back a
+# canonical that already serves users; we just log the warning.
 if [ "${SWS_DB_DUAL_WRITE:-0}" = "1" ] && [ -n "${SWS_RUN_ID:-}" ] && [ "${FAIL}" -eq 0 ]; then
-  node scripts/sws-pipeline-finalise.mjs "${SWS_RUN_ID}" 2>&1 | sed 's/^/[finalise] /' || true
-  echo "[refresh-api] verify-db-vs-json (50 random tickers) …"
-  if ! node scripts/sws-verify-db-vs-json.mjs --count 50 --run-id "${SWS_RUN_ID}" 2>&1 | tail -20 | sed 's/^/[verify] /'; then
-    echo "[refresh-api] WARN — DB/JSON drift detected; auto-PR continues but watch for regressions"
+  echo "[refresh-api] pre-finalise gate: picks-vs-snapshots FV drift check …"
+  if ! node scripts/sws-verify-db-vs-json.mjs --check picks-snapshot-fv --run-id "${SWS_RUN_ID}" 2>&1 | sed 's/^/[verify-gate] /'; then
+    echo "[refresh-api] ABORT — picks/snapshot FV drift; NOT flipping is_canonical"
+    FAIL=1
+  else
+    node scripts/sws-pipeline-finalise.mjs "${SWS_RUN_ID}" 2>&1 | sed 's/^/[finalise] /' || FAIL=1
+    echo "[refresh-api] verify-db-vs-json (50 random tickers, advisory) …"
+    if ! node scripts/sws-verify-db-vs-json.mjs --count 50 --run-id "${SWS_RUN_ID}" 2>&1 | tail -20 | sed 's/^/[verify-post] /'; then
+      echo "[refresh-api] WARN — DB/JSON drift detected post-finalise; auto-PR continues but watch for regressions"
+    fi
   fi
 fi
 
