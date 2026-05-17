@@ -9464,7 +9464,6 @@ function hydratePicksFilterDropdowns(indexConstituentsAvailable) {
 }
 
 function populatePicksSectorOptions(rawSectionsByKey) {
-  if (picksSectorOptionsRendered) return;
   const sel = document.getElementById("picksSectorFilter");
   if (!sel) return;
   const sectorSet = new Set();
@@ -9476,8 +9475,24 @@ function populatePicksSectorOptions(rawSectionsByKey) {
       }
     }
   }
+  // Also fold in sectors from the full scored universe once it's loaded —
+  // the curated sections only cover ~1,900 of ~5,500 scored stocks, so a
+  // sector that exists only off-section (e.g. a niche small-cap industry)
+  // would be missing from the dropdown otherwise.
+  if (Array.isArray(swsScoredUniverse)) {
+    for (const it of swsScoredUniverse) {
+      if (it && typeof it.sector === "string" && it.sector.trim()) {
+        sectorSet.add(it.sector.trim());
+      }
+    }
+  }
+  // Idempotent rebuild: drop any prior-rendered options (keep just "All
+  // sectors"), then re-append. Lets this run twice — once on initial picks
+  // load, again after the background universe-prefetch lands.
+  for (let i = sel.options.length - 1; i >= 0; i--) {
+    if (sel.options[i].value !== "all") sel.remove(i);
+  }
   const sectors = [...sectorSet].sort((a, b) => a.localeCompare(b));
-  // Preserve the "All sectors" option, append the rest.
   const frag = document.createDocumentFragment();
   for (const sec of sectors) {
     const opt = document.createElement("option");
@@ -9667,6 +9682,20 @@ async function loadPicks() {
     renderPicks(data);
     metaEl.innerHTML = renderPicksMetaBanner(data);
     pollPicksStatus();
+    // Background-prefetch the full scored universe (~5,500 stocks, ~450 KB
+    // gzipped). The curated 11 sections only cover ~1,900 unique tickers, so
+    // the "Showing N of M" line reads M=1,918 until this lands — confusing
+    // when the meta banner above says "5,517 scored". When the fetch returns,
+    // re-render so M jumps to the full universe size, the sector dropdown
+    // gains any new options, and a non-default filter surfaces off-section
+    // matches as a synthetic section. Fire-and-forget: failure is silent
+    // (the page keeps working on the curated-only data).
+    ensureUniverseLoaded().then((universe) => {
+      if (universe && currentPicksData === data) {
+        populatePicksSectorOptions(currentPicksData?.sections);
+        renderPicks(currentPicksData);
+      }
+    });
   } catch (e) {
     containerEl.innerHTML = `<div style="padding:24px;color:var(--red);">Failed to load picks: ${e.message}</div>`;
   } finally {
@@ -9854,18 +9883,27 @@ function renderPicks(data) {
     if (items.length === 0) continue;
     visibleSections.push({ section, items });
     totalShown += items.length;
-    if (!bypass) {
-      for (const it of items) if (it && it.ticker) shownTickers.add(it.ticker);
-    }
+    // Count every rendered ticker into `shownTickers`, including bypass
+    // sections (Avoid). Earlier we excluded bypass to avoid claiming those
+    // tickers were "in" the active universe filter, but the summary is
+    // semantically "how many unique cards is the user looking at", which
+    // SHOULD include Avoid — otherwise the line reads "Showing 844 of 5,517"
+    // while there are 2,050+ visible cards on the page.
+    for (const it of items) if (it && it.ticker) shownTickers.add(it.ticker);
   }
 
-  updatePicksFilterSummary(shownTickers.size, totalTickers.size);
-
-  // Off-section matches: when search is active and the scored-universe index
-  // has loaded, surface any matching stock that ISN'T already shown above.
-  // Prepended so users see global hits before the curated buckets.
+  // Off-section matches: surface any scored stock that ISN'T already in
+  // a curated section. Two trigger paths:
+  //   (a) search query is active — original behaviour
+  //   (b) any filter dropdown is non-default — needed because the curated
+  //       sections only cover ~1,900 of ~5,500 scored stocks. Without this,
+  //       "Nifty 100 + Software" would silently miss Software names in
+  //       Nifty 100 that didn't land in any curated bucket.
+  // Both paths require the universe to have loaded (background-prefetched
+  // by loadPicks); fall through silently if it hasn't landed yet.
+  const filterActive = picksFilters.universe !== "all" || picksFilters.sector !== "all";
   let offSectionCount = 0;
-  if (picksSearchQuery && Array.isArray(swsScoredUniverse) && swsScoredUniverse.length) {
+  if ((picksSearchQuery || filterActive) && Array.isArray(swsScoredUniverse) && swsScoredUniverse.length) {
     const shown = new Set();
     for (const v of visibleSections) {
       for (const it of v.items) if (it && it.ticker) shown.add(it.ticker);
@@ -9881,8 +9919,19 @@ function renderPicks(data) {
       offSectionCount = offSection.length;
       visibleSections.unshift({ section: PICKS_OFF_SECTION_DEF, items: offSection });
       totalShown += offSection.length;
+      for (const it of offSection) if (it && it.ticker) shownTickers.add(it.ticker);
     }
   }
+
+  // M = full scored universe size once it's loaded (so the summary reads
+  // 5,517 instead of the curated-union 1,918). Falls back to the curated
+  // ticker total before the prefetch lands. N = unique tickers shown across
+  // curated + off-section, post-filter, deduped, pre-cap (so it doesn't
+  // jump as the user scrolls into chunked sections).
+  const totalUniverseSize = (Array.isArray(swsScoredUniverse) && swsScoredUniverse.length)
+    ? swsScoredUniverse.length
+    : totalTickers.size;
+  updatePicksFilterSummary(shownTickers.size, totalUniverseSize);
 
   if (!totalShown) {
     const uniLabel = ({
