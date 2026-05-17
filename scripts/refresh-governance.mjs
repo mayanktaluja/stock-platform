@@ -76,6 +76,19 @@ async function main() {
   const ok = snap.counts?.ok ?? 0;
   const empty = snap.counts?.empty ?? 0;
 
+  if (result?.skipped) {
+    // saveGovernance refused to overwrite because the snapshot is an
+    // outage payload and an existing populated snapshot was already on
+    // disk / in KV. Surface this loudly + exit non-zero so the nightly
+    // wrapper (sws-nightly.sh) can decide whether to retry NSE.
+    console.warn(
+      `\n  ⚠  saveGovernance skipped: ${result.reason} ` +
+      `(fetched=${result.fetched}, existing=${result.existingCount}). ` +
+      `Likely an NSE outage / cookie expiry — last-good snapshot preserved.`
+    );
+    process.exit(2);
+  }
+
   console.log(
     `\n✓ Wrote ${result.target}${result.path ? " → " + result.path : ""} in ${elapsed}s`
   );
