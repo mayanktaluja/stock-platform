@@ -269,6 +269,43 @@ export async function listDeepTickers() {
   });
 }
 
+// Returns Map<bareTicker, {fair_value_inr, current_price_inr, upside_pct}>
+// for EVERY ticker in the current canonical snapshot run. Used by
+// /api/sws-picks to overwrite stale FV on pick cards with the freshly-
+// scraped snapshot value, so card and modal can never disagree on
+// "Fair value" for the same ticker. The `tickers` arg is accepted for
+// API symmetry with the JSON backend (which uses it to limit per-file
+// reads) but ignored here — pulling all canonical snapshots is one SQL
+// query and the result is memoised, so per-ticker filtering would only
+// add complexity. invalidateAll() (called from finaliseRun) clears this
+// cache the moment a new canonical run flips.
+export async function getSnapshotFvMap(_tickers) {
+  if (!isDbConfigured()) return new Map();
+  return memoize("canonical_snapshot_fv_map", 300, async () => {
+    const runId = await getCanonicalRunId();
+    if (!runId) return new Map();
+    const db = await getDb();
+    const rows = await db
+      .select({
+        ticker: swsCompanySnapshots.ticker,
+        fairValueInr: swsCompanySnapshots.fairValueInr,
+        currentPriceInr: swsCompanySnapshots.currentPriceInr,
+        upsidePct: swsCompanySnapshots.upsidePct,
+      })
+      .from(swsCompanySnapshots)
+      .where(eq(swsCompanySnapshots.runId, runId));
+    const map = new Map();
+    for (const r of rows) {
+      map.set(r.ticker, {
+        fair_value_inr: r.fairValueInr,
+        current_price_inr: r.currentPriceInr,
+        upside_pct: r.upsidePct,
+      });
+    }
+    return map;
+  });
+}
+
 // ── Universe ────────────────────────────────────────────────────────────
 
 export async function getScoredUniverse() {

@@ -258,3 +258,16 @@ export const getLastRefreshAsync = async () => {
   if (readFromDb() && isDbConfigured()) return sqlBackend.getLastRefresh();
   return jsonBackend.getLastRefresh();
 };
+
+// Returns Map<bareTicker, {fair_value_inr, current_price_inr, upside_pct}>
+// for the snapshot side of the canonical run. Used at /api/sws-picks
+// response time so a pick card's FV can be overwritten with the snapshot's
+// freshest value — closes the picks-vs-snapshots drift gap (the bug where
+// the homepage Earnings card and the stock modal disagreed on STAR's Fair
+// Value). SQL backend ignores the `tickers` arg and returns the whole
+// canonical map (one query, memoised). JSON backend uses `tickers` to
+// limit per-file deep-JSON reads to ~250 entries per response.
+export const getSnapshotFvMap = async (tickers) => {
+  if (readFromDb() && isDbConfigured()) return sqlBackend.getSnapshotFvMap(tickers);
+  return jsonBackend.getSnapshotFvMap(tickers);
+};

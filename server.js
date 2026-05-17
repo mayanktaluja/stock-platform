@@ -6483,22 +6483,58 @@ function enrichPickRow(it) {
 // sibling of picks-latest.json (atomic write). Mirrors the nifty500 injection
 // + enrichPickRow pattern used by /api/sws-picks so off-section search hits
 // render with the same card shape as curated rows.
-app.get("/api/sws-universe", (req, res) => {
+// Read-time picks/snapshot FV drift guard. Applied inside /api/sws-picks
+// and /api/sws-universe. The picks table (sws_picks.fair_value_inr) is
+// written by sws-scoring.mjs once per full pipeline run; the snapshot
+// table (sws_company_snapshots.fair_value_inr) is upserted per-ticker by
+// sws-api-parser.mjs on every scrape — including mid-day partial refreshes
+// that don't trigger a rescore. So the snapshot is the freshest source of
+// truth; when the two disagree the picks side is the stale one, and we
+// must prefer the snapshot at response time. Layer 2 (sws-verify-db-vs-
+// json --check picks-snapshot-fv) will catch the drift at pipeline-finalise
+// time so future runs can't ship a drifted canonical; this guard is the
+// runtime defence-in-depth that also hot-fixes the currently-drifted prod
+// state without waiting for the next nightly. See plan:
+// ~/.claude/plans/so-i-have-attached-virtual-sphinx.md
+function applyPicksFvDriftGuard(items, snapMap, counter) {
+  for (const it of items) {
+    if (!it || !it.ticker) continue;
+    const snap = snapMap.get(it.ticker);
+    if (!snap || !Number.isFinite(snap.fair_value_inr)) continue;
+    if (!Number.isFinite(it.fair_value_inr)) continue;
+    if (Math.abs(it.fair_value_inr - snap.fair_value_inr) <= 0.01) continue;
+    counter.count += 1;
+    console.warn(`[picks-fv-drift] ${it.ticker}: pick=${it.fair_value_inr} snap=${snap.fair_value_inr}`);
+    it._fv_drift = { pick: it.fair_value_inr, snap: snap.fair_value_inr };
+    it.fair_value_inr = snap.fair_value_inr;
+    if (Number.isFinite(snap.current_price_inr)) it.current_price_inr = snap.current_price_inr;
+    if (Number.isFinite(snap.upside_pct)) it.upside_pct = snap.upside_pct;
+    it.valuation_band = null; // forces enrichPickRow to recompute from fresh upside_pct
+  }
+}
+
+app.get("/api/sws-universe", async (req, res) => {
   const data = swsDal.getScoredUniverse();
   if (!data) return res.status(404).json({ error: "no_universe_yet", hint: "Run `node scripts/sws-build-scored-universe.mjs` to backfill, or wait for the next refresh." });
+  const driftCounter = { count: 0 };
   if (Array.isArray(data.stocks)) {
+    const tickers = data.stocks.map((it) => it?.ticker).filter(Boolean);
+    const snapMap = await swsDal.getSnapshotFvMap(tickers);
+    applyPicksFvDriftGuard(data.stocks, snapMap, driftCounter);
     for (const it of data.stocks) {
       stampIndexFlagsOnRow(it);
       enrichPickRow(it);
     }
   }
   data.indexConstituentsAvailable = NSE_INDEX_AVAILABLE;
+  data._meta = { ...(data._meta || {}), fv_drift_count: driftCounter.count };
   res.json(data);
 });
 
-app.get("/api/sws-picks", (req, res) => {
+app.get("/api/sws-picks", async (req, res) => {
   const data = swsDal.getPicksLatest();
   if (!data) return res.status(404).json({ error: "no_picks_yet", hint: "Run /sws-scan-shard 1/2/3 in Claude to start the initial scan." });
+  const driftCounter = { count: 0 };
   if (data.sections) {
     // PR 2.7 — pure-numeric BSE codes were leaking into Avoid + Deep Value
     // alongside NSE symbols. Filter them at the response boundary so the fix
@@ -6513,6 +6549,16 @@ app.get("/api/sws-picks", (req, res) => {
       return (Number.isFinite(upside) && upside >= 0) || (Number.isFinite(valSnow) && valSnow >= 4);
     };
 
+    // Collect every ticker across every section in one pass so the snapshot
+    // FV lookup is a single bulk call (SQL: one SELECT; JSON: one disk read
+    // per unique ticker, mtime-cached).
+    const allTickers = [...new Set(
+      Object.values(data.sections).flatMap((arr) =>
+        Array.isArray(arr) ? arr.map((it) => it?.ticker).filter(Boolean) : [],
+      ),
+    )];
+    const snapMap = await swsDal.getSnapshotFvMap(allTickers);
+
     for (const [key, items] of Object.entries(data.sections)) {
       if (!Array.isArray(items)) continue;
       // Filter once, in-place — keeps the per-section count fields the UI
@@ -6520,6 +6566,7 @@ app.get("/api/sws-picks", (req, res) => {
       let filtered = items.filter((it) => it && it.ticker && !isPureBSEcode(it.ticker));
       if (key === "dividend_aristocrats") filtered = filtered.filter(passesDividendGate);
       data.sections[key] = filtered;
+      applyPicksFvDriftGuard(filtered, snapMap, driftCounter);
       for (const it of filtered) {
         stampIndexFlagsOnRow(it);
         enrichPickRow(it);
@@ -6531,6 +6578,7 @@ app.get("/api/sws-picks", (req, res) => {
   data.last_refresh = swsDal.getLastRefresh();
   data.shard_progress_api = swsDal.getAllShardProgressApi();
   data.indexConstituentsAvailable = NSE_INDEX_AVAILABLE;
+  data._meta = { ...(data._meta || {}), fv_drift_count: driftCounter.count };
   res.json(data);
 });
 

@@ -118,6 +118,37 @@ export function listDeepTickers() {
   }
 }
 
+// Returns Map<bareTicker, {fair_value_inr, current_price_inr, upside_pct}>
+// from the deep/<T>.json overview block for each requested ticker. This is
+// the JSON-backend equivalent of sqlBackend.getSnapshotFvMap — purpose is
+// the read-time picks/snapshot FV drift guard at /api/sws-picks. We read
+// only the requested tickers (not all ~5,500 deep files) so cold-call cost
+// stays bounded by the picks-response cardinality (~250 tickers across 11
+// sections). readDeepByKey is mtime-cached so repeat polls are free.
+export async function getSnapshotFvMap(tickers) {
+  const map = new Map();
+  if (!Array.isArray(tickers) || tickers.length === 0) return map;
+  const seen = new Set();
+  for (const t of tickers) {
+    const key = normaliseTickerKey(t);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    let deep;
+    try {
+      deep = readDeepByKey(key);
+    } catch {
+      continue;
+    }
+    const ov = (deep && deep.overview) || {};
+    map.set(key, {
+      fair_value_inr: typeof ov.fair_value_inr === "number" ? ov.fair_value_inr : null,
+      current_price_inr: typeof ov.current_price_inr === "number" ? ov.current_price_inr : null,
+      upside_pct: typeof ov.upside_pct === "number" ? ov.upside_pct : null,
+    });
+  }
+  return map;
+}
+
 export function getV3UniverseStats() {
   const raw = readV3UniverseRaw();
   if (!raw) return null;
