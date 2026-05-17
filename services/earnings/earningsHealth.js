@@ -70,6 +70,78 @@ function predictorVersionDistribution(watchEvents) {
   return dist;
 }
 
+// Picks-vs-snapshots Fair-Value drift surface. Two inputs:
+//   * picksFvDriftReport  — JSON written by sws-verify-db-vs-json.mjs
+//     --check picks-snapshot-fv at pipeline-finalise time. Shape:
+//     { run_id, checked_at, drifted_count, drifted_top: [...] }
+//   * picksFvDriftJsonl    — newline-delimited entries appended by
+//     scripts/probe-picks-fv-drift.mjs every 15 min. Each line:
+//     { ts, fv_drift_count, source: "probe" }
+// Pure function — the runner does the disk reads.
+function summarisePicksFvDrift({ picksFvDriftReport, picksFvDriftJsonl, nowIso }) {
+  const out = {
+    pipeline: null,
+    runtime_24h: null,
+    alert: null,
+  };
+
+  if (picksFvDriftReport && typeof picksFvDriftReport === "object") {
+    out.pipeline = {
+      run_id: picksFvDriftReport.run_id || null,
+      checked_at: picksFvDriftReport.checked_at || null,
+      drifted_count: Number(picksFvDriftReport.drifted_count) || 0,
+      top_tickers: Array.isArray(picksFvDriftReport.drifted_top)
+        ? picksFvDriftReport.drifted_top.slice(0, 5).map((d) => d && d.ticker).filter(Boolean)
+        : [],
+    };
+  }
+
+  if (Array.isArray(picksFvDriftJsonl) && picksFvDriftJsonl.length > 0) {
+    const cutoff = new Date(nowIso || new Date().toISOString()).getTime() - 24 * 3600 * 1000;
+    let max = 0;
+    let latest = null;
+    let samples = 0;
+    for (const entry of picksFvDriftJsonl) {
+      if (!entry || typeof entry !== "object") continue;
+      const ts = Date.parse(entry.ts);
+      if (!Number.isFinite(ts) || ts < cutoff) continue;
+      samples += 1;
+      const v = Number(entry.fv_drift_count);
+      if (Number.isFinite(v)) {
+        if (v > max) max = v;
+        if (!latest || ts > Date.parse(latest.ts)) latest = entry;
+      }
+    }
+    if (samples > 0) {
+      out.runtime_24h = {
+        samples,
+        max_drift_count: max,
+        latest_ts: latest ? latest.ts : null,
+        latest_drift_count: latest ? Number(latest.fv_drift_count) || 0 : 0,
+      };
+    }
+  }
+
+  const pipelineDrift = out.pipeline ? out.pipeline.drifted_count : 0;
+  const runtimeMax = out.runtime_24h ? out.runtime_24h.max_drift_count : 0;
+  if (pipelineDrift > 0 || runtimeMax > 0) {
+    const parts = [];
+    if (pipelineDrift > 0) {
+      const tops = out.pipeline.top_tickers.length > 0 ? ` (e.g. ${out.pipeline.top_tickers.join(", ")})` : "";
+      parts.push(`pipeline check found ${pipelineDrift} ticker(s)${tops}`);
+    }
+    if (runtimeMax > 0) {
+      parts.push(`runtime probe peak ${runtimeMax} in last 24h`);
+    }
+    out.alert =
+      `picks/snapshot Fair-Value drift detected: ${parts.join(" · ")} — ` +
+      `see ~/.claude/plans/so-i-have-attached-virtual-sphinx.md, or run ` +
+      `\`node scripts/sws-verify-db-vs-json.mjs --check picks-snapshot-fv\` ` +
+      `against the canonical run to inspect`;
+  }
+  return out;
+}
+
 // Rows whose actual_verdict was revised after first resolution.
 function findRestatements(history) {
   const seen = new Set();
@@ -261,7 +333,7 @@ function summariseMacroRegime(macroRegime, nowIso) {
  * @returns {object} the health summary
  */
 export function buildHealthSummary(args = {}) {
-  const { history = [], backtestSnapshot = null, watchEvents = [], priorHealth = null, sourceConflictLog = [], macroRegime = null, llmStats = null } = args;
+  const { history = [], backtestSnapshot = null, watchEvents = [], priorHealth = null, sourceConflictLog = [], macroRegime = null, llmStats = null, picksFvDriftReport = null, picksFvDriftJsonl = null } = args;
   const nowIso = args.nowIso || new Date().toISOString();
 
   const resolvedCount = countResolved(history);
@@ -271,6 +343,7 @@ export function buildHealthSummary(args = {}) {
   const schema = archiveSchemaDistribution(history);
   const predictorVersions = predictorVersionDistribution(watchEvents);
   const restatements = findRestatements(history);
+  const picksFvDrift = summarisePicksFvDrift({ picksFvDriftReport, picksFvDriftJsonl, nowIso });
   // P2.6 source-disagreement summary + P4.4 insufficient-data tracker.
   const sourceConflicts = summariseSourceConflicts(sourceConflictLog, history, nowIso);
   const insufficientData = summariseInsufficientData(history, nowIso);
@@ -353,6 +426,11 @@ export function buildHealthSummary(args = {}) {
   if (macroRegimeFreshness.alert) {
     alerts.push(macroRegimeFreshness.alert);
   }
+  // picks/snapshot FV drift — surfaces both the pipeline-time check
+  // and the runtime probe so a regression in either pathway alerts.
+  if (picksFvDrift.alert) {
+    alerts.push(picksFvDrift.alert);
+  }
 
   // PR3 — structured llm_offline flag for the snapshot API. The UI
   // renders a "qualitative signal: deterministic-only" pill when this
@@ -382,6 +460,7 @@ export function buildHealthSummary(args = {}) {
     source_conflicts: sourceConflicts,
     insufficient_data: insufficientData,
     macro_regime: macroRegimeFreshness,
+    picks_snapshot_fv_drift: picksFvDrift,
     history_files: (history || []).length,
     alerts,
     healthy: alerts.length === 0,
