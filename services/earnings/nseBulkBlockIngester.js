@@ -20,6 +20,38 @@
  * before result".
  *
  * MUST run locally — NSE rejects Vercel datacenter IPs.
+ *
+ * ─────────────────────────────────────────────────────────────────────
+ * SCHEMA CONTRACT (pinned by test/nseBulkBlockSchema.test.mjs — PR-D2)
+ * ─────────────────────────────────────────────────────────────────────
+ *
+ * data/catalysts/nse-bulk-block-rolling.json (on-disk, snake_case):
+ *   {
+ *     schema_version: "nse-bulk-block-rolling-v1",
+ *     built_at:       ISO string | null,
+ *     window_days:    7,
+ *     deal_count:     number  // === deals.length
+ *     deals: [
+ *       { symbol, name, date_iso, client_name, side: "BUY"|"SELL",
+ *         qty, avg_price_inr, notional_inr, kind: "BULK"|"BLOCK",
+ *         remarks }
+ *     ]
+ *   }
+ *
+ * In-memory per-symbol rollup from buildPerSymbolDealIndex(rolling):
+ *   Map<symbol, {
+ *     net_buys, net_sells, net_qty, net_notional_inr,
+ *     bulk_count, block_count,      // ← what signalAggregator reads
+ *     last_deal_date_iso, deals
+ *   }>
+ *
+ * Consumers (verified 2026-05-18):
+ *   - scripts/refresh-nse-corporate.mjs   reads `deal_count` from JSON
+ *   - services/earnings/signalAggregator  reads `bulk_count`/`block_count`
+ *                                         from the IN-MEMORY rollup (not JSON)
+ *
+ * If you bump the schema, bump `schema_version` AND update the regression
+ * test AND every downstream consumer in the same PR.
  */
 
 import fs from "node:fs";
@@ -116,10 +148,12 @@ export async function fetchTodaysDeals() {
 
 /**
  * Read the rolling-window cache. Returns empty-shape default if
- * missing.
+ * missing. Pass `opts.path` to read from a non-default location
+ * (only used by the schema regression test, never in production).
  */
-export function loadDealsRolling() {
-  if (!fs.existsSync(ROLLING_PATH)) {
+export function loadDealsRolling(opts = {}) {
+  const filePath = opts.path || ROLLING_PATH;
+  if (!fs.existsSync(filePath)) {
     return {
       schema_version: "nse-bulk-block-rolling-v1",
       built_at: null,
@@ -129,7 +163,7 @@ export function loadDealsRolling() {
     };
   }
   try {
-    return JSON.parse(fs.readFileSync(ROLLING_PATH, "utf8"));
+    return JSON.parse(fs.readFileSync(filePath, "utf8"));
   } catch {
     return null;
   }
@@ -169,11 +203,12 @@ export function mergeIntoRolling(rolling, freshBulk, freshBlock) {
   };
 }
 
-export function writeDealsRolling(payload) {
-  fs.mkdirSync(path.dirname(ROLLING_PATH), { recursive: true });
-  const tmp = ROLLING_PATH + ".tmp." + process.pid;
+export function writeDealsRolling(payload, opts = {}) {
+  const filePath = opts.path || ROLLING_PATH;
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  const tmp = filePath + ".tmp." + process.pid;
   fs.writeFileSync(tmp, JSON.stringify(payload, null, 2));
-  fs.renameSync(tmp, ROLLING_PATH);
+  fs.renameSync(tmp, filePath);
 }
 
 /**
