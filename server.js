@@ -364,6 +364,17 @@ app.use(
       directives: {
         "default-src": ["'self'"],
         "script-src": ["'self'", "'unsafe-inline'"],
+        // script-src-attr controls inline event-handler ATTRIBUTES
+        // (onclick="…", onmouseover="…", …). Helmet's default is 'none'
+        // which blocks EVERY inline handler — even when script-src allows
+        // 'unsafe-inline'. The gated UI relies on ~28 inline onclick
+        // handlers (SWS Picks section headers, chip nav, card clicks,
+        // dividend-list collapse, etc.). Without this directive the
+        // entire SWS Picks tab silently dies: sections won't expand,
+        // chips don't jump, cards don't open the modal. Mirror script-
+        // src's 'unsafe-inline' here until the follow-up addEventListener
+        // refactor lands.
+        "script-src-attr": ["'unsafe-inline'"],
         "style-src": [
           "'self'",
           "'unsafe-inline'",
