@@ -11,6 +11,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 import { mtimeCached, mtimeCachedByKey } from "./cache.js";
@@ -18,12 +19,56 @@ import { mtimeCached, mtimeCachedByKey } from "./cache.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
 export const DATA_DIR = path.join(REPO_ROOT, "data", "sws");
+// DEEP_DIR is the initial "where I look for deep/ first" path. On Vercel
+// cold-start the bundled deep/ tree isn't present (Vercel's 15k source-file
+// cap rejects 5,517 individual JSONs); the function only ships the packed
+// `deep.tar.gz`. ensureDeepExtracted() lazy-extracts that tarball into
+// /tmp on first read and redirects subsequent lookups to the extract path.
 export const DEEP_DIR = path.join(DATA_DIR, "deep");
+const DEEP_TARBALL = path.join(DATA_DIR, "deep.tar.gz");
+const DEEP_EXTRACT_BASE = "/tmp/sws-deep"; // Vercel /tmp is the only writable dir (~500 MB cap)
 
 const PICKS_LATEST_PATH = path.join(DATA_DIR, "picks-latest.json");
 const SCORED_UNIVERSE_PATH = path.join(DATA_DIR, "sws-scored-universe.json");
 const LAST_REFRESH_PATH = path.join(DATA_DIR, "last-refresh.json");
 const V3_UNIVERSE_PATH = path.join(DATA_DIR, "v3-universe-stats.json");
+
+let _runtimeDeepDir = DEEP_DIR;
+let _deepExtracted = false;
+
+// Resolve the runtime deep/ path. In local dev + nightly env the disk
+// directory exists with 5,517 ticker JSONs — used as-is. On Vercel the
+// directory is empty/missing; we extract the bundled tarball to /tmp once
+// per container lifetime and serve from there.
+function ensureDeepDir() {
+  if (_deepExtracted) return _runtimeDeepDir;
+  try {
+    const entries = fs.readdirSync(DEEP_DIR);
+    if (entries.some((f) => f.endsWith(".json"))) {
+      _deepExtracted = true;
+      return _runtimeDeepDir;
+    }
+  } catch {
+    // dir missing — fall through to tarball extract
+  }
+  if (fs.existsSync(DEEP_TARBALL)) {
+    try {
+      // rm + mkdir is cheap and idempotent: handles a stale /tmp from a
+      // recycled Vercel container where the previous deploy's extract lingered.
+      fs.rmSync(DEEP_EXTRACT_BASE, { recursive: true, force: true });
+      fs.mkdirSync(DEEP_EXTRACT_BASE, { recursive: true });
+      execSync(`tar -xzf "${DEEP_TARBALL}" -C "${DEEP_EXTRACT_BASE}"`, {
+        stdio: ["ignore", "ignore", "pipe"],
+      });
+      _runtimeDeepDir = path.join(DEEP_EXTRACT_BASE, "deep");
+      console.log(`[swsDal/jsonBackend] extracted deep tarball to ${_runtimeDeepDir}`);
+    } catch (err) {
+      console.warn(`[swsDal/jsonBackend] tarball extract failed: ${err.message}`);
+    }
+  }
+  _deepExtracted = true;
+  return _runtimeDeepDir;
+}
 
 function readJson(fp) {
   const raw = fs.readFileSync(fp, "utf-8");
@@ -38,7 +83,7 @@ const readLastRefresh = mtimeCached(LAST_REFRESH_PATH, readJson);
 const readV3UniverseRaw = mtimeCached(V3_UNIVERSE_PATH, readJson);
 
 const readDeepByKey = mtimeCachedByKey(
-  (key) => (key ? path.join(DEEP_DIR, `${key}.json`) : null),
+  (key) => (key ? path.join(ensureDeepDir(), `${key}.json`) : null),
   readJson,
 );
 
@@ -110,7 +155,7 @@ export function getStockByTicker(ticker) {
 export function listDeepTickers() {
   try {
     return fs
-      .readdirSync(DEEP_DIR)
+      .readdirSync(ensureDeepDir())
       .filter((f) => f.endsWith(".json"))
       .map((f) => f.replace(/\.json$/, ""));
   } catch {
@@ -195,10 +240,11 @@ export function getAllShardProgressApi() {
 // this to a single `SELECT sector, avg(returns_1m_pct) ... GROUP BY sector`
 // — the single biggest perf win in the migration.
 export function getSectorMomentum() {
-  if (!fs.existsSync(DEEP_DIR)) return { map: new Map(), scanned: 0 };
+  const dir = ensureDeepDir();
+  if (!fs.existsSync(dir)) return { map: new Map(), scanned: 0 };
   let entries;
   try {
-    entries = fs.readdirSync(DEEP_DIR);
+    entries = fs.readdirSync(dir);
   } catch {
     return { map: new Map(), scanned: 0 };
   }
@@ -208,7 +254,7 @@ export function getSectorMomentum() {
     if (!file.endsWith(".json")) continue;
     let stock;
     try {
-      stock = JSON.parse(fs.readFileSync(path.join(DEEP_DIR, file), "utf-8"));
+      stock = JSON.parse(fs.readFileSync(path.join(dir, file), "utf-8"));
     } catch {
       continue;
     }
