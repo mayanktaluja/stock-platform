@@ -6493,6 +6493,68 @@ if (!process.env.VERCEL) {
       swsDal.warmUpEssentials().catch((e) => console.error("[SWS-DAL] warmUp refresh failed:", e.message));
     }, 10 * 60 * 1000);
 
+    // Hourly earnings-health refresh — closes the up-to-14h staleness gap
+    // between the twice-daily sws-nightly.sh runs that previously owned
+    // this file. UI banners read data/catalysts/earnings-health.json
+    // directly, so a stale file means stale "pipeline healthy" / alert
+    // indicators all day. The refresh is cheap (local file reads + pure
+    // aggregation in services/earnings/earningsHealth.js — no Yahoo / LLM
+    // calls), so a 60-min cadence costs effectively nothing.
+    //
+    // Skipped under NODE_ENV=test (suite mustn't rewrite the tracked
+    // file, same reasoning as the macro-regime block above) and under
+    // SKIP_HEALTH_REFRESH=1 (escape hatch for one-off local boots).
+    if (!isTestEnv && process.env.SKIP_HEALTH_REFRESH !== "1") {
+      const refreshEarningsHealthInProcess = async () => {
+        try {
+          const [{ loadAllHistory }, { buildHealthSummary }] = await Promise.all([
+            import("./services/earnings/earningsHistoryArchive.js"),
+            import("./services/earnings/earningsHealth.js"),
+          ]);
+          const CATALYSTS_DIR = path.join(__dirname, "data", "catalysts");
+          const readJsonSafe = (p) => {
+            try { return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, "utf8")) : null; }
+            catch { return null; }
+          };
+          const readJsonlSafe = (p) => {
+            try {
+              if (!fs.existsSync(p)) return [];
+              const out = [];
+              for (const line of fs.readFileSync(p, "utf8").split("\n")) {
+                const t = line.trim();
+                if (!t) continue;
+                try { out.push(JSON.parse(t)); } catch { /* ignore */ }
+              }
+              return out;
+            } catch { return []; }
+          };
+          const HEALTH_PATH = path.join(CATALYSTS_DIR, "earnings-health.json");
+          const watch = readJsonSafe(path.join(CATALYSTS_DIR, "earnings-watch-latest.json"));
+          const watchStats = readJsonSafe(path.join(CATALYSTS_DIR, "earnings-watch-stats.json"));
+          const health = buildHealthSummary({
+            history: loadAllHistory(),
+            backtestSnapshot: readJsonSafe(path.join(CATALYSTS_DIR, "earnings-backtest-latest.json")),
+            watchEvents: watch && Array.isArray(watch.events) ? watch.events : [],
+            llmStats: watchStats?.llm_stats || null,
+            priorHealth: readJsonSafe(HEALTH_PATH),
+            macroRegime: readJsonSafe(path.join(__dirname, "data", "macroRegime.json")),
+            picksFvDriftReport: readJsonSafe(path.join(__dirname, "data", "sws", "health", "picks-snapshot-fv-drift.json")),
+            picksFvDriftJsonl: readJsonlSafe(path.join(__dirname, "data", "sws", "health", "picks-fv-drift-24h.jsonl")),
+          });
+          fs.mkdirSync(path.dirname(HEALTH_PATH), { recursive: true });
+          const tmp = HEALTH_PATH + ".tmp." + process.pid;
+          fs.writeFileSync(tmp, JSON.stringify(health, null, 2));
+          fs.renameSync(tmp, HEALTH_PATH);
+        } catch (e) {
+          console.warn("[earnings-health] hourly refresh failed:", e.message);
+        }
+      };
+      setInterval(refreshEarningsHealthInProcess, 60 * 60 * 1000);
+      // Seed once 30s after startup so the file is fresh on boot too,
+      // without blocking the listener-callback critical path.
+      setTimeout(refreshEarningsHealthInProcess, 30_000);
+    }
+
     console.log("");
   });
 }
