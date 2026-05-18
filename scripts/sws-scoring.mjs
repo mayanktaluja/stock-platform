@@ -672,7 +672,22 @@ function shortReason(stock, reconciled = null) {
 // -3671% / +1316%. Without this guard the Avoid list would surface "FV ₹442
 // vs ₹31, +1316% upside" rows that are visually loud and informationally
 // useless.
-function _reconcilePickFV(ov) {
+// Returns { upside_pct, fair_value_inr, fv_reconcile_reason }. The reason
+// is one of:
+//   - "ok"                       FV passed all sanity gates, kept as-is
+//   - "ok_using_provided_upside" raw upside agrees with computed; kept raw
+//   - "source_fv_missing"        deep file had no fair_value_inr / non-positive
+//   - "source_price_missing"     deep file had no current_price_inr / non-positive
+//   - "junk_ratio_low"           FV/price < 0.2 → scraper artefact, suppressed
+//   - "junk_ratio_high"          FV/price > 5   → scraper artefact, suppressed
+//
+// PR-A2 (2026-05-18): the `fv_reconcile_reason` field was added in response
+// to audit finding #4 — "28% of upcoming_earnings rows have null FV". The
+// raw count was correct; the *interpretation* was wrong (this guard is doing
+// its job, not leaking). Surfacing the reason in the card output lets any
+// future audit instantly tell "source genuinely missing" apart from "scraper
+// junk suppressed", without re-walking the deep/ JSON tree.
+export function _reconcilePickFV(ov) {
   const price = num(ov?.current_price_inr, null);
   const rawFv = num(ov?.fair_value_inr, null);
   const rawUp = num(ov?.upside_pct, null);
@@ -680,7 +695,11 @@ function _reconcilePickFV(ov) {
   // calls cluster in the +30–100% band, so anything above +400% is almost
   // certainly a scraper artefact bleeding into a public-facing card.
   const inSaneRange = (v) => v != null && Number.isFinite(v) && v >= -90 && v <= 400;
-  if (price != null && price > 0 && rawFv != null && rawFv > 0) {
+
+  const priceOk = price != null && price > 0;
+  const fvOk = rawFv != null && rawFv > 0;
+
+  if (priceOk && fvOk) {
     const ratio = rawFv / price;
     // 0.2 / 5 → upside band [-80%, +400%]. A stock fairly valued at 5× the
     // current price is exceptionally rare; in SWS scrapes it's almost always
@@ -689,19 +708,39 @@ function _reconcilePickFV(ov) {
     if (ratio >= 0.2 && ratio <= 5) {
       const computed = ((rawFv - price) / price) * 100;
       if (Math.abs(computed) <= 1 && inSaneRange(rawUp)) {
-        return { upside_pct: Math.round(rawUp * 10) / 10, fair_value_inr: rawFv };
+        return {
+          upside_pct: Math.round(rawUp * 10) / 10,
+          fair_value_inr: rawFv,
+          fv_reconcile_reason: "ok_using_provided_upside",
+        };
       }
-      return { upside_pct: Math.round(computed * 10) / 10, fair_value_inr: rawFv };
+      return {
+        upside_pct: Math.round(computed * 10) / 10,
+        fair_value_inr: rawFv,
+        fv_reconcile_reason: "ok",
+      };
     }
-    return { upside_pct: null, fair_value_inr: null };
+    return {
+      upside_pct: null,
+      fair_value_inr: null,
+      fv_reconcile_reason: ratio < 0.2 ? "junk_ratio_low" : "junk_ratio_high",
+    };
   }
+
+  // Source-side problems. We still preserve a sane upside_pct if SWS gave one,
+  // but the FV itself can only fall through when present (it must be > 0).
   return {
     upside_pct: inSaneRange(rawUp) ? Math.round(rawUp * 10) / 10 : null,
-    fair_value_inr: rawFv,
+    fair_value_inr: fvOk ? rawFv : null,
+    fv_reconcile_reason: !priceOk
+      ? "source_price_missing"
+      : !fvOk
+        ? "source_fv_missing"
+        : "ok",
   };
 }
 
-function pickCardFields(stock) {
+export function pickCardFields(stock) {
   const ov = stock.overview || {};
   const reconciled = _reconcilePickFV(ov);
   return {
@@ -729,6 +768,7 @@ function pickCardFields(stock) {
     current_price_inr: ov.current_price_inr,
     fair_value_inr: reconciled.fair_value_inr,
     upside_pct: reconciled.upside_pct,
+    fv_reconcile_reason: reconciled.fv_reconcile_reason,
     market_cap_inr: ov.market_cap_inr,
     next_earnings_date: ov.next_earnings_date,
     last_quarter_result: ov.last_quarter_result,
