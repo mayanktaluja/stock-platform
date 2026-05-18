@@ -19,6 +19,7 @@ import helmet from "helmet";
 import { createBreaker } from "./services/externalApiBreaker.js";
 import { loadRiskLabViewMap, buildLabViewForEvent } from "./services/riskLab/earningsLabView.js";
 import { buildSizingDecision } from "./services/riskLab/positionSizing.js";
+import { loadHitRateSummary } from "./services/earnings/hitRateSummary.js";
 
 // External-API circuit breaker for /api/sector-heatmap (Yahoo Finance batch
 // quote). 3 consecutive failures → opens for 60s; serves stale cached
@@ -2860,11 +2861,22 @@ app.get("/api/earnings/upcoming", async (req, res) => {
 app.get("/api/earnings/upcoming/stats", async (req, res) => {
   try {
     const cacheKey = "earnings_stats";
-    const cached = earningsCache.get(cacheKey);
-    if (cached) return res.json(cached);
-    const stats = loadEarningsStats();
-    earningsCache.set(cacheKey, stats);
-    res.json(stats);
+    let stats = earningsCache.get(cacheKey);
+    if (!stats) {
+      stats = loadEarningsStats();
+      earningsCache.set(cacheKey, stats);
+    }
+    // PR A3 — attach hit_rate_summary (strict + lenient + catastrophic
+    // with CIs) on-demand. Computed from earnings-history files, cached
+    // by file mtime inside the loader. Catastrophic alert (rolling-30
+    // > 12%) is the SEBI-RA-relevant flag for promotion gating.
+    let hit_rate_summary = null;
+    try {
+      hit_rate_summary = loadHitRateSummary();
+    } catch (err) {
+      console.warn("[/api/earnings/upcoming/stats] hit-rate summary failed:", err.message);
+    }
+    res.json({ ...stats, hit_rate_summary });
   } catch (err) {
     console.error("[/api/earnings/upcoming/stats] failed:", err);
     res.status(500).json({ error: err.message });

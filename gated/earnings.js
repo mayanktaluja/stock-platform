@@ -150,13 +150,80 @@
     ];
 
     const cellHtml = (c) => `
-      <div title="${escHtml(c.title || "")}" style="background:var(--panel,#0f1422); border:1px solid #1a2233; border-radius:8px; padding:8px 12px; min-width:90px;">
+      <div data-testid="${c.testId || ""}" title="${escHtml(c.title || "")}" style="background:var(--panel,#0f1422); border:1px solid #1a2233; border-radius:8px; padding:8px 12px; min-width:90px;">
         <div style="font-size:10px; color:var(--text-muted); letter-spacing:0.04em; text-transform:uppercase;">${escHtml(c.label)}</div>
         <div style="font-size:18px; font-weight:600; color:${c.accent}; margin-top:2px;">${c.value}</div>
+        ${c.sub ? `<div style="font-size:9px; color:var(--text-muted); margin-top:2px;">${escHtml(c.sub)}</div>` : ""}
       </div>`;
+
+    // PR A3 — 3-metric hit-rate row (strict / lenient / catastrophic).
+    // Surfaces SEBI Reg 19 disclosure of past performance with bootstrap
+    // CIs. The catastrophic cell is the money-losing metric and goes red
+    // when the rolling-30 alert fires; the strict + lenient cells use the
+    // overall sample.
+    const hr = stats.hit_rate_summary;
+    const hitRateCells = hr
+      ? [
+          {
+            testId: "hit-rate-strict",
+            label: "Hit rate (strict)",
+            value: hr.strict?.hit_rate_pct != null ? `${hr.strict.hit_rate_pct}%` : "—",
+            sub: hr.strict?.sample_size != null
+              ? `n=${hr.strict.sample_size}${
+                  hr.strict.ci_low_pct != null && hr.strict.ci_high_pct != null
+                    ? ` · CI ${hr.strict.ci_low_pct}–${hr.strict.ci_high_pct}%`
+                    : ""
+                }`
+              : "—",
+            accent: "#86efac",
+            title: "Exact verdict match (BEAT=BEAT etc.). The harsh truth metric.",
+          },
+          {
+            testId: "hit-rate-lenient",
+            label: "Hit rate (lenient)",
+            value: hr.lenient?.hit_rate_pct != null ? `${hr.lenient.hit_rate_pct}%` : "—",
+            sub: hr.lenient?.sample_size != null
+              ? `n=${hr.lenient.sample_size}${
+                  hr.lenient.ci_low_pct != null && hr.lenient.ci_high_pct != null
+                    ? ` · CI ${hr.lenient.ci_low_pct}–${hr.lenient.ci_high_pct}%`
+                    : ""
+                }`
+              : "—",
+            accent: "#fbbf24",
+            title: "Off-by-one OK (BEAT predicted, INLINE actual = hit). Directional accuracy.",
+          },
+          {
+            testId: "hit-rate-catastrophic",
+            label: "Catastrophic rate",
+            value: hr.catastrophic?.rate_pct != null ? `${hr.catastrophic.rate_pct}%` : "—",
+            sub:
+              (hr.catastrophic?.sample_size != null
+                ? `n=${hr.catastrophic.sample_size}${
+                    hr.catastrophic.ci_low_pct != null && hr.catastrophic.ci_high_pct != null
+                      ? ` · CI ${hr.catastrophic.ci_low_pct}–${hr.catastrophic.ci_high_pct}%`
+                      : ""
+                  }`
+                : "—") +
+              (hr.rolling_30
+                ? ` · rolling-30 ${hr.rolling_30.catastrophic_rate_pct}%${
+                    hr.catastrophic_alert ? " ⚠" : ""
+                  }`
+                : ""),
+            accent: hr.catastrophic_alert ? "#f87171" : "#fca5a5",
+            title:
+              "BEAT↔MISS reversals (off-by-2) — the metric tied to real ₹ loss. " +
+              `Alert fires when rolling-30 > ${hr.catastrophic_alert_threshold_pct ?? 12}%.`,
+          },
+        ]
+      : [];
+
+    const hitRateRow = hitRateCells.length
+      ? `<div data-testid="hit-rate-row" style="display:flex; gap:10px; flex-wrap:wrap; width:100%; margin-top:8px;">${hitRateCells.map(cellHtml).join("")}</div>`
+      : "";
 
     el.innerHTML = `
       <div style="display:flex; gap:10px; flex-wrap:wrap; width:100%;">${dateCells.map(cellHtml).join("")}</div>
+      ${hitRateRow}
       <div style="display:flex; gap:10px; flex-wrap:wrap; width:100%; margin-top:8px;">${verdictCells.map(cellHtml).join("")}</div>
       <div style="display:flex; gap:10px; flex-wrap:wrap; width:100%; margin-top:8px;">${qualityCells.map(cellHtml).join("")}</div>
     `;
