@@ -873,6 +873,17 @@
     }
     .sws-pick-card { position: relative; }
 
+    /* P2-12 — bull/base/bear cell fallback for INSUFFICIENT_DATA predictions.
+     * The builder deliberately sets all three cells to null when it has no
+     * usable signal; the renderer surfaces them as `n/a` with a tooltip so
+     * the strip stays present (empty cells looked like a render bug). */
+    .band-na {
+      color: var(--text-muted);
+      font-style: italic;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
     /* PR E4 — Earnings filter popover styling.
      * The native `summary::-webkit-details-marker` and `summary::marker`
      * arrows clash with the inline ▾ glyph in the markup; hide both. */

@@ -709,29 +709,42 @@
   }
 
   function renderPriceBand(band) {
-    if (!band || !band.bull || !band.base || !band.bear) return "";
-    const fmt = (cell) => {
-      if (band.anchored && cell.price_inr != null) {
-        return `₹${cell.price_inr.toLocaleString("en-IN")}`;
+    if (!band) return "";
+    // INSUFFICIENT_DATA (and any other basis where the builder set all three
+    // cells to null) carries semantic meaning — "no projected upper/lower
+    // bound, the model didn't have enough to score this print". Empty cells
+    // looked like a render bug; instead we surface `n/a` per cell with a
+    // tooltip explaining why. `.band-na` is styled in gated/index.html.
+    const naTitle = "insufficient data — no projected upper or lower bound";
+    const fmt = (cell, role) => {
+      if (!cell || cell.pct == null) {
+        return `<span class="band-na" title="${naTitle}">n/a</span>`;
       }
+      const label = band.anchored && cell.price_inr != null
+        ? `₹${cell.price_inr.toLocaleString("en-IN")}`
+        : `${cell.pct >= 0 ? "+" : ""}${cell.pct}%`;
+      return escHtml(label);
+    };
+    const pctLabel = (cell) => {
+      if (!cell || cell.pct == null) return "—";
       return `${cell.pct >= 0 ? "+" : ""}${cell.pct}%`;
     };
     return `
       <div style="display:flex; gap:8px; padding-top:8px; border-top:1px dashed #1a2233; font-size:11px;">
         <div style="flex:1; min-width:0;">
           <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">Bear</div>
-          <div style="font-weight:600; color:#fca5a5;">${escHtml(fmt(band.bear))}</div>
-          <div style="font-size:10px; color:var(--text-muted);">${band.bear.pct >= 0 ? "+" : ""}${band.bear.pct}%</div>
+          <div style="font-weight:600; color:#fca5a5;">${fmt(band.bear, "bear")}</div>
+          <div style="font-size:10px; color:var(--text-muted);">${pctLabel(band.bear)}</div>
         </div>
         <div style="flex:1; min-width:0;">
           <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">Base</div>
-          <div style="font-weight:600; color:#cbd5e1;">${escHtml(fmt(band.base))}</div>
-          <div style="font-size:10px; color:var(--text-muted);">${band.base.pct >= 0 ? "+" : ""}${band.base.pct}%</div>
+          <div style="font-weight:600; color:#cbd5e1;">${fmt(band.base, "base")}</div>
+          <div style="font-size:10px; color:var(--text-muted);">${pctLabel(band.base)}</div>
         </div>
         <div style="flex:1; min-width:0;">
           <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">Bull</div>
-          <div style="font-weight:600; color:#86efac;">${escHtml(fmt(band.bull))}</div>
-          <div style="font-size:10px; color:var(--text-muted);">${band.bull.pct >= 0 ? "+" : ""}${band.bull.pct}%</div>
+          <div style="font-weight:600; color:#86efac;">${fmt(band.bull, "bull")}</div>
+          <div style="font-size:10px; color:var(--text-muted);">${pctLabel(band.bull)}</div>
         </div>
       </div>`;
   }
@@ -1589,12 +1602,22 @@
         </span>`;
     }
     let bandFrag = "";
-    if (priceBand && priceBand.bear && priceBand.base && priceBand.bull) {
+    if (priceBand) {
+      // INSUFFICIENT_DATA leaves all three cells null but the band object
+      // still exists — show `n/a` per cell (with tooltip) instead of hiding
+      // the whole strip, so the prediction stays explained.
+      const naTitle = "insufficient data — no projected upper or lower bound";
       const cell = (label, c, color) => {
-        const val = priceBand.anchored && c.price_inr != null
-          ? `₹${c.price_inr.toLocaleString("en-IN")}`
-          : `${c.pct >= 0 ? "+" : ""}${c.pct}%`;
-        return `<span style="color:var(--text-muted); font-size:11px;">${label} <span style="color:${color}; font-weight:600;">${escHtml(val)}</span></span>`;
+        let inner;
+        if (!c || c.pct == null) {
+          inner = `<span class="band-na" title="${naTitle}">n/a</span>`;
+        } else {
+          const val = priceBand.anchored && c.price_inr != null
+            ? `₹${c.price_inr.toLocaleString("en-IN")}`
+            : `${c.pct >= 0 ? "+" : ""}${c.pct}%`;
+          inner = `<span style="color:${color}; font-weight:600;">${escHtml(val)}</span>`;
+        }
+        return `<span style="color:var(--text-muted); font-size:11px;">${label} ${inner}</span>`;
       };
       bandFrag = `
         <span style="display:inline-flex; gap:10px; align-items:center;">
@@ -1799,6 +1822,7 @@
     renderEarningsCardGrid,
     renderEarningsPreviewPanel,
     renderPredictionBuildExpander,
+    renderPriceBand,
     matchesSearchQuery,
     buildSymbolSuggestions,
     renderSymbolSuggestions,
