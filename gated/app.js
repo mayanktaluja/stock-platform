@@ -2295,8 +2295,13 @@ function _renderUsersTable(users) {
       ? '<span style="background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3);padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;">ADMIN</span>'
       : "";
     const avatar = u.picture
-      ? `<img src="${_escHtml(u.picture)}" alt="" style="width:32px;height:32px;border-radius:50%;object-fit:cover;" referrerpolicy="no-referrer">`
-      : '<div style="width:32px;height:32px;border-radius:50%;background:#1a2233;"></div>';
+      ? `<div style="width:32px;height:32px;border-radius:50%;background:#1a2233;overflow:hidden;display:inline-block;vertical-align:middle;">
+           <img src="${_escHtml(u.picture)}" alt=""
+                style="width:100%;height:100%;object-fit:cover;display:block;"
+                referrerpolicy="no-referrer"
+                onerror="this.style.display='none'">
+         </div>`
+      : '<div style="width:32px;height:32px;border-radius:50%;background:#1a2233;display:inline-block;vertical-align:middle;"></div>';
 
     let drilldown = "";
     if (open) {
