@@ -4286,6 +4286,16 @@ app.get("/api/risk-lab/quality-flags", (req, res) => {
   return res.status(r.status).json(r.body);
 });
 
+// PR B3 (Phase 2) — macro-thesis projection. Reads the file written by
+// scripts/refresh-risk-lab.mjs (or the in-process orchestrator). 404
+// when the kill-switch is off, 503 when the file hasn't been generated.
+const MACRO_THESIS_PATH = path.join(__dirname, "data", "risk-lab", "macro-thesis-latest.json");
+app.get("/api/risk-lab/macro-thesis", (req, res) => {
+  if (!isRiskLabEnabled()) return res.status(404).json({ error: "not found" });
+  const r = readRiskLabPayload(MACRO_THESIS_PATH, "macro-thesis-latest");
+  return res.status(r.status).json(r.body);
+});
+
 // ──── /end Risk Lab ────
 
 // ==================== PAPER-TRADE TRACKER ====================

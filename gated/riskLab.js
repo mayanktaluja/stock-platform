@@ -113,6 +113,29 @@
     return _cache;
   }
 
+  // PR B3 — separate cache for the macro-thesis payload (different shape;
+  // loaded only when the user opens the Thesis lens to avoid the extra
+  // ~50KB on every Risk Lab tab visit).
+  let _thesisCache = null;
+  async function loadThesisPayload() {
+    if (_thesisCache) return _thesisCache;
+    try {
+      const res = await fetch("/api/risk-lab/macro-thesis");
+      if (res.status === 404 || res.status === 503) {
+        _thesisCache = { _missing: true, message: res.status === 503 ? "macro-thesis-latest.json not yet generated" : "Risk Lab disabled" };
+        return _thesisCache;
+      }
+      if (!res.ok) {
+        _thesisCache = { _missing: true, message: `API error ${res.status}` };
+        return _thesisCache;
+      }
+      _thesisCache = await res.json();
+    } catch (err) {
+      _thesisCache = { _missing: true, message: err.message || String(err) };
+    }
+    return _thesisCache;
+  }
+
   // ─── Renderers ──────────────────────────────────────────────────────
   function renderBanner(payload) {
     const s = payload.summary || {};
@@ -202,11 +225,122 @@
 
     return el(
       "div",
-      { style: { display: "flex", gap: "8px", marginBottom: "16px" } },
+      { style: { display: "flex", gap: "8px", marginBottom: "16px", flexWrap: "wrap" } },
       lensBtn("quality", "Quality Lens"),
       lensBtn("macro", "Macro Lens"),
       lensBtn("combined", "Combined view"),
+      lensBtn("thesis", "Macro Thesis"),
     );
+  }
+
+  // PR B3 — Macro Thesis renderer. Shows current regime, 4 scenario branches
+  // (continue / escalate / de-escalate / new_shock), top beneficiaries with
+  // pure-play stock candidates, top losers, position-cap warning, all caveats.
+  function renderMacroThesis(thesis) {
+    const root = el("div", { "data-testid": "macro-thesis-root", style: { padding: "8px 0" } });
+    if (!thesis || thesis._missing) {
+      root.appendChild(el("div", {
+        style: { padding: "30px", textAlign: "center", color: "var(--text-muted)" },
+      }, thesis?.message || "Macro Thesis data unavailable — run buildMacroThesis."));
+      return root;
+    }
+    if (thesis.indeterminate) {
+      root.appendChild(el("div", {
+        style: { padding: "16px", border: "1px solid #fbbf24", borderRadius: "8px", marginBottom: "16px", color: "#fbbf24" },
+      }, `INDETERMINATE — ${thesis.reason || "no actionable scenarios"}`));
+    }
+    // Regime banner
+    const r = thesis.regime || {};
+    root.appendChild(el("div", {
+      style: { display: "flex", gap: "16px", flexWrap: "wrap", padding: "12px 16px", background: "rgba(15,20,34,0.5)", border: "1px solid #1a2233", borderRadius: "8px", marginBottom: "16px" },
+    },
+      el("div", null,
+        el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase" } }, "Current regime"),
+        el("div", { style: { fontSize: "16px", fontWeight: "600", color: "#e2e8f0" } }, r.label || r.regime || "?"),
+      ),
+      el("div", null,
+        el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase" } }, "Severity"),
+        el("div", { style: { fontSize: "16px", fontWeight: "600", color: r.severity >= 4 ? "#f87171" : r.severity >= 3 ? "#fbbf24" : "#93c5fd" } }, String(r.severity ?? "—")),
+      ),
+      r.days_in_state != null ? el("div", null,
+        el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase" } }, "Days in state"),
+        el("div", { style: { fontSize: "16px", fontWeight: "600", color: "#e2e8f0" } }, `${r.days_in_state}d`),
+      ) : null,
+      r.confidence != null ? el("div", null,
+        el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase" } }, "Regime confidence"),
+        el("div", { style: { fontSize: "16px", fontWeight: "600", color: r.confidence < 0.6 ? "#fbbf24" : "#86efac" } }, `${Math.round(r.confidence * 100)}%`),
+      ) : null,
+    ));
+
+    // Position-cap warning banner (SEBI Reg 16)
+    root.appendChild(el("div", {
+      style: { padding: "10px 14px", border: "1px dashed #fbbf24", borderRadius: "6px", marginBottom: "16px", fontSize: "11px", color: "#fbbf24" },
+    }, `⚠ Position-sizing cap: max ${thesis.position_cap_pct || 10}% of portfolio per thesis. Diversify across multiple theses; do not concentrate based on a single scenario.`));
+
+    // Per-branch cards
+    const cardsWrap = el("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "12px" } });
+    for (const b of (thesis.branches || [])) {
+      const probColor = b.probability >= 0.4 ? "#86efac" : b.probability >= 0.2 ? "#fbbf24" : "#cbd5e1";
+      const indFlag = b.indeterminate
+        ? el("span", { style: { fontSize: "9px", color: "#f87171", marginLeft: "6px", padding: "1px 5px", border: "1px solid #f87171", borderRadius: "3px" } }, "INDETERMINATE")
+        : null;
+      const card = el("div", {
+        "data-testid": `thesis-branch-${b.key}`,
+        style: { padding: "14px", border: "1px solid #1a2233", borderRadius: "8px", background: "rgba(15,20,34,0.6)" },
+      });
+      card.appendChild(el("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px", marginBottom: "10px" } },
+        el("div", null,
+          el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase" } }, b.key),
+          el("div", { style: { fontSize: "13px", color: "#e2e8f0", fontWeight: "500" } }, b.label, indFlag),
+        ),
+        el("div", { style: { textAlign: "right" } },
+          el("div", { style: { fontSize: "20px", fontWeight: "700", color: probColor } }, `${Math.round((b.probability || 0) * 100)}%`),
+          el("div", { style: { fontSize: "9px", color: "var(--text-muted)" } }, `~${b.duration_days || "?"}d horizon · n=${b.n_analogs || 0}`),
+        ),
+      ));
+      // Beneficiaries
+      const ben = (b.beneficiaries || []).slice(0, 3);
+      if (ben.length > 0) {
+        card.appendChild(el("div", { style: { fontSize: "10px", color: "#86efac", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "6px" } }, "▲ Beneficiaries"));
+        for (const beneficiary of ben) {
+          const benRow = el("div", { style: { padding: "6px 8px", background: "rgba(34,197,94,0.06)", borderRadius: "4px", marginBottom: "4px" } });
+          const labelLine = beneficiary.source === "analog"
+            ? `${beneficiary.sector_label} — median ${beneficiary.expected_return_pct > 0 ? "+" : ""}${beneficiary.expected_return_pct}% (IQR ${beneficiary.p25}–${beneficiary.p75}%, n=${beneficiary.n_analogs})`
+            : `${beneficiary.sector_label} — expected upside (template, no analog evidence)`;
+          benRow.appendChild(el("div", { style: { fontSize: "11px", color: "#cbd5e1" } }, labelLine));
+          const stocks = (beneficiary.stock_candidates?.stocks || []).slice(0, 3);
+          if (stocks.length > 0) {
+            const stockLine = stocks.map((s) => `${s.ticker} (v3 ${s.v3_score_100 || "?"})`).join(" · ");
+            benRow.appendChild(el("div", { style: { fontSize: "10px", color: "var(--text-muted)", marginTop: "2px" } }, `pure plays: ${stockLine}`));
+          }
+          card.appendChild(benRow);
+        }
+      }
+      // Losers
+      const los = (b.losers || []).slice(0, 3);
+      if (los.length > 0) {
+        card.appendChild(el("div", { style: { fontSize: "10px", color: "#fca5a5", letterSpacing: "0.05em", textTransform: "uppercase", marginTop: "6px", marginBottom: "6px" } }, "▼ Hit"));
+        for (const loser of los) {
+          const lossLine = loser.source === "analog"
+            ? `${loser.sector_label} — median ${loser.expected_return_pct}% (IQR ${loser.p25}–${loser.p75}%, n=${loser.n_analogs})`
+            : `${loser.sector_label} — expected downside (template, no analog evidence)`;
+          card.appendChild(el("div", { style: { padding: "4px 8px", background: "rgba(239,68,68,0.06)", borderRadius: "4px", fontSize: "11px", color: "#cbd5e1", marginBottom: "2px" } }, lossLine));
+        }
+      }
+      cardsWrap.appendChild(card);
+    }
+    root.appendChild(cardsWrap);
+
+    // SEBI Reg 16 caveats
+    if (thesis.caveats?.length > 0) {
+      const cv = el("div", { "data-testid": "thesis-caveats", style: { marginTop: "16px", padding: "12px 14px", border: "1px solid rgba(148,163,184,0.3)", borderRadius: "6px", background: "rgba(15,20,34,0.4)" } });
+      cv.appendChild(el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "6px" } }, "SEBI Reg 16 caveats"));
+      for (const c of thesis.caveats) {
+        cv.appendChild(el("div", { style: { fontSize: "11px", color: "#cbd5e1", marginBottom: "4px" } }, `• ${c}`));
+      }
+      root.appendChild(cv);
+    }
+    return root;
   }
 
   function renderCaseStudy(payload) {
@@ -442,7 +576,17 @@
     root.appendChild(renderBanner(_cache));
     root.appendChild(renderCaseStudy(_cache));
     root.appendChild(renderLensTabs());
-    root.appendChild(renderTable(_cache));
+    if (_activeLens === "thesis") {
+      // Lazy-load the thesis payload on first visit
+      if (!_thesisCache) {
+        loadThesisPayload().then(() => render());
+        root.appendChild(el("div", { style: { padding: "20px", color: "var(--text-muted)" } }, "Loading Macro Thesis…"));
+      } else {
+        root.appendChild(renderMacroThesis(_thesisCache));
+      }
+    } else {
+      root.appendChild(renderTable(_cache));
+    }
     root.appendChild(renderUserToggle());
   }
 
