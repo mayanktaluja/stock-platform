@@ -53,6 +53,10 @@ dotenv.config({ path: path.join(__dirname, "..", ".env"), override: false });
 
 const { fetchMacroHeadlines } = await import("../macroHeadlineFetcher.js");
 const { classifyRegime, defaultCalmRegime } = await import("../macroRegime.js");
+// PR B1.2 — archive every fetched headline batch to data/macro-headlines/
+// so the analog backtester (B1.4) can later classify past regimes from
+// real headlines instead of narrative anchors only.
+const { archiveHeadlines: _archiveHeadlines } = await import("../services/macroHeadlineArchive.js");
 const { appendRegimeIfChanged } = await import("../services/macroRegimeHistory.js");
 
 const OUT_PATH = path.join(__dirname, "..", "data", "macroRegime.json");
@@ -101,6 +105,17 @@ async function main() {
     `[macro-refresh] headlines=${headlines.length} sources-ok=${meta.okSources}/${meta.totalSources} ` +
     `tier-coverage=${JSON.stringify(meta.tierCoverage)}`
   );
+
+  // PR B1.2 — append-only archive. Never fatal: failure here is logged
+  // but doesn't break the regime refresh.
+  try {
+    const arc = _archiveHeadlines(headlines, { meta });
+    if (arc.written > 0 || arc.skipped > 0) {
+      console.log(`[macro-refresh] archived headlines: +${arc.written} new, ${arc.skipped} dup → ${arc.path}`);
+    }
+  } catch (err) {
+    console.warn(`[macro-refresh] archive failed (non-fatal): ${err.message}`);
+  }
 
   if (headlines.length === 0) {
     const existing = readExisting();
