@@ -10,10 +10,17 @@
 // These tests pin the shape and math of that block.
 
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   buildUniverseStats,
   buildMomentumCoverageReport,
+  collectExcludedForMomentum,
 } from "../scripts/sws-scoring.mjs";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, "..");
 
 let ok = 0, fail = 0;
 function it(name, fn) {
@@ -165,6 +172,79 @@ it("re-validates the known-good production shape on a synthesized 1000-stock dat
   assert.equal(rep.with_all_windows, N - MISSING_COUNT);
   assert.equal(rep.missing_all_windows.count, MISSING_COUNT);
   assert.equal(rep.completeness_pct, Math.round((1 - MISSING_COUNT / N) * 1000) / 10);
+});
+
+console.log("[10] collectExcludedForMomentum — names the all-windows-missing tickers");
+it("returns the FULL list of tickers with no momentum window at all", () => {
+  const excluded = collectExcludedForMomentum(makeFixture());
+  // FFF (returns_pct: null) is the only fixture stock with no momentum window.
+  // EEE has 3M+1Y so it stays in the universe (just contributes 0 to r1m).
+  assert.equal(excluded.length, 1);
+  assert.equal(excluded[0].ticker, "FFF");
+  assert.match(excluded[0].reason, /^no momentum windows/);
+});
+
+it("returns a sorted list and skips tickers without a name", () => {
+  const fix = [
+    { ticker: "ZZZ", overview: { returns_pct: null } },
+    { ticker: "AAA", overview: { returns_pct: null } },
+    { ticker: null, overview: { returns_pct: null } },
+    { ticker: "MMM", overview: { returns_pct: { "1M": 1, "3M": 2, "1Y": 3 } } },
+  ];
+  const excluded = collectExcludedForMomentum(fix);
+  assert.equal(excluded.length, 2);
+  assert.equal(excluded[0].ticker, "AAA");
+  assert.equal(excluded[1].ticker, "ZZZ");
+});
+
+console.log("[11] universe_size === r1m.length === r3m.length === r1y.length by construction");
+it("Option A invariant: universe_size matches percentile-array lengths exactly", () => {
+  // Synthesize a universe with the same 53-stock prod gap.
+  const N = 1000;
+  const MISSING = 53;
+  const fix = [];
+  for (let i = 0; i < N - MISSING; i++) {
+    fix.push({
+      ticker: `OK_${String(i).padStart(4, "0")}`,
+      overview: { returns_pct: { "1M": i % 10, "3M": (i % 10) * 2, "1Y": (i % 10) * 4 } },
+    });
+  }
+  for (let i = 0; i < MISSING; i++) {
+    fix.push({ ticker: `GAP_${String(i).padStart(3, "0")}`, overview: { returns_pct: null } });
+  }
+  // Mirror the writer in runFullScoring / rebuildUniverseStatsOnly.
+  const universe = buildUniverseStats(fix);
+  const excluded = collectExcludedForMomentum(fix);
+  const universeSize = universe.r1m.length;
+  assert.equal(universeSize, N - MISSING);
+  assert.equal(universe.r3m.length, universeSize);
+  assert.equal(universe.r1y.length, universeSize);
+  assert.equal(excluded.length, MISSING);
+  // Invariant: universe_size + excluded count === input population.
+  assert.equal(universeSize + excluded.length, N);
+});
+
+console.log("[12] real-file invariant — pinned against shipped data/sws/v3-universe-stats.json");
+it("the on-disk file satisfies universe_size === r1m.length === r3m.length === r1y.length", () => {
+  // Self-skip when the file isn't present (CI / contributor checkout before
+  // running the SWS refresh pipeline). The shape pin only runs when there's
+  // data to pin against.
+  const filePath = path.join(ROOT, "data", "sws", "v3-universe-stats.json");
+  if (!fs.existsSync(filePath)) {
+    console.log("    (skipped — data/sws/v3-universe-stats.json not present)");
+    return;
+  }
+  const j = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+  assert.equal(j.universe_size, j.r1m.length, "universe_size must equal r1m.length");
+  assert.equal(j.universe_size, j.r3m.length, "universe_size must equal r3m.length");
+  assert.equal(j.universe_size, j.r1y.length, "universe_size must equal r1y.length");
+  // excluded_for_momentum is the audit trail for tickers filtered out;
+  // every entry must have a ticker + reason string.
+  assert.ok(Array.isArray(j.excluded_for_momentum), "excluded_for_momentum must exist as an array");
+  for (const e of j.excluded_for_momentum) {
+    assert.ok(typeof e?.ticker === "string" && e.ticker.length > 0, "every excluded entry needs a ticker");
+    assert.ok(typeof e?.reason === "string" && e.reason.length > 0, "every excluded entry needs a reason");
+  }
 });
 
 console.log(`\n=== ${ok} passed, ${fail} failed ===`);
