@@ -350,6 +350,78 @@ export function buildUniverseStats(stocks) {
   return { r1m, r3m, r1y };
 }
 
+// Sibling of buildUniverseStats: classify each loaded stock into "has momentum"
+// vs "missing momentum" per window, name the missing tickers, and return a
+// JSON-serialisable coverage report.
+//
+// Why split this out: buildUniverseStats returns sorted number arrays so the
+// percentile rank lookup stays cheap. The audit / observability surface needs
+// the NAMES of the gap stocks, not just the count — keeping that in its own
+// helper avoids changing buildUniverseStats's shape (which would ripple into
+// scoreStock + computeV3Score).
+//
+// Sample size: the JSON only carries the first 25 missing tickers (sorted
+// alphabetically) so the file doesn't bloat when the gap grows. The full list
+// is recomputable any time by re-reading data/sws/deep/.
+export function buildMomentumCoverageReport(stocks) {
+  const SAMPLE_SIZE = 25;
+  const total = Array.isArray(stocks) ? stocks.length : 0;
+  const missing = { r1m: [], r3m: [], r1y: [] };
+  let withAll = 0;
+  for (const s of stocks) {
+    const t = s?.ticker || s?.overview?.ticker || null;
+    const r = s?.overview?.returns_pct || {};
+    const has1m = typeof r["1M"] === "number" && Number.isFinite(r["1M"]);
+    const has3m = typeof r["3M"] === "number" && Number.isFinite(r["3M"]);
+    const has1y = typeof r["1Y"] === "number" && Number.isFinite(r["1Y"]);
+    if (!has1m && t) missing.r1m.push(t);
+    if (!has3m && t) missing.r3m.push(t);
+    if (!has1y && t) missing.r1y.push(t);
+    if (has1m && has3m && has1y) withAll += 1;
+  }
+  const sortAndSample = (arr) => {
+    const sorted = arr.slice().sort();
+    return { count: sorted.length, sample: sorted.slice(0, SAMPLE_SIZE) };
+  };
+  const r1m = sortAndSample(missing.r1m);
+  const r3m = sortAndSample(missing.r3m);
+  const r1y = sortAndSample(missing.r1y);
+  // missing_all_windows = stocks where ALL three return windows are absent.
+  // This is the dominant gap pattern in practice (thinly-traded BSE-only
+  // tickers without liquid price history); SWS returns returns_pct: null
+  // for the whole object, not a single window.
+  const missingAll = sortAndSample(
+    missing.r1m.filter((t) => missing.r3m.includes(t) && missing.r1y.includes(t)),
+  );
+  return {
+    scored: total,
+    with_all_windows: withAll,
+    completeness_pct: total > 0 ? Math.round((withAll / total) * 1000) / 10 : 0,
+    missing_per_window: {
+      r1m: { count: r1m.count, sample_first_25: r1m.sample },
+      r3m: { count: r3m.count, sample_first_25: r3m.sample },
+      r1y: { count: r1y.count, sample_first_25: r1y.sample },
+    },
+    missing_all_windows: {
+      count: missingAll.count,
+      sample_first_25: missingAll.sample,
+    },
+    // Why these tickers are absent (best-current-understanding, surfaced for
+    // audit triage): the dominant pattern is BSE-only numeric-code tickers
+    // (500223, 501111…) and a handful of delisted / distressed names. SWS
+    // doesn't compute returns_pct for stocks without a liquid intraday tape,
+    // so the gap is upstream and not closable by re-running the scorer.
+    // computeV3Score handles missing momentum by imputing the 50th
+    // percentile and flagging breakdown.momentum_imputed = true — these
+    // stocks are still scored, just without a momentum lift/drag.
+    notes:
+      "missing_all_windows entries are typically thinly-traded BSE-only tickers (numeric codes) " +
+      "or delisted names where SWS upstream returns returns_pct: null. These stocks are still " +
+      "scored — computeV3Score imputes momentum at the 50th percentile and stamps " +
+      "breakdown.momentum_imputed: true. The gap is an upstream data limitation, not a scorer bug.",
+  };
+}
+
 function _percentileRank(value, sorted) {
   if (value == null || !Number.isFinite(value) || !sorted?.length) return null;
   let lo = 0, hi = sorted.length;
@@ -871,11 +943,20 @@ export function runFullScoring() {
   // (services/swsHoldingEngine.js) can score holdings with calibrated
   // momentum percentiles without having to re-scan all deep files on
   // every server start.
+  //
+  // Also emit a `momentum_coverage` block naming the stocks that have NO
+  // returns_pct at all in their SWS deep file — those stocks are scored
+  // by computeV3Score with momentum imputed (50th percentile) and the
+  // breakdown stamped `momentum_imputed: true`. Surfacing the names here
+  // makes the universe_size-vs-counts gap (e.g. 5517 vs 5464) auditable
+  // without scanning the full deep dir.
   const universeStatsPath = path.join(path.dirname(PATHS.picksLatest), "v3-universe-stats.json");
+  const coverage = buildMomentumCoverageReport(loaded);
   fs.writeFileSync(universeStatsPath, JSON.stringify({
     generated_at: new Date().toISOString(),
     universe_size: scored.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
+    momentum_coverage: coverage,
     r1m: universe.r1m,
     r3m: universe.r3m,
     r1y: universe.r1y,
@@ -884,10 +965,59 @@ export function runFullScoring() {
   return out;
 }
 
+/**
+ * Rebuild ONLY data/sws/v3-universe-stats.json from the current deep dir.
+ *
+ * Use this when you've changed the v3-universe-stats schema (e.g. added
+ * the momentum_coverage block) and want to regenerate the file without
+ * re-running the full scoring pass (which would overwrite picks-latest
+ * and require a long warm-up). Math is bit-identical with the writer in
+ * runFullScoring above.
+ *
+ * Returns the parsed JSON payload that was written.
+ */
+export function rebuildUniverseStatsOnly() {
+  const files = fs.readdirSync(PATHS.deepDir).filter((f) => f.endsWith(".json"));
+  const loaded = [];
+  for (const f of files) {
+    try {
+      loaded.push(JSON.parse(fs.readFileSync(path.join(PATHS.deepDir, f), "utf-8")));
+    } catch {}
+  }
+  const universe = buildUniverseStats(loaded);
+  const coverage = buildMomentumCoverageReport(loaded);
+  const payload = {
+    generated_at: new Date().toISOString(),
+    universe_size: loaded.length,
+    counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
+    momentum_coverage: coverage,
+    r1m: universe.r1m,
+    r3m: universe.r3m,
+    r1y: universe.r1y,
+  };
+  const universeStatsPath = path.join(path.dirname(PATHS.picksLatest), "v3-universe-stats.json");
+  fs.writeFileSync(universeStatsPath, JSON.stringify(payload));
+  return payload;
+}
+
 // CLI: `node scripts/sws-scoring.mjs` → score all + write picks-latest.json
 // CLI: `node scripts/sws-scoring.mjs TICKER` → score one stock, print result
+// CLI: `node scripts/sws-scoring.mjs --rebuild-universe-stats` → metadata-only
+//      refresh of data/sws/v3-universe-stats.json without re-scoring picks.
+//      Useful after schema changes (e.g. adding momentum_coverage) or to
+//      observe the current upstream-coverage gap without a 30-min refresh.
 if (import.meta.url === `file://${process.argv[1]}`) {
   const ticker = process.argv[2];
+  if (ticker === "--rebuild-universe-stats") {
+    const payload = rebuildUniverseStatsOnly();
+    const cov = payload.momentum_coverage;
+    console.log(
+      `Rebuilt v3-universe-stats.json: ${payload.universe_size} stocks, ` +
+        `momentum coverage ${cov.completeness_pct}% (${cov.with_all_windows}/${payload.universe_size}), ` +
+        `${cov.missing_all_windows.count} stocks missing returns_pct entirely`,
+    );
+    process.exit(0);
+  }
   if (ticker) {
     const fp = path.join(PATHS.deepDir, `${ticker}.json`);
     if (!fs.existsSync(fp)) {

@@ -16,6 +16,15 @@
  * overlay V3 components, none of which depend on the universe stats —
  * so a missing file degrades v3_score_100 accuracy slightly but never
  * breaks the components the predictor actually scores on.
+ *
+ * Coverage gap (expected, not an error): `counts.r1m/r3m/r1y` will be
+ * smaller than `universe_size` whenever the deep dir has stocks whose
+ * SWS profile carries `overview.returns_pct: null` — typically thinly-
+ * traded BSE-only numeric-code tickers and delisted names. The producer
+ * emits a `momentum_coverage` block alongside the arrays naming those
+ * stocks so the gap is auditable rather than mysterious. Those stocks
+ * are still scored by computeV3Score; momentum just gets imputed (50th
+ * percentile) and `breakdown.momentum_imputed: true` is stamped.
  */
 
 import fs from "node:fs";
