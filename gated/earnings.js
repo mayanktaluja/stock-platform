@@ -1032,6 +1032,83 @@
     }
   }
 
+  // PR A1 — Risk Lab "second opinion" badge. Read-only projection of the
+  // lab's quality + macro overlays. Surfaces a compact strip when the lab
+  // either disagrees with the production prediction or has flags worth
+  // surfacing. Production verdict and trading playbook above are UNCHANGED;
+  // this is purely a SEBI Reg 19 risk-disclosure surface.
+  function renderLabSecondOpinion(labView, prediction) {
+    if (!labView) return "";
+    const flagCount = Array.isArray(labView.quality_flags) ? labView.quality_flags.length : 0;
+    const hasMacro = labView.has_macro_overlay === true;
+    const hasQuality = labView.has_quality_overlay === true;
+    const disagrees = labView.disagrees_with_prediction === true;
+    if (!disagrees && !flagCount && !hasMacro) return "";
+
+    const stripeColor = disagrees ? "#fbbf24" : "#94a3b8";
+    const accentBg = disagrees ? "rgba(251,191,36,0.06)" : "rgba(148,163,184,0.04)";
+    const headerLabel = disagrees ? "Risk Lab disagrees" : "Risk Lab notes";
+
+    const prodVerdict = prediction?.verdict || null;
+    const confDelta = labView.confidence_delta_pct;
+
+    let verdictDeltaText = "";
+    if (labView.macro_veto?.vetoed === true) {
+      verdictDeltaText = `${prodVerdict || "?"} → SKIP (macro veto)`;
+    } else if (
+      typeof labView.combined_verdict === "string" &&
+      labView.combined_verdict.startsWith("LOW_QUALITY_") &&
+      prodVerdict === "BEAT"
+    ) {
+      verdictDeltaText = "BEAT → INLINE";
+    }
+    const confDeltaText =
+      typeof confDelta === "number" && confDelta !== 0
+        ? `confidence ${confDelta > 0 ? "+" : ""}${confDelta}pp`
+        : "";
+    const deltaSummary = [verdictDeltaText, confDeltaText].filter(Boolean).join(" · ");
+
+    const topReasons = Array.isArray(labView.top_reasons) ? labView.top_reasons.slice(0, 3) : [];
+    const reasonsHtml = topReasons.length
+      ? `<ul style="margin:4px 0 0 0; padding:0; list-style:none;">${topReasons
+          .map(
+            (r) =>
+              `<li style="font-size:10.5px; color:#cbd5e1; line-height:1.45;"><span style="color:${stripeColor};">▸</span> ${escHtml(
+                String(r.summary || r.category || ""),
+              )}</li>`,
+          )
+          .join("")}</ul>`
+      : "";
+
+    let macroNote = "";
+    if (hasMacro && labView.regime) {
+      const vetoed = labView.macro_veto?.vetoed === true;
+      const macroDelta = labView.macro_score_delta || 0;
+      const macroBits = [`<span style="color:${stripeColor};">${escHtml(String(labView.regime))}</span>`];
+      if (labView.regime_severity != null) macroBits.push(`sev ${escHtml(String(labView.regime_severity))}`);
+      if (labView.regime_stale) macroBits.push('<span style="color:#fca5a5;">(stale)</span>');
+      const tail = vetoed
+        ? ` — <span style="color:#fca5a5;">VETO: ${escHtml(String(labView.macro_veto?.reason || ""))}</span>`
+        : macroDelta
+          ? ` — score Δ ${macroDelta > 0 ? "+" : ""}${escHtml(String(macroDelta))}`
+          : "";
+      macroNote = `<div style="font-size:10.5px; color:#cbd5e1; margin-top:4px;">↪ Macro: ${macroBits.join(" ")}${tail}</div>`;
+    }
+
+    const flagsCountSuffix = !disagrees && hasQuality && flagCount > 3 ? ` (${flagCount} flags)` : "";
+
+    return `
+      <div data-testid="lab-second-opinion" data-disagrees="${disagrees ? "true" : "false"}" style="margin-top:6px; padding:8px 10px; border-left:3px solid ${stripeColor}; background:${accentBg}; border-radius:0 6px 6px 0;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:10.5px; color:${stripeColor}; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;">⚖ ${headerLabel}${flagsCountSuffix}</span>
+          ${deltaSummary ? `<span style="font-size:10.5px; color:${stripeColor};">${escHtml(deltaSummary)}</span>` : ""}
+        </div>
+        ${reasonsHtml}
+        ${macroNote}
+        <div style="font-size:9px; color:var(--text-muted); margin-top:4px; font-style:italic;">Experimental — does not change production verdict. See Risk Lab tab.</div>
+      </div>`;
+  }
+
   function renderEarningsCard(event) {
     if (!event || !event.symbol) return "";
     const dayPill = dayPillClass(event.days_until);
@@ -1094,6 +1171,7 @@
         ${renderSignalsRow(signals)}
         ${renderPriceBand(priceBand)}
         ${renderTradingAngle(playbook)}
+        ${renderLabSecondOpinion(event.lab_view, prediction)}
         ${renderCounterThesisBlurb(signals)}
         ${renderPredictionBuildExpander(event)}
       </div>`;

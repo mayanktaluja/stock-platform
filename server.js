@@ -17,6 +17,7 @@ import compression from "compression";
 import cors from "cors";
 import helmet from "helmet";
 import { createBreaker } from "./services/externalApiBreaker.js";
+import { loadRiskLabViewMap, buildLabViewForEvent } from "./services/riskLab/earningsLabView.js";
 
 // External-API circuit breaker for /api/sector-heatmap (Yahoo Finance batch
 // quote). 3 consecutive failures → opens for 60s; serves stale cached
@@ -2812,12 +2813,20 @@ app.get("/api/earnings/upcoming", async (req, res) => {
     // show "today" cards yesterday.
     const cached = loadCachedEarningsSnapshot();
     const snap = recomputeDaysUntil(cached);
-    const events = filterEvents(snap.events, {
+    let events = filterEvents(snap.events, {
       days: req.query.days,
       symbol: req.query.symbol,
       tag: req.query.tag,
       hasTags: req.query.hasTags,
     });
+    // PR A1 — attach Risk Lab second-opinion per event (read-only join from
+    // data/risk-lab/*.json). Production verdicts are NOT modified. If files
+    // are missing or the kill-switch is set, lab_view = null and the UI
+    // renders unchanged.
+    const labMap = loadRiskLabViewMap();
+    if (labMap) {
+      events = events.map((e) => ({ ...e, lab_view: buildLabViewForEvent(e, labMap) }));
+    }
     res.json({
       schema_version: snap.schema_version,
       built_at: snap.built_at,
@@ -2831,6 +2840,9 @@ app.get("/api/earnings/upcoming", async (req, res) => {
       past_window_days: snap.past_window_days ?? null,
       missing: snap._missing === true,
       health: readEarningsHealthSlim(),
+      lab_enabled: labMap !== null,
+      lab_regime: labMap?._regime || null,
+      lab_generated_at: labMap?._generated_at || null,
     });
   } catch (err) {
     console.error("[/api/earnings/upcoming] failed:", err);
