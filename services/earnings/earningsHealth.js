@@ -281,6 +281,35 @@ function summariseInsufficientData(history, nowIso) {
   };
 }
 
+/**
+ * Compute heuristic-share among events that were ELIGIBLE for LLM
+ * classification — i.e. exclude the V3 < 50 floor skips, which are
+ * routed to heuristic by design (earningsLlmBatcher.js:V3_COMPOSITE_FLOOR).
+ *
+ * Returns null when llmStats is missing, the run was --skip-llm, or no
+ * events were classified — the caller falls back to the watch-events
+ * provider split in those cases.
+ *
+ * Shape:
+ *   { eligible_total, heuristic_above_floor, below_v3_floor, share }
+ */
+function computeHeuristicShareAboveFloor(llmStats) {
+  if (!llmStats || typeof llmStats !== "object") return null;
+  if (llmStats.skip_llm) return null;
+  const total = Number(llmStats.total) || 0;
+  const heuristic = Number(llmStats.heuristic) || 0;
+  const belowFloor = Number(llmStats.below_v3_floor) || 0;
+  const eligibleTotal = total - belowFloor;
+  if (eligibleTotal <= 0) return null;
+  const heuristicAboveFloor = Math.max(0, heuristic - belowFloor);
+  return {
+    eligible_total: eligibleTotal,
+    heuristic_above_floor: heuristicAboveFloor,
+    below_v3_floor: belowFloor,
+    share: heuristicAboveFloor / eligibleTotal,
+  };
+}
+
 /* ───────────────────────── main builder ─────────────────────────── */
 
 /**
@@ -406,6 +435,24 @@ export function buildHealthSummary(args = {}) {
       `(steady state is <10) — LLM provider may be rate-limited or erroring; check earningsLlmSignal.js logs`,
     );
   }
+  // Heuristic-share-among-eligible-events alert — the V3 >= 50 floor in
+  // earningsLlmBatcher.js intentionally routes below-floor events to
+  // heuristic to conserve free-tier quota (those stocks are platform-
+  // disliked on fundamentals, so the LLM signal would be wasted). Those
+  // skips MUST be excluded from the heuristic-share denominator,
+  // otherwise the alert fires permanently at ~50-65% even when the LLM
+  // tier is healthy. Eligible-total = total - below_v3_floor; alert
+  // fires when above-floor heuristic share crosses 20% (some above-floor
+  // failures are still tolerated — provider 429s, parse errors).
+  const heuristicShareStats = computeHeuristicShareAboveFloor(llmStats);
+  if (heuristicShareStats && heuristicShareStats.share > 0.20) {
+    const pct = Math.round(heuristicShareStats.share * 100);
+    alerts.push(
+      `LLM heuristic share (above V3 floor): ${heuristicShareStats.heuristic_above_floor}/${heuristicShareStats.eligible_total} = ${pct}% ` +
+      `(threshold 20%; ${heuristicShareStats.below_v3_floor} below-floor skips excluded by design) — ` +
+      `LLM tier may be failing on eligible events; check earningsLlmSignal.js logs`,
+    );
+  }
   if (restatements.count > 0) {
     alerts.push(`${restatements.count} restated actual(s): ${restatements.symbols.slice(0, 5).join(", ")}${restatements.count > 5 ? "…" : ""}`);
   }
@@ -456,7 +503,14 @@ export function buildHealthSummary(args = {}) {
   // (not Groq/Gemini) reads. Threshold: ≥80% heuristic over a non-
   // empty sample. Mirrors the alert-line condition but as a typed
   // boolean the snapshot serialiser can pass through.
-  const heuristicShare = llm.total > 0 ? llm.heuristic / llm.total : 0;
+  //
+  // When llmStats is available, the share is computed over the ELIGIBLE
+  // population (total − below_v3_floor) so the V3-floor skips don't drag
+  // the percentage up artificially. Falls back to the watch-events
+  // provider split when llmStats is absent (first runs, --skip-llm).
+  const heuristicShare = heuristicShareStats
+    ? heuristicShareStats.share
+    : (llm.total > 0 ? llm.heuristic / llm.total : 0);
   const llmOffline = llm.total > 0 && llm.groq === 0 && llm.gemini === 0 && heuristicShare >= 0.8;
 
   return {

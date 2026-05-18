@@ -202,6 +202,79 @@ it("gate-just-cleared raises an alert", () => {
   const h = buildHealthSummary({ history: HISTORY, backtestSnapshot: { enough_data_to_lift_cap: true }, priorHealth: prior, watchEvents: WATCH_EVENTS, nowIso: NOW });
   assert.ok(h.alerts.some((a) => /just CLEARED/i.test(a)), JSON.stringify(h.alerts));
 });
+it("P1-9: 150 below-floor + 0 above-floor-heuristic + 20 LLM → NO heuristic-share alert", () => {
+  // The V3 >= 50 floor in earningsLlmBatcher.js routes below-floor events
+  // to heuristic by design (conserves free-tier quota). Those 150 events
+  // MUST NOT count toward the heuristic-share alert denominator,
+  // otherwise we'd alert permanently even when the LLM tier is healthy.
+  // Eligible = 170 - 150 = 20; above-floor heuristic = 150 - 150 = 0;
+  // share = 0 / 20 = 0% → no alert.
+  const llmStats = {
+    total: 170,
+    classified: 170,
+    cache_hits: 0,
+    llm_calls: 20,
+    heuristic: 150,         // ALL of these are the below-floor skips
+    below_v3_floor: 150,
+    composite_floor: 50,
+    llm_available: true,
+    skip_llm: false,
+  };
+  const watch = [{ signals: { llm_signal: { classifier_provider: "groq" } } }];
+  const h = buildHealthSummary({ history: HISTORY, watchEvents: watch, llmStats, nowIso: NOW });
+  assert.ok(
+    !h.alerts.some((a) => /heuristic share \(above V3 floor\)/i.test(a)),
+    `expected no heuristic-share alert; got ${JSON.stringify(h.alerts)}`,
+  );
+});
+it("P1-9: 50 above-floor-heuristic of 100 eligible → heuristic-share alert FIRES (50% > 20%)", () => {
+  // 200 total, 100 below-floor → 100 eligible. 150 heuristic total,
+  // 100 of those are below-floor → 50 above-floor-heuristic. 50/100 =
+  // 50%, well above the 20% threshold → alert.
+  const llmStats = {
+    total: 200,
+    classified: 200,
+    cache_hits: 0,
+    llm_calls: 50,
+    heuristic: 150,
+    below_v3_floor: 100,
+    composite_floor: 50,
+    llm_available: true,
+    skip_llm: false,
+  };
+  const watch = [{ signals: { llm_signal: { classifier_provider: "groq" } } }];
+  const h = buildHealthSummary({ history: HISTORY, watchEvents: watch, llmStats, nowIso: NOW });
+  const alert = h.alerts.find((a) => /heuristic share \(above V3 floor\)/i.test(a));
+  assert.ok(alert, `expected heuristic-share alert; got ${JSON.stringify(h.alerts)}`);
+  assert.match(alert, /50\/100 = 50%/);
+  assert.match(alert, /100 below-floor skips excluded/);
+});
+it("P1-9: --skip-llm runs do not fire the heuristic-share alert (no LLM was attempted)", () => {
+  const llmStats = { total: 100, heuristic: 100, below_v3_floor: 0, skip_llm: true };
+  const h = buildHealthSummary({ history: HISTORY, watchEvents: WATCH_EVENTS, llmStats, nowIso: NOW });
+  assert.ok(!h.alerts.some((a) => /heuristic share \(above V3 floor\)/i.test(a)),
+    `expected no alert under --skip-llm; got ${JSON.stringify(h.alerts)}`);
+});
+it("P1-9: llm_heuristic_share_pct uses eligible_total when llmStats is present", () => {
+  // 287 heuristic / 21 llm / 150 below-floor / 490 total — the exact
+  // numbers from data/catalysts/earnings-watch-stats.json 2026-05-18T02Z
+  // that motivated this fix. Eligible = 340; above-floor heuristic = 137;
+  // 137/340 = 40.3% → rounds to 40 (NOT 51% as old denominator gave).
+  const llmStats = {
+    total: 490, classified: 481, cache_hits: 170, llm_calls: 21,
+    heuristic: 287, below_v3_floor: 150, composite_floor: 50,
+    llm_available: true, skip_llm: false,
+  };
+  // watchEvents-derived split would say 287/490 = 58.6%; the stats-based
+  // path overrides it to the eligible-only figure.
+  const watch = Array.from({ length: 490 }, (_, i) => ({
+    signals: { llm_signal: { classifier_provider: i < 287 ? "heuristic" : (i < 308 ? "groq" : "none") } },
+  }));
+  const h = buildHealthSummary({ history: HISTORY, watchEvents: watch, llmStats, nowIso: NOW });
+  assert.equal(h.llm_heuristic_share_pct, 40,
+    `expected 40 (137/340 above-floor heuristic share); got ${h.llm_heuristic_share_pct}`);
+});
+
 it("a clean pipeline has no alerts and healthy:true", () => {
   // Single schema, a real LLM provider present, no restatements, no prior.
   const clean = [
