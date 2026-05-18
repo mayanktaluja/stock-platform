@@ -181,12 +181,78 @@ await it("zero-ok snapshot does NOT overwrite an existing populated snapshot", a
   assert.equal(result.reason, "zero_or_low_yield_preserved_existing");
   assert.equal(result.fetched, 0);
   assert.equal(result.existingCount, 200);
+  assert.equal(result.priorDate, "2026-05-01T00:00:00.000Z", "priorDate threaded through for nightly alerting");
 
   // Disk must be unchanged.
   const onDisk = JSON.parse(fs.readFileSync(REAL_FILE, "utf-8"));
   assert.equal(onDisk.fetchedAt, "2026-05-01T00:00:00.000Z", "fetchedAt preserved");
   assert.equal(Object.keys(onDisk.bySymbol).length, 200, "bySymbol preserved");
   assert.equal(onDisk.counts.ok, 200);
+});
+
+await it("zero-ok + populated-prior emits a CRITICAL log line (re-2026-05-12 bug)", async () => {
+  // This is the exact regression case the bug-fix is here to prevent: the
+  // 2026-05-12 nightly fetched zero NSE records yet was allowed to overwrite
+  // a fully-populated snapshot. With the guard in place we must (a) refuse
+  // to write AND (b) emit a CRITICAL-prefixed log so the nightly chain's
+  // grep-based alerting fires. Below we monkey-patch console.warn to capture
+  // the emitted line and assert on its shape.
+  const existing = snap(744, 744, "2026-05-11T03:00:00.000Z");
+  seedDisk(existing);
+
+  const captured = [];
+  const realWarn = console.warn;
+  console.warn = (...args) => captured.push(args.join(" "));
+
+  try {
+    const outage = snap(0, 744, "2026-05-12T14:14:28.657Z");
+    const result = await saveGovernance(outage);
+
+    assert.equal(result.skipped, true);
+    assert.equal(result.fetched, 0);
+    assert.equal(result.existingCount, 744);
+  } finally {
+    console.warn = realWarn;
+  }
+
+  const criticalLine = captured.find((l) => l.includes("CRITICAL"));
+  assert.ok(criticalLine, `expected a CRITICAL log line, captured: ${JSON.stringify(captured)}`);
+  assert.match(criticalLine, /\[governance\] CRITICAL: 0 ok of 744 attempts/);
+  assert.match(criticalLine, /refusing to overwrite last-good/);
+  assert.match(criticalLine, /744 entries from 2026-05-11T03:00:00\.000Z/);
+
+  // Disk must still be the original populated snapshot.
+  const onDisk = JSON.parse(fs.readFileSync(REAL_FILE, "utf-8"));
+  assert.equal(onDisk.counts.ok, 744);
+  assert.equal(onDisk.fetchedAt, "2026-05-11T03:00:00.000Z");
+});
+
+await it("zero-ok + no-prior (cold-start) DOES write through — diagnostics over silence", async () => {
+  // Mirror image of the CRITICAL case: when there is no last-known-good to
+  // preserve, the outage snapshot SHOULD persist so /api/governance/status
+  // surfaces honest "0 records" rather than implying we have data we don't.
+  // Also assert no CRITICAL log fires in this branch (it only triggers when
+  // we have something to preserve).
+  wipeDisk();
+
+  const captured = [];
+  const realWarn = console.warn;
+  console.warn = (...args) => captured.push(args.join(" "));
+
+  try {
+    const outage = snap(0, 744, "2026-05-12T14:14:28.657Z");
+    const result = await saveGovernance(outage);
+    assert.equal(result.skipped, undefined);
+    assert.equal(result.target, "disk");
+  } finally {
+    console.warn = realWarn;
+  }
+
+  const criticalLine = captured.find((l) => l.includes("CRITICAL"));
+  assert.equal(criticalLine, undefined, "no CRITICAL fires on cold-start outage write");
+
+  const onDisk = JSON.parse(fs.readFileSync(REAL_FILE, "utf-8"));
+  assert.equal(onDisk.counts.ok, 0);
 });
 
 await it("low-yield snapshot (ok=4 of 744) does NOT overwrite populated existing", async () => {
