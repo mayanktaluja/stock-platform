@@ -18,6 +18,7 @@ import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import NodeCache from "node-cache";
+import { apiLimiterKeyGenerator } from "./services/apiLimiterKey.js";
 
 import { analyzeStock, intradayScan, midTermAnalysis, longTermOutlook } from "./analysis.js";
 import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, NIFTY500_SYMBOLS, getNifty100, getNifty500, getExpandedUniverse, getStocksByIndex, validateStockList, findBySymbol } from "./stockList.js";
@@ -421,12 +422,26 @@ app.set("trust proxy", 1);
 // can drive the SPA without tripping the 60 req/min window. Production keeps
 // the gate.
 const isTestEnv = process.env.NODE_ENV === "test";
+
+// Per-user limiter key (audit finding #6 / task 7, 2026-05-18).
+//
+// Pre-fix the limiter keyed by IP. That meant any group of users sharing a
+// public IP — corporate offices, mobile carriers behind CG-NAT, café Wi-Fi —
+// shared one 60 req/min bucket. A single heavy user could DoS the entire
+// shared network's access to the API.
+//
+// Fix: key by the authenticated user's Google sub when present, falling back
+// to IP for unauthenticated routes (/api/login, /api/auth/google, /api/health).
+// Lives in services/apiLimiterKey.js so the unit test can import it without
+// booting all of server.js.
+
 const apiLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 60,
   standardHeaders: "draft-7", // emits the RateLimit-* response headers
   legacyHeaders: false,
   skip: () => isTestEnv,
+  keyGenerator: apiLimiterKeyGenerator,
   message: { error: "Too many requests. Please slow down (60 req/min limit)." },
 });
 
@@ -436,10 +451,18 @@ const stockDetailLimiter = rateLimit({
   standardHeaders: "draft-7",
   legacyHeaders: false,
   skip: () => isTestEnv,
+  keyGenerator: apiLimiterKeyGenerator,
   message: { error: "Too many stock detail requests. Please slow down (30 req/min limit)." },
 });
 
-app.use("/api/", apiLimiter);
+// NOTE: the actual app.use("/api/", apiLimiter) mount has MOVED to AFTER the
+// auth gate (see further down) so req.user is populated when the limiter
+// runs. The variable is hoisted here so stockDetailLimiter (mounted before
+// the auth gate for narrower /api/stock/ scope) can also reuse the key
+// generator; stockDetailLimiter sits before auth on purpose — even on a
+// pre-auth path the per-IP throttle still guards the Yahoo budget. Once
+// inside the post-auth chain, apiLimiter takes over and switches to
+// per-user keying.
 
 // ── API key authentication for sensitive endpoints ──
 //
@@ -795,6 +818,14 @@ app.use((req, res, next) => {
   }
   return res.status(401).json({ error: "unauthenticated" });
 });
+
+// /api/* rate limiter — MOUNTED HERE (post-auth) so apiLimiterKeyGenerator
+// can read req.user.sub for authenticated requests. Unauthenticated routes
+// (login, auth/google, health, cron) pass through the auth gate with
+// next() — req.user stays undefined — and the keyGenerator falls back to
+// req.ip, matching the pre-fix behavior for those endpoints. See the
+// keyGenerator definition above and audit finding #6.
+app.use("/api/", apiLimiter);
 
 // SPA static files (app.js, index.html, etc.) live in gated/ — NOT public/ —
 // because Vercel auto-serves files in public/ from its edge CDN, bypassing
