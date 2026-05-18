@@ -6624,13 +6624,55 @@ function applyPicksFvDriftGuard(items, snapMap, counter) {
   }
 }
 
+// Hard upper bound on how long /api/sws-picks and /api/sws-universe will
+// wait for the snapshot-FV map before falling through to serve picks WITHOUT
+// the drift correction. The 2026-05-18 prod incident was a Neon cold-start
+// where swsDal.getSnapshotFvMap() hung past Vercel's maxDuration:60 and the
+// entire SWS Picks tab 504'd. The drift correction itself is defence in
+// depth — Layer 2 (sws-verify-db-vs-json --check picks-snapshot-fv) catches
+// the drift at pipeline-finalise time so future canonical runs can never
+// ship a drifted picks file. Failing-open here is therefore safe: worst
+// case is a small visible FV mismatch between card and modal for the few
+// minutes between a partial parser refresh and the next pipeline finalise,
+// which is exactly the bug PR #261 fixed in steady state. A total 504 is
+// strictly worse than a brief stale FV.
+//
+// Threshold: 1500 ms. Healthy SQL backend memoised hit returns in <1 ms;
+// healthy cold-start fetch of 5,517 snapshot rows from Neon returns in
+// ~200-500 ms. JSON backend's per-file deep-read loop over ~250 tickers
+// on a warm container runs in ~50-100 ms. 1500 ms gives ~3× headroom for
+// every healthy path; anything past that is a sick backend and we bail.
+const SNAPSHOT_FV_TIMEOUT_MS = 1500;
+
+async function getSnapshotFvMapSafe(tickers, timeoutFlag) {
+  let timer;
+  const timeout = new Promise((resolve) => {
+    timer = setTimeout(() => {
+      timeoutFlag.timedOut = true;
+      console.warn(`[picks-fv-drift] getSnapshotFvMap timed out after ${SNAPSHOT_FV_TIMEOUT_MS}ms — serving picks without drift correction`);
+      resolve(new Map());
+    }, SNAPSHOT_FV_TIMEOUT_MS);
+  });
+  try {
+    const map = await Promise.race([swsDal.getSnapshotFvMap(tickers), timeout]);
+    return map instanceof Map ? map : new Map();
+  } catch (err) {
+    timeoutFlag.errored = true;
+    console.warn(`[picks-fv-drift] getSnapshotFvMap errored — serving picks without drift correction: ${err.message}`);
+    return new Map();
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 app.get("/api/sws-universe", async (req, res) => {
   const data = swsDal.getScoredUniverse();
   if (!data) return res.status(404).json({ error: "no_universe_yet", hint: "Run `node scripts/sws-build-scored-universe.mjs` to backfill, or wait for the next refresh." });
   const driftCounter = { count: 0 };
+  const driftTimeoutFlag = { timedOut: false, errored: false };
   if (Array.isArray(data.stocks)) {
     const tickers = data.stocks.map((it) => it?.ticker).filter(Boolean);
-    const snapMap = await swsDal.getSnapshotFvMap(tickers);
+    const snapMap = await getSnapshotFvMapSafe(tickers, driftTimeoutFlag);
     applyPicksFvDriftGuard(data.stocks, snapMap, driftCounter);
     for (const it of data.stocks) {
       stampIndexFlagsOnRow(it);
@@ -6638,7 +6680,12 @@ app.get("/api/sws-universe", async (req, res) => {
     }
   }
   data.indexConstituentsAvailable = NSE_INDEX_AVAILABLE;
-  data._meta = { ...(data._meta || {}), fv_drift_count: driftCounter.count };
+  data._meta = {
+    ...(data._meta || {}),
+    fv_drift_count: driftCounter.count,
+    fv_drift_timeout: !!driftTimeoutFlag.timedOut,
+    fv_drift_errored: !!driftTimeoutFlag.errored,
+  };
   res.json(data);
 });
 
@@ -6646,6 +6693,7 @@ app.get("/api/sws-picks", async (req, res) => {
   const data = swsDal.getPicksLatest();
   if (!data) return res.status(404).json({ error: "no_picks_yet", hint: "Run /sws-scan-shard 1/2/3 in Claude to start the initial scan." });
   const driftCounter = { count: 0 };
+  const driftTimeoutFlag = { timedOut: false, errored: false };
   if (data.sections) {
     // PR 2.7 — pure-numeric BSE codes were leaking into Avoid + Deep Value
     // alongside NSE symbols. Filter them at the response boundary so the fix
@@ -6668,7 +6716,7 @@ app.get("/api/sws-picks", async (req, res) => {
         Array.isArray(arr) ? arr.map((it) => it?.ticker).filter(Boolean) : [],
       ),
     )];
-    const snapMap = await swsDal.getSnapshotFvMap(allTickers);
+    const snapMap = await getSnapshotFvMapSafe(allTickers, driftTimeoutFlag);
 
     for (const [key, items] of Object.entries(data.sections)) {
       if (!Array.isArray(items)) continue;
@@ -6689,7 +6737,12 @@ app.get("/api/sws-picks", async (req, res) => {
   data.last_refresh = swsDal.getLastRefresh();
   data.shard_progress_api = swsDal.getAllShardProgressApi();
   data.indexConstituentsAvailable = NSE_INDEX_AVAILABLE;
-  data._meta = { ...(data._meta || {}), fv_drift_count: driftCounter.count };
+  data._meta = {
+    ...(data._meta || {}),
+    fv_drift_count: driftCounter.count,
+    fv_drift_timeout: !!driftTimeoutFlag.timedOut,
+    fv_drift_errored: !!driftTimeoutFlag.errored,
+  };
   res.json(data);
 });
 
