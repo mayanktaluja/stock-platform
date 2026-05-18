@@ -83,6 +83,12 @@ trap release_lock EXIT INT TERM
 # Cron will re-fire later and pick up the scrape when shards have exited.
 
 START_EPOCH="$(date +%s)"
+# Paired with finished_at in the summary heredoc below. Sanity gate's
+# picks_matches_last_refresh check uses [started_at, finished_at] as the
+# run window for verifying picks-latest.json belongs to this run — same
+# pattern as sws-refresh-api.sh. Kept in sync so both wrappers produce
+# consistent summaries.
+RUN_STARTED_ISO="$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")"
 # Detect live shards by scanning processes — more reliable than lock files,
 # which a previous failed spawn could have destroyed. Use `ps` because macOS
 # BSD pgrep doesn't include command-line args in its output.
@@ -185,6 +191,7 @@ for (const sid of [1, 2, 3]) {
   }
 }
 const summary = {
+  started_at: "${RUN_STARTED_ISO}",
   finished_at: new Date().toISOString(),
   mode: "${MODE}",
   duration_seconds: ${ELAPSED},

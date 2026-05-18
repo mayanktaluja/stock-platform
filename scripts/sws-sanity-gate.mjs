@@ -73,19 +73,28 @@ const MIN_REWARDS_POPULATED_STRONG = 4500;   // WARN — flip to BLOCK after ~1 
 const MIN_RISKS_POPULATED          = 500;    // WARN — risks are legitimately sparse; only trips on a total collapse
 const MAX_RUN_DURATION_SEC      = 6 * 3600;
 // Nightly cadence is 14.5h between starts (02:00 + 16:30 IST). Each run
-// takes ~4.5h. The sanity gate runs AT THE END of the pipeline (after the
-// 4.5h finishes), so it compares the OLD canonical's age against threshold.
-// Worst-case OLD-canonical age at sanity-time = previous-run's finished_at
-// → current-run's sanity-time = 14.5h cadence + 4.5h run duration = ~19h.
-// 14h was too tight — the evening run's sanity-check tripped at 16.7h on
-// 2026-05-18 because morning's canonical was 16.7h old by then; PR #314 had
-// to manually promote the sanity-blocked picks to canonical.
-// 20h gives enough slack to cover both schedule slips AND the run duration,
-// while still alerting if a refresh genuinely stops running for >20h.
+// takes ~4.5h. The sanity gate runs at the END of the pipeline (after the
+// 4.5h finishes) and SHOULD see fresh data because sws-scoring.mjs:994
+// wrote picks-latest.json earlier in this same run. picks_recent here is
+// the second-line defence: "has the pipeline run AT ALL in the last 20h?"
+// — catches launchd-unloaded, machine-asleep, scrape-fully-broken.
 //
-// Long-term fix is to make picks_recent check the NEW data's freshness
-// rather than the OLD canonical's age — but that's a bigger refactor.
+// The PRIMARY check for "is picks-latest.json from THIS run?" is
+// picks_matches_last_refresh below — it diffs picks.scanned_at against
+// lr.started_at/finished_at to catch the 2026-05-18 22:37 IST failure
+// mode where picks-latest.json was silently reverted post-write.
+//
+// 20h covers worst-case under healthy ops:
+//   14.5h cadence + 4.5h run + ~1h slack for launchd catch-up = 20h.
+// Don't widen further — that hides real "pipeline-not-running" failures.
 export const PICKS_MAX_AGE_HOURS = 20;
+
+// Slack window for the picks_matches_last_refresh consistency check.
+// Both picks.scanned_at and lr.started_at/finished_at are written by the
+// same machine in the same run (no NTP skew between writes), so 60s
+// covers normal write-ordering jitter. Wider slack risks missing a real
+// cross-run mix-up.
+export const PICKS_LR_CONSISTENCY_SLACK_SEC = 60;
 
 // L2
 const MAX_SILENT_DROP        = 5;       // tickers in universe but missing from deep
@@ -215,6 +224,55 @@ function layer1(lr, picks) {
       { age_hours: +ageHrs.toFixed(2), threshold: PICKS_MAX_AGE_HOURS });
   } else {
     record(layer, "picks_recent", BLOCK, false, { reason: "picks.scanned_at missing" });
+  }
+
+  // Internal consistency: verify picks-latest.json is from THIS run, not a
+  // previous one. Catches the 2026-05-18 22:37 IST failure mode — scoring
+  // wrote a fresh picks-latest.json at 20:51 IST but by sanity-time the
+  // file had been silently reverted to morning's git-committed version.
+  // picks_recent caught the symptom (16.73h vs 14h threshold); this check
+  // would have caught the CAUSE with a precise "picks from RUN A, last-
+  // refresh from RUN B" diagnosis.
+  //
+  // Skipped in --inline mode: the inline gate runs between stamp and the
+  // summary write in sws-refresh-api.sh, so last-refresh.json still holds
+  // the PREVIOUS run's started_at/finished_at — comparing this run's fresh
+  // picks.scanned_at against last run's window would always false-positive.
+  // The check belongs to the OUTER (nightly) gate, which runs after the
+  // summary heredoc has stamped this run's started_at into last-refresh.
+  //
+  // Skipped (not BLOCKed) when lr.started_at is missing — pre-Layer-C
+  // last-refresh.json files don't have the field, and we shouldn't fail
+  // on a clean upgrade. Once one run lands post-upgrade, this check is
+  // active for all subsequent runs.
+  if (INLINE_MODE) {
+    // No-op in inline mode — see the long comment above.
+  } else if (picks?.scanned_at && lr?.started_at && lr?.finished_at) {
+    const picksMs = new Date(picks.scanned_at).getTime();
+    const startMs = new Date(lr.started_at).getTime();
+    const finishMs = new Date(lr.finished_at).getTime();
+    const slackMs = PICKS_LR_CONSISTENCY_SLACK_SEC * 1000;
+    const consistent = picksMs >= startMs - slackMs && picksMs <= finishMs + slackMs;
+    // Drift = how far outside the run window picks.scanned_at sits.
+    // 0 when consistent; positive seconds when outside.
+    const driftSec = consistent ? 0 :
+      Math.round(Math.min(
+        Math.abs(picksMs - startMs),
+        Math.abs(picksMs - finishMs),
+      ) / 1000);
+    record(layer, "picks_matches_last_refresh", BLOCK, consistent, {
+      picks_scanned_at: picks.scanned_at,
+      lr_started_at: lr.started_at,
+      lr_finished_at: lr.finished_at,
+      drift_outside_run_seconds: driftSec,
+      slack_seconds: PICKS_LR_CONSISTENCY_SLACK_SEC,
+    });
+  } else if (picks?.scanned_at && lr) {
+    // lr present but missing started_at (pre-upgrade). Surface a WARN so
+    // we know coverage isn't yet complete, but don't block production.
+    record(layer, "picks_matches_last_refresh", WARN, false, {
+      reason: "lr.started_at missing — pre-upgrade summary; check inactive until next nightly stamps the field",
+    });
   }
 
   const sec = picks?.sections || {};
@@ -528,6 +586,21 @@ function layerMacro() {
 
 // ============================== main ===================================
 
+// --inline mode runs the gate INSIDE sws-refresh-api.sh between stamp
+// (line ~312) and PDF (line ~315), BEFORE the auxiliary chain in
+// sws-nightly.sh opens a ~106-min window during which something has
+// historically reverted picks-latest.json. The check semantics are
+// identical to the outer-gate invocation; only the side-effects differ:
+//   - inline: no report files written, no DB write; exit 0/1 only.
+//     On pass, drops a marker file (_inline_pass.flag) the outer
+//     nightly reads to diagnose "mid-run revert" vs "real failure".
+//   - outer:  writes _sanity/<runId>.json + _latest.json as usual.
+// Same gate code, two invocations — any verdict divergence between
+// pass-1 (inline) and pass-2 (outer) IS the tripwire that something
+// mutated SWS files during the auxiliary chain.
+const INLINE_MODE = process.argv.includes("--inline");
+const INLINE_PASS_FLAG = path.join(SANITY_DIR, "_inline_pass.flag");
+
 function main() {
   const lr = readJson(LAST_REFRESH);
   const picks = readJson(PICKS);
@@ -577,15 +650,37 @@ function main() {
     inputs: {
       scored_count: lr?.scored_count,
       universe_size: picks?.universe_size,
+      // Both started_at (Layer C, may be absent on pre-upgrade summaries)
+      // and finished_at make the report self-contained for the
+      // picks_matches_last_refresh diagnosis without a second file read.
+      started_at: lr?.started_at ?? null,
       finished_at: lr?.finished_at,
+      picks_scanned_at: picks?.scanned_at ?? null,
       pipeline_status: lr?.pipeline_status,
     },
   };
 
   try { mkdirSync(SANITY_DIR, { recursive: true }); } catch {}
-  const reportPath = path.join(SANITY_DIR, `${runId}.json`);
-  writeFileSync(reportPath, JSON.stringify(report, null, 2));
-  try { copyFileSync(reportPath, path.join(SANITY_DIR, "_latest.json")); } catch {}
+  let reportPath;
+  if (INLINE_MODE) {
+    // Inline mode: don't write the timestamped report or clobber
+    // _latest.json (the outer-gate invocation owns those). Update only
+    // the inline-pass marker — outer nightly reads it to differentiate
+    // "scoring failed" (both gates fail) from "data reverted post-stamp"
+    // (inline passed, outer failed).
+    reportPath = "(inline mode — not written)";
+    if (blocks.length === 0) {
+      try { writeFileSync(INLINE_PASS_FLAG, `${new Date().toISOString()} ${summaryLine}\n`); } catch {}
+    } else {
+      // Inline gate detected blockers — make sure no stale "pass" marker
+      // from a prior run misleads the outer nightly.
+      try { if (existsSync(INLINE_PASS_FLAG)) { writeFileSync(INLINE_PASS_FLAG, ""); } } catch {}
+    }
+  } else {
+    reportPath = path.join(SANITY_DIR, `${runId}.json`);
+    writeFileSync(reportPath, JSON.stringify(report, null, 2));
+    try { copyFileSync(reportPath, path.join(SANITY_DIR, "_latest.json")); } catch {}
+  }
 
   // Human-readable stdout — captured by sws-nightly.sh and embedded in email.
   const lines = [];
