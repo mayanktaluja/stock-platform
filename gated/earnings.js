@@ -150,13 +150,80 @@
     ];
 
     const cellHtml = (c) => `
-      <div title="${escHtml(c.title || "")}" style="background:var(--panel,#0f1422); border:1px solid #1a2233; border-radius:8px; padding:8px 12px; min-width:90px;">
+      <div data-testid="${c.testId || ""}" title="${escHtml(c.title || "")}" style="background:var(--panel,#0f1422); border:1px solid #1a2233; border-radius:8px; padding:8px 12px; min-width:90px;">
         <div style="font-size:10px; color:var(--text-muted); letter-spacing:0.04em; text-transform:uppercase;">${escHtml(c.label)}</div>
         <div style="font-size:18px; font-weight:600; color:${c.accent}; margin-top:2px;">${c.value}</div>
+        ${c.sub ? `<div style="font-size:9px; color:var(--text-muted); margin-top:2px;">${escHtml(c.sub)}</div>` : ""}
       </div>`;
+
+    // PR A3 — 3-metric hit-rate row (strict / lenient / catastrophic).
+    // Surfaces SEBI Reg 19 disclosure of past performance with bootstrap
+    // CIs. The catastrophic cell is the money-losing metric and goes red
+    // when the rolling-30 alert fires; the strict + lenient cells use the
+    // overall sample.
+    const hr = stats.hit_rate_summary;
+    const hitRateCells = hr
+      ? [
+          {
+            testId: "hit-rate-strict",
+            label: "Hit rate (strict)",
+            value: hr.strict?.hit_rate_pct != null ? `${hr.strict.hit_rate_pct}%` : "—",
+            sub: hr.strict?.sample_size != null
+              ? `n=${hr.strict.sample_size}${
+                  hr.strict.ci_low_pct != null && hr.strict.ci_high_pct != null
+                    ? ` · CI ${hr.strict.ci_low_pct}–${hr.strict.ci_high_pct}%`
+                    : ""
+                }`
+              : "—",
+            accent: "#86efac",
+            title: "Exact verdict match (BEAT=BEAT etc.). The harsh truth metric.",
+          },
+          {
+            testId: "hit-rate-lenient",
+            label: "Hit rate (lenient)",
+            value: hr.lenient?.hit_rate_pct != null ? `${hr.lenient.hit_rate_pct}%` : "—",
+            sub: hr.lenient?.sample_size != null
+              ? `n=${hr.lenient.sample_size}${
+                  hr.lenient.ci_low_pct != null && hr.lenient.ci_high_pct != null
+                    ? ` · CI ${hr.lenient.ci_low_pct}–${hr.lenient.ci_high_pct}%`
+                    : ""
+                }`
+              : "—",
+            accent: "#fbbf24",
+            title: "Off-by-one OK (BEAT predicted, INLINE actual = hit). Directional accuracy.",
+          },
+          {
+            testId: "hit-rate-catastrophic",
+            label: "Catastrophic rate",
+            value: hr.catastrophic?.rate_pct != null ? `${hr.catastrophic.rate_pct}%` : "—",
+            sub:
+              (hr.catastrophic?.sample_size != null
+                ? `n=${hr.catastrophic.sample_size}${
+                    hr.catastrophic.ci_low_pct != null && hr.catastrophic.ci_high_pct != null
+                      ? ` · CI ${hr.catastrophic.ci_low_pct}–${hr.catastrophic.ci_high_pct}%`
+                      : ""
+                  }`
+                : "—") +
+              (hr.rolling_30
+                ? ` · rolling-30 ${hr.rolling_30.catastrophic_rate_pct}%${
+                    hr.catastrophic_alert ? " ⚠" : ""
+                  }`
+                : ""),
+            accent: hr.catastrophic_alert ? "#f87171" : "#fca5a5",
+            title:
+              "BEAT↔MISS reversals (off-by-2) — the metric tied to real ₹ loss. " +
+              `Alert fires when rolling-30 > ${hr.catastrophic_alert_threshold_pct ?? 12}%.`,
+          },
+        ]
+      : [];
+
+    const hitRateRow = hitRateCells.length
+      ? `<div data-testid="hit-rate-row" style="display:flex; gap:10px; flex-wrap:wrap; width:100%; margin-top:8px;">${hitRateCells.map(cellHtml).join("")}</div>`
+      : "";
 
     el.innerHTML = `
       <div style="display:flex; gap:10px; flex-wrap:wrap; width:100%;">${dateCells.map(cellHtml).join("")}</div>
+      ${hitRateRow}
       <div style="display:flex; gap:10px; flex-wrap:wrap; width:100%; margin-top:8px;">${verdictCells.map(cellHtml).join("")}</div>
       <div style="display:flex; gap:10px; flex-wrap:wrap; width:100%; margin-top:8px;">${qualityCells.map(cellHtml).join("")}</div>
     `;
@@ -963,17 +1030,24 @@
   // tactical note. Activated once Milestone F starts populating
   // actual results.
 
-  function renderTradingAngle(playbook) {
+  function renderTradingAngle(playbook, event) {
     if (!playbook || !playbook.tradable) return "";
+
+    // PR A2 — confidence-calibrated sizing pill. Read from event.sizing
+    // (richer, lab-calibrated) first; fall back to baked playbook fields.
+    const sizingPill = renderPositionSizingPill(event?.sizing, playbook);
 
     if (playbook.mode === "t1" && playbook.plan) {
       // Post-result variant — single resolved cell + gap-tactical.
       const tone = playbook.plan.confidence === "HIGH" ? "#86efac" : playbook.plan.confidence === "MEDIUM" ? "#fbbf24" : "#cbd5e1";
       return `
         <div style="background:rgba(15,20,34,0.6); border:1px solid #1a2233; border-radius:8px; padding:10px 12px; font-size:11px; line-height:1.5;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; gap:8px; flex-wrap:wrap;">
             <span style="color:${tone}; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; font-size:10px;">${escHtml(playbook.cell_key || "")} · ${escHtml(playbook.plan.confidence || "")}</span>
-            <span style="font-size:10px; color:var(--text-muted);">T+1 plan</span>
+            <div style="display:flex; gap:6px; align-items:center;">
+              ${sizingPill}
+              <span style="font-size:10px; color:var(--text-muted);">T+1 plan</span>
+            </div>
           </div>
           <div style="color:#e2e8f0; font-weight:500;">${escHtml(playbook.plan.stance || "")}</div>
           ${playbook.tactical_note ? `<div style="color:#94a3b8; margin-top:4px;">${escHtml(playbook.tactical_note)}</div>` : ""}
@@ -997,9 +1071,12 @@
       const stanceLine = highlightedBranch?.plan?.stance || "Stance unresolved.";
       return `
         <div style="background:rgba(15,20,34,0.5); border:1px solid #1a2233; border-radius:8px; padding:10px 12px; font-size:11px; line-height:1.5;">
-          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:4px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap;">
             <div style="display:flex; gap:5px;">${branches.map(branchChip).join("")}</div>
-            <span style="font-size:10px; color:var(--text-muted); letter-spacing:0.04em; text-transform:uppercase;">trading angle</span>
+            <div style="display:flex; gap:6px; align-items:center;">
+              ${sizingPill}
+              <span style="font-size:10px; color:var(--text-muted); letter-spacing:0.04em; text-transform:uppercase;">trading angle</span>
+            </div>
           </div>
           <div style="color:#cbd5e1;">
             <span style="color:var(--text-muted); font-size:10px;">If ${escHtml(highlight || "MAINTAIN")}:</span>
@@ -1009,6 +1086,48 @@
     }
 
     return "";
+  }
+
+  // PR A2 — confidence-calibrated position-size pill. Colour-codes by tier:
+  // green (1.0x), amber (0.6x), red (≤0.3x). The tooltip explains "why" so
+  // the user understands the calibration came from the Risk Lab.
+  function renderPositionSizingPill(sizing, playbook) {
+    // Prefer the request-time sizing object (lab-calibrated). Fall back to
+    // the baked playbook fields (production confidence only). If neither
+    // is present, render nothing.
+    let mult, source, effectivePct, prodPct, labPct, tierLabel;
+    if (sizing && typeof sizing.multiplier === "number") {
+      mult = sizing.multiplier;
+      source = sizing.source;
+      effectivePct = sizing.effective_confidence_pct;
+      prodPct = sizing.production_confidence_pct;
+      labPct = sizing.calibrated_confidence_pct;
+      tierLabel = sizing.tier_label;
+    } else if (playbook && typeof playbook.position_size_multiplier === "number") {
+      mult = playbook.position_size_multiplier;
+      source = "production_only";
+      effectivePct = null;
+      tierLabel = playbook.position_size_tier?.label || null;
+    } else {
+      return "";
+    }
+    const tone =
+      mult >= 1.0
+        ? { bg: "rgba(34,197,94,0.15)", color: "#86efac", border: "rgba(34,197,94,0.4)" }
+        : mult >= 0.6
+          ? { bg: "rgba(251,191,36,0.12)", color: "#fbbf24", border: "rgba(251,191,36,0.35)" }
+          : { bg: "rgba(239,68,68,0.12)", color: "#fca5a5", border: "rgba(239,68,68,0.4)" };
+    const labelMult = `${mult}x`;
+    const tipParts = [`${tierLabel || "Sized"} (${labelMult})`];
+    if (source === "lab_calibrated" && labPct !== null && labPct !== undefined && prodPct !== null && prodPct !== undefined) {
+      tipParts.push(`Calibrated by Risk Lab: ${Math.round(prodPct)}% → ${Math.round(labPct)}% confidence`);
+    } else if (effectivePct !== null && effectivePct !== undefined) {
+      tipParts.push(`Confidence ${Math.round(effectivePct)}%`);
+    }
+    tipParts.push("Multiplier × your normal per-trade size — decision support, not investment advice.");
+    const tip = tipParts.join(" · ");
+    const badge = source === "lab_calibrated" ? "⚖" : "";
+    return `<span data-testid="sizing-pill" data-multiplier="${mult}" data-source="${source}" title="${escHtml(tip)}" style="display:inline-flex; align-items:center; gap:4px; padding:2px 7px; border-radius:9px; font-size:10px; font-weight:700; background:${tone.bg}; color:${tone.color}; border:1px solid ${tone.border};">${badge ? `<span style="opacity:0.85;">${badge}</span>` : ""}<span>${escHtml(labelMult)} size</span></span>`;
   }
 
   function verdictBg(v) {
@@ -1030,6 +1149,83 @@
       case "AVOID":      return "#fca5a5";
       default:           return "#cbd5e1";
     }
+  }
+
+  // PR A1 — Risk Lab "second opinion" badge. Read-only projection of the
+  // lab's quality + macro overlays. Surfaces a compact strip when the lab
+  // either disagrees with the production prediction or has flags worth
+  // surfacing. Production verdict and trading playbook above are UNCHANGED;
+  // this is purely a SEBI Reg 19 risk-disclosure surface.
+  function renderLabSecondOpinion(labView, prediction) {
+    if (!labView) return "";
+    const flagCount = Array.isArray(labView.quality_flags) ? labView.quality_flags.length : 0;
+    const hasMacro = labView.has_macro_overlay === true;
+    const hasQuality = labView.has_quality_overlay === true;
+    const disagrees = labView.disagrees_with_prediction === true;
+    if (!disagrees && !flagCount && !hasMacro) return "";
+
+    const stripeColor = disagrees ? "#fbbf24" : "#94a3b8";
+    const accentBg = disagrees ? "rgba(251,191,36,0.06)" : "rgba(148,163,184,0.04)";
+    const headerLabel = disagrees ? "Risk Lab disagrees" : "Risk Lab notes";
+
+    const prodVerdict = prediction?.verdict || null;
+    const confDelta = labView.confidence_delta_pct;
+
+    let verdictDeltaText = "";
+    if (labView.macro_veto?.vetoed === true) {
+      verdictDeltaText = `${prodVerdict || "?"} → SKIP (macro veto)`;
+    } else if (
+      typeof labView.combined_verdict === "string" &&
+      labView.combined_verdict.startsWith("LOW_QUALITY_") &&
+      prodVerdict === "BEAT"
+    ) {
+      verdictDeltaText = "BEAT → INLINE";
+    }
+    const confDeltaText =
+      typeof confDelta === "number" && confDelta !== 0
+        ? `confidence ${confDelta > 0 ? "+" : ""}${confDelta}pp`
+        : "";
+    const deltaSummary = [verdictDeltaText, confDeltaText].filter(Boolean).join(" · ");
+
+    const topReasons = Array.isArray(labView.top_reasons) ? labView.top_reasons.slice(0, 3) : [];
+    const reasonsHtml = topReasons.length
+      ? `<ul style="margin:4px 0 0 0; padding:0; list-style:none;">${topReasons
+          .map(
+            (r) =>
+              `<li style="font-size:10.5px; color:#cbd5e1; line-height:1.45;"><span style="color:${stripeColor};">▸</span> ${escHtml(
+                String(r.summary || r.category || ""),
+              )}</li>`,
+          )
+          .join("")}</ul>`
+      : "";
+
+    let macroNote = "";
+    if (hasMacro && labView.regime) {
+      const vetoed = labView.macro_veto?.vetoed === true;
+      const macroDelta = labView.macro_score_delta || 0;
+      const macroBits = [`<span style="color:${stripeColor};">${escHtml(String(labView.regime))}</span>`];
+      if (labView.regime_severity != null) macroBits.push(`sev ${escHtml(String(labView.regime_severity))}`);
+      if (labView.regime_stale) macroBits.push('<span style="color:#fca5a5;">(stale)</span>');
+      const tail = vetoed
+        ? ` — <span style="color:#fca5a5;">VETO: ${escHtml(String(labView.macro_veto?.reason || ""))}</span>`
+        : macroDelta
+          ? ` — score Δ ${macroDelta > 0 ? "+" : ""}${escHtml(String(macroDelta))}`
+          : "";
+      macroNote = `<div style="font-size:10.5px; color:#cbd5e1; margin-top:4px;">↪ Macro: ${macroBits.join(" ")}${tail}</div>`;
+    }
+
+    const flagsCountSuffix = !disagrees && hasQuality && flagCount > 3 ? ` (${flagCount} flags)` : "";
+
+    return `
+      <div data-testid="lab-second-opinion" data-disagrees="${disagrees ? "true" : "false"}" style="margin-top:6px; padding:8px 10px; border-left:3px solid ${stripeColor}; background:${accentBg}; border-radius:0 6px 6px 0;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:10.5px; color:${stripeColor}; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;">⚖ ${headerLabel}${flagsCountSuffix}</span>
+          ${deltaSummary ? `<span style="font-size:10.5px; color:${stripeColor};">${escHtml(deltaSummary)}</span>` : ""}
+        </div>
+        ${reasonsHtml}
+        ${macroNote}
+        <div style="font-size:9px; color:var(--text-muted); margin-top:4px; font-style:italic;">Experimental — does not change production verdict. See Risk Lab tab.</div>
+      </div>`;
   }
 
   function renderEarningsCard(event) {
@@ -1093,7 +1289,8 @@
         })()}
         ${renderSignalsRow(signals)}
         ${renderPriceBand(priceBand)}
-        ${renderTradingAngle(playbook)}
+        ${renderTradingAngle(playbook, event)}
+        ${renderLabSecondOpinion(event.lab_view, prediction)}
         ${renderCounterThesisBlurb(signals)}
         ${renderPredictionBuildExpander(event)}
       </div>`;

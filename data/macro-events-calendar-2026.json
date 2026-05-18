@@ -1,0 +1,20 @@
+{
+  "schema_version": "macro-events-calendar-v1",
+  "description": "Scheduled macro events that can shift the regime. Manually maintained for FY26; future automation in scripts/refresh-macro-calendar.mjs. Each event has a date (ISO), label, kind (RBI_MPC|FOMC|OPEC|BUDGET|ELECTION|MONSOON|GST_COUNCIL), and `severity_potential` (1-5) — how much the regime classifier expects to react.",
+  "events": [
+    { "date": "2026-06-04", "kind": "RBI_MPC", "label": "RBI Monetary Policy Committee — June 2026", "severity_potential": 3 },
+    { "date": "2026-06-18", "kind": "FOMC", "label": "US FOMC Meeting — June 2026", "severity_potential": 3 },
+    { "date": "2026-07-05", "kind": "OPEC", "label": "OPEC+ Ministerial Meeting", "severity_potential": 2 },
+    { "date": "2026-07-30", "kind": "FOMC", "label": "US FOMC Meeting — July 2026", "severity_potential": 3 },
+    { "date": "2026-08-06", "kind": "RBI_MPC", "label": "RBI Monetary Policy Committee — August 2026", "severity_potential": 3 },
+    { "date": "2026-08-15", "kind": "INDIA_INDEPENDENCE", "label": "Indian Independence Day (PM address)", "severity_potential": 1 },
+    { "date": "2026-09-17", "kind": "FOMC", "label": "US FOMC Meeting — September 2026", "severity_potential": 3 },
+    { "date": "2026-10-01", "kind": "RBI_MPC", "label": "RBI Monetary Policy Committee — October 2026", "severity_potential": 3 },
+    { "date": "2026-10-29", "kind": "FOMC", "label": "US FOMC Meeting — October 2026", "severity_potential": 3 },
+    { "date": "2026-11-05", "kind": "GST_COUNCIL", "label": "GST Council Meeting (provisional)", "severity_potential": 2 },
+    { "date": "2026-12-10", "kind": "RBI_MPC", "label": "RBI Monetary Policy Committee — December 2026", "severity_potential": 3 },
+    { "date": "2026-12-17", "kind": "FOMC", "label": "US FOMC Meeting — December 2026", "severity_potential": 3 },
+    { "date": "2027-02-01", "kind": "BUDGET", "label": "Union Budget — FY27", "severity_potential": 4 },
+    { "date": "2027-02-05", "kind": "RBI_MPC", "label": "RBI Monetary Policy Committee — February 2027", "severity_potential": 3 }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "schema_version": "macro-seed-events-v1",
+  "purpose": "Hand-curated historical macro events used by scripts/seed-historical-regimes.mjs to bootstrap the analog backtester (PR B1.4). Each entry is a known, well-documented regime shift with a defensible severity rating. The list is intentionally small (12-15 events) — large enough to give the analog finder n>=3 matches for the common regimes, small enough that an analyst can audit every entry. Replace `severity_rationale` with primary sources before promoting any thesis card built on this data.",
+  "events": [
+    {
+      "date": "2008-09-15",
+      "label": "Lehman Brothers collapse",
+      "regime": "GLOBAL_RISK_OFF",
+      "severity": 5,
+      "duration_days": 90,
+      "severity_rationale": "Global financial crisis trigger; Nifty fell -38% over the next 90 days; FII outflow $14bn from India.",
+      "primary_sectors_hit": ["Banks", "Real Estate", "Metals & Mining", "Capital Goods"],
+      "primary_sectors_benefit": ["Consumer Staples", "Pharmaceuticals"],
+      "source_url": "https://en.wikipedia.org/wiki/Bankruptcy_of_Lehman_Brothers"
+    },
+    {
+      "date": "2016-11-08",
+      "label": "Demonetisation (India)",
+      "regime": "REGULATORY_SHOCK",
+      "severity": 4,
+      "duration_days": 60,
+      "severity_rationale": "Overnight cancellation of ₹500/₹1000 notes; Banking/NBFC/FMCG/Real Estate hit on liquidity squeeze.",
+      "primary_sectors_hit": ["Real Estate", "Consumer Staples", "Automobiles"],
+      "primary_sectors_benefit": ["Banks", "Software"],
+      "source_url": "https://en.wikipedia.org/wiki/2016_Indian_banknote_demonetisation"
+    },
+    {
+      "date": "2017-07-01",
+      "label": "GST rollout (India)",
+      "regime": "REGULATORY_SHOCK",
+      "severity": 2,
+      "duration_days": 45,
+      "severity_rationale": "Goods & Services Tax came into effect; short-term destocking by FMCG/Auto/Pharma supply chains.",
+      "primary_sectors_hit": ["Automobiles", "Consumer Staples"],
+      "primary_sectors_benefit": ["Software"],
+      "source_url": "https://en.wikipedia.org/wiki/Goods_and_Services_Tax_(India)"
+    },
+    {
+      "date": "2020-03-16",
+      "label": "COVID-19 circuit-breaker crash",
+      "regime": "GLOBAL_RISK_OFF",
+      "severity": 5,
+      "duration_days": 30,
+      "severity_rationale": "Lower-circuit hit on NSE; Nifty -38% in 30 days; lockdown announced 25-Mar; max-vol weeks in Indian market history.",
+      "primary_sectors_hit": ["Banks", "Energy", "Automobiles", "Real Estate", "Metals & Mining"],
+      "primary_sectors_benefit": ["Pharmaceuticals", "Software", "Consumer Staples"],
+      "source_url": "https://en.wikipedia.org/wiki/2020_stock_market_crash"
+    },
+    {
+      "date": "2021-04-20",
+      "label": "COVID Delta 2nd wave peak",
+      "regime": "GLOBAL_RISK_OFF",
+      "severity": 3,
+      "duration_days": 30,
+      "severity_rationale": "Delta variant peak; oxygen crisis; sector rotation OUT of contact-services back INTO IT/pharma.",
+      "primary_sectors_hit": ["Banks", "Automobiles", "Real Estate"],
+      "primary_sectors_benefit": ["Healthcare", "Pharmaceuticals", "Software"],
+      "source_url": "https://en.wikipedia.org/wiki/COVID-19_pandemic_in_India"
+    },
+    {
+      "date": "2022-02-24",
+      "label": "Russia invades Ukraine",
+      "regime": "WAR_ESCALATION",
+      "severity": 4,
+      "duration_days": 60,
+      "severity_rationale": "Brent crude +30% in 14 days; rupee weakened; Nifty Realty/Auto hit on input-cost shock; Defence rallied.",
+      "primary_sectors_hit": ["Real Estate", "Automobiles", "Consumer Staples"],
+      "primary_sectors_benefit": ["Energy", "Metals & Mining", "Capital Goods"],
+      "source_url": "https://en.wikipedia.org/wiki/Russian_invasion_of_Ukraine"
+    },
+    {
+      "date": "2022-05-04",
+      "label": "RBI surprise repo rate hike",
+      "regime": "RATE_HIKE",
+      "severity": 3,
+      "duration_days": 30,
+      "severity_rationale": "Off-cycle +40bps hike; Realty/Auto/NBFC hit; Banks (esp PSU) benefited on NIM expansion.",
+      "primary_sectors_hit": ["Real Estate", "Automobiles"],
+      "primary_sectors_benefit": ["PSU Banks", "Private Banks"],
+      "source_url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=53711"
+    },
+    {
+      "date": "2023-03-10",
+      "label": "SVB collapse + global banking stress",
+      "regime": "GLOBAL_RISK_OFF",
+      "severity": 3,
+      "duration_days": 14,
+      "severity_rationale": "Silicon Valley Bank failed; contagion fears to mid-tier banks; Indian IT/Banks hit on cross-asset rotation; Defence/PSU Bank held up.",
+      "primary_sectors_hit": ["Software", "Private Banks"],
+      "primary_sectors_benefit": ["Consumer Staples", "PSU Banks"],
+      "source_url": "https://en.wikipedia.org/wiki/Collapse_of_Silicon_Valley_Bank"
+    },
+    {
+      "date": "2023-10-07",
+      "label": "Israel-Hamas conflict begins",
+      "regime": "WAR_ESCALATION",
+      "severity": 3,
+      "duration_days": 45,
+      "severity_rationale": "Israel-Hamas war; Brent +10%; defence equipment names rallied; Auto/Aviation hit on fuel-cost concern.",
+      "primary_sectors_hit": ["Automobiles", "Real Estate"],
+      "primary_sectors_benefit": ["Energy", "Metals & Mining"],
+      "source_url": "https://en.wikipedia.org/wiki/2023_Israel%E2%80%93Hamas_war"
+    },
+    {
+      "date": "2024-06-04",
+      "label": "Indian Lok Sabha election result (NDA reduced majority)",
+      "regime": "POLICY_STIMULUS",
+      "severity": 3,
+      "duration_days": 30,
+      "severity_rationale": "BJP-led NDA returned but with reduced numbers; Nifty -6% intra-day on result; PSU/Defence/Capital Goods unwind; FMCG/Pharma stable.",
+      "primary_sectors_hit": ["Capital Goods", "PSU Banks", "Metals & Mining"],
+      "primary_sectors_benefit": ["Consumer Staples", "Pharmaceuticals", "Software"],
+      "source_url": "https://en.wikipedia.org/wiki/2024_Indian_general_election"
+    },
+    {
+      "date": "2025-05-07",
+      "label": "India-Pakistan border tensions (Operation Sindoor)",
+      "regime": "WAR_ESCALATION",
+      "severity": 3,
+      "duration_days": 30,
+      "severity_rationale": "Cross-border military operation; FII risk-off rotation; Nifty Realty hit hardest (-12% in 14 days); Defence names rallied; Banking neutral.",
+      "primary_sectors_hit": ["Real Estate", "Capital Goods", "Automobiles"],
+      "primary_sectors_benefit": ["Energy", "Metals & Mining"],
+      "source_url": "https://en.wikipedia.org/wiki/2025_India%E2%80%93Pakistan_conflict"
+    },
+    {
+      "date": "2024-08-05",
+      "label": "Yen carry-trade unwind (global vol spike)",
+      "regime": "GLOBAL_RISK_OFF",
+      "severity": 2,
+      "duration_days": 7,
+      "severity_rationale": "BOJ hike + USDJPY rally triggered global carry unwind; VIX spiked; Indian IT/Banks hit on cross-asset rotation; recovered within 7-14 days.",
+      "primary_sectors_hit": ["Software", "Private Banks"],
+      "primary_sectors_benefit": ["Consumer Staples"],
+      "source_url": "https://en.wikipedia.org/wiki/2024_global_market_turmoil"
+    }
+  ]
+}

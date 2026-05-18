@@ -16,6 +16,8 @@
  * without a separate state store.
  */
 
+import { summarizeFromHistoryFiles } from "./hitRateSummary.js";
+
 export const HEALTH_SCHEMA_VERSION = "earnings-health-v1";
 
 /* ──────────────────────── sub-aggregators ───────────────────────── */
@@ -497,6 +499,30 @@ export function buildHealthSummary(args = {}) {
     alerts.push(picksFvDrift.alert);
   }
 
+  // PR A3 (Phase 2) — catastrophic-rate alert. The Phase 2 plan sets the
+  // Risk Lab verdict-promotion gate at catastrophic rate ≤ 12% over rolling
+  // 30 resolved events. Surfacing this in earnings-health.json lets the
+  // sanity gate (sws-sanity-gate.mjs) and the Slack health summary catch
+  // a regression before any human looks at the Earnings Watch tab.
+  //
+  // Wrapped in try/catch so a malformed history entry doesn't fault the
+  // rest of the health pipeline. Pure-function — derived from the
+  // `history` arg already loaded by the runner; no disk reads.
+  let catastrophicSummary = null;
+  try {
+    catastrophicSummary = summarizeFromHistoryFiles(history || []);
+  } catch (err) {
+    // swallow — health continues without this signal
+  }
+  if (catastrophicSummary && catastrophicSummary.catastrophic_alert) {
+    const r = catastrophicSummary.rolling_30;
+    alerts.push(
+      `Catastrophic rate alert: rolling-30 ${r.catastrophic_rate_pct}% ` +
+      `(${r.catastrophic_count}/${r.window}) exceeds ${catastrophicSummary.catastrophic_alert_threshold_pct}% threshold — ` +
+      `Risk Lab promotion gate cannot clear`,
+    );
+  }
+
   // PR3 — structured llm_offline flag for the snapshot API. The UI
   // renders a "qualitative signal: deterministic-only" pill when this
   // is true, so the user knows the LLM lever is producing heuristic
@@ -534,6 +560,7 @@ export function buildHealthSummary(args = {}) {
     macro_regime: macroRegimeFreshness,
     picks_snapshot_fv_drift: picksFvDrift,
     history_files: (history || []).length,
+    hit_rate_summary: catastrophicSummary,
     alerts,
     healthy: alerts.length === 0,
   };

@@ -330,7 +330,7 @@ function ciToPct(ci) {
  * Compute the calibration block for one flat set of (deduped) rows.
  * Shape is stable — see computeCalibration's return docs.
  */
-function calibrationFor(rows) {
+export function calibrationFor(rows) {
   let resolved = 0, unresolved = 0, hits = 0;
   // Per-bucket / per-verdict accumulators now keep the RAW row list
   // (slim {predicted_verdict, actual_verdict} pairs) so we can pass
@@ -411,6 +411,33 @@ function calibrationFor(rows) {
   // sample_size and may legitimately return null bounds for n<5).
   const overallCI = bootstrapHitRateCI(resolvedRows);
 
+  // PR A3 (Phase 2) — lenient + catastrophic hit-rate metrics.
+  //
+  // STRICT (hit_rate_overall_pct above): exact verdict match.
+  //
+  // LENIENT: off-by-one is OK (BEAT predicted, INLINE actual = hit;
+  //   INLINE predicted, BEAT/MISS actual = hit). The directional metric;
+  //   captures whether the predictor was "in the right neighborhood".
+  //
+  // CATASTROPHIC: BEAT ↔ MISS reversal (off-by-2). The metric that
+  //   actually costs money — you bought on a BEAT call and the stock
+  //   tanked, or you skipped on a MISS call and it ripped. SEBI-RA-
+  //   relevant: this is what we want to drive DOWN with the Risk Lab
+  //   overlay over 90 days.
+  const _VERDICT_ORDER = { MISS: 0, INLINE: 1, BEAT: 2 };
+  const lenientHits = [];
+  const catastrophicHits = [];
+  for (const r of resolvedRows) {
+    const pi = _VERDICT_ORDER[r.predicted_verdict];
+    const ai = _VERDICT_ORDER[r.actual_verdict];
+    if (pi === undefined || ai === undefined) continue;
+    const dist = Math.abs(pi - ai);
+    lenientHits.push(dist <= 1 ? 1 : 0);
+    catastrophicHits.push(dist === 2 ? 1 : 0);
+  }
+  const lenientCI = _bootstrapFromHits(lenientHits);
+  const catastrophicCI = _bootstrapFromHits(catastrophicHits);
+
   const bucketMap = {};
   const bucketCIMap = {};
   for (const [k, v] of byBucket) {
@@ -479,7 +506,48 @@ function calibrationFor(rows) {
       current_bucket_60_64_hit_rate: Math.round(bucketHitRate * 10) / 10,
       current_brier: brier,
     },
+    // PR A3 — lenient + catastrophic metrics with CIs. The 'lenient' and
+    // 'catastrophic' fields here are mirrors of the strict block above:
+    // _pct + _ci_low/high_pct + _sample_size. UI displays all three
+    // side-by-side under "n=X, ±Ypp" disclosure for SEBI Reg 19.
+    hit_rate_lenient_pct: lenientCI.rate == null ? null : Math.round(lenientCI.rate * 1000) / 10,
+    hit_rate_lenient_ci_low_pct: lenientCI.ci_low == null ? null : Math.round(lenientCI.ci_low * 1000) / 10,
+    hit_rate_lenient_ci_high_pct: lenientCI.ci_high == null ? null : Math.round(lenientCI.ci_high * 1000) / 10,
+    hit_rate_lenient_sample_size: lenientCI.sample_size,
+    hit_rate_catastrophic_pct: catastrophicCI.rate == null ? null : Math.round(catastrophicCI.rate * 1000) / 10,
+    hit_rate_catastrophic_ci_low_pct: catastrophicCI.ci_low == null ? null : Math.round(catastrophicCI.ci_low * 1000) / 10,
+    hit_rate_catastrophic_ci_high_pct: catastrophicCI.ci_high == null ? null : Math.round(catastrophicCI.ci_high * 1000) / 10,
+    hit_rate_catastrophic_sample_size: catastrophicCI.sample_size,
   };
+}
+
+// PR A3 — local 0/1-array bootstrap. bootstrapHitRateCI() is hardcoded
+// to derive hits from `predicted_verdict === actual_verdict`; the
+// lenient/catastrophic metrics need a custom hit predicate so we
+// pre-compute the 0/1 array and run an inline bootstrap. Same
+// percentile-resample logic, same n<5 + boundary behaviour as the
+// public function — kept structurally identical for fidelity.
+function _bootstrapFromHits(hitArray, opts = {}) {
+  const iterations = opts.iterations ?? 1000;
+  const ciLevel = opts.ciLevel ?? 0.95;
+  const n = hitArray.length;
+  if (n === 0) return { rate: null, ci_low: null, ci_high: null, sample_size: 0 };
+  let totalHits = 0;
+  for (let i = 0; i < n; i++) totalHits += hitArray[i] ? 1 : 0;
+  const rate = totalHits / n;
+  if (n < 5) return { rate, ci_low: null, ci_high: null, sample_size: n };
+  if (totalHits === 0 || totalHits === n) return { rate, ci_low: rate, ci_high: rate, sample_size: n };
+  const samples = new Array(iterations);
+  for (let it = 0; it < iterations; it++) {
+    let s = 0;
+    for (let j = 0; j < n; j++) s += hitArray[Math.floor(Math.random() * n)];
+    samples[it] = s / n;
+  }
+  samples.sort((a, b) => a - b);
+  const alpha = (1 - ciLevel) / 2;
+  const loIdx = Math.floor(alpha * iterations);
+  const hiIdx = Math.min(iterations - 1, Math.ceil((1 - alpha) * iterations) - 1);
+  return { rate, ci_low: samples[loIdx], ci_high: samples[hiIdx], sample_size: n };
 }
 
 /**
