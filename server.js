@@ -17,6 +17,9 @@ import compression from "compression";
 import cors from "cors";
 import helmet from "helmet";
 import { createBreaker } from "./services/externalApiBreaker.js";
+import { loadRiskLabViewMap, buildLabViewForEvent } from "./services/riskLab/earningsLabView.js";
+import { buildSizingDecision } from "./services/riskLab/positionSizing.js";
+import { loadHitRateSummary } from "./services/earnings/hitRateSummary.js";
 
 // External-API circuit breaker for /api/sector-heatmap (Yahoo Finance batch
 // quote). 3 consecutive failures → opens for 60s; serves stale cached
@@ -2812,12 +2815,26 @@ app.get("/api/earnings/upcoming", async (req, res) => {
     // show "today" cards yesterday.
     const cached = loadCachedEarningsSnapshot();
     const snap = recomputeDaysUntil(cached);
-    const events = filterEvents(snap.events, {
+    let events = filterEvents(snap.events, {
       days: req.query.days,
       symbol: req.query.symbol,
       tag: req.query.tag,
       hasTags: req.query.hasTags,
     });
+    // PR A1 — attach Risk Lab second-opinion per event (read-only join from
+    // data/risk-lab/*.json). Production verdicts are NOT modified. If files
+    // are missing or the kill-switch is set, lab_view = null and the UI
+    // renders unchanged.
+    const labMap = loadRiskLabViewMap();
+    if (labMap) {
+      events = events.map((e) => ({ ...e, lab_view: buildLabViewForEvent(e, labMap) }));
+    }
+    // PR A2 — attach confidence-calibrated sizing decision per event. When
+    // the lab has a tighter calibrated confidence, the sizing object uses
+    // it (effective_confidence_pct = lab's number); otherwise it falls
+    // back to the predictor's confidence_pct. Always additive — never
+    // changes the baked playbook fields.
+    events = events.map((e) => ({ ...e, sizing: buildSizingDecision(e) }));
     res.json({
       schema_version: snap.schema_version,
       built_at: snap.built_at,
@@ -2831,6 +2848,9 @@ app.get("/api/earnings/upcoming", async (req, res) => {
       past_window_days: snap.past_window_days ?? null,
       missing: snap._missing === true,
       health: readEarningsHealthSlim(),
+      lab_enabled: labMap !== null,
+      lab_regime: labMap?._regime || null,
+      lab_generated_at: labMap?._generated_at || null,
     });
   } catch (err) {
     console.error("[/api/earnings/upcoming] failed:", err);
@@ -2841,11 +2861,22 @@ app.get("/api/earnings/upcoming", async (req, res) => {
 app.get("/api/earnings/upcoming/stats", async (req, res) => {
   try {
     const cacheKey = "earnings_stats";
-    const cached = earningsCache.get(cacheKey);
-    if (cached) return res.json(cached);
-    const stats = loadEarningsStats();
-    earningsCache.set(cacheKey, stats);
-    res.json(stats);
+    let stats = earningsCache.get(cacheKey);
+    if (!stats) {
+      stats = loadEarningsStats();
+      earningsCache.set(cacheKey, stats);
+    }
+    // PR A3 — attach hit_rate_summary (strict + lenient + catastrophic
+    // with CIs) on-demand. Computed from earnings-history files, cached
+    // by file mtime inside the loader. Catastrophic alert (rolling-30
+    // > 12%) is the SEBI-RA-relevant flag for promotion gating.
+    let hit_rate_summary = null;
+    try {
+      hit_rate_summary = loadHitRateSummary();
+    } catch (err) {
+      console.warn("[/api/earnings/upcoming/stats] hit-rate summary failed:", err.message);
+    }
+    res.json({ ...stats, hit_rate_summary });
   } catch (err) {
     console.error("[/api/earnings/upcoming/stats] failed:", err);
     res.status(500).json({ error: err.message });
@@ -4252,6 +4283,16 @@ app.get("/api/risk-lab/quality-flags", (req, res) => {
   // serve as-is (1.2MB for the current full payload).
   if (!isRiskLabEnabled()) return res.status(404).json({ error: "not found" });
   const r = readRiskLabPayload(RISK_LAB_QUALITY_FLAGS_PATH, "quality-flags-latest");
+  return res.status(r.status).json(r.body);
+});
+
+// PR B3 (Phase 2) — macro-thesis projection. Reads the file written by
+// scripts/refresh-risk-lab.mjs (or the in-process orchestrator). 404
+// when the kill-switch is off, 503 when the file hasn't been generated.
+const MACRO_THESIS_PATH = path.join(__dirname, "data", "risk-lab", "macro-thesis-latest.json");
+app.get("/api/risk-lab/macro-thesis", (req, res) => {
+  if (!isRiskLabEnabled()) return res.status(404).json({ error: "not found" });
+  const r = readRiskLabPayload(MACRO_THESIS_PATH, "macro-thesis-latest");
   return res.status(r.status).json(r.body);
 });
 

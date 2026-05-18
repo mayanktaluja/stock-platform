@@ -1,0 +1,119 @@
+{
+  "schema_version": "macro-thesis-backtest-v1",
+  "generated_at": "2026-05-18T21:41:41.523Z",
+  "regime_count": 6,
+  "indeterminate_count": 6,
+  "actionable_count": 0,
+  "per_regime": [
+    {
+      "regime": "GLOBAL_RISK_OFF",
+      "severity": 2,
+      "current_label": "Yen carry-trade unwind (global vol spike)",
+      "current_date": "2024-08-05",
+      "n_analogs": 2,
+      "analogs": [
+        {
+          "date": "2021-04-20",
+          "label": "COVID Delta 2nd wave peak",
+          "severity": 3,
+          "source": "manual-seed"
+        },
+        {
+          "date": "2023-03-10",
+          "label": "SVB collapse + global banking stress",
+          "severity": 3,
+          "source": "manual-seed"
+        }
+      ],
+      "sectors": {},
+      "warnings": [
+        "n_analogs=2 < 3 — INDETERMINATE; do not act on these sector ranges",
+        "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
+      ],
+      "indeterminate": true
+    },
+    {
+      "regime": "WAR_ESCALATION",
+      "severity": 3,
+      "current_label": "India-Pakistan border tensions (Operation Sindoor)",
+      "current_date": "2025-05-07",
+      "n_analogs": 2,
+      "analogs": [
+        {
+          "date": "2022-02-24",
+          "label": "Russia invades Ukraine",
+          "severity": 4,
+          "source": "manual-seed"
+        },
+        {
+          "date": "2023-10-07",
+          "label": "Israel-Hamas conflict begins",
+          "severity": 3,
+          "source": "manual-seed"
+        }
+      ],
+      "sectors": {},
+      "warnings": [
+        "n_analogs=2 < 3 — INDETERMINATE; do not act on these sector ranges",
+        "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
+      ],
+      "indeterminate": true
+    },
+    {
+      "regime": "REGULATORY_SHOCK",
+      "severity": 2,
+      "current_label": "GST rollout (India)",
+      "current_date": "2017-07-01",
+      "n_analogs": 0,
+      "analogs": [],
+      "sectors": {},
+      "warnings": [
+        "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
+        "only 0/15 sectors had data — partial analog"
+      ],
+      "indeterminate": true
+    },
+    {
+      "regime": "RATE_HIKE",
+      "severity": 3,
+      "current_label": "RBI surprise repo rate hike",
+      "current_date": "2022-05-04",
+      "n_analogs": 0,
+      "analogs": [],
+      "sectors": {},
+      "warnings": [
+        "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
+        "only 0/15 sectors had data — partial analog"
+      ],
+      "indeterminate": true
+    },
+    {
+      "regime": "POLICY_STIMULUS",
+      "severity": 3,
+      "current_label": "Indian Lok Sabha election result (NDA reduced majority)",
+      "current_date": "2024-06-04",
+      "n_analogs": 0,
+      "analogs": [],
+      "sectors": {},
+      "warnings": [
+        "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
+        "only 0/15 sectors had data — partial analog"
+      ],
+      "indeterminate": true
+    },
+    {
+      "regime": "CALM",
+      "severity": 1,
+      "current_label": "Calm",
+      "current_date": "2026-05-18",
+      "n_analogs": 0,
+      "analogs": [],
+      "sectors": {},
+      "warnings": [
+        "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
+        "only 0/15 sectors had data — partial analog"
+      ],
+      "indeterminate": true
+    }
+  ]
+}

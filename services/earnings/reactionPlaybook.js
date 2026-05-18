@@ -1,3 +1,5 @@
+import { computeSizeMultiplier, resolveSizingTier } from "../riskLab/positionSizing.js";
+
 /**
  * reactionPlaybook.js
  *
@@ -294,6 +296,14 @@ export function buildPreviewPlaybook(event) {
     return `Predicted ${verdict}. Three guidance scenarios mapped — pick the branch after concall.`;
   })();
 
+  // PR A2 — Confidence-calibrated position-size multiplier. Reads the
+  // PRODUCTION predictor confidence here (the playbook is baked before
+  // the lab runs). At request time in server.js we additionally overlay
+  // the lab-calibrated multiplier when the Risk Lab has a tighter
+  // confidence estimate (event.lab_view.quality_adjusted_confidence).
+  const sizingMultiplier = computeSizeMultiplier(pred.confidence_pct);
+  const sizingTier = resolveSizingTier(pred.confidence_pct);
+
   return {
     mode: "preview",
     tradable: true,
@@ -307,6 +317,8 @@ export function buildPreviewPlaybook(event) {
       { guidance: "CUT", plan: cut, is_highlighted: highlight_branch === "CUT" },
     ],
     headline,
+    position_size_multiplier: sizingMultiplier,
+    position_size_tier: sizingTier ? { label: sizingTier.label, min_confidence: sizingTier.min } : null,
     version: PLAYBOOK_VERSION,
   };
 }
@@ -362,6 +374,15 @@ export function buildT1Playbook(event, actualResult, guidanceTone, gapPct = null
     }
   }
 
+  // PR A2 — position-size multiplier derived from the prediction the user
+  // would have acted on PRE-result. Post-result the multiplier is mostly
+  // informational (the trade is already on), but it explains "I sized 0.6x
+  // because confidence was 48%" in the audit trail and helps backtests
+  // model the realised P&L correctly.
+  const prePredConfidence = event?.prediction?.confidence_pct;
+  const sizingMultiplier = computeSizeMultiplier(prePredConfidence);
+  const sizingTier = resolveSizingTier(prePredConfidence);
+
   return {
     mode: "t1",
     tradable: true,
@@ -371,6 +392,8 @@ export function buildT1Playbook(event, actualResult, guidanceTone, gapPct = null
     gap_pct: gap,
     plan,
     tactical_note: tactical_note || `Apply the ${plan.label} plan as written.`,
+    position_size_multiplier: sizingMultiplier,
+    position_size_tier: sizingTier ? { label: sizingTier.label, min_confidence: sizingTier.min } : null,
     version: PLAYBOOK_VERSION,
   };
 }
