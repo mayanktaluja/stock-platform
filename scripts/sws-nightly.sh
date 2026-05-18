@@ -19,9 +19,10 @@
 #   bash scripts/sws-nightly.sh --dry-run # smoke test (skip scrape + commit)
 #
 # Env:
-#   SWS_NIGHTLY_DRY_RUN=1      # alt to --dry-run flag
-#   SWS_NIGHTLY_SKIP_BATTERY=0 # re-enable bail-out when on battery (default: skip the check)
-#   SWS_NIGHTLY_AUTO_MERGE=1   # default: enable --auto on PR (set =0 to hold for manual review)
+#   SWS_NIGHTLY_DRY_RUN=1        # alt to --dry-run flag
+#   SWS_NIGHTLY_SKIP_BATTERY=0   # re-enable bail-out when on battery (default: skip the check)
+#   SWS_NIGHTLY_AUTO_MERGE=1     # default: enable --auto on PR (set =0 to hold for manual review)
+#   SWS_SKIP_RESOLVE_ACTUALS=1   # skip post-earnings actuals-resolution (default: run)
 #
 # Exit codes:
 #   0  success or no-op
@@ -376,7 +377,15 @@ fi
 #                                    fetch in the nightly chain is more
 #                                    reliable than a separate launchd job
 #                                    that can rot when paths drift.
-# (Phase E will add refresh-earnings-actuals.mjs as step 9 once it lands.)
+#   9. resolve-earnings-actuals.mjs → fills actual_verdict / actual_t1_close_inr
+#                                    on archived predictions so the cap-lift
+#                                    gate + ablation + weight-tuner have ground
+#                                    truth. SWS news brief is the primary source
+#                                    (zero network); Yahoo earningsHistory is
+#                                    the fallback. Wired in 2026-05-18 after
+#                                    actuals had not resolved since 2026-05-09
+#                                    (382 past-date events stuck). Skippable
+#                                    via SWS_SKIP_RESOLVE_ACTUALS=1.
 
 # Step-3c auxiliary refresh status — each non-fatal refresh below records its
 # outcome here; the COMMIT_BODY builder (step 5) reads this file and appends
@@ -591,6 +600,17 @@ if with_timeout 600 node scripts/refresh-earnings.mjs 2>&1 | sed 's/^/[earnings]
 else
   echo "[nightly] refresh-earnings.mjs failed — non-fatal; tab stays on prior snapshot"
   aux_status "earnings-watch-latest.json" "FAILED"
+fi
+
+# Step 9: resolve actual_verdict / actual_t1_close_inr on archived predictions
+# so cap-lift gate + ablation + weight-tuner have ground truth. SWS news brief
+# is primary source (zero network), Yahoo earningsHistory the fallback.
+if [ "${SWS_SKIP_RESOLVE_ACTUALS:-0}" = "1" ]; then
+  echo "[sws-nightly] SKIP resolve-earnings-actuals (SWS_SKIP_RESOLVE_ACTUALS=1)"
+else
+  echo "[sws-nightly] resolve-earnings-actuals.mjs (timeout 300s)"
+  with_timeout 300 node scripts/resolve-earnings-actuals.mjs || \
+    echo "[sws-nightly] resolve-earnings-actuals.mjs FAILED — continuing (non-fatal)"
 fi
 
 # Date/branch labels — computed here so both the PASS path (step 5) and
