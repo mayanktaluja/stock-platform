@@ -811,6 +811,11 @@ const AUTH_EXEMPT_PATHS = new Set([
   // safe to expose so external uptime checks can verify the macro-only cron.
   // Added 2026-05-17 as Phase 4 of the macro permanent fix.
   "/api/macro/regime/health",
+  // Minimal liveness probe — 200 + body=`ok`, nothing else. The post-merge
+  // smoke for PR #301 showed /healthz was 401-gated in prod because the
+  // route handler is registered AFTER the auth middleware. Adding the path
+  // to the exempt set is the surgical fix.
+  "/healthz",
 ]);
 app.use((req, res, next) => {
   if (!AUTH_ENABLED) return next();
