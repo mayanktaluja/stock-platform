@@ -501,16 +501,21 @@ function attachGlossaryTooltips() {
   const tooltip = document.getElementById("starbhaiTooltip");
   if (!tooltip) return;
 
+  // SEBI 10/10 — D3: extend the selector to also match elements that carry a
+  // dynamic body via `data-tip-html`. The existing `data-term-id` (static,
+  // glossary-backed) path stays intact; `data-tip-html` is purely additive.
+  const TIP_SELECTOR = "[data-term-id], [data-tip-html]";
+
   // Show on hover or focus
   document.addEventListener("mouseover", (e) => {
-    const target = e.target.closest("[data-term-id]");
+    const target = e.target.closest(TIP_SELECTOR);
     if (!target) return;
     showTooltip(target, target.getAttribute("data-term-id"));
   });
 
   // Hide on mouseout (when leaving the trigger element)
   document.addEventListener("mouseout", (e) => {
-    const target = e.target.closest("[data-term-id]");
+    const target = e.target.closest(TIP_SELECTOR);
     if (!target) return;
     // Don't hide if the cursor moved INTO the tooltip itself
     const related = e.relatedTarget;
@@ -520,13 +525,15 @@ function attachGlossaryTooltips() {
 
   // Tap-to-open on mobile
   document.addEventListener("click", (e) => {
-    const target = e.target.closest("[data-term-id]");
+    const target = e.target.closest(TIP_SELECTOR);
     if (!target) {
       hideTooltip();
       return;
     }
     e.stopPropagation();
-    const id = target.getAttribute("data-term-id");
+    // For dynamic-body triggers (no termId), use a stable per-element key so
+    // tap-to-toggle still works.
+    const id = target.getAttribute("data-term-id") || "__dyn__";
     if (_activeTooltipTermId === id) {
       hideTooltip();
     } else {
@@ -544,19 +551,30 @@ function attachGlossaryTooltips() {
 }
 
 function showTooltip(triggerEl, termId) {
-  const def = window.GLOSSARY?.[termId];
-  if (!def) return;
   const tooltip = document.getElementById("starbhaiTooltip");
   if (!tooltip) return;
 
-  tooltip.innerHTML = `
-    <div class="tip-header">
-      ${escapeHtml(def.term)}
-      ${def.category ? `<span class="tip-category">${escapeHtml(def.category)}</span>` : ""}
-    </div>
-    <div class="tip-short">${escapeHtml(def.short)}</div>
-    <div class="tip-full">${escapeHtml(def.full)}</div>
-  `;
+  // SEBI 10/10 — D3: dynamic-body path. If the trigger carries `data-tip-html`,
+  // use that attribute value AS the tooltip body (innerHTML, trusted because
+  // it's app-generated — callers escape all dynamic values before composing
+  // the body). This overrides any GLOSSARY lookup and lets us render
+  // per-instance content (snapshot dates, lists, etc.) that can't live in
+  // the static glossary.
+  const dynamicHtml = triggerEl?.getAttribute?.("data-tip-html");
+  if (dynamicHtml) {
+    tooltip.innerHTML = dynamicHtml;
+  } else {
+    const def = window.GLOSSARY?.[termId];
+    if (!def) return;
+    tooltip.innerHTML = `
+      <div class="tip-header">
+        ${escapeHtml(def.term)}
+        ${def.category ? `<span class="tip-category">${escapeHtml(def.category)}</span>` : ""}
+      </div>
+      <div class="tip-short">${escapeHtml(def.short)}</div>
+      <div class="tip-full">${escapeHtml(def.full)}</div>
+    `;
+  }
 
   // Position the tooltip below the trigger by default; flip above if it
   // would overflow the viewport
@@ -3407,11 +3425,31 @@ const TRACK_TYPE_LABELS = {
   sws_insider_buying: "SWS · Insider Buying",
   sws_upcoming_earnings: "SWS · Upcoming Earnings",
   sws_avoid: "SWS · Avoid (sell signal)",
-  // Legacy scanners — preserved for historical continuity
+};
+
+// SEBI 10/10 uplift — Legacy scanner labels held separately so historical
+// trades surfaced via ?symbol= audit lookups still render readably (with
+// a small grey "LEGACY" pill next to them). These scanners no longer
+// generate new picks; see ACTIVE_TRACK_TYPES allowlist in server.js.
+const LEGACY_TRACK_TYPE_LABELS = {
   buynow_nifty100: "Buy Now (Nifty 100)",
   smallcap_buynow: "Small-Cap Buy Now",
   fundamental_deep_value: "Fundamental Deep Value",
 };
+
+// SEBI 10/10 uplift — shared label resolver for both the Track Record table
+// and the stock-detail strip. Active types render as plain (escaped) labels;
+// legacy types render with a small grey "LEGACY" pill so historical audits
+// remain readable. Returns trusted HTML (label escaped, pill static); callers
+// must NOT double-escape.
+function _trackTypeLabel(type) {
+  if (TRACK_TYPE_LABELS[type]) return escapeHtml(TRACK_TYPE_LABELS[type]);
+  if (LEGACY_TRACK_TYPE_LABELS[type]) {
+    return escapeHtml(LEGACY_TRACK_TYPE_LABELS[type]) +
+      ` <span style="display:inline-block;margin-left:6px;padding:1px 5px;border-radius:3px;background:rgba(160,160,160,0.15);color:#94a3b8;font-size:9px;font-weight:700;letter-spacing:0.4px;">LEGACY</span>`;
+  }
+  return escapeHtml(type);
+}
 
 // Types whose semantics invert "beats Nifty" — a win means the pick
 // under-performed the index, as we predicted.
@@ -3451,6 +3489,20 @@ window.onTrackMissesShownToggle = function onTrackMissesShownToggle(on) {
   }
 };
 
+// SEBI 10/10 — Wilson score 95% CI half-width for a proportion. Returns
+// null when n < 5 (too thin to be meaningful). Wilson is preferred over
+// normal-approx for small/extreme proportions.
+function _wilsonCi95(p, n) {
+  if (!n || n < 5 || p < 0 || p > 1) return null;
+  const z = 1.96;
+  const denom = 1 + (z * z) / n;
+  const centre = (p + (z * z) / (2 * n)) / denom;
+  const halfWidth = (z * Math.sqrt((p * (1 - p)) / n + (z * z) / (4 * n * n))) / denom;
+  // We want the half-width around the *original* p, not the Wilson-centre
+  // (the UI shows "55.0% ±X.X%"). Return the half-width on the Wilson scale.
+  return halfWidth;
+}
+
 function populateTrackHero(perf, data) {
   const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
   const setHtml = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
@@ -3461,7 +3513,9 @@ function populateTrackHero(perf, data) {
     const sc = signedColorFor(perf.winRate - 50);
     setHtml("trackHitRateValue",
       `<span style="color:${perf.winRate >= 50 ? "var(--positive)" : "var(--negative)"};">${perf.winRate}%</span>`);
-    setText("trackHitRateSub", `n = ${perf.total || 0} picks`);
+    const ci = _wilsonCi95(perf.winRate / 100, perf.total || 0);
+    const ciStr = ci ? ` · ±${(ci * 100).toFixed(1)}% (95% CI)` : "";
+    setText("trackHitRateSub", `n = ${perf.total || 0} picks${ciStr}`);
   } else {
     setText("trackHitRateValue", "—");
     setText("trackHitRateSub", "no picks yet");
@@ -3522,6 +3576,22 @@ function populateTrackHero(perf, data) {
   if (ageDays != null) subBits.push(`${ageDays} day${ageDays === 1 ? "" : "s"} of history`);
   if (perf.total != null && perf.total < 100) subBits.push("Early data — need ~100 picks for statistical significance");
   setText("trackHeroSubline", subBits.join(" · "));
+
+  // SEBI 10/10 — Survivor-bias tile. Hidden when no closed picks.
+  const surv = data?.survivorshipStats;
+  const tileEl = document.getElementById("trackSurvivorshipTile");
+  if (tileEl && surv && surv.dropped_count > 0) {
+    tileEl.style.display = "";
+    setText("trackSurvivorshipValue", String(surv.dropped_count));
+    if (surv.dropped_avg_alpha_pct != null) {
+      const sign = surv.dropped_avg_alpha_pct >= 0 ? "+" : "";
+      setText("trackSurvivorshipSub", `${sign}${surv.dropped_avg_alpha_pct.toFixed(1)}% avg α at close`);
+    } else {
+      setText("trackSurvivorshipSub", "α not yet resolved");
+    }
+  } else if (tileEl) {
+    tileEl.style.display = "none";
+  }
 }
 
 // PR T7 — calibration plot. 5-bucket SVG bar grid, no chart library;
@@ -3695,6 +3765,21 @@ async function loadTrackRecord(forceBust = false) {
     // PR T5 — new hero tile values. signedColorFor on alpha/beat-Nifty so
     // the visual weight scales with magnitude rather than shouting at 0.1 %.
     populateTrackHero(perf, data);
+
+    // SEBI 10/10 — Backtest/Live demarcation strip. firstLivePickAt comes
+    // from /api/track/history.
+    const stripEl = document.getElementById("trackBacktestLiveStrip");
+    if (stripEl) {
+      if (data?.firstLivePickAt) {
+        stripEl.style.display = "";
+        const sinceEl = document.getElementById("trackLiveSince");
+        const countEl = document.getElementById("trackLiveCountSub");
+        if (sinceEl) sinceEl.textContent = new Date(data.firstLivePickAt).toISOString().slice(0, 10);
+        if (countEl) countEl.textContent = `· ${data.totalCount || 0} picks`;
+      } else {
+        stripEl.style.display = "none";
+      }
+    }
 
     document.getElementById("trackHistoryCount").textContent =
       `${data.totalCount} PICK${data.totalCount === 1 ? "" : "S"}`;
@@ -4016,7 +4101,7 @@ function renderTrackHistoryTable(trades) {
           <div style="font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">${t.symbol} ${t.sector ? '· ' + escapeHtml(t.sector.slice(0, 18)) : ''} ${macroBadge}</div>
         </div>
         <div style="font-size:10px;color:var(--text-muted);">
-          <div style="font-weight:700;color:var(--text-secondary);">${escapeHtml(TRACK_TYPE_LABELS[t.type] || t.type)}</div>
+          <div style="font-weight:700;color:var(--text-secondary);">${_trackTypeLabel(t.type)}</div>
           <div>${(t.regimeAtSnapshot || 'CALM').replace(/_/g, ' ').toLowerCase()}</div>
         </div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:11px;text-align:right;">
@@ -4176,15 +4261,72 @@ function _sectionCardHTML(section, primaryHorizon) {
     const sym = (p.symbol || "").replace(/\.NS$/, "");
     return `<span onclick="openStockDetail('${escapeHtml(p.symbol)}')" style="display:inline-block; padding:2px 7px; background:rgba(96,165,250,0.08); border:1px solid rgba(96,165,250,0.25); border-radius:4px; color:#93c5fd; font-size:11px; font-weight:600; cursor:pointer; margin:2px 3px 2px 0;">${escapeHtml(sym)}</span>`;
   }).join("");
+
+  // SEBI 10/10 — D2: dynamic tooltip body for the ⓘ next to the title.
+  // Lists exactly which top-N stocks were snapshotted, on which date.
+  // Built here (not in glossary.js) because the date and list change per
+  // cron run.
+  const snapshotDate = section.latest_top10?.[0]?.dateKey || "no snapshot yet";
+  const nTracked = (section.latest_top10 || []).length;
+  const sideExplain = section.side === "SHORT"
+    ? `<strong style="color:#fca5a5;">Side: SHORT</strong> — a "win" here means the pick under-performed its benchmark, as predicted.`
+    : `<strong style="color:#86efac;">Side: LONG</strong> — a "win" here means the pick beat its benchmark.`;
+  const stockListItems = (section.latest_top10 || []).slice(0, 10).map((p, i) => {
+    const sym = escapeHtml((p.symbol || "").replace(/\.NS$/, ""));
+    const sector = p.sector ? ` · <span style="color: var(--text-muted);">${escapeHtml(p.sector.slice(0, 20))}</span>` : "";
+    return `<div style="padding: 2px 0; font-size: 11px;"><span style="color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 10px;">${String(i + 1).padStart(2, " ")}.</span> <strong style="color: #93c5fd;">${sym}</strong>${sector}</div>`;
+  }).join("");
+  const tipBody = `
+    <div style="padding: 12px 14px;">
+      <div style="font-size: 12px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">${escapeHtml(section.label)}</div>
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px; line-height: 1.5;">
+        <strong style="color: var(--gold);">Methodology:</strong> top ${nTracked || 10} ranked stocks from this section by V3 composite score, snapshotted into the paper-trade ledger on <strong style="color: var(--text-primary);">${escapeHtml(snapshotDate)}</strong>.
+      </div>
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.5;">${sideExplain}</div>
+      <div style="max-height: 240px; overflow-y: auto; border-top: 1px solid var(--border); padding-top: 8px;">
+        ${stockListItems || '<div style="font-size: 11px; color: var(--text-muted);">No stocks snapshotted yet.</div>'}
+      </div>
+    </div>`;
+  // The tipBody is composed of trusted, app-generated HTML (all dynamic
+  // values run through escapeHtml). We pass it through the data-tip-html
+  // attribute, which means the attribute VALUE must be HTML-attribute-safe.
+  // Replace " with &quot; to keep the attribute intact.
+  const tipBodyAttr = tipBody.replace(/"/g, "&quot;");
+
+  // SEBI 10/10 — D6: risk-metrics row. Reads section.risk_metrics from
+  // /api/track/sections (computed server-side in riskMetrics.js). Greyed
+  // when data is thin (null fields).
+  const rm = section.risk_metrics || {};
+  const fmtRm = (v, suffix = "") =>
+    v == null ? '<span style="color: var(--text-muted);">—</span>' :
+    `<span style="color: ${v >= 0 ? '#86efac' : '#fca5a5'};">${v >= 0 ? '+' : ''}${v}${suffix}</span>`;
+  const riskRow = `
+    <div style="display:flex; gap:14px; padding: 4px 0; font-size: 10px; color: var(--text-muted); border-top: 1px solid #1a2233; border-bottom: 1px solid #1a2233;">
+      <div>Sharpe: <strong>${fmtRm(rm.sharpe)}</strong></div>
+      <div>Sortino: <strong>${fmtRm(rm.sortino)}</strong></div>
+      <div>Max DD: <strong>${fmtRm(rm.max_drawdown_pct, "%")}</strong></div>
+    </div>`;
+
+  // SEBI 10/10 — D5: snapshot date sub-line. Replaces the previous
+  // "n_total · cum α" line with snapshot-date-first formatting.
+  const subLine = `
+    <div style="font-size:10px; color:var(--text-muted);">
+      Snapshot: <strong style="color: var(--text-secondary);">${escapeHtml(snapshotDate)}</strong>
+      · n=${nTracked} tracked
+      · cum α (${sparkHorizon}): ${cumPct != null ? `<span style="color:${cumPct >= 0 ? '#22c55e' : '#ef4444'}; font-weight:600;">${cumPct >= 0 ? '+' : ''}${cumPct}%</span>` : "—"}
+    </div>`;
+
   return `<div style="background:var(--panel); border:1px solid #1a2233; border-radius:10px; padding:14px; display:flex; flex-direction:column; gap:8px;">
     <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
-      <div style="font-size:12px; font-weight:700; color:var(--text-primary); line-height:1.3;">${escapeHtml(section.label)}</div>
+      <div style="font-size:12px; font-weight:700; color:var(--text-primary); line-height:1.3; display:flex; align-items:center; gap:6px;">
+        <span>${escapeHtml(section.label)}</span>
+        <span class="info-icon" data-tip-html="${tipBodyAttr}" tabindex="0" role="button" aria-label="Sampling methodology for ${escapeHtml(section.label)}" style="cursor:help;">i</span>
+      </div>
       <span style="display:inline-block; padding:2px 7px; border-radius:4px; background:${sideBg}; color:${sideColour}; font-size:9px; font-weight:800; letter-spacing:0.06em;">${section.side}</span>
     </div>
-    <div style="font-size:10px; color:var(--text-muted);">
-      ${section.n_total} total snapshots · cum α (${sparkHorizon}): ${cumPct != null ? `<span style="color:${cumPct >= 0 ? '#22c55e' : '#ef4444'}; font-weight:600;">${cumPct >= 0 ? '+' : ''}${cumPct}%</span>` : "—"}
-    </div>
+    ${subLine}
     <div style="border-top:1px solid #1a2233; padding-top:6px; min-height:44px;">${chips || '<span style="font-size:11px; color:var(--text-muted);">No latest snapshot</span>'}</div>
+    ${riskRow}
     ${_scorecardCellsHTML(section.scorecard_by_horizon, primaryHorizon)}
   </div>`;
 }
@@ -10394,7 +10536,7 @@ function renderStockTrackStrip(ticker, trades) {
     const r = t.returns || {};
     const ret = (r.returnPct != null && Number.isFinite(r.returnPct)) ? r.returnPct : null;
     const niftyRet = (r.niftyReturnPct != null && Number.isFinite(r.niftyReturnPct)) ? r.niftyReturnPct : null;
-    const sectionLabel = (TRACK_TYPE_LABELS && TRACK_TYPE_LABELS[t.type]) || (t.type ? String(t.type).replace(/_/g, " ") : "—");
+    const sectionLabel = t.type ? _trackTypeLabel(t.type) : "—";
     const sc = signedColorFor(ret);
     const niftyDelta = (ret != null && niftyRet != null) ? (ret - niftyRet) : null;
     const niftyBit = niftyRet != null
@@ -10410,7 +10552,7 @@ function renderStockTrackStrip(ticker, trades) {
     return `
       <div class="stock-track-row" style="display:flex; flex-wrap:wrap; align-items:baseline; gap:8px; padding:6px 0; border-bottom:1px dashed var(--border-soft); font-size:13px;">
         <span style="color:var(--text-muted); min-width:96px;">${ago}</span>
-        <span style="color:var(--text-secondary);">SWS · ${escapeHtml(sectionLabel)}</span>
+        <span style="color:var(--text-secondary);">${sectionLabel}</span>
         <span style="margin-left:auto;">→ ${retCell}${niftyBit}${alphaBit}</span>
       </div>`;
   }).join("");

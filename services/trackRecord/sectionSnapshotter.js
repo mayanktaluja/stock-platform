@@ -6,8 +6,9 @@
  * snapshotAndCloseSwsPicks() inside the SWS refresh flow — this module
  * only adds coverage for the surfaces that lack their own pipeline hook:
  *
- *   • Buy-Now scanner   — read from the precomputed_buynow_nifty100 KV
- *                          slot written by /api/cron/scan-precompute.
+ *   • SWS pipeline      — read from data/sws/picks-latest.json sections
+ *                          via snapshotAndCloseSwsPicks() inside the SWS
+ *                          refresh flow.
  *   • Mid-Term scanner  — fetched live (no precompute).
  *   • Sell-Now scanner  — fetched live (no precompute), tracked SHORT.
  *   • Earnings BEAT/MISS top-10 — sliced from earnings-watch-latest.json,
