@@ -72,7 +72,12 @@ const MIN_REWARDS_POPULATED        = 1000;   // BLOCK — collapse detector (bug
 const MIN_REWARDS_POPULATED_STRONG = 4500;   // WARN — flip to BLOCK after ~1 wk calibration
 const MIN_RISKS_POPULATED          = 500;    // WARN — risks are legitimately sparse; only trips on a total collapse
 const MAX_RUN_DURATION_SEC      = 6 * 3600;
-const PICKS_MAX_AGE_HOURS       = 6;
+// Nightly cadence is 12h (02:00 + 16:30 IST runs). 14h = 12h cadence +
+// 2h buffer for laptop-asleep / job-overrun edge cases. The prior 6h
+// value flipped to FAIL the first time a refresh slipped slightly and
+// then self-perpetuated (BLOCK kept the next push from updating the
+// verdict file), leaving prod's safety gate effectively off for days.
+export const PICKS_MAX_AGE_HOURS = 14;
 
 // L2
 const MAX_SILENT_DROP        = 5;       // tickers in universe but missing from deep
@@ -610,4 +615,10 @@ function main() {
   process.exit(blocks.length > 0 ? 1 : 0);
 }
 
-main();
+// Only run when invoked as a CLI, not when imported (e.g. by the test
+// suite that pulls in PICKS_MAX_AGE_HOURS). Without this guard the
+// script would execute end-to-end and process.exit() before the
+// importer's code could run.
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main();
+}

@@ -1,17 +1,17 @@
 {
-  "run_id": "2026-05-13T00-39-14-348Z",
-  "generated_at": "2026-05-13T16:06:29.439Z",
-  "verdict": "FAIL",
-  "block_count": 1,
+  "run_id": "2026-05-18T00-24-04-758Z",
+  "generated_at": "2026-05-18T06:26:36.883Z",
+  "verdict": "PASS",
+  "block_count": 0,
   "warn_count": 0,
-  "pass_count": 30,
-  "total_checks": 31,
-  "summary_line": "verdict=FAIL · scored=5517 · top30=30 · blocks=1",
+  "pass_count": 35,
+  "total_checks": 35,
+  "summary_line": "verdict=PASS · scored=5517 · top30=30",
   "layers": {
     "L1_run_integrity": {
-      "pass": 12,
+      "pass": 17,
       "warn": 0,
-      "block": 1,
+      "block": 0,
       "checks": [
         {
           "layer": "L1_run_integrity",
@@ -64,7 +64,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "duration_seconds": 14184,
+            "duration_seconds": 13881,
             "max": 21600
           }
         },
@@ -81,7 +81,7 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "news_populated_count": 5363,
+            "news_populated_count": 5368,
             "threshold": 1000
           }
         },
@@ -91,18 +91,49 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "news_populated_count": 5363,
+            "news_populated_count": 5368,
             "threshold": 1500
+          }
+        },
+        {
+          "layer": "L1_run_integrity",
+          "name": "rewards_populated_threshold",
+          "severity": "BLOCK",
+          "ok": true,
+          "detail": {
+            "rewards_populated_count": 4574,
+            "risks_populated_count": 5169,
+            "threshold": 1000
+          }
+        },
+        {
+          "layer": "L1_run_integrity",
+          "name": "rewards_populated_strong_threshold",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "rewards_populated_count": 4574,
+            "threshold": 4500
+          }
+        },
+        {
+          "layer": "L1_run_integrity",
+          "name": "risks_populated_threshold",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "risks_populated_count": 5169,
+            "threshold": 500
           }
         },
         {
           "layer": "L1_run_integrity",
           "name": "picks_recent",
           "severity": "BLOCK",
-          "ok": false,
+          "ok": true,
           "detail": {
-            "age_hours": 15.46,
-            "threshold": 6
+            "age_hours": 6.05,
+            "threshold": 14
           }
         },
         {
@@ -130,7 +161,17 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "count": 62,
+            "count": 475,
+            "threshold": 25
+          }
+        },
+        {
+          "layer": "L1_run_integrity",
+          "name": "section_upcoming_earnings_strong",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "count": 475,
             "threshold": 50
           }
         }
@@ -168,9 +209,9 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "fresh_pct": 99.87,
+            "fresh_pct": 99.8,
             "threshold": 95,
-            "fresh_count": 5510,
+            "fresh_count": 5506,
             "total": 5517
           }
         },
@@ -180,13 +221,16 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "stale_pct": 0.13,
+            "stale_pct": 0.18,
             "warn_at": 5,
             "sample": [
               "512065",
               "512345",
               "531913",
               "538537",
+              "538786",
+              "BSE_530889",
+              "MCL",
               "MM",
               "SASTASUNDR",
               "VISASTEEL"
@@ -208,7 +252,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "failed_count": 25,
+            "failed_count": 0,
             "threshold": 100
           }
         },
@@ -356,7 +400,7 @@
   "inputs": {
     "scored_count": 5517,
     "universe_size": 5517,
-    "finished_at": "2026-05-13T00:39:14.348Z",
+    "finished_at": "2026-05-18T00:24:04.758Z",
     "pipeline_status": "success"
   }
 }
