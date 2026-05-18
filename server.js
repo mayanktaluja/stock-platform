@@ -16,6 +16,16 @@ import express from "express";
 import compression from "compression";
 import cors from "cors";
 import helmet from "helmet";
+import { createBreaker } from "./services/externalApiBreaker.js";
+
+// External-API circuit breaker for /api/sector-heatmap (Yahoo Finance batch
+// quote). 3 consecutive failures → opens for 60s; serves stale cached
+// response (up to 30min old) instead of 5xx. See services/externalApiBreaker.js
+// for the state machine + PR-B3 audit-finding context. The other 3 flaky
+// upstream routes (/api/stock/:symbol, /api/news/market, /api/market) already
+// have route-level NodeCache + fallback chains — wrap-up of those routes is
+// deferred to a phase-2 PR.
+const sectorHeatmapBreaker = createBreaker({ name: "sector-heatmap-yahoo" });
 import rateLimit from "express-rate-limit";
 import NodeCache from "node-cache";
 import { apiLimiterKeyGenerator } from "./services/apiLimiterKey.js";
@@ -3098,12 +3108,13 @@ async function getSectorHeatmapData() {
 }
 
 app.get("/api/sector-heatmap", async (req, res) => {
-  try {
-    res.json(await getSectorHeatmapData());
-  } catch (err) {
-    console.error("Sector heatmap error:", err.message);
-    res.status(500).json({ error: err.message });
+  const result = await sectorHeatmapBreaker.call("heatmap", () => getSectorHeatmapData());
+  if (result.data == null) {
+    console.error("Sector heatmap unavailable:", result.source, result.error || "");
+    return res.status(503).json({ error: "sector heatmap upstream unavailable", source: result.source });
   }
+  if (!result.fresh) res.set("X-Data-Source", result.source);
+  res.json(result.data);
 });
 
 // ==================== FII / DII FLOW DATA ====================
