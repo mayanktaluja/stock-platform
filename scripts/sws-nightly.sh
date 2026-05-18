@@ -613,6 +613,15 @@ else
     echo "[sws-nightly] resolve-earnings-actuals.mjs FAILED — continuing (non-fatal)"
 fi
 
+# Step 9b: Risk Lab refresh — generates data/risk-lab/picks-adjusted-latest.json
+# by layering the experimental macro/quality overlay on top of the just-written
+# picks-latest.json + macroRegime.json. Read-only on production files; only
+# writes to data/risk-lab/. Non-fatal — the lab is opt-in via per-user toggle
+# and a stale lab file is recoverable on the next 02:00 / 16:30 fire.
+echo "[sws-nightly] refresh-risk-lab.mjs (timeout 60s)"
+with_timeout 60 node scripts/refresh-risk-lab.mjs 2>&1 | sed 's/^/[risk-lab] /' || \
+  echo "[sws-nightly] refresh-risk-lab.mjs FAILED — continuing (non-fatal; lab tab will show stale data)"
+
 # Date/branch labels — computed here so both the PASS path (step 5) and
 # the sanity-gate FAIL path (data-only PR) can use them.
 DATE=$(date +%Y-%m-%d)
