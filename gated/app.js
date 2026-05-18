@@ -2158,6 +2158,7 @@ function switchTab(tab) {
   const watchEl = document.getElementById("watchlistTab");
   const usersEl = document.getElementById("usersTab");
   const earningsEl = document.getElementById("earningsTab");
+  const riskLabEl = document.getElementById("riskLabTab");
 
   newsEl.style.display = "none";
   portEl.style.display = "none";
@@ -2167,6 +2168,7 @@ function switchTab(tab) {
   if (watchEl) watchEl.style.display = "none";
   if (usersEl) usersEl.style.display = "none";
   if (earningsEl) earningsEl.style.display = "none";
+  if (riskLabEl) riskLabEl.style.display = "none";
   if (newsRefreshTimer) { clearInterval(newsRefreshTimer); newsRefreshTimer = null; }
 
   // Refresh the global macro banner on every tab switch. This is a cheap
@@ -2213,6 +2215,9 @@ function switchTab(tab) {
   } else if (tab === "earnings") {
     if (earningsEl) earningsEl.style.display = "block";
     if (typeof loadEarningsWatch === "function") loadEarningsWatch();
+  } else if (tab === "riskLab") {
+    if (riskLabEl) riskLabEl.style.display = "block";
+    if (typeof loadRiskLab === "function") loadRiskLab();
   } else {
     // Default: picks tab
     const picksBtn = Array.from(tabs).find((t) => t.getAttribute("onclick")?.includes("picks"));
