@@ -363,7 +363,13 @@ app.use(
 //     stylesheet used by gated/index.html + public/login.html).
 //   • font-src: must include https://fonts.gstatic.com (the font files
 //     themselves, served from a different host than the CSS).
-//   • img-src: data: + 'self' covers the inline SVG favicon and chart sprites.
+//   • img-src: data: + 'self' covers the inline SVG favicon and chart sprites;
+//     https://*.googleusercontent.com is required for Google OAuth profile
+//     pictures rendered in the Users tab and the global header avatar (Google
+//     serves these from lh3 / lh4 / lh5 / lh6 subdomains — wildcard covers
+//     all of them). Without it, every <img src="https://lh3.googleusercontent
+//     .com/..."> is blocked by the browser before the request leaves, and
+//     every user row falls back to a broken-image glyph.
 //   • connect-src: 'self' is enough — all XHR/fetch goes to /api/* on the
 //     same origin.
 //   • frameAncestors: 'none' (clickjacking defence; equivalent to
@@ -391,7 +397,7 @@ app.use(
           "https://fonts.googleapis.com",
         ],
         "font-src": ["'self'", "data:", "https://fonts.gstatic.com"],
-        "img-src": ["'self'", "data:", "blob:"],
+        "img-src": ["'self'", "data:", "blob:", "https://*.googleusercontent.com"],
         "connect-src": ["'self'"],
         "frame-ancestors": ["'none'"],
         "object-src": ["'none'"],
