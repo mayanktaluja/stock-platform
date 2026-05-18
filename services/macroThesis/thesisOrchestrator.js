@@ -18,6 +18,7 @@ import { fileURLToPath } from "node:url";
 import { buildScenarioPackage } from "./scenarioProbabilityEngine.js";
 import { rankSectorsFromAnalog } from "./sectorBeneficiaryRanker.js";
 import { mapStocksToSector } from "./stockExposureMapper.js";
+import { getUpcomingCatalysts, getCatalystProximity } from "./catalystTimeline.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -68,11 +69,22 @@ export function buildMacroThesis({
   const severity = regimeDoc.severity;
   const daysInState = _daysSince(regimeDoc.generatedAt, asOf);
 
+  // PR B4 — pull upcoming catalysts so the scenario probability engine
+  // gets a real catalystProximityDays input (instead of the explicit
+  // override only). Caller can still override via opts.catalystProximityDays.
+  const upcomingCatalysts = getUpcomingCatalysts({
+    asOf: asOf.toISOString().slice(0, 10),
+  });
+  const effectiveCatalystProximity =
+    catalystProximityDays != null
+      ? catalystProximityDays
+      : getCatalystProximity({ asOf: asOf.toISOString().slice(0, 10) });
+
   const scenarioPackage = buildScenarioPackage({
     regime,
     severity,
     daysInState: daysInState || 0,
-    catalystProximityDays,
+    catalystProximityDays: effectiveCatalystProximity,
     currentDate: asOf.toISOString().slice(0, 10),
     regimeHistoryDir,
     sectorDataDir,
@@ -135,7 +147,8 @@ export function buildMacroThesis({
       days_in_state: daysInState,
       stale: regimeDoc.stale === true,
     },
-    catalyst_proximity_days: catalystProximityDays,
+    catalyst_proximity_days: effectiveCatalystProximity,
+    upcoming_catalysts: upcomingCatalysts.slice(0, 10),
     position_cap_pct: POSITION_CAP_PCT,
     branches,
     caveats,

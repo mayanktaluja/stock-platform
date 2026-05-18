@@ -331,6 +331,29 @@
     }
     root.appendChild(cardsWrap);
 
+    // PR B4 — upcoming catalysts strip
+    if (Array.isArray(thesis.upcoming_catalysts) && thesis.upcoming_catalysts.length > 0) {
+      const cat = el("div", {
+        "data-testid": "thesis-catalysts",
+        style: { marginTop: "16px", padding: "12px 14px", border: "1px solid #1a2233", borderRadius: "6px", background: "rgba(15,20,34,0.6)" },
+      });
+      cat.appendChild(el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "8px" } }, "Upcoming catalysts (next 30 days)"));
+      const wrap = el("div", { style: { display: "flex", flexWrap: "wrap", gap: "6px" } });
+      for (const c of thesis.upcoming_catalysts) {
+        const chip = el("div", {
+          style: {
+            padding: "4px 10px", borderRadius: "12px", fontSize: "10.5px",
+            background: c.days_until <= 7 ? "rgba(248,113,113,0.12)" : c.days_until <= 14 ? "rgba(251,191,36,0.12)" : "rgba(96,165,250,0.10)",
+            color: c.days_until <= 7 ? "#fca5a5" : c.days_until <= 14 ? "#fbbf24" : "#93c5fd",
+            border: `1px solid ${c.days_until <= 7 ? "rgba(248,113,113,0.3)" : c.days_until <= 14 ? "rgba(251,191,36,0.3)" : "rgba(96,165,250,0.25)"}`,
+          },
+        }, `${c.kind} · ${c.label} · in ${c.days_until}d`);
+        wrap.appendChild(chip);
+      }
+      cat.appendChild(wrap);
+      root.appendChild(cat);
+    }
+
     // SEBI Reg 16 caveats
     if (thesis.caveats?.length > 0) {
       const cv = el("div", { "data-testid": "thesis-caveats", style: { marginTop: "16px", padding: "12px 14px", border: "1px solid rgba(148,163,184,0.3)", borderRadius: "6px", background: "rgba(15,20,34,0.4)" } });
