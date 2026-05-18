@@ -422,6 +422,42 @@ export function buildMomentumCoverageReport(stocks) {
   };
 }
 
+// Companion to buildUniverseStats: returns the FULL list of tickers that
+// have NO momentum window at all (1M, 3M, 1Y all missing/non-finite). These
+// are the stocks excluded from BOTH `universe_size` and the percentile
+// arrays in v3-universe-stats.json — surfaced here as `excluded_for_momentum`
+// so the gap is structurally closed and fully auditable.
+//
+// Differs from buildMomentumCoverageReport in two ways:
+//   1. Returns objects ({ticker, reason}) not just names, so audit consumers
+//      can grow the reason taxonomy without re-deriving from the deep dir.
+//   2. Returns the COMPLETE list, not a first-25 sample — the universe is
+//      bounded (~5500 stocks, ~53 excluded) so the file bloat is tolerable.
+//
+// The reason string is a single bucket today ("no momentum windows…");
+// future versions may split on "thinly-traded BSE-only" vs "new listing"
+// vs "delisted" by inspecting the deep file's metadata. Tests should match
+// on the prefix, not the full string.
+export function collectExcludedForMomentum(stocks) {
+  const excluded = [];
+  for (const s of stocks) {
+    const t = s?.ticker || s?.overview?.ticker || null;
+    if (!t) continue;
+    const r = s?.overview?.returns_pct || {};
+    const has1m = typeof r["1M"] === "number" && Number.isFinite(r["1M"]);
+    const has3m = typeof r["3M"] === "number" && Number.isFinite(r["3M"]);
+    const has1y = typeof r["1Y"] === "number" && Number.isFinite(r["1Y"]);
+    if (!has1m && !has3m && !has1y) {
+      excluded.push({
+        ticker: t,
+        reason: "no momentum windows — thinly-traded BSE-only or new listings",
+      });
+    }
+  }
+  excluded.sort((a, b) => a.ticker.localeCompare(b.ticker));
+  return excluded;
+}
+
 function _percentileRank(value, sorted) {
   if (value == null || !Number.isFinite(value) || !sorted?.length) return null;
   let lo = 0, hi = sorted.length;
@@ -988,15 +1024,34 @@ export function runFullScoring() {
   // returns_pct at all in their SWS deep file — those stocks are scored
   // by computeV3Score with momentum imputed (50th percentile) and the
   // breakdown stamped `momentum_imputed: true`. Surfacing the names here
-  // makes the universe_size-vs-counts gap (e.g. 5517 vs 5464) auditable
-  // without scanning the full deep dir.
+  // makes the universe coverage gap auditable without scanning the full
+  // deep dir.
+  //
+  // universe_size is the size of the momentum-percentile universe — i.e.
+  // it equals r1m.length === r3m.length === r1y.length by construction.
+  // Tickers without any momentum window (thinly-traded BSE-only, new
+  // listings) are excluded from BOTH universe_size and the percentile
+  // arrays, and persisted in `excluded_for_momentum[]` for audit. This
+  // structurally closes the prior 53-row gap (PR #279 only documented
+  // it via momentum_coverage; Option A makes the column semantically
+  // accurate). Per-stock scoring still covers ALL loaded stocks — the
+  // 53 excluded tickers go through computeV3Score with imputed
+  // momentum (breakdown.momentum_imputed: true).
   const universeStatsPath = path.join(path.dirname(PATHS.picksLatest), "v3-universe-stats.json");
   const coverage = buildMomentumCoverageReport(loaded);
+  const excludedForMomentum = collectExcludedForMomentum(loaded);
   fs.writeFileSync(universeStatsPath, JSON.stringify({
     generated_at: new Date().toISOString(),
-    universe_size: scored.length,
+    universe_size: universe.r1m.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
     momentum_coverage: coverage,
+    excluded_for_momentum: excludedForMomentum,
+    notes:
+      "universe_size matches momentum-percentile universe by construction " +
+      "(universe_size === r1m.length === r3m.length === r1y.length). Tickers " +
+      "without any momentum window are listed in excluded_for_momentum[] for " +
+      "audit; they are still scored by computeV3Score with momentum imputed " +
+      "at the 50th percentile (breakdown.momentum_imputed: true).",
     r1m: universe.r1m,
     r3m: universe.r3m,
     r1y: universe.r1y,
@@ -1026,11 +1081,21 @@ export function rebuildUniverseStatsOnly() {
   }
   const universe = buildUniverseStats(loaded);
   const coverage = buildMomentumCoverageReport(loaded);
+  const excludedForMomentum = collectExcludedForMomentum(loaded);
+  // universe_size === r1m.length === r3m.length === r1y.length by construction.
+  // See runFullScoring above for the rationale and the audit/scoring split.
   const payload = {
     generated_at: new Date().toISOString(),
-    universe_size: loaded.length,
+    universe_size: universe.r1m.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
     momentum_coverage: coverage,
+    excluded_for_momentum: excludedForMomentum,
+    notes:
+      "universe_size matches momentum-percentile universe by construction " +
+      "(universe_size === r1m.length === r3m.length === r1y.length). Tickers " +
+      "without any momentum window are listed in excluded_for_momentum[] for " +
+      "audit; they are still scored by computeV3Score with momentum imputed " +
+      "at the 50th percentile (breakdown.momentum_imputed: true).",
     r1m: universe.r1m,
     r3m: universe.r3m,
     r1y: universe.r1y,
@@ -1051,10 +1116,12 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   if (ticker === "--rebuild-universe-stats") {
     const payload = rebuildUniverseStatsOnly();
     const cov = payload.momentum_coverage;
+    const excluded = payload.excluded_for_momentum?.length || 0;
     console.log(
-      `Rebuilt v3-universe-stats.json: ${payload.universe_size} stocks, ` +
-        `momentum coverage ${cov.completeness_pct}% (${cov.with_all_windows}/${payload.universe_size}), ` +
-        `${cov.missing_all_windows.count} stocks missing returns_pct entirely`,
+      `Rebuilt v3-universe-stats.json: universe_size=${payload.universe_size} ` +
+        `(== r1m.length == r3m.length == r1y.length by construction), ` +
+        `coverage ${cov.completeness_pct}% (${cov.with_all_windows}/${cov.scored} loaded), ` +
+        `${excluded} excluded_for_momentum (deep-file scan covered ${cov.scored} stocks)`,
     );
     process.exit(0);
   }
