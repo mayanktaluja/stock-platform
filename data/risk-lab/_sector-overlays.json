@@ -1,0 +1,62 @@
+{
+  "_schema_version": "risk-lab-sector-overlays-v1",
+  "_note": "Sector-specific quality overlays. Each entry fires when the stock's sector matches sector_match (regex) AND any risk bullet matches risk_pattern. Used by services/riskLab/quality/sectorQualityOverlay.js to surface idiosyncratic sector risks the generic riskTextClassifier misses.",
+  "_updated": "2026-05-18",
+
+  "epc_td_working_capital": {
+    "sector_match": "(?:capital\\s+goods|power|infrastructure|construction|engineering)",
+    "risk_patterns": [
+      "(?:receivable|debtor|working\\s+capital|wc\\s+cycle)",
+      "execution\\s+(?:risk|delay)",
+      "(?:order|contract)\\s+(?:cancell|defer|delay)"
+    ],
+    "severity": -2,
+    "summary": "EPC / T&D / Power sector working-capital risk — receivables stretch or execution delay common in this vertical"
+  },
+
+  "pharma_usfda": {
+    "sector_match": "(?:pharma|healthcare|biotech)",
+    "risk_patterns": [
+      "usfda",
+      "(?:fda\\s+(?:warning|inspect|483))",
+      "regulatory\\s+(?:non-compliance|violation|sanction)",
+      "manufacturing\\s+(?:violation|deficienc(?:y|ies))"
+    ],
+    "severity": -3,
+    "summary": "Pharma USFDA / regulatory action risk — can permanently impair earnings power"
+  },
+
+  "banking_npa": {
+    "sector_match": "(?:bank|nbfc|financ)",
+    "risk_patterns": [
+      "(?:npa|non-performing|gross\\s+np)",
+      "(?:asset\\s+quality\\s+(?:deteriorat|stress))",
+      "(?:provision\\s+(?:cover|coverage)\\s+(?:weak|inadequate|low))",
+      "(?:slippage|restructur)"
+    ],
+    "severity": -2,
+    "summary": "Banking / NBFC asset-quality concern — NPAs or provisioning gap"
+  },
+
+  "auto_demand_cycle": {
+    "sector_match": "(?:auto|vehicle)",
+    "risk_patterns": [
+      "(?:demand|volume)\\s+(?:slow(?:down|ing)|weakness|declining)",
+      "inventory\\s+(?:build|pile|stretched)",
+      "channel\\s+stuff(?:ing)?"
+    ],
+    "severity": -2,
+    "summary": "Auto demand cycle weakness — dealer inventory or volume risk"
+  },
+
+  "realty_cycle": {
+    "sector_match": "(?:real\\s+estate|realty|housing)",
+    "risk_patterns": [
+      "(?:unsold|inventory\\s+months)",
+      "(?:absorption|launch)\\s+(?:weak|slow|declining)",
+      "(?:project|completion)\\s+(?:delay|cost\\s+overrun)"
+    ],
+    "severity": -2,
+    "summary": "Real estate cycle concern — unsold inventory or project delays"
+  }
+}
