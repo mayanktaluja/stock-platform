@@ -22,7 +22,7 @@ const DRY_RUN = process.argv.includes("--dry-run");
 const JSON_OUT = process.argv.includes("--json");
 
 const t0 = Date.now();
-const { payload, outPath, dryRun } = runRiskLab({ dryRun: DRY_RUN });
+const { payload, qualityPayload, outPath, qualityFlagsOutPath, dryRun } = runRiskLab({ dryRun: DRY_RUN });
 
 const s = payload.summary;
 const r = payload.regime
@@ -30,12 +30,19 @@ const r = payload.regime
   : "regime=<missing>";
 console.log(
   `[risk-lab] ${dryRun ? "DRY-RUN " : ""}${r} ` +
-    `stocks=${s.total_stocks} flagged=${s.flagged_count} vetoed=${s.vetoed_count} ` +
-    `stale_skipped=${s.stale_skipped_count} (${Date.now() - t0}ms)`,
+    `stocks=${s.total_stocks} (${Date.now() - t0}ms)`,
+);
+console.log(
+  `[risk-lab]   macro: flagged=${s.macro_flagged_count} vetoed=${s.macro_vetoed_count} stale_skipped=${s.macro_stale_skipped_count}`,
+);
+console.log(
+  `[risk-lab]   quality: flagged=${s.quality_flagged_count} vetoed=${s.quality_vetoed_count} ` +
+    `low=${s.low_quality_count} insufficient_data=${s.insufficient_quality_data_count}`,
 );
 
 if (!dryRun) {
   console.log(`[risk-lab] wrote ${outPath}`);
+  console.log(`[risk-lab] wrote ${qualityFlagsOutPath} (${qualityPayload.total_with_flags} stocks with flags)`);
 }
 
 if (JSON_OUT) {

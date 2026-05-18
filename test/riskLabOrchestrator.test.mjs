@@ -50,7 +50,7 @@ console.log("riskLabOrchestrator: buildLabPayload");
   const regime = makeRegimeFixture();
   const payload = buildLabPayload(picks, regime);
 
-  assert("has schema_version", payload.schema_version === "risk-lab-picks-v1");
+  assert("has schema_version", payload.schema_version === "risk-lab-picks-v2");
   assert("has generated_at", typeof payload.generated_at === "string");
   assert("regime field projected", payload.regime?.regime === "OIL_SHOCK");
   assert("source_picks_scanned_at copied", payload.source_picks_scanned_at === "2026-05-18T00:00:00Z");
