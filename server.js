@@ -4179,6 +4179,84 @@ app.get("/api/macro/override", (req, res) => {
   res.json(override);
 });
 
+// ──── Risk Lab (experimental — see ~/.claude/plans/in-my-opinion-...-hellman.md) ────
+//
+// Read-only projection of the data files produced by scripts/refresh-risk-lab.mjs.
+// The lab is an isolated hypothesis test for macro/geopolitical + earnings-quality
+// overlays — it does NOT modify any production scoring or prediction. All routes
+// are gated by RISK_LAB_ENABLED (default true); when off, every route returns 404
+// so the feature is effectively invisible.
+//
+// File-served (no DB, no compute at request time) so the routes are O(file-read)
+// per call — well under 50ms for a 2.6MB picks payload. The lab JSON is regenerated
+// nightly by sws-nightly.sh (PR 2 wiring), so freshness matches the rest of the
+// platform.
+const RISK_LAB_PICKS_PATH = path.join(__dirname, "data", "risk-lab", "picks-adjusted-latest.json");
+const RISK_LAB_QUALITY_FLAGS_PATH = path.join(__dirname, "data", "risk-lab", "quality-flags-latest.json");
+
+function isRiskLabEnabled() {
+  // Runtime-read per request (per plan D5) so the kill-switch doesn't require
+  // a redeploy — `vercel env add RISK_LAB_ENABLED false` takes effect on the
+  // next API call.
+  const v = process.env.RISK_LAB_ENABLED;
+  if (v === undefined || v === null || v === "") return true; // default ON
+  return !/^(false|0|off|no)$/i.test(String(v).trim());
+}
+
+function readRiskLabPayload(filePath, label) {
+  try {
+    if (!fs.existsSync(filePath)) return { ok: false, status: 503, body: { error: `${label} not yet generated — run scripts/refresh-risk-lab.mjs` } };
+    const parsed = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    return { ok: true, status: 200, body: parsed };
+  } catch (err) {
+    console.warn(`[risk-lab] failed to read ${label}: ${err.message}`);
+    return { ok: false, status: 500, body: { error: `failed to load ${label}` } };
+  }
+}
+
+app.get("/api/risk-lab/picks-adjusted", (req, res) => {
+  if (!isRiskLabEnabled()) return res.status(404).json({ error: "not found" });
+  const r = readRiskLabPayload(RISK_LAB_PICKS_PATH, "picks-adjusted-latest");
+  return res.status(r.status).json(r.body);
+});
+
+app.get("/api/risk-lab/regime-context", (req, res) => {
+  if (!isRiskLabEnabled()) return res.status(404).json({ error: "not found" });
+  const r = readRiskLabPayload(RISK_LAB_PICKS_PATH, "picks-adjusted-latest");
+  if (!r.ok) return res.status(r.status).json(r.body);
+  const payload = r.body;
+  return res.json({
+    schema_version: payload.schema_version,
+    generated_at: payload.generated_at,
+    source_regime_generated_at: payload.source_regime_generated_at,
+    regime: payload.regime,
+    summary: payload.summary,
+  });
+});
+
+app.get("/api/risk-lab/quality-flags/:ticker", (req, res) => {
+  if (!isRiskLabEnabled()) return res.status(404).json({ error: "not found" });
+  const ticker = String(req.params.ticker || "").toUpperCase();
+  if (!ticker) return res.status(400).json({ error: "ticker required" });
+  const r = readRiskLabPayload(RISK_LAB_QUALITY_FLAGS_PATH, "quality-flags-latest");
+  if (!r.ok) return res.status(r.status).json(r.body);
+  const stock = (r.body.stocks || []).find((s) => String(s.ticker || "").toUpperCase() === ticker);
+  if (!stock) {
+    return res.status(404).json({ error: `no quality flags found for ${ticker}` });
+  }
+  return res.json(stock);
+});
+
+app.get("/api/risk-lab/quality-flags", (req, res) => {
+  // Bulk listing — returns all stocks with at least one flag. Light enough to
+  // serve as-is (1.2MB for the current full payload).
+  if (!isRiskLabEnabled()) return res.status(404).json({ error: "not found" });
+  const r = readRiskLabPayload(RISK_LAB_QUALITY_FLAGS_PATH, "quality-flags-latest");
+  return res.status(r.status).json(r.body);
+});
+
+// ──── /end Risk Lab ────
+
 // ==================== PAPER-TRADE TRACKER ====================
 
 /**
