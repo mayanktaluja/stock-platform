@@ -28,6 +28,7 @@ import { fileURLToPath } from "url";
 import { fetchNseQuoteRaw } from "../nse.js";
 import { getAllStocks } from "../stockList.js";
 import { ENRICHED_FIELDS } from "../enrichFundamentals.js";
+import { resolveCurrentNseSymbol } from "../services/nseTickerAliases.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -58,11 +59,23 @@ function buildSymbolList() {
   const seen = new Set();
   const list = [];
 
+  // Apply NSE corporate-action renames at the boundary so curated entries
+  // like TATAMOTORS.NS / LTIM.NS / ZOMATO.NS fold into their renamed
+  // successors (TMPV / LTM / ETERNAL) instead of producing permanent
+  // `no_data` failures every nightly refresh. The successors are also
+  // listed in the NIFTY500 supplement; the `seen` dedup absorbs the
+  // overlap so we don't double-fetch.
+  const pushIfNew = (symbol, rec) => {
+    const current = resolveCurrentNseSymbol(symbol);
+    if (!current || seen.has(current)) return;
+    seen.add(current);
+    list.push({ symbol: current, name: rec.name, sector: rec.sector, source: rec.source });
+  };
+
   // 1. Curated (ALL_STOCKS from stockList.js) — full shape with name/sector
   for (const s of getAllStocks()) {
-    if (!s.symbol || seen.has(s.symbol)) continue;
-    seen.add(s.symbol);
-    list.push({ symbol: s.symbol, name: s.name, sector: s.sector, source: "curated" });
+    if (!s.symbol) continue;
+    pushIfNew(s.symbol, { name: s.name, sector: s.sector, source: "curated" });
   }
 
   // 2. Supplement — only if flagged
@@ -71,13 +84,11 @@ function buildSymbolList() {
     const bySymbol = supp.bySymbol || {};
     for (const [bare, rec] of Object.entries(bySymbol)) {
       const symbol = rec.symbol || `${bare}.NS`;
-      if (seen.has(symbol)) continue;
       // Default mode: only pull Smallcap 250 + Microcap 250 (what the SME scanner ranks).
       // --full adds the long-tail 1,431 names from the NSE EQ master.
       const inSmallcap = (rec.indices || []).some((i) => /SMALLCAP 250|MICROCAP 250/.test(i));
       if (!FULL_UNIVERSE && !inSmallcap) continue;
-      seen.add(symbol);
-      list.push({ symbol, name: rec.name, sector: rec.sector, source: "supplement" });
+      pushIfNew(symbol, { name: rec.name, sector: rec.sector, source: "supplement" });
     }
   }
 
