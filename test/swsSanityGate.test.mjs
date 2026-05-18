@@ -42,12 +42,15 @@ function assert(name, cond, got) {
 console.log("\nsws-sanity-gate.mjs picks_recent threshold regression\n");
 
 // ---------------------------------------------------------------- assert 1
-// Constant pinned at 14h. Any change to this value should come with a
-// matching explanation — accidentally reverting to 6 reintroduces the
-// self-perpetuating FAIL the loosening was meant to fix.
+// Constant pinned at 20h. The original 6h flipped to FAIL the first time
+// a refresh slipped slightly and self-perpetuated; 14h (PR #294) was still
+// too tight — evening runs blocked at 16.7h on 2026-05-18 (forcing PR #314
+// manual sync). 20h covers worst-case cadence (14.5h between starts) plus
+// a full 4.5h run duration. Reverting below 20h reintroduces the same
+// blocking behaviour, so any drop should come with a deliberate explanation.
 assert(
-  "PICKS_MAX_AGE_HOURS exported and equal to 14",
-  PICKS_MAX_AGE_HOURS === 14,
+  "PICKS_MAX_AGE_HOURS exported and equal to 20",
+  PICKS_MAX_AGE_HOURS === 20,
   PICKS_MAX_AGE_HOURS,
 );
 
@@ -111,29 +114,29 @@ function runGateAndGetPicksFinding(ageHours) {
 }
 
 // ---------------------------------------------------------------- assert 2
-// 13.99h < 14h threshold → picks_recent check passes.
-const justUnder = runGateAndGetPicksFinding(13.99);
+// 19.99h < 20h threshold → picks_recent check passes.
+const justUnder = runGateAndGetPicksFinding(19.99);
 assert(
-  "picks_recent age=13.99 → ok=true (under 14h threshold)",
+  "picks_recent age=19.99 → ok=true (under 20h threshold)",
   justUnder && justUnder.ok === true,
   justUnder,
 );
 assert(
-  "picks_recent age=13.99 → detail.threshold=14",
-  justUnder && justUnder.detail?.threshold === 14,
+  "picks_recent age=19.99 → detail.threshold=20",
+  justUnder && justUnder.detail?.threshold === 20,
   justUnder?.detail,
 );
 
 // ---------------------------------------------------------------- assert 3
-// 14.01h >= 14h threshold → picks_recent check BLOCKs.
-const justOver = runGateAndGetPicksFinding(14.01);
+// 20.01h >= 20h threshold → picks_recent check BLOCKs.
+const justOver = runGateAndGetPicksFinding(20.01);
 assert(
-  "picks_recent age=14.01 → ok=false (over 14h threshold)",
+  "picks_recent age=20.01 → ok=false (over 20h threshold)",
   justOver && justOver.ok === false,
   justOver,
 );
 assert(
-  "picks_recent age=14.01 → severity=BLOCK",
+  "picks_recent age=20.01 → severity=BLOCK",
   justOver && justOver.severity === "BLOCK",
   justOver,
 );
