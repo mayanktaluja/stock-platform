@@ -5229,6 +5229,14 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+// /healthz — minimal liveness probe (no body, 200/OK only). Exists so
+// external uptime monitors don't have to authenticate. /api/health is the
+// richer status surface with stage-ages + LLM stats. Kept here (not at
+// /api/healthz) so router-level auth never gates a liveness check.
+app.get("/healthz", (_req, res) => {
+  res.status(200).type("text/plain").send("ok");
+});
+
 // ─── /legal/* — static legal pages (P1.3 grievance, P1.4 methodology,
 // P4.1 Investor Charter). These are served from /gated/*.html so the
 // per-session auth gate still applies in production; in dev (AUTH_ENABLED
@@ -6711,9 +6719,27 @@ app.get("/api/sws-universe", async (req, res) => {
   res.json(data);
 });
 
+// Query-param support — server-side pagination + section filter.
+//   ?limit=N         cap each section to N items (0 < N <= 200)
+//   ?category=KEY    return only the named section; null/empty others
+// Both can combine. Backward-compat: no params → full payload (steady-state
+// 7.15 MB body, identical to pre-2026-05-18 behaviour). With params the
+// response carries `_meta.<section>_total` so clients can show "N of M".
+//
+// Audited 2026-05-18: handler ignored req.query.* and shipped the full
+// payload on every call, including ~1208-item "avoid" section. Mobile +
+// slow-network users paid the full 7 MB even when asking for top 10.
+const SWS_PICKS_MAX_LIMIT = 200;
 app.get("/api/sws-picks", async (req, res) => {
   const data = swsDal.getPicksLatest();
   if (!data) return res.status(404).json({ error: "no_picks_yet", hint: "Run /sws-scan-shard 1/2/3 in Claude to start the initial scan." });
+  const limitRaw = req.query.limit;
+  const limit = limitRaw != null
+    ? Math.min(Math.max(parseInt(limitRaw, 10) || 0, 0), SWS_PICKS_MAX_LIMIT)
+    : null;
+  const category = typeof req.query.category === "string" && req.query.category.trim()
+    ? req.query.category.trim()
+    : null;
   const driftCounter = { count: 0 };
   const driftTimeoutFlag = { timedOut: false, errored: false };
   if (data.sections) {
@@ -6765,6 +6791,32 @@ app.get("/api/sws-picks", async (req, res) => {
     fv_drift_timeout: !!driftTimeoutFlag.timedOut,
     fv_drift_errored: !!driftTimeoutFlag.errored,
   };
+  // Server-side pagination + section filter — applied AFTER drift guard so
+  // the per-row enrichment + drift counter reflect the full underlying
+  // dataset, not just the served slice. The `_meta.<section>_total` fields
+  // tell the client "this section has X total; you got Y".
+  if (data.sections && (limit !== null || category)) {
+    if (category) {
+      const keep = data.sections[category];
+      data.sections = keep ? { [category]: keep } : {};
+    }
+    if (limit !== null) {
+      const totals = {};
+      for (const k of Object.keys(data.sections)) {
+        const arr = data.sections[k];
+        if (Array.isArray(arr) && arr.length > limit) {
+          totals[`${k}_total`] = arr.length;
+          data.sections[k] = arr.slice(0, limit);
+        }
+      }
+      if (Object.keys(totals).length > 0) {
+        data._meta = { ...data._meta, ...totals, limit };
+      } else if (limit !== null) {
+        data._meta = { ...data._meta, limit };
+      }
+    }
+    if (category) data._meta = { ...data._meta, category };
+  }
   res.json(data);
 });
 
