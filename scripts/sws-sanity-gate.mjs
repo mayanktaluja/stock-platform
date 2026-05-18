@@ -72,12 +72,20 @@ const MIN_REWARDS_POPULATED        = 1000;   // BLOCK — collapse detector (bug
 const MIN_REWARDS_POPULATED_STRONG = 4500;   // WARN — flip to BLOCK after ~1 wk calibration
 const MIN_RISKS_POPULATED          = 500;    // WARN — risks are legitimately sparse; only trips on a total collapse
 const MAX_RUN_DURATION_SEC      = 6 * 3600;
-// Nightly cadence is 12h (02:00 + 16:30 IST runs). 14h = 12h cadence +
-// 2h buffer for laptop-asleep / job-overrun edge cases. The prior 6h
-// value flipped to FAIL the first time a refresh slipped slightly and
-// then self-perpetuated (BLOCK kept the next push from updating the
-// verdict file), leaving prod's safety gate effectively off for days.
-export const PICKS_MAX_AGE_HOURS = 14;
+// Nightly cadence is 14.5h between starts (02:00 + 16:30 IST). Each run
+// takes ~4.5h. The sanity gate runs AT THE END of the pipeline (after the
+// 4.5h finishes), so it compares the OLD canonical's age against threshold.
+// Worst-case OLD-canonical age at sanity-time = previous-run's finished_at
+// → current-run's sanity-time = 14.5h cadence + 4.5h run duration = ~19h.
+// 14h was too tight — the evening run's sanity-check tripped at 16.7h on
+// 2026-05-18 because morning's canonical was 16.7h old by then; PR #314 had
+// to manually promote the sanity-blocked picks to canonical.
+// 20h gives enough slack to cover both schedule slips AND the run duration,
+// while still alerting if a refresh genuinely stops running for >20h.
+//
+// Long-term fix is to make picks_recent check the NEW data's freshness
+// rather than the OLD canonical's age — but that's a bigger refactor.
+export const PICKS_MAX_AGE_HOURS = 20;
 
 // L2
 const MAX_SILENT_DROP        = 5;       // tickers in universe but missing from deep
