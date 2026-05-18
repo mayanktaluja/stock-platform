@@ -212,13 +212,23 @@ export function saveStockJson(ticker, parsed) {
   writeJsonAtomic(fp, parsed);
   return fp;
 }
+// Canonical failed.json shape is { entries: [...], updated_at: <iso> }.
+// We deliberately overwrite the file (never partial-merge) so that any orphan
+// top-level keys from legacy hand-edits (e.g. the 2026-04-27 V2RETAIL hybrid
+// schema bug) get scrubbed on the very next write. Consumers
+// (sws-seed-from-json, sws-sanity-gate) only read entries[], so anything that
+// is not under entries[] is unreachable and must not be preserved.
 export function recordFailedStock(ticker, failedTab, error) {
-  const cur = readJson(PATHS.failed) || { entries: [] };
-  cur.entries.push({
+  const raw = readJson(PATHS.failed);
+  const entries = Array.isArray(raw?.entries) ? raw.entries.slice() : [];
+  entries.push({
     ticker, failed_tab: failedTab, error,
     recorded_at: new Date().toISOString(),
   });
-  writeJsonAtomic(PATHS.failed, cur);
+  writeJsonAtomic(PATHS.failed, {
+    entries,
+    updated_at: new Date().toISOString(),
+  });
 }
 
 // ---------- Concurrency token + pipeline lock (used by Playwright driver
