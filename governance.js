@@ -440,16 +440,32 @@ export async function saveGovernance(snapshot) {
       const okCount = Number.isFinite(counts.ok)
         ? counts.ok
         : Object.keys(snapshot?.bySymbol || {}).length;
-      console.warn(
-        `[GOVERNANCE] saveGovernance refused to overwrite: snapshot reports only ` +
-        `${okCount} populated records (of ${counts.total ?? "unknown"}); ` +
-        `preserving existing snapshot with ${existingCount} entries.`
-      );
+      const totalAttempts = counts.total ?? "unknown";
+      const priorDate = existing?.fetchedAt || "unknown";
+      // Escalate the log level when the fetch returned ZERO records and the
+      // existing snapshot has real coverage — that's the exact failure mode
+      // that wiped governance.json on 2026-05-12 (the bug we now refuse to
+      // re-experience). A "CRITICAL" prefix is what nightly chain wrappers
+      // (sws-nightly.sh, alerting greps) look for to page on the page-zero
+      // case specifically; low-yield-but-nonzero is just a warn.
+      if (okCount === 0) {
+        console.warn(
+          `[governance] CRITICAL: 0 ok of ${totalAttempts} attempts — refusing ` +
+          `to overwrite last-good (${existingCount} entries from ${priorDate})`
+        );
+      } else {
+        console.warn(
+          `[GOVERNANCE] saveGovernance refused to overwrite: snapshot reports only ` +
+          `${okCount} populated records (of ${totalAttempts}); ` +
+          `preserving existing snapshot with ${existingCount} entries from ${priorDate}.`
+        );
+      }
       return {
         skipped: true,
         reason: "zero_or_low_yield_preserved_existing",
         fetched: okCount,
         existingCount,
+        priorDate,
       };
     }
     // No existing data to preserve — fall through to write the outage
