@@ -106,5 +106,55 @@ assert(
   { offenders: bareTimeoutCalls },
 );
 
+// ---------------------------------------------------------------- tripwire
+// Mid-run revert tripwire (2026-05-19 RCA fix): the outer sanity gate's
+// FAIL email must differentiate "scoring-phase failure" from "data reverted
+// during aux chain" by reading the inline-pass marker file written by
+// sws-refresh-api.sh. Without these, the operator can't tell which class
+// of failure happened — the 2026-05-18 22:37 IST symptom was identical
+// for both cases (picks_recent BLOCK), but the cause was the second.
+assert(
+  "sws-nightly.sh reads INLINE_PASS_FLAG to diagnose mid-run revert",
+  /INLINE_PASS_FLAG=.*_inline_pass\.flag/.test(nightly),
+  null,
+);
+assert(
+  "sws-nightly.sh sets TRIPWIRE_DIAGNOSIS when inline passed but outer failed",
+  /TRIPWIRE_DIAGNOSIS=.*MID-RUN REVERT DETECTED/.test(nightly),
+  null,
+);
+assert(
+  "sws-nightly.sh sets TRIPWIRE_DIAGNOSIS when inline did not pass (scoring-phase)",
+  /TRIPWIRE_DIAGNOSIS=.*SCORING-PHASE FAILURE/.test(nightly),
+  null,
+);
+assert(
+  "sws-nightly.sh email body includes timestamps (picks scanned_at, lr started_at, finished_at)",
+  /picks-latest\.json scanned_at[\s\S]+last-refresh\.json started_at[\s\S]+last-refresh\.json finished_at/.test(nightly),
+  null,
+);
+
+// And refresh-api.sh runs the inline gate between stamp and PDF.
+const refreshApi = readFileSync(
+  resolve(REPO_ROOT, "scripts/sws-refresh-api.sh"),
+  "utf-8",
+);
+assert(
+  "sws-refresh-api.sh invokes the inline sanity gate (--inline)",
+  /node scripts\/sws-sanity-gate\.mjs --inline/.test(refreshApi),
+  null,
+);
+assert(
+  "sws-refresh-api.sh clears INLINE_PASS_FLAG at start of inline-gate step",
+  /rm -f "\$\{INLINE_PASS_FLAG\}"/.test(refreshApi),
+  null,
+);
+assert(
+  "sws-refresh-api.sh stamps RUN_STARTED_ISO into summary started_at",
+  /RUN_STARTED_ISO=.*date.*-u/.test(refreshApi) &&
+    /started_at: "\$\{RUN_STARTED_ISO\}"/.test(refreshApi),
+  null,
+);
+
 console.log(`\n  ${pass} passed, ${fail} failed\n`);
 process.exit(fail === 0 ? 0 : 1);

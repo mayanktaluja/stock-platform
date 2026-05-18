@@ -16,12 +16,12 @@
  */
 
 import { spawnSync } from "child_process";
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from "fs";
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync, existsSync } from "fs";
 import { tmpdir } from "os";
 import { dirname, join, resolve } from "path";
 import { fileURLToPath } from "url";
 
-import { PICKS_MAX_AGE_HOURS } from "../scripts/sws-sanity-gate.mjs";
+import { PICKS_MAX_AGE_HOURS, PICKS_LR_CONSISTENCY_SLACK_SEC } from "../scripts/sws-sanity-gate.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "..");
@@ -56,14 +56,16 @@ assert(
 
 // ---------------------------------------------------------------- helpers
 // Build a minimal SWS_SANITY_ROOT fixture so the gate runs end-to-end.
-// We only care about the picks_recent finding here, so other layers can
-// be in whatever shape — they'll fail BLOCK and FAIL the verdict, but
-// our assertion targets the specific finding regardless of verdict.
-function buildFixture(ageHours) {
+// We only care about the picks_recent / picks_matches_last_refresh findings
+// here, so other layers can be in whatever shape — they'll fail BLOCK and
+// FAIL the verdict, but our assertions target specific findings regardless.
+function buildFixture(ageHours, opts = {}) {
   const root = mkdtempSync(join(tmpdir(), "sws-sanity-test-"));
   mkdirSync(join(root, "deep"), { recursive: true });
 
-  const scannedAt = new Date(Date.now() - ageHours * 3600 * 1000).toISOString();
+  const nowMs = Date.now();
+  const scannedAtMs = nowMs - ageHours * 3600 * 1000;
+  const scannedAt = new Date(scannedAtMs).toISOString();
   writeFileSync(
     join(root, "picks-latest.json"),
     JSON.stringify({
@@ -79,25 +81,35 @@ function buildFixture(ageHours) {
   // Minimal last-refresh.json — present-but-empty is enough to let
   // layer1() reach the picks_recent block. Other L1 checks will fail
   // BLOCK on missing fields; we don't care.
-  writeFileSync(
-    join(root, "last-refresh.json"),
-    JSON.stringify({
-      finished_at: new Date().toISOString(),
-      scored_count: 0,
-      news_populated_count: 0,
-      rewards_populated_count: 0,
-      risks_populated_count: 0,
-      shards_failed: 0,
-    }),
-  );
+  //
+  // started_at / finished_at default to bracketing scanned_at exactly so
+  // the picks_matches_last_refresh check is "consistent" by default. Opts
+  // can override either timestamp to test mismatch scenarios.
+  //
+  // opts.includeStartedAt = false → simulates a pre-upgrade summary file.
+  // opts.startedAtOffsetSec / opts.finishedAtOffsetSec → shift the window
+  //   for boundary testing (offset relative to scannedAt).
+  const includeStarted = opts.includeStartedAt !== false;
+  const startedAtMs = scannedAtMs + (opts.startedAtOffsetSec ?? -300) * 1000; // default: 5min before scanned
+  const finishedAtMs = scannedAtMs + (opts.finishedAtOffsetSec ?? 300) * 1000; // default: 5min after scanned
+  const lr = {
+    finished_at: new Date(finishedAtMs).toISOString(),
+    scored_count: 0,
+    news_populated_count: 0,
+    rewards_populated_count: 0,
+    risks_populated_count: 0,
+    shards_failed: 0,
+  };
+  if (includeStarted) lr.started_at = new Date(startedAtMs).toISOString();
+  writeFileSync(join(root, "last-refresh.json"), JSON.stringify(lr));
 
   writeFileSync(join(root, "universe.json"), "[]");
   writeFileSync(join(root, "sws-scored-universe.json"), "[]");
   return root;
 }
 
-function runGateAndGetPicksFinding(ageHours) {
-  const root = buildFixture(ageHours);
+function runGateAndGetFindings(ageHours, opts = {}) {
+  const root = buildFixture(ageHours, opts);
   try {
     const result = spawnSync("node", [GATE_SCRIPT], {
       env: { ...process.env, SWS_SANITY_ROOT: root, SWS_RUN_ID: "" },
@@ -107,10 +119,38 @@ function runGateAndGetPicksFinding(ageHours) {
     const reportPath = join(root, "_sanity", "_latest.json");
     const report = JSON.parse(readFileSync(reportPath, "utf-8"));
     const l1 = report.layers.L1_run_integrity?.checks || [];
-    return l1.find((c) => c.name === "picks_recent");
+    return {
+      picksRecent: l1.find((c) => c.name === "picks_recent"),
+      consistency: l1.find((c) => c.name === "picks_matches_last_refresh"),
+    };
   } finally {
     try { rmSync(root, { recursive: true, force: true }); } catch {}
   }
+}
+
+function runGateInlineMode(ageHours, opts = {}) {
+  const root = buildFixture(ageHours, opts);
+  try {
+    const result = spawnSync("node", [GATE_SCRIPT, "--inline"], {
+      env: { ...process.env, SWS_SANITY_ROOT: root, SWS_RUN_ID: "" },
+      encoding: "utf-8",
+    });
+    // Evaluate file presence BEFORE the finally block deletes the fixture root.
+    return {
+      exitCode: result.status,
+      stdout: result.stdout || "",
+      stderr: result.stderr || "",
+      flagExists: existsSync(join(root, "_sanity", "_inline_pass.flag")),
+      latestReportExists: existsSync(join(root, "_sanity", "_latest.json")),
+    };
+  } finally {
+    try { rmSync(root, { recursive: true, force: true }); } catch {}
+  }
+}
+
+// Backwards-compat shim for the existing picks_recent assertions.
+function runGateAndGetPicksFinding(ageHours) {
+  return runGateAndGetFindings(ageHours).picksRecent;
 }
 
 // ---------------------------------------------------------------- assert 2
@@ -139,6 +179,196 @@ assert(
   "picks_recent age=20.01 → severity=BLOCK",
   justOver && justOver.severity === "BLOCK",
   justOver,
+);
+
+// ============================================================================
+// picks_matches_last_refresh — internal consistency check
+// ============================================================================
+//
+// Background: on 2026-05-18 22:37 IST the sanity gate fired picks_recent
+// (age=16.73h vs 14h threshold), but the underlying cause was that
+// picks-latest.json had been silently reverted to morning's git-committed
+// version somewhere between scoring (20:51 IST) and the sanity gate
+// (22:37 IST). The threshold bump to 20h (PR #315) hides that class of
+// failure rather than catching it. picks_matches_last_refresh diffs
+// picks.scanned_at against lr.started_at/finished_at to catch
+// "picks from a different run than last-refresh" with a precise diagnosis.
+
+console.log("\npicks_matches_last_refresh consistency check\n");
+
+// ---------------------------------------------------------------- assert 4
+// Slack constant pinned at 60s. Same-machine writes have no NTP skew;
+// wider slack risks missing real cross-run mix-ups.
+assert(
+  "PICKS_LR_CONSISTENCY_SLACK_SEC exported and equal to 60",
+  PICKS_LR_CONSISTENCY_SLACK_SEC === 60,
+  PICKS_LR_CONSISTENCY_SLACK_SEC,
+);
+
+// ---------------------------------------------------------------- assert 5
+// Happy path: picks.scanned_at falls cleanly inside [started_at, finished_at].
+// Default fixture has scanned bracketed by [-5min, +5min] — well inside slack.
+const happy = runGateAndGetFindings(1.0).consistency;
+assert(
+  "happy path: scanned_at inside run window → ok=true",
+  happy && happy.ok === true,
+  happy,
+);
+assert(
+  "happy path: severity BLOCK (active check)",
+  happy && happy.severity === "BLOCK",
+  happy,
+);
+
+// ---------------------------------------------------------------- assert 6
+// 2026-05-18 reproduction: picks.scanned_at is from a PRIOR run, hours
+// before the current run started. This is exactly the bug we shipped.
+//
+// Fixture: ageHours=16.73 (matches the failure's age_hours exactly).
+// started_at = scanned + 14h (= today's evening run window).
+// finished_at = scanned + 18h (= today's evening run finished 4h later).
+// → picks.scanned_at is 14h BEFORE start, well outside slack → BLOCK.
+const reverted = runGateAndGetFindings(16.73, {
+  startedAtOffsetSec: 14 * 3600,
+  finishedAtOffsetSec: 18 * 3600,
+}).consistency;
+assert(
+  "2026-05-18 reproduction: scanned 14h before run start → ok=false",
+  reverted && reverted.ok === false,
+  reverted,
+);
+assert(
+  "2026-05-18 reproduction: severity BLOCK",
+  reverted && reverted.severity === "BLOCK",
+  reverted,
+);
+assert(
+  "2026-05-18 reproduction: drift_outside_run_seconds reflects 14h gap",
+  reverted &&
+    reverted.detail?.drift_outside_run_seconds >= 14 * 3600 - 60 &&
+    reverted.detail?.drift_outside_run_seconds <= 14 * 3600 + 60,
+  reverted?.detail?.drift_outside_run_seconds,
+);
+
+// ---------------------------------------------------------------- assert 7
+// Boundary: scanned exactly 60s before started → still consistent (slack).
+const boundaryInside = runGateAndGetFindings(0.001, {
+  startedAtOffsetSec: 59, // scanned is 59s before started → inside slack
+  finishedAtOffsetSec: 600,
+}).consistency;
+assert(
+  "boundary: scanned 59s before started_at → consistent",
+  boundaryInside && boundaryInside.ok === true,
+  boundaryInside,
+);
+
+// ---------------------------------------------------------------- assert 8
+// Boundary: scanned 61s before started → outside slack → BLOCK.
+const boundaryOutside = runGateAndGetFindings(0.001, {
+  startedAtOffsetSec: 61, // scanned is 61s before started → outside slack
+  finishedAtOffsetSec: 600,
+}).consistency;
+assert(
+  "boundary: scanned 61s before started_at → inconsistent",
+  boundaryOutside && boundaryOutside.ok === false,
+  boundaryOutside,
+);
+
+// ---------------------------------------------------------------- assert 9
+// First-run / pre-upgrade: lr.started_at missing. Should NOT BLOCK — degrade
+// to WARN so existing pre-Layer-C summaries don't break the gate on upgrade.
+const preUpgrade = runGateAndGetFindings(1.0, { includeStartedAt: false }).consistency;
+assert(
+  "pre-upgrade lr without started_at: check present as WARN, not BLOCK",
+  preUpgrade && preUpgrade.severity === "WARN" && preUpgrade.ok === false,
+  preUpgrade,
+);
+assert(
+  "pre-upgrade detail explains why check is inactive",
+  preUpgrade && /started_at missing/i.test(preUpgrade.detail?.reason || ""),
+  preUpgrade?.detail,
+);
+
+// ---------------------------------------------------------------- assert 10
+// Shard-retry simulation: picks.scanned_at is set during scoring (mid-run),
+// then retry rewrites it later. Final scanned_at is INSIDE the run window —
+// must pass even though scanned_at was overwritten during the run.
+// (Simulated by scanned at the finished_at boundary.)
+const retryFinal = runGateAndGetFindings(0.001, {
+  startedAtOffsetSec: -3600,  // run started 1h before final scanned_at write
+  finishedAtOffsetSec: 60,    // run finished 60s after final scanned_at
+}).consistency;
+assert(
+  "shard-retry: scanned_at near finished_at → consistent",
+  retryFinal && retryFinal.ok === true,
+  retryFinal,
+);
+
+// ============================================================================
+// --inline mode tests
+// ============================================================================
+//
+// Inline mode runs the gate INSIDE sws-refresh-api.sh between stamp and PDF
+// (pre-summary), so lr is from the PREVIOUS run and the consistency check
+// must skip itself rather than false-positive. Side-effects also differ:
+//   - DOES write data/sws/_sanity/_inline_pass.flag on pass
+//   - does NOT write the timestamped <runId>.json or clobber _latest.json
+// Outer-gate vs inline-gate verdict divergence is the tripwire that
+// sws-nightly.sh uses to diagnose mid-run revert.
+
+console.log("\n--inline mode\n");
+
+// ---------------------------------------------------------------- assert 11
+// Inline mode with clean fixture should exit 0 (no BLOCKs from our
+// targeted checks; other L1 checks may fail BLOCK on the empty fixture,
+// but the test fixture deliberately ships zeros — so exit code depends
+// on those. We assert side-effects only: no _latest.json clobber.
+const inlineClean = runGateInlineMode(1.0);
+assert(
+  "inline mode: does NOT write _sanity/_latest.json",
+  inlineClean.latestReportExists === false,
+  inlineClean,
+);
+
+// ---------------------------------------------------------------- assert 12
+// The inline gate must NOT fire picks_matches_last_refresh even when
+// scanned_at is far from started_at — because in inline mode lr is from
+// the PREVIOUS run. We can't read the inline report (it's not written),
+// so probe via stdout: the BLOCKING violations list should NOT name
+// picks_matches_last_refresh.
+const inlineFarMismatch = runGateInlineMode(16.73, {
+  startedAtOffsetSec: 14 * 3600,
+  finishedAtOffsetSec: 18 * 3600,
+});
+assert(
+  "inline mode: picks_matches_last_refresh SUPPRESSED (no BLOCK output for it)",
+  !/picks_matches_last_refresh/.test(inlineFarMismatch.stdout),
+  inlineFarMismatch.stdout.split("\n").filter((l) => l.includes("picks_matches")).join("\n") || "(no mention)",
+);
+
+// ---------------------------------------------------------------- assert 13
+// When the inline gate "passes" (no BLOCKs), it drops _inline_pass.flag
+// for the outer nightly to read. The clean fixture doesn't pass — other
+// L1 BLOCKs (e.g. shards_failed_zero requires fields the empty fixture
+// lacks) fail. So we INVERT the test: confirm that when the gate FAILS
+// (e.g. our reproduction fixture), the flag is NOT dropped.
+const inlineFailure = runGateInlineMode(16.73, {
+  startedAtOffsetSec: 14 * 3600,
+  finishedAtOffsetSec: 18 * 3600,
+});
+assert(
+  "inline mode: flag NOT dropped when there are BLOCKs",
+  inlineFailure.flagExists === false,
+  inlineFailure,
+);
+
+// ---------------------------------------------------------------- assert 14
+// Inline mode exit code is non-zero when there's a BLOCK (so refresh-api.sh
+// captures it in INLINE_GATE_RC).
+assert(
+  "inline mode: exit code non-zero when BLOCK detected",
+  inlineFailure.exitCode !== 0,
+  inlineFailure.exitCode,
 );
 
 // ---------------------------------------------------------------- summary

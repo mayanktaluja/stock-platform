@@ -42,6 +42,13 @@ exec > >(tee -a "${LOG}") 2>&1
 
 ts() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 START_EPOCH="$(date +%s)"
+# RUN_STARTED_ISO is the canonical "when did this pipeline start" timestamp,
+# stamped into last-refresh.json's `started_at` field at summary-write time
+# (step 10). The sanity gate's `picks_matches_last_refresh` check uses it to
+# verify picks-latest.json's scanned_at falls within this run's window —
+# catches the 2026-05-18 22:37 IST failure mode where picks-latest.json was
+# silently reverted to a previous run's value between scoring and the gate.
+RUN_STARTED_ISO="$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")"
 
 # Mail summary helper. Sends via Resend (scripts/sws-mail-summary.mjs).
 # Gated by SWS_MAIL_ENABLED (set =0 to silence). Silent no-op if helper
@@ -310,6 +317,46 @@ else
   echo "[refresh-api] stamp smoke check: ${STAMPED_COUNT} stocks have section_status"
 fi
 
+# ---------- 8.7. Inline sanity gate (pass 1) ----------
+#
+# Runs the SAME sanity gate that sws-nightly.sh runs at the end of the
+# pipeline, but HERE — between stamp and PDF — BEFORE the ~106-min
+# auxiliary chain (news + catalysts + fundamentals + ... + risk-lab)
+# opens a window during which something has historically reverted
+# picks-latest.json (root cause: 2026-05-18 22:37 IST failure).
+#
+# --inline mode: same checks, but does NOT write the timestamped
+# _sanity/<runId>.json or clobber _latest.json (the outer nightly's
+# gate owns those). Drops a marker file _inline_pass.flag on pass;
+# sws-nightly.sh reads it to differentiate "scoring failed" (both
+# gates fail) from "data reverted post-stamp" (inline passed, outer
+# failed) — that divergence IS the tripwire.
+#
+# We DON'T want to hard-fail the pipeline here yet — let the auxiliary
+# refreshes (catalysts/fundamentals/earnings) still ship even if SWS
+# has an issue. The outer gate decides whether to push SWS data; the
+# inline gate just records "data was fine right after stamp" for
+# post-hoc forensics. Hence "|| true" — we capture exit code, log it,
+# but never abort the refresh-api here.
+#
+# Pre-stamp last-refresh.json doesn't exist yet (that's step 10), so
+# the inline gate's picks_matches_last_refresh check sees lr=null and
+# degrades to a missing-input WARN — that's fine, the value is in the
+# OTHER L1 checks (scored_count, news_populated, sections present)
+# all of which read picks-latest.json directly. They confirm the file
+# scoring just wrote has the expected shape and content.
+
+INLINE_PASS_FLAG="data/sws/_sanity/_inline_pass.flag"
+rm -f "${INLINE_PASS_FLAG}" 2>/dev/null
+echo "[refresh-api] inline sanity gate (pass 1, post-stamp, pre-PDF)..."
+INLINE_GATE_RC=0
+node scripts/sws-sanity-gate.mjs --inline 2>&1 | sed 's/^/[gate-inline] /' || INLINE_GATE_RC=$?
+if [ ${INLINE_GATE_RC} -eq 0 ]; then
+  echo "[refresh-api] inline sanity gate: PASS (flag dropped at ${INLINE_PASS_FLAG})"
+else
+  echo "[refresh-api] inline sanity gate: FAIL (rc=${INLINE_GATE_RC}) — outer gate in nightly will block the push"
+fi
+
 # ---------- 9. PDF ----------
 
 echo "[refresh-api] generating PDF..."
@@ -371,6 +418,11 @@ try {
   }
 } catch {}
 const summary = {
+  // started_at is the pipeline wrapper's wall-clock kickoff (captured at
+  // refresh-api.sh:44 as RUN_STARTED_ISO). Pair with finished_at for the
+  // sanity gate's picks_matches_last_refresh consistency check — no
+  // subtraction-from-duration needed (duration is float-rounded to seconds).
+  started_at: "${RUN_STARTED_ISO}",
   finished_at: new Date().toISOString(),
   pipeline: "api",
   duration_seconds: ${ELAPSED},
