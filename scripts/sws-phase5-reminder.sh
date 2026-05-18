@@ -24,7 +24,13 @@ cd "$REPO"
 
 SUBJECT="Starbhai: Phase 5 cutover due — retire JSON commits"
 
-BODY=$(cat <<'EOF'
+# NOTE: bash 3.2 (the macOS /bin/bash default) has a parser bug where a
+# heredoc body inside $(...) chokes on apostrophes ("just won t" below).
+# Sidestep by writing the body to a temp file first, outside cmdsub.
+BODY_FILE="$(mktemp)"
+trap 'rm -f "$BODY_FILE"' EXIT
+
+cat > "$BODY_FILE" <<'EOF'
 A week ago you flipped Phase 4 (SWS_READ_FROM_DB=1) — the app now serves
 SWS data from Neon. Time to retire the on-disk JSON layer:
 
@@ -49,7 +55,7 @@ SWS data from Neon. Time to retire the on-disk JSON layer:
    straggler scripts (sws-backfill-trade-log, sws-build-delta,
    coverage-gap-analysis, combined-shadow-summary, sws-shard-watchdog)
    to use the DAL. Until this lands, the pipeline machine must still
-   write JSON to disk locally (just won't be committed).
+   write JSON to disk locally (just will not be committed).
 
 3. VERIFY: after the first Phase 5 nightly run, the auto-PR diff should
    contain exactly one .pg.dump.gz + one .summary.json. PR review goes
@@ -58,7 +64,8 @@ SWS data from Neon. Time to retire the on-disk JSON layer:
 Full playbook: services/swsDal/README.md
 
 EOF
-)
+
+BODY="$(cat "$BODY_FILE")"
 
 if node scripts/sws-mail-summary.mjs "$SUBJECT" "$BODY" >> "$REPO/data/sws/launchd-stdout.log" 2>&1; then
   touch "$MARKER"
