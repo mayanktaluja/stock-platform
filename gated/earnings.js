@@ -963,17 +963,24 @@
   // tactical note. Activated once Milestone F starts populating
   // actual results.
 
-  function renderTradingAngle(playbook) {
+  function renderTradingAngle(playbook, event) {
     if (!playbook || !playbook.tradable) return "";
+
+    // PR A2 — confidence-calibrated sizing pill. Read from event.sizing
+    // (richer, lab-calibrated) first; fall back to baked playbook fields.
+    const sizingPill = renderPositionSizingPill(event?.sizing, playbook);
 
     if (playbook.mode === "t1" && playbook.plan) {
       // Post-result variant — single resolved cell + gap-tactical.
       const tone = playbook.plan.confidence === "HIGH" ? "#86efac" : playbook.plan.confidence === "MEDIUM" ? "#fbbf24" : "#cbd5e1";
       return `
         <div style="background:rgba(15,20,34,0.6); border:1px solid #1a2233; border-radius:8px; padding:10px 12px; font-size:11px; line-height:1.5;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; gap:8px; flex-wrap:wrap;">
             <span style="color:${tone}; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; font-size:10px;">${escHtml(playbook.cell_key || "")} · ${escHtml(playbook.plan.confidence || "")}</span>
-            <span style="font-size:10px; color:var(--text-muted);">T+1 plan</span>
+            <div style="display:flex; gap:6px; align-items:center;">
+              ${sizingPill}
+              <span style="font-size:10px; color:var(--text-muted);">T+1 plan</span>
+            </div>
           </div>
           <div style="color:#e2e8f0; font-weight:500;">${escHtml(playbook.plan.stance || "")}</div>
           ${playbook.tactical_note ? `<div style="color:#94a3b8; margin-top:4px;">${escHtml(playbook.tactical_note)}</div>` : ""}
@@ -997,9 +1004,12 @@
       const stanceLine = highlightedBranch?.plan?.stance || "Stance unresolved.";
       return `
         <div style="background:rgba(15,20,34,0.5); border:1px solid #1a2233; border-radius:8px; padding:10px 12px; font-size:11px; line-height:1.5;">
-          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:4px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap;">
             <div style="display:flex; gap:5px;">${branches.map(branchChip).join("")}</div>
-            <span style="font-size:10px; color:var(--text-muted); letter-spacing:0.04em; text-transform:uppercase;">trading angle</span>
+            <div style="display:flex; gap:6px; align-items:center;">
+              ${sizingPill}
+              <span style="font-size:10px; color:var(--text-muted); letter-spacing:0.04em; text-transform:uppercase;">trading angle</span>
+            </div>
           </div>
           <div style="color:#cbd5e1;">
             <span style="color:var(--text-muted); font-size:10px;">If ${escHtml(highlight || "MAINTAIN")}:</span>
@@ -1009,6 +1019,48 @@
     }
 
     return "";
+  }
+
+  // PR A2 — confidence-calibrated position-size pill. Colour-codes by tier:
+  // green (1.0x), amber (0.6x), red (≤0.3x). The tooltip explains "why" so
+  // the user understands the calibration came from the Risk Lab.
+  function renderPositionSizingPill(sizing, playbook) {
+    // Prefer the request-time sizing object (lab-calibrated). Fall back to
+    // the baked playbook fields (production confidence only). If neither
+    // is present, render nothing.
+    let mult, source, effectivePct, prodPct, labPct, tierLabel;
+    if (sizing && typeof sizing.multiplier === "number") {
+      mult = sizing.multiplier;
+      source = sizing.source;
+      effectivePct = sizing.effective_confidence_pct;
+      prodPct = sizing.production_confidence_pct;
+      labPct = sizing.calibrated_confidence_pct;
+      tierLabel = sizing.tier_label;
+    } else if (playbook && typeof playbook.position_size_multiplier === "number") {
+      mult = playbook.position_size_multiplier;
+      source = "production_only";
+      effectivePct = null;
+      tierLabel = playbook.position_size_tier?.label || null;
+    } else {
+      return "";
+    }
+    const tone =
+      mult >= 1.0
+        ? { bg: "rgba(34,197,94,0.15)", color: "#86efac", border: "rgba(34,197,94,0.4)" }
+        : mult >= 0.6
+          ? { bg: "rgba(251,191,36,0.12)", color: "#fbbf24", border: "rgba(251,191,36,0.35)" }
+          : { bg: "rgba(239,68,68,0.12)", color: "#fca5a5", border: "rgba(239,68,68,0.4)" };
+    const labelMult = `${mult}x`;
+    const tipParts = [`${tierLabel || "Sized"} (${labelMult})`];
+    if (source === "lab_calibrated" && labPct !== null && labPct !== undefined && prodPct !== null && prodPct !== undefined) {
+      tipParts.push(`Calibrated by Risk Lab: ${Math.round(prodPct)}% → ${Math.round(labPct)}% confidence`);
+    } else if (effectivePct !== null && effectivePct !== undefined) {
+      tipParts.push(`Confidence ${Math.round(effectivePct)}%`);
+    }
+    tipParts.push("Multiplier × your normal per-trade size — decision support, not investment advice.");
+    const tip = tipParts.join(" · ");
+    const badge = source === "lab_calibrated" ? "⚖" : "";
+    return `<span data-testid="sizing-pill" data-multiplier="${mult}" data-source="${source}" title="${escHtml(tip)}" style="display:inline-flex; align-items:center; gap:4px; padding:2px 7px; border-radius:9px; font-size:10px; font-weight:700; background:${tone.bg}; color:${tone.color}; border:1px solid ${tone.border};">${badge ? `<span style="opacity:0.85;">${badge}</span>` : ""}<span>${escHtml(labelMult)} size</span></span>`;
   }
 
   function verdictBg(v) {
@@ -1170,7 +1222,7 @@
         })()}
         ${renderSignalsRow(signals)}
         ${renderPriceBand(priceBand)}
-        ${renderTradingAngle(playbook)}
+        ${renderTradingAngle(playbook, event)}
         ${renderLabSecondOpinion(event.lab_view, prediction)}
         ${renderCounterThesisBlurb(signals)}
         ${renderPredictionBuildExpander(event)}

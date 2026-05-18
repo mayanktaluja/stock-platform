@@ -18,6 +18,7 @@ import cors from "cors";
 import helmet from "helmet";
 import { createBreaker } from "./services/externalApiBreaker.js";
 import { loadRiskLabViewMap, buildLabViewForEvent } from "./services/riskLab/earningsLabView.js";
+import { buildSizingDecision } from "./services/riskLab/positionSizing.js";
 
 // External-API circuit breaker for /api/sector-heatmap (Yahoo Finance batch
 // quote). 3 consecutive failures → opens for 60s; serves stale cached
@@ -2827,6 +2828,12 @@ app.get("/api/earnings/upcoming", async (req, res) => {
     if (labMap) {
       events = events.map((e) => ({ ...e, lab_view: buildLabViewForEvent(e, labMap) }));
     }
+    // PR A2 — attach confidence-calibrated sizing decision per event. When
+    // the lab has a tighter calibrated confidence, the sizing object uses
+    // it (effective_confidence_pct = lab's number); otherwise it falls
+    // back to the predictor's confidence_pct. Always additive — never
+    // changes the baked playbook fields.
+    events = events.map((e) => ({ ...e, sizing: buildSizingDecision(e) }));
     res.json({
       schema_version: snap.schema_version,
       built_at: snap.built_at,
