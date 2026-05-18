@@ -115,7 +115,7 @@ export function getISTDateKey(date = new Date()) {
  * write anything. Caller decides whether to persist.
  *
  * @param {object} pick - the scanner stock object
- * @param {string} type - "buynow_nifty100" | "smallcap_buynow" | "fundamental_deep_value" | etc
+ * @param {string} type - "sws_top30_v3" | "sws_best_buynow" | "sws_deep_value" | etc (see server.js ACTIVE_TRACK_TYPES)
  * @param {object} context - { regime, niftyPrice, snapshotAt, rationale,
  *   section_rank, market_cap_inr, target_horizons }
  */

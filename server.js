@@ -184,6 +184,8 @@ import {
   latestTopForType,
   SECTION_LABELS,
 } from "./services/trackRecord/sectionScorecard.js";
+import { computeSectionRiskMetrics } from "./services/trackRecord/riskMetrics.js";
+import { tradesToCsv } from "./services/trackRecord/exportCsv.js";
 import {
   bucketTradesByScoreBand,
   getConvictionPct,
@@ -4300,6 +4302,33 @@ app.get("/api/risk-lab/macro-thesis", (req, res) => {
 
 // ==================== PAPER-TRADE TRACKER ====================
 
+// SEBI 10/10 uplift — Active scanner allowlist. The byType breakdown in
+// /api/track/history is filtered to this set; orphans / discontinued types
+// surface only when the caller asks for them explicitly via ?type=, with
+// an X-Audit-Only response header so the back-door is discoverable.
+const ACTIVE_TRACK_TYPES = new Set([
+  "sws_top30_v3",
+  "sws_best_buynow",
+  "sws_deep_value",
+  "sws_quality_growth",
+  "sws_midterm",
+  "sws_dividend_aristocrats",
+  "sws_smallcap_gems",
+  "sws_insider_buying",
+  "sws_upcoming_earnings",
+  "sws_avoid",
+  "scanner_buynow_top10",
+  "scanner_midterm_top10",
+  "scanner_sell_top10",
+  "earnings_beat_top10",
+  "earnings_miss_top10",
+]);
+const DISCONTINUED_TRACK_TYPES = new Set([
+  "buynow_nifty100",
+  "smallcap_buynow",
+  "fundamental_deep_value",
+]);
+
 /**
  * 5-minute cache for the track history endpoint. Forward returns don't change
  * every second, and computing them requires fetching live prices for every
@@ -4315,7 +4344,7 @@ const trackCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
  * Nifty benchmark. Sorted newest-first.
  *
  * Query params:
- *   ?type=buynow_nifty100|smallcap_buynow|fundamental_deep_value  — filter
+ *   ?type=sws_top30_v3|sws_best_buynow|sws_deep_value|… (see ACTIVE_TRACK_TYPES)  — filter
  *   ?days=30                                                      — last N days
  *   ?symbol=HDFCBANK                                              — single-symbol filter (PR T6)
  *   ?bust=1                                                       — skip cache
@@ -4337,18 +4366,24 @@ app.get("/api/track/history", async (req, res) => {
     const filterType = req.query.type || null;
     const dayLimit = req.query.days ? parseInt(req.query.days, 10) : null;
     const symbolFilter = req.query.symbol ? _normaliseTrackSymbol(req.query.symbol) : null;
-    const cacheKey = `track_history_${filterType || "all"}_${dayLimit || "all"}_${symbolFilter || "all"}`;
+    const cacheKey = `track_history_v2_${filterType || "all"}_${dayLimit || "all"}_${symbolFilter || "all"}`;
 
     if (!req.query.bust) {
       const cached = trackCache.get(cacheKey);
       if (cached) {
         res.set("X-Cache", "HIT");
+        if (filterType && DISCONTINUED_TRACK_TYPES.has(filterType)) {
+          res.set("X-Audit-Only", "true");
+        }
         return res.json(cached);
       }
     }
 
     let trades = await readAllTrades();
 
+    if (filterType && DISCONTINUED_TRACK_TYPES.has(filterType)) {
+      res.set("X-Audit-Only", "true");
+    }
     if (filterType) trades = trades.filter((t) => t.type === filterType);
     if (symbolFilter) {
       trades = trades.filter((t) => _normaliseTrackSymbol(t.symbol) === symbolFilter);
@@ -4364,7 +4399,7 @@ app.get("/api/track/history", async (req, res) => {
         performance: aggregatePerformance([]),
         currentNifty: null,
         totalCount: 0,
-        message: "No paper trades recorded yet. Run the Buy Now / Small-Cap / Fundamental scanners to start collecting picks.",
+        message: "No paper trades recorded yet. Waiting for the next SWS pipeline run to snapshot picks.",
       };
       trackCache.set(cacheKey, empty);
       return res.json(empty);
@@ -4393,12 +4428,40 @@ app.get("/api/track/history", async (req, res) => {
       return { ...t, returns };
     });
 
+    // SEBI 10/10 — first-live-pick timestamp + survivorship counters.
+    // firstLivePickAt = earliest snapshotAt across all V2-shape trades (those
+    // with target_horizons). Backtest entries (if any are tagged with
+    // trade.is_backtest === true) are excluded.
+    const liveTrades = tradesWithReturns.filter((t) => !t.is_backtest);
+    const firstLivePickAt = liveTrades.length
+      ? liveTrades.reduce((min, t) => {
+          const ts = new Date(t.snapshotAt).getTime();
+          return ts < min ? ts : min;
+        }, Number.POSITIVE_INFINITY)
+      : null;
+    // Survivorship — closed trades are ones the section dropped (sets
+    // `closedAt` + `closingPrice`). Realised alpha lives on the enriched
+    // `returns.alpha` field (computeReturns uses closingPrice when closed).
+    const closedTrades = tradesWithReturns.filter(
+      (t) => t.closedAt && t.returns && t.returns.alpha != null
+    );
+    const dropped_count = closedTrades.length;
+    const dropped_avg_alpha_pct = dropped_count
+      ? +(closedTrades.reduce((s, t) => s + (Number(t.returns.alpha) || 0), 0) / dropped_count).toFixed(2)
+      : null;
+    const survivorshipStats = { dropped_count, dropped_avg_alpha_pct };
+
     // Sort newest first
     tradesWithReturns.sort((a, b) => new Date(b.snapshotAt) - new Date(a.snapshotAt));
 
     // Aggregate metrics overall + by type + by regime + by sector
     const performance = aggregatePerformance(tradesWithReturns);
     const byType = groupAndAggregate(tradesWithReturns, "type");
+    // Allowlist invert — drop anything not in the active set. Keeps the
+    // "Performance by Pick Type" grid honest even if orphan types appear.
+    for (const k of Object.keys(byType)) {
+      if (!ACTIVE_TRACK_TYPES.has(k)) delete byType[k];
+    }
     const byRegime = groupAndAggregate(tradesWithReturns, "regimeAtSnapshot");
     const bySector = groupAndAggregate(tradesWithReturns, "sector");
     // V2 — per-section forward-return scorecard at 1m/3m/6m/12m horizons.
@@ -4417,6 +4480,11 @@ app.get("/api/track/history", async (req, res) => {
       totalCount: tradesWithReturns.length,
       uniqueSymbols: uniqueSymbols.length,
       lastComputedAt: new Date().toISOString(),
+      firstLivePickAt:
+        firstLivePickAt && firstLivePickAt !== Number.POSITIVE_INFINITY
+          ? new Date(firstLivePickAt).toISOString()
+          : null,
+      survivorshipStats,
     };
 
     trackCache.set(cacheKey, response);
@@ -4425,6 +4493,45 @@ app.get("/api/track/history", async (req, res) => {
   } catch (err) {
     console.error("[PAPERTRADES] /api/track/history failed:", err.message);
     res.status(500).json({ error: "Track history failed: " + err.message });
+  }
+});
+
+/**
+ * GET /api/track/export.csv  — SEBI 10/10 audit export.
+ *
+ * Streams the full paper-trade ledger as RFC-4180 CSV. No filters
+ * (auditors want EVERYTHING). Discontinued types are INCLUDED in the
+ * export — the goal here is inspection-readiness, not UI cleanliness.
+ */
+app.get("/api/track/export.csv", async (req, res) => {
+  try {
+    const trades = await readAllTrades();
+    // Attach computed returns for resolved trades so the alpha column populates.
+    // Reuse the same enrichment logic as /api/track/history but skip the cache.
+    const uniqueSymbols = [...new Set(trades.map((t) => t.symbol))];
+    const [niftyQuote, ...quotes] = await Promise.all([
+      fetchQuote("^NSEI").catch(() => null),
+      ...uniqueSymbols.map((sym) => fetchQuote(sym).catch(() => null)),
+    ]);
+    const currentNifty = niftyQuote?.regularMarketPrice ?? null;
+    const priceBySymbol = {};
+    uniqueSymbols.forEach((sym, i) => {
+      const q = quotes[i];
+      if (q?.regularMarketPrice) priceBySymbol[sym] = q.regularMarketPrice;
+    });
+    const enriched = trades.map((t) => {
+      const currentPrice = priceBySymbol[t.symbol];
+      const returns = currentPrice ? computeReturns(t, currentPrice, currentNifty) : {};
+      return { ...t, returns };
+    });
+    const csv = tradesToCsv(enriched);
+    const filename = `starbhai-track-record-${new Date().toISOString().slice(0, 10)}.csv`;
+    res.set("Content-Type", "text/csv; charset=utf-8");
+    res.set("Content-Disposition", `attachment; filename="${filename}"`);
+    res.send(csv);
+  } catch (err) {
+    console.error("[TRACK] /api/track/export.csv failed:", err && err.message);
+    res.status(500).json({ error: "export failed: " + (err && err.message) });
   }
 });
 
@@ -4490,7 +4597,7 @@ app.get("/api/track/stats", async (req, res) => {
  * POST /api/track/snapshot
  *
  * Manual snapshot trigger — useful for testing or for forcing a fresh
- * snapshot mid-day. Body: { type: "buynow_nifty100", picks: [...] }
+ * snapshot mid-day. Body: { type: "sws_top30_v3", picks: [...] }
  */
 app.post("/api/track/snapshot", express.json(), async (req, res) => {
   try {
@@ -4648,6 +4755,12 @@ app.get("/api/track/sections", async (req, res) => {
     const sections = Object.keys(ALL_SECTION_TYPES).map((type) => {
       const card = scorecards[type] || { side: ALL_SECTION_TYPES[type], n_total: 0, horizons: {} };
       const top = latestTopForType(trades, type, 10);
+      // SEBI 10/10 — per-section risk-adjusted metrics (Sharpe, Sortino,
+      // Max DD, VaR95). Earnings sections settle at T+1; everything else
+      // uses the 3-month horizon as the primary risk window.
+      const sectionTrades = trades.filter((t) => t.type === type);
+      const primaryHorizon = type.startsWith("earnings_") ? "t1" : "3m";
+      const risk_metrics = computeSectionRiskMetrics(sectionTrades, primaryHorizon);
       return {
         type,
         label: SECTION_LABELS[type] || type,
@@ -4664,6 +4777,7 @@ app.get("/api/track/sections", async (req, res) => {
           benchmark_proxy: t.benchmark_proxy,
         })),
         scorecard_by_horizon: card.horizons,
+        risk_metrics,
       };
     });
     const response = {
