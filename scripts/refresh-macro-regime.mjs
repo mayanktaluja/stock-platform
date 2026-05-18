@@ -53,6 +53,7 @@ dotenv.config({ path: path.join(__dirname, "..", ".env"), override: false });
 
 const { fetchMacroHeadlines } = await import("../macroHeadlineFetcher.js");
 const { classifyRegime, defaultCalmRegime } = await import("../macroRegime.js");
+const { appendRegimeIfChanged } = await import("../services/macroRegimeHistory.js");
 
 const OUT_PATH = path.join(__dirname, "..", "data", "macroRegime.json");
 
@@ -146,6 +147,24 @@ async function main() {
 
   writeAtomic(OUT_PATH, JSON.stringify(regime));
   console.log(`[macro-refresh] wrote ${OUT_PATH} in ${Date.now() - t0}ms`);
+
+  // Append to the yearly NDJSON history if this is a transition. Foundation
+  // for the Risk Lab backtest — see services/macroRegimeHistory.js. Only
+  // this canonical script appends; the in-process macroRegimeStorage adapter
+  // does not, because that path re-runs the same regime many times per
+  // process and would bloat the history with no-op duplicates.
+  try {
+    const histResult = appendRegimeIfChanged(regime);
+    if (histResult.appended) {
+      console.log(`[macro-refresh] history transition appended → ${histResult.path}`);
+    } else {
+      console.log(`[macro-refresh] history no-op (${histResult.reason})`);
+    }
+  } catch (err) {
+    // History is supplementary — never let a history-write failure escalate
+    // and unwind the main refresh.
+    console.warn(`[macro-refresh] history append failed (non-fatal): ${err.message}`);
+  }
 
   // Exit 2 if any provider returned auth_error so the operator notices —
   // throttled and unreachable are transient and don't warrant escalation.
