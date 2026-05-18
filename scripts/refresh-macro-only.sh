@@ -31,15 +31,51 @@
 set -uo pipefail
 
 REPO_DIR="/Users/mayanktaluja/code/stock-platform"
-LOCK="/tmp/sws-macro-only-refresh.lock"
+LOCK_DIR="/tmp/sws-macro-only-refresh.lock.d"
 LOG_DIR="${REPO_DIR}/data"
 LOG="${LOG_DIR}/macroRegime-refresh.log"
 
-# flock prevents two crons racing on git index / the data file. Non-blocking
-# (-n): if another run holds the lock, exit silently — the next 2h fire will
-# pick up where this one left off.
-exec 9>"${LOCK}"
-if ! flock -n 9; then
+# PID-based mkdir lock — portable replacement for flock. macOS doesn't ship
+# flock(1), which was causing the cron to silently exit "another run holds
+# the lock" every 2h and leave data/macroRegime.json 19h+ stale (incident
+# 2026-05-18). mkdir is atomic on every POSIX filesystem; the PID file +
+# kill -0 check distinguishes a live holder from a stale lockdir left by
+# a process that died without trap cleanup (SIGKILL, OOM, launchd kill -9).
+#
+# Hostname is stored alongside the PID because launchd job labels can be
+# scheduled on multiple machines if the user ever sets that up — a PID
+# from a different host is treated as foreign and stale.
+cleanup_lock() {
+  rm -f "${LOCK_DIR}/pid" 2>/dev/null
+  rmdir "${LOCK_DIR}" 2>/dev/null
+}
+
+acquire_lock() {
+  if mkdir "${LOCK_DIR}" 2>/dev/null; then
+    echo "$$@$(hostname)" > "${LOCK_DIR}/pid"
+    trap cleanup_lock EXIT INT TERM HUP
+    return 0
+  fi
+  if [ -f "${LOCK_DIR}/pid" ]; then
+    local pid_line lock_pid lock_host
+    pid_line=$(cat "${LOCK_DIR}/pid" 2>/dev/null || echo "")
+    lock_pid="${pid_line%@*}"
+    lock_host="${pid_line#*@}"
+    if [ -n "${lock_pid}" ] && [ "${lock_host}" = "$(hostname)" ] && kill -0 "${lock_pid}" 2>/dev/null; then
+      return 1
+    fi
+    echo "[macro-only] stale lock from ${pid_line:-<unknown>} — clearing"
+    cleanup_lock
+    if mkdir "${LOCK_DIR}" 2>/dev/null; then
+      echo "$$@$(hostname)" > "${LOCK_DIR}/pid"
+      trap cleanup_lock EXIT INT TERM HUP
+      return 0
+    fi
+  fi
+  return 1
+}
+
+if ! acquire_lock; then
   echo "[macro-only] another run holds the lock at $(date -u +'%Y-%m-%dT%H:%M:%SZ') — exiting"
   exit 0
 fi

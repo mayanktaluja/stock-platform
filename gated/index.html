@@ -3470,6 +3470,8 @@
       <!-- Admin-only. Hidden by default; auth.init() unhides for users with isAdmin=true. -->
       <button class="tab" id="usersTabBtn" role="tab" aria-selected="false" hidden onclick="switchTab('users')">Users</button>
       <button class="tab" id="earningsTabBtn" role="tab" aria-selected="false" onclick="switchTab('earnings')">Earnings Watch</button>
+      <!-- Risk Lab (experimental) — macro/geopolitical + earnings-quality overlay on existing picks/predictions. Hidden when localStorage.riskLabEnabled === "false". -->
+      <button class="tab" id="riskLabTabBtn" role="tab" aria-selected="false" onclick="switchTab('riskLab')">Risk Lab <span style="font-size:9px; color: var(--text-muted); margin-left:4px;">EXPERIMENTAL</span></button>
     </div>
 
     <!-- Track Record Tab -->
@@ -4006,6 +4008,19 @@
       </div>
     </div>
 
+    <!-- Risk Lab (experimental) tab — macro + earnings-quality overlay viewer.
+         Read-only side-by-side of original SWS picks vs lab-adjusted views. No
+         production scoring is touched; this tab is purely for evaluating the
+         theory before any migration into core. -->
+    <div id="riskLabTab" class="tab-content" style="display:none;">
+      <div id="riskLabRoot">
+        <div class="loading">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">Loading Risk Lab…</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Stock detail modal — populated by openSwsModal(ticker) for SWS Picks, or openStockDetailModal(symbol, sourceTab) for every other clickable stock surface -->
@@ -4065,5 +4080,8 @@
   <!-- Earnings Watch tab — loadEarningsWatch + renderers. Loaded after app.js
        so it can reuse switchTab and openStockDetailModal globals. -->
   <script src="earnings.js" defer></script>
+  <!-- Risk Lab (experimental) tab — loadRiskLab + renderers. Defer so it
+       initialises after app.js exposes switchTab + window globals. -->
+  <script src="riskLab.js" defer></script>
 </body>
 </html>

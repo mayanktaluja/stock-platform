@@ -1,0 +1,79 @@
+{
+  "_schema_version": "risk-lab-quality-keywords-v1",
+  "_note": "Curated keyword taxonomy used by services/riskLab/quality/riskTextClassifier.js and counterThesisParser.js. Each category gets a flag with the listed severity (pts deducted). The classifier is intentionally regex-based and conservative — the lab logs all matches with evidence so the human can curate edge cases over time.",
+  "_updated": "2026-05-18",
+
+  "interest_coverage": {
+    "patterns": [
+      "interest\\s+(?:payments?|expense)\\s+(?:are\\s+)?(?:not\\s+well|poorly|barely|insufficient(?:ly)?)\\s+covered",
+      "interest\\s+coverage\\s+(?:ratio\\s+)?(?:is\\s+)?(?:weak|low|insufficient|tight)",
+      "high\\s+interest\\s+burden"
+    ],
+    "severity": -2,
+    "summary": "Interest payments not adequately covered by earnings — leverage / margin risk"
+  },
+
+  "cash_flow_weakness": {
+    "patterns": [
+      "(?:not|barely|poorly)\\s+(?:well\\s+)?covered\\s+by\\s+(?:free\\s+cash\\s+flow|fcf|operating\\s+cash\\s+flow)",
+      "(?:free\\s+cash\\s+flow|fcf)\\s+is\\s+(?:weak|negative|declining|insufficient)",
+      "cash\\s+conversion\\s+(?:is\\s+)?(?:weak|poor|low|declining)",
+      "(?:negative|deteriorating)\\s+(?:operating|free)\\s+cash\\s+flow"
+    ],
+    "severity": -2,
+    "summary": "Cash flow weakness — accruals or working-capital stretch hidden in headline EPS"
+  },
+
+  "working_capital_stretch": {
+    "patterns": [
+      "(?:receivable|debtor)s?\\s+(?:are\\s+)?(?:stretched|extended|elevated|deteriorat(?:ing|ed))",
+      "(?:working\\s+capital|wc)\\s+(?:cycle\\s+)?(?:has\\s+)?(?:deteriorat(?:ed|ing)|stretched|widened|extended)",
+      "inventory\\s+(?:days|levels?)\\s+(?:are\\s+)?(?:elevated|bloated|rising)",
+      "collection\\s+(?:cycle|period)\\s+(?:is\\s+)?(?:lengthened|extended|stretched)"
+    ],
+    "severity": -2,
+    "summary": "Working capital deterioration — collection or inventory cycle stretching"
+  },
+
+  "high_leverage": {
+    "patterns": [
+      "(?:leverage|debt)\\s+is\\s+(?:high|elevated|rising|above\\s+industry)",
+      "(?:high|rising)\\s+debt(?:-to-(?:equity|assets|book))?",
+      "net\\s+debt\\s+(?:is\\s+)?(?:high|growing|rising)"
+    ],
+    "severity": -1,
+    "summary": "Leverage above comfort threshold — vulnerable to rate shocks"
+  },
+
+  "margin_pressure": {
+    "patterns": [
+      "margin\\s+(?:pressure|compression|squeeze|erosion|decline)",
+      "(?:gross|operating|ebitda|net)\\s+margins?\\s+(?:are\\s+)?(?:falling|declining|under\\s+pressure|compressed)",
+      "input\\s+cost(?:s)?\\s+(?:pressure|inflation|squeeze)",
+      "operating\\s+leverage\\s+(?:has\\s+)?(?:broken|deteriorated)"
+    ],
+    "severity": -2,
+    "summary": "Margin compression — revenue growth not translating to bottom line"
+  },
+
+  "guidance_cut": {
+    "patterns": [
+      "guidance\\s+(?:cut|reduced|lowered|missed|withdrawn|disappointing)",
+      "(?:cut|lowered|reduced)\\s+(?:fy|q[1-4])\\s+(?:\\d{2,4}\\s+)?(?:guidance|forecast|outlook)",
+      "management\\s+(?:warned|cautioned|flagged)\\s+(?:on|about)\\s+(?:slowdown|weakness|pressure)"
+    ],
+    "severity": -3,
+    "summary": "Management guidance cut or warning — forward-looking quality risk"
+  },
+
+  "order_book_weakness": {
+    "patterns": [
+      "order\\s+book\\s+(?:weak(?:ening)?|declining|shrinking|delayed)",
+      "(?:order\\s+)?(?:inflow|intake)\\s+(?:has\\s+)?(?:slow(?:ed|ing)|weak(?:ening)?|declining)",
+      "execution\\s+(?:risk|delay|weak(?:ness)?)",
+      "pipeline\\s+(?:has\\s+)?(?:dried|weakened|thinned|narrowed)"
+    ],
+    "severity": -2,
+    "summary": "Order book / pipeline weakness — capex or T&D companies especially"
+  }
+}
