@@ -71,11 +71,15 @@
       --border-soft: rgba(255, 255, 255, 0.04);
       --border-focus: rgba(224, 176, 96, 0.4);
 
-      /* Text: warm off-white hierarchy */
+      /* Text: warm off-white hierarchy
+       * UI/UX overhaul 2026-05-19: bumped --text-muted (0.55→0.70) and
+       * --text-faint (0.35→0.60) so 10–12px regulatory/metadata copy passes
+       * WCAG AA (>=4.5:1) on the warm-black bg. Validated against the audit
+       * "color contrast fails on small text" finding. */
       --text-primary: #EDEDED;
       --text-secondary: rgba(237, 237, 237, 0.75);
-      --text-muted: rgba(237, 237, 237, 0.55);
-      --text-faint: rgba(237, 237, 237, 0.35);
+      --text-muted: rgba(237, 237, 237, 0.70);
+      --text-faint: rgba(237, 237, 237, 0.60);
 
       /* Semantic colors: muted emerald + muted crimson */
       --green: #2ECC71;
@@ -240,12 +244,44 @@
       --warn-text:             #fbbf24;
 
       /* PR F2 — Type scale (6 sizes, paired with utility classes below) */
-      --fs-display:  34px;  /* Fraunces page h2 / hero number */
-      --fs-headline: 20px;  /* Fraunces section / verdict pill */
+      --fs-display:  34px;  /* Geist 500 — page h2 / hero number */
+      --fs-headline: 20px;  /* Geist 500 — section / verdict pill */
       --fs-title:    14px;  /* Geist 700 — card title, table head */
       --fs-body:     13px;  /* Geist 400 — body copy, table rows */
       --fs-meta:     11px;  /* Geist 500 — sub-line, caption */
       --fs-micro:    10px;  /* Geist 600 ALL-CAPS — eyebrow labels */
+
+      /* ============================================================
+       * UI/UX overhaul 2026-05-19 — density + premium-feel tokens.
+       * Consumed by `<html data-density="compact|pro">` in Phase 6
+       * and by .card--elevated for hero surfaces.
+       * ============================================================ */
+      --row-h:         40px;
+      --row-h-compact: 32px;
+      --row-h-pro:     28px;
+      --space-base:    8px;
+      --font-base:     13px;
+
+      /* Premium card shadow — lifts hero cards off the warm-black bg */
+      --card-shadow-elevated:
+        0 1px 0 rgba(255, 255, 255, 0.04) inset,
+        0 4px 12px rgba(0, 0, 0, 0.35),
+        0 16px 32px -8px rgba(0, 0, 0, 0.45);
+      --gold-glow-20: rgba(224, 176, 96, 0.20);
+      --gold-glow-30: rgba(224, 176, 96, 0.30);
+    }
+
+    /* Density-mode overrides (Phase 6 toggle target). Default is
+     * "comfortable" which equals the unset state. */
+    html[data-density="compact"] {
+      --row-h: var(--row-h-compact);
+      --space-base: 6px;
+      --font-base: 12px;
+    }
+    html[data-density="pro"] {
+      --row-h: var(--row-h-pro);
+      --space-base: 4px;
+      --font-base: 11px;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -322,13 +358,26 @@
      * font-size:Npx call sites stay untouched until a PR touches them.
      * .tx-num enables tabular numerals on any element.
      * ============================================================ */
-    .tx-display  { font-family: var(--font-serif); font-size: var(--fs-display);  font-weight: 500; letter-spacing: -0.02em; line-height: var(--lh-tight); }
-    .tx-headline { font-family: var(--font-serif); font-size: var(--fs-headline); font-weight: 500; letter-spacing: -0.01em; line-height: var(--lh-tight); }
-    .tx-title    { font-family: var(--font-sans);  font-size: var(--fs-title);    font-weight: 700; line-height: var(--lh-snug); }
-    .tx-body     { font-family: var(--font-sans);  font-size: var(--fs-body);     font-weight: 400; line-height: var(--lh-normal); }
-    .tx-meta     { font-family: var(--font-sans);  font-size: var(--fs-meta);     font-weight: 500; color: var(--text-muted); line-height: var(--lh-snug); }
-    .tx-micro    { font-family: var(--font-sans);  font-size: var(--fs-micro);    font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
-    .tx-num      { font-family: var(--font-mono);  font-variant-numeric: tabular-nums; font-feature-settings: 'tnum' 1; }
+    /* UI/UX overhaul 2026-05-19: display + headline swapped from serif Fraunces
+     * to sans Geist for a more modern fintech feel (benchmark vs Robinhood /
+     * Public.com / Bloomberg). The .num utility enables tabular + slashed-zero
+     * everywhere a number is rendered — kills column jitter on price updates. */
+    .tx-display  { font-family: var(--font-sans); font-size: var(--fs-display);  font-weight: 600; letter-spacing: -0.02em; line-height: var(--lh-tight); }
+    .tx-headline { font-family: var(--font-sans); font-size: var(--fs-headline); font-weight: 600; letter-spacing: -0.01em; line-height: var(--lh-tight); }
+    .tx-title    { font-family: var(--font-sans); font-size: var(--fs-title);    font-weight: 700; line-height: var(--lh-snug); }
+    .tx-body     { font-family: var(--font-sans); font-size: var(--fs-body);     font-weight: 400; line-height: var(--lh-normal); }
+    .tx-meta     { font-family: var(--font-sans); font-size: var(--fs-meta);     font-weight: 500; color: var(--text-muted); line-height: var(--lh-snug); }
+    .tx-micro    { font-family: var(--font-sans); font-size: var(--fs-micro);    font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+    .tx-num      { font-family: var(--font-mono); font-variant-numeric: tabular-nums slashed-zero; font-feature-settings: 'tnum' 1, 'zero' 1, 'lnum' 1; }
+
+    /* Sans-serif numeric utility — same tabular/slashed-zero benefits as
+     * .tx-num but keeps the surrounding Geist font instead of switching to
+     * JetBrains Mono. Use on KPI strips, price cells, score badges where a
+     * mono font would look out of place. */
+    .num {
+      font-variant-numeric: tabular-nums slashed-zero;
+      font-feature-settings: 'tnum' 1, 'zero' 1, 'lnum' 1;
+    }
 
     /* ============================================================
      * PR F2 — CSS-only layout primitives (Every-Layout style).
@@ -366,16 +415,26 @@
     .l-sidebar > :last-child  { flex-basis:0; flex-grow:999; min-inline-size: var(--min, 50%); }
 
     /* Phase 8B utility classes — selective upgrade */
+    /* UI/UX overhaul 2026-05-19: editorial-headline (used on every tab h2)
+     * swapped from serif Fraunces to sans Geist for modern fintech feel. */
     .editorial-headline {
-      font-family: var(--font-serif);
-      font-weight: 500;
+      font-family: var(--font-sans);
+      font-weight: 600;
       letter-spacing: -0.02em;
       line-height: 1.1;
     }
     .mono-num, .stat-value, .mono {
       font-family: var(--font-mono);
-      font-variant-numeric: tabular-nums;
-      font-feature-settings: 'tnum' 1, 'zero' 1;
+      font-variant-numeric: tabular-nums slashed-zero;
+      font-feature-settings: 'tnum' 1, 'zero' 1, 'lnum' 1;
+    }
+    /* Tabular numerals on every numeric cell in data tables.
+     * Right-aligned <td>/<th> are the canonical signal for "this is a number". */
+    td[align="right"], th[align="right"],
+    td.num, th.num,
+    .stat-value, .kpi-value, .price-value {
+      font-variant-numeric: tabular-nums slashed-zero;
+      font-feature-settings: 'tnum' 1, 'zero' 1, 'lnum' 1;
     }
 
     /* Phase 8D: Track Record chart (portfolio vs Nifty forward return) */
@@ -2121,6 +2180,29 @@
     .card--elev-1 { box-shadow: var(--elev-1); }
     .card--elev-3 { box-shadow: var(--elev-3); }
     .card--elev-4 { box-shadow: var(--elev-4); }
+
+    /* UI/UX overhaul 2026-05-19: hero card lift — used for KPI strips and
+     * stock-detail modal sections so they read as raised surfaces. */
+    .card--elevated {
+      box-shadow: var(--card-shadow-elevated);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+    /* Clickable cards: subtle lift on hover, removed on mobile (no hover). */
+    @media (hover: hover) and (pointer: fine) {
+      .card.is-clickable,
+      .card[role="button"] {
+        cursor: pointer;
+        transition: transform var(--dur-quick) var(--ease-standard),
+                    box-shadow var(--dur-quick) var(--ease-standard),
+                    border-color var(--dur-quick) var(--ease-standard);
+      }
+      .card.is-clickable:hover,
+      .card[role="button"]:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--card-shadow-elevated);
+        border-color: rgba(255, 255, 255, 0.10);
+      }
+    }
     .card--flat   { box-shadow: none; }
 
     /* ----- .badge primitive -----
@@ -4584,6 +4666,11 @@
     </div>
   </footer>
 
+  <!-- UI/UX overhaul 2026-05-19: Indian number formatter (lakhs/crores,
+       ₹ glyph, signed/percent helpers). Exposed on window.IndianNumber for
+       vanilla-JS callers in app.js / earnings.js / riskLab.js. Loaded BEFORE
+       app.js so call-sites can rely on it being available at first render. -->
+  <script src="utils/formatIndianNumber.js"></script>
   <script src="glossary.js"></script>
   <script src="app.js"></script>
   <!-- v2 SWS recommender renderer (monkey-patches swsReasonRow / swsHoldingRow
