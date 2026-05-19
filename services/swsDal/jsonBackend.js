@@ -1,13 +1,10 @@
-// JSON-file-backed DAL implementation (Phase 1).
+// JSON-file-backed DAL implementation — the only backend.
 //
-// All read methods point at the same on-disk files the rest of the codebase
-// reads today: services/{swsHoldingEngine, combinedScore, swsPeerLayer,
-// swsPortfolioAggregate}.js, services/earnings/signalAggregator.js, and the
-// 5 SWS routes in server.js. The DAL preserves the exact return shapes the
-// callers expect, so Phase 1 is a pure refactor — no behaviour changes.
-//
-// Phase 4 swaps this file for sqlBackend.js. The public API in index.js
-// stays identical.
+// All read methods point at the on-disk files under data/sws/ that the
+// rest of the codebase reads directly: services/{swsHoldingEngine,
+// combinedScore, swsPeerLayer, swsPortfolioAggregate}.js,
+// services/earnings/signalAggregator.js, and the 5 SWS routes in server.js.
+// The DAL preserves the exact return shapes those callers expect.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -164,11 +161,11 @@ export function listDeepTickers() {
 }
 
 // Returns Map<bareTicker, {fair_value_inr, current_price_inr, upside_pct}>
-// from the deep/<T>.json overview block for each requested ticker. This is
-// the JSON-backend equivalent of sqlBackend.getSnapshotFvMap — purpose is
-// the read-time picks/snapshot FV drift guard at /api/sws-picks. We read
-// only the requested tickers (not all ~5,500 deep files) so cold-call cost
-// stays bounded by the picks-response cardinality (~250 tickers across 11
+// from the deep/<T>.json overview block for each requested ticker. Used
+// at /api/sws-picks response time as the read-time picks/snapshot FV
+// drift guard. We read only the requested tickers (not all ~5,500 deep
+// files) so cold-call cost stays bounded by the picks-response
+// cardinality (~250 tickers across 11
 // sections). readDeepByKey is mtime-cached so repeat polls are free.
 export async function getSnapshotFvMap(tickers) {
   const map = new Map();

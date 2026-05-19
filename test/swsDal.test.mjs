@@ -204,10 +204,10 @@ test("getSnapshotFvMap normalises .NS/.BO suffixes and dedupes", async () => {
   });
   try {
     dal.__setBackend(fake);
-    // Note: dispatcher routes getSnapshotFvMap through jsonBackend (or sqlBackend
-    // when SWS_READ_FROM_DB=1), NOT through _backend. So we exercise the fake
-    // backend's getSnapshotFvMap directly here to verify the fixture mirrors the
-    // dispatcher's contract — the e2e spec exercises the real dispatcher path.
+    // Note: dispatcher routes getSnapshotFvMap through jsonBackend, NOT through
+    // _backend. So we exercise the fake backend's getSnapshotFvMap directly here
+    // to verify the fixture mirrors the dispatcher's contract — the e2e spec
+    // exercises the real dispatcher path.
     const map = await fake.getSnapshotFvMap([
       "RELIANCE.NS",
       "INFY",

@@ -27,8 +27,12 @@ allow-list of signed-in Google OAuth accounts. Production lives at
 - **Frontend:** Vanilla JS SPA in `gated/` (`app.js` is a 11,700-LOC
   monolith — concurrent edits collide; touch it sequentially). No framework,
   no build step.
-- **Database:** Neon (Postgres) via `@neondatabase/serverless` + Drizzle ORM
-  for the SWS data lake. JSON files under `data/` for everything else.
+- **Database:** None. All persisted state is JSON files committed under
+  `data/` (SWS scrape outputs, picks, catalysts, macro regime, fundamentals
+  history, paper-trades, etc.). The repo had a Neon Postgres mirror via
+  `services/swsDal/sqlBackend.js`; it was decommissioned on 2026-05-19 (see
+  `~/.claude/plans/create-a-plan-to-precious-dongarra.md`). Reads now go
+  through `services/swsDal/` over `jsonBackend` only.
 - **Hosting:** Vercel (serverless via `api/index.js` → `server.js`). Free tier.
 - **Auth:** Google OAuth (`google-auth-library`), session-gated on every
   route except a small public set. `AUTH_ENABLED=false` bypasses auth for
@@ -54,7 +58,7 @@ allow-list of signed-in Google OAuth accounts. Production lives at
 │   ├── fundamentals/       # YoY-EPS-trajectory + history refresh
 │   ├── macroThesis/        # Macro regime classifier + scenario engine
 │   ├── riskLab/            # Per-stock risk decomposition + macro overlay
-│   ├── swsDal/             # SWS data-access layer over Neon
+│   ├── swsDal/             # SWS data-access layer (JSON-only)
 │   └── sws*.js             # SWS scoring, conviction, peer/sector layers, etc.
 ├── scripts/                # Refresh + backtest CLIs (~100 files)
 │   ├── sws-nightly.sh      # The big nightly chain (sws → fundamentals → earnings → health)
