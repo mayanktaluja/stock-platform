@@ -644,6 +644,15 @@ echo "[sws-nightly] refresh-earnings-edge.mjs (timeout 120s)"
 with_timeout 120 node scripts/refresh-earnings-edge.mjs 2>&1 | sed 's/^/[edge] /' || \
   echo "[sws-nightly] refresh-earnings-edge.mjs FAILED — continuing (non-fatal; tab will show prior ledger)"
 
+# Step 9e: Paper-trade reconciliation — daily mark-to-market + gate state
+# for both sleeves (compounder + earnings_edge). Writes to
+# data/paper-trades-reports/<sleeve>-{date,latest}.json. Read by the
+# Earnings Edge tab + earnings-health-summary to surface "X trades from
+# clearing the validation gate" alerts. Non-fatal.
+echo "[sws-nightly] paper-trade-reconcile.mjs (timeout 60s)"
+with_timeout 60 node scripts/paper-trade-reconcile.mjs 2>&1 | sed 's/^/[paper-trade] /' || \
+  echo "[sws-nightly] paper-trade-reconcile.mjs FAILED — continuing (non-fatal)"
+
 # Date/branch labels — computed here so both the PASS path (step 5) and
 # the sanity-gate FAIL path (data-only PR) can use them.
 DATE=$(date +%Y-%m-%d)
