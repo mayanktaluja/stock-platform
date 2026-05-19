@@ -2514,6 +2514,62 @@
       #toastStack { top: 8px; right: 8px; left: 8px; max-width: none; }
     }
 
+    /* ============================================================
+     * PR #8 — Shortcuts cheatsheet modal. Toggled by '?' key.
+     * Uses --z-modal-backdrop (1300) for the dim layer + --z-modal
+     * (1400) for the card. Hidden by default; .open shows it.
+     * ============================================================ */
+    .shortcuts-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: var(--z-modal-backdrop);
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-300);
+    }
+    .shortcuts-modal.open { display: flex; }
+    .shortcuts-modal-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-300);
+      padding: var(--space-400);
+      max-width: 480px;
+      width: 100%;
+      box-shadow: var(--elev-4);
+      z-index: var(--z-modal);
+      color: var(--text-primary);
+    }
+    .shortcuts-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .shortcuts-table th {
+      text-align: left;
+      padding: 8px 16px 8px 0;
+      font-weight: 500;
+      color: var(--text-secondary);
+      vertical-align: top;
+      white-space: nowrap;
+    }
+    .shortcuts-table td {
+      padding: 8px 0;
+      color: var(--text-muted);
+    }
+    .shortcuts-table kbd {
+      display: inline-block;
+      padding: 2px 6px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-50);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-primary);
+      box-shadow: 0 1px 0 var(--border);
+    }
+
     .warming-banner {
       background: var(--bg-card);
       border: 1px dashed var(--border);
@@ -4399,8 +4455,34 @@
        initialises after app.js exposes switchTab + window globals. -->
   <script src="riskLab.js" defer></script>
 
+  <!-- PR #8: global keyboard shortcuts. Defer so it loads after app.js
+       exposes window.switchTab + window.telemetry. -->
+  <script src="keyboard.js" defer></script>
+
   <!-- PR #5: Toast stack. Body-level so position:fixed survives any
        transformed ancestor; first consumer of --z-toast. -->
   <div id="toastStack" role="status" aria-live="polite" aria-atomic="false"></div>
+
+  <!-- PR #8: Shortcuts cheatsheet modal. Toggled by '?' key. -->
+  <div id="shortcutsModal" class="shortcuts-modal" role="dialog" aria-modal="true" aria-labelledby="shortcutsModalTitle">
+    <div class="shortcuts-modal-card">
+      <h2 id="shortcutsModalTitle" style="margin:0 0 16px;font-family:var(--font-serif);font-weight:600;font-size:20px;">Keyboard shortcuts</h2>
+      <table class="shortcuts-table">
+        <tbody>
+          <tr><th><kbd>⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>K</kbd></th><td>Focus header search</td></tr>
+          <tr><th><kbd>g</kbd> <kbd>p</kbd></th><td>Jump to Picks</td></tr>
+          <tr><th><kbd>g</kbd> <kbd>n</kbd></th><td>Jump to News</td></tr>
+          <tr><th><kbd>g</kbd> <kbd>w</kbd></th><td>Jump to Watchlist</td></tr>
+          <tr><th><kbd>g</kbd> <kbd>t</kbd></th><td>Jump to Track Record</td></tr>
+          <tr><th><kbd>g</kbd> <kbd>a</kbd></th><td>Jump to Analyzer</td></tr>
+          <tr><th><kbd>g</kbd> <kbd>e</kbd></th><td>Jump to Earnings Watch</td></tr>
+          <tr><th><kbd>g</kbd> <kbd>r</kbd></th><td>Jump to Risk Lab</td></tr>
+          <tr><th><kbd>?</kbd></th><td>Show / hide this cheatsheet</td></tr>
+          <tr><th><kbd>Esc</kbd></th><td>Close modal / cheatsheet</td></tr>
+        </tbody>
+      </table>
+      <button type="button" class="btn btn--ghost btn--sm" style="margin-top:16px;" onclick="document.getElementById('shortcutsModal').classList.remove('open');">Close (Esc)</button>
+    </div>
+  </div>
 </body>
 </html>
