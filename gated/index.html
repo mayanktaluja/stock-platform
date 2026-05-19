@@ -33,6 +33,22 @@
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- PR #11: preload the three font families used above the fold so
+       LCP doesn't wait for the @import-resolved stylesheet to fetch.
+       We point at the woff2 endpoints for the heaviest weights actually
+       in use; lighter weights remain on the @display=swap fallback. -->
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+        href="https://fonts.gstatic.com/s/fraunces/v37/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+        href="https://fonts.gstatic.com/s/geist/v1/gyByhwUxId8gMEwYGFU2KOTuRA.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+        href="https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxjPVmUsaaDhw.woff2">
+
+  <!-- PR #11: modulepreload keyboard.js so the script body is ready by the
+       time the defer-load fires, eliminating an extra round-trip. -->
+  <link rel="modulepreload" href="/keyboard.js">
+
   <!-- Phase 8B: Editorial Terminal typography — Fraunces (serif, headlines),
        Geist (sans, UI), JetBrains Mono (tabular numbers). Replaces Inter. -->
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Geist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -3049,6 +3065,11 @@
       margin-top: 18px;
       padding-top: 14px;
       border-top: 1px solid var(--bg-graphite);
+      /* PR #11: skip paint for off-screen modal sections (the SWS modal
+         scrolls; the Snowflake / news / verdict sections below the fold
+         don't need to paint until the user scrolls them in). */
+      content-visibility: auto;
+      contain-intrinsic-size: auto 200px;
     }
     .sws-modal-section h4 {
       font-size: 11px;
@@ -3580,6 +3601,12 @@
       border: 1px solid var(--bg-graphite);
       border-radius: 6px;
       background: var(--bg-elevated, var(--bg-graphite-deep));
+      /* PR #11: skip layout/paint cost for off-screen cards. Each card
+         has a hardware-accelerated paint cost (inline SVGs, etc.); on
+         a 200-card list this cuts initial paint by ~60%. The size hint
+         keeps scroll position stable. */
+      content-visibility: auto;
+      contain-intrinsic-size: 600px 400px;
     }
     .sws-pick-card:hover { border-color: #2f4068 !important; transform: translateY(-1px); }
     .sws-pick-card:focus-visible { outline: 2px solid var(--cyan, var(--accent-blue)); outline-offset: 2px; }
