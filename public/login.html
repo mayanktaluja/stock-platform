@@ -5,7 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Starbhai · Sign in</title>
   <meta name="robots" content="noindex,nofollow">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,6 61.2,37.5 94.6,37.5 67.7,57 78.6,89.7 50,70 21.4,89.7 32.3,57 5.4,37.5 38.8,37.5' fill='none' stroke='%23E0B060' stroke-width='5' stroke-linejoin='round'/%3E%3Ctext x='50' y='68' text-anchor='middle' fill='%23E0B060' font-family='Georgia, serif' font-size='40' font-weight='600' font-style='italic'%3ES%3C/text%3E%3C/svg%3E">
+
+  <!-- PR #1: OG / Twitter / Apple metadata. Login page is noindex but link
+       previews (Slack/Twitter/WhatsApp) still call og:* when someone shares
+       the URL, so we want a branded preview rather than a generic blob. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Starbhai">
+  <meta property="og:title" content="Starbhai — Indian Stock Intelligence">
+  <meta property="og:description" content="Private terminal · authorized access only.">
+  <meta property="og:url" content="https://stock-platform-gamma.vercel.app/login.html">
+  <meta property="og:image" content="https://stock-platform-gamma.vercel.app/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Starbhai — Indian Stock Intelligence">
+  <meta name="twitter:description" content="Private terminal · authorized access only.">
+  <meta name="twitter:image" content="https://stock-platform-gamma.vercel.app/og-image.jpg">
+  <meta name="theme-color" content="#0B0C10">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Starbhai">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,6 61.2,37.5 94.6,37.5 67.7,57 78.6,89.7 50,70 21.4,89.7 32.3,57 5.4,37.5 38.8,37.5' fill='none' stroke='%23E0B060' stroke-width='5' stroke-linejoin='round'/%3E%3Ctext x='50' y='68' text-anchor='middle' fill='%23E0B060' font-family='Georgia, serif' font-size='40' font-weight='600' font-style='italic'%3ES%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
