@@ -21,6 +21,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { adjustedScoreForRow } from "./macro/adjustedScorer.js";
 import { computeQualityScore } from "./quality/qualityScorer.js";
+import { classifyBatch as classifyLlmDisagreementBatch } from "./quality/llmDisagreementBatcher.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
@@ -261,6 +262,11 @@ export function buildQualityFlagsPayload(stocks, opts = {}) {
       quality_adjusted_confidence: s.quality_adjusted_confidence,
       quality_veto: s.quality_veto,
       flags: s.quality_flags,
+      // PR 2-3 — LLM disagreement check (per-stock authoritative override).
+      // null when the stock was below the V3≥50 floor or the LLM was
+      // unavailable; the API surfaces it so the UI can show the
+      // classifier provider + top_reason.
+      llm_disagreement_check: s.llm_disagreement_check || null,
     }));
   return {
     schema_version: "risk-lab-quality-flags-v1",
@@ -300,6 +306,109 @@ export function runRiskLab(opts = {}) {
     qualityPayload,
     outPath,
     qualityFlagsOutPath,
+    dryRun: !!opts.dryRun,
+  };
+}
+
+/**
+ * Async wrapper that runs the LLM disagreement checker after the sync
+ * orchestrator, patches the result onto each stock, and re-writes the
+ * picks-adjusted file. PR 2-3 (2026-05-19): turns the boilerplate-heavy
+ * heuristic into a discriminating LLM-backed signal for V3≥50 BEAT
+ * candidates.
+ *
+ * The sync `runRiskLab` is still the source of truth for everything
+ * except the `llm_disagreement_check` field. If the LLM step fails or
+ * the env has no keys, every stock falls back to the same heuristic
+ * the sync run already uses — so the system is no worse than before
+ * even when the LLM is unreachable.
+ */
+export async function runRiskLabWithLlm(opts = {}) {
+  const sync = runRiskLab({ ...opts, dryRun: true });
+  const stocks = sync.payload.stocks || [];
+
+  // Build the LLM batcher inputs from each stock + the loaded SWS deep data.
+  const loadDeep = opts.loadDeep || makeDeepLoader(opts.deepDir);
+  // Reload picks to recover the counter_thesis/news for each ticker —
+  // the synced payload omits the raw text to keep the JSON small.
+  const picks = readJsonSafe(opts.picksPath || PICKS_PATH);
+  const rowByTicker = new Map();
+  for (const r of collectUniqueRows(picks)) {
+    if (r?.ticker) rowByTicker.set(r.ticker, r);
+  }
+
+  // PR 3 — the LLM disagreement check is event-level: it asks "does the
+  // production BEAT/INLINE/MISS prediction look wrong for this stock?".
+  // Picks-latest carries TOP_PICK/STRONG verdicts, NOT BEAT/INLINE/MISS,
+  // so we have to join the earnings-watch calendar to learn which
+  // tickers actually have an upcoming earnings event AND what the
+  // predictor said. Stocks without an upcoming event get a null
+  // llm_disagreement_check (the heuristic in earningsLabView.js still
+  // applies as fallback).
+  const earningsPath = opts.earningsWatchPath
+    || path.join(__dirname, "..", "..", "data", "catalysts", "earnings-watch-latest.json");
+  const earnings = readJsonSafe(earningsPath);
+  const eventByTicker = new Map();
+  for (const e of (earnings?.events || earnings?.calendar || [])) {
+    if (!e?.symbol) continue;
+    const t = String(e.symbol).toUpperCase();
+    // First (closest) event wins per ticker — the calendar is sorted by date.
+    if (!eventByTicker.has(t)) eventByTicker.set(t, e);
+  }
+
+  const batchInputs = stocks.map((s) => {
+    const row = rowByTicker.get(s.ticker) || {};
+    const deep = loadDeep(s.ticker);
+    const deepInputs = extractDeepQualityInputs(deep) || { risks: [], news: [] };
+    const event = eventByTicker.get(String(s.ticker || "").toUpperCase());
+    const prodVerdict = event?.prediction?.verdict || null;
+    const prodConf = typeof event?.prediction?.confidence_pct === "number"
+      ? event.prediction.confidence_pct
+      : null;
+    return {
+      ticker: s.ticker,
+      sector: row.sector || s.original_sector || null,
+      predicted_verdict: prodVerdict,
+      predicted_confidence_pct: prodConf,
+      v3_score: s.original_score,
+      counter_thesis_text: typeof row.counter_thesis === "string"
+        ? row.counter_thesis
+        : (row.counter_thesis?.bull_thesis_summary || row.counter_thesis?.text || ""),
+      falsification_triggers: Array.isArray(row.counter_thesis?.falsification_triggers)
+        ? row.counter_thesis.falsification_triggers
+        : [],
+      risks: deepInputs.risks || [],
+      news: deepInputs.news || [],
+      macro_veto: s.macro_veto,
+      quality_flags: s.quality_flags || [],
+    };
+  });
+
+  const llmResult = await classifyLlmDisagreementBatch(batchInputs, {
+    skipLlm: opts.skipLlm,
+    maxLlmCalls: opts.maxLlmCalls,
+    concurrency: opts.llmConcurrency,
+    cachePath: opts.llmCachePath,
+  });
+
+  // Patch the assessments back onto each stock row.
+  for (let i = 0; i < stocks.length; i++) {
+    stocks[i].llm_disagreement_check = llmResult.decisions[i] || null;
+  }
+
+  sync.payload.llm_disagreement_stats = llmResult.stats;
+  // Rebuild quality flags payload so consumers see the LLM check too.
+  const qualityPayload = buildQualityFlagsPayload(stocks, opts);
+
+  if (!opts.dryRun) {
+    writeJsonAtomic(sync.outPath, sync.payload);
+    writeJsonAtomic(sync.qualityFlagsOutPath, qualityPayload);
+  }
+
+  return {
+    ...sync,
+    qualityPayload,
+    llm: llmResult.stats,
     dryRun: !!opts.dryRun,
   };
 }

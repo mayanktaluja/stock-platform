@@ -1162,11 +1162,32 @@
     const hasMacro = labView.has_macro_overlay === true;
     const hasQuality = labView.has_quality_overlay === true;
     const disagrees = labView.disagrees_with_prediction === true;
+    // PR 1 — distinguish hard evidence from boilerplate-only.
+    const hasHard = labView.has_hard_evidence === true;
+    const hardCount = labView.hard_evidence_count || 0;
+    const boilerplateOnlyCount = labView.counter_thesis_only_count || 0;
+    // PR 3 — LLM authoritative reading (groq/gemini) supersedes heuristic.
+    const llmCheck = labView.llm_disagreement_check || null;
+    const llmProvider = llmCheck?.classifier_provider || null;
+    const llmAuthoritative = labView.llm_authoritative === true;
+
     if (!disagrees && !flagCount && !hasMacro) return "";
 
-    const stripeColor = disagrees ? "#fbbf24" : "#94a3b8";
-    const accentBg = disagrees ? "rgba(251,191,36,0.06)" : "rgba(148,163,184,0.04)";
-    const headerLabel = disagrees ? "Risk Lab disagrees" : "Risk Lab notes";
+    // Three-tier visual: DISAGREES (amber, strong) > NOTES (slate, muted)
+    // > BOILERPLATE-ONLY (dim, deprioritised). Boilerplate-only never
+    // claims "disagree" after PR 1 — it's the most muted variant.
+    const isBoilerplateOnly = !disagrees && !hasHard && !hasMacro && boilerplateOnlyCount > 0;
+    const stripeColor = disagrees ? "#fbbf24" : isBoilerplateOnly ? "#64748b" : "#94a3b8";
+    const accentBg = disagrees
+      ? "rgba(251,191,36,0.06)"
+      : isBoilerplateOnly
+        ? "rgba(100,116,139,0.025)"
+        : "rgba(148,163,184,0.04)";
+    const headerLabel = disagrees
+      ? "Risk Lab disagrees"
+      : isBoilerplateOnly
+        ? "Risk Lab notes (generic)"
+        : "Risk Lab notes";
 
     const prodVerdict = prediction?.verdict || null;
     const confDelta = labView.confidence_delta_pct;
@@ -1175,6 +1196,7 @@
     if (labView.macro_veto?.vetoed === true) {
       verdictDeltaText = `${prodVerdict || "?"} → SKIP (macro veto)`;
     } else if (
+      disagrees &&
       typeof labView.combined_verdict === "string" &&
       labView.combined_verdict.startsWith("LOW_QUALITY_") &&
       prodVerdict === "BEAT"
@@ -1187,16 +1209,25 @@
         : "";
     const deltaSummary = [verdictDeltaText, confDeltaText].filter(Boolean).join(" · ");
 
+    // PR 3 — render the LLM's top_reason FIRST when authoritative
+    // (the model has read the actual SWS text and decided "yes/no with reason"),
+    // followed by heuristic top_reasons. Tag each reason source so users
+    // can see boilerplate vs hard evidence vs LLM.
+    const llmReasonLi = llmAuthoritative && llmCheck?.top_reason
+      ? `<li style="font-size:10.5px; color:#cbd5e1; line-height:1.45;"><span style="color:${stripeColor};">▸</span> <span style="font-size:9px; padding:0 4px; border-radius:3px; background:rgba(96,165,250,0.18); color:#93c5fd; margin-right:4px;">LLM (${escHtml(llmProvider)})</span>${escHtml(String(llmCheck.top_reason))}</li>`
+      : "";
     const topReasons = Array.isArray(labView.top_reasons) ? labView.top_reasons.slice(0, 3) : [];
-    const reasonsHtml = topReasons.length
-      ? `<ul style="margin:4px 0 0 0; padding:0; list-style:none;">${topReasons
-          .map(
-            (r) =>
-              `<li style="font-size:10.5px; color:#cbd5e1; line-height:1.45;"><span style="color:${stripeColor};">▸</span> ${escHtml(
-                String(r.summary || r.category || ""),
-              )}</li>`,
-          )
-          .join("")}</ul>`
+    const heuristicReasonItems = topReasons.map((r) => {
+      const isBoilerplate = r.is_boilerplate === true;
+      const tag = isBoilerplate
+        ? '<span style="font-size:9px; padding:0 4px; border-radius:3px; background:rgba(100,116,139,0.18); color:#94a3b8; margin-right:4px;">generic</span>'
+        : '<span style="font-size:9px; padding:0 4px; border-radius:3px; background:rgba(34,197,94,0.16); color:#86efac; margin-right:4px;">evidence</span>';
+      return `<li style="font-size:10.5px; color:#cbd5e1; line-height:1.45;"><span style="color:${stripeColor};">▸</span> ${tag}${escHtml(
+        String(r.summary || r.category || ""),
+      )}</li>`;
+    });
+    const reasonsHtml = (llmReasonLi || heuristicReasonItems.length)
+      ? `<ul style="margin:4px 0 0 0; padding:0; list-style:none;">${llmReasonLi}${heuristicReasonItems.join("")}</ul>`
       : "";
 
     let macroNote = "";
@@ -1214,12 +1245,18 @@
       macroNote = `<div style="font-size:10.5px; color:#cbd5e1; margin-top:4px;">↪ Macro: ${macroBits.join(" ")}${tail}</div>`;
     }
 
-    const flagsCountSuffix = !disagrees && hasQuality && flagCount > 3 ? ` (${flagCount} flags)` : "";
+    // Discrimination diagnostic suffix — small but real signal to the user
+    // about evidence depth without overwhelming the strip.
+    const diagSuffix = hasHard
+      ? ` (${hardCount} evidence${boilerplateOnlyCount ? ` · ${boilerplateOnlyCount} generic` : ""})`
+      : isBoilerplateOnly
+        ? ` (${boilerplateOnlyCount} generic)`
+        : "";
 
     return `
-      <div data-testid="lab-second-opinion" data-disagrees="${disagrees ? "true" : "false"}" style="margin-top:6px; padding:8px 10px; border-left:3px solid ${stripeColor}; background:${accentBg}; border-radius:0 6px 6px 0;">
+      <div data-testid="lab-second-opinion" data-disagrees="${disagrees ? "true" : "false"}" data-has-hard-evidence="${hasHard ? "true" : "false"}" data-llm-provider="${escHtml(llmProvider || "none")}" style="margin-top:6px; padding:8px 10px; border-left:3px solid ${stripeColor}; background:${accentBg}; border-radius:0 6px 6px 0;">
         <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
-          <span style="font-size:10.5px; color:${stripeColor}; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;">⚖ ${headerLabel}${flagsCountSuffix}</span>
+          <span style="font-size:10.5px; color:${stripeColor}; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;">⚖ ${headerLabel}${diagSuffix}</span>
           ${deltaSummary ? `<span style="font-size:10.5px; color:${stripeColor};">${escHtml(deltaSummary)}</span>` : ""}
         </div>
         ${reasonsHtml}

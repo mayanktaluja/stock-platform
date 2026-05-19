@@ -194,30 +194,51 @@ export function buildScenarioPackage({
   const scenarios = probs.branches.map((b) => {
     let projection = null;
     let analogN = 0;
+    let analogs = [];
     if (b.key === "continue") {
       projection = analogContinue.sectors;
       analogN = analogContinue.n_analogs;
+      analogs = analogContinue.analogs || [];
     } else if (b.key === "escalate") {
       projection = analogEscalate.sectors;
       analogN = analogEscalate.n_analogs;
+      analogs = analogEscalate.analogs || [];
     } else if (b.key === "de_escalate") {
       projection = analogDeEscalate.sectors;
       analogN = analogDeEscalate.n_analogs;
+      analogs = analogDeEscalate.analogs || [];
     }
     return {
       ...b,
       n_analogs: analogN,
       indeterminate: analogN < MIN_SAFE_N && b.key !== "new_shock",
       projected_sector_returns: projection,
+      // PR 4 — pass the actual matched-analog dates+labels through to the
+      // orchestrator so the UI can show "n=3: 2022-02-24 Russia/Ukraine,
+      // 2023-10-07 Israel/Hamas, 2025-05-07 India-Pak" instead of a bare n.
+      analogs,
     };
   });
 
   return {
     ...probs,
+    engine_version: "scenario-prob-v1",
     scenarios,
-    analog_report_continue: { n: analogContinue.n_analogs, warnings: analogContinue.warnings },
-    analog_report_escalate: { n: analogEscalate.n_analogs, warnings: analogEscalate.warnings },
-    analog_report_de_escalate: { n: analogDeEscalate.n_analogs, warnings: analogDeEscalate.warnings },
+    analog_report_continue: {
+      n: analogContinue.n_analogs,
+      warnings: analogContinue.warnings,
+      analogs: (analogContinue.analogs || []).slice(0, 5),
+    },
+    analog_report_escalate: {
+      n: analogEscalate.n_analogs,
+      warnings: analogEscalate.warnings,
+      analogs: (analogEscalate.analogs || []).slice(0, 5),
+    },
+    analog_report_de_escalate: {
+      n: analogDeEscalate.n_analogs,
+      warnings: analogDeEscalate.warnings,
+      analogs: (analogDeEscalate.analogs || []).slice(0, 5),
+    },
   };
 }
 
