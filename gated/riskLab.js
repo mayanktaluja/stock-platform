@@ -15,7 +15,14 @@
   "use strict";
 
   const ROOT_ID = "riskLabRoot";
-  const STORAGE_KEY = "riskLabEnabled";
+  // STORAGE_KEY bumped to v2 (2026-05-19) so any stale "false" value
+  // from the original key — including an accidental click on the
+  // in-tab "Hide Risk Lab tab for me" button before Phase 2 promoted
+  // the Macro Thesis sub-view — is ignored. Users who deliberately
+  // hide the tab from now on use the new key; the orphaned `riskLabEnabled`
+  // entry sits harmlessly in their localStorage and gets garbage-
+  // collected when they clear site data.
+  const STORAGE_KEY = "riskLabEnabled_v2";
   let _cache = null;
   let _activeLens = "quality"; // start with Quality Lens — the KEC case is fresher
 
