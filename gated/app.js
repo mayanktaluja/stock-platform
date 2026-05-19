@@ -236,6 +236,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   setupSearch();
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
+  attachNumericFlash();     // MutationObserver: data-num cells flash on update
+  initUiDensity();          // restore + wire density-mode toggle (Phase 6)
   auth.init();
   // Snapshot freshness banner — surfaces when any underlying fixture
   // (fundamentals, surveillance, governance, picks-latest, macro) is older
@@ -654,6 +656,180 @@ function regimeIdFromLabel(regime) {
 
 let _activeTooltipTermId = null;
 
+// UI/UX overhaul 2026-05-19 — Phase 6 density toggle.
+//
+// Three modes:
+//   "comfortable" (default, no html attribute) — current spacing
+//   "compact"  — tighter rows + smaller body font for laptop power users
+//   "pro"      — tightest, Bloomberg-style — for "I-want-to-see-everything"
+//
+// Persisted in localStorage. Setting is applied at boot so the page
+// never flashes from comfortable → compact. The user menu has 3 radio
+// buttons that call setUiDensity().
+const UI_DENSITY_KEY = "ui.density.v1";
+const UI_DENSITIES = new Set(["comfortable", "compact", "pro"]);
+function getUiDensity() {
+  try {
+    const stored = localStorage.getItem(UI_DENSITY_KEY);
+    if (UI_DENSITIES.has(stored)) return stored;
+  } catch {}
+  return "comfortable";
+}
+function setUiDensity(density) {
+  if (!UI_DENSITIES.has(density)) density = "comfortable";
+  try { localStorage.setItem(UI_DENSITY_KEY, density); } catch {}
+  // "comfortable" is the unset state — remove the attribute entirely so
+  // the html selector doesn't match (matches the CSS expectation that
+  // html[data-density="compact"|"pro"] flips tokens, html without the
+  // attr inherits Phase 1 defaults).
+  if (density === "comfortable") {
+    document.documentElement.removeAttribute("data-density");
+  } else {
+    document.documentElement.setAttribute("data-density", density);
+  }
+  // Sync visible state on the toggle buttons.
+  document.querySelectorAll(".density-btn[data-density]").forEach((btn) => {
+    const active = btn.getAttribute("data-density") === density;
+    btn.classList.toggle("is-active", active);
+    btn.setAttribute("aria-checked", String(active));
+  });
+  try { window.telemetry?.emit?.("ui_density_change", { density }); } catch {}
+}
+window.setUiDensity = setUiDensity;
+
+function initUiDensity() {
+  // Boot-time apply. No-op if user is on the default.
+  setUiDensity(getUiDensity());
+}
+
+// UI/UX overhaul 2026-05-19 — Phase 3 "alive" interactivity.
+// A scoped MutationObserver that watches elements carrying a `data-num`
+// attribute. When their text content changes, parse the new number and
+// briefly flash green (up) or red (down) so the user sees that something
+// moved. The flash classes are CSS-gated behind prefers-reduced-motion so
+// users who opt out never see animation.
+//
+// Adversarial-noted scope: we deliberately DO NOT crawl every numeric site
+// on the page (the platform has 50+ render call-sites and stamping them
+// all would balloon scope). The cells that opt in are stamped at render
+// time in renderTrackHeroKpis() and renderWatchlistHealthBanner() — the
+// two highest-attention numeric surfaces.
+function attachNumericFlash() {
+  if (!('MutationObserver' in window)) return;
+  // Parse a textContent like "₹1,23,456", "+8.23%", "3.42", "—" into a
+  // numeric value for comparison. Returns NaN if unparseable; callers
+  // skip the flash when prev OR next is NaN to avoid spurious flashes on
+  // "loading…" → "₹1,234" first paint.
+  function parseNum(text) {
+    if (text == null) return NaN;
+    const cleaned = String(text)
+      .replace(/[^0-9.\-+]/g, "")
+      .replace(/^\+/, "");
+    const n = parseFloat(cleaned);
+    return Number.isFinite(n) ? n : NaN;
+  }
+  const prev = new WeakMap();
+  function tryFlash(el) {
+    const next = parseNum(el.textContent);
+    const before = prev.get(el);
+    prev.set(el, next);
+    if (!Number.isFinite(before) || !Number.isFinite(next) || before === next) return;
+    el.classList.remove("flash-up", "flash-down");
+    // Force reflow so the animation re-triggers if the same direction
+    // fires twice in a row (rare but possible).
+    void el.offsetWidth;
+    el.classList.add(next > before ? "flash-up" : "flash-down");
+  }
+  // Initial seeding pass — record current values without flashing.
+  function seed(root) {
+    root.querySelectorAll("[data-num]").forEach((el) => {
+      prev.set(el, parseNum(el.textContent));
+    });
+  }
+  seed(document);
+  // Observe the entire document at a coarse grain (childList + subtree +
+  // characterData). MutationObserver is cheap when the page is idle; the
+  // hot paths here are tab switches (~6 attribute changes) and per-second
+  // ticker updates (the ticker is aria-hidden but not data-num, so it's
+  // skipped automatically).
+  const obs = new MutationObserver((mutations) => {
+    const touched = new Set();
+    for (const m of mutations) {
+      const node = m.target;
+      const el = node.nodeType === 1 ? node : node.parentElement;
+      if (!el) continue;
+      const candidate = el.closest?.("[data-num]");
+      if (candidate) touched.add(candidate);
+      // Newly inserted nodes might themselves have [data-num] children
+      m.addedNodes?.forEach?.((n) => {
+        if (n.nodeType !== 1) return;
+        if (n.matches?.("[data-num]")) touched.add(n);
+        n.querySelectorAll?.("[data-num]")?.forEach?.((d) => touched.add(d));
+      });
+    }
+    touched.forEach(tryFlash);
+  });
+  obs.observe(document.body, { subtree: true, childList: true, characterData: true });
+}
+
+// UI/UX overhaul 2026-05-19 — single delegated focus-trap for any open
+// dialog. The platform has 3 modal surfaces (sws detail, action list,
+// shortcuts cheatsheet) and none of them traps Tab — focus could leak
+// to elements behind the backdrop, defeating the modal contract for
+// keyboard + screen-reader users (WCAG 2.4.3). One document-level
+// listener handles all three.
+//
+// Trap is active whenever ANY of these is on screen:
+//   #swsModalBackdrop.open
+//   #actionListModalBackdrop.open
+//   #shortcutsModal.open
+//
+// On Tab/Shift-Tab: if next focus would leave the active dialog,
+// preventDefault and wrap to the first/last focusable element inside it.
+function _activeDialogEl() {
+  const candidates = [
+    "#swsModalBackdrop.open",
+    "#actionListModalBackdrop.open",
+    "#shortcutsModal.open",
+  ];
+  for (const sel of candidates) {
+    const el = document.querySelector(sel);
+    if (el) return el;
+  }
+  return null;
+}
+const _FOCUSABLE_SELECTOR =
+  'a[href], area[href], input:not([disabled]):not([type="hidden"]), ' +
+  'select:not([disabled]), textarea:not([disabled]), ' +
+  'button:not([disabled]), iframe, object, embed, ' +
+  '[tabindex]:not([tabindex="-1"]), [contenteditable="true"]';
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Tab") return;
+  const dialog = _activeDialogEl();
+  if (!dialog) return;
+  const focusables = Array.from(
+    dialog.querySelectorAll(_FOCUSABLE_SELECTOR),
+  ).filter((el) => el.offsetParent !== null && !el.hasAttribute("aria-hidden"));
+  if (focusables.length === 0) {
+    e.preventDefault();
+    return;
+  }
+  const first = focusables[0];
+  const last = focusables[focusables.length - 1];
+  const active = document.activeElement;
+  if (e.shiftKey && active === first) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && active === last) {
+    e.preventDefault();
+    first.focus();
+  } else if (!dialog.contains(active)) {
+    // Focus leaked out (e.g. user clicked outside): bring it back.
+    e.preventDefault();
+    first.focus();
+  }
+});
+
 function attachGlossaryTooltips() {
   const tooltip = document.getElementById("starbhaiTooltip");
   if (!tooltip) return;
@@ -677,6 +853,26 @@ function attachGlossaryTooltips() {
     // Don't hide if the cursor moved INTO the tooltip itself
     const related = e.relatedTarget;
     if (related && (related.id === "starbhaiTooltip" || related.closest?.("#starbhaiTooltip"))) return;
+    hideTooltip();
+  });
+
+  // UI/UX overhaul 2026-05-19 — keyboard tooltip access. Info icons are
+  // `<span tabindex=0>` not `<button>`, so Tab+Enter doesn't dispatch a
+  // synthetic click and the existing mouseover/click handlers never fire.
+  // focusin (bubbles) closes the gap by opening the tooltip when a
+  // tip-trigger receives keyboard focus. focusout hides it on blur unless
+  // focus moved INTO the tooltip itself (rare but possible if the body
+  // has a focusable link).
+  document.addEventListener("focusin", (e) => {
+    const target = e.target.closest?.(TIP_SELECTOR);
+    if (!target) return;
+    showTooltip(target, target.getAttribute("data-term-id"));
+  });
+  document.addEventListener("focusout", (e) => {
+    const target = e.target.closest?.(TIP_SELECTOR);
+    if (!target) return;
+    const next = e.relatedTarget;
+    if (next && (next.id === "starbhaiTooltip" || next.closest?.("#starbhaiTooltip"))) return;
     hideTooltip();
   });
 
@@ -2398,9 +2594,14 @@ function renderTransitionAlert(transition) {
 // Every existing call site of switchTab() ignores the return value,
 // so promoting to async is backward-compatible.
 
+// UI/UX overhaul 2026-05-19 — `label` added per tab so switchTab() can
+// update the sr-only #liveTabHeading h1. Screen readers now hear the
+// active tab name on every switch without spoken-noise from the visual
+// tab bar.
 const TAB_CONFIG = {
   news: {
     elId: "newsTab",
+    label: "Market Intelligence",
     enter: () => {
       loadMarketNews();
       newsRefreshTimer = setInterval(
@@ -2409,28 +2610,32 @@ const TAB_CONFIG = {
       );
     },
   },
-  portfolio: { elId: "portfolioTab", enter: () => loadPortfolio() },
-  track:     { elId: "trackTab",     enter: () => loadTrackRecord() },
+  portfolio: { elId: "portfolioTab", label: "My Portfolio",        enter: () => loadPortfolio() },
+  track:     { elId: "trackTab",     label: "Track Record",        enter: () => loadTrackRecord() },
   analyzer:  {
     elId: "analyzerTab",
+    label: "Portfolio Analyzer",
     enter: () => { initPortfolioAnalyzer(); loadAnalyzerOnTabOpen(); },
   },
-  picks:     { elId: "picksTab",     enter: () => loadPicks() },
-  watchlist: { elId: "watchlistTab", enter: () => loadWatchlist() },
+  picks:     { elId: "picksTab",     label: "SWS Picks",           enter: () => loadPicks() },
+  watchlist: { elId: "watchlistTab", label: "Watchlist",           enter: () => loadWatchlist() },
   // Defence-in-depth: server enforces admin via 403 on /api/admin/users,
   // but bail in the loader too so a non-admin who somehow forces the URL
   // doesn't see a half-rendered tab while the fetch is in flight.
   users: {
     elId: "usersTab",
+    label: "Users",
     guard: () => !!window.__starbhai_isAdmin,
     enter: () => loadUsersList(),
   },
   earnings: {
     elId: "earningsTab",
+    label: "Earnings Watch",
     enter: () => { if (typeof loadEarningsWatch === "function") loadEarningsWatch(); },
   },
   riskLab: {
     elId: "riskLabTab",
+    label: "Risk Lab",
     enter: () => { if (typeof loadRiskLab === "function") loadRiskLab(); },
   },
   // Compounder Lab — SAFE sleeve. Personal-use only; the tab button is
@@ -2489,6 +2694,18 @@ async function switchTab(tab) {
 
   const el = document.getElementById(config.elId);
   if (el) el.style.display = "block";
+
+  // UI/UX overhaul 2026-05-19 — keep the sr-only document-heading in sync
+  // with the visible tab so screen readers always hear the right context.
+  // Title bar also reflects the active tab for parity.
+  const liveHeading = document.getElementById("liveTabHeading");
+  if (liveHeading && config.label) {
+    liveHeading.textContent = `STARBHAI — ${config.label}`;
+  }
+  if (config.label) {
+    document.title = `${config.label} — STARBHAI`;
+  }
+
   try {
     await config.enter();
   } catch (e) {
@@ -5115,19 +5332,20 @@ function initPortfolioAnalyzer() {
     if (f) analyzePortfolioFile(f);
   });
 
-  // Drag & drop
+  // Drag & drop. UI/UX overhaul 2026-05-19: switched from per-event inline
+  // style mutations (gold-theme-incompatible blue --accent border) to a
+  // .dragover class. The class lives in index.html and matches the platform's
+  // gold-accent design tokens; transitions are gated by prefers-reduced-motion.
   ["dragenter", "dragover"].forEach((ev) =>
     dropArea.addEventListener(ev, (e) => {
       e.preventDefault(); e.stopPropagation();
-      dropArea.style.borderColor = "var(--accent)";
-      dropArea.style.background = "rgba(59,130,246,0.05)";
+      dropArea.classList.add("dragover");
     }),
   );
   ["dragleave", "drop"].forEach((ev) =>
     dropArea.addEventListener(ev, (e) => {
       e.preventDefault(); e.stopPropagation();
-      dropArea.style.borderColor = "#2a3349";
-      dropArea.style.background = "var(--panel)";
+      dropArea.classList.remove("dragover");
     }),
   );
   dropArea.addEventListener("drop", (e) => {
@@ -10284,6 +10502,31 @@ function jumpToPicksSection(sectionKey) {
   syncPicksChipActiveStates();
 }
 
+// UI/UX overhaul 2026-05-19 — modal section-chip handler. Used by the
+// "In sections: 💎 Deep Value …" banner inside the SWS detail modal:
+// clicking a chip closes the modal, switches to the SWS Picks tab if
+// needed, and scrolls to + expands the section that holds this stock.
+// Closes audit Pain Point #10 ("section chips are inert").
+window.navigateToPicksSection = async function navigateToPicksSection(sectionKey) {
+  if (!sectionKey) return;
+  // Close whichever modal is open (sws detail OR action list).
+  try { closeSwsModal(); } catch {}
+  try { closeActionListModal(); } catch {}
+  // switchTab is idempotent — calling it on the already-active tab just
+  // re-runs the loader, which is cheap and ensures sections are rendered
+  // before we try to scroll.
+  const picksTab = document.getElementById("picksTab");
+  const alreadyOnPicks = picksTab && picksTab.style.display !== "none";
+  if (!alreadyOnPicks) {
+    try { await window.switchTab("picks"); } catch {}
+  }
+  // Defer scroll one frame so the just-switched tab paints first.
+  requestAnimationFrame(() => {
+    try { jumpToPicksSection(sectionKey); } catch {}
+  });
+  try { window.telemetry?.emit?.("modal_section_chip_click", { section: sectionKey }); } catch {}
+};
+
 // Expand-all / collapse-all controls in the chip-nav. Expand-all is capped
 // to PICKS_EXPANDED_CAP so we don't load 150+ cards and tank scroll perf.
 function setAllPicksCollapsed(collapsed) {
@@ -11388,10 +11631,18 @@ function renderSwsModal(data) {
   const sectionsBannerHtml = (() => {
     if (memberships.length === 0) return "";
     const keysToRender = buyListMemberships.length ? buyListMemberships : memberships;
+    // UI/UX overhaul 2026-05-19 — chips are now clickable buttons that
+    // close the modal and switch to the SWS Picks tab, scrolled to the
+    // section that holds this stock. Previously they were inert spans
+    // (audit Pain Point #10). The data-section key is the same key used
+    // by the chip-nav scroller so the existing scrollToPicksSection
+    // helper picks it up unchanged.
     const chips = keysToRender.map((key) => {
       const meta = sectionLabelByKey[key];
       const display = meta ? `${meta.emoji} ${meta.label}` : key;
-      return `<span class="sws-modal-section-chip">${escapeHtml(display)}</span>`;
+      const safeKey = escapeHtml(key);
+      const safeDisplay = escapeHtml(display);
+      return `<button type="button" class="sws-modal-section-chip is-clickable" data-section-key="${safeKey}" onclick="navigateToPicksSection('${safeKey.replace(/'/g, "\\'")}')" title="Open SWS Picks → ${safeDisplay}">${safeDisplay}</button>`;
     }).join("");
     if (!chips) return "";
     return `
