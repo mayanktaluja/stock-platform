@@ -65,6 +65,34 @@
     _gPrefixTimer = null;
   }
 
+  // UI/UX overhaul 2026-05-19 — WAI-ARIA tab pattern: ←/→ rove between
+  // tabs when focus is on a [role=tab] button. Home/End jump to ends.
+  // The g-prefix shortcuts (above) keep working from anywhere on the page;
+  // arrow-key roving only fires when a tab itself has keyboard focus.
+  function rovingTabKey(e) {
+    const focused = e.target;
+    if (!focused?.matches?.('#mainTabs .tab[role="tab"]')) return false;
+    const tabs = Array.from(
+      document.querySelectorAll('#mainTabs .tab[role="tab"]'),
+    ).filter((t) => !t.hidden && t.offsetParent !== null);
+    if (tabs.length === 0) return false;
+    const idx = tabs.indexOf(focused);
+    if (idx === -1) return false;
+
+    let nextIdx = -1;
+    if (e.key === "ArrowRight") nextIdx = (idx + 1) % tabs.length;
+    else if (e.key === "ArrowLeft") nextIdx = (idx - 1 + tabs.length) % tabs.length;
+    else if (e.key === "Home") nextIdx = 0;
+    else if (e.key === "End") nextIdx = tabs.length - 1;
+    else return false;
+
+    e.preventDefault();
+    const next = tabs[nextIdx];
+    next.focus();
+    next.click();
+    return true;
+  }
+
   document.addEventListener("keydown", (e) => {
     // Always allow Escape to close the cheatsheet (other Escape handlers
     // in app.js cover modals)
@@ -75,6 +103,10 @@
         return;
       }
     }
+
+    // ←/→/Home/End on focused tab — handled before typing-field check so it
+    // works even if the tab button is somehow focused inside a form.
+    if (rovingTabKey(e)) return;
 
     if (isTypingInField(e.target)) {
       _clearGPrefix();

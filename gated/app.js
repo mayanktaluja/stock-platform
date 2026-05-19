@@ -654,6 +654,64 @@ function regimeIdFromLabel(regime) {
 
 let _activeTooltipTermId = null;
 
+// UI/UX overhaul 2026-05-19 — single delegated focus-trap for any open
+// dialog. The platform has 3 modal surfaces (sws detail, action list,
+// shortcuts cheatsheet) and none of them traps Tab — focus could leak
+// to elements behind the backdrop, defeating the modal contract for
+// keyboard + screen-reader users (WCAG 2.4.3). One document-level
+// listener handles all three.
+//
+// Trap is active whenever ANY of these is on screen:
+//   #swsModalBackdrop.open
+//   #actionListModalBackdrop.open
+//   #shortcutsModal.open
+//
+// On Tab/Shift-Tab: if next focus would leave the active dialog,
+// preventDefault and wrap to the first/last focusable element inside it.
+function _activeDialogEl() {
+  const candidates = [
+    "#swsModalBackdrop.open",
+    "#actionListModalBackdrop.open",
+    "#shortcutsModal.open",
+  ];
+  for (const sel of candidates) {
+    const el = document.querySelector(sel);
+    if (el) return el;
+  }
+  return null;
+}
+const _FOCUSABLE_SELECTOR =
+  'a[href], area[href], input:not([disabled]):not([type="hidden"]), ' +
+  'select:not([disabled]), textarea:not([disabled]), ' +
+  'button:not([disabled]), iframe, object, embed, ' +
+  '[tabindex]:not([tabindex="-1"]), [contenteditable="true"]';
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Tab") return;
+  const dialog = _activeDialogEl();
+  if (!dialog) return;
+  const focusables = Array.from(
+    dialog.querySelectorAll(_FOCUSABLE_SELECTOR),
+  ).filter((el) => el.offsetParent !== null && !el.hasAttribute("aria-hidden"));
+  if (focusables.length === 0) {
+    e.preventDefault();
+    return;
+  }
+  const first = focusables[0];
+  const last = focusables[focusables.length - 1];
+  const active = document.activeElement;
+  if (e.shiftKey && active === first) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && active === last) {
+    e.preventDefault();
+    first.focus();
+  } else if (!dialog.contains(active)) {
+    // Focus leaked out (e.g. user clicked outside): bring it back.
+    e.preventDefault();
+    first.focus();
+  }
+});
+
 function attachGlossaryTooltips() {
   const tooltip = document.getElementById("starbhaiTooltip");
   if (!tooltip) return;
@@ -677,6 +735,26 @@ function attachGlossaryTooltips() {
     // Don't hide if the cursor moved INTO the tooltip itself
     const related = e.relatedTarget;
     if (related && (related.id === "starbhaiTooltip" || related.closest?.("#starbhaiTooltip"))) return;
+    hideTooltip();
+  });
+
+  // UI/UX overhaul 2026-05-19 — keyboard tooltip access. Info icons are
+  // `<span tabindex=0>` not `<button>`, so Tab+Enter doesn't dispatch a
+  // synthetic click and the existing mouseover/click handlers never fire.
+  // focusin (bubbles) closes the gap by opening the tooltip when a
+  // tip-trigger receives keyboard focus. focusout hides it on blur unless
+  // focus moved INTO the tooltip itself (rare but possible if the body
+  // has a focusable link).
+  document.addEventListener("focusin", (e) => {
+    const target = e.target.closest?.(TIP_SELECTOR);
+    if (!target) return;
+    showTooltip(target, target.getAttribute("data-term-id"));
+  });
+  document.addEventListener("focusout", (e) => {
+    const target = e.target.closest?.(TIP_SELECTOR);
+    if (!target) return;
+    const next = e.relatedTarget;
+    if (next && (next.id === "starbhaiTooltip" || next.closest?.("#starbhaiTooltip"))) return;
     hideTooltip();
   });
 
@@ -2398,9 +2476,14 @@ function renderTransitionAlert(transition) {
 // Every existing call site of switchTab() ignores the return value,
 // so promoting to async is backward-compatible.
 
+// UI/UX overhaul 2026-05-19 — `label` added per tab so switchTab() can
+// update the sr-only #liveTabHeading h1. Screen readers now hear the
+// active tab name on every switch without spoken-noise from the visual
+// tab bar.
 const TAB_CONFIG = {
   news: {
     elId: "newsTab",
+    label: "Market Intelligence",
     enter: () => {
       loadMarketNews();
       newsRefreshTimer = setInterval(
@@ -2409,28 +2492,32 @@ const TAB_CONFIG = {
       );
     },
   },
-  portfolio: { elId: "portfolioTab", enter: () => loadPortfolio() },
-  track:     { elId: "trackTab",     enter: () => loadTrackRecord() },
+  portfolio: { elId: "portfolioTab", label: "My Portfolio",        enter: () => loadPortfolio() },
+  track:     { elId: "trackTab",     label: "Track Record",        enter: () => loadTrackRecord() },
   analyzer:  {
     elId: "analyzerTab",
+    label: "Portfolio Analyzer",
     enter: () => { initPortfolioAnalyzer(); loadAnalyzerOnTabOpen(); },
   },
-  picks:     { elId: "picksTab",     enter: () => loadPicks() },
-  watchlist: { elId: "watchlistTab", enter: () => loadWatchlist() },
+  picks:     { elId: "picksTab",     label: "SWS Picks",           enter: () => loadPicks() },
+  watchlist: { elId: "watchlistTab", label: "Watchlist",           enter: () => loadWatchlist() },
   // Defence-in-depth: server enforces admin via 403 on /api/admin/users,
   // but bail in the loader too so a non-admin who somehow forces the URL
   // doesn't see a half-rendered tab while the fetch is in flight.
   users: {
     elId: "usersTab",
+    label: "Users",
     guard: () => !!window.__starbhai_isAdmin,
     enter: () => loadUsersList(),
   },
   earnings: {
     elId: "earningsTab",
+    label: "Earnings Watch",
     enter: () => { if (typeof loadEarningsWatch === "function") loadEarningsWatch(); },
   },
   riskLab: {
     elId: "riskLabTab",
+    label: "Risk Lab",
     enter: () => { if (typeof loadRiskLab === "function") loadRiskLab(); },
   },
   // Compounder Lab — SAFE sleeve. Personal-use only; the tab button is
@@ -2489,6 +2576,18 @@ async function switchTab(tab) {
 
   const el = document.getElementById(config.elId);
   if (el) el.style.display = "block";
+
+  // UI/UX overhaul 2026-05-19 — keep the sr-only document-heading in sync
+  // with the visible tab so screen readers always hear the right context.
+  // Title bar also reflects the active tab for parity.
+  const liveHeading = document.getElementById("liveTabHeading");
+  if (liveHeading && config.label) {
+    liveHeading.textContent = `STARBHAI — ${config.label}`;
+  }
+  if (config.label) {
+    document.title = `${config.label} — STARBHAI`;
+  }
+
   try {
     await config.enter();
   } catch (e) {
