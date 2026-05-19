@@ -811,7 +811,10 @@
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 12px;
-      max-height: 400px;
+      /* UI/UX overhaul 2026-05-19: was max-height:400px which extended below
+       * the fold on mobile and short laptops. min(400px, 60vh) caps the
+       * dropdown to 60% viewport height — comfortable scroll on every device. */
+      max-height: min(400px, 60vh);
       overflow-y: auto;
       display: none;
       z-index: 50;
@@ -3143,6 +3146,24 @@
       border: 1px solid rgba(96,165,250,0.35);
       white-space: nowrap;
     }
+    /* UI/UX overhaul 2026-05-19: when rendered as a <button>, give the chip
+     * a real "I am clickable" affordance. Hover lifts the bg, focus draws
+     * the platform focus ring. Visual state inherits the inactive blue
+     * tint so non-clickable spans (legacy callers) still look right. */
+    button.sws-modal-section-chip {
+      cursor: pointer;
+      transition: background-color var(--dur-quick) ease, border-color var(--dur-quick) ease, color var(--dur-quick) ease;
+      font-family: inherit;
+    }
+    button.sws-modal-section-chip:hover {
+      background: rgba(96,165,250,0.28);
+      color: var(--info-text);
+      border-color: rgba(96,165,250,0.55);
+    }
+    button.sws-modal-section-chip:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
     .sws-modal-section {
       margin-top: 18px;
       padding-top: 14px;
@@ -3990,12 +4011,14 @@
       .risklab-table tbody tr,
       .earnings-table tbody tr,
       .track-table tbody tr,
+      .watchlist-table tbody tr,
       .data-table-host tbody tr {
         transition: background-color var(--dur-quick) ease;
       }
       .risklab-table tbody tr:hover,
       .earnings-table tbody tr:hover,
       .track-table tbody tr:hover,
+      .watchlist-table tbody tr:hover,
       .data-table-host tbody tr:hover {
         background-color: rgba(255, 255, 255, 0.035);
       }
@@ -4013,6 +4036,96 @@
         100% { transform: scale(1); }
       }
       .reveal-settle { animation: card-settle 480ms var(--ease-standard) 1; }
+    }
+
+    /* ============================================================
+     * UI/UX overhaul 2026-05-19 — Phase 4: UX pain-point fixes.
+     *
+     * Sticky table headers, modal close hint, search-dropdown scroll
+     * already handled, Esc hint visibility. These are the long-tail
+     * "small annoyance" fixes the discovery audit surfaced.
+     * ============================================================ */
+
+    /* Sticky thead — every data table inside a scrollable container.
+     * The audit found Risk Lab (47-row table) and Track Record (multi-row
+     * history) both forced full-page scrolls just to see column labels.
+     * Sticky thead pins headers to the top of the scroll context: works
+     * inside `overflow:auto` parents and inside the page scroll itself.
+     * z-index keeps thead above selectable cell content but below the
+     * site header (--z-sticky = 100). */
+    .risklab-table thead th,
+    .earnings-table thead th,
+    .track-table thead th,
+    .watchlist-table thead th,
+    .data-table-host thead th,
+    table.is-sticky thead th,
+    .picks-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: var(--bg-card);
+      box-shadow: 0 1px 0 var(--border);
+    }
+
+    /* Esc-to-close hint inside the modal title bar. Single chip, low
+     * visual weight, only shown when the platform-default focus-visible
+     * is active OR on first hover — a 1-line nudge for keyboard users.
+     * Visible to mouse users too since "Esc" is the universal close. */
+    .sws-modal .esc-hint {
+      position: absolute;
+      top: 16px;
+      right: 60px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 4px 8px;
+      vertical-align: middle;
+      user-select: none;
+      z-index: 1;
+      pointer-events: none;
+    }
+    @media (max-width: 640px) {
+      .sws-modal .esc-hint { display: none; }
+    }
+    .sws-modal .esc-hint kbd {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      background: transparent;
+      border: none;
+      padding: 0;
+    }
+
+    /* Collapse-all / Expand-all on SWS Picks — small icon button paired
+     * with the existing chip-nav. Visual weight matches `.refresh-btn`. */
+    .picks-collapse-all-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-100);
+      cursor: pointer;
+      transition: background-color var(--dur-quick) ease, color var(--dur-quick) ease, border-color var(--dur-quick) ease;
+    }
+    .picks-collapse-all-btn:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-primary);
+      border-color: rgba(255, 255, 255, 0.10);
+    }
+    .picks-collapse-all-btn:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
     }
   </style>
 </head>
@@ -4751,7 +4864,8 @@
   <!-- Stock detail modal — populated by openSwsModal(ticker) for SWS Picks, or openStockDetailModal(symbol, sourceTab) for every other clickable stock surface -->
   <div id="swsModalBackdrop" class="sws-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="swsModalTitle" onclick="if(event.target===this)closeSwsModal()">
     <div class="sws-modal">
-      <button class="sws-modal-close" onclick="closeSwsModal()" aria-label="Close detail">×</button>
+      <button class="sws-modal-close" onclick="closeSwsModal()" aria-label="Close detail (Esc)" title="Close (Esc)">×</button>
+      <span class="esc-hint" aria-hidden="true"><kbd>Esc</kbd> to close</span>
       <div class="sws-modal-body" id="swsModalBody">
         <!-- Filled by renderSwsModal() -->
       </div>
@@ -4761,7 +4875,8 @@
   <!-- Action Mix list modal — populated by openActionListModal(action) when the user clicks an Action Mix pill in the analyzer -->
   <div id="actionListModalBackdrop" class="sws-modal-backdrop" role="dialog" aria-modal="true" onclick="if(event.target===this)closeActionListModal()">
     <div class="sws-modal" style="max-width:1040px;">
-      <button class="sws-modal-close" onclick="closeActionListModal()" aria-label="Close action list">×</button>
+      <button class="sws-modal-close" onclick="closeActionListModal()" aria-label="Close action list (Esc)" title="Close (Esc)">×</button>
+      <span class="esc-hint" aria-hidden="true"><kbd>Esc</kbd> to close</span>
       <div class="sws-modal-body" id="actionListModalBody">
         <!-- Filled by openActionListModal() -->
       </div>

@@ -33,7 +33,20 @@
   // same meaning regardless of which lens is active, so resetting would
   // surprise users mid-search. Debounce timer batches keystrokes into one
   // re-render so 1884-row Combined lens stays smooth.
-  let _searchQuery = "";
+  //
+  // UI/UX overhaul 2026-05-19 — also persisted to localStorage so a tab
+  // away + back doesn't drop the query the user typed.
+  const RISKLAB_SEARCH_KEY = "risklab.search.v1";
+  function loadRiskLabSearch() {
+    try { return localStorage.getItem(RISKLAB_SEARCH_KEY) || ""; } catch { return ""; }
+  }
+  function saveRiskLabSearch(q) {
+    try {
+      if (q) localStorage.setItem(RISKLAB_SEARCH_KEY, q);
+      else localStorage.removeItem(RISKLAB_SEARCH_KEY);
+    } catch {}
+  }
+  let _searchQuery = loadRiskLabSearch();
   let _searchDebounceTimer = null;
 
   // ─── Per-user toggle (hide the tab if user disabled it locally) ─────
@@ -175,6 +188,10 @@
 
   function updateSearch(value) {
     _searchQuery = value;
+    // Persist on the leading edge so a tab-away mid-debounce still saves
+    // whatever the user typed; the trailing render() does not need the
+    // saved value.
+    saveRiskLabSearch(_searchQuery);
     if (_searchDebounceTimer) clearTimeout(_searchDebounceTimer);
     _searchDebounceTimer = setTimeout(() => {
       _searchDebounceTimer = null;

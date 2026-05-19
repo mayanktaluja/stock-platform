@@ -10455,6 +10455,31 @@ function jumpToPicksSection(sectionKey) {
   syncPicksChipActiveStates();
 }
 
+// UI/UX overhaul 2026-05-19 — modal section-chip handler. Used by the
+// "In sections: 💎 Deep Value …" banner inside the SWS detail modal:
+// clicking a chip closes the modal, switches to the SWS Picks tab if
+// needed, and scrolls to + expands the section that holds this stock.
+// Closes audit Pain Point #10 ("section chips are inert").
+window.navigateToPicksSection = async function navigateToPicksSection(sectionKey) {
+  if (!sectionKey) return;
+  // Close whichever modal is open (sws detail OR action list).
+  try { closeSwsModal(); } catch {}
+  try { closeActionListModal(); } catch {}
+  // switchTab is idempotent — calling it on the already-active tab just
+  // re-runs the loader, which is cheap and ensures sections are rendered
+  // before we try to scroll.
+  const picksTab = document.getElementById("picksTab");
+  const alreadyOnPicks = picksTab && picksTab.style.display !== "none";
+  if (!alreadyOnPicks) {
+    try { await window.switchTab("picks"); } catch {}
+  }
+  // Defer scroll one frame so the just-switched tab paints first.
+  requestAnimationFrame(() => {
+    try { jumpToPicksSection(sectionKey); } catch {}
+  });
+  try { window.telemetry?.emit?.("modal_section_chip_click", { section: sectionKey }); } catch {}
+};
+
 // Expand-all / collapse-all controls in the chip-nav. Expand-all is capped
 // to PICKS_EXPANDED_CAP so we don't load 150+ cards and tank scroll perf.
 function setAllPicksCollapsed(collapsed) {
@@ -11559,10 +11584,18 @@ function renderSwsModal(data) {
   const sectionsBannerHtml = (() => {
     if (memberships.length === 0) return "";
     const keysToRender = buyListMemberships.length ? buyListMemberships : memberships;
+    // UI/UX overhaul 2026-05-19 — chips are now clickable buttons that
+    // close the modal and switch to the SWS Picks tab, scrolled to the
+    // section that holds this stock. Previously they were inert spans
+    // (audit Pain Point #10). The data-section key is the same key used
+    // by the chip-nav scroller so the existing scrollToPicksSection
+    // helper picks it up unchanged.
     const chips = keysToRender.map((key) => {
       const meta = sectionLabelByKey[key];
       const display = meta ? `${meta.emoji} ${meta.label}` : key;
-      return `<span class="sws-modal-section-chip">${escapeHtml(display)}</span>`;
+      const safeKey = escapeHtml(key);
+      const safeDisplay = escapeHtml(display);
+      return `<button type="button" class="sws-modal-section-chip is-clickable" data-section-key="${safeKey}" onclick="navigateToPicksSection('${safeKey.replace(/'/g, "\\'")}')" title="Open SWS Picks → ${safeDisplay}">${safeDisplay}</button>`;
     }).join("");
     if (!chips) return "";
     return `

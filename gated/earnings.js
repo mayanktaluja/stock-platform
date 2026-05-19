@@ -23,7 +23,32 @@
   // without re-fetching. Refresh button blows them away.
   let _earningsSnapshot = null;
   let _earningsStats = null;
-  let _earningsFilters = { days: 30, symbol: "", quality: "ALL", runup: "ALL", verdict: "ALL", sector: "ALL" };
+
+  // UI/UX overhaul 2026-05-19 — filter state persisted to localStorage so
+  // users don't lose their filters when they navigate away (e.g. click a
+  // card → tab back). Symbol search resets per-session (`symbol` excluded
+  // from save) because it's transient — keeping a stale ticker filter
+  // across days would hide the calendar.
+  const EARNINGS_FILTERS_KEY = "earnings.filters.v1";
+  const _EARNINGS_DEFAULTS = { days: 30, symbol: "", quality: "ALL", runup: "ALL", verdict: "ALL", sector: "ALL" };
+  function loadEarningsFilters() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(EARNINGS_FILTERS_KEY) || "{}");
+      // Merge with defaults so a missing key doesn't crash a select binding.
+      const merged = { ..._EARNINGS_DEFAULTS, ...raw };
+      // Drop persisted symbol — see above.
+      merged.symbol = "";
+      return merged;
+    } catch { return { ..._EARNINGS_DEFAULTS }; }
+  }
+  function saveEarningsFilters(filters) {
+    try {
+      const { symbol, ...rest } = filters || {};
+      void symbol; // not persisted
+      localStorage.setItem(EARNINGS_FILTERS_KEY, JSON.stringify(rest));
+    } catch {}
+  }
+  let _earningsFilters = loadEarningsFilters();
 
   // Per-date collapsed state for the calendar — persisted across reloads
   // so a user who collapsed e.g. May 30 doesn't see it re-expand the next
@@ -599,6 +624,11 @@
   }
 
   function applyEarningsFilters() {
+    // UI/UX overhaul 2026-05-19 — every filter change persists. Symbol is
+    // excluded from the saved payload (transient search query). Called
+    // upstream by every filter handler; cost is a single localStorage.setItem
+    // which is fast enough at typing cadence.
+    saveEarningsFilters(_earningsFilters);
     if (!_earningsSnapshot) return;
     const query = _earningsFilters.symbol || "";
     const events = (_earningsSnapshot.events || []).filter((e) => {
