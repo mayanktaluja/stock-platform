@@ -179,7 +179,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // PR T5 — sync the misses-shown checkbox + label with the persisted
   // localStorage state before loadTrackRecord runs. Sticky-ON default.
   hydrateMissesShownToggle();
-  switchTab('picks');
+  // PR #7: honor deep-link hash on boot if present, otherwise fall through
+  // to the default picks tab. The router IIFE at the bottom of this file
+  // ALSO listens for popstate, but boot needs explicit handling because
+  // popstate doesn't fire on initial page load.
+  const bootHash = typeof window.parseHash === "function" ? window.parseHash() : {};
+  switchTab(bootHash.tab || 'picks');
   setupSearch();
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
   auth.init();
@@ -11506,3 +11511,118 @@ function renderLiveOnlyModal(ticker, data, sourceTab) {
     </div>
   `;
 }
+
+// ==================== ROUTER (PR #7) ====================
+//
+// Hash-based deep-linking. Tab + open-modal state lives in location.hash
+// as a key=value query string (e.g. #tab=picks&symbol=RELIANCE). The
+// router is one-way: switchTab() / openSwsModal() WRITE the hash;
+// popstate READS it back. Refreshing the page or following a shared
+// link restores the deep state.
+//
+// Precedence (adversarially fixed):
+//   • Hash beats localStorage on boot when present.
+//   • If hash is empty, localStorage fills the slot (current behaviour).
+//   • popstate writes both hash and localStorage so back-button state
+//     survives the next refresh.
+//
+// We deliberately use hash (not History API path) so no server-side
+// rewrite is needed and the existing /login.html → /index.html redirect
+// dance keeps working untouched.
+
+function parseHash() {
+  const h = (location.hash || "").replace(/^#/, "");
+  const out = {};
+  if (!h) return out;
+  for (const pair of h.split("&")) {
+    const eq = pair.indexOf("=");
+    if (eq < 0) continue;
+    const k = decodeURIComponent(pair.slice(0, eq));
+    const v = decodeURIComponent(pair.slice(eq + 1));
+    if (k) out[k] = v;
+  }
+  return out;
+}
+window.parseHash = parseHash;
+
+let _suppressHashWrite = false;
+function writeHash(state) {
+  if (_suppressHashWrite) return;
+  const parts = [];
+  for (const [k, v] of Object.entries(state || {})) {
+    if (v == null || v === "") continue;
+    parts.push(`${encodeURIComponent(k)}=${encodeURIComponent(v)}`);
+  }
+  const next = parts.length ? "#" + parts.join("&") : "";
+  if (location.hash === next) return;
+  // pushState (not replaceState) so each tab/modal change adds a history
+  // entry. Browser back/forward work as expected.
+  history.pushState(null, "", next || location.pathname + location.search);
+}
+window.writeHash = writeHash;
+
+// Wrap switchTab to also write the hash when called by user action.
+// popstate triggers switchTab with _suppressHashWrite=true so we don't
+// re-push our own pop.
+const _origSwitchTab = window.switchTab;
+window.switchTab = async function switchTabRouterWrap(tab) {
+  await _origSwitchTab(tab);
+  // Preserve existing modal symbol in the URL if it's still open
+  const current = parseHash();
+  writeHash({ tab, symbol: current.symbol });
+};
+
+// Wrap openSwsModal to also write &symbol=… into the hash.
+const _origOpenSwsModal = window.openSwsModal || openSwsModal;
+window.openSwsModal = async function openSwsModalRouterWrap(ticker) {
+  const result = await _origOpenSwsModal(ticker);
+  writeHash({ tab: currentView || "picks", symbol: ticker });
+  return result;
+};
+
+// Wrap closeSwsModal to strip &symbol=… from the hash.
+const _origCloseSwsModal = window.closeSwsModal || closeSwsModal;
+window.closeSwsModal = function closeSwsModalRouterWrap() {
+  const result = _origCloseSwsModal();
+  const current = parseHash();
+  writeHash({ tab: current.tab || currentView || "picks" });
+  return result;
+};
+
+// popstate: re-apply the new hash without writing it back.
+window.addEventListener("popstate", async () => {
+  _suppressHashWrite = true;
+  try {
+    const state = parseHash();
+    if (state.tab && state.tab !== currentView) {
+      await _origSwitchTab(state.tab);
+    }
+    const backdrop = document.getElementById("swsModalBackdrop");
+    const modalOpen = backdrop?.classList.contains("open");
+    if (state.symbol && !modalOpen) {
+      await _origOpenSwsModal(state.symbol);
+    } else if (!state.symbol && modalOpen) {
+      _origCloseSwsModal();
+    }
+  } finally {
+    _suppressHashWrite = false;
+  }
+});
+
+// Boot-time hash handling lives inside the existing DOMContentLoaded
+// init at app.js:182 (parseHash().tab || 'picks'). Modal restoration
+// fires from a separate DOMContentLoaded listener so it runs after the
+// tab loader has resolved.
+document.addEventListener("DOMContentLoaded", async () => {
+  const state = parseHash();
+  if (!state.symbol) return;
+  // Wait one tick so the tab loader (called from the boot path above)
+  // has run and currentView is set.
+  await new Promise((r) => setTimeout(r, 0));
+  _suppressHashWrite = true;
+  try {
+    await _origOpenSwsModal(state.symbol);
+  } finally {
+    _suppressHashWrite = false;
+  }
+});
