@@ -3934,7 +3934,7 @@
           </p>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
-          <select id="trackFilter" class="refresh-select" onchange="loadTrackRecord()">
+          <select id="trackFilter" class="refresh-select" aria-label="Track Record filter by pick type" onchange="loadTrackRecord()">
             <option value="all">All categories</option>
             <optgroup label="SWS picks (primary)">
               <option value="sws_top30_v3">Top 30 (v3 score)</option>
@@ -4136,7 +4136,7 @@
           </div>
           <div style="display:flex; align-items:center; gap:10px;">
             <label style="font-size:11px; color:var(--text-muted);">Horizon</label>
-            <select id="trackHorizonSelector" class="refresh-select" onchange="window.__trackRenderSectionGrid && window.__trackRenderSectionGrid()" style="font-size:12px;">
+            <select id="trackHorizonSelector" class="refresh-select" aria-label="Section breakdown forward-return horizon" onchange="window.__trackRenderSectionGrid && window.__trackRenderSectionGrid()" style="font-size:12px;">
               <option value="1m">1 month</option>
               <option value="3m" selected>3 months</option>
               <option value="6m">6 months</option>
