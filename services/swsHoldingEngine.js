@@ -23,6 +23,7 @@ import { crosscheckHolding } from "./swsLayerCrosscheck.js";
 import { extractCatalystSignals } from "./swsCatalystLayer.js";
 import { extractIndianRiskSignals } from "./swsIndianRiskLayer.js";
 import { findEventBySymbol } from "./earnings/earningsWatchService.js";
+import { extractLastEarnings } from "./earnings/lastEarningsExtractor.js";
 import { computeRecommendationV2 } from "./swsConvictionEngine.js";
 import { isV1Only, isV2Primary, getRecommenderMode } from "./swsRecommenderMode.js";
 import { findPeerSubstitutes } from "./swsPeerLayer.js";
@@ -464,6 +465,11 @@ export function scoreHolding(holding, portfolioContext = {}) {
   const snow = pickSnowflake(scored);
   const fiscal = scored.fiscal || {};
   const ov = scored.overview || {};
+  const lastEarnings = extractLastEarnings({
+    deep,
+    fundamentalsHistory: portfolioContext?.fundamentalsHistory || null,
+    ticker: scored.ticker || ticker,
+  });
   // Reconcile FV / upside_pct once — every downstream consumer (action
   // mapping, reasons, basket classifier) reads the same clean numbers.
   const reconciled = _reconcileFVUpside(ov);
@@ -743,6 +749,8 @@ export function scoreHolding(holding, portfolioContext = {}) {
       returns_pct: ov.returns_pct || null,
       next_earnings_date: ov.next_earnings_date,
       last_quarter_result: ov.last_quarter_result,
+      last_earnings_date: lastEarnings?.date ?? null,
+      last_earnings_period: lastEarnings?.period ?? null,
       surveillance: scored.v2_breakdown?.surveillance || null,
       data_freshness_at: scored.parsed_at,
       data_age_hours: dataFreshnessMs(scored) != null ? Math.round(dataFreshnessMs(scored) / 3600000) : null,

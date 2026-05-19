@@ -5816,6 +5816,21 @@ async function runSWSAnalysis({
     console.warn(`[ANALYZER] earnings-watch snapshot load failed: ${err && err.message} — prediction reasoning disabled this run`);
   }
 
+  // Yahoo fundamentalsHistory.json — fallback source for the last-earnings
+  // column when SWS news briefs aren't present. Loaded once per analyze
+  // request and threaded through portfolioContext so scoreHolding() doesn't
+  // re-read the 3MB file per holding. Missing/unreadable → null and the
+  // extractor renders "—" for stocks without an SWS brief.
+  let fundamentalsHistory = null;
+  try {
+    const _fhPath = path.join(__dirname, "fundamentalsHistory.json");
+    if (fs.existsSync(_fhPath)) {
+      fundamentalsHistory = JSON.parse(fs.readFileSync(_fhPath, "utf-8"));
+    }
+  } catch (err) {
+    console.warn(`[ANALYZER] fundamentalsHistory load failed: ${err && err.message} — last-earnings fallback disabled`);
+  }
+
   const equityHoldings = parsed.holdings.map((h) => {
     const qty = Number(h.quantity) || 0;
     const avg = Number(h.avgPrice) || 0;
@@ -5898,7 +5913,7 @@ async function runSWSAnalysis({
     const pnlPercent = row.invested > 0 ? ((row.currentValue - row.invested) / row.invested) * 100 : 0;
     const rescored = swsScoreHolding(
       { ...row, positionWeight, sectorWeight, pnlPercent },
-      { sectorWeights, fyContext, taxSlabPct: optTaxSlabPct, regimeSeverity, sectorImpactBySector, earningsSnapshot },
+      { sectorWeights, fyContext, taxSlabPct: optTaxSlabPct, regimeSeverity, sectorImpactBySector, earningsSnapshot, fundamentalsHistory },
     );
     return {
       ...rescored,
