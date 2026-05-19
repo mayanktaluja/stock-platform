@@ -2663,6 +2663,20 @@ const TAB_CONFIG = {
     guard: () => !!window.__starbhai_isPersonal,
     enter: () => { if (typeof loadMultibaggerLab === "function") loadMultibaggerLab(); },
   },
+  // Sector Outlook — EXPERIMENTAL bottom-up SWS news + macro cross-check.
+  // Visible to ALL signed-in users (no personal-use gate); the EXPERIMENTAL
+  // pulsing-dot badge in the tab button + caveats array in the API payload
+  // make the v1 scope explicit. Per-user opt-out via localStorage.
+  sectorOutlook: {
+    elId: "sectorOutlookTab",
+    label: "Sector Outlook",
+    guard: () => {
+      try {
+        return localStorage.getItem("sectorOutlookEnabled_v1") !== "false";
+      } catch { return true; }
+    },
+    enter: () => { if (typeof loadSectorOutlook === "function") loadSectorOutlook(); },
+  },
 };
 
 async function switchTab(tab) {

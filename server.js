@@ -4451,6 +4451,51 @@ app.get("/api/risk-lab/macro-thesis", (req, res) => {
 
 // ──── /end Risk Lab ────
 
+// ──── Sector Outlook ────
+// Bottom-up SWS news theme aggregation cross-checked against current macro
+// regime. Visible to ALL signed-in users (no admin/personal gate) — the
+// EXPERIMENTAL pulsing-dot badge in the tab button signals immaturity, and
+// the methodology section + caveats array in the payload make the v1
+// scope explicit. Same global session gate as Earnings Watch.
+const SECTOR_OUTLOOK_PATH = path.join(__dirname, "data", "sectorOutlook", "outlook-latest.json");
+app.get("/api/sector-outlook/latest", (req, res) => {
+  if (!fs.existsSync(SECTOR_OUTLOOK_PATH)) {
+    return res.status(503).json({ error: "sector-outlook-latest not yet generated — run scripts/refresh-sector-outlook.mjs" });
+  }
+  try {
+    const parsed = JSON.parse(fs.readFileSync(SECTOR_OUTLOOK_PATH, "utf-8"));
+    return res.json(parsed);
+  } catch (err) {
+    console.warn(`[sector-outlook] failed to read latest: ${err.message}`);
+    return res.status(500).json({ error: "failed to load sector-outlook-latest" });
+  }
+});
+
+app.get("/api/sector-outlook/healthz", (req, res) => {
+  const exists = fs.existsSync(SECTOR_OUTLOOK_PATH);
+  let generatedAt = null;
+  let ageHours = null;
+  let sectorCount = null;
+  if (exists) {
+    try {
+      const parsed = JSON.parse(fs.readFileSync(SECTOR_OUTLOOK_PATH, "utf-8"));
+      generatedAt = parsed.generated_at || null;
+      sectorCount = Array.isArray(parsed.sectors) ? parsed.sectors.length : null;
+      if (generatedAt) {
+        ageHours = (Date.now() - new Date(generatedAt).getTime()) / (3600 * 1000);
+      }
+    } catch {}
+  }
+  res.json({
+    exists,
+    generated_at: generatedAt,
+    age_hours: ageHours,
+    sector_count: sectorCount,
+    stale: !Number.isFinite(ageHours) || ageHours > 36,
+  });
+});
+// ──── /end Sector Outlook ────
+
 // ==================== PAPER-TRADE TRACKER ====================
 
 // SEBI 10/10 uplift — Active scanner allowlist. The byType breakdown in

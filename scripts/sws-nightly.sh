@@ -673,6 +673,22 @@ echo "[sws-nightly] refresh-earnings-edge.mjs (timeout 120s)"
 with_timeout 120 node scripts/refresh-earnings-edge.mjs 2>&1 | sed 's/^/[edge] /' || \
   echo "[sws-nightly] refresh-earnings-edge.mjs FAILED — continuing (non-fatal; tab will show prior ledger)"
 
+# Step 9d2: Sector Outlook refresh — bottom-up SWS news theme classifier
+# from the 2026-05-20 sector-outlook plan. Walks data/sws/deep/*.json,
+# classifies all news[] via heuristic-first + LLM-refine (Gemini → Groq
+# → heuristic fallback), then aggregates by canonical sector × 30d/90d/
+# 365d windows and cross-checks against current macroRegime.json. Writes
+# data/sectorOutlook/outlook-latest.json + per-ticker JSONL. Local-only
+# (LLM keys aren't on Vercel; --skip-llm is the safety net). Non-fatal —
+# the tab gracefully degrades to a stale-banner if either step fails.
+# Caps LLM at 400 calls/run to bound Gemini free-tier spend.
+echo "[sws-nightly] refresh-sector-news-themes.mjs (timeout 900s)"
+with_timeout 900 node scripts/refresh-sector-news-themes.mjs --max-llm-calls=400 2>&1 | sed 's/^/[sector-themes] /' || \
+  echo "[sws-nightly] refresh-sector-news-themes.mjs FAILED — continuing (non-fatal; outlook will use stale themes)"
+echo "[sws-nightly] refresh-sector-outlook.mjs (timeout 120s)"
+with_timeout 120 node scripts/refresh-sector-outlook.mjs 2>&1 | sed 's/^/[sector-outlook] /' || \
+  echo "[sws-nightly] refresh-sector-outlook.mjs FAILED — continuing (non-fatal; tab will show prior snapshot)"
+
 # Step 9e: Paper-trade reconciliation — daily mark-to-market + gate state
 # for both sleeves (compounder + earnings_edge). Writes to
 # data/paper-trades-reports/<sleeve>-{date,latest}.json. Read by the
