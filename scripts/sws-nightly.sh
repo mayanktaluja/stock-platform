@@ -622,6 +622,47 @@ echo "[sws-nightly] refresh-risk-lab.mjs (timeout 60s)"
 with_timeout 60 node scripts/refresh-risk-lab.mjs 2>&1 | sed 's/^/[risk-lab] /' || \
   echo "[sws-nightly] refresh-risk-lab.mjs FAILED — continuing (non-fatal; lab tab will show stale data)"
 
+# Step 9b2: NSE PIT 7(2) — SEBI insider/promoter transaction disclosures.
+# Local-only fetch (cookie-gated, rejects Vercel IPs per nse.js:76-83).
+# Writes data/promoter-transactions/rolling-30d.json + a staleness alert
+# file. Consumed by Earnings Edge (promoter-sell veto) and surfaced by
+# the daily reconcile. Non-fatal — Earnings Edge gracefully degrades when
+# the file is absent.
+echo "[sws-nightly] refresh-promoter-transactions.mjs (timeout 120s)"
+with_timeout 120 node scripts/refresh-promoter-transactions.mjs 2>&1 | sed 's/^/[promoter-pit] /' || \
+  echo "[sws-nightly] refresh-promoter-transactions.mjs FAILED — continuing (non-fatal; staleness alert will fire if it persists)"
+
+# Step 9c: Compounder Lab refresh — SAFE sleeve from the 2026-05-19 alpha-
+# strategy plan. Reads data/sws/sws-scored-universe.json + deep JSONs, runs
+# the Snowflake-quality filter (Past ≥ 5, Health ≥ 4, Dividend ≥ 4, market
+# cap ≥ ₹500Cr, no debt/liquidity risk keywords), writes top-20 by upside
+# pct to data/compounder/latest.json. Reconciles paper-trade ledger at
+# data/paper-trades/compounder.json. Personal-use only on the read side
+# (server.js 404s non-allowlisted users). Read-only on production files;
+# only writes to data/compounder/ + data/paper-trades/. Non-fatal.
+echo "[sws-nightly] refresh-compounder.mjs (timeout 120s)"
+with_timeout 120 node scripts/refresh-compounder.mjs 2>&1 | sed 's/^/[compounder] /' || \
+  echo "[sws-nightly] refresh-compounder.mjs FAILED — continuing (non-fatal; tab will show prior basket)"
+
+# Step 9d: Earnings Edge refresh — AGGRESSIVE sleeve from the 2026-05-19
+# alpha-strategy plan. Reads earnings-watch-latest.json:recent_results +
+# earnings-history/*.json (resolved BEAT events), enriches with deep
+# snapshots, runs the deterministic KEC-bug-list filter, opens paper-
+# trade ledger entries for survivors and closes existing positions on
+# hard-stop / trail-stop / T+30 hold expiry. No LLM dependency. Non-fatal.
+echo "[sws-nightly] refresh-earnings-edge.mjs (timeout 120s)"
+with_timeout 120 node scripts/refresh-earnings-edge.mjs 2>&1 | sed 's/^/[edge] /' || \
+  echo "[sws-nightly] refresh-earnings-edge.mjs FAILED — continuing (non-fatal; tab will show prior ledger)"
+
+# Step 9e: Paper-trade reconciliation — daily mark-to-market + gate state
+# for both sleeves (compounder + earnings_edge). Writes to
+# data/paper-trades-reports/<sleeve>-{date,latest}.json. Read by the
+# Earnings Edge tab + earnings-health-summary to surface "X trades from
+# clearing the validation gate" alerts. Non-fatal.
+echo "[sws-nightly] paper-trade-reconcile.mjs (timeout 60s)"
+with_timeout 60 node scripts/paper-trade-reconcile.mjs 2>&1 | sed 's/^/[paper-trade] /' || \
+  echo "[sws-nightly] paper-trade-reconcile.mjs FAILED — continuing (non-fatal)"
+
 # Date/branch labels — computed here so both the PASS path (step 5) and
 # the sanity-gate FAIL path (data-only PR) can use them.
 DATE=$(date +%Y-%m-%d)
