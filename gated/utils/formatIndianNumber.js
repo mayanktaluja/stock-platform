@@ -29,15 +29,22 @@
     return typeof n === 'number' && Number.isFinite(n);
   }
 
-  function toFull(value, options = {}) {
+  function coerce(value) {
+    // Strict guard: null / undefined / "" should NOT become 0 via Number().
+    if (value == null || value === '') return NaN;
     const n = Number(value);
+    return Number.isFinite(n) ? n : NaN;
+  }
+
+  function toFull(value, options = {}) {
+    const n = coerce(value);
     if (!isFiniteNum(n)) return '—';
     const fmt = options.twoDecimals ? inrFormatterTwo : inrFormatter;
     return fmt.format(n);
   }
 
   function toShort(value, options = {}) {
-    const n = Number(value);
+    const n = coerce(value);
     if (!isFiniteNum(n)) return '—';
     const abs = Math.abs(n);
     const sign = n < 0 ? '-' : '';
@@ -70,7 +77,7 @@
   }
 
   function toSigned(value, options = {}) {
-    const n = Number(value);
+    const n = coerce(value);
     if (!isFiniteNum(n)) return '—';
     const body = options.short ? toShort(Math.abs(n), options) : toFull(Math.abs(n), options);
     const prefix = options.currency ? '₹' : '';
@@ -80,7 +87,7 @@
   }
 
   function toPct(value, options = {}) {
-    const n = Number(value);
+    const n = coerce(value);
     if (!isFiniteNum(n)) return '—';
     const places = options.places != null ? options.places : 2;
     const scaled = options.alreadyPct ? n : n * 100;
