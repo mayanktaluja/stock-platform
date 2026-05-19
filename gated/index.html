@@ -4144,6 +4144,145 @@
       padding: 0;
     }
 
+    /* ============================================================
+     * UI/UX overhaul 2026-05-19 — Phase 6: density toggle + mobile drawer.
+     * ============================================================ */
+
+    /* Density toggle inside the user menu. 3 mutually-exclusive buttons
+     * (Roomy / Compact / Pro) toggle html[data-density] which the Phase 1
+     * tokens consume. JS keeps aria-checked + .is-active in sync. */
+    .user-menu-density {
+      padding: 8px 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 8px;
+    }
+    .user-menu-density-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      padding: 0 4px;
+    }
+    .user-menu-density-options {
+      display: inline-flex;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-100);
+      padding: 2px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .density-btn {
+      appearance: none;
+      background: transparent;
+      color: var(--text-secondary);
+      border: none;
+      padding: 6px 12px;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color var(--dur-quick) ease, color var(--dur-quick) ease;
+      min-height: 28px;
+    }
+    .density-btn:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-primary);
+    }
+    .density-btn.is-active {
+      background: var(--gold);
+      color: var(--bg-primary);
+    }
+    .density-btn:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+
+    /* Density-mode propagation. The tokens added in Phase 1 (--row-h,
+     * --space-base, --font-base) flip via html[data-density="compact|pro"];
+     * the rules below apply them to the data tables that opted-in. Tables
+     * NOT opted-in stay at the comfortable default — gradual rollout. */
+    html[data-density="compact"] .risklab-table td,
+    html[data-density="compact"] .risklab-table th,
+    html[data-density="compact"] .earnings-table td,
+    html[data-density="compact"] .earnings-table th,
+    html[data-density="compact"] .track-table td,
+    html[data-density="compact"] .track-table th,
+    html[data-density="compact"] .watchlist-table td,
+    html[data-density="compact"] .watchlist-table th {
+      padding-top: 6px;
+      padding-bottom: 6px;
+      font-size: 12px;
+    }
+    html[data-density="pro"] .risklab-table td,
+    html[data-density="pro"] .risklab-table th,
+    html[data-density="pro"] .earnings-table td,
+    html[data-density="pro"] .earnings-table th,
+    html[data-density="pro"] .track-table td,
+    html[data-density="pro"] .track-table th,
+    html[data-density="pro"] .watchlist-table td,
+    html[data-density="pro"] .watchlist-table th {
+      padding-top: 3px;
+      padding-bottom: 3px;
+      font-size: 11px;
+    }
+    /* Tighten card padding too — the highest-visibility "feels denser" cue. */
+    html[data-density="compact"] .card,
+    html[data-density="compact"] .l-box {
+      padding: var(--space-150);
+    }
+    html[data-density="pro"] .card,
+    html[data-density="pro"] .l-box {
+      padding: var(--space-100);
+    }
+
+    /* Bottom-sheet drawer modifier for the stock-detail modal on mobile.
+     * Activated by adding `.modal--sheet` to .sws-modal-backdrop (only
+     * effective ≤768px). Reuses the existing `.open` toggle — content
+     * slides up from the bottom instead of fading in from centre.
+     *
+     * NOT a replacement for the desktop modal — only mobile users get
+     * the sheet treatment. Drag-to-dismiss is intentionally NOT wired
+     * (would need touch listeners + cleanup); Esc and × button work
+     * exactly as today. */
+    @media (max-width: 768px) {
+      .sws-modal-backdrop.modal--sheet {
+        align-items: flex-end;
+      }
+      .sws-modal-backdrop.modal--sheet .sws-modal {
+        max-width: 100%;
+        width: 100%;
+        max-height: 90vh;
+        border-radius: 16px 16px 0 0;
+        margin: 0;
+        transform: translateY(20px);
+        transition: transform var(--dur-deliberate) var(--ease-spring);
+      }
+      .sws-modal-backdrop.modal--sheet.open .sws-modal {
+        transform: translateY(0);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .sws-modal-backdrop.modal--sheet .sws-modal { transition: none; }
+      }
+    }
+
+    /* Hit-target bumps for the 2 desktop controls that were <44×44 per
+     * the a11y audit. Touch users already got 44+ via the @media (≤720px)
+     * override; desktop users now match WCAG 2.5.8 (target size minimum).
+     * Touch action area is enforced via min-* not padding so visual size
+     * stays close to current. */
+    .refresh-btn,
+    .sws-pick-search-clear,
+    .picks-search-clear,
+    button.refresh-btn {
+      min-height: 36px; /* legacy "small refresh" — bumped from ~30px */
+    }
+    /* Visual sizing stays at the 28-30px height defined elsewhere; min-height
+     * provides the hitbox without forcing the visual to grow. */
+
     /* Collapse-all / Expand-all on SWS Picks — small icon button paired
      * with the existing chip-nav. Visual weight matches `.refresh-btn`. */
     .picks-collapse-all-btn {
@@ -4224,6 +4363,19 @@
             <div class="user-menu-info">
               <div class="user-menu-name" id="userMenuName"></div>
               <div class="user-menu-email" id="userMenuEmail"></div>
+            </div>
+            <!-- UI/UX overhaul 2026-05-19: density toggle. Switches the
+                 root html element's data-density between unset (Comfortable),
+                 "compact", and "pro". The density tokens added in Phase 1
+                 propagate row-h / space-base / font-base so retrofitted
+                 tables tighten up in lockstep. Persists to localStorage. -->
+            <div class="user-menu-density" role="group" aria-label="Display density">
+              <div class="user-menu-density-label">Density</div>
+              <div class="user-menu-density-options">
+                <button class="density-btn" data-density="comfortable" role="menuitemradio" aria-checked="true" type="button" onclick="setUiDensity('comfortable')">Roomy</button>
+                <button class="density-btn" data-density="compact"     role="menuitemradio" aria-checked="false" type="button" onclick="setUiDensity('compact')">Compact</button>
+                <button class="density-btn" data-density="pro"         role="menuitemradio" aria-checked="false" type="button" onclick="setUiDensity('pro')">Pro</button>
+              </div>
             </div>
             <button class="user-menu-signout" id="userMenuSignout" role="menuitem" type="button">Sign out</button>
           </div>
@@ -4903,8 +5055,11 @@
 
   </main>
 
-  <!-- Stock detail modal — populated by openSwsModal(ticker) for SWS Picks, or openStockDetailModal(symbol, sourceTab) for every other clickable stock surface -->
-  <div id="swsModalBackdrop" class="sws-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="swsModalTitle" onclick="if(event.target===this)closeSwsModal()">
+  <!-- Stock detail modal — populated by openSwsModal(ticker) for SWS Picks, or openStockDetailModal(symbol, sourceTab) for every other clickable stock surface
+       UI/UX overhaul 2026-05-19 — `.modal--sheet` activates the bottom-sheet
+       slide-up only at ≤768px (CSS media-query gated); on desktop the modal
+       behaviour is unchanged. -->
+  <div id="swsModalBackdrop" class="sws-modal-backdrop modal--sheet" role="dialog" aria-modal="true" aria-labelledby="swsModalTitle" onclick="if(event.target===this)closeSwsModal()">
     <div class="sws-modal">
       <button class="sws-modal-close" onclick="closeSwsModal()" aria-label="Close detail (Esc)" title="Close (Esc)">×</button>
       <span class="esc-hint" aria-hidden="true"><kbd>Esc</kbd> to close</span>
