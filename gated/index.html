@@ -3898,6 +3898,122 @@
       font-family: 'JetBrains Mono', monospace;
       font-weight: 600;
     }
+
+    /* ============================================================
+     * UI/UX overhaul 2026-05-19 — Phase 3: "Alive" interactivity layer.
+     *
+     * This is the Yahoo→Robinhood leap. Closes the audit finding:
+     * "Numbers update silently — biggest single drag on perceived
+     * liveness." Every animation rule below is gated behind
+     * @media (prefers-reduced-motion: no-preference) so users with
+     * reduced-motion settings get zero animation and never see a flash.
+     * ============================================================ */
+
+    /* Flash classes applied transiently by the MutationObserver in
+     * app.js — colour-coded green/red background + outline that fades
+     * over ~600ms so the user's eye lands on what just changed. */
+    @media (prefers-reduced-motion: no-preference) {
+      @keyframes price-flash-up {
+        0%   { background-color: rgba(46, 204, 113, 0.28); box-shadow: inset 0 0 0 1px rgba(46, 204, 113, 0.40); }
+        100% { background-color: transparent;             box-shadow: inset 0 0 0 1px transparent;             }
+      }
+      @keyframes price-flash-down {
+        0%   { background-color: rgba(214, 69, 69, 0.28); box-shadow: inset 0 0 0 1px rgba(214, 69, 69, 0.40); }
+        100% { background-color: transparent;             box-shadow: inset 0 0 0 1px transparent;             }
+      }
+      .flash-up   { animation: price-flash-up 700ms ease-out 1; border-radius: 4px; }
+      .flash-down { animation: price-flash-down 700ms ease-out 1; border-radius: 4px; }
+    }
+
+    /* Live-dot pulse — 8px breathing dot for "Refreshed Nm ago" timestamps. */
+    @media (prefers-reduced-motion: no-preference) {
+      @keyframes live-dot-pulse {
+        0%, 100% { opacity: 1;   transform: scale(1); }
+        50%      { opacity: 0.4; transform: scale(0.92); }
+      }
+    }
+    .live-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.18);
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .live-dot { animation: live-dot-pulse 1.6s ease-in-out infinite; }
+    }
+    .live-dot--stale { background: var(--text-faint); box-shadow: 0 0 0 3px rgba(237, 237, 237, 0.05); animation: none; }
+    .live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Button active-state glow — replaces (or complements) the existing
+     * scale(0.98). Provides a visible "I pressed it" cue beyond
+     * deformation, which is invisible to slow-motion users. */
+    .btn:not(:disabled):active {
+      box-shadow: 0 0 0 3px var(--gold-glow-30);
+    }
+    .btn--primary:not(:disabled):hover,
+    .btn--info:not(:disabled):hover,
+    .btn--warn:not(:disabled):hover,
+    .btn--danger:not(:disabled):hover {
+      transition: box-shadow var(--dur-quick) var(--ease-standard), background-color var(--dur-quick) ease;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 4px 10px rgba(0, 0, 0, 0.20);
+    }
+
+    /* Drag-over class for the Portfolio Analyzer drop zone. The pre-overhaul
+     * code set borderColor inline via JS (var(--accent), which is blue);
+     * we move that to a class so the gold theme stays consistent and the
+     * effect is animatable. */
+    #analyzerDropArea.dragover {
+      border-color: var(--gold);
+      background: rgba(224, 176, 96, 0.06);
+      box-shadow: 0 0 0 3px rgba(224, 176, 96, 0.18) inset,
+                  0 0 24px -8px rgba(224, 176, 96, 0.45);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      #analyzerDropArea { transition: border-color var(--dur-quick) ease, background-color var(--dur-quick) ease, box-shadow var(--dur-quick) ease; }
+    }
+
+    /* Hover background on data table rows. Applies to Risk Lab, Earnings
+     * Watch, Track Record + any future <table> rendered inside a
+     * .data-table-host container. Tap-stylus devices don't get hover, so
+     * gate behind @media (hover: hover) per Phase 1 convention. */
+    @media (hover: hover) and (pointer: fine) {
+      .risklab-table tbody tr,
+      .earnings-table tbody tr,
+      .track-table tbody tr,
+      .data-table-host tbody tr {
+        transition: background-color var(--dur-quick) ease;
+      }
+      .risklab-table tbody tr:hover,
+      .earnings-table tbody tr:hover,
+      .track-table tbody tr:hover,
+      .data-table-host tbody tr:hover {
+        background-color: rgba(255, 255, 255, 0.035);
+      }
+    }
+
+    /* Scroll-linked card reveal. Existing IntersectionObserver toggles
+     * the `.reveal` class on first-paint cards; add a subtle scale-in
+     * on top of the existing fade so cards feel like they're settling
+     * into place rather than popping. Reduced-motion users get the
+     * existing opacity-only fade (which is already :no-preference-gated
+     * in the parent CSS). */
+    @media (prefers-reduced-motion: no-preference) {
+      @keyframes card-settle {
+        0%   { transform: scale(0.985); }
+        100% { transform: scale(1); }
+      }
+      .reveal-settle { animation: card-settle 480ms var(--ease-standard) 1; }
+    }
   </style>
 </head>
 <body>
@@ -4082,17 +4198,17 @@
       <div id="trackHeroStrip" class="track-hero-strip" style="margin-bottom: var(--space-200, 16px); display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--space-150, 12px);">
         <div class="track-hero-tile l-box" style="--pad: var(--space-200);">
           <div class="tx-micro">Hit Rate</div>
-          <div class="tx-display tx-num" id="trackHitRateValue" style="font-size: 28px; line-height: 1.15;">—</div>
+          <div class="tx-display tx-num" id="trackHitRateValue" data-num style="font-size: 28px; line-height: 1.15;">—</div>
           <div class="tx-meta" id="trackHitRateSub">picks ending positive</div>
         </div>
         <div class="track-hero-tile l-box" style="--pad: var(--space-200);">
           <div class="tx-micro">Avg α</div>
-          <div class="tx-display tx-num" id="trackAvgAlphaValue" style="font-size: 28px; line-height: 1.15;">—</div>
+          <div class="tx-display tx-num" id="trackAvgAlphaValue" data-num style="font-size: 28px; line-height: 1.15;">—</div>
           <div class="tx-meta">net of Nifty</div>
         </div>
         <div class="track-hero-tile l-box" style="--pad: var(--space-200);">
           <div class="tx-micro">% Beat Nifty</div>
-          <div class="tx-display tx-num" id="trackBeatNiftyValue" style="font-size: 28px; line-height: 1.15;">—</div>
+          <div class="tx-display tx-num" id="trackBeatNiftyValue" data-num style="font-size: 28px; line-height: 1.15;">—</div>
           <div class="tx-meta" id="trackBeatNiftySub">picks vs benchmark</div>
         </div>
         <div class="track-hero-tile l-box" style="--pad: var(--space-200); position: relative;">
@@ -4106,7 +4222,7 @@
               </div>
             </details>
           </div>
-          <div class="tx-display tx-num" id="trackBrierValue" style="font-size: 28px; line-height: 1.15;">—</div>
+          <div class="tx-display tx-num" id="trackBrierValue" data-num style="font-size: 28px; line-height: 1.15;">—</div>
           <div class="tx-meta" id="trackBrierSub">backfilling — PR B8</div>
         </div>
         <div class="track-hero-tile l-box" style="--pad: var(--space-200);">

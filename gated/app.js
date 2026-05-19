@@ -236,6 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   setupSearch();
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
+  attachNumericFlash();     // MutationObserver: data-num cells flash on update
   auth.init();
   // Snapshot freshness banner — surfaces when any underlying fixture
   // (fundamentals, surveillance, governance, picks-latest, macro) is older
@@ -653,6 +654,76 @@ function regimeIdFromLabel(regime) {
 }
 
 let _activeTooltipTermId = null;
+
+// UI/UX overhaul 2026-05-19 — Phase 3 "alive" interactivity.
+// A scoped MutationObserver that watches elements carrying a `data-num`
+// attribute. When their text content changes, parse the new number and
+// briefly flash green (up) or red (down) so the user sees that something
+// moved. The flash classes are CSS-gated behind prefers-reduced-motion so
+// users who opt out never see animation.
+//
+// Adversarial-noted scope: we deliberately DO NOT crawl every numeric site
+// on the page (the platform has 50+ render call-sites and stamping them
+// all would balloon scope). The cells that opt in are stamped at render
+// time in renderTrackHeroKpis() and renderWatchlistHealthBanner() — the
+// two highest-attention numeric surfaces.
+function attachNumericFlash() {
+  if (!('MutationObserver' in window)) return;
+  // Parse a textContent like "₹1,23,456", "+8.23%", "3.42", "—" into a
+  // numeric value for comparison. Returns NaN if unparseable; callers
+  // skip the flash when prev OR next is NaN to avoid spurious flashes on
+  // "loading…" → "₹1,234" first paint.
+  function parseNum(text) {
+    if (text == null) return NaN;
+    const cleaned = String(text)
+      .replace(/[^0-9.\-+]/g, "")
+      .replace(/^\+/, "");
+    const n = parseFloat(cleaned);
+    return Number.isFinite(n) ? n : NaN;
+  }
+  const prev = new WeakMap();
+  function tryFlash(el) {
+    const next = parseNum(el.textContent);
+    const before = prev.get(el);
+    prev.set(el, next);
+    if (!Number.isFinite(before) || !Number.isFinite(next) || before === next) return;
+    el.classList.remove("flash-up", "flash-down");
+    // Force reflow so the animation re-triggers if the same direction
+    // fires twice in a row (rare but possible).
+    void el.offsetWidth;
+    el.classList.add(next > before ? "flash-up" : "flash-down");
+  }
+  // Initial seeding pass — record current values without flashing.
+  function seed(root) {
+    root.querySelectorAll("[data-num]").forEach((el) => {
+      prev.set(el, parseNum(el.textContent));
+    });
+  }
+  seed(document);
+  // Observe the entire document at a coarse grain (childList + subtree +
+  // characterData). MutationObserver is cheap when the page is idle; the
+  // hot paths here are tab switches (~6 attribute changes) and per-second
+  // ticker updates (the ticker is aria-hidden but not data-num, so it's
+  // skipped automatically).
+  const obs = new MutationObserver((mutations) => {
+    const touched = new Set();
+    for (const m of mutations) {
+      const node = m.target;
+      const el = node.nodeType === 1 ? node : node.parentElement;
+      if (!el) continue;
+      const candidate = el.closest?.("[data-num]");
+      if (candidate) touched.add(candidate);
+      // Newly inserted nodes might themselves have [data-num] children
+      m.addedNodes?.forEach?.((n) => {
+        if (n.nodeType !== 1) return;
+        if (n.matches?.("[data-num]")) touched.add(n);
+        n.querySelectorAll?.("[data-num]")?.forEach?.((d) => touched.add(d));
+      });
+    }
+    touched.forEach(tryFlash);
+  });
+  obs.observe(document.body, { subtree: true, childList: true, characterData: true });
+}
 
 // UI/UX overhaul 2026-05-19 — single delegated focus-trap for any open
 // dialog. The platform has 3 modal surfaces (sws detail, action list,
@@ -5214,19 +5285,20 @@ function initPortfolioAnalyzer() {
     if (f) analyzePortfolioFile(f);
   });
 
-  // Drag & drop
+  // Drag & drop. UI/UX overhaul 2026-05-19: switched from per-event inline
+  // style mutations (gold-theme-incompatible blue --accent border) to a
+  // .dragover class. The class lives in index.html and matches the platform's
+  // gold-accent design tokens; transitions are gated by prefers-reduced-motion.
   ["dragenter", "dragover"].forEach((ev) =>
     dropArea.addEventListener(ev, (e) => {
       e.preventDefault(); e.stopPropagation();
-      dropArea.style.borderColor = "var(--accent)";
-      dropArea.style.background = "rgba(59,130,246,0.05)";
+      dropArea.classList.add("dragover");
     }),
   );
   ["dragleave", "drop"].forEach((ev) =>
     dropArea.addEventListener(ev, (e) => {
       e.preventDefault(); e.stopPropagation();
-      dropArea.style.borderColor = "#2a3349";
-      dropArea.style.background = "var(--panel)";
+      dropArea.classList.remove("dragover");
     }),
   );
   dropArea.addEventListener("drop", (e) => {
