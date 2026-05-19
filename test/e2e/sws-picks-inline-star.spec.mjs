@@ -19,6 +19,34 @@ import { gotoApp, switchTab, waitForPicksLoaded } from "./helpers/app.mjs";
 
 test.describe("SWS Picks inline ★ (PR P9)", () => {
   test("clicking ★ on a pick card adds to Watchlist without opening modal", async ({ page }) => {
+    // PR #6: stub the watchlist API so this test verifies the UI contract
+    // (event.stopPropagation, optimistic flip, row appears post-toggle)
+    // independent of whether the first pick's symbol can pass the server's
+    // findBySymbol() guard. Pre-PR6 this test "passed" because the buggy
+    // toggleWatchlist swallowed API failures and flipped the star anyway;
+    // post-PR6 the rollback is honest, so we mock 200 OK explicitly.
+    const watchlistStorage = new Map();
+    await page.route("**/api/watchlist/add", async (route) => {
+      const body = JSON.parse(route.request().postData() || "{}");
+      if (body.symbol) watchlistStorage.set(body.symbol, { symbol: body.symbol, name: body.name, sector: body.sector });
+      await route.fulfill({ status: 200, body: JSON.stringify({ ok: true }) });
+    });
+    await page.route("**/api/watchlist/remove", async (route) => {
+      const body = JSON.parse(route.request().postData() || "{}");
+      if (body.symbol) watchlistStorage.delete(body.symbol);
+      await route.fulfill({ status: 200, body: JSON.stringify({ ok: true }) });
+    });
+    await page.route("**/api/watchlist", async (route) => {
+      // The GET handler. Reflects whatever the stub stored.
+      const stocks = Array.from(watchlistStorage.values()).map((s) => ({
+        ...s,
+        last: null,
+        change: null,
+        change_pct: null,
+      }));
+      await route.fulfill({ status: 200, body: JSON.stringify({ stocks, count: stocks.length }) });
+    });
+
     await gotoApp(page, { tab: "picks" });
     await waitForPicksLoaded(page);
 
@@ -66,6 +94,17 @@ test.describe("SWS Picks inline ★ (PR P9)", () => {
     ).toBe(0);
 
     if (!wasPressed) {
+      // PR #6: toggleWatchlist is now optimistic — the star flips
+      // synchronously and the POST resolves in the background. Wait for
+      // the pending Set to drain BEFORE switching tabs; otherwise
+      // loadWatchlist's GET races past the still-in-flight POST and
+      // sees the stale (pre-add) storage.
+      await page.waitForFunction(
+        () => (window.__sb_watchlistPending?.size ?? 0) === 0,
+        null,
+        { timeout: 10_000 },
+      );
+
       // Newly added → Watchlist row should appear.
       await switchTab(page, "watchlist");
       const watchlistTab = page.locator("#watchlistTab");

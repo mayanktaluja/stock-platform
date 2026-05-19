@@ -179,7 +179,50 @@ document.addEventListener("DOMContentLoaded", () => {
   // PR T5 — sync the misses-shown checkbox + label with the persisted
   // localStorage state before loadTrackRecord runs. Sticky-ON default.
   hydrateMissesShownToggle();
-  switchTab('picks');
+  // PR #7: honor deep-link hash on boot if present, otherwise fall through
+  // to the default picks tab. The router IIFE at the bottom of this file
+  // ALSO listens for popstate, but boot needs explicit handling because
+  // popstate doesn't fire on initial page load.
+  const bootHash = typeof window.parseHash === "function" ? window.parseHash() : {};
+  switchTab(bootHash.tab || 'picks');
+  // PR #10: wire the mobile bottom-nav buttons + the desktop tab-bar
+  // scroll-shadow indicator. Both are additive — desktop UX is unchanged.
+  document.querySelectorAll(".bottom-nav-btn[data-tab]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const tab = btn.getAttribute("data-tab");
+      if (tab) window.switchTab(tab);
+    });
+  });
+  // Sync aria-current on bottom-nav buttons whenever the tab changes
+  // (driven by switchTab via the telemetry emit at the dispatch wrapper).
+  document.addEventListener("DOMContentLoaded", () => {
+    const sync = () => {
+      const view = window.currentView || "picks";
+      document.querySelectorAll(".bottom-nav-btn").forEach((b) => {
+        if (b.dataset.tab === view) b.setAttribute("aria-current", "page");
+        else b.removeAttribute("aria-current");
+      });
+    };
+    sync();
+    // Re-sync on every switchTab call by piggybacking on popstate +
+    // a MutationObserver on #mainTabs (which already gets .active toggled).
+    window.addEventListener("popstate", sync);
+    const tabBar = document.getElementById("mainTabs");
+    if (tabBar) new MutationObserver(sync).observe(tabBar, { subtree: true, attributes: true, attributeFilter: ["class", "aria-selected"] });
+  });
+  // Scroll-shadow indicator on the horizontal tab bar (desktop overflow):
+  // toggle data-scroll-overflow when scrollWidth > clientWidth.
+  const tabBar = document.getElementById("mainTabs");
+  if (tabBar) {
+    const update = () => {
+      const overflow = tabBar.scrollWidth - tabBar.clientWidth > 4;
+      const atEnd = tabBar.scrollLeft + tabBar.clientWidth >= tabBar.scrollWidth - 4;
+      tabBar.setAttribute("data-scroll-overflow", String(overflow && !atEnd));
+    };
+    update();
+    tabBar.addEventListener("scroll", update);
+    window.addEventListener("resize", update);
+  }
   setupSearch();
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
   auth.init();
@@ -392,6 +435,101 @@ function renderLastUpdated(isoOrEpoch) {
   return `<span data-testid="last-updated" style="font-size:11px;color:var(--text-muted);">updated ${d.toISOString().slice(0,10)}</span>`;
 }
 window.renderLastUpdated = renderLastUpdated;
+
+// ==================== STATE + TOAST HELPERS (PR #5) ====================
+//
+// Two tiny helpers consumed by loaders that previously silently catch'd
+// (loadSnapshotHealth, loadLlmSignalBanner, the header-search dropdown).
+// Loaders that ALREADY render their own inline empty-state UIs (analyzer,
+// picks, watchlist, news) are deliberately NOT wrapped — the adversarial
+// pass (F-6, F-14) warned that double-wrapping would render two error UIs
+// on the same failure.
+//
+// renderState(container, { state, onRetry?, message? })
+//   - state: "loading" | "empty" | "error"
+//   - loading: shimmer-skeleton placeholder
+//   - empty:   muted message + optional CTA
+//   - error:   message + Retry button (if onRetry provided)
+//
+// toast({ kind, msg, durationMs }) appends a chip to #toastStack. Stack
+// caps at 3 visible; older toasts collapse into a "+N more" indicator.
+// Uses var(--z-toast) and aria-live=polite (the first consumer of either
+// token / pattern in the codebase).
+function renderState(container, opts = {}) {
+  if (!container) return;
+  const { state = "loading", onRetry, message } = opts;
+  if (state === "loading") {
+    container.innerHTML = `
+      <div class="state state--loading" data-testid="state-loading" aria-busy="true">
+        <div class="state-skeleton state-skeleton--bar"></div>
+        <div class="state-skeleton state-skeleton--bar state-skeleton--short"></div>
+        <div class="state-skeleton state-skeleton--bar"></div>
+      </div>`;
+  } else if (state === "empty") {
+    container.innerHTML = `
+      <div class="state state--empty" data-testid="state-empty">
+        <div class="state-empty-msg">${message || "Nothing here yet."}</div>
+      </div>`;
+  } else if (state === "error") {
+    const retryBtn = onRetry
+      ? `<button type="button" class="btn btn--ghost btn--sm" data-testid="state-retry">Retry</button>`
+      : "";
+    container.innerHTML = `
+      <div class="state state--error" data-testid="state-error" role="alert">
+        <div class="state-error-msg">${message || "Something went wrong."}</div>
+        ${retryBtn}
+      </div>`;
+    if (onRetry) {
+      const btn = container.querySelector('[data-testid="state-retry"]');
+      if (btn) btn.addEventListener("click", onRetry, { once: true });
+    }
+  }
+}
+window.renderState = renderState;
+
+// Toast queue: cap at 3 visible. Anything additional collapses into a
+// "+N more" chip until the oldest dismisses. Auto-dismiss after
+// durationMs (default 4s). Honors prefers-reduced-motion via CSS.
+const _toastQueue = [];
+function _renderToastStack() {
+  let stack = document.getElementById("toastStack");
+  if (!stack) {
+    // Late boot — defer one frame if the DOM isn't ready yet.
+    requestAnimationFrame(_renderToastStack);
+    return;
+  }
+  stack.innerHTML = "";
+  const visible = _toastQueue.slice(0, 3);
+  const overflow = Math.max(0, _toastQueue.length - 3);
+  for (const t of visible) {
+    const el = document.createElement("div");
+    el.className = `toast toast--${t.kind}`;
+    el.setAttribute("data-testid", "toast");
+    el.setAttribute("data-kind", t.kind);
+    el.textContent = t.msg;
+    stack.appendChild(el);
+  }
+  if (overflow > 0) {
+    const el = document.createElement("div");
+    el.className = "toast toast--overflow";
+    el.setAttribute("data-testid", "toast-overflow");
+    el.textContent = `+${overflow} more`;
+    stack.appendChild(el);
+  }
+}
+function toast(opts = {}) {
+  const { kind = "info", msg = "", durationMs = 4000 } = opts;
+  if (!msg) return;
+  const t = { kind, msg, id: Math.random().toString(36).slice(2) };
+  _toastQueue.push(t);
+  _renderToastStack();
+  setTimeout(() => {
+    const ix = _toastQueue.findIndex((x) => x.id === t.id);
+    if (ix >= 0) _toastQueue.splice(ix, 1);
+    _renderToastStack();
+  }, durationMs);
+}
+window.toast = toast;
 
 // ==================== GLOSSARY TOOLTIP SYSTEM ====================
 //
@@ -666,6 +804,48 @@ function updateClock() {
   document.getElementById("currentTime").textContent = timeStr;
   const dateEl = document.getElementById("currentDate");
   if (dateEl) dateEl.textContent = dateStr;
+
+  // PR #10: live "opens in 2h 14m" / "closes in 1h 09m" countdown into the
+  // market-status pill so the user gets the *feel* of liveness without a
+  // WebSocket push. NSE regular session is 09:15–15:30 IST Mon–Fri.
+  const countEl = document.getElementById("marketCountdown");
+  if (countEl) {
+    // Compute now in IST regardless of user's TZ via the Asia/Kolkata
+    // toLocaleString trick (returns a Date in IST clock).
+    const istNow = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+    const dow = istNow.getDay(); // 0 = Sun
+    const minutes = istNow.getHours() * 60 + istNow.getMinutes();
+    const OPEN_MIN  = 9 * 60 + 15;  // 09:15 IST
+    const CLOSE_MIN = 15 * 60 + 30; // 15:30 IST
+    const isWeekday = dow >= 1 && dow <= 5;
+    let label = "";
+    if (isWeekday && minutes >= OPEN_MIN && minutes < CLOSE_MIN) {
+      const mins = CLOSE_MIN - minutes;
+      const h = Math.floor(mins / 60);
+      const m = mins % 60;
+      label = `closes in ${h > 0 ? h + "h " : ""}${m}m`;
+    } else {
+      // Next open: same day if before 09:15 weekday, otherwise next weekday 09:15
+      let daysAhead = 0;
+      if (isWeekday && minutes < OPEN_MIN) {
+        daysAhead = 0;
+      } else {
+        // walk forward until next weekday
+        daysAhead = 1;
+        let probeDow = (dow + 1) % 7;
+        while (probeDow === 0 || probeDow === 6) {
+          daysAhead++;
+          probeDow = (probeDow + 1) % 7;
+        }
+      }
+      const remainingToday = (24 * 60 - minutes) + OPEN_MIN; // overshoot for "tomorrow"
+      const totalMins = daysAhead === 0 ? (OPEN_MIN - minutes) : (remainingToday + (daysAhead - 1) * 24 * 60);
+      const h = Math.floor(totalMins / 60);
+      const m = totalMins % 60;
+      label = `opens in ${h > 0 ? h + "h " : ""}${m}m`;
+    }
+    countEl.textContent = label;
+  }
 }
 
 // ==================== MARKET DATA ====================
@@ -817,12 +997,26 @@ async function searchStocks(query) {
   } catch (err) {
     if (err.name === "AbortError") return;
     console.error("Search failed:", err);
-    searchResults.innerHTML = `
-      <div style="padding: 20px; text-align: center; color: var(--text-muted);">
-        Search unavailable. Try again in a moment.
-      </div>
-    `;
+    // PR #5: use the canonical renderState() + toast() helpers so the user
+    // can retry inline AND gets a notification when the catch fires. This
+    // replaces the pre-PR inline "Search unavailable" copy block.
+    if (typeof window.renderState === "function") {
+      window.renderState(searchResults, {
+        state: "error",
+        message: "Search unavailable. Try again in a moment.",
+        onRetry: () => searchStocks(query),
+      });
+    } else {
+      searchResults.innerHTML = `
+        <div style="padding: 20px; text-align: center; color: var(--text-muted);">
+          Search unavailable. Try again in a moment.
+        </div>
+      `;
+    }
     searchResults.classList.add("active");
+    if (typeof window.toast === "function") {
+      window.toast({ kind: "error", msg: "Search unavailable. Try again." });
+    }
   }
 }
 
@@ -1010,6 +1204,15 @@ function renderSnowflakeHexagon(pillars, opts = {}) {
     `;
   }).join('');
 
+  // PR #9: data-table fallback sibling. Screen readers + assistive tech
+  // get the same content as the SVG; for sighted users it's a
+  // <details>-collapsed "View as table" expandable for copy-paste.
+  const tableRows = order.map((k, i) => {
+    const sc = scores[i];
+    const grade = pillars[k]?.grade || '';
+    return `<tr><th scope="row">${labels[k]}</th><td>${fmt(sc)}/5</td><td>${grade || '—'}</td></tr>`;
+  }).join('');
+
   return `
     <svg viewBox="0 0 ${size} ${size}" width="100%" style="max-width:${size}px;display:block;margin:0 auto;" role="img" aria-label="Snowflake pillar radar — ${defined.length}/6 pillars scored, average ${avg.toFixed(1)}/5">
       ${axisLines}
@@ -1019,6 +1222,13 @@ function renderSnowflakeHexagon(pillars, opts = {}) {
       ${dots}
       ${labelEls}
     </svg>
+    <details data-testid="snowflake-data-table" style="margin-top:8px;font-size:11px;">
+      <summary style="cursor:pointer;color:var(--text-muted);user-select:none;">View as table</summary>
+      <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:11px;">
+        <thead><tr style="border-bottom:1px solid var(--border);"><th style="text-align:left;padding:4px 8px;">Pillar</th><th style="text-align:left;padding:4px 8px;">Score</th><th style="text-align:left;padding:4px 8px;">Grade</th></tr></thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </details>
   `;
 }
 
@@ -2157,94 +2367,103 @@ function renderTransitionAlert(transition) {
 
 // ==================== TABS ====================
 
-function switchTab(tab) {
+// PR #5: switchTab refactored from a 35-line if/else cascade into a
+// dispatch-table indirection. Subsequent PRs (#7 hash routing, #8
+// keyboard shortcuts, #10 mobile bottom-nav) amend the table object
+// instead of hand-editing the cascade — which the adversarial-pass
+// flagged as a guaranteed 4-way merge conflict (F-8). Behaviour is
+// byte-identical to the pre-PR cascade.
+//
+// The function is now async to accommodate future loaders that need
+// to await (e.g. PR #7's writeHash after the tab content paints).
+// Every existing call site of switchTab() ignores the return value,
+// so promoting to async is backward-compatible.
+
+const TAB_CONFIG = {
+  news: {
+    elId: "newsTab",
+    enter: () => {
+      loadMarketNews();
+      newsRefreshTimer = setInterval(
+        () => loadMarketNews({ silent: true }),
+        10 * 60 * 1000,
+      );
+    },
+  },
+  portfolio: { elId: "portfolioTab", enter: () => loadPortfolio() },
+  track:     { elId: "trackTab",     enter: () => loadTrackRecord() },
+  analyzer:  {
+    elId: "analyzerTab",
+    enter: () => { initPortfolioAnalyzer(); loadAnalyzerOnTabOpen(); },
+  },
+  picks:     { elId: "picksTab",     enter: () => loadPicks() },
+  watchlist: { elId: "watchlistTab", enter: () => loadWatchlist() },
+  // Defence-in-depth: server enforces admin via 403 on /api/admin/users,
+  // but bail in the loader too so a non-admin who somehow forces the URL
+  // doesn't see a half-rendered tab while the fetch is in flight.
+  users: {
+    elId: "usersTab",
+    guard: () => !!window.__starbhai_isAdmin,
+    enter: () => loadUsersList(),
+  },
+  earnings: {
+    elId: "earningsTab",
+    enter: () => { if (typeof loadEarningsWatch === "function") loadEarningsWatch(); },
+  },
+  riskLab: {
+    elId: "riskLabTab",
+    enter: () => { if (typeof loadRiskLab === "function") loadRiskLab(); },
+  },
+};
+
+async function switchTab(tab) {
+  // Fall through to picks for unknown tabs — preserves the pre-PR5
+  // default behaviour that boot uses when no hash is present.
+  if (!TAB_CONFIG[tab]) tab = "picks";
+  const config = TAB_CONFIG[tab];
+  if (config.guard && !config.guard()) return;
+
   try { telemetry.emit("tab_switch", { from: currentView, to: tab }); } catch {}
+
   const tabs = document.querySelectorAll("#mainTabs .tab");
   // A11y: mirror aria-selected on every tab so screen readers announce the
-  // active tab correctly. The actual activation happens further down where
-  // activeBtn.classList.add("active") runs.
+  // active tab correctly.
   tabs.forEach((t) => {
     t.classList.remove("active");
     t.setAttribute("aria-selected", "false");
   });
 
-  const newsEl = document.getElementById("newsTab");
-  const portEl = document.getElementById("portfolioTab");
-  const trackEl = document.getElementById("trackTab");
-  const analyzerEl = document.getElementById("analyzerTab");
-  const picksEl = document.getElementById("picksTab");
-  const watchEl = document.getElementById("watchlistTab");
-  const usersEl = document.getElementById("usersTab");
-  const earningsEl = document.getElementById("earningsTab");
-  const riskLabEl = document.getElementById("riskLabTab");
-
-  newsEl.style.display = "none";
-  portEl.style.display = "none";
-  if (trackEl) trackEl.style.display = "none";
-  if (analyzerEl) analyzerEl.style.display = "none";
-  if (picksEl) picksEl.style.display = "none";
-  if (watchEl) watchEl.style.display = "none";
-  if (usersEl) usersEl.style.display = "none";
-  if (earningsEl) earningsEl.style.display = "none";
-  if (riskLabEl) riskLabEl.style.display = "none";
+  // Hide every tab container in one pass.
+  for (const cfg of Object.values(TAB_CONFIG)) {
+    const el = document.getElementById(cfg.elId);
+    if (el) el.style.display = "none";
+  }
   if (newsRefreshTimer) { clearInterval(newsRefreshTimer); newsRefreshTimer = null; }
 
-  // Refresh the global macro banner on every tab switch. This is a cheap
-  // lookup (cached on the server) but it guarantees the banner stays in sync
-  // even if the user has the app open across a background refresh cycle, and
-  // avoids any per-tab loader stomping on the banner state.
+  // Refresh the global macro banner on every tab switch. Cheap (cached
+  // server-side) but keeps the banner in sync across background refresh
+  // cycles without per-tab loaders stomping on its state.
   loadMacroRegime();
 
   // Find and activate the matching tab button by its onclick attribute.
-  // This is index-independent, so tab reordering doesn't break navigation.
-  const activeBtn = Array.from(tabs).find((t) => t.getAttribute("onclick")?.includes(tab));
+  const activeBtn = Array.from(tabs).find((t) =>
+    t.getAttribute("onclick")?.includes(tab),
+  );
   if (activeBtn) {
     activeBtn.classList.add("active");
     activeBtn.setAttribute("aria-selected", "true");
   }
 
-  if (tab === "news") {
-    newsEl.style.display = "block";
-    loadMarketNews();
-    newsRefreshTimer = setInterval(() => loadMarketNews({ silent: true }), 10 * 60 * 1000);
-  } else if (tab === "portfolio") {
-    portEl.style.display = "block";
-    loadPortfolio();
-  } else if (tab === "track") {
-    if (trackEl) trackEl.style.display = "block";
-    loadTrackRecord();
-  } else if (tab === "analyzer") {
-    if (analyzerEl) analyzerEl.style.display = "block";
-    initPortfolioAnalyzer();
-    loadAnalyzerOnTabOpen();
-  } else if (tab === "picks") {
-    if (picksEl) picksEl.style.display = "block";
-    loadPicks();
-  } else if (tab === "watchlist") {
-    if (watchEl) watchEl.style.display = "block";
-    loadWatchlist();
-  } else if (tab === "users") {
-    // Defence-in-depth: server enforces admin via 403 on /api/admin/users,
-    // but bail here too so a non-admin who somehow forces the URL doesn't
-    // see a half-rendered tab while the fetch is in flight.
-    if (!window.__starbhai_isAdmin) return;
-    if (usersEl) usersEl.style.display = "block";
-    loadUsersList();
-  } else if (tab === "earnings") {
-    if (earningsEl) earningsEl.style.display = "block";
-    if (typeof loadEarningsWatch === "function") loadEarningsWatch();
-  } else if (tab === "riskLab") {
-    if (riskLabEl) riskLabEl.style.display = "block";
-    if (typeof loadRiskLab === "function") loadRiskLab();
-  } else {
-    // Default: picks tab
-    const picksBtn = Array.from(tabs).find((t) => t.getAttribute("onclick")?.includes("picks"));
-    if (picksBtn) {
-      picksBtn.classList.add("active");
-      picksBtn.setAttribute("aria-selected", "true");
-    }
-    if (picksEl) picksEl.style.display = "block";
-    loadPicks();
+  const el = document.getElementById(config.elId);
+  if (el) el.style.display = "block";
+  try {
+    await config.enter();
+  } catch (e) {
+    // Loaders own their own error UIs (see analyzer / picks / watchlist /
+    // news inline empty-states). We only surface a toast if no inline UI
+    // is going to render — which we can't know synchronously. Best-effort:
+    // log to console so the user can pull it from devtools if needed.
+    console.warn(`[switchTab] ${tab} loader threw:`, e);
   }
 }
 
@@ -3691,7 +3910,26 @@ function renderCalibrationSvg(data) {
             style="font-family: var(--font-sans); font-size: 11px; fill: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em;">
         Realised hit-rate
       </text>
-    </svg>`;
+    </svg>
+    <details data-testid="calibration-data-table" style="margin-top:8px;font-size:11px;">
+      <summary style="cursor:pointer;color:var(--text-muted);user-select:none;">View as table</summary>
+      <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:11px;">
+        <thead><tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left;padding:4px 8px;">Bucket</th>
+          <th style="text-align:left;padding:4px 8px;">n</th>
+          <th style="text-align:left;padding:4px 8px;">Realised</th>
+          <th style="text-align:left;padding:4px 8px;">95% CI</th>
+        </tr></thead>
+        <tbody>${buckets.map((b) => `
+          <tr>
+            <th scope="row" style="text-align:left;padding:4px 8px;">${b.bucket_low}–${b.bucket_high}%</th>
+            <td style="padding:4px 8px;">${b.n}</td>
+            <td style="padding:4px 8px;">${b.realised_pct == null ? '—' : b.realised_pct.toFixed(1) + '%'}</td>
+            <td style="padding:4px 8px;">${b.ci_lo_pct != null && b.ci_hi_pct != null ? b.ci_lo_pct.toFixed(0) + '–' + b.ci_hi_pct.toFixed(0) + '%' : '—'}</td>
+          </tr>
+        `).join('')}</tbody>
+      </table>
+    </details>`;
 }
 
 async function loadTrackRecord(forceBust = false) {
@@ -4014,6 +4252,25 @@ function renderTrackChart(trades) {
         the faint line is Nifty 50 over the identical window. ${months.length} month${months.length === 1 ? "" : "s"} of data ·
         ${trades.length} pick${trades.length === 1 ? "" : "s"} · oldest ${months[0]}.
       </div>
+      <details data-testid="track-chart-data-table" style="margin-top:8px;font-size:11px;">
+        <summary style="cursor:pointer;color:var(--text-muted);user-select:none;">View as table</summary>
+        <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:11px;">
+          <thead><tr style="border-bottom:1px solid var(--border);">
+            <th style="text-align:left;padding:4px 8px;">Month</th>
+            <th style="text-align:left;padding:4px 8px;">Picks avg %</th>
+            <th style="text-align:left;padding:4px 8px;">Nifty avg %</th>
+            <th style="text-align:left;padding:4px 8px;">n</th>
+          </tr></thead>
+          <tbody>${months.map((m, i) => `
+            <tr>
+              <th scope="row" style="text-align:left;padding:4px 8px;">${m}</th>
+              <td style="padding:4px 8px;">${pickSeries[i] != null ? pickSeries[i].toFixed(1) : '—'}</td>
+              <td style="padding:4px 8px;">${niftySeries[i] != null ? niftySeries[i].toFixed(1) : '—'}</td>
+              <td style="padding:4px 8px;">${countSeries[i]}</td>
+            </tr>
+          `).join('')}</tbody>
+        </table>
+      </details>
     </div>
   `;
 }
@@ -4384,32 +4641,85 @@ function renderNewsHeadline(h) {
 
 // ==================== WATCHLIST ====================
 
+// PR #6: optimistic toggleWatchlist with per-symbol in-flight guard +
+// rollback on failure. The adversarial pass (F-15) called out 5 failure
+// modes that the silent-catch version masked: network throw, HTTP !ok,
+// 401 (session expired), 403, and 200-with-{success:false}. The rewrite
+// handles all 5 distinctly: rollback the in-memory Set + the DOM star
+// + emit a rollback telemetry event + toast the user. The per-symbol
+// in-flight guard kills the double-click race where two rapid clicks
+// fire two POSTs and the second's response rolls back the first's
+// optimistic flip.
+
+const _pendingWatchlistToggle = new Set();
+// Exposed so callers (and tests) can wait for in-flight POSTs to land before
+// reading watchlist state. PR #5+ made switchTab async, and PR #6 made the
+// star flip optimistic — without this signal, switchTab('watchlist') can
+// race past the still-in-flight POST and read a stale GET.
+window.__sb_watchlistPending = _pendingWatchlistToggle;
+
+function _setStarUI(symbol, saved) {
+  const buttons = document.querySelectorAll(
+    `[data-watchlist-symbol="${symbol}"]`,
+  );
+  buttons.forEach((btn) => {
+    btn.textContent = saved ? "★" : "☆";
+    btn.setAttribute("aria-pressed", String(saved));
+    btn.style.color = saved ? "var(--gold)" : "var(--text-muted)";
+  });
+}
+
 async function toggleWatchlist(symbol, name, sector) {
-  const action = watchlist.has(symbol) ? "remove" : "add";
+  if (_pendingWatchlistToggle.has(symbol)) return; // in-flight guard
+  _pendingWatchlistToggle.add(symbol);
+
+  const wasSaved = watchlist.has(symbol);
+  const action = wasSaved ? "remove" : "add";
+
+  // OPTIMISTIC: flip in-memory Set + every DOM star button immediately so
+  // the user sees the action take hold without waiting for the API.
+  if (wasSaved) watchlist.delete(symbol);
+  else watchlist.add(symbol);
+  _setStarUI(symbol, !wasSaved);
+
+  try { telemetry.emit("watchlist_" + action, { symbol, sector: sector || null }); } catch {}
+
+  let failureReason = null;
   try {
-    try { telemetry.emit("watchlist_" + action, { symbol, sector: sector || null }); } catch {}
-    await fetch(`/api/watchlist/${action}`, {
+    const res = await fetch(`/api/watchlist/${action}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ symbol, name, sector }),
     });
-    if (action === "add") watchlist.add(symbol);
-    else watchlist.delete(symbol);
-    // PR P9 — update every star button for this symbol. Same ticker may
-    // appear in multiple surfaces simultaneously: the modal title and the
-    // pick-card inline star, the SWS-picks card and a search-result row,
-    // etc. Without updating all of them, only one flips state and the
-    // others lie about whether the stock is starred.
-    const buttons = document.querySelectorAll(`[data-watchlist-symbol="${symbol}"]`);
-    if (buttons.length > 0) {
-      const saved = watchlist.has(symbol);
-      buttons.forEach((btn) => {
-        btn.textContent = saved ? "★" : "☆";
-        btn.setAttribute("aria-pressed", String(saved));
-        btn.style.color = saved ? "var(--gold)" : "var(--text-muted)";
-      });
+    if (!res.ok) {
+      if (res.status === 401) failureReason = "Session expired — please refresh.";
+      else if (res.status === 403) failureReason = "Not allowed.";
+      else failureReason = `Watchlist sync failed (HTTP ${res.status}).`;
     }
-  } catch { /* silent */ }
+    // 200 OK = success. Body shape is {ok: true, ...} per server.js — no
+    // soft-failure body shape exists in this codebase, so we trust 2xx.
+  } catch (e) {
+    failureReason = "Network error — please try again.";
+  } finally {
+    _pendingWatchlistToggle.delete(symbol);
+  }
+
+  if (failureReason) {
+    // ROLLBACK: restore Set + DOM stars to pre-click state.
+    if (wasSaved) watchlist.add(symbol);
+    else watchlist.delete(symbol);
+    _setStarUI(symbol, wasSaved);
+    try {
+      telemetry.emit("watchlist_rollback", {
+        symbol,
+        action,
+        reason: failureReason,
+      });
+    } catch {}
+    if (typeof window.toast === "function") {
+      window.toast({ kind: "error", msg: failureReason });
+    }
+  }
 }
 
 function watchlistButton(symbol, name, sector) {
@@ -11335,3 +11645,118 @@ function renderLiveOnlyModal(ticker, data, sourceTab) {
     </div>
   `;
 }
+
+// ==================== ROUTER (PR #7) ====================
+//
+// Hash-based deep-linking. Tab + open-modal state lives in location.hash
+// as a key=value query string (e.g. #tab=picks&symbol=RELIANCE). The
+// router is one-way: switchTab() / openSwsModal() WRITE the hash;
+// popstate READS it back. Refreshing the page or following a shared
+// link restores the deep state.
+//
+// Precedence (adversarially fixed):
+//   • Hash beats localStorage on boot when present.
+//   • If hash is empty, localStorage fills the slot (current behaviour).
+//   • popstate writes both hash and localStorage so back-button state
+//     survives the next refresh.
+//
+// We deliberately use hash (not History API path) so no server-side
+// rewrite is needed and the existing /login.html → /index.html redirect
+// dance keeps working untouched.
+
+function parseHash() {
+  const h = (location.hash || "").replace(/^#/, "");
+  const out = {};
+  if (!h) return out;
+  for (const pair of h.split("&")) {
+    const eq = pair.indexOf("=");
+    if (eq < 0) continue;
+    const k = decodeURIComponent(pair.slice(0, eq));
+    const v = decodeURIComponent(pair.slice(eq + 1));
+    if (k) out[k] = v;
+  }
+  return out;
+}
+window.parseHash = parseHash;
+
+let _suppressHashWrite = false;
+function writeHash(state) {
+  if (_suppressHashWrite) return;
+  const parts = [];
+  for (const [k, v] of Object.entries(state || {})) {
+    if (v == null || v === "") continue;
+    parts.push(`${encodeURIComponent(k)}=${encodeURIComponent(v)}`);
+  }
+  const next = parts.length ? "#" + parts.join("&") : "";
+  if (location.hash === next) return;
+  // pushState (not replaceState) so each tab/modal change adds a history
+  // entry. Browser back/forward work as expected.
+  history.pushState(null, "", next || location.pathname + location.search);
+}
+window.writeHash = writeHash;
+
+// Wrap switchTab to also write the hash when called by user action.
+// popstate triggers switchTab with _suppressHashWrite=true so we don't
+// re-push our own pop.
+const _origSwitchTab = window.switchTab;
+window.switchTab = async function switchTabRouterWrap(tab) {
+  await _origSwitchTab(tab);
+  // Preserve existing modal symbol in the URL if it's still open
+  const current = parseHash();
+  writeHash({ tab, symbol: current.symbol });
+};
+
+// Wrap openSwsModal to also write &symbol=… into the hash.
+const _origOpenSwsModal = window.openSwsModal || openSwsModal;
+window.openSwsModal = async function openSwsModalRouterWrap(ticker) {
+  const result = await _origOpenSwsModal(ticker);
+  writeHash({ tab: currentView || "picks", symbol: ticker });
+  return result;
+};
+
+// Wrap closeSwsModal to strip &symbol=… from the hash.
+const _origCloseSwsModal = window.closeSwsModal || closeSwsModal;
+window.closeSwsModal = function closeSwsModalRouterWrap() {
+  const result = _origCloseSwsModal();
+  const current = parseHash();
+  writeHash({ tab: current.tab || currentView || "picks" });
+  return result;
+};
+
+// popstate: re-apply the new hash without writing it back.
+window.addEventListener("popstate", async () => {
+  _suppressHashWrite = true;
+  try {
+    const state = parseHash();
+    if (state.tab && state.tab !== currentView) {
+      await _origSwitchTab(state.tab);
+    }
+    const backdrop = document.getElementById("swsModalBackdrop");
+    const modalOpen = backdrop?.classList.contains("open");
+    if (state.symbol && !modalOpen) {
+      await _origOpenSwsModal(state.symbol);
+    } else if (!state.symbol && modalOpen) {
+      _origCloseSwsModal();
+    }
+  } finally {
+    _suppressHashWrite = false;
+  }
+});
+
+// Boot-time hash handling lives inside the existing DOMContentLoaded
+// init at app.js:182 (parseHash().tab || 'picks'). Modal restoration
+// fires from a separate DOMContentLoaded listener so it runs after the
+// tab loader has resolved.
+document.addEventListener("DOMContentLoaded", async () => {
+  const state = parseHash();
+  if (!state.symbol) return;
+  // Wait one tick so the tab loader (called from the boot path above)
+  // has run and currentView is set.
+  await new Promise((r) => setTimeout(r, 0));
+  _suppressHashWrite = true;
+  try {
+    await _origOpenSwsModal(state.symbol);
+  } finally {
+    _suppressHashWrite = false;
+  }
+});

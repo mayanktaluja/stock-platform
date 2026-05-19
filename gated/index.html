@@ -5,9 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Starbhai · Indian Stock Intelligence</title>
   <meta name="description" content="Professional Indian stock analysis platform — technical signals, fundamentals, macro regime awareness, and forward-return tracking.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,6 61.2,37.5 94.6,37.5 67.7,57 78.6,89.7 50,70 21.4,89.7 32.3,57 5.4,37.5 38.8,37.5' fill='none' stroke='%23E0B060' stroke-width='5' stroke-linejoin='round'/%3E%3Ctext x='50' y='68' text-anchor='middle' fill='%23E0B060' font-family='Georgia, serif' font-size='40' font-weight='600' font-style='italic'%3ES%3C/text%3E%3C/svg%3E">
+
+  <!-- PR #1: OG / Twitter / Apple metadata + PNG favicon fallback. The
+       data-URI SVG favicon below is kept as the highest-fidelity icon for
+       retina browsers; the PNG fallbacks cover older / mobile / PWA. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Starbhai">
+  <meta property="og:title" content="Starbhai — Indian Stock Intelligence">
+  <meta property="og:description" content="SEBI-aware Indian equity research — SWS pillars, forward-return tracking, earnings predictions, and macro regime awareness.">
+  <meta property="og:url" content="https://stock-platform-gamma.vercel.app/">
+  <meta property="og:image" content="https://stock-platform-gamma.vercel.app/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:alt" content="Starbhai — Indian Stock Intelligence. SEBI-aware, forward returns tracked, earnings predicted, SWS pillars.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Starbhai — Indian Stock Intelligence">
+  <meta name="twitter:description" content="SEBI-aware Indian equity research — SWS pillars, forward-return tracking, earnings predictions, and macro regime awareness.">
+  <meta name="twitter:image" content="https://stock-platform-gamma.vercel.app/og-image.jpg">
+  <meta name="theme-color" content="#0B0C10">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Starbhai">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,6 61.2,37.5 94.6,37.5 67.7,57 78.6,89.7 50,70 21.4,89.7 32.3,57 5.4,37.5 38.8,37.5' fill='none' stroke='%23E0B060' stroke-width='5' stroke-linejoin='round'/%3E%3Ctext x='50' y='68' text-anchor='middle' fill='%23E0B060' font-family='Georgia, serif' font-size='40' font-weight='600' font-style='italic'%3ES%3C/text%3E%3C/svg%3E">
+  <link rel="manifest" href="/manifest.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- PR #11: preload the three font families used above the fold so
+       LCP doesn't wait for the @import-resolved stylesheet to fetch.
+       We point at the woff2 endpoints for the heaviest weights actually
+       in use; lighter weights remain on the @display=swap fallback. -->
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+        href="https://fonts.gstatic.com/s/fraunces/v37/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+        href="https://fonts.gstatic.com/s/geist/v1/gyByhwUxId8gMEwYGFU2KOTuRA.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+        href="https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxjPVmUsaaDhw.woff2">
+
+  <!-- PR #11: modulepreload keyboard.js so the script body is ready by the
+       time the defer-load fires, eliminating an extra round-trip. -->
+  <link rel="modulepreload" href="/keyboard.js">
+
   <!-- Phase 8B: Editorial Terminal typography — Fraunces (serif, headlines),
        Geist (sans, UI), JetBrains Mono (tabular numbers). Replaces Inter. -->
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Geist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -170,6 +211,33 @@
       --lh-tight:  1.2;
       --lh-snug:   1.35;
       --lh-normal: 1.5;
+
+      /* ============================================================
+       * PR #3 — Token-ize the remaining off-palette hex values.
+       * The pre-PR3 platform had ~134 raw hex sites outside :root,
+       * most of them slight variants of two families:
+       *   (a) legacy bluish-dark "graphite" shades for borders and
+       *       surfaces that the Editorial Terminal palette doesn't
+       *       cover (bg-card is warmer/blacker);
+       *   (b) Tailwind-derived bright text colours used inside the
+       *       100+ signal/badge classes (--green is too muted for
+       *       small-on-dark text legibility).
+       * These tokens preserve the existing visual identity exactly
+       * (1:1 RGB) while letting future PRs lean on the cascade
+       * instead of hard-coding hex.
+       * ============================================================ */
+      --bg-graphite:           #1a2233;
+      --bg-graphite-deep:      #0e1422;
+      --border-graphite:       #2a3349;
+      --accent-blue:           #4a90e2;
+      --positive-text:         #4ade80;
+      --positive-text-soft:    #86efac;
+      --positive-text-emerald: #34d399;
+      --negative-text:         #f87171;
+      --negative-text-soft:    #fca5a5;
+      --info-text:             #60a5fa;
+      --info-text-soft:        #93c5fd;
+      --warn-text:             #fbbf24;
 
       /* PR F2 — Type scale (6 sizes, paired with utility classes below) */
       --fs-display:  34px;  /* Fraunces page h2 / hero number */
@@ -521,7 +589,7 @@
     .market-status-pill.closed {
       background: rgba(239, 68, 68, 0.08);
       border: 1px solid rgba(239, 68, 68, 0.2);
-      color: #f87171;
+      color: var(--negative-text);
     }
 
     .status-dot {
@@ -531,7 +599,7 @@
     }
 
     .status-dot.open { background: var(--green); animation: pulse 2s infinite; }
-    .status-dot.closed { background: #f87171; }
+    .status-dot.closed { background: var(--negative-text); }
 
     .header-clock {
       display: flex;
@@ -1373,8 +1441,8 @@
     .signal-buy { background: var(--green-bg); color: var(--green); }
     .signal-sell { background: var(--red-bg); color: var(--red); }
     .signal-neutral { background: rgba(100,116,139,0.1); color: var(--text-secondary); }
-    .signal-strong-buy { background: rgba(16,185,129,0.2); color: #34d399; border: 1px solid var(--green-border); }
-    .signal-strong-sell { background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid var(--red-border); }
+    .signal-strong-buy { background: rgba(16,185,129,0.2); color: var(--positive-text-emerald); border: 1px solid var(--green-border); }
+    .signal-strong-sell { background: rgba(239,68,68,0.2); color: var(--negative-text); border: 1px solid var(--red-border); }
 
     /* News Section */
     .news-list {
@@ -1560,11 +1628,11 @@
       letter-spacing: 0.3px;
     }
 
-    .section-badge.buynow   { background: rgba(34,197,94,0.15);  color: #4ade80; }
-    .section-badge.intraday { background: rgba(59,130,246,0.12); color: #60a5fa; }
-    .section-badge.midterm  { background: rgba(16,185,129,0.12); color: #34d399; }
-    .section-badge.volume   { background: rgba(245,158,11,0.12); color: #fbbf24; }
-    .section-badge.sell     { background: rgba(239,68,68,0.12);  color: #f87171; }
+    .section-badge.buynow   { background: rgba(34,197,94,0.15);  color: var(--positive-text); }
+    .section-badge.intraday { background: rgba(59,130,246,0.12); color: var(--info-text); }
+    .section-badge.midterm  { background: rgba(16,185,129,0.12); color: var(--positive-text-emerald); }
+    .section-badge.volume   { background: rgba(245,158,11,0.12); color: var(--warn-text); }
+    .section-badge.sell     { background: rgba(239,68,68,0.12);  color: var(--negative-text); }
 
     /* Phase 8A: inline tag next to section-name to mark secondary signal */
     .section-name-tag {
@@ -1592,7 +1660,7 @@
       padding: 12px 16px;
       margin-bottom: 16px;
       background: rgba(255,255,255,0.02);
-      border: 1px solid #1a2233;
+      border: 1px solid var(--bg-graphite);
       border-radius: 10px;
       flex-wrap: wrap;
     }
@@ -1659,7 +1727,7 @@
 
     /* ========== Macro Regime Banner ========== */
     .macro-banner {
-      border: 1px solid #1a2233;
+      border: 1px solid var(--bg-graphite);
       border-radius: 12px;
       padding: 16px 20px;
       margin-bottom: 24px;
@@ -1738,12 +1806,12 @@
     }
     .macro-sector-chip.pos {
       background: rgba(34,197,94,0.15);
-      color: #4ade80;
+      color: var(--positive-text);
       border: 1px solid rgba(34,197,94,0.3);
     }
     .macro-sector-chip.neg {
       background: rgba(239,68,68,0.15);
-      color: #f87171;
+      color: var(--negative-text);
       border: 1px solid rgba(239,68,68,0.3);
     }
     .macro-banner-footer {
@@ -1798,8 +1866,8 @@
       vertical-align: middle;
       cursor: help;
     }
-    .macro-boost-badge.pos { background: rgba(34,197,94,0.18); color: #4ade80; }
-    .macro-boost-badge.neg { background: rgba(239,68,68,0.18); color: #f87171; }
+    .macro-boost-badge.pos { background: rgba(34,197,94,0.18); color: var(--positive-text); }
+    .macro-boost-badge.neg { background: rgba(239,68,68,0.18); color: var(--negative-text); }
 
     /* Stock detail macro pill */
     .macro-pill {
@@ -1812,14 +1880,14 @@
       font-weight: 600;
       margin-top: 8px;
     }
-    .macro-pill.pos { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.25); }
-    .macro-pill.neg { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
+    .macro-pill.pos { background: rgba(34,197,94,0.12); color: var(--positive-text); border: 1px solid rgba(34,197,94,0.25); }
+    .macro-pill.neg { background: rgba(239,68,68,0.12); color: var(--negative-text); border: 1px solid rgba(239,68,68,0.25); }
 
     /* Small-cap headwind warning strip (on the scanner card) */
     .macro-headwind-strip {
       font-size: 11px;
       font-weight: 600;
-      color: #fca5a5;
+      color: var(--negative-text-soft);
       background: rgba(239, 68, 68, 0.1);
       border: 1px solid rgba(239, 68, 68, 0.28);
       padding: 6px 10px;
@@ -1830,7 +1898,7 @@
 
     /* Banner fallback-source indicator */
     .macro-fallback-indicator {
-      color: #fbbf24;
+      color: var(--warn-text);
       font-weight: 700;
       cursor: help;
     }
@@ -1849,7 +1917,7 @@
       height: 14px;
       border-radius: 50%;
       background: rgba(251, 191, 36, 0.12);
-      color: #fbbf24;
+      color: var(--warn-text);
       font-size: 10px;
       font-weight: 700;
       font-family: 'Inter', sans-serif;
@@ -1909,7 +1977,7 @@
       gap: 8px;
       font-size: 13px;
       font-weight: 800;
-      color: #fbbf24;
+      color: var(--warn-text);
       margin-bottom: 8px;
       letter-spacing: -0.1px;
     }
@@ -1922,7 +1990,7 @@
       padding: 2px 6px;
       border-radius: 4px;
       background: rgba(251, 191, 36, 0.12);
-      color: #fbbf24;
+      color: var(--warn-text);
       border: 1px solid rgba(251, 191, 36, 0.2);
     }
     #starbhaiTooltip .tip-short {
@@ -1978,6 +2046,114 @@
     }
 
     /* Phase 8C: editorial refresh button — ghost style */
+    /* ============================================================
+     * PR #4 — Component primitives (.btn / .card / .badge)
+     * Pre-PR4 the repo had 5+ button styles (refresh-btn, back-btn,
+     * user-menu-signout, pick-depth-btn, sws-pick-chip) each with its
+     * own colour / radius / hover quirks. The new primitives establish
+     * ONE canonical style per role; legacy classes stay as CSS-only
+     * aliases (class-chained on HTML so untouched callsites still
+     * win) — see `.btn.refresh-btn` below for the alias pattern. The
+     * primitives are driven by existing tokens; nothing new added.
+     * ============================================================ */
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-100);
+      padding: var(--space-100) var(--space-200);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-100);
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      user-select: none;
+      transition:
+        color var(--dur-quick) var(--ease-standard),
+        border-color var(--dur-quick) var(--ease-standard),
+        background var(--dur-quick) var(--ease-standard),
+        transform var(--dur-fast) var(--ease-spring);
+    }
+    .btn:hover:not(:disabled) {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: var(--yellow-bg);
+    }
+    .btn:active:not(:disabled)  { transform: scale(0.98); }
+    .btn:disabled               { opacity: var(--opacity-disabled); cursor: not-allowed; }
+    .btn:focus-visible          { outline: none; box-shadow: var(--focus-ring); }
+
+    /* Modifiers */
+    .btn--primary               { background: var(--gold); color: var(--bg-primary); border-color: var(--gold); }
+    .btn--primary:hover:not(:disabled)  { background: var(--gold-deep); border-color: var(--gold-deep); color: var(--bg-primary); }
+    .btn--ghost                 { background: transparent; }
+    .btn--danger                { color: var(--negative-text); border-color: var(--red-border); }
+    .btn--danger:hover:not(:disabled)   { background: var(--red-bg); border-color: var(--red); color: var(--negative-text); }
+    .btn--info                  { color: var(--info-text); border-color: rgba(74, 144, 226, 0.30); background: rgba(74, 144, 226, 0.10); }
+    .btn--info:hover:not(:disabled)     { border-color: var(--accent-blue); background: rgba(74, 144, 226, 0.16); color: var(--info-text); }
+    .btn--warn                  { color: var(--warn-text); border-color: rgba(245, 158, 11, 0.30); background: rgba(245, 158, 11, 0.10); }
+    .btn--warn:hover:not(:disabled)     { border-color: var(--warn-text); background: rgba(245, 158, 11, 0.16); color: var(--warn-text); }
+    .btn--icon                  { padding: var(--space-75); }
+    .btn--sm                    { padding: var(--space-75) var(--space-150); font-size: 11.5px; }
+
+    /* Honor reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      .btn { transition: none; }
+      .btn:active:not(:disabled) { transform: none; }
+    }
+
+    /* ----- .card primitive -----
+       Driven by --elev-1..4 (defined :root above but until PR #4 unused).
+       Use as <div class="card"> for elev-2 default, or chain `.card.card--elev-3`. */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      padding: var(--space-300);
+      box-shadow: var(--elev-2);
+    }
+    .card--elev-1 { box-shadow: var(--elev-1); }
+    .card--elev-3 { box-shadow: var(--elev-3); }
+    .card--elev-4 { box-shadow: var(--elev-4); }
+    .card--flat   { box-shadow: none; }
+
+    /* ----- .badge primitive -----
+       Replaces the 15+ ad-hoc badge classes. Use as `.badge.badge--success` etc.
+       Existing .signal-strong-buy / .section-badge.buynow / etc remain
+       (per the rollout plan's "leave untouched call sites alone" rule). */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-50);
+      padding: var(--space-25) var(--space-100);
+      border-radius: var(--radius-100);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .badge--success  { background: var(--green-bg);    color: var(--positive-text);    border-color: var(--green-border); }
+    .badge--warn     { background: var(--yellow-bg);   color: var(--warn-text);        border-color: rgba(245, 158, 11, 0.30); }
+    .badge--danger   { background: var(--red-bg);      color: var(--negative-text);    border-color: var(--red-border); }
+    .badge--info     { background: var(--blue-bg);     color: var(--info-text);        border-color: rgba(74, 144, 226, 0.30); }
+    .badge--neutral  { background: rgba(255,255,255,0.05); color: var(--text-secondary); border-color: var(--border); }
+
+    /* ============================================================
+     * Legacy aliases — .refresh-btn was the highest-traffic legacy
+     * button class (used at index.html:3562/3795/3917/3952/4032/4062/4110).
+     * The 3 we migrate add the `.btn` class to the HTML so they pick up
+     * the primitive's behavior; this `.btn.refresh-btn` rule normalises
+     * the 2px font-size difference so the side-by-side visual stays
+     * identical pre/post-PR4.
+     * ============================================================ */
     .refresh-btn {
       background: transparent;
       border: 1px solid var(--border);
@@ -1999,6 +2175,10 @@
       color: var(--gold);
       background: rgba(224, 176, 96, 0.04);
     }
+    /* When the HTML adds .btn alongside .refresh-btn (the migrated 3),
+       inherit primitive behaviour but preserve the legacy 12.5 px font /
+       padding so the visual is byte-identical. */
+    .btn.refresh-btn { padding: 8px 16px; font-size: 12.5px; }
 
     .refresh-btn.spinning .spin-icon { animation: spin 1s linear infinite; }
 
@@ -2197,9 +2377,9 @@
       color: var(--text-muted);
       margin-bottom: 8px;
     }
-    .signal-explosive { background: rgba(245,158,11,0.2); color: #fbbf24; border: 1px solid rgba(245,158,11,0.4); }
+    .signal-explosive { background: rgba(245,158,11,0.2); color: var(--warn-text); border: 1px solid rgba(245,158,11,0.4); }
     .signal-very-high { background: rgba(249,115,22,0.15); color: #fb923c; border: 1px solid rgba(249,115,22,0.3); }
-    .signal-high { background: rgba(59,130,246,0.15); color: #60a5fa; }
+    .signal-high { background: rgba(59,130,246,0.15); color: var(--info-text); }
     .signal-moderate { background: rgba(100,116,139,0.15); color: #94a3b8; }
 
     .stock-card-targets {
@@ -2260,6 +2440,254 @@
       0%   { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
+
+    /* ============================================================
+     * PR #5 — Generic state placeholders (loading / empty / error)
+     * driven by renderState() in app.js. Reuses the @keyframes shimmer
+     * from the existing skeleton-card system above.
+     * ============================================================ */
+    .state {
+      padding: var(--space-200) var(--space-300);
+      border-radius: var(--radius-200);
+    }
+    .state--loading { background: transparent; }
+    .state-skeleton {
+      background: linear-gradient(90deg, var(--border) 0%, rgba(255,255,255,0.08) 50%, var(--border) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s ease-in-out infinite;
+      border-radius: var(--radius-50);
+    }
+    .state-skeleton--bar       { height: 12px; margin-bottom: 10px; width: 100%; }
+    .state-skeleton--short     { width: 45%; }
+    .state--empty {
+      color: var(--text-muted);
+      font-size: 13px;
+      text-align: center;
+      padding: var(--space-400) var(--space-300);
+    }
+    .state-empty-msg { font-size: 13px; }
+    .state--error {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-200);
+      background: var(--red-bg);
+      border: 1px solid var(--red-border);
+      color: var(--negative-text-soft);
+      padding: var(--space-150) var(--space-200);
+    }
+    .state-error-msg { font-size: 12.5px; }
+    @media (prefers-reduced-motion: reduce) {
+      .state-skeleton { animation: none; }
+    }
+
+    /* ============================================================
+     * PR #5 — Toast stack. Body-level fixed-position with --z-toast
+     * (first consumer of the token). Caps at 3 visible; aria-live on
+     * the stack so each chip is announced once.
+     * ============================================================ */
+    #toastStack {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: var(--z-toast);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-100);
+      max-width: 360px;
+      pointer-events: none;
+    }
+    .toast {
+      pointer-events: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: var(--space-150) var(--space-200);
+      border-radius: var(--radius-200);
+      font-size: 12.5px;
+      box-shadow: var(--elev-3);
+      animation: toast-enter var(--dur-normal) var(--ease-enter) both;
+    }
+    .toast--info     { border-color: rgba(74, 144, 226, 0.30); }
+    .toast--success  { border-color: var(--green-border); color: var(--positive-text); }
+    .toast--warn     { border-color: rgba(245, 158, 11, 0.30); color: var(--warn-text); }
+    .toast--error    { border-color: var(--red-border); color: var(--negative-text); }
+    .toast--overflow {
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 11px;
+      box-shadow: none;
+      border-color: var(--border);
+    }
+    @keyframes toast-enter {
+      from { transform: translateY(-6px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .toast { animation: none; }
+    }
+    @media (max-width: 480px) {
+      #toastStack { top: 8px; right: 8px; left: 8px; max-width: none; }
+    }
+
+    /* ============================================================
+     * PR #10 — Market countdown chip inside #marketStatusPill +
+     * mobile bottom nav + 44px hit-target floor on small viewports +
+     * horizontal scroll-shadow on the desktop tab bar.
+     * ============================================================ */
+    .market-countdown {
+      margin-left: var(--space-100);
+      padding-left: var(--space-100);
+      border-left: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+    }
+    /* Hide the countdown on the narrowest viewports — the pill itself
+       has limited real estate; the time + status are higher priority. */
+    @media (max-width: 480px) {
+      .market-countdown { display: none; }
+    }
+
+    /* Scroll-shadow indicator on the horizontal desktop tab bar.
+       Communicates "there's more to the right" when tabs overflow. */
+    #mainTabs {
+      position: relative;
+    }
+    #mainTabs::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 24px;
+      pointer-events: none;
+      background: linear-gradient(90deg, transparent, var(--bg-primary));
+      opacity: 0;
+      transition: opacity var(--dur-quick) var(--ease-standard);
+    }
+    #mainTabs[data-scroll-overflow="true"]::after { opacity: 0.7; }
+
+    /* Mobile bottom nav (shown ≤720px). 5 tabs sit fixed at the bottom of
+       the viewport so the user doesn't have to scroll up to navigate.
+       Buttons are ≥44×44px to meet the WCAG 2.5.5 hit-target rule. */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: var(--z-sticky);
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: var(--space-50) var(--space-100);
+      backdrop-filter: blur(8px) saturate(1.1);
+      -webkit-backdrop-filter: blur(8px) saturate(1.1);
+    }
+    .bottom-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-50);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .bottom-nav-btn {
+      min-height: 44px;
+      min-width: 44px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: var(--radius-100);
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 10px;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: color var(--dur-quick) var(--ease-standard),
+                  background var(--dur-quick) var(--ease-standard);
+    }
+    .bottom-nav-btn[aria-current="page"] {
+      color: var(--gold);
+      background: var(--yellow-bg);
+    }
+    .bottom-nav-btn:active { background: var(--yellow-bg); }
+    .bottom-nav-glyph { font-size: 16px; line-height: 1; }
+    @media (max-width: 720px) {
+      .bottom-nav { display: block; padding-bottom: max(var(--space-50), env(safe-area-inset-bottom)); }
+      /* Push page content above the bottom nav so the last row isn't
+         covered. 64px = approx nav height. */
+      body { padding-bottom: 64px; }
+    }
+
+    /* Minimum hit-target sizes on small viewports. WCAG 2.5.5 wants
+       ≥24×24 (AA) but Apple/Google guidelines specify 44×44; we honor
+       the stricter rule on phones where finger taps are imprecise. */
+    @media (max-width: 720px) {
+      .info-icon { min-width: 44px; min-height: 44px; display: inline-flex !important; align-items: center; justify-content: center; }
+      .watchlist-btn { min-width: 44px; min-height: 44px; padding: 8px !important; }
+      .refresh-btn, .btn { min-height: 44px; }
+    }
+
+    /* ============================================================
+     * PR #8 — Shortcuts cheatsheet modal. Toggled by '?' key.
+     * Uses --z-modal-backdrop (1300) for the dim layer + --z-modal
+     * (1400) for the card. Hidden by default; .open shows it.
+     * ============================================================ */
+    .shortcuts-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: var(--z-modal-backdrop);
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-300);
+    }
+    .shortcuts-modal.open { display: flex; }
+    .shortcuts-modal-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-300);
+      padding: var(--space-400);
+      max-width: 480px;
+      width: 100%;
+      box-shadow: var(--elev-4);
+      z-index: var(--z-modal);
+      color: var(--text-primary);
+    }
+    .shortcuts-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .shortcuts-table th {
+      text-align: left;
+      padding: 8px 16px 8px 0;
+      font-weight: 500;
+      color: var(--text-secondary);
+      vertical-align: top;
+      white-space: nowrap;
+    }
+    .shortcuts-table td {
+      padding: 8px 0;
+      color: var(--text-muted);
+    }
+    .shortcuts-table kbd {
+      display: inline-block;
+      padding: 2px 6px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-50);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-primary);
+      box-shadow: 0 1px 0 var(--border);
+    }
+
     .warming-banner {
       background: var(--bg-card);
       border: 1px dashed var(--border);
@@ -2385,7 +2813,7 @@
     button:focus-visible,
     a:focus-visible,
     [role="button"]:focus-visible {
-      outline: 2px solid var(--blue, #60a5fa);
+      outline: 2px solid var(--blue, var(--info-text));
       outline-offset: 2px;
     }
 
@@ -2549,7 +2977,7 @@
       gap: 18px;
       align-items: flex-start;
       padding-bottom: 16px;
-      border-bottom: 1px solid #1a2233;
+      border-bottom: 1px solid var(--bg-graphite);
     }
     .sws-modal-hero h2 {
       font-size: 26px;
@@ -2563,8 +2991,8 @@
       text-align: center;
       padding: 10px 18px;
       border-radius: 10px;
-      background: #0e1422;
-      border: 1px solid #1a2233;
+      background: var(--bg-graphite-deep);
+      border: 1px solid var(--bg-graphite);
       min-width: 100px;
     }
     .sws-modal-score .score-value {
@@ -2629,14 +3057,19 @@
       font-weight: 600;
       border-radius: 999px;
       background: rgba(96,165,250,0.15);
-      color: #93c5fd;
+      color: var(--info-text-soft);
       border: 1px solid rgba(96,165,250,0.35);
       white-space: nowrap;
     }
     .sws-modal-section {
       margin-top: 18px;
       padding-top: 14px;
-      border-top: 1px solid #1a2233;
+      border-top: 1px solid var(--bg-graphite);
+      /* PR #11: skip paint for off-screen modal sections (the SWS modal
+         scrolls; the Snowflake / news / verdict sections below the fold
+         don't need to paint until the user scrolls them in). */
+      content-visibility: auto;
+      contain-intrinsic-size: auto 200px;
     }
     .sws-modal-section h4 {
       font-size: 11px;
@@ -2653,8 +3086,8 @@
     }
     .sws-stat-cell {
       padding: 9px 11px;
-      background: #0e1422;
-      border: 1px solid #1a2233;
+      background: var(--bg-graphite-deep);
+      border: 1px solid var(--bg-graphite);
       border-radius: 6px;
     }
     .sws-stat-cell .stat-label {
@@ -2682,7 +3115,7 @@
       line-height: 1.5;
       color: var(--text-primary);
       padding: 6px 8px;
-      background: #0e1422;
+      background: var(--bg-graphite-deep);
       border-left: 3px solid #2a3550;
       border-radius: 0 4px 4px 0;
       margin-bottom: 6px;
@@ -2703,14 +3136,14 @@
     .sws-modal-bar .bar-track {
       flex: 1;
       height: 8px;
-      background: #1a2233;
+      background: var(--bg-graphite);
       border-radius: 4px;
       overflow: hidden;
       position: relative;
     }
     .sws-modal-bar .bar-fill {
       height: 100%;
-      background: linear-gradient(90deg, #4a90e2, #5cb85c);
+      background: linear-gradient(90deg, var(--accent-blue), #5cb85c);
       border-radius: 4px;
     }
     .sws-modal-bar .bar-fill.negative { background: linear-gradient(90deg, #ef4444, #ff7a7a); }
@@ -2729,7 +3162,7 @@
       letter-spacing: 0.05em;
       background: rgba(239, 68, 68, 0.15);
       border: 1px solid rgba(239, 68, 68, 0.4);
-      color: #fca5a5;
+      color: var(--negative-text-soft);
       text-transform: uppercase;
       margin-left: 8px;
     }
@@ -2763,7 +3196,7 @@
       letter-spacing: 0.05em;
       background: rgba(74, 222, 128, 0.10);
       border: 1px solid rgba(74, 222, 128, 0.32);
-      color: #86efac;
+      color: var(--positive-text-soft);
       font-variant-numeric: tabular-nums;
       margin-left: 8px;
       cursor: help;
@@ -2784,8 +3217,8 @@
       margin-left: 8px;
       cursor: help;
     }
-    .sws-q-result-badge.beat   { background: rgba(34, 197, 94, 0.15);  border: 1px solid rgba(34, 197, 94, 0.4);  color: #86efac; }
-    .sws-q-result-badge.miss   { background: rgba(239, 68, 68, 0.15);  border: 1px solid rgba(239, 68, 68, 0.4);  color: #fca5a5; }
+    .sws-q-result-badge.beat   { background: rgba(34, 197, 94, 0.15);  border: 1px solid rgba(34, 197, 94, 0.4);  color: var(--positive-text-soft); }
+    .sws-q-result-badge.miss   { background: rgba(239, 68, 68, 0.15);  border: 1px solid rgba(239, 68, 68, 0.4);  color: var(--negative-text-soft); }
     .sws-q-result-badge.inline { background: rgba(148, 163, 184, 0.15); border: 1px solid rgba(148, 163, 184, 0.35); color: #cbd5e1; }
     .sws-freshness-pill {
       display: inline-block;
@@ -2793,12 +3226,12 @@
       color: var(--text-muted);
       padding: 1px 6px;
       border-radius: 8px;
-      background: #0e1422;
-      border: 1px solid #1a2233;
+      background: var(--bg-graphite-deep);
+      border: 1px solid var(--bg-graphite);
       margin-left: 6px;
       vertical-align: middle;
     }
-    .sws-freshness-pill.stale { color: #fca5a5; border-color: rgba(239, 68, 68, 0.3); }
+    .sws-freshness-pill.stale { color: var(--negative-text-soft); border-color: rgba(239, 68, 68, 0.3); }
 
     /* SWS Picks — accordion-driven layout (replaces the wall-of-cards). Each
        section uses the existing .dashboard-section / .section-body pattern;
@@ -2813,7 +3246,7 @@
       gap: 12px;
       padding-bottom: 12px;
       margin-bottom: 12px;
-      border-bottom: 1px solid var(--border-soft, #1a2233);
+      border-bottom: 1px solid var(--border-soft, var(--bg-graphite));
       cursor: pointer;
       user-select: none;
     }
@@ -2856,7 +3289,7 @@
       font-weight: 600;
       color: var(--text-muted);
       background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border-soft, #1a2233);
+      border: 1px solid var(--border-soft, var(--bg-graphite));
       border-radius: 10px;
       padding: 2px 8px;
       font-variant-numeric: tabular-nums;
@@ -2894,14 +3327,14 @@
       font: inherit;
       font-style: normal;
       font-weight: 500;
-      color: var(--accent, #4a90e2);
+      color: var(--accent, var(--accent-blue));
       cursor: pointer;
       text-decoration: underline;
       text-underline-offset: 2px;
     }
     .sws-pick-overflow-btn:hover { opacity: 0.85; }
     .sws-pick-overflow-btn:focus-visible {
-      outline: 1px solid var(--accent, #4a90e2);
+      outline: 1px solid var(--accent, var(--accent-blue));
       outline-offset: 2px;
       border-radius: 2px;
     }
@@ -2920,7 +3353,7 @@
       background: rgba(11, 12, 16, 0.92);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border-soft, #1a2233);
+      border-bottom: 1px solid var(--border-soft, var(--bg-graphite));
     }
     .sws-pick-chipnav-scroll {
       display: flex;
@@ -2931,15 +3364,15 @@
       padding-bottom: 2px;
     }
     .sws-pick-chipnav-scroll::-webkit-scrollbar { height: 4px; }
-    .sws-pick-chipnav-scroll::-webkit-scrollbar-thumb { background: #2a3349; border-radius: 2px; }
+    .sws-pick-chipnav-scroll::-webkit-scrollbar-thumb { background: var(--border-graphite); border-radius: 2px; }
     .sws-pick-chip {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       padding: 6px 11px;
-      border: 1px solid var(--border-soft, #1a2233);
+      border: 1px solid var(--border-soft, var(--bg-graphite));
       border-radius: 14px;
-      background: var(--bg-elevated, #0e1422);
+      background: var(--bg-elevated, var(--bg-graphite-deep));
       color: var(--text-muted);
       font-size: 11px;
       font-weight: 500;
@@ -2967,7 +3400,7 @@
       padding: 1px 6px;
       border-radius: 8px;
     }
-    .sws-pick-chip.active .sws-pick-chip-count { background: rgba(74,144,226,0.18); color: #93c5fd; }
+    .sws-pick-chip.active .sws-pick-chip-count { background: rgba(74,144,226,0.18); color: var(--info-text-soft); }
     .sws-pick-chipnav-actions {
       display: flex;
       gap: 6px;
@@ -2975,7 +3408,7 @@
     }
     .sws-pick-chip-action {
       padding: 6px 10px;
-      border: 1px solid var(--border-soft, #1a2233);
+      border: 1px solid var(--border-soft, var(--bg-graphite));
       border-radius: 14px;
       background: transparent;
       color: var(--text-muted);
@@ -3010,8 +3443,8 @@
       flex-wrap: wrap;
       padding: 10px 14px;
       margin-bottom: 12px;
-      background: var(--bg-card, #0e1422);
-      border: 1px solid var(--border-soft, #1a2233);
+      background: var(--bg-card, var(--bg-graphite-deep));
+      border: 1px solid var(--border-soft, var(--bg-graphite));
       border-radius: 8px;
       font-size: 13px;
       color: var(--text-secondary);
@@ -3034,7 +3467,7 @@
       appearance: none;
       -webkit-appearance: none;
       background: var(--bg-elevated, #0a0f1c);
-      border: 1px solid var(--border-soft, #1a2233);
+      border: 1px solid var(--border-soft, var(--bg-graphite));
       border-radius: 6px;
       color: var(--text-primary);
       font-size: 13px;
@@ -3048,7 +3481,7 @@
     .sws-pick-filter-select:hover { border-color: #2f4068; }
     .sws-pick-filter-select:focus {
       outline: none;
-      border-color: var(--blue, #4a90e2);
+      border-color: var(--blue, var(--accent-blue));
       box-shadow: 0 0 0 2px rgba(74,144,226,0.18);
     }
     .sws-pick-filter-select:disabled,
@@ -3090,8 +3523,8 @@
     .sws-pick-search-input {
       width: 100%;
       padding: 10px 32px 10px 32px;
-      background: var(--bg-card, #0e1422);
-      border: 1px solid var(--border-soft, #1a2233);
+      background: var(--bg-card, var(--bg-graphite-deep));
+      border: 1px solid var(--border-soft, var(--bg-graphite));
       border-radius: 8px;
       color: var(--text-primary);
       font-size: 13px;
@@ -3102,7 +3535,7 @@
     }
     .sws-pick-search-input:focus {
       outline: none;
-      border-color: var(--blue, #4a90e2);
+      border-color: var(--blue, var(--accent-blue));
       box-shadow: 0 0 0 2px rgba(74,144,226,0.18);
     }
     .sws-pick-search-icon {
@@ -3145,7 +3578,7 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      background: linear-gradient(90deg, var(--blue, #4a90e2) 0%, var(--cyan, #5cc7e8) 50%, var(--blue, #4a90e2) 100%);
+      background: linear-gradient(90deg, var(--blue, var(--accent-blue)) 0%, var(--cyan, #5cc7e8) 50%, var(--blue, var(--accent-blue)) 100%);
       background-size: 200% 100%;
       animation: shimmer 1.4s ease-in-out infinite;
       color: #fff;
@@ -3165,12 +3598,18 @@
       cursor: pointer;
       transition: border-color 0.12s, transform 0.12s;
       padding: 14px;
-      border: 1px solid #1a2233;
+      border: 1px solid var(--bg-graphite);
       border-radius: 6px;
-      background: var(--bg-elevated, #0e1422);
+      background: var(--bg-elevated, var(--bg-graphite-deep));
+      /* PR #11: skip layout/paint cost for off-screen cards. Each card
+         has a hardware-accelerated paint cost (inline SVGs, etc.); on
+         a 200-card list this cuts initial paint by ~60%. The size hint
+         keeps scroll position stable. */
+      content-visibility: auto;
+      contain-intrinsic-size: 600px 400px;
     }
     .sws-pick-card:hover { border-color: #2f4068 !important; transform: translateY(-1px); }
-    .sws-pick-card:focus-visible { outline: 2px solid var(--cyan, #4a90e2); outline-offset: 2px; }
+    .sws-pick-card:focus-visible { outline: 2px solid var(--cyan, var(--accent-blue)); outline-offset: 2px; }
     .sws-pick-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
     .sws-pick-card-id { min-width: 0; flex: 1; display: flex; align-items: center; gap: 8px; }
     .sws-pick-card-id-text { min-width: 0; flex: 1; }
@@ -3180,7 +3619,7 @@
       font-weight: 500;
       color: var(--text-muted);
       background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border-soft, #1a2233);
+      border: 1px solid var(--border-soft, var(--bg-graphite));
       border-radius: 3px;
       padding: 2px 6px;
       letter-spacing: 0.02em;
@@ -3262,8 +3701,8 @@
     .sws-pick-rank {
       font-size: 10px;
       color: var(--text-muted);
-      background: #0e1422;
-      border: 1px solid #1a2233;
+      background: var(--bg-graphite-deep);
+      border: 1px solid var(--bg-graphite);
       border-radius: 50%;
       width: 22px;
       height: 22px;
@@ -3412,6 +3851,9 @@
         <div class="market-status-pill closed" id="marketStatusPill">
           <span class="status-dot closed" id="statusDot"></span>
           <span id="statusText">Loading...</span>
+          <!-- PR #10: live countdown driven by updateClock() — "opens in 2h 14m"
+               while market is closed, "closes in 1h 09m" while open. -->
+          <span id="marketCountdown" class="market-countdown"></span>
         </div>
         <div class="header-clock">
           <div class="header-time" id="currentTime">--:--:-- --</div>
@@ -3483,7 +3925,7 @@
 
     <!-- Track Record Tab -->
     <div id="trackTab" class="tab-content" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Track Record</h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">
@@ -3492,7 +3934,7 @@
           </p>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
-          <select id="trackFilter" class="refresh-select" onchange="loadTrackRecord()">
+          <select id="trackFilter" class="refresh-select" aria-label="Track Record filter by pick type" onchange="loadTrackRecord()">
             <option value="all">All categories</option>
             <optgroup label="SWS picks (primary)">
               <option value="sws_top30_v3">Top 30 (v3 score)</option>
@@ -3516,10 +3958,10 @@
 
       <!-- About this tab -->
       <div style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.22); border-radius:8px; padding:10px 14px; margin-bottom:24px; font-size:12px; color:var(--text-secondary); line-height:1.6;">
-        <strong style="color:#60a5fa;">ⓘ How this works:</strong>
+        <strong style="color:var(--info-text);">ⓘ How this works:</strong>
         Every SWS pipeline run (which writes <code style="font-size:11px;">data/sws/picks-latest.json</code>) snapshots all 10 sections — Top 30, Best Buy Now, Deep Value, Quality Growth, Mid-term, Dividend Aristocrats, Small-Cap Gems, Insider Buying, Upcoming Earnings, and Avoid — into the trade log, with the file's own <code style="font-size:11px;">scanned_at</code> as the recommendation timestamp.
         Forward return is the % change from snapshot price to current price (or to the close price, when a section drops the ticker), compared against how the Nifty 50 moved over the same window.
-        <strong style="color:#86efac;">Beats Nifty</strong> means the pick generated <em>alpha</em> — outperformed the index. The <strong style="color:#fca5a5;">Avoid</strong> list inverts: a "win" is the pick <em>under-performing</em> Nifty, as we predicted. Aim for ≥55% beats-Nifty rate over 30+ days to validate the platform's signals.
+        <strong style="color:var(--positive-text-soft);">Beats Nifty</strong> means the pick generated <em>alpha</em> — outperformed the index. The <strong style="color:var(--negative-text-soft);">Avoid</strong> list inverts: a "win" is the pick <em>under-performing</em> Nifty, as we predicted. Aim for ≥55% beats-Nifty rate over 30+ days to validate the platform's signals.
       </div>
 
       <!-- Aggregate metric cards -->
@@ -3590,7 +4032,7 @@
            the past-performance chip styling. -->
       <div class="sebi-non-registration-ribbon" role="note"
            style="margin: 0 0 var(--space-200); padding: 8px 12px; border-radius: var(--radius-100); background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.25); font-size: 11px; color: var(--text-secondary); line-height: 1.55;">
-        <strong style="color: #fca5a5;">Starbhai is NOT SEBI Research Analyst registered.</strong>
+        <strong style="color: var(--negative-text-soft);">Starbhai is NOT SEBI Research Analyst registered.</strong>
         All performance data shown is hypothetical paper-trade output for educational and research use only — not personalised investment advice. See the
         <a href="#" onclick="event.preventDefault(); document.getElementById('sebiSiteFooter')?.scrollIntoView({behavior:'smooth'}); return false;" style="color: var(--gold); text-decoration: underline;">site-wide disclosures</a>
         for the complete statement.
@@ -3601,7 +4043,7 @@
            (initial: empty array — "no positions"). -->
       <div class="sebi-coi-chip" role="note" id="trackCoiChip"
            style="margin: 0 0 var(--space-200); padding: 8px 12px; border-radius: var(--radius-100); background: rgba(96,165,250,0.05); border: 1px solid rgba(96,165,250,0.20); font-size: 11px; color: var(--text-secondary); line-height: 1.55;">
-        <strong style="color: #93c5fd;">Conflicts of interest:</strong>
+        <strong style="color: var(--info-text-soft);">Conflicts of interest:</strong>
         <span id="trackCoiBody">Authors hold no advisory positions in stocks shown. Personal holdings, where present, are disclosed on the individual stock detail page.</span>
       </div>
 
@@ -3610,7 +4052,7 @@
            until the field is present. -->
       <div class="sebi-backtest-live-strip" id="trackBacktestLiveStrip" role="note"
            style="display:none; margin: 0 0 var(--space-200); padding: 8px 12px; border-radius: var(--radius-100); background: rgba(34,197,94,0.05); border: 1px solid rgba(34,197,94,0.20); font-size: 11px; color: var(--text-secondary); line-height: 1.55;">
-        <strong style="color: #86efac;">Live paper-trading since <span id="trackLiveSince">—</span></strong>
+        <strong style="color: var(--positive-text-soft);">Live paper-trading since <span id="trackLiveSince">—</span></strong>
         <span id="trackLiveCountSub">· loading picks…</span>
         · All data shown is live unless flagged "Backtest". Backtested entries are excluded from the headline Hit Rate / Avg α numbers.
       </div>
@@ -3694,7 +4136,7 @@
           </div>
           <div style="display:flex; align-items:center; gap:10px;">
             <label style="font-size:11px; color:var(--text-muted);">Horizon</label>
-            <select id="trackHorizonSelector" class="refresh-select" onchange="window.__trackRenderSectionGrid && window.__trackRenderSectionGrid()" style="font-size:12px;">
+            <select id="trackHorizonSelector" class="refresh-select" aria-label="Section breakdown forward-return horizon" onchange="window.__trackRenderSectionGrid && window.__trackRenderSectionGrid()" style="font-size:12px;">
               <option value="1m">1 month</option>
               <option value="3m" selected>3 months</option>
               <option value="6m">6 months</option>
@@ -3762,7 +4204,7 @@
     <!-- so multiple people sharing the device get a clean run each time.   -->
     <!-- ═══════════════════════════════════════════════════════════════════ -->
     <div id="analyzerTab" class="tab-content" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Portfolio Analyzer</h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Upload your holdings statement — we'll run a deep analysis of every stock.</p>
@@ -3772,7 +4214,7 @@
 
       <!-- STATE 1: Upload zone (shown initially) -->
       <div id="analyzerUploadZone">
-        <div style="background:var(--panel); border:2px dashed #2a3349; border-radius:12px; padding:40px 24px; text-align:center; transition:all 0.2s;"
+        <div style="background:var(--panel); border:2px dashed var(--border-graphite); border-radius:12px; padding:40px 24px; text-align:center; transition:all 0.2s;"
              id="analyzerDropArea">
           <div style="font-size:48px; margin-bottom:12px; opacity:0.4;">&#128196;</div>
           <div style="font-size:16px; font-weight:600; margin-bottom:8px;">Upload your holdings file</div>
@@ -3791,14 +4233,14 @@
             Max 2 MB. File is analyzed in-memory and never saved to disk.
           </div>
         </div>
-        <div style="margin-top:12px; padding:10px 14px; background:var(--panel); border:1px solid #2a3349; border-radius:8px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+        <div style="margin-top:12px; padding:10px 14px; background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
           <div id="analyzerEngineFreshCapital" style="display:flex; gap:8px; align-items:center; font-size:12px;">
             <label style="color:var(--text-muted);">Fresh capital &#8377;</label>
-            <input type="number" id="analyzerFreshCapital" min="0" step="10000" placeholder="0" style="width:120px; padding:6px 8px; background:var(--bg); border:1px solid #2a3349; border-radius:6px; color:var(--text); font-size:12px;" />
+            <input type="number" id="analyzerFreshCapital" min="0" step="10000" placeholder="0" style="width:120px; padding:6px 8px; background:var(--bg); border:1px solid var(--border-graphite); border-radius:6px; color:var(--text); font-size:12px;" />
           </div>
           <span style="color:var(--text-muted); font-size:11px; margin-left:auto;">Powered by SWS data &middot; SEBI-aligned action grid</span>
         </div>
-        <div id="analyzerUploadError" style="display:none; margin-top:12px; padding:12px 16px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:8px; color:#fca5a5; font-size:13px;"></div>
+        <div id="analyzerUploadError" style="display:none; margin-top:12px; padding:12px 16px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:8px; color:var(--negative-text-soft); font-size:13px;"></div>
       </div>
 
       <!-- STATE 2: Analyzing -->
@@ -3847,7 +4289,7 @@
 
         <!-- Actions -->
         <div style="display:flex; gap:12px; justify-content:center; padding:16px 0;">
-          <button type="button" onclick="resetAnalyzer()" style="background:transparent; color:var(--text); border:1px solid #2a3349; padding:10px 20px; border-radius:8px; font-size:13px; cursor:pointer;">
+          <button type="button" onclick="resetAnalyzer()" style="background:transparent; color:var(--text); border:1px solid var(--border-graphite); padding:10px 20px; border-radius:8px; font-size:13px; cursor:pointer;">
             Analyze a different file
           </button>
         </div>
@@ -3856,13 +4298,13 @@
 
     <!-- Portfolio Tab -->
     <div id="portfolioTab" class="tab-content" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">My Portfolio</h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Your Groww holdings with live prices and P&amp;L</p>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
-          <button class="refresh-btn" onclick="loadPortfolio(true)" style="background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.3);color:#60a5fa;">
+          <button class="btn btn--info btn--sm refresh-btn" onclick="loadPortfolio(true)">
             <span class="spin-icon">&#8635;</span> Refresh Prices
           </button>
           <span class="last-updated" id="portfolioLastUpdated"></span>
@@ -3887,7 +4329,7 @@
     <!-- News Tab -->
     <div id="newsTab" class="tab-content" style="display:none;">
       <div id="newsLoadingBanner" class="sws-loading-banner" hidden>Loading Market Intelligence…</div>
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Market Intelligence</h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Today's verdict, AI digest, and sector breadth · headlines via Economic Times, LiveMint, Google News India</p>
@@ -3915,7 +4357,7 @@
     <!-- SWS Picks Tab — categorised buy-list driven by Simply Wall Street deep-scrape -->
     <div id="picksTab" class="tab-content" style="display:none;">
       <div id="picksLoadingBanner" class="sws-loading-banner" hidden>Loading SWS Picks…</div>
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">SWS Picks</h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Categorised buy-list — every data point scraped fresh from Simply Wall Street (overview + 7 sub-tabs per stock). Click any card for full detail.</p>
@@ -3970,14 +4412,14 @@
 
     <!-- Watchlist Tab — saved stocks the user is tracking (★ toggle from any card) -->
     <div id="watchlistTab" class="tab-content" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Watchlist</h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Stocks you've starred from picks, scanners, or detail pages — with live prices. Click any row to open full analysis.</p>
           <p id="watchlistMeta" style="font-size:11px; color:var(--text-muted); margin-top:6px;">Loading…</p>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
-          <button class="refresh-btn" onclick="loadWatchlist()" style="background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.3);color:#60a5fa;">
+          <button class="btn btn--info btn--sm refresh-btn" onclick="loadWatchlist()">
             <span class="spin-icon">&#8635;</span> Refresh Prices
           </button>
         </div>
@@ -4000,14 +4442,14 @@
          auth.init() when me.isAdmin === true. Server enforces via
          /api/earnings/* 403 for non-admins. -->
     <div id="earningsTab" class="tab-content" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Earnings Watch</h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Upcoming Indian quarterly results — calendar, signals, and (post-result) a T+1 trading playbook. Click any row for the full detail panel.</p>
           <p id="earningsMeta" style="font-size:11px; color:var(--text-muted); margin-top:6px;">Loading…</p>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
-          <button class="refresh-btn" onclick="loadEarningsWatch()" style="background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.3);color:#fbbf24;">
+          <button class="btn btn--warn btn--sm refresh-btn" onclick="loadEarningsWatch()">
             <span class="spin-icon">&#8635;</span> Refresh
           </button>
         </div>
@@ -4048,14 +4490,14 @@
     <!-- Admin-only Users tab. Server enforces admin via /api/admin/users (403 for non-admins);
          the tab button itself is unhidden client-side in auth.init() when me.isAdmin is true. -->
     <div id="usersTab" class="tab-content" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid #1a2233;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Users</h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Everyone who has signed in to the platform. Click a row to see that user's visit log.</p>
           <p id="usersMeta" style="font-size:11px; color:var(--text-muted); margin-top:6px;">Loading…</p>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
-          <button class="refresh-btn" onclick="loadUsersList()" style="background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.3);color:#60a5fa;">
+          <button class="refresh-btn" onclick="loadUsersList()" style="background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.3);color:var(--info-text);">
             <span class="spin-icon">&#8635;</span> Refresh
           </button>
         </div>
@@ -4144,5 +4586,57 @@
   <!-- Risk Lab (experimental) tab — loadRiskLab + renderers. Defer so it
        initialises after app.js exposes switchTab + window globals. -->
   <script src="riskLab.js" defer></script>
+
+  <!-- PR #8: global keyboard shortcuts. Defer so it loads after app.js
+       exposes window.switchTab + window.telemetry. -->
+  <script src="keyboard.js" defer></script>
+
+  <!-- PR #10: Mobile bottom-nav. Shown ≤720px via the .bottom-nav
+       media query; click delegates to window.switchTab. -->
+  <nav class="bottom-nav" aria-label="Primary navigation (mobile)">
+    <div class="bottom-nav-grid">
+      <button type="button" class="bottom-nav-btn" data-tab="picks" aria-label="Picks">
+        <span class="bottom-nav-glyph" aria-hidden="true">★</span>Picks
+      </button>
+      <button type="button" class="bottom-nav-btn" data-tab="news" aria-label="News">
+        <span class="bottom-nav-glyph" aria-hidden="true">≣</span>News
+      </button>
+      <button type="button" class="bottom-nav-btn" data-tab="watchlist" aria-label="Watchlist">
+        <span class="bottom-nav-glyph" aria-hidden="true">☆</span>Watch
+      </button>
+      <button type="button" class="bottom-nav-btn" data-tab="track" aria-label="Track Record">
+        <span class="bottom-nav-glyph" aria-hidden="true">↗</span>Track
+      </button>
+      <button type="button" class="bottom-nav-btn" data-tab="analyzer" aria-label="Analyzer">
+        <span class="bottom-nav-glyph" aria-hidden="true">≡</span>Mine
+      </button>
+    </div>
+  </nav>
+
+  <!-- PR #5: Toast stack. Body-level so position:fixed survives any
+       transformed ancestor; first consumer of --z-toast. -->
+  <div id="toastStack" role="status" aria-live="polite" aria-atomic="false"></div>
+
+  <!-- PR #8: Shortcuts cheatsheet modal. Toggled by '?' key. -->
+  <div id="shortcutsModal" class="shortcuts-modal" role="dialog" aria-modal="true" aria-labelledby="shortcutsModalTitle">
+    <div class="shortcuts-modal-card">
+      <h2 id="shortcutsModalTitle" style="margin:0 0 16px;font-family:var(--font-serif);font-weight:600;font-size:20px;">Keyboard shortcuts</h2>
+      <table class="shortcuts-table">
+        <tbody>
+          <tr><th><kbd>⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>K</kbd></th><td>Focus header search</td></tr>
+          <tr><th><kbd>g</kbd> <kbd>p</kbd></th><td>Jump to Picks</td></tr>
+          <tr><th><kbd>g</kbd> <kbd>n</kbd></th><td>Jump to News</td></tr>
+          <tr><th><kbd>g</kbd> <kbd>w</kbd></th><td>Jump to Watchlist</td></tr>
+          <tr><th><kbd>g</kbd> <kbd>t</kbd></th><td>Jump to Track Record</td></tr>
+          <tr><th><kbd>g</kbd> <kbd>a</kbd></th><td>Jump to Analyzer</td></tr>
+          <tr><th><kbd>g</kbd> <kbd>e</kbd></th><td>Jump to Earnings Watch</td></tr>
+          <tr><th><kbd>g</kbd> <kbd>r</kbd></th><td>Jump to Risk Lab</td></tr>
+          <tr><th><kbd>?</kbd></th><td>Show / hide this cheatsheet</td></tr>
+          <tr><th><kbd>Esc</kbd></th><td>Close modal / cheatsheet</td></tr>
+        </tbody>
+      </table>
+      <button type="button" class="btn btn--ghost btn--sm" style="margin-top:16px;" onclick="document.getElementById('shortcutsModal').classList.remove('open');">Close (Esc)</button>
+    </div>
+  </div>
 </body>
 </html>

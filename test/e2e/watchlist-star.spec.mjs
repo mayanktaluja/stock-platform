@@ -34,6 +34,16 @@ test.describe("Watchlist star persistence", () => {
       .poll(async () => star.getAttribute("aria-pressed"))
       .toBe(wasPressed ? "false" : "true");
 
+    // PR #6: toggleWatchlist is now optimistic — the star flips synchronously
+    // and the POST resolves in the background. Wait for the pending Set to
+    // drain BEFORE switching tabs; otherwise loadWatchlist's GET races past
+    // the still-in-flight POST and sees the stale (pre-toggle) storage.
+    await page.waitForFunction(
+      () => (window.__sb_watchlistPending?.size ?? 0) === 0,
+      null,
+      { timeout: 10_000 },
+    );
+
     // Close modal and inspect the Watchlist tab — server-persisted state
     // owns truth here; in-memory Set hydration is a known gap (PR W3 fix).
     await page.keyboard.press("Escape");
