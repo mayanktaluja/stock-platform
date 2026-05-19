@@ -10,16 +10,22 @@
 # 30-min SWS scrape pipeline.
 #
 # Pipeline:
-#   1. flock — prevent concurrent runs
-#   2. Pre-flight guard — refuse to run if working tree has non-macro changes
-#      (avoids accidentally committing user's WIP / a stuck nightly's state)
-#   3. git fetch origin main + checkout temp branch at origin/main
-#   4. node scripts/refresh-macro-regime.mjs
-#   5. If file changed: branch + commit + push + open PR + auto-merge
-#   6. Append to data/macroRegime-refresh.log
+#   1. PID-mkdir lock — prevent concurrent runs
+#   2. git fetch origin main + `git worktree prune` (sweep stale corpses)
+#   3. mktemp -d + `git worktree add --detach origin/main` — isolated, always
+#      clean working tree, independent of whatever's in the user's main
+#      worktree. This replaces the old pre-flight "refuse if tree is dirty"
+#      guard, which was silently skipping every commit because the main
+#      worktree always had unrelated dirt (worktree artifacts, test outputs).
+#   4. node scripts/refresh-macro-regime.mjs (inside the temp worktree)
+#   5. Idempotency gate — skip if the existing committed file is <30min old
+#      AND the just-written generatedAt is <30min old (race-safe against
+#      the GH Actions backup workflow)
+#   6. If file changed: branch + commit + push + open PR + auto-merge
+#   7. Trap-cleanup removes the temp worktree on every exit path
 #
 # Exit codes:
-#   0  success or no-op (file unchanged, or refresh skipped due to local dirt)
+#   0  success or no-op (file unchanged, idempotency skip, etc.)
 #   2  LLM auth_error — fresh file written but providers degraded
 #   5  git/network failure
 #   8  push or PR creation failed
@@ -99,20 +105,12 @@ ts() { date -u +'%Y-%m-%dT%H:%M:%SZ'; }
 echo ""
 echo "===== macro-only refresh starting $(ts) (pid=$$) ====="
 
-# ---- 1. Pre-flight: refuse to commit if working tree has non-macro changes ----
-#
-# The standalone cron's whole point is "single writer for data/macroRegime.
-# json" — never let it accidentally commit unrelated WIP or a stuck pipeline's
-# state. If the tree is dirty with anything OTHER than the macro file, we
-# refresh the file in place (so the local copy is current) but skip the
-# commit. The next clean run (or sws-nightly's recovery) ships the commit.
-OTHER_CHANGES=$(git status --porcelain | grep -v "data/macroRegime.json" | grep -cv "^$" || true)
-if [ "${OTHER_CHANGES}" -gt 0 ]; then
-  echo "[macro-only] working tree has ${OTHER_CHANGES} non-macro change(s) — refreshing file in place, skipping commit"
-  node scripts/refresh-macro-regime.mjs 2>&1 | sed 's/^/[macro] /' || true
-  echo "[macro-only] done (no commit) at $(ts)"
-  exit 0
-fi
+# ---- 1. Sweep stale worktrees from prior crashed runs ----
+# A prior macro-only run may have left a worktree registered if it was
+# killed with SIGKILL or the host rebooted between worktree-add and
+# worktree-remove. `git worktree prune` deletes the metadata for any
+# worktree whose path no longer exists; idempotent and cheap.
+git worktree prune 2>&1 | sed 's/^/[git] /' || true
 
 # ---- 2. Sync to origin/main ----
 if ! git fetch origin main 2>&1 | sed 's/^/[git] /'; then
@@ -120,14 +118,38 @@ if ! git fetch origin main 2>&1 | sed 's/^/[git] /'; then
   exit 5
 fi
 
-# Move to a temp branch at origin/main (worktree-safe; does NOT touch
-# the literal `main` branch ref, which may be held by a worktree).
-if ! git checkout -B macro-only-base origin/main 2>&1 | sed 's/^/[git] /'; then
-  echo "[macro-only] git checkout -B macro-only-base failed — exit 5"
+# ---- 3. Spin up an isolated worktree at origin/main ----
+# The temp worktree is always clean by construction — the user's main
+# working tree can be arbitrarily dirty (worktree artifacts, untracked
+# test outputs, half-staged work) without bricking the refresh. This is
+# what replaced the old pre-flight dirty-tree guard (incident 2026-05-19:
+# the guard silently skipped every commit for ~42h because the main tree
+# never went clean).
+if ! WORKTREE_DIR=$(mktemp -d -t macro-refresh) || [ -z "${WORKTREE_DIR}" ]; then
+  echo "[macro-only] mktemp -d failed — exit 5"
   exit 5
 fi
 
-# ---- 3. Refresh ----
+cleanup_worktree() {
+  if [ -n "${WORKTREE_DIR:-}" ] && [ -d "${WORKTREE_DIR}" ]; then
+    cd "${REPO_DIR}" 2>/dev/null || true
+    git worktree remove --force "${WORKTREE_DIR}" 2>/dev/null \
+      || rm -rf "${WORKTREE_DIR}" 2>/dev/null \
+      || true
+  fi
+}
+cleanup_all() { cleanup_worktree; cleanup_lock; }
+trap cleanup_all EXIT INT TERM HUP
+
+if ! git worktree add --detach "${WORKTREE_DIR}" origin/main 2>&1 | sed 's/^/[git] /'; then
+  echo "[macro-only] git worktree add failed — exit 5"
+  exit 5
+fi
+
+cd "${WORKTREE_DIR}" || { echo "[macro-only] cannot cd to ${WORKTREE_DIR}"; exit 5; }
+echo "[macro-only] isolated worktree at ${WORKTREE_DIR} (detached at origin/main)"
+
+# ---- 4. Refresh ----
 node scripts/refresh-macro-regime.mjs 2>&1 | sed 's/^/[macro] /'
 MACRO_RC=$?
 
@@ -138,18 +160,46 @@ if [ "${MACRO_RC}" -ne 0 ] && [ "${MACRO_RC}" -ne 2 ]; then
   exit "${MACRO_RC}"
 fi
 
-# ---- 4. Did the file actually change? ----
+# ---- 5. Did the file actually change? ----
 if [ -z "$(git status --porcelain data/macroRegime.json)" ]; then
   echo "[macro-only] no change in data/macroRegime.json — nothing to commit"
   exit 0
 fi
 
-# ---- 5. Commit + push + PR ----
+# ---- 6. Idempotency gate ----
+# Skip the commit if both signals say "recently refreshed":
+#   (a) origin/main's last commit touching data/macroRegime.json is <30min old
+#   (b) the just-written file's generatedAt is <30min old
+# Either condition by itself isn't sufficient — (a) without (b) could mean
+# a stale commit + a genuine fresh refresh; (b) without (a) means we DO
+# need to commit. Both together = a concurrent refresher already shipped
+# fresh data, so this run is a no-op duplicate. Race-safe vs. the GH
+# Actions backup workflow.
+LAST_COMMIT_TS=$(git log -1 --format=%ct origin/main -- data/macroRegime.json 2>/dev/null || echo 0)
+NOW_TS=$(date +%s)
+LAST_COMMIT_AGE_MIN=$(( (NOW_TS - LAST_COMMIT_TS) / 60 ))
+
+GEN_AGE_MIN=$(node --input-type=module -e '
+import {readFileSync} from "fs";
+try {
+  const r = JSON.parse(readFileSync("data/macroRegime.json","utf-8"));
+  const gen = new Date(r.generatedAt).getTime();
+  process.stdout.write(String(Math.round((Date.now()-gen)/60000)));
+} catch { process.stdout.write("999999"); }
+' 2>/dev/null || echo 999999)
+
+if [ "${LAST_COMMIT_AGE_MIN}" -lt 30 ] && [ "${GEN_AGE_MIN}" -lt 30 ]; then
+  echo "[macro-only] idempotency skip: last commit ${LAST_COMMIT_AGE_MIN}m ago, generatedAt ${GEN_AGE_MIN}m old"
+  exit 0
+fi
+echo "[macro-only] idempotency: last commit ${LAST_COMMIT_AGE_MIN}m ago, generatedAt ${GEN_AGE_MIN}m old — committing"
+
+# ---- 7. Commit + push + PR ----
 DATE=$(date +'%Y-%m-%d')
 TIME=$(date +'%H%M')
 BRANCH="chore/macro-auto-refresh-${DATE}-${TIME}"
 
-git branch -D "${BRANCH}" >/dev/null 2>&1 || true
+# Worktree HEAD is detached; create a fresh branch from it for the push.
 if ! git checkout -b "${BRANCH}" 2>&1 | sed 's/^/[git] /'; then
   echo "[macro-only] git checkout -b ${BRANCH} failed — exit 5"
   exit 5
@@ -168,10 +218,12 @@ try {
 
 if ! git commit -m "chore(macro): auto-refresh ${DATE} ${TIME} — ${SUMMARY}
 
-Standalone macro-only cron (com.starbhai.macro-only, every 2h). Decoupled
-from sws-nightly per the 2026-05-17 permanent fix — single-writer rule for
-data/macroRegime.json so a heavy-pipeline failure can no longer stale the
-production macro banner.
+Standalone macro-only cron (com.starbhai.macro-only, every 2h). Refreshed
+inside an isolated git worktree at origin/main so the commit is
+independent of whatever state the user's main worktree is in — fixes the
+2026-05-19 incident where the pre-flight dirty-tree guard was silently
+skipping every commit for ~42h because the main tree always had
+unrelated dirt (worktree artifacts, untracked outputs).
 
 Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>" 2>&1 | sed 's/^/[git] /'; then
   echo "[macro-only] git commit failed — exit 5"
@@ -185,7 +237,7 @@ fi
 
 PR_OUTPUT=$(gh pr create \
   --title "chore(macro): auto-refresh ${DATE} ${TIME} — ${SUMMARY}" \
-  --body "Standalone macro-only cron. Decoupled from sws-nightly per the 2026-05-17 permanent fix.
+  --body "Standalone macro-only cron, isolated-worktree path.
 
 Regime: ${SUMMARY}
 Generated at: $(ts)
@@ -201,9 +253,8 @@ fi
 
 echo "[macro-only] PR opened: ${PR_URL}"
 
-# Auto-merge: gh pr merge --auto requires repo branch protections to allow it.
-# Try --auto first; if that fails (e.g., no required checks configured), fall
-# back to immediate squash. --squash matches the repo convention.
+# Auto-merge: try --auto first (waits on CI if branch protections exist);
+# fall back to immediate squash. --squash matches the repo convention.
 gh pr merge "${PR_URL}" --squash --auto 2>&1 | sed 's/^/[gh] /' \
   || gh pr merge "${PR_URL}" --squash 2>&1 | sed 's/^/[gh] /' \
   || echo "[macro-only] gh pr merge failed — manual review required"
