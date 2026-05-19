@@ -2030,6 +2030,114 @@
     }
 
     /* Phase 8C: editorial refresh button — ghost style */
+    /* ============================================================
+     * PR #4 — Component primitives (.btn / .card / .badge)
+     * Pre-PR4 the repo had 5+ button styles (refresh-btn, back-btn,
+     * user-menu-signout, pick-depth-btn, sws-pick-chip) each with its
+     * own colour / radius / hover quirks. The new primitives establish
+     * ONE canonical style per role; legacy classes stay as CSS-only
+     * aliases (class-chained on HTML so untouched callsites still
+     * win) — see `.btn.refresh-btn` below for the alias pattern. The
+     * primitives are driven by existing tokens; nothing new added.
+     * ============================================================ */
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-100);
+      padding: var(--space-100) var(--space-200);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-100);
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      user-select: none;
+      transition:
+        color var(--dur-quick) var(--ease-standard),
+        border-color var(--dur-quick) var(--ease-standard),
+        background var(--dur-quick) var(--ease-standard),
+        transform var(--dur-fast) var(--ease-spring);
+    }
+    .btn:hover:not(:disabled) {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: var(--yellow-bg);
+    }
+    .btn:active:not(:disabled)  { transform: scale(0.98); }
+    .btn:disabled               { opacity: var(--opacity-disabled); cursor: not-allowed; }
+    .btn:focus-visible          { outline: none; box-shadow: var(--focus-ring); }
+
+    /* Modifiers */
+    .btn--primary               { background: var(--gold); color: var(--bg-primary); border-color: var(--gold); }
+    .btn--primary:hover:not(:disabled)  { background: var(--gold-deep); border-color: var(--gold-deep); color: var(--bg-primary); }
+    .btn--ghost                 { background: transparent; }
+    .btn--danger                { color: var(--negative-text); border-color: var(--red-border); }
+    .btn--danger:hover:not(:disabled)   { background: var(--red-bg); border-color: var(--red); color: var(--negative-text); }
+    .btn--info                  { color: var(--info-text); border-color: rgba(74, 144, 226, 0.30); background: rgba(74, 144, 226, 0.10); }
+    .btn--info:hover:not(:disabled)     { border-color: var(--accent-blue); background: rgba(74, 144, 226, 0.16); color: var(--info-text); }
+    .btn--warn                  { color: var(--warn-text); border-color: rgba(245, 158, 11, 0.30); background: rgba(245, 158, 11, 0.10); }
+    .btn--warn:hover:not(:disabled)     { border-color: var(--warn-text); background: rgba(245, 158, 11, 0.16); color: var(--warn-text); }
+    .btn--icon                  { padding: var(--space-75); }
+    .btn--sm                    { padding: var(--space-75) var(--space-150); font-size: 11.5px; }
+
+    /* Honor reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      .btn { transition: none; }
+      .btn:active:not(:disabled) { transform: none; }
+    }
+
+    /* ----- .card primitive -----
+       Driven by --elev-1..4 (defined :root above but until PR #4 unused).
+       Use as <div class="card"> for elev-2 default, or chain `.card.card--elev-3`. */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      padding: var(--space-300);
+      box-shadow: var(--elev-2);
+    }
+    .card--elev-1 { box-shadow: var(--elev-1); }
+    .card--elev-3 { box-shadow: var(--elev-3); }
+    .card--elev-4 { box-shadow: var(--elev-4); }
+    .card--flat   { box-shadow: none; }
+
+    /* ----- .badge primitive -----
+       Replaces the 15+ ad-hoc badge classes. Use as `.badge.badge--success` etc.
+       Existing .signal-strong-buy / .section-badge.buynow / etc remain
+       (per the rollout plan's "leave untouched call sites alone" rule). */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-50);
+      padding: var(--space-25) var(--space-100);
+      border-radius: var(--radius-100);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .badge--success  { background: var(--green-bg);    color: var(--positive-text);    border-color: var(--green-border); }
+    .badge--warn     { background: var(--yellow-bg);   color: var(--warn-text);        border-color: rgba(245, 158, 11, 0.30); }
+    .badge--danger   { background: var(--red-bg);      color: var(--negative-text);    border-color: var(--red-border); }
+    .badge--info     { background: var(--blue-bg);     color: var(--info-text);        border-color: rgba(74, 144, 226, 0.30); }
+    .badge--neutral  { background: rgba(255,255,255,0.05); color: var(--text-secondary); border-color: var(--border); }
+
+    /* ============================================================
+     * Legacy aliases — .refresh-btn was the highest-traffic legacy
+     * button class (used at index.html:3562/3795/3917/3952/4032/4062/4110).
+     * The 3 we migrate add the `.btn` class to the HTML so they pick up
+     * the primitive's behavior; this `.btn.refresh-btn` rule normalises
+     * the 2px font-size difference so the side-by-side visual stays
+     * identical pre/post-PR4.
+     * ============================================================ */
     .refresh-btn {
       background: transparent;
       border: 1px solid var(--border);
@@ -2051,6 +2159,10 @@
       color: var(--gold);
       background: rgba(224, 176, 96, 0.04);
     }
+    /* When the HTML adds .btn alongside .refresh-btn (the migrated 3),
+       inherit primitive behaviour but preserve the legacy 12.5 px font /
+       padding so the visual is byte-identical. */
+    .btn.refresh-btn { padding: 8px 16px; font-size: 12.5px; }
 
     .refresh-btn.spinning .spin-icon { animation: spin 1s linear infinite; }
 
@@ -3914,7 +4026,7 @@
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Your Groww holdings with live prices and P&amp;L</p>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
-          <button class="refresh-btn" onclick="loadPortfolio(true)" style="background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.3);color:var(--info-text);">
+          <button class="btn btn--info btn--sm refresh-btn" onclick="loadPortfolio(true)">
             <span class="spin-icon">&#8635;</span> Refresh Prices
           </button>
           <span class="last-updated" id="portfolioLastUpdated"></span>
@@ -4029,7 +4141,7 @@
           <p id="watchlistMeta" style="font-size:11px; color:var(--text-muted); margin-top:6px;">Loading…</p>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
-          <button class="refresh-btn" onclick="loadWatchlist()" style="background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.3);color:var(--info-text);">
+          <button class="btn btn--info btn--sm refresh-btn" onclick="loadWatchlist()">
             <span class="spin-icon">&#8635;</span> Refresh Prices
           </button>
         </div>
@@ -4059,7 +4171,7 @@
           <p id="earningsMeta" style="font-size:11px; color:var(--text-muted); margin-top:6px;">Loading…</p>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
-          <button class="refresh-btn" onclick="loadEarningsWatch()" style="background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.3);color:var(--warn-text);">
+          <button class="btn btn--warn btn--sm refresh-btn" onclick="loadEarningsWatch()">
             <span class="spin-icon">&#8635;</span> Refresh
           </button>
         </div>
