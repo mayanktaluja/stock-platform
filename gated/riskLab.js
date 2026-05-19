@@ -323,6 +323,37 @@
       ) : null,
     ));
 
+    // PR 4 — "Why this regime?" block. Surfaces the LLM's reasoning + the
+    // top headlines that drove the regime call + classifier provenance.
+    // This is what the user was missing: WHY do we think we're in OIL_SHOCK?
+    if (r.reasoning || (Array.isArray(r.key_events) && r.key_events.length > 0)) {
+      const why = el("div", {
+        "data-testid": "thesis-why-regime",
+        style: { padding: "12px 14px", border: "1px solid rgba(96,165,250,0.25)", borderRadius: "8px", marginBottom: "16px", background: "rgba(15,20,34,0.5)" },
+      });
+      why.appendChild(el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "8px" } }, "Why this regime"));
+      if (r.reasoning) {
+        why.appendChild(el("div", { style: { fontSize: "12px", color: "#cbd5e1", lineHeight: "1.5", marginBottom: r.key_events?.length ? "8px" : "0" } }, r.reasoning));
+      }
+      if (Array.isArray(r.key_events) && r.key_events.length > 0) {
+        why.appendChild(el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.04em", marginBottom: "4px" } }, "Top headlines that drove the call:"));
+        const ul = el("ul", { style: { margin: "0", padding: "0", listStyle: "none" } });
+        for (const ev of r.key_events.slice(0, 5)) {
+          ul.appendChild(el("li", { style: { fontSize: "11px", color: "#cbd5e1", lineHeight: "1.4", marginBottom: "3px" } }, `▸ ${ev}`));
+        }
+        why.appendChild(ul);
+      }
+      // Classifier provenance line — small, but mandatory for SEBI Reg 16
+      const provBits = [];
+      if (r.classifier_provider) provBits.push(`classifier: ${r.classifier_provider}`);
+      if (r.tier_coverage) provBits.push(`tier coverage: A+${r.tier_coverage["A+"] || 0} A${r.tier_coverage["A"] || 0} B${r.tier_coverage["B"] || 0}`);
+      if (r.generated_at) provBits.push(`generated ${new Date(r.generated_at).toLocaleString()}`);
+      if (provBits.length) {
+        why.appendChild(el("div", { style: { fontSize: "9px", color: "var(--text-muted)", marginTop: "6px", fontStyle: "italic" } }, provBits.join(" · ")));
+      }
+      root.appendChild(why);
+    }
+
     // Position-cap warning banner (SEBI Reg 16)
     root.appendChild(el("div", {
       style: { padding: "10px 14px", border: "1px dashed #fbbf24", borderRadius: "6px", marginBottom: "16px", fontSize: "11px", color: "#fbbf24" },
@@ -378,6 +409,64 @@
           card.appendChild(el("div", { style: { padding: "4px 8px", background: "rgba(239,68,68,0.06)", borderRadius: "4px", fontSize: "11px", color: "#cbd5e1", marginBottom: "2px" } }, lossLine));
         }
       }
+
+      // PR 4 — "How this branch was built" expander. Shows the probability
+      // math (base × modulator = probability), the analog pool used, and
+      // the matched analog dates+labels. Closed by default so the cards
+      // stay scannable; one click and the audit trail is visible.
+      if (b.reasoning) {
+        const det = document.createElement("details");
+        det.setAttribute("data-testid", `thesis-branch-reasoning-${b.key}`);
+        det.style.marginTop = "8px";
+        det.style.borderTop = "1px dashed rgba(148,163,184,0.2)";
+        det.style.paddingTop = "8px";
+        const sum = document.createElement("summary");
+        sum.style.fontSize = "10px";
+        sum.style.color = "var(--text-muted)";
+        sum.style.cursor = "pointer";
+        sum.style.letterSpacing = "0.04em";
+        sum.style.textTransform = "uppercase";
+        sum.textContent = `How this ${b.probability ? Math.round(b.probability * 100) + "%" : ""} was derived`;
+        det.appendChild(sum);
+        const body = el("div", { style: { fontSize: "10.5px", color: "#cbd5e1", marginTop: "6px", lineHeight: "1.5" } });
+        // Math line
+        if (b.reasoning.base_probability != null && b.reasoning.modulator_applied != null) {
+          const product = b.reasoning.base_probability * b.reasoning.modulator_applied;
+          body.appendChild(el("div", null,
+            `base ${b.reasoning.base_probability.toFixed(2)} × modulator ${b.reasoning.modulator_applied.toFixed(2)} = `,
+            el("span", { style: { color: "#e2e8f0", fontWeight: "600" } }, product.toFixed(3)),
+            " (normalised against other branches to ",
+            el("span", { style: { color: "#e2e8f0", fontWeight: "600" } }, `${Math.round((b.probability || 0) * 100)}%`),
+            ")",
+          ));
+        }
+        // Analog pool line
+        body.appendChild(el("div", { style: { marginTop: "4px" } },
+          `Analog pool: ${b.reasoning.analog_pool_regime || "?"} · n=${b.n_analogs || 0}`,
+        ));
+        // Matched analogs
+        const analogs = Array.isArray(b.reasoning.analogs) ? b.reasoning.analogs.slice(0, 5) : [];
+        if (analogs.length > 0) {
+          body.appendChild(el("div", { style: { marginTop: "4px", color: "var(--text-muted)" } }, "Matched analogs:"));
+          const ul = el("ul", { style: { margin: "0", padding: "0", listStyle: "none" } });
+          for (const a of analogs) {
+            ul.appendChild(el("li", { style: { fontSize: "10px", color: "#cbd5e1", lineHeight: "1.35", marginLeft: "8px" } },
+              `• ${a.date || "?"}${a.label ? ` — ${a.label}` : ""}${a.severity != null ? ` (sev ${a.severity})` : ""}${a.source ? ` [${a.source}]` : ""}`,
+            ));
+          }
+          body.appendChild(ul);
+        }
+        // Analog warnings
+        const warns = Array.isArray(b.reasoning.analog_warnings) ? b.reasoning.analog_warnings : [];
+        if (warns.length > 0) {
+          body.appendChild(el("div", { style: { marginTop: "6px", padding: "4px 6px", border: "1px solid rgba(251,191,36,0.3)", borderRadius: "4px", background: "rgba(251,191,36,0.05)", color: "#fbbf24", fontSize: "9.5px" } },
+            warns.map((w) => `⚠ ${w}`).join(" · "),
+          ));
+        }
+        det.appendChild(body);
+        card.appendChild(det);
+      }
+
       cardsWrap.appendChild(card);
     }
     root.appendChild(cardsWrap);
@@ -414,6 +503,26 @@
       }
       root.appendChild(cv);
     }
+
+    // PR 4 — audit footer. Mirrors the Earnings Watch "How prediction was
+    // built" pattern: schema, freshness, classifier provenance, math
+    // engine version. All the data needed to reproduce/audit this thesis.
+    if (thesis.audit) {
+      const a = thesis.audit;
+      const auditFooter = el("div", {
+        "data-testid": "thesis-audit",
+        style: { marginTop: "12px", padding: "8px 12px", borderRadius: "6px", background: "rgba(15,20,34,0.3)", fontSize: "9.5px", color: "var(--text-muted)", fontStyle: "italic", lineHeight: "1.45" },
+      });
+      const parts = [];
+      if (a.thesis_schema) parts.push(`schema: ${a.thesis_schema}`);
+      if (a.regime_generated_at) parts.push(`regime: ${new Date(a.regime_generated_at).toLocaleString()}`);
+      if (a.regime_classifier) parts.push(`classifier: ${a.regime_classifier}`);
+      if (a.scenario_engine_version) parts.push(`engine: ${a.scenario_engine_version}`);
+      if (thesis.generated_at) parts.push(`computed: ${new Date(thesis.generated_at).toLocaleString()}`);
+      auditFooter.textContent = parts.join(" · ");
+      root.appendChild(auditFooter);
+    }
+
     return root;
   }
 

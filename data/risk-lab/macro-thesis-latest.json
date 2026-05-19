@@ -1,23 +1,71 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-05-18T21:46:56.551Z",
+  "generated_at": "2026-05-19T07:17:29.785Z",
   "regime": {
     "regime": "CALM",
     "severity": 1,
     "confidence": 0.8,
     "label": "Calm",
-    "generated_at": "2026-05-18T21:45:08.798Z",
+    "generated_at": "2026-05-19T07:13:47.199Z",
     "days_in_state": 0,
-    "stale": false
+    "stale": false,
+    "reasoning": "Mixed and neutral headlines",
+    "key_events": [
+      "Domestic cyclicals remain best bet in India, says Anish Tawakley amid global volatility (Economic Times)",
+      "Rupee finds some footing on dollar offers from state-run, foreign banks (Economic Times)",
+      "India bonds gain as traders cover shorts after oil-led selloff (Economic Times)"
+    ],
+    "classifier_provider": "groq",
+    "source_health": {
+      "RBI Press": "blocked",
+      "SEBI Press": "ok",
+      "Reuters India": "blocked",
+      "Bloomberg Quint": "blocked",
+      "Moneycontrol": "blocked",
+      "Business Standard": "ok",
+      "Economic Times": "ok",
+      "LiveMint": "ok",
+      "Reuters Business": "blocked",
+      "AP Business": "blocked",
+      "FT Markets": "ok-fallback",
+      "PIB Economy": "skipped",
+      "MoSPI": "skipped",
+      "Hindu BusinessLine": "skipped",
+      "Financial Express": "skipped"
+    },
+    "tier_coverage": {
+      "A+": 1,
+      "A": 1,
+      "B": 3
+    },
+    "sector_impacts": [
+      {
+        "sector": "IT Services",
+        "impact": 1,
+        "reason": "Nifty IT extends gains"
+      },
+      {
+        "sector": "Oil & Gas",
+        "impact": 1,
+        "reason": "Oil marketing stocks rise"
+      }
+    ]
   },
-  "catalyst_proximity_days": 17,
+  "catalyst_proximity_days": 16,
   "upcoming_catalysts": [
     {
       "date": "2026-06-04",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — June 2026",
       "severity_potential": 3,
-      "days_until": 17
+      "days_until": 16
+    },
+    {
+      "date": "2026-06-18",
+      "kind": "FOMC",
+      "label": "US FOMC Meeting — June 2026",
+      "severity_potential": 3,
+      "days_until": 30
     }
   ],
   "position_cap_pct": 10,
@@ -30,7 +78,17 @@
       "n_analogs": 0,
       "indeterminate": true,
       "beneficiaries": [],
-      "losers": []
+      "losers": [],
+      "reasoning": {
+        "modulator_applied": 1,
+        "base_probability": 0.55,
+        "analog_pool_regime": "CALM",
+        "analog_warnings": [
+          "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
+          "only 0/15 sectors had data — partial analog"
+        ],
+        "analogs": []
+      }
     },
     {
       "key": "escalate",
@@ -40,7 +98,17 @@
       "n_analogs": 0,
       "indeterminate": true,
       "beneficiaries": [],
-      "losers": []
+      "losers": [],
+      "reasoning": {
+        "modulator_applied": 0.7,
+        "base_probability": 0.15,
+        "analog_pool_regime": "CALM (severity +1)",
+        "analog_warnings": [
+          "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
+          "only 0/15 sectors had data — partial analog"
+        ],
+        "analogs": []
+      }
     },
     {
       "key": "de_escalate",
@@ -50,7 +118,17 @@
       "n_analogs": 0,
       "indeterminate": true,
       "beneficiaries": [],
-      "losers": []
+      "losers": [],
+      "reasoning": {
+        "modulator_applied": 1,
+        "base_probability": 0.2,
+        "analog_pool_regime": "CALM",
+        "analog_warnings": [
+          "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
+          "only 0/15 sectors had data — partial analog"
+        ],
+        "analogs": []
+      }
     },
     {
       "key": "new_shock",
@@ -60,7 +138,14 @@
       "n_analogs": 0,
       "indeterminate": false,
       "beneficiaries": [],
-      "losers": []
+      "losers": [],
+      "reasoning": {
+        "modulator_applied": 1,
+        "base_probability": 0.1,
+        "analog_pool_regime": "n/a (new regime — projection suppressed by design)",
+        "analog_warnings": [],
+        "analogs": []
+      }
     }
   ],
   "caveats": [
@@ -68,5 +153,11 @@
     "INDETERMINATE branches (n<3 analogs): continue, escalate, de_escalate — sector projections suppressed for these branches.",
     "Analog backtester is heuristic-seeded (~12 events); recommendations require user judgement, not auto-trading."
   ],
-  "indeterminate": false
+  "indeterminate": false,
+  "audit": {
+    "thesis_schema": "macro-thesis-v1",
+    "regime_generated_at": "2026-05-19T07:13:47.199Z",
+    "regime_classifier": "groq",
+    "scenario_engine_version": "scenario-prob-v1"
+  }
 }
