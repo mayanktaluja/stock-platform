@@ -29,6 +29,12 @@
   // reset on lens switch (delta getter is lens-specific; filter set differs).
   let _sortState = { key: null, dir: null };
   let _showAll = false;
+  // Search query persists across lens switches — ticker/flag text has the
+  // same meaning regardless of which lens is active, so resetting would
+  // surprise users mid-search. Debounce timer batches keystrokes into one
+  // re-render so 1884-row Combined lens stays smooth.
+  let _searchQuery = "";
+  let _searchDebounceTimer = null;
 
   // ─── Per-user toggle (hide the tab if user disabled it locally) ─────
   function isUserEnabled() {
@@ -128,6 +134,36 @@
     else if (_sortState.dir === "desc") _sortState = { key, dir: "asc" };
     else _sortState = { key: null, dir: null };
     render();
+  }
+
+  // Case-insensitive substring match across ticker + verdicts + flag categories
+  // + sector. Reads raw fields (not fmtVerdict output) so "QUALITY_HOLD" and
+  // "RISK HOLD" both match a query of "hold".
+  function matchesSearch(s, q) {
+    if (!q) return true;
+    const haystack = [
+      s.ticker,
+      s.name,
+      s.original_verdict,
+      s.macro_adjusted_verdict,
+      s.quality_adjusted_verdict,
+      s.quality_verdict,
+      s.sector_used,
+      ...(s.quality_flags || []).flatMap((f) => [f.category, f.type, f.overlay]),
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+    return haystack.includes(q);
+  }
+
+  function updateSearch(value) {
+    _searchQuery = value;
+    if (_searchDebounceTimer) clearTimeout(_searchDebounceTimer);
+    _searchDebounceTimer = setTimeout(() => {
+      _searchDebounceTimer = null;
+      render();
+    }, 150);
   }
 
   function sortHeader(label, key, align) {
@@ -595,6 +631,13 @@
         });
     }
 
+    // Search overlay — applies after lens filter, before sort. Persists across
+    // lens switches; ticker/flag text means the same thing on every lens.
+    const trimmedQuery = _searchQuery.trim().toLowerCase();
+    if (trimmedQuery) {
+      filtered = filtered.filter((s) => matchesSearch(s, trimmedQuery));
+    }
+
     // Per-column sort overlay — replaces the lens default when a header is active.
     // Reads raw fields (not fmtVerdict'd output, which strips underscores).
     if (_sortState.key) {
@@ -627,11 +670,33 @@
       }
     }
 
+    const searchInput = el("input", {
+      type: "search",
+      placeholder: "Search ticker, verdict, or flag…",
+      "data-testid": "risk-lab-search-input",
+      value: _searchQuery,
+      "aria-label": "Search Risk Lab table",
+      style: {
+        width: "100%",
+        boxSizing: "border-box",
+        padding: "8px 12px",
+        marginBottom: "10px",
+        background: "rgba(15,20,34,0.6)",
+        border: "1px solid rgba(255,255,255,0.08)",
+        borderRadius: "6px",
+        color: "var(--text-primary)",
+        fontSize: "12px",
+        outline: "none",
+      },
+      onInput: (e) => updateSearch(e.target.value),
+    });
+
     if (filtered.length === 0) {
-      return el(
-        "div",
-        { style: { padding: "30px", textAlign: "center", color: "var(--text-muted)" } },
-        "No stocks fire the current lens. Try another lens or wait for the next macro refresh.",
+      const emptyMsg = trimmedQuery
+        ? `No matches for "${_searchQuery}". Try a different ticker or flag name.`
+        : "No stocks fire the current lens. Try another lens or wait for the next macro refresh.";
+      return el("div", null, searchInput,
+        el("div", { style: { padding: "30px", textAlign: "center", color: "var(--text-muted)" } }, emptyMsg),
       );
     }
 
@@ -682,7 +747,7 @@
         }, _showAll ? `Collapse to first 100 (of ${filtered.length})` : `Show all ${filtered.length} matches`)
       : null;
 
-    return el("div", null, header, ...rows, footer);
+    return el("div", null, searchInput, header, ...rows, footer);
   }
 
   function renderRow(s) {
@@ -799,6 +864,12 @@
       ));
       return;
     }
+    // Capture search-input focus + cursor before DOM teardown so live-filter
+    // re-renders don't drop keystrokes or jump the caret to the end.
+    const active = document.activeElement;
+    const restoreSearch = active?.dataset?.testid === "risk-lab-search-input"
+      ? { start: active.selectionStart, end: active.selectionEnd }
+      : null;
     root.innerHTML = "";
     root.appendChild(renderBanner(_cache));
     root.appendChild(renderCaseStudy(_cache));
@@ -815,6 +886,13 @@
       root.appendChild(renderTable(_cache));
     }
     root.appendChild(renderUserToggle());
+    if (restoreSearch) {
+      const nextInput = document.querySelector('[data-testid="risk-lab-search-input"]');
+      if (nextInput) {
+        nextInput.focus();
+        try { nextInput.setSelectionRange(restoreSearch.start, restoreSearch.end); } catch {}
+      }
+    }
   }
 
   // ─── Public entry point (called from app.js switchTab) ──────────────
