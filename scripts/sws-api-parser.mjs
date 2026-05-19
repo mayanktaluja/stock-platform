@@ -118,7 +118,7 @@ function extractCurrentPrice(api) {
 }
 
 function extractReturnsPct(api) {
-  // Returns over 1M, 3M, 6M, 1Y from the price history.
+  // Returns over 1D, 7D, 1M, 3M, 6M, 1Y from the price history.
   // SWS price endpoint typically returns ~1Y of daily data, so 5Y may be
   // unavailable from the cached series — leave 5Y null in that case.
   const series = priceSeries(api);
@@ -148,13 +148,18 @@ function extractReturnsPct(api) {
     if (!p?.close || p.close <= 0) return null;
     return ((lastPrice - p.close) / p.close) * 100;
   };
-  // Only emit if the actual closest point was within tolerance of the target
-  // so we don't report a "1Y return" that's actually a 6M return.
+  // findClosestN_Days snaps to the nearest available trading day, so ret(1)
+  // and ret(7) gracefully handle weekends/holidays — they'll pick the prior
+  // trading day's close.
+  const r1d = ret(1);
+  const r7d = ret(7);
   const r1m = ret(30);
   const r3m = ret(90);
   const r6m = ret(180);
   const r1y = ret(365);
   return {
+    "1D": r1d,
+    "7D": r7d,
     "1M": r1m,
     "3M": r3m,
     "6M": r6m,

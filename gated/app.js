@@ -11261,7 +11261,7 @@ function renderSwsModal(data) {
     <div class="sws-modal-section">
       <h4>Total returns</h4>
       <div class="sws-modal-grid" style="grid-template-columns:repeat(5, 1fr);">
-        ${["1M","3M","1Y","3Y","5Y"].map((k) => {
+        ${["1D","7D","1M","3M","1Y"].map((k) => {
           const v = ret[k];
           const col = v == null ? "var(--text-muted)" : v >= 0 ? "var(--green)" : "var(--red)";
           return `<div class="sws-stat-cell"><div class="stat-label">${k}</div><div class="stat-value" style="color:${col};">${v == null ? "—" : fmtPct(v, 1)}</div></div>`;

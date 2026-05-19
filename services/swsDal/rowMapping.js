@@ -83,6 +83,8 @@ export function snapshotRowToJson(row) {
       ? new Date(row.mostRecentReportedDate).toISOString()
       : null,
     returns_pct: {
+      "1D": row.returns1dPct,
+      "7D": row.returns7dPct,
       "1M": row.returns1mPct,
       "3M": row.returns3mPct,
       "6M": row.returns6mPct,
@@ -166,6 +168,8 @@ export function deepJsonToColumns(deep, { runId } = {}) {
     ps: safeNum(multiples.ps),
     evEbitda: safeNum(multiples.ev_ebitda),
 
+    returns1dPct: pickReturn(returns, "1D"),
+    returns7dPct: pickReturn(returns, "7D"),
     returns1mPct: pickReturn(returns, "1M"),
     returns3mPct: pickReturn(returns, "3M"),
     returns6mPct: pickReturn(returns, "6M"),

@@ -1,0 +1,1513 @@
+{
+  "id": "9614ca6c-cf6d-46a9-b326-47b8b4e72a06",
+  "prevId": "d204dca9-28f3-4d79-aa18-98d541bd24fb",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.nse_event_calendar": {
+      "name": "nse_event_calendar",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "ticker": {
+          "name": "ticker",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "event_date": {
+          "name": "event_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "event_type": {
+          "name": "event_type",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "purpose": {
+          "name": "purpose",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "meta": {
+          "name": "meta",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fetched_at": {
+          "name": "fetched_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "nse_event_unique_idx": {
+          "name": "nse_event_unique_idx",
+          "columns": [
+            {
+              "expression": "ticker",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "event_date",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "event_type",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "nse_event_ticker_date_idx": {
+          "name": "nse_event_ticker_date_idx",
+          "columns": [
+            {
+              "expression": "ticker",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "event_date",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sws_companies": {
+      "name": "sws_companies",
+      "schema": "",
+      "columns": {
+        "ticker": {
+          "name": "ticker",
+          "type": "varchar(32)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sector": {
+          "name": "sector",
+          "type": "varchar(96)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sws_url": {
+          "name": "sws_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sws_company_id": {
+          "name": "sws_company_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "indices": {
+          "name": "indices",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sws_company_snapshots": {
+      "name": "sws_company_snapshots",
+      "schema": "",
+      "columns": {
+        "ticker": {
+          "name": "ticker",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "run_id": {
+          "name": "run_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sector": {
+          "name": "sector",
+          "type": "varchar(96)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "classification_status": {
+          "name": "classification_status",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parsed_at": {
+          "name": "parsed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "current_price_inr": {
+          "name": "current_price_inr",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "market_cap_inr": {
+          "name": "market_cap_inr",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "market_cap_usd": {
+          "name": "market_cap_usd",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "market_cap_band": {
+          "name": "market_cap_band",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "shares_outstanding": {
+          "name": "shares_outstanding",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fair_value_inr": {
+          "name": "fair_value_inr",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "upside_pct": {
+          "name": "upside_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "snowflake_total": {
+          "name": "snowflake_total",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "snowflake_valuation": {
+          "name": "snowflake_valuation",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "snowflake_future_growth": {
+          "name": "snowflake_future_growth",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "snowflake_past_performance": {
+          "name": "snowflake_past_performance",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "snowflake_financial_health": {
+          "name": "snowflake_financial_health",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "snowflake_dividends": {
+          "name": "snowflake_dividends",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pe": {
+          "name": "pe",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pb": {
+          "name": "pb",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ps": {
+          "name": "ps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ev_ebitda": {
+          "name": "ev_ebitda",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "returns_1d_pct": {
+          "name": "returns_1d_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "returns_7d_pct": {
+          "name": "returns_7d_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "returns_1m_pct": {
+          "name": "returns_1m_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "returns_3m_pct": {
+          "name": "returns_3m_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "returns_6m_pct": {
+          "name": "returns_6m_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "returns_1y_pct": {
+          "name": "returns_1y_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "returns_5y_pct": {
+          "name": "returns_5y_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "net_margin_pct": {
+          "name": "net_margin_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "revenue_growth_pct": {
+          "name": "revenue_growth_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "earnings_growth_yoy_pct": {
+          "name": "earnings_growth_yoy_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "forward_earnings_growth_pct": {
+          "name": "forward_earnings_growth_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "latest_revenue": {
+          "name": "latest_revenue",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "latest_net_income": {
+          "name": "latest_net_income",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "latest_eps": {
+          "name": "latest_eps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "most_recent_reported_date": {
+          "name": "most_recent_reported_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dividend_yield_pct": {
+          "name": "dividend_yield_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "payout_pct": {
+          "name": "payout_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "annualized_dividend": {
+          "name": "annualized_dividend",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "next_earnings_date": {
+          "name": "next_earnings_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "recent_news_count": {
+          "name": "recent_news_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "insider_ownership_pct": {
+          "name": "insider_ownership_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_quarter_result": {
+          "name": "last_quarter_result",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "news": {
+          "name": "news",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "top_holders": {
+          "name": "top_holders",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "recent_dividend_payments": {
+          "name": "recent_dividend_payments",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fiscal_yearly_history": {
+          "name": "fiscal_yearly_history",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rewards": {
+          "name": "rewards",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "risks": {
+          "name": "risks",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "industry_benchmarks": {
+          "name": "industry_benchmarks",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "insider_activity": {
+          "name": "insider_activity",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "recent_analyst_revisions": {
+          "name": "recent_analyst_revisions",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "raw_extra": {
+          "name": "raw_extra",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "sws_snap_run_ticker_idx": {
+          "name": "sws_snap_run_ticker_idx",
+          "columns": [
+            {
+              "expression": "run_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "ticker",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "sws_snap_run_sector_r1m_idx": {
+          "name": "sws_snap_run_sector_r1m_idx",
+          "columns": [
+            {
+              "expression": "run_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "sector",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "returns_1m_pct",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sws_company_snapshots_run_id_sws_runs_id_fk": {
+          "name": "sws_company_snapshots_run_id_sws_runs_id_fk",
+          "tableFrom": "sws_company_snapshots",
+          "tableTo": "sws_runs",
+          "columnsFrom": [
+            "run_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "sws_company_snapshots_ticker_run_id_pk": {
+          "name": "sws_company_snapshots_ticker_run_id_pk",
+          "columns": [
+            "ticker",
+            "run_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sws_control_flags": {
+      "name": "sws_control_flags",
+      "schema": "",
+      "columns": {
+        "key": {
+          "name": "key",
+          "type": "varchar(64)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "holder_id": {
+          "name": "holder_id",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sws_picks": {
+      "name": "sws_picks",
+      "schema": "",
+      "columns": {
+        "run_id": {
+          "name": "run_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ticker": {
+          "name": "ticker",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "section": {
+          "name": "section",
+          "type": "varchar(48)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rank_in_section": {
+          "name": "rank_in_section",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sector": {
+          "name": "sector",
+          "type": "varchar(96)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sws_url": {
+          "name": "sws_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "score": {
+          "name": "score",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "v2_score": {
+          "name": "v2_score",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "v3_score": {
+          "name": "v3_score",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "v3_score_100": {
+          "name": "v3_score_100",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "v3_verdict": {
+          "name": "v3_verdict",
+          "type": "varchar(24)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "verdict": {
+          "name": "verdict",
+          "type": "varchar(24)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "composite_verdict": {
+          "name": "composite_verdict",
+          "type": "varchar(24)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valuation_band": {
+          "name": "valuation_band",
+          "type": "varchar(24)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "snowflake_total": {
+          "name": "snowflake_total",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "current_price_inr": {
+          "name": "current_price_inr",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fair_value_inr": {
+          "name": "fair_value_inr",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "upside_pct": {
+          "name": "upside_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "market_cap_inr": {
+          "name": "market_cap_inr",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_quarter_result": {
+          "name": "last_quarter_result",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "next_earnings_date": {
+          "name": "next_earnings_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "snowflake": {
+          "name": "snowflake",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "v2_breakdown": {
+          "name": "v2_breakdown",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "v3_breakdown": {
+          "name": "v3_breakdown",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "audit_trail": {
+          "name": "audit_trail",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "counter_thesis": {
+          "name": "counter_thesis",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "narrative": {
+          "name": "narrative",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "section_status": {
+          "name": "section_status",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "earnings_beat_meta": {
+          "name": "earnings_beat_meta",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "surveillance": {
+          "name": "surveillance",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "sws_picks_run_section_rank_idx": {
+          "name": "sws_picks_run_section_rank_idx",
+          "columns": [
+            {
+              "expression": "run_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "section",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "rank_in_section",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "sws_picks_run_ticker_idx": {
+          "name": "sws_picks_run_ticker_idx",
+          "columns": [
+            {
+              "expression": "run_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "ticker",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sws_picks_run_id_sws_runs_id_fk": {
+          "name": "sws_picks_run_id_sws_runs_id_fk",
+          "tableFrom": "sws_picks",
+          "tableTo": "sws_runs",
+          "columnsFrom": [
+            "run_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "sws_picks_run_id_ticker_section_pk": {
+          "name": "sws_picks_run_id_ticker_section_pk",
+          "columns": [
+            "run_id",
+            "ticker",
+            "section"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sws_runs": {
+      "name": "sws_runs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "started_at": {
+          "name": "started_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "finished_at": {
+          "name": "finished_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pipeline": {
+          "name": "pipeline",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'api'"
+        },
+        "status": {
+          "name": "status",
+          "type": "varchar(24)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'running'"
+        },
+        "duration_seconds": {
+          "name": "duration_seconds",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scored_count": {
+          "name": "scored_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "shards_failed": {
+          "name": "shards_failed",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "news_items_total": {
+          "name": "news_items_total",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "deep_files_scanned": {
+          "name": "deep_files_scanned",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "news_populated_count": {
+          "name": "news_populated_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_canonical": {
+          "name": "is_canonical",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "scrape_skipped": {
+          "name": "scrape_skipped",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "sections_count": {
+          "name": "sections_count",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "per_shard_progress": {
+          "name": "per_shard_progress",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "sws_runs_canonical_unique_idx": {
+          "name": "sws_runs_canonical_unique_idx",
+          "columns": [
+            {
+              "expression": "is_canonical",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "where": "\"sws_runs\".\"is_canonical\" = true",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "sws_runs_started_at_idx": {
+          "name": "sws_runs_started_at_idx",
+          "columns": [
+            {
+              "expression": "started_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sws_sanity_reports": {
+      "name": "sws_sanity_reports",
+      "schema": "",
+      "columns": {
+        "run_id": {
+          "name": "run_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "generated_at": {
+          "name": "generated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "verdict": {
+          "name": "verdict",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "block_count": {
+          "name": "block_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "warn_count": {
+          "name": "warn_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pass_count": {
+          "name": "pass_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "total_checks": {
+          "name": "total_checks",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "layers": {
+          "name": "layers",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "sws_sanity_reports_run_id_sws_runs_id_fk": {
+          "name": "sws_sanity_reports_run_id_sws_runs_id_fk",
+          "tableFrom": "sws_sanity_reports",
+          "tableTo": "sws_runs",
+          "columnsFrom": [
+            "run_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sws_scrape_failures": {
+      "name": "sws_scrape_failures",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "run_id": {
+          "name": "run_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ticker": {
+          "name": "ticker",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "failed_tab": {
+          "name": "failed_tab",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "error": {
+          "name": "error",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "recorded_at": {
+          "name": "recorded_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "sws_failures_ticker_recent_idx": {
+          "name": "sws_failures_ticker_recent_idx",
+          "columns": [
+            {
+              "expression": "ticker",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "recorded_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sws_scrape_failures_run_id_sws_runs_id_fk": {
+          "name": "sws_scrape_failures_run_id_sws_runs_id_fk",
+          "tableFrom": "sws_scrape_failures",
+          "tableTo": "sws_runs",
+          "columnsFrom": [
+            "run_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sws_shard_progress": {
+      "name": "sws_shard_progress",
+      "schema": "",
+      "columns": {
+        "shard_id": {
+          "name": "shard_id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "next_local_index": {
+          "name": "next_local_index",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "done_count": {
+          "name": "done_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "today_count": {
+          "name": "today_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "today_date": {
+          "name": "today_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "started_at": {
+          "name": "started_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_ticker": {
+          "name": "last_ticker",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_run_at": {
+          "name": "last_run_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_duration_ms": {
+          "name": "last_duration_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sws_universe_entries": {
+      "name": "sws_universe_entries",
+      "schema": "",
+      "columns": {
+        "run_id": {
+          "name": "run_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ticker": {
+          "name": "ticker",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "universe_index": {
+          "name": "universe_index",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sector": {
+          "name": "sector",
+          "type": "varchar(96)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "industry": {
+          "name": "industry",
+          "type": "varchar(96)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "exchange": {
+          "name": "exchange",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sws_short_id": {
+          "name": "sws_short_id",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sws_url": {
+          "name": "sws_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "indices": {
+          "name": "indices",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "seed_only": {
+          "name": "seed_only",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "curated": {
+          "name": "curated",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "market_cap_inr": {
+          "name": "market_cap_inr",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "source": {
+          "name": "source",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "sws_universe_run_sector_idx": {
+          "name": "sws_universe_run_sector_idx",
+          "columns": [
+            {
+              "expression": "run_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "sector",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sws_universe_entries_run_id_sws_runs_id_fk": {
+          "name": "sws_universe_entries_run_id_sws_runs_id_fk",
+          "tableFrom": "sws_universe_entries",
+          "tableTo": "sws_runs",
+          "columnsFrom": [
+            "run_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "sws_universe_entries_run_id_ticker_pk": {
+          "name": "sws_universe_entries_run_id_ticker_pk",
+          "columns": [
+            "run_id",
+            "ticker"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sws_universe_stats": {
+      "name": "sws_universe_stats",
+      "schema": "",
+      "columns": {
+        "run_id": {
+          "name": "run_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "generated_at": {
+          "name": "generated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "universe_size": {
+          "name": "universe_size",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "r1m": {
+          "name": "r1m",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "r3m": {
+          "name": "r3m",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "r1y": {
+          "name": "r1y",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "counts": {
+          "name": "counts",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "sws_universe_stats_run_id_sws_runs_id_fk": {
+          "name": "sws_universe_stats_run_id_sws_runs_id_fk",
+          "tableFrom": "sws_universe_stats",
+          "tableTo": "sws_runs",
+          "columnsFrom": [
+            "run_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

@@ -113,6 +113,8 @@ export const swsCompanySnapshots = pgTable(
     evEbitda: doublePrecision("ev_ebitda"),
 
     // Returns
+    returns1dPct: doublePrecision("returns_1d_pct"),
+    returns7dPct: doublePrecision("returns_7d_pct"),
     returns1mPct: doublePrecision("returns_1m_pct"),
     returns3mPct: doublePrecision("returns_3m_pct"),
     returns6mPct: doublePrecision("returns_6m_pct"),
