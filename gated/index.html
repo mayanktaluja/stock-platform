@@ -2424,6 +2424,96 @@
       0%   { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
+
+    /* ============================================================
+     * PR #5 — Generic state placeholders (loading / empty / error)
+     * driven by renderState() in app.js. Reuses the @keyframes shimmer
+     * from the existing skeleton-card system above.
+     * ============================================================ */
+    .state {
+      padding: var(--space-200) var(--space-300);
+      border-radius: var(--radius-200);
+    }
+    .state--loading { background: transparent; }
+    .state-skeleton {
+      background: linear-gradient(90deg, var(--border) 0%, rgba(255,255,255,0.08) 50%, var(--border) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s ease-in-out infinite;
+      border-radius: var(--radius-50);
+    }
+    .state-skeleton--bar       { height: 12px; margin-bottom: 10px; width: 100%; }
+    .state-skeleton--short     { width: 45%; }
+    .state--empty {
+      color: var(--text-muted);
+      font-size: 13px;
+      text-align: center;
+      padding: var(--space-400) var(--space-300);
+    }
+    .state-empty-msg { font-size: 13px; }
+    .state--error {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-200);
+      background: var(--red-bg);
+      border: 1px solid var(--red-border);
+      color: var(--negative-text-soft);
+      padding: var(--space-150) var(--space-200);
+    }
+    .state-error-msg { font-size: 12.5px; }
+    @media (prefers-reduced-motion: reduce) {
+      .state-skeleton { animation: none; }
+    }
+
+    /* ============================================================
+     * PR #5 — Toast stack. Body-level fixed-position with --z-toast
+     * (first consumer of the token). Caps at 3 visible; aria-live on
+     * the stack so each chip is announced once.
+     * ============================================================ */
+    #toastStack {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: var(--z-toast);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-100);
+      max-width: 360px;
+      pointer-events: none;
+    }
+    .toast {
+      pointer-events: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: var(--space-150) var(--space-200);
+      border-radius: var(--radius-200);
+      font-size: 12.5px;
+      box-shadow: var(--elev-3);
+      animation: toast-enter var(--dur-normal) var(--ease-enter) both;
+    }
+    .toast--info     { border-color: rgba(74, 144, 226, 0.30); }
+    .toast--success  { border-color: var(--green-border); color: var(--positive-text); }
+    .toast--warn     { border-color: rgba(245, 158, 11, 0.30); color: var(--warn-text); }
+    .toast--error    { border-color: var(--red-border); color: var(--negative-text); }
+    .toast--overflow {
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 11px;
+      box-shadow: none;
+      border-color: var(--border);
+    }
+    @keyframes toast-enter {
+      from { transform: translateY(-6px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .toast { animation: none; }
+    }
+    @media (max-width: 480px) {
+      #toastStack { top: 8px; right: 8px; left: 8px; max-width: none; }
+    }
+
     .warming-banner {
       background: var(--bg-card);
       border: 1px dashed var(--border);
@@ -4308,5 +4398,9 @@
   <!-- Risk Lab (experimental) tab — loadRiskLab + renderers. Defer so it
        initialises after app.js exposes switchTab + window globals. -->
   <script src="riskLab.js" defer></script>
+
+  <!-- PR #5: Toast stack. Body-level so position:fixed survives any
+       transformed ancestor; first consumer of --z-toast. -->
+  <div id="toastStack" role="status" aria-live="polite" aria-atomic="false"></div>
 </body>
 </html>

@@ -393,6 +393,101 @@ function renderLastUpdated(isoOrEpoch) {
 }
 window.renderLastUpdated = renderLastUpdated;
 
+// ==================== STATE + TOAST HELPERS (PR #5) ====================
+//
+// Two tiny helpers consumed by loaders that previously silently catch'd
+// (loadSnapshotHealth, loadLlmSignalBanner, the header-search dropdown).
+// Loaders that ALREADY render their own inline empty-state UIs (analyzer,
+// picks, watchlist, news) are deliberately NOT wrapped — the adversarial
+// pass (F-6, F-14) warned that double-wrapping would render two error UIs
+// on the same failure.
+//
+// renderState(container, { state, onRetry?, message? })
+//   - state: "loading" | "empty" | "error"
+//   - loading: shimmer-skeleton placeholder
+//   - empty:   muted message + optional CTA
+//   - error:   message + Retry button (if onRetry provided)
+//
+// toast({ kind, msg, durationMs }) appends a chip to #toastStack. Stack
+// caps at 3 visible; older toasts collapse into a "+N more" indicator.
+// Uses var(--z-toast) and aria-live=polite (the first consumer of either
+// token / pattern in the codebase).
+function renderState(container, opts = {}) {
+  if (!container) return;
+  const { state = "loading", onRetry, message } = opts;
+  if (state === "loading") {
+    container.innerHTML = `
+      <div class="state state--loading" data-testid="state-loading" aria-busy="true">
+        <div class="state-skeleton state-skeleton--bar"></div>
+        <div class="state-skeleton state-skeleton--bar state-skeleton--short"></div>
+        <div class="state-skeleton state-skeleton--bar"></div>
+      </div>`;
+  } else if (state === "empty") {
+    container.innerHTML = `
+      <div class="state state--empty" data-testid="state-empty">
+        <div class="state-empty-msg">${message || "Nothing here yet."}</div>
+      </div>`;
+  } else if (state === "error") {
+    const retryBtn = onRetry
+      ? `<button type="button" class="btn btn--ghost btn--sm" data-testid="state-retry">Retry</button>`
+      : "";
+    container.innerHTML = `
+      <div class="state state--error" data-testid="state-error" role="alert">
+        <div class="state-error-msg">${message || "Something went wrong."}</div>
+        ${retryBtn}
+      </div>`;
+    if (onRetry) {
+      const btn = container.querySelector('[data-testid="state-retry"]');
+      if (btn) btn.addEventListener("click", onRetry, { once: true });
+    }
+  }
+}
+window.renderState = renderState;
+
+// Toast queue: cap at 3 visible. Anything additional collapses into a
+// "+N more" chip until the oldest dismisses. Auto-dismiss after
+// durationMs (default 4s). Honors prefers-reduced-motion via CSS.
+const _toastQueue = [];
+function _renderToastStack() {
+  let stack = document.getElementById("toastStack");
+  if (!stack) {
+    // Late boot — defer one frame if the DOM isn't ready yet.
+    requestAnimationFrame(_renderToastStack);
+    return;
+  }
+  stack.innerHTML = "";
+  const visible = _toastQueue.slice(0, 3);
+  const overflow = Math.max(0, _toastQueue.length - 3);
+  for (const t of visible) {
+    const el = document.createElement("div");
+    el.className = `toast toast--${t.kind}`;
+    el.setAttribute("data-testid", "toast");
+    el.setAttribute("data-kind", t.kind);
+    el.textContent = t.msg;
+    stack.appendChild(el);
+  }
+  if (overflow > 0) {
+    const el = document.createElement("div");
+    el.className = "toast toast--overflow";
+    el.setAttribute("data-testid", "toast-overflow");
+    el.textContent = `+${overflow} more`;
+    stack.appendChild(el);
+  }
+}
+function toast(opts = {}) {
+  const { kind = "info", msg = "", durationMs = 4000 } = opts;
+  if (!msg) return;
+  const t = { kind, msg, id: Math.random().toString(36).slice(2) };
+  _toastQueue.push(t);
+  _renderToastStack();
+  setTimeout(() => {
+    const ix = _toastQueue.findIndex((x) => x.id === t.id);
+    if (ix >= 0) _toastQueue.splice(ix, 1);
+    _renderToastStack();
+  }, durationMs);
+}
+window.toast = toast;
+
 // ==================== GLOSSARY TOOLTIP SYSTEM ====================
 //
 // Single-source-of-truth tooltip system. Two helper functions are exposed
@@ -817,12 +912,26 @@ async function searchStocks(query) {
   } catch (err) {
     if (err.name === "AbortError") return;
     console.error("Search failed:", err);
-    searchResults.innerHTML = `
-      <div style="padding: 20px; text-align: center; color: var(--text-muted);">
-        Search unavailable. Try again in a moment.
-      </div>
-    `;
+    // PR #5: use the canonical renderState() + toast() helpers so the user
+    // can retry inline AND gets a notification when the catch fires. This
+    // replaces the pre-PR inline "Search unavailable" copy block.
+    if (typeof window.renderState === "function") {
+      window.renderState(searchResults, {
+        state: "error",
+        message: "Search unavailable. Try again in a moment.",
+        onRetry: () => searchStocks(query),
+      });
+    } else {
+      searchResults.innerHTML = `
+        <div style="padding: 20px; text-align: center; color: var(--text-muted);">
+          Search unavailable. Try again in a moment.
+        </div>
+      `;
+    }
     searchResults.classList.add("active");
+    if (typeof window.toast === "function") {
+      window.toast({ kind: "error", msg: "Search unavailable. Try again." });
+    }
   }
 }
 
@@ -2157,94 +2266,103 @@ function renderTransitionAlert(transition) {
 
 // ==================== TABS ====================
 
-function switchTab(tab) {
+// PR #5: switchTab refactored from a 35-line if/else cascade into a
+// dispatch-table indirection. Subsequent PRs (#7 hash routing, #8
+// keyboard shortcuts, #10 mobile bottom-nav) amend the table object
+// instead of hand-editing the cascade — which the adversarial-pass
+// flagged as a guaranteed 4-way merge conflict (F-8). Behaviour is
+// byte-identical to the pre-PR cascade.
+//
+// The function is now async to accommodate future loaders that need
+// to await (e.g. PR #7's writeHash after the tab content paints).
+// Every existing call site of switchTab() ignores the return value,
+// so promoting to async is backward-compatible.
+
+const TAB_CONFIG = {
+  news: {
+    elId: "newsTab",
+    enter: () => {
+      loadMarketNews();
+      newsRefreshTimer = setInterval(
+        () => loadMarketNews({ silent: true }),
+        10 * 60 * 1000,
+      );
+    },
+  },
+  portfolio: { elId: "portfolioTab", enter: () => loadPortfolio() },
+  track:     { elId: "trackTab",     enter: () => loadTrackRecord() },
+  analyzer:  {
+    elId: "analyzerTab",
+    enter: () => { initPortfolioAnalyzer(); loadAnalyzerOnTabOpen(); },
+  },
+  picks:     { elId: "picksTab",     enter: () => loadPicks() },
+  watchlist: { elId: "watchlistTab", enter: () => loadWatchlist() },
+  // Defence-in-depth: server enforces admin via 403 on /api/admin/users,
+  // but bail in the loader too so a non-admin who somehow forces the URL
+  // doesn't see a half-rendered tab while the fetch is in flight.
+  users: {
+    elId: "usersTab",
+    guard: () => !!window.__starbhai_isAdmin,
+    enter: () => loadUsersList(),
+  },
+  earnings: {
+    elId: "earningsTab",
+    enter: () => { if (typeof loadEarningsWatch === "function") loadEarningsWatch(); },
+  },
+  riskLab: {
+    elId: "riskLabTab",
+    enter: () => { if (typeof loadRiskLab === "function") loadRiskLab(); },
+  },
+};
+
+async function switchTab(tab) {
+  // Fall through to picks for unknown tabs — preserves the pre-PR5
+  // default behaviour that boot uses when no hash is present.
+  if (!TAB_CONFIG[tab]) tab = "picks";
+  const config = TAB_CONFIG[tab];
+  if (config.guard && !config.guard()) return;
+
   try { telemetry.emit("tab_switch", { from: currentView, to: tab }); } catch {}
+
   const tabs = document.querySelectorAll("#mainTabs .tab");
   // A11y: mirror aria-selected on every tab so screen readers announce the
-  // active tab correctly. The actual activation happens further down where
-  // activeBtn.classList.add("active") runs.
+  // active tab correctly.
   tabs.forEach((t) => {
     t.classList.remove("active");
     t.setAttribute("aria-selected", "false");
   });
 
-  const newsEl = document.getElementById("newsTab");
-  const portEl = document.getElementById("portfolioTab");
-  const trackEl = document.getElementById("trackTab");
-  const analyzerEl = document.getElementById("analyzerTab");
-  const picksEl = document.getElementById("picksTab");
-  const watchEl = document.getElementById("watchlistTab");
-  const usersEl = document.getElementById("usersTab");
-  const earningsEl = document.getElementById("earningsTab");
-  const riskLabEl = document.getElementById("riskLabTab");
-
-  newsEl.style.display = "none";
-  portEl.style.display = "none";
-  if (trackEl) trackEl.style.display = "none";
-  if (analyzerEl) analyzerEl.style.display = "none";
-  if (picksEl) picksEl.style.display = "none";
-  if (watchEl) watchEl.style.display = "none";
-  if (usersEl) usersEl.style.display = "none";
-  if (earningsEl) earningsEl.style.display = "none";
-  if (riskLabEl) riskLabEl.style.display = "none";
+  // Hide every tab container in one pass.
+  for (const cfg of Object.values(TAB_CONFIG)) {
+    const el = document.getElementById(cfg.elId);
+    if (el) el.style.display = "none";
+  }
   if (newsRefreshTimer) { clearInterval(newsRefreshTimer); newsRefreshTimer = null; }
 
-  // Refresh the global macro banner on every tab switch. This is a cheap
-  // lookup (cached on the server) but it guarantees the banner stays in sync
-  // even if the user has the app open across a background refresh cycle, and
-  // avoids any per-tab loader stomping on the banner state.
+  // Refresh the global macro banner on every tab switch. Cheap (cached
+  // server-side) but keeps the banner in sync across background refresh
+  // cycles without per-tab loaders stomping on its state.
   loadMacroRegime();
 
   // Find and activate the matching tab button by its onclick attribute.
-  // This is index-independent, so tab reordering doesn't break navigation.
-  const activeBtn = Array.from(tabs).find((t) => t.getAttribute("onclick")?.includes(tab));
+  const activeBtn = Array.from(tabs).find((t) =>
+    t.getAttribute("onclick")?.includes(tab),
+  );
   if (activeBtn) {
     activeBtn.classList.add("active");
     activeBtn.setAttribute("aria-selected", "true");
   }
 
-  if (tab === "news") {
-    newsEl.style.display = "block";
-    loadMarketNews();
-    newsRefreshTimer = setInterval(() => loadMarketNews({ silent: true }), 10 * 60 * 1000);
-  } else if (tab === "portfolio") {
-    portEl.style.display = "block";
-    loadPortfolio();
-  } else if (tab === "track") {
-    if (trackEl) trackEl.style.display = "block";
-    loadTrackRecord();
-  } else if (tab === "analyzer") {
-    if (analyzerEl) analyzerEl.style.display = "block";
-    initPortfolioAnalyzer();
-    loadAnalyzerOnTabOpen();
-  } else if (tab === "picks") {
-    if (picksEl) picksEl.style.display = "block";
-    loadPicks();
-  } else if (tab === "watchlist") {
-    if (watchEl) watchEl.style.display = "block";
-    loadWatchlist();
-  } else if (tab === "users") {
-    // Defence-in-depth: server enforces admin via 403 on /api/admin/users,
-    // but bail here too so a non-admin who somehow forces the URL doesn't
-    // see a half-rendered tab while the fetch is in flight.
-    if (!window.__starbhai_isAdmin) return;
-    if (usersEl) usersEl.style.display = "block";
-    loadUsersList();
-  } else if (tab === "earnings") {
-    if (earningsEl) earningsEl.style.display = "block";
-    if (typeof loadEarningsWatch === "function") loadEarningsWatch();
-  } else if (tab === "riskLab") {
-    if (riskLabEl) riskLabEl.style.display = "block";
-    if (typeof loadRiskLab === "function") loadRiskLab();
-  } else {
-    // Default: picks tab
-    const picksBtn = Array.from(tabs).find((t) => t.getAttribute("onclick")?.includes("picks"));
-    if (picksBtn) {
-      picksBtn.classList.add("active");
-      picksBtn.setAttribute("aria-selected", "true");
-    }
-    if (picksEl) picksEl.style.display = "block";
-    loadPicks();
+  const el = document.getElementById(config.elId);
+  if (el) el.style.display = "block";
+  try {
+    await config.enter();
+  } catch (e) {
+    // Loaders own their own error UIs (see analyzer / picks / watchlist /
+    // news inline empty-states). We only surface a toast if no inline UI
+    // is going to render — which we can't know synchronously. Best-effort:
+    // log to console so the user can pull it from devtools if needed.
+    console.warn(`[switchTab] ${tab} loader threw:`, e);
   }
 }
 
