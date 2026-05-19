@@ -4502,32 +4502,85 @@ function renderNewsHeadline(h) {
 
 // ==================== WATCHLIST ====================
 
+// PR #6: optimistic toggleWatchlist with per-symbol in-flight guard +
+// rollback on failure. The adversarial pass (F-15) called out 5 failure
+// modes that the silent-catch version masked: network throw, HTTP !ok,
+// 401 (session expired), 403, and 200-with-{success:false}. The rewrite
+// handles all 5 distinctly: rollback the in-memory Set + the DOM star
+// + emit a rollback telemetry event + toast the user. The per-symbol
+// in-flight guard kills the double-click race where two rapid clicks
+// fire two POSTs and the second's response rolls back the first's
+// optimistic flip.
+
+const _pendingWatchlistToggle = new Set();
+// Exposed so callers (and tests) can wait for in-flight POSTs to land before
+// reading watchlist state. PR #5+ made switchTab async, and PR #6 made the
+// star flip optimistic — without this signal, switchTab('watchlist') can
+// race past the still-in-flight POST and read a stale GET.
+window.__sb_watchlistPending = _pendingWatchlistToggle;
+
+function _setStarUI(symbol, saved) {
+  const buttons = document.querySelectorAll(
+    `[data-watchlist-symbol="${symbol}"]`,
+  );
+  buttons.forEach((btn) => {
+    btn.textContent = saved ? "★" : "☆";
+    btn.setAttribute("aria-pressed", String(saved));
+    btn.style.color = saved ? "var(--gold)" : "var(--text-muted)";
+  });
+}
+
 async function toggleWatchlist(symbol, name, sector) {
-  const action = watchlist.has(symbol) ? "remove" : "add";
+  if (_pendingWatchlistToggle.has(symbol)) return; // in-flight guard
+  _pendingWatchlistToggle.add(symbol);
+
+  const wasSaved = watchlist.has(symbol);
+  const action = wasSaved ? "remove" : "add";
+
+  // OPTIMISTIC: flip in-memory Set + every DOM star button immediately so
+  // the user sees the action take hold without waiting for the API.
+  if (wasSaved) watchlist.delete(symbol);
+  else watchlist.add(symbol);
+  _setStarUI(symbol, !wasSaved);
+
+  try { telemetry.emit("watchlist_" + action, { symbol, sector: sector || null }); } catch {}
+
+  let failureReason = null;
   try {
-    try { telemetry.emit("watchlist_" + action, { symbol, sector: sector || null }); } catch {}
-    await fetch(`/api/watchlist/${action}`, {
+    const res = await fetch(`/api/watchlist/${action}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ symbol, name, sector }),
     });
-    if (action === "add") watchlist.add(symbol);
-    else watchlist.delete(symbol);
-    // PR P9 — update every star button for this symbol. Same ticker may
-    // appear in multiple surfaces simultaneously: the modal title and the
-    // pick-card inline star, the SWS-picks card and a search-result row,
-    // etc. Without updating all of them, only one flips state and the
-    // others lie about whether the stock is starred.
-    const buttons = document.querySelectorAll(`[data-watchlist-symbol="${symbol}"]`);
-    if (buttons.length > 0) {
-      const saved = watchlist.has(symbol);
-      buttons.forEach((btn) => {
-        btn.textContent = saved ? "★" : "☆";
-        btn.setAttribute("aria-pressed", String(saved));
-        btn.style.color = saved ? "var(--gold)" : "var(--text-muted)";
-      });
+    if (!res.ok) {
+      if (res.status === 401) failureReason = "Session expired — please refresh.";
+      else if (res.status === 403) failureReason = "Not allowed.";
+      else failureReason = `Watchlist sync failed (HTTP ${res.status}).`;
     }
-  } catch { /* silent */ }
+    // 200 OK = success. Body shape is {ok: true, ...} per server.js — no
+    // soft-failure body shape exists in this codebase, so we trust 2xx.
+  } catch (e) {
+    failureReason = "Network error — please try again.";
+  } finally {
+    _pendingWatchlistToggle.delete(symbol);
+  }
+
+  if (failureReason) {
+    // ROLLBACK: restore Set + DOM stars to pre-click state.
+    if (wasSaved) watchlist.add(symbol);
+    else watchlist.delete(symbol);
+    _setStarUI(symbol, wasSaved);
+    try {
+      telemetry.emit("watchlist_rollback", {
+        symbol,
+        action,
+        reason: failureReason,
+      });
+    } catch {}
+    if (typeof window.toast === "function") {
+      window.toast({ kind: "error", msg: failureReason });
+    }
+  }
 }
 
 function watchlistButton(symbol, name, sector) {
