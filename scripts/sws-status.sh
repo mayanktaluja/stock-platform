@@ -71,43 +71,7 @@ show() {
     fi
   done
 
-  # ─── 5. Postgres / Neon state (Phase 3+4) ───
-  echo
-  echo "── Neon DB (Phase 3 dual-write, Phase 4 reads) ──"
-  if [ -n "$(grep -E '^DATABASE_URL_UNPOOLED=' .env 2>/dev/null)" ]; then
-    node --input-type=module -e "
-      import 'dotenv/config';
-      import { Pool } from 'pg';
-      const pool = new Pool({ connectionString: process.env.DATABASE_URL_UNPOOLED, max: 1 });
-      try {
-        const runs = await pool.query(\`SELECT id, status, is_canonical, started_at, finished_at,
-            (SELECT count(*) FROM sws_company_snapshots WHERE run_id = sws_runs.id) AS snaps,
-            (SELECT count(*) FROM sws_picks WHERE run_id = sws_runs.id) AS picks
-          FROM sws_runs ORDER BY started_at DESC LIMIT 3\`);
-        if (!runs.rows.length) { console.log('  (no runs yet)'); }
-        for (const r of runs.rows) {
-          const star = r.is_canonical ? '★' : ' ';
-          const elapsed = r.finished_at
-            ? Math.round((new Date(r.finished_at) - new Date(r.started_at)) / 60000) + 'm'
-            : Math.round((Date.now() - new Date(r.started_at).getTime()) / 60000) + 'm running';
-          console.log(\`  \${star} \${r.id.slice(0,8)}  \${r.status.padEnd(15)} snaps=\${String(r.snaps).padStart(5)} picks=\${String(r.picks).padStart(4)}  \${elapsed}\`);
-        }
-        const recent = await pool.query(\`SELECT count(*) AS n FROM sws_scrape_failures
-          WHERE recorded_at > now() - interval '24 hours'\`);
-        console.log(\`  scrape failures (24h): \${recent.rows[0].n}\`);
-        const size = await pool.query(\"SELECT pg_size_pretty(pg_database_size('neondb')) AS s\");
-        console.log(\`  db size: \${size.rows[0].s}\`);
-      } catch (e) {
-        console.log('  (DB query failed: ' + e.message + ')');
-      } finally {
-        await pool.end();
-      }
-    " 2>&1 | grep -v "SECURITY\|libpq\|node:\|trace-warnings\|next major\|adopt\|prepare\|If you\|See https\|Use \`"
-  else
-    echo "  (no DATABASE_URL in .env — DAL serving JSON only)"
-  fi
-
-  # ─── 6. Last finished run summary ───
+  # ─── 5. Last finished run summary ───
   echo
   echo "── last finished run (JSON layer) ──"
   if [ -f data/sws/last-refresh.json ]; then
@@ -131,7 +95,7 @@ show() {
     echo "  (data/sws/last-refresh.json missing)"
   fi
 
-  # ─── 7. Phase 5 reminder ───
+  # ─── 6. Phase 5 reminder ───
   echo
   echo "── Phase 5 reminder ──"
   if [ -f "$HOME/.starbhai-phase5-reminder-sent" ]; then
@@ -149,7 +113,7 @@ show() {
     echo "  ⚠ launchd job not loaded. Run: launchctl load -w ~/Library/LaunchAgents/com.starbhai.sws-phase5-reminder.plist"
   fi
 
-  # ─── 8. Most recent nightly log lines ───
+  # ─── 7. Most recent nightly log lines ───
   echo
   echo "── nightly log (last 6 lines) ──"
   if [ -f data/sws/sws-nightly.log ]; then
@@ -158,7 +122,7 @@ show() {
     echo "  (no nightly log yet — first run hasn't fired)"
   fi
 
-  # ─── 9. Recent PRs from auto-refresh ───
+  # ─── 8. Recent PRs from auto-refresh ───
   if [ "$MODE" != "pr-only" ]; then
     echo
     echo "── recent auto-refresh PRs ──"
