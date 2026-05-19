@@ -1,0 +1,116 @@
+name: Refresh macro regime (backup)
+
+# Backup path for data/macroRegime.json refresh. Fires every 4h on
+# GitHub-hosted runners — independent of the user's Mac being online or
+# the main worktree being clean. The primary refresh path is the local
+# launchd job com.starbhai.macro-only (every 2h); this workflow exists so
+# the staleness banner can't get stuck if the Mac is offline.
+#
+# Free on public repos: GitHub Actions has unlimited minutes on public
+# repositories. No paid services involved. No secrets required.
+#
+# Why heuristic-only mode: shipping LLM API keys as GH secrets adds
+# secret-management surface for a backup path that's intentionally a
+# graceful-degradation fallback. The script's keyword heuristic produces
+# a lower-fidelity regime classification, but it's deterministic and
+# always succeeds when RSS sources are reachable. The local cron remains
+# the primary, high-fidelity LLM path.
+#
+# Race vs. the local cron: the script's 30-min idempotency gate (see
+# scripts/refresh-macro-only.sh:6) is mirrored here — if origin/main's
+# last data/macroRegime.json commit is <30min old AND the just-written
+# generatedAt is <30min old, this workflow no-ops without pushing.
+
+on:
+  schedule:
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-macro-regime
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    name: Refresh macro regime (heuristic)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm ci --ignore-scripts
+
+      - name: Run macro refresh (heuristic-only)
+        env:
+          MACRO_ALLOW_HEURISTIC_ONLY: '1'
+        run: node scripts/refresh-macro-regime.mjs
+
+      - name: Idempotency gate (skip if last commit <30min old AND generatedAt <30min)
+        id: gate
+        run: |
+          set -uo pipefail
+          if [ -z "$(git status --porcelain data/macroRegime.json)" ]; then
+            echo "no_change=1" >> "$GITHUB_OUTPUT"
+            echo "no change in data/macroRegime.json"
+            exit 0
+          fi
+          git fetch origin main --quiet || true
+          last_ts=$(git log -1 --format=%ct origin/main -- data/macroRegime.json 2>/dev/null || echo 0)
+          now_ts=$(date +%s)
+          age_min=$(( (now_ts - last_ts) / 60 ))
+          gen_age_min=$(node --input-type=module -e '
+            import {readFileSync} from "fs";
+            try {
+              const r = JSON.parse(readFileSync("data/macroRegime.json","utf-8"));
+              const gen = new Date(r.generatedAt).getTime();
+              process.stdout.write(String(Math.round((Date.now()-gen)/60000)));
+            } catch { process.stdout.write("999999"); }
+          ' 2>/dev/null || echo 999999)
+          if [ "$age_min" -lt 30 ] && [ "$gen_age_min" -lt 30 ]; then
+            echo "no_change=1" >> "$GITHUB_OUTPUT"
+            echo "idempotency skip: last commit ${age_min}m ago, generatedAt ${gen_age_min}m old"
+            exit 0
+          fi
+          echo "no_change=0" >> "$GITHUB_OUTPUT"
+          echo "will commit: last commit ${age_min}m ago, generatedAt ${gen_age_min}m old"
+
+      - name: Commit and push to main
+        if: steps.gate.outputs.no_change == '0'
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          regime=$(node --input-type=module -e '
+            import {readFileSync} from "fs";
+            try {
+              const r = JSON.parse(readFileSync("data/macroRegime.json","utf-8"));
+              process.stdout.write(`${r.regimeLabel || r.regime} (sev ${r.severity}, ${r.classifierProvider})`);
+            } catch { process.stdout.write("classifier output"); }
+          ' 2>/dev/null)
+          git add data/macroRegime.json
+          # Stage history + headline-archive side effects too, so the next
+          # local cron run sees consistent state and doesn't re-archive.
+          git add data/macro-headlines/ 2>/dev/null || true
+          git add data/macroRegime-history/ 2>/dev/null || true
+          msg=$(printf 'chore(macro): GH Actions backup refresh — %s\n\nHeuristic-classified macro regime via the free GH Actions backup\nworkflow (every 4h, github-hosted runners). Defence-in-depth against\nthe local cron being unavailable. Lower fidelity than the local LLM\npath; the local cron next fire supersedes this with a Groq or\nGemini-classified regime.\n' "$regime")
+          git commit -m "$msg"
+          # Rebase onto latest origin/main in case the local cron pushed
+          # while we were running.
+          git pull --rebase origin main
+          git push origin HEAD:main
