@@ -136,6 +136,8 @@ const auth = {
       if (compounderTabBtn) compounderTabBtn.hidden = false;
       const earningsEdgeTabBtn = document.getElementById("earningsEdgeTabBtn");
       if (earningsEdgeTabBtn) earningsEdgeTabBtn.hidden = false;
+      const multibaggerLabTabBtn = document.getElementById("multibaggerLabTabBtn");
+      if (multibaggerLabTabBtn) multibaggerLabTabBtn.hidden = false;
     }
 
     const closeDropdown = () => {
@@ -2651,6 +2653,15 @@ const TAB_CONFIG = {
     elId: "earningsEdgeTab",
     guard: () => !!window.__starbhai_isPersonal,
     enter: () => { if (typeof loadEarningsEdge === "function") loadEarningsEdge(); },
+  },
+  // 5x Lab — concentrated multibagger strategy targeting ₹1L → ₹5L
+  // net in 12 months. Personal-use only — paper-book + actions are
+  // visible to the starbhai owner only.
+  multibaggerLab: {
+    elId: "multibaggerLabTab",
+    label: "5x Lab",
+    guard: () => !!window.__starbhai_isPersonal,
+    enter: () => { if (typeof loadMultibaggerLab === "function") loadMultibaggerLab(); },
   },
 };
 

@@ -2920,6 +2920,97 @@ app.get("/api/earnings/upcoming", async (req, res) => {
   }
 });
 
+// 5x Lab API — read-only joins over the JSON outputs produced by
+// scripts/refresh-5x-strategy.mjs. All routes are personal-use gated:
+// non-allowlisted users get 404 (matches Compounder Lab / Earnings Edge).
+function loadMultibaggerJsonSafe(rel) {
+  try {
+    const p = path.join(__dirname, rel);
+    if (!fs.existsSync(p)) return null;
+    return JSON.parse(fs.readFileSync(p, "utf8"));
+  } catch (err) {
+    console.warn(`[multibagger] failed to load ${rel}:`, err.message);
+    return null;
+  }
+}
+
+function isMultibaggerPersonalUser(req) {
+  // Match Compounder Lab pattern — personalUseGate is the middleware,
+  // here we just need the role flag.
+  return !!(req.session?.userId && req.session?.isPersonal);
+}
+
+app.get("/api/multibagger/overview", async (req, res) => {
+  try {
+    if (!isMultibaggerPersonalUser(req)) {
+      return res.status(404).json({ error: "Not found" });
+    }
+    const scores = loadMultibaggerJsonSafe("data/strategy/multibagger-scores-latest.json");
+    const slate = loadMultibaggerJsonSafe("data/strategy/catalyst-slate-latest.json");
+    const health = loadMultibaggerJsonSafe("data/strategy/multibagger-health-latest.json");
+    const portfolio = loadMultibaggerJsonSafe("data/strategy/multibagger-portfolio.json");
+    res.json({
+      schema_version: "multibagger-overview-v1",
+      built_at: scores?.built_at || null,
+      universe_size: scores?.universe_size || null,
+      verdicts: {
+        five_x_count: scores?.five_x_count || 0,
+        high_conviction_count: scores?.high_conviction_count || 0,
+        watch_count: scores?.watch_count || 0,
+        hard_reject_count: scores?.hard_reject_count || 0,
+      },
+      macro_regime: scores?.macro_regime || null,
+      top_candidates: (scores?.top_50 || []).slice(0, 30),
+      catalyst_slate: slate?.slate || [],
+      health: {
+        alerts: health?.alerts || [],
+        metrics: health?.metrics || null,
+      },
+      portfolio_summary: portfolio ? {
+        starting_capital_inr: portfolio.starting_capital_inr,
+        cash_inr: portfolio.cash_inr,
+        open_positions: (portfolio.positions || []).length,
+        closed_positions: (portfolio.closed_positions || []).length,
+        snapshot_at: portfolio.snapshot_at,
+      } : null,
+    });
+  } catch (err) {
+    console.error("[/api/multibagger/overview] failed:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/api/multibagger/candidates", async (req, res) => {
+  try {
+    if (!isMultibaggerPersonalUser(req)) return res.status(404).json({ error: "Not found" });
+    const scores = loadMultibaggerJsonSafe("data/strategy/multibagger-scores-latest.json");
+    if (!scores) return res.json({ candidates: [], built_at: null });
+    const verdictFilter = String(req.query.verdict || "").toUpperCase();
+    let candidates = scores.top_50 || [];
+    if (verdictFilter) candidates = candidates.filter((c) => c.verdict === verdictFilter);
+    res.json({
+      schema_version: scores.schema_version,
+      built_at: scores.built_at,
+      universe_size: scores.universe_size,
+      candidates: candidates.slice(0, Number(req.query.limit) || 30),
+    });
+  } catch (err) {
+    console.error("[/api/multibagger/candidates] failed:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/api/multibagger/portfolio", async (req, res) => {
+  try {
+    if (!isMultibaggerPersonalUser(req)) return res.status(404).json({ error: "Not found" });
+    const portfolio = loadMultibaggerJsonSafe("data/strategy/multibagger-portfolio.json");
+    res.json(portfolio || { schema_version: "multibagger-portfolio-v1", cash_inr: 100_000, positions: [], closed_positions: [] });
+  } catch (err) {
+    console.error("[/api/multibagger/portfolio] failed:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.get("/api/earnings/upcoming/stats", async (req, res) => {
   try {
     const cacheKey = "earnings_stats";

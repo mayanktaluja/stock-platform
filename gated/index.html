@@ -4444,6 +4444,27 @@
       <button class="tab" id="compounderTabBtn" role="tab" aria-selected="false" aria-controls="compounderTab" hidden onclick="switchTab('compounder')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#34d399; box-shadow:0 0 0 2px rgba(52,211,153,0.18);" aria-hidden="true"></span>Compounder Lab<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:#34d399; background:rgba(52,211,153,0.10); border:1px solid rgba(52,211,153,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">PERSONAL</span></button>
       <!-- Earnings Edge — AGGRESSIVE sleeve from the 2026-05-19 alpha-strategy plan. Personal-use only. -->
       <button class="tab" id="earningsEdgeTabBtn" role="tab" aria-selected="false" aria-controls="earningsEdgeTab" hidden onclick="switchTab('earningsEdge')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#f87171; box-shadow:0 0 0 2px rgba(248,113,113,0.18);" aria-hidden="true"></span>Earnings Edge<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:#f87171; background:rgba(248,113,113,0.10); border:1px solid rgba(248,113,113,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">PERSONAL</span></button>
+      <!-- 5x Lab — concentrated multibagger strategy targeting ₹1L → ₹5L net in 12 months. Personal-use only. -->
+      <button class="tab" id="multibaggerLabTabBtn" role="tab" aria-selected="false" aria-controls="multibaggerLabTab" hidden onclick="switchTab('multibaggerLab')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#a78bfa; box-shadow:0 0 0 2px rgba(167,139,250,0.18);" aria-hidden="true"></span>5x Lab<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:#a78bfa; background:rgba(167,139,250,0.12); border:1px solid rgba(167,139,250,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">EXPERIMENTAL</span></button>
+    </div>
+
+    <!-- 5x Lab Tab — multibagger strategy targeting ₹1L → ₹5L net in 12m. Read-only paper book; user executes via broker. -->
+    <div id="multibaggerLabTab" class="tab-content" role="tabpanel" aria-labelledby="multibaggerLabTabBtn" style="display:none;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">
+        <div>
+          <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">5x Lab</h2>
+          <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">
+            Concentrated multibagger book targeting ₹1L → ₹5L net in 12 months. <strong>Base rate &lt;10%</strong>; risk gates non-negotiable. Drawdowns of 40%+ are expected during the journey.
+          </p>
+        </div>
+        <button class="btn btn--warn btn--sm refresh-btn" onclick="loadMultibaggerLab()">
+          <span class="spin-icon">&#8635;</span> Refresh
+        </button>
+      </div>
+      <div id="multibaggerLabContent"><div class="loading" style="padding:40px; text-align:center; color:var(--text-muted);">Loading…</div></div>
+      <p style="margin-top:24px; font-size:11px; color:var(--text-muted); border-top:1px solid var(--bg-graphite); padding-top:14px;">
+        Backtest validated:&nbsp;<span id="multibaggerLabBacktestStatus">not yet (needs 9mo forward archive)</span>. P(5x) estimates are model-implied, not empirically confirmed. Past performance is not predictive. Stop-loss policy is mandatory.
+      </p>
     </div>
 
     <!-- Track Record Tab -->
@@ -5132,6 +5153,10 @@
 
   <!-- Earnings Edge — AGGRESSIVE sleeve from the 2026-05-19 alpha-strategy plan. -->
   <script src="earningsEdge.js" defer></script>
+
+  <!-- 5x Lab — concentrated multibagger book targeting ₹1L → ₹5L net in 12m.
+       Defer so it initialises after app.js exposes switchTab + globals. -->
+  <script src="multibaggerLab.js" defer></script>
 
   <!-- PR #8: global keyboard shortcuts. Defer so it loads after app.js
        exposes window.switchTab + window.telemetry. -->
