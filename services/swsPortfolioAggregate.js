@@ -27,6 +27,23 @@ import {
   buildPerfectFitReason,
   PERFECT_FIT_FLOOR,
 } from "./swsSectorFit.js";
+import { attachDividendsToHoldings } from "./portfolio/portfolioDividendService.js";
+import fs from "node:fs";
+import path from "node:path";
+
+let _dividendCache = null;
+function loadDividendsUpcoming() {
+  if (_dividendCache) return _dividendCache;
+  const p = path.resolve(process.cwd(), "data", "catalysts", "dividends-upcoming.json");
+  try {
+    const raw = fs.readFileSync(p, "utf8");
+    const json = JSON.parse(raw);
+    _dividendCache = Array.isArray(json?.dividends) ? json.dividends : [];
+  } catch {
+    _dividendCache = [];
+  }
+  return _dividendCache;
+}
 
 // Lazy macro-regime import — only used for basket tilt; failing import
 // degrades gracefully (no tilt applied).
@@ -799,6 +816,8 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
   const uploadedAtIso = opts.uploadedAtIso ?? null;
   const asOfDateIso = opts.asOfDateIso ?? null;
   const brokerSummary = opts.brokerSummary ?? null;
+
+  attachDividendsToHoldings(scoredHoldings, loadDividendsUpcoming());
 
   const tiers = buildTiers(scoredHoldings);
   // sectorOverlay must be built before baskets — buildBaskets uses the

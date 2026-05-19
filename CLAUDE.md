@@ -99,6 +99,68 @@ NSE traffic.
 
 ---
 
+## Dividends to capture (Portfolio Analyzer)
+
+Per-holding upcoming ex-dividend tracker surfaced on the Portfolio
+Analyzer tab. Two surfaces share the same data:
+
+- New collapsible section **"Dividends to capture (N)"** below the
+  Upcoming Results Calendar — full table with DPS, yield on cost,
+  hold-by date, ex-date, days-until, and estimated ₹ for the user's qty.
+- New **"Hold by"** column on the Upcoming Results Calendar so the
+  ex-dividend cutoff sits inline with the earnings result date.
+
+### Data source — local, zero-scrape
+
+The upcoming-dividends feed is extracted entirely from SWS deep briefs
+already on disk. No new NSE network call. Verified post-deviation: NSE
+`events-latest.json` carries only board-meeting *intent* (no ex/record
+dates), and SWS `dividend.recent_payments[]` is fully backward-looking.
+The reliable forward-looking signal lives in `data/sws/deep/*.json`
+under `news[]` with `keyDevTypeId` ∈ {45, 46, 47} — templated bodies
+like `"<Co> announced Annual dividend of INR X.XX per share payable on
+<PayDate>, ex-date on <ExDate> and record date on <RecordDate>."`.
+
+`services/dividends/swsDividendsExtractor.js` regex-parses those
+bodies, filters to `exDate >= today`, dedups by `(symbol, exDate)`, and
+returns canonical rows.
+
+### Refresh
+
+```bash
+node scripts/refresh-dividends.mjs   # local walk over data/sws/deep/*.json
+```
+
+Writes `data/catalysts/dividends-upcoming.json`. Chained into
+`scripts/sws-nightly.sh` right after `refresh-nse-corporate.mjs` (120s
+timeout, non-fatal). Cookies/IP-block risk is irrelevant — no network.
+
+### Modules
+
+| File | Role |
+|------|------|
+| `services/dividends/swsDividendsExtractor.js` | Reads SWS deep `news[]` events, regex-parses DPS + exDate + recordDate + payDate from templated bodies, returns future-dated rows. |
+| `services/portfolio/portfolioDividendService.js` | Joins holdings × dividend feed. Strips `.NS\|.BO\|.BSE` suffix both sides + uppercase. Multi-dividend tie-break: earliest future ex_date wins. Computes hold_by_date (ex_date − 1 calendar day), days_until_hold_by, total_payout_inr (DPS × qty), yield_on_cost_pct (DPS ÷ avg_price). |
+| `scripts/refresh-dividends.mjs` | Orchestrator. Atomic write to `data/catalysts/dividends-upcoming.json`. |
+| `services/swsPortfolioAggregate.js` (extended) | `buildSWSReport` now calls `attachDividendsToHoldings` before tier building, so every downstream surface (Upcoming Results Calendar column + Dividends section) sees `h.sws.next_dividend`. |
+| `gated/app.js` — `renderSWSDividendCalendar` | The collapsible section renderer; mirrors the earnings calendar's `<details class="analyzer-tier-details">` pattern. Factual phrasing ("Est. ₹ for your qty", not "earn") — site-wide `#sebiSiteFooter` covers disclaimer. |
+
+### Tests
+
+```bash
+node test/swsDividendsExtractor.test.mjs        # 32 cases including 5 verbatim SWS bodies + negative coverage
+node test/portfolioDividendService.test.mjs     # 33 cases: ₹-math, tie-break, symbol normalization (M&M.NS, BAJAJ-AUTO.NS)
+npx playwright test portfolio-analyzer-dividends.spec.mjs  # 3 e2e specs (factual phrasing, sort order, Hold-by column)
+```
+
+Spec is named `portfolio-analyzer-dividends.spec.mjs` (not `analyzer-dividends`)
+because it MUST run after `portfolio-analyzer-fresh-banner.spec.mjs` —
+alphabetical ordering matters: running the dividends spec first leaves
+the shared analyzer-cache priming that breaks the banner spec's
+`snapshot_at >= t0` assertion.
+
+---
+
 ## Earnings Watch tab
 
 A SEBI-RA-style upcoming-results dashboard with predictions, price
