@@ -620,6 +620,18 @@ else
     echo "[sws-nightly] resolve-earnings-actuals.mjs FAILED — continuing (non-fatal)"
 fi
 
+# Step 9a2: Multibagger 5x strategy refresh — pure disk-to-disk join over
+# picks-latest + macroRegime + catalyst feeds. Writes
+# data/strategy/multibagger-scores-latest.json + catalyst-slate-latest.json
+# + multibagger-health-latest.json. Budget ~90s, non-fatal.
+if [ "${SWS_SKIP_MULTIBAGGER:-0}" = "1" ]; then
+  echo "[sws-nightly] SKIP refresh-5x-strategy (SWS_SKIP_MULTIBAGGER=1)"
+else
+  echo "[sws-nightly] refresh-5x-strategy.mjs (timeout 120s)"
+  with_timeout 120 node scripts/refresh-5x-strategy.mjs 2>&1 | sed 's/^/[5x] /' || \
+    echo "[sws-nightly] refresh-5x-strategy.mjs FAILED — continuing (non-fatal; tab will show stale data)"
+fi
+
 # Step 9b: Risk Lab refresh — generates data/risk-lab/picks-adjusted-latest.json
 # by layering the experimental macro/quality overlay on top of the just-written
 # picks-latest.json + macroRegime.json. Read-only on production files; only
