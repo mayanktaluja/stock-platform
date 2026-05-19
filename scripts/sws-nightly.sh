@@ -622,6 +622,18 @@ echo "[sws-nightly] refresh-risk-lab.mjs (timeout 60s)"
 with_timeout 60 node scripts/refresh-risk-lab.mjs 2>&1 | sed 's/^/[risk-lab] /' || \
   echo "[sws-nightly] refresh-risk-lab.mjs FAILED — continuing (non-fatal; lab tab will show stale data)"
 
+# Step 9c: Compounder Lab refresh — SAFE sleeve from the 2026-05-19 alpha-
+# strategy plan. Reads data/sws/sws-scored-universe.json + deep JSONs, runs
+# the Snowflake-quality filter (Past ≥ 5, Health ≥ 4, Dividend ≥ 4, market
+# cap ≥ ₹500Cr, no debt/liquidity risk keywords), writes top-20 by upside
+# pct to data/compounder/latest.json. Reconciles paper-trade ledger at
+# data/paper-trades/compounder.json. Personal-use only on the read side
+# (server.js 404s non-allowlisted users). Read-only on production files;
+# only writes to data/compounder/ + data/paper-trades/. Non-fatal.
+echo "[sws-nightly] refresh-compounder.mjs (timeout 120s)"
+with_timeout 120 node scripts/refresh-compounder.mjs 2>&1 | sed 's/^/[compounder] /' || \
+  echo "[sws-nightly] refresh-compounder.mjs FAILED — continuing (non-fatal; tab will show prior basket)"
+
 # Date/branch labels — computed here so both the PASS path (step 5) and
 # the sanity-gate FAIL path (data-only PR) can use them.
 DATE=$(date +%Y-%m-%d)

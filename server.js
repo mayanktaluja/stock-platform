@@ -20,6 +20,8 @@ import { createBreaker } from "./services/externalApiBreaker.js";
 import { loadRiskLabViewMap, buildLabViewForEvent } from "./services/riskLab/earningsLabView.js";
 import { buildSizingDecision } from "./services/riskLab/positionSizing.js";
 import { loadHitRateSummary } from "./services/earnings/hitRateSummary.js";
+import { loadCompounderLatest, loadCompounderPaperTrades } from "./services/compounder/compounderService.js";
+import { createPersonalUseGate, isPersonalAllowed } from "./services/auth/personalUseGate.js";
 
 // External-API circuit breaker for /api/sector-heatmap (Yahoo Finance batch
 // quote). 3 consecutive failures → opens for 60s; serves stale cached
@@ -801,6 +803,12 @@ app.get("/api/auth/me", async (req, res) => {
     name: record.name,
     picture: record.picture,
     isAdmin: !!record.isAdmin,
+    // Personal-use sleeves (Compounder Lab, Earnings Edge) are restricted to
+    // the hard-coded allowlist in services/auth/personalUseGate.js. The flag
+    // here lets the SPA unhide the tab buttons without an extra round-trip;
+    // the server still 404s the underlying /api/compounder/* and
+    // /api/earningsEdge/* routes for non-allowlisted callers.
+    isPersonal: isPersonalAllowed(record.email),
   });
 });
 
@@ -2806,6 +2814,36 @@ function readEarningsHealthSlim() {
     };
   } catch { return null; }
 }
+
+// ──────────────────────────────────────────────────────────────────────
+// Compounder Lab routes — SAFE sleeve from the 2026-05-19 alpha-strategy
+// plan (~/.claude/plans/sws-alpha-strategy-2026-05-19.md). Personal-use
+// only: every route is gated by createPersonalUseGate, which 404s any
+// authenticated user whose email isn't in PERSONAL_USE_EMAILS (default:
+// mtaluja11@gmail.com). The 404 (vs 403) is deliberate — the routes are
+// invisible to other users, no admin-discovery surface.
+// ──────────────────────────────────────────────────────────────────────
+const personalUseGate = createPersonalUseGate({ authEnabled: AUTH_ENABLED });
+
+app.get("/api/compounder/latest", personalUseGate, (req, res) => {
+  try {
+    const data = loadCompounderLatest();
+    if (!data) return res.status(404).json({ error: "compounder-not-built" });
+    res.json(data);
+  } catch (err) {
+    console.error("[/api/compounder/latest] failed:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/api/compounder/paper-trades", personalUseGate, (req, res) => {
+  try {
+    res.json(loadCompounderPaperTrades());
+  } catch (err) {
+    console.error("[/api/compounder/paper-trades] failed:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
 
 app.get("/api/earnings/upcoming", async (req, res) => {
   try {

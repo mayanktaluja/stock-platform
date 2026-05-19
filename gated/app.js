@@ -127,6 +127,15 @@ const auth = {
       if (usersTabBtn) usersTabBtn.hidden = false;
     }
 
+    // Personal-use sleeves (Compounder Lab, Earnings Edge) — same pattern
+    // as admin gating. Server 404s the underlying routes for everyone
+    // outside the allowlist; the button just stays hidden for them too.
+    window.__starbhai_isPersonal = !!me.isPersonal;
+    if (me.isPersonal) {
+      const compounderTabBtn = document.getElementById("compounderTabBtn");
+      if (compounderTabBtn) compounderTabBtn.hidden = false;
+    }
+
     const closeDropdown = () => {
       if (dropdown) dropdown.hidden = true;
       if (trigger) trigger.setAttribute("aria-expanded", "false");
@@ -2413,6 +2422,14 @@ const TAB_CONFIG = {
   riskLab: {
     elId: "riskLabTab",
     enter: () => { if (typeof loadRiskLab === "function") loadRiskLab(); },
+  },
+  // Compounder Lab — SAFE sleeve. Personal-use only; the tab button is
+  // hidden by default and unhidden by the personal-use bootstrap below
+  // (mirroring the admin pattern at usersTabBtn).
+  compounder: {
+    elId: "compounderTab",
+    guard: () => !!window.__starbhai_isPersonal,
+    enter: () => { if (typeof loadCompounderLab === "function") loadCompounderLab(); },
   },
 };
 
