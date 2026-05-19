@@ -25,6 +25,10 @@
   const STORAGE_KEY = "riskLabEnabled_v2";
   let _cache = null;
   let _activeLens = "quality"; // start with Quality Lens — the KEC case is fresher
+  // Per-column sort + expand state. Both ephemeral (no localStorage), both
+  // reset on lens switch (delta getter is lens-specific; filter set differs).
+  let _sortState = { key: null, dir: null };
+  let _showAll = false;
 
   // ─── Per-user toggle (hide the tab if user disabled it locally) ─────
   function isUserEnabled() {
@@ -107,6 +111,41 @@
       LOW: "#ef4444",
       INSUFFICIENT_DATA: "var(--text-muted)",
     }[verdict] || "var(--text-muted)";
+  }
+
+  // Verdict ladder mirrors services/swsScoring.js:375-381.
+  function verdictRank(v) {
+    return { TOP_PICK: 5, STRONG: 4, ACCEPTABLE: 3, WATCH: 2, AVOID: 1 }[v] ?? 0;
+  }
+  // Hold-states bucket below AVOID — sorting desc on Adjusted groups them at the bottom.
+  function adjustedRank(v) {
+    if (v === "MACRO_HOLD" || v === "QUALITY_HOLD" || v === "RISK HOLD") return -1;
+    return verdictRank(v);
+  }
+
+  function cycleSort(key) {
+    if (_sortState.key !== key) _sortState = { key, dir: "desc" };
+    else if (_sortState.dir === "desc") _sortState = { key, dir: "asc" };
+    else _sortState = { key: null, dir: null };
+    render();
+  }
+
+  function sortHeader(label, key, align) {
+    const isActive = _sortState.key === key;
+    const arrow = isActive ? (_sortState.dir === "desc" ? " ↓" : " ↑") : "";
+    return el("div", {
+      "data-testid": `risk-lab-header-${key}`,
+      role: "button",
+      tabindex: "0",
+      "aria-sort": isActive ? (_sortState.dir === "desc" ? "descending" : "ascending") : "none",
+      style: {
+        cursor: "pointer",
+        textAlign: align || "left",
+        userSelect: "none",
+        color: isActive ? "#60a5fa" : "var(--text-muted)",
+      },
+      onClick: () => cycleSort(key),
+    }, label + arrow);
   }
 
   // ─── Loader ─────────────────────────────────────────────────────────
@@ -225,7 +264,12 @@
           fontWeight: "500",
           letterSpacing: "0.04em",
         },
-        onClick: () => { _activeLens = id; render(); },
+        onClick: () => {
+          _activeLens = id;
+          _sortState = { key: null, dir: null };
+          _showAll = false;
+          render();
+        },
       },
       label,
     );
@@ -442,6 +486,38 @@
         });
     }
 
+    // Per-column sort overlay — replaces the lens default when a header is active.
+    // Reads raw fields (not fmtVerdict'd output, which strips underscores).
+    if (_sortState.key) {
+      const getters = {
+        ticker: (s) => (s.ticker || "").toString(),
+        origVerdict: (s) => verdictRank(s.original_verdict),
+        origScore: (s) => Number(s.original_score || 0),
+        delta: (s) => _activeLens === "macro"
+          ? Number(s.macro_score_delta || 0)
+          : _activeLens === "quality"
+            ? Number(s.quality_score_delta || 0)
+            : Number(s.macro_score_delta || 0) + Number(s.quality_score_delta || 0),
+        adjusted: (s) => adjustedRank(
+          _activeLens === "macro" ? s.macro_adjusted_verdict
+            : _activeLens === "quality" ? s.quality_adjusted_verdict
+            : (s.quality_veto?.vetoed || s.macro_veto?.vetoed
+                ? "RISK HOLD"
+                : s.quality_adjusted_verdict || s.macro_adjusted_verdict),
+        ),
+      };
+      const getter = getters[_sortState.key];
+      if (getter) {
+        const mult = _sortState.dir === "desc" ? -1 : 1;
+        filtered = [...filtered].sort((a, b) => {
+          const va = getter(a);
+          const vb = getter(b);
+          if (typeof va === "string") return va.localeCompare(vb) * mult;
+          return (va - vb) * mult;
+        });
+      }
+    }
+
     if (filtered.length === 0) {
       return el(
         "div",
@@ -450,6 +526,7 @@
       );
     }
 
+    const deltaLabel = _activeLens === "macro" ? "Macro Δ" : _activeLens === "quality" ? "Quality Δ" : "Combined Δ";
     const header = el(
       "div",
       {
@@ -467,26 +544,36 @@
           color: "var(--text-muted)",
         },
       },
-      el("div", null, "Ticker"),
-      el("div", null, "Original Verdict"),
-      el("div", { style: { textAlign: "right" } }, "Orig Score"),
-      el("div", { style: { textAlign: "right" } }, _activeLens === "macro" ? "Macro Δ" : _activeLens === "quality" ? "Quality Δ" : "Combined Δ"),
-      el("div", null, "Adjusted"),
+      sortHeader("Ticker", "ticker"),
+      sortHeader("Original Verdict", "origVerdict"),
+      sortHeader("Orig Score", "origScore", "right"),
+      sortHeader(deltaLabel, "delta", "right"),
+      sortHeader("Adjusted", "adjusted"),
       el("div", null, "Reason / Flags"),
     );
 
-    const rows = filtered.slice(0, 100).map((s) => renderRow(s));
+    const rows = (_showAll ? filtered : filtered.slice(0, 100)).map((s) => renderRow(s));
 
-    return el(
-      "div",
-      null,
-      header,
-      ...rows,
-      filtered.length > 100
-        ? el("div", { style: { padding: "12px", textAlign: "center", fontSize: "11px", color: "var(--text-muted)" } },
-            `Showing first 100 of ${filtered.length} matches (sorted by worst delta).`)
-        : null,
-    );
+    const footer = filtered.length > 100
+      ? el("button", {
+          "data-testid": "risk-lab-show-all-btn",
+          style: {
+            display: "block",
+            margin: "12px auto",
+            padding: "8px 18px",
+            background: "transparent",
+            border: "1px solid rgba(96,165,250,0.4)",
+            color: "#60a5fa",
+            borderRadius: "6px",
+            cursor: "pointer",
+            fontSize: "11px",
+            letterSpacing: "0.04em",
+          },
+          onClick: () => { _showAll = !_showAll; render(); },
+        }, _showAll ? `Collapse to first 100 (of ${filtered.length})` : `Show all ${filtered.length} matches`)
+      : null;
+
+    return el("div", null, header, ...rows, footer);
   }
 
   function renderRow(s) {
@@ -532,6 +619,7 @@
     return el(
       "div",
       {
+        "data-testid": "risk-lab-row",
         style: {
           display: "grid",
           gridTemplateColumns: "100px 120px 80px 80px 100px 1fr",
