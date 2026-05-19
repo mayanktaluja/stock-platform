@@ -585,6 +585,10 @@ function recIdFromLabel(label) {
 /** Map a fundamental verdict (DEEP_VALUE etc) or v3 verdict (TOP_PICK etc) to its glossary ID. */
 function verdictIdFromLabel(verdict) {
   if (!verdict) return null;
+  // Normalize: uppercase, trim, collapse spaces to underscores. The Risk Lab
+  // synthesizes "RISK HOLD" (with a space) in the combined view while the
+  // other HOLD states arrive as underscored enums — handle both shapes.
+  const normalized = String(verdict).toUpperCase().trim().replace(/ /g, "_");
   const map = {
     // v1 fundamentals verdicts
     DEEP_VALUE: "deep_value",
@@ -598,8 +602,12 @@ function verdictIdFromLabel(verdict) {
     ACCEPTABLE: "v3_acceptable",
     WATCH: "v3_watch",
     AVOID: "v3_avoid",
+    // Risk Lab HOLD states (lab override of production verdicts)
+    QUALITY_HOLD: "quality_hold",
+    MACRO_HOLD: "macro_hold",
+    RISK_HOLD: "risk_hold",
   };
-  return map[String(verdict).toUpperCase().trim()] || null;
+  return map[normalized] || null;
 }
 
 /** Map a portfolio action label to its glossary ID. */

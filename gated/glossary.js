@@ -648,4 +648,363 @@ window.GLOSSARY = {
     short: "How together your stocks move. 1 = lockstep (no diversification). 0 = independent.",
     full: "Average pairwise correlation across all stocks in the portfolio. Correlation of 1.0 means every name moves together — diversification is illusory, you effectively own one bet. 0.0 means stocks move independently. Indian large-caps typically show correlations of 0.5–0.7 because they share Nifty exposure. Below 0.3 is genuinely diversified; above 0.7 is concentration risk hiding inside a multi-stock book. Note: correlations spike toward 1.0 in panics — diversification is most valuable in calm markets, least valuable in crises.",
   },
+
+  // ══════════════════════════════════════════════════════════════════════
+  // RISK LAB — verdict overrides + quality verdicts + veto markers
+  // ══════════════════════════════════════════════════════════════════════
+  // The Risk Lab is an EXPERIMENTAL overlay viewer. It does NOT change
+  // production picks; it shows what an alternate scoring approach would
+  // say. Read every entry below as "research hypothesis," not "verdict."
+
+  quality_hold: {
+    term: "Quality Hold",
+    category: "verdict",
+    short: "Lab override: this TOP_PICK has 3+ quality red flags totalling ≥ 7 points of penalty.",
+    full: "The Quality Lens flips a production TOP_PICK to QUALITY_HOLD when it finds three or more independent quality red flags AND those flags sum to a ≥ 7-point penalty. Treat it as 'do more homework before trusting the production score,' not 'sell now.' The Risk Lab is experimental and its hit-rate isn't validated yet — false positives are possible. Click the chips in the row to see which specific flags fired.",
+  },
+
+  macro_hold: {
+    term: "Macro Hold",
+    category: "verdict",
+    short: "Lab override: regime severity is extreme AND the stock's sector takes a heavy hit.",
+    full: "The Macro Lens flips a production TOP_PICK to MACRO_HOLD when the current macro regime is at severity ≥ 4 AND the stock's sector impact is ≤ −3. Used during regimes like OIL_SHOCK or CURRENCY_WEAKNESS where a sector-wide drag overwhelms stock-specific positives. Experimental — read as 'macro headwind is severe enough that the production thesis may not hold,' not as a sell signal.",
+  },
+
+  risk_hold: {
+    term: "Risk Hold",
+    category: "verdict",
+    short: "Lab override: BOTH macro and quality vetoes fire on the same TOP_PICK.",
+    full: "Appears on the Combined view when a stock triggers both the Macro Veto AND the Quality Veto — the production score has both regime risk AND fundamental quality concerns. The strongest disagreement the lab can register. Still experimental — the canonical KEC case (−11% surprise miss on a TOP_PICK that scored 80) is the one validated win so far.",
+  },
+
+  quality_high: {
+    term: "Quality Verdict — HIGH",
+    category: "verdict",
+    short: "Zero quality red flags fired on this stock.",
+    full: "The Quality Lens scans SWS risks[] and news[] for five categories of red flags (consecutive earnings miss, imputed scoring, weak coverage ratios, counter-thesis triggers, sector overlays). HIGH means none fired. This does NOT mean the stock is a buy — production scoring may still rate it low. It means the LAB has no quality-side objection to whatever production decided.",
+  },
+
+  quality_medium: {
+    term: "Quality Verdict — MEDIUM",
+    category: "verdict",
+    short: "1–2 quality flags fired. Worth a glance, not a HOLD.",
+    full: "MEDIUM means the Quality Lens found one or two red flags but the penalty wasn't heavy enough to trigger a veto. Check the chip list to see which fired — a single 'imputation_inflation' flag is mild noise; a 'consecutive_miss' alone is more concerning. Use this as a data point alongside the production score, not as a sell signal.",
+  },
+
+  quality_low: {
+    term: "Quality Verdict — LOW",
+    category: "verdict",
+    short: "3+ quality flags fired. Material concerns regardless of veto status.",
+    full: "LOW means three or more quality flags hit on the same stock. The veto only fires if the penalty is also ≥ 7 points AND the original verdict was TOP_PICK, but LOW alone is a signal the lab is uneasy. Read the chips. Persistent LOW on a position you're sized into deserves a closer look — even if the production score is high.",
+  },
+
+  quality_insufficient_data: {
+    term: "Quality Verdict — INSUFFICIENT_DATA",
+    category: "verdict",
+    short: "No SWS risks[] AND no news[] to evaluate. Lab can't form a quality view.",
+    full: "Means the SWS deep brief had no risk items and no news items, so the Quality Lens has nothing to read. Common for less-covered small caps. Doesn't mean the stock is safe; it means the lab can't help. Fall back to the production score or your own research.",
+  },
+
+  macro_veto: {
+    term: "Macro Veto",
+    category: "verdict",
+    short: "TOP_PICK demoted because the current macro regime is severe AND the sector takes a hit.",
+    full: "Fires only on TOP_PICKs. Conditions: macro regime severity ≥ 4 (extreme) AND the stock's sector impact under that regime ≤ −3 (heavy headwind). When both hit, the adjusted verdict becomes MACRO_HOLD and a red MACRO VETO chip appears. The lab is saying 'the production thesis was built on calmer conditions than we have now.' Still experimental — does not affect production picks.",
+  },
+
+  quality_veto: {
+    term: "Quality Veto",
+    category: "verdict",
+    short: "TOP_PICK demoted because 3+ red flags fired AND the score penalty is ≥ 7 points.",
+    full: "Fires only on TOP_PICKs. The Quality Lens needs to find three or more independent quality red flags (consecutive miss, imputed scoring, weak coverage, counter-thesis, sector overlay) AND those flags must sum to at least a 7-point penalty. When both conditions hit, the adjusted verdict becomes QUALITY_HOLD. Read as 'lab disagrees with the production TOP_PICK rating' — not as a sell. The canonical win is KEC (May 2026) where the lab would have caught a −11% surprise miss production rated as BEAT.",
+  },
+
+  // ══════════════════════════════════════════════════════════════════════
+  // RISK LAB — quality flag categories (the chips in Reason / Flags column)
+  // ══════════════════════════════════════════════════════════════════════
+
+  flag_consecutive_miss: {
+    term: "Flag · Consecutive Miss",
+    category: "fundamental",
+    short: "Detected via SWS news that this company missed earnings in a recent prior quarter.",
+    full: "Parses SWS news[] looking for headlines reporting an earnings miss in the recent past (typically the last 1–2 quarters). Detected misses are a strong signal that consensus estimates are running ahead of operational reality. One miss can be noise; back-to-back misses usually mean estimate cuts are coming. Severity weighting reflects how recent the miss is.",
+  },
+
+  flag_imputation_inflation: {
+    term: "Flag · Imputation Inflation",
+    category: "fundamental",
+    short: "Composite score relies on imputed (filled-in) values, not real measurements.",
+    full: "When SWS doesn't have an analyst Fair Value or sufficient price history, the V3 composite score backfills with neutral assumptions (typically +6 of ~12 points). The score isn't 'wrong' — it's just less anchored to real data. Stocks heavily reliant on imputed components may be coasting on optimistic defaults rather than measured upside.",
+  },
+
+  flag_fv_imputed: {
+    term: "Flag · Fair Value Imputed",
+    category: "fundamental",
+    short: "No SWS analyst Fair Value available — upside component was imputed at neutral.",
+    full: "Specific case of imputation_inflation. The fair-value upside portion of the score was filled in at a neutral default because no analyst FV was published for this name. Common for thinly-covered stocks. Means: the upside number is an assumption, not an estimate.",
+  },
+
+  flag_momentum_imputed: {
+    term: "Flag · Momentum Imputed",
+    category: "fundamental",
+    short: "Sparse price history — momentum percentiles imputed at neutral.",
+    full: "When a stock doesn't have enough trading history to compute reliable momentum percentiles (e.g., recent listings), the momentum component is imputed at neutral. The composite score isn't anchored on real price action. Doesn't mean the business is bad; it means the technical side of the score is guessed.",
+  },
+
+  flag_cash_flow_weakness: {
+    term: "Flag · Cash Flow Weakness",
+    category: "fundamental",
+    short: "SWS risks[] flagged weak or insufficient free cash flow.",
+    full: "Pulled from the company's SWS risk list. Means free cash flow is not comfortably covering capex, dividends, or debt service. A single quarter is noise; persistent weakness over multiple periods is the real concern. Cross-check against the cash-flow statement before acting.",
+  },
+
+  flag_interest_coverage: {
+    term: "Flag · Interest Coverage",
+    category: "fundamental",
+    short: "SWS risks[] flagged weak interest payment coverage — debt-serviceability risk.",
+    full: "Interest coverage ratio (EBIT / interest expense) below comfort thresholds means the company can struggle to pay debt costs from operations. Below 1.5× is concerning, below 1.0× is acute. Particularly serious in rising-rate environments — refinancing risk compounds the problem. Look at the debt schedule alongside this flag.",
+  },
+
+  flag_margin_pressure: {
+    term: "Flag · Margin Pressure",
+    category: "fundamental",
+    short: "SWS risks[] or counter-thesis flagged compressing margins.",
+    full: "Either the SWS risk list explicitly names margin compression, or the picks counter-thesis specifies margin contraction as a falsification trigger. Margin pressure can come from input-cost inflation, pricing power loss, or product-mix shift. Check whether the pressure is industry-wide (defensible) or company-specific (more alarming).",
+  },
+
+  flag_earnings_miss_trigger: {
+    term: "Flag · Earnings Miss Trigger",
+    category: "fundamental",
+    short: "Counter-thesis explicitly names 'next quarterly miss' as a falsification event.",
+    full: "Parsed from the picks counter_thesis. Means the original investment thesis explicitly listed a future earnings miss as a condition that would invalidate the call. With the lab having flagged this, the upcoming result becomes a high-stakes data point — a miss is meaningfully bearish, a beat meaningfully bullish.",
+  },
+
+  flag_india_risk_trigger: {
+    term: "Flag · India Risk Trigger",
+    category: "fundamental",
+    short: "Counter-thesis or SWS data flags India-specific macro / regulatory risk.",
+    full: "Covers India-specific risks: ASM/GSM surveillance categorisation, promoter pledge above thresholds, rupee depreciation exposure, regulatory action on a sector (pharma USFDA, finance NBFC, etc.). Each is a known historical bear catalyst for Indian equities. Severity depends on which specific sub-risk fired.",
+  },
+
+  flag_sector_overlay: {
+    term: "Flag · Sector Overlay",
+    category: "fundamental",
+    short: "Sector-specific risk pattern matched (insurance, pharma, auto, etc.).",
+    full: "Each sector has known failure modes — insurance has solvency ratios, pharma has FDA letters, auto has inventory cycles, banks have NPA flags. The sector overlay applies a sector-aware filter on top of generic quality signals. Lowest-severity individual flag type; matters when stacked with others.",
+  },
+
+  // ══════════════════════════════════════════════════════════════════════
+  // RISK LAB — lens names + score columns
+  // ══════════════════════════════════════════════════════════════════════
+
+  lens_quality: {
+    term: "Quality Lens",
+    category: "portfolio",
+    short: "Shows stocks with earnings-quality red flags (the KEC-class trap detector).",
+    full: "Filters the table to stocks where the Quality Lens fired at least one red flag (or vetoed the production TOP_PICK). Sorted by worst quality_score_delta first. This is the lens the KEC case (May 2026 −11% surprise miss) would have caught — the lab's strongest validated use case so far.",
+  },
+
+  lens_macro: {
+    term: "Macro Lens",
+    category: "portfolio",
+    short: "Shows stocks impacted by the current macro regime (oil, currency, rates, etc.).",
+    full: "Filters the table to stocks whose macro_score_delta is non-zero under the current regime — i.e. the regime overlay would adjust their score. Sorted by worst macro_score_delta first. Useful during named regimes like OIL_SHOCK or CURRENCY_WEAKNESS; often shows zero matches during CALM.",
+  },
+
+  lens_combined: {
+    term: "Combined View",
+    category: "portfolio",
+    short: "Stocks flagged by EITHER the Macro or the Quality lens — the union view.",
+    full: "Shows any stock with non-zero macro delta OR at least one quality flag. Sorted by the sum of both deltas (worst first). Use this when you want a single view of every position the lab has any opinion on. The widest filter — typically the largest row count on the tab.",
+  },
+
+  lens_thesis: {
+    term: "Macro Thesis",
+    category: "portfolio",
+    short: "A scenario sub-view explaining the current regime and four likely paths forward.",
+    full: "Switches from the stock-by-stock table to a thesis viewer: regime explanation, four scenario branches (continue / escalate / de-escalate / new shock) with probability and expected sector winners/losers, position-sizing cap, and upcoming catalysts. SEBI Reg 16 caveats apply — this is research, not advice.",
+  },
+
+  col_orig_score: {
+    term: "Original Score",
+    category: "portfolio",
+    short: "The production SWS V3 composite score (0–100).",
+    full: "Production's own number, before any lab adjustments. 0–40 = weak, 40–60 = fair, 60–80 = strong, 80–100 = exceptional. Built from fundamentals, fair-value upside, momentum, and quality pillars. The Risk Lab's deltas adjust THIS number to test alternate scoring approaches.",
+  },
+
+  col_macro_delta: {
+    term: "Macro Δ (Delta)",
+    category: "macro",
+    short: "Score adjustment from the macro regime overlay. Range −5 to +5.",
+    full: "How much the Macro Lens would add or subtract from the original score under the current regime. Negative = headwind, positive = tailwind. Magnitude depends on regime severity, the stock's sector exposure, and regime confidence. A delta of −2.5 means 'subtract 2.5 points from production's score.' This is a SOFT discount; the hard veto only fires at severity ≥ 4 with sector impact ≤ −3.",
+  },
+
+  col_quality_delta: {
+    term: "Quality Δ (Delta)",
+    category: "macro",
+    short: "Score adjustment from quality red flags. Range −10 to 0 (penalty only).",
+    full: "Sum of severities for every quality flag that fired on this stock, capped at −10. A delta of −9 means 'subtract 9 points from production's score' — a 65-rated TOP_PICK becomes a 56-rated stock under the lab's view. The cap exists to prevent a stack of small flags from flipping a score by an unrealistic amount.",
+  },
+
+  col_combined_delta: {
+    term: "Combined Δ (Delta)",
+    category: "macro",
+    short: "Sum of the Macro Δ and Quality Δ for the same stock. Range roughly −15 to +5.",
+    full: "Macro Δ + Quality Δ — used on the Combined view to rank stocks by total lab disagreement with production. Most negative numbers at the top = strongest lab objections to production's score.",
+  },
+
+  col_adjusted: {
+    term: "Adjusted Verdict",
+    category: "portfolio",
+    short: "Production's verdict after the lab's adjustments. May flip to a HOLD state.",
+    full: "Starts as the production verdict (TOP_PICK / STRONG / ACCEPTABLE / WATCH / AVOID). Flips to QUALITY_HOLD, MACRO_HOLD, or RISK_HOLD when a veto fires. Hover the verdict text for details on each state. Remember: this is the LAB's verdict, not production's.",
+  },
+
+  col_reason_flags: {
+    term: "Reason / Flags",
+    category: "portfolio",
+    short: "Chips showing which specific lab signals fired on this stock.",
+    full: "Each chip is one quality flag, sector-delta, or veto marker. Colors track severity: red = high, amber = medium, green = positive. Hover any chip for its definition. If you see four+ chips on a single row, the lab has multiple independent concerns — open the SWS deep brief and read carefully.",
+  },
+
+  // ══════════════════════════════════════════════════════════════════════
+  // RISK LAB — banner statistics
+  // ══════════════════════════════════════════════════════════════════════
+
+  lab_total_stocks: {
+    term: "Total Stocks (Risk Lab)",
+    category: "portfolio",
+    short: "Total unique tickers the lab evaluated this run, across all picks sections.",
+    full: "Deduplicated count of every ticker that flowed through the lab orchestrator. Different from the picks tab's count — the lab includes both TOP_PICKs and the WATCH / AVOID tail so it can measure relative lab-vs-production drift across the full universe.",
+  },
+
+  lab_macro_flagged: {
+    term: "Macro Flagged",
+    category: "portfolio",
+    short: "Stocks where the current macro regime would adjust the score (non-zero macro_score_delta).",
+    full: "Count of stocks whose sector exposure under the current regime produces any non-zero adjustment. Excludes stocks the regime overlay doesn't touch. Usually zero during CALM regimes; can be 100s during named regimes like OIL_SHOCK.",
+  },
+
+  lab_macro_vetoed: {
+    term: "Macro Vetoed",
+    category: "portfolio",
+    short: "Stocks where the Macro Veto fired (TOP_PICK demoted to MACRO_HOLD).",
+    full: "Subset of macro_flagged: only those TOP_PICKs that hit both veto conditions (regime severity ≥ 4 AND sector impact ≤ −3). A non-zero number here means the lab is actively pushing back on production's top calls under the current regime.",
+  },
+
+  lab_quality_flagged: {
+    term: "Quality Flagged",
+    category: "portfolio",
+    short: "Stocks with at least one quality red flag fired.",
+    full: "Count of stocks where the Quality Lens detected one or more red flags. This is the population the Quality lens shows — typically the largest filter set on the tab. Each flag is independently triggered, so a high count doesn't mean every stock is bad; it means every stock has at least one data-quality or fundamentals concern worth scanning.",
+  },
+
+  lab_quality_vetoed: {
+    term: "Quality Vetoed",
+    category: "portfolio",
+    short: "Stocks where the Quality Veto fired (TOP_PICK demoted to QUALITY_HOLD).",
+    full: "Subset of quality_flagged: only TOP_PICKs with 3+ flags AND ≥ 7-point penalty. Small number — usually a handful even when quality_flagged is in the hundreds. The most severe lab disagreement with production's top-tier calls.",
+  },
+
+  lab_low_quality: {
+    term: "Low Quality",
+    category: "portfolio",
+    short: "Stocks where quality_verdict = LOW (3+ quality flags, regardless of veto status).",
+    full: "Independent of veto: any stock that crossed the 3+ flag threshold gets LOW. Includes vetoed TOP_PICKs and any other verdict with the same flag count. A stock can be quality_verdict=LOW without being vetoed (if it wasn't a TOP_PICK or the penalty was under 7).",
+  },
+
+  // ══════════════════════════════════════════════════════════════════════
+  // RISK LAB — regime metadata + Macro Thesis fields
+  // ══════════════════════════════════════════════════════════════════════
+
+  regime_severity: {
+    term: "Regime Severity",
+    category: "macro",
+    short: "1–5 scale measuring how disruptive the current regime is. 4+ triggers macro vetoes.",
+    full: "Severity 1 = calm / negligible impact, 2 = mild, 3 = noticeable sector rotation, 4 = significant disruption (vetoes start firing), 5 = crisis-level. Combined with regime confidence, this drives how strongly the Macro Lens adjusts scores. Set by the regime classifier from headline-tier news (Business Standard, Economic Times, Reuters, FT).",
+  },
+
+  regime_confidence: {
+    term: "Regime Confidence",
+    category: "macro",
+    short: "0–1 scale: how certain the classifier is about the current regime label.",
+    full: "Below 60% (shown in amber) means the classifier is uncertain — could be early in a regime shift, conflicting signals, or low news volume. The Macro Lens scales its adjustments by confidence, so a high-confidence regime gets full effect; a low-confidence one is softened. If you see persistent low confidence, treat the regime label itself with skepticism.",
+  },
+
+  regime_days_in_state: {
+    term: "Days in State",
+    category: "macro",
+    short: "How long the current regime has been continuously classified the same way.",
+    full: "Regime persistence. Day 1 of a new regime is the riskiest read — the classifier may flip back. Day 10+ in the same state means the regime is well-established. Used as one input to the scenario probabilities in the Macro Thesis: longer days-in-state weakens 'continue' and strengthens 'de-escalate' scenarios.",
+  },
+
+  thesis_branch_continue: {
+    term: "Thesis Branch — Continue",
+    category: "macro",
+    short: "Scenario: the current regime persists at its current severity for the duration window.",
+    full: "Base case scenario — the regime label and severity stay where they are. Probability typically high (40–60%) in well-established regimes, lower in fresh transitions. Beneficiaries and losers in this branch are the sectors that have outperformed / underperformed in historical analogs of the same regime.",
+  },
+
+  thesis_branch_escalate: {
+    term: "Thesis Branch — Escalate",
+    category: "macro",
+    short: "Scenario: the current regime worsens (higher severity or wider impact).",
+    full: "Tail-risk scenario. For an OIL_SHOCK regime, escalation means higher oil prices; for CURRENCY_WEAKNESS, deeper INR depreciation. Probability is typically moderate (15–25%) — escalations happen, but not on most days. Beneficiaries here are usually defensive sectors; losers are the regime's primary victims.",
+  },
+
+  thesis_branch_de_escalate: {
+    term: "Thesis Branch — De-escalate",
+    category: "macro",
+    short: "Scenario: the regime fades back toward CALM at the duration window's end.",
+    full: "The 'this passes' scenario. Probability scales with days-in-state — longer persistence makes de-escalation more likely. Beneficiaries are typically the sectors that got hit during the regime (mean reversion); losers are the defensives that ran during the stress.",
+  },
+
+  thesis_branch_new_shock: {
+    term: "Thesis Branch — New Shock",
+    category: "macro",
+    short: "Scenario: a different regime entirely takes over before the duration window ends.",
+    full: "Tail scenario — something the classifier didn't anticipate hits the market. Probability is typically lowest (5–15%) because by definition we can't predict what we don't see. Beneficiaries and losers here are template-based (no analog data) — read them as 'directional guesses,' not 'evidence-backed.'",
+  },
+
+  thesis_probability: {
+    term: "Thesis Branch Probability",
+    category: "macro",
+    short: "% likelihood the branch fires within its duration window. Branches sum to ~100%.",
+    full: "Computed from a base probability (rule-based) times a modulator that uses regime severity, days-in-state, and analog count. Probabilities across the four branches should sum to roughly 100% (small rounding tolerance). High-confidence regimes have sharper distributions (one dominant branch); low-confidence regimes spread probability more evenly.",
+  },
+
+  thesis_beneficiaries: {
+    term: "Beneficiaries (▲)",
+    category: "macro",
+    short: "Sectors and pure-play stocks expected to OUTPERFORM under this scenario.",
+    full: "When the branch fires, these are the names with positive expected returns. Source = 'analog' means median + IQR are from historical regime matches; source = 'template' means there's no analog data and the call is rule-based (lower confidence). Stocks listed under each sector are pure plays — concentrated exposure to that sector's regime sensitivity.",
+  },
+
+  thesis_losers: {
+    term: "Losers (▼)",
+    category: "macro",
+    short: "Sectors and pure-play stocks expected to UNDERPERFORM under this scenario.",
+    full: "When the branch fires, these are the names with negative expected returns. Same source classification as beneficiaries. Use this list defensively — if your portfolio is concentrated in a sector flagged as a loser in the high-probability branch, the lab is suggesting risk reduction (not a sell mandate).",
+  },
+
+  thesis_position_cap: {
+    term: "Position-Sizing Cap (SEBI Reg 16)",
+    category: "portfolio",
+    short: "Max % of your portfolio you should commit to any single macro thesis.",
+    full: "Typically 10%. The cap exists because thesis-driven positioning is concentrated by design — if you're going to act on the lab's view, do so across multiple theses, not by betting the book on one regime call. SEBI Reg 16 compliance for the research surface: diversify, don't concentrate.",
+  },
+
+  thesis_sebi_reg16: {
+    term: "SEBI Reg 16 Caveats",
+    category: "portfolio",
+    short: "Mandatory research-disclosure caveats listed for the Macro Thesis sub-view.",
+    full: "The Risk Lab is research, not SEBI-registered investment advice. Reg 16 caveats appear alongside any directional thesis: assumptions, limitations, data-source provenance, position-sizing constraints. Read them — they're the difference between 'thesis-aware investing' and 'blindly chasing a narrative.'",
+  },
+
+  thesis_upcoming_catalysts: {
+    term: "Upcoming Catalysts",
+    category: "macro",
+    short: "Known events in the next 30 days that could move the current regime.",
+    full: "Pulled from the events calendar: earnings, RBI policy, SEBI announcements, ECB / Fed decisions, etc. Each catalyst is color-coded by urgency (red ≤ 7 days, amber ≤ 14 days, blue > 14 days). The list isn't predictive — it's a 'don't forget these are coming' reminder. Use it to time portfolio reviews and avoid getting caught flat-footed.",
+  },
 };

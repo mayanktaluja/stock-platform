@@ -136,6 +136,22 @@
     render();
   }
 
+  // DOM-friendly counterpart to app.js's infoIcon(termId) — the lab builds
+  // its UI via document.createElement, so it can't consume the string-based
+  // helper. Returns a real DOM node compatible with appendChild + el()
+  // children. The platform-wide delegated tooltip listener at
+  // gated/app.js:638 picks up any .info-icon / [data-term-id] automatically.
+  function infoBubble(termId) {
+    if (!termId || !window.GLOSSARY || !window.GLOSSARY[termId]) return null;
+    const def = window.GLOSSARY[termId];
+    return el("span", {
+      className: "info-icon",
+      "data-term-id": termId,
+      tabindex: "0",
+      "aria-label": `Info: ${def.term || termId}`,
+    }, "i");
+  }
+
   // Case-insensitive substring match across ticker + verdicts + flag categories
   // + sector. Reads raw fields (not fmtVerdict output) so "QUALITY_HOLD" and
   // "RISK HOLD" both match a query of "hold".
@@ -166,10 +182,10 @@
     }, 150);
   }
 
-  function sortHeader(label, key, align) {
+  function sortHeader(label, key, align, termId) {
     const isActive = _sortState.key === key;
     const arrow = isActive ? (_sortState.dir === "desc" ? " ↓" : " ↑") : "";
-    return el("div", {
+    const wrapper = el("div", {
       "data-testid": `risk-lab-header-${key}`,
       role: "button",
       tabindex: "0",
@@ -180,8 +196,16 @@
         userSelect: "none",
         color: isActive ? "#60a5fa" : "var(--text-muted)",
       },
-      onClick: () => cycleSort(key),
+      onClick: (e) => {
+        // Don't trigger sort if the user clicked the info bubble — that has
+        // its own tooltip behaviour handled by the delegated listener.
+        if (e.target.closest("[data-term-id]")) return;
+        cycleSort(key);
+      },
     }, label + arrow);
+    const bubble = infoBubble(termId);
+    if (bubble) wrapper.appendChild(bubble);
+    return wrapper;
   }
 
   // ─── Loader ─────────────────────────────────────────────────────────
@@ -222,23 +246,40 @@
   function renderBanner(payload) {
     const s = payload.summary || {};
     const regime = payload.regime || {};
+    const regimeTermId = typeof regimeIdFromLabel === "function" ? regimeIdFromLabel(regime.regime) : null;
+    const regimeAttrs = {
+      style: {
+        background: regime.regime === "CALM" ? "rgba(132,204,22,0.15)" : "rgba(239,68,68,0.15)",
+        color: regime.regime === "CALM" ? "#84cc16" : "#ef4444",
+        padding: "3px 10px",
+        borderRadius: "12px",
+        fontSize: "11px",
+        fontWeight: "600",
+        letterSpacing: "0.04em",
+      },
+    };
+    // If the regime maps to a glossary entry, wire the badge itself as an
+    // invisible tooltip trigger. cursor:help hints hoverability without
+    // adding a separate ⓘ glyph inside the badge's padding (would clash
+    // with the badge's pill shape).
+    if (regimeTermId && window.GLOSSARY && window.GLOSSARY[regimeTermId]) {
+      regimeAttrs.className = "glossary-term";
+      regimeAttrs["data-term-id"] = regimeTermId;
+      regimeAttrs.style.cursor = "help";
+    }
     const regimeBadge = regime.regime
-      ? el("span", {
-          style: {
-            background: regime.regime === "CALM" ? "rgba(132,204,22,0.15)" : "rgba(239,68,68,0.15)",
-            color: regime.regime === "CALM" ? "#84cc16" : "#ef4444",
-            padding: "3px 10px",
-            borderRadius: "12px",
-            fontSize: "11px",
-            fontWeight: "600",
-            letterSpacing: "0.04em",
-          },
-        }, `${regime.regimeLabel || regime.regime} · sev ${regime.severity || "?"}`)
+      ? el("span", regimeAttrs, `${regime.regimeLabel || regime.regime} · sev ${regime.severity || "?"}`)
       : el("span", { style: { color: "var(--text-muted)" } }, "regime unavailable");
 
     const subnote = payload.source_regime_generated_at
       ? `regime generated ${new Date(payload.source_regime_generated_at).toLocaleString()}`
       : "regime source missing";
+
+    const currentRegimeLabel = el("div", {
+      style: { fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em", display: "flex", alignItems: "center", gap: "6px" },
+    }, "Current Regime");
+    const regimeSeverityBubble = infoBubble("regime_severity");
+    if (regimeSeverityBubble) currentRegimeLabel.appendChild(regimeSeverityBubble);
 
     return el(
       "div",
@@ -257,66 +298,81 @@
         },
       },
       el("div", null,
-        el("div", { style: { fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em" } },
-          "Current Regime"),
+        currentRegimeLabel,
         el("div", { style: { marginTop: "4px", display: "flex", alignItems: "center", gap: "10px" } },
           regimeBadge,
           el("span", { style: { fontSize: "11px", color: "var(--text-muted)" } }, subnote),
         ),
       ),
       el("div", { style: { display: "flex", gap: "16px", flexWrap: "wrap" } },
-        statChip("Total stocks", s.total_stocks),
-        statChip("Macro flagged", s.macro_flagged_count, "#f59e0b"),
-        statChip("Macro vetoed", s.macro_vetoed_count, "#ef4444"),
-        statChip("Quality flagged", s.quality_flagged_count, "#f59e0b"),
-        statChip("Quality vetoed", s.quality_vetoed_count, "#ef4444"),
-        statChip("Low quality", s.low_quality_count, "#ef4444"),
+        statChip("Total stocks", s.total_stocks, null, "lab_total_stocks"),
+        statChip("Macro flagged", s.macro_flagged_count, "#f59e0b", "lab_macro_flagged"),
+        statChip("Macro vetoed", s.macro_vetoed_count, "#ef4444", "lab_macro_vetoed"),
+        statChip("Quality flagged", s.quality_flagged_count, "#f59e0b", "lab_quality_flagged"),
+        statChip("Quality vetoed", s.quality_vetoed_count, "#ef4444", "lab_quality_vetoed"),
+        statChip("Low quality", s.low_quality_count, "#ef4444", "lab_low_quality"),
       ),
     );
   }
 
-  function statChip(label, value, accent) {
+  function statChip(label, value, accent, termId) {
+    const labelNode = el("div", {
+      style: { fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em", display: "inline-flex", alignItems: "center", gap: "5px" },
+    }, label);
+    const bubble = infoBubble(termId);
+    if (bubble) labelNode.appendChild(bubble);
     return el(
       "div",
       { style: { textAlign: "right" } },
-      el("div", { style: { fontSize: "10px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em" } }, label),
+      labelNode,
       el("div", { style: { fontSize: "18px", fontWeight: "600", color: accent || "var(--text-primary)", marginTop: "2px" } }, value ?? 0),
     );
   }
 
   function renderLensTabs() {
-    const lensBtn = (id, label) => el(
-      "button",
-      {
-        className: `risk-lab-lens-btn${_activeLens === id ? " active" : ""}`,
-        style: {
-          padding: "8px 16px",
-          background: _activeLens === id ? "rgba(96,165,250,0.15)" : "transparent",
-          color: _activeLens === id ? "#60a5fa" : "var(--text-muted)",
-          border: `1px solid ${_activeLens === id ? "rgba(96,165,250,0.35)" : "rgba(255,255,255,0.08)"}`,
-          borderRadius: "6px",
-          cursor: "pointer",
-          fontSize: "12px",
-          fontWeight: "500",
-          letterSpacing: "0.04em",
+    const lensBtn = (id, label, termId) => {
+      const btn = el(
+        "button",
+        {
+          className: `risk-lab-lens-btn${_activeLens === id ? " active" : ""}`,
+          style: {
+            padding: "8px 16px",
+            background: _activeLens === id ? "rgba(96,165,250,0.15)" : "transparent",
+            color: _activeLens === id ? "#60a5fa" : "var(--text-muted)",
+            border: `1px solid ${_activeLens === id ? "rgba(96,165,250,0.35)" : "rgba(255,255,255,0.08)"}`,
+            borderRadius: "6px",
+            cursor: "pointer",
+            fontSize: "12px",
+            fontWeight: "500",
+            letterSpacing: "0.04em",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "6px",
+          },
+          onClick: (e) => {
+            // Clicks landing on the info bubble should show its tooltip, not
+            // switch lenses.
+            if (e.target.closest("[data-term-id]")) return;
+            _activeLens = id;
+            _sortState = { key: null, dir: null };
+            _showAll = false;
+            render();
+          },
         },
-        onClick: () => {
-          _activeLens = id;
-          _sortState = { key: null, dir: null };
-          _showAll = false;
-          render();
-        },
-      },
-      label,
-    );
+        label,
+      );
+      const bubble = infoBubble(termId);
+      if (bubble) btn.appendChild(bubble);
+      return btn;
+    };
 
     return el(
       "div",
       { style: { display: "flex", gap: "8px", marginBottom: "16px", flexWrap: "wrap" } },
-      lensBtn("quality", "Quality Lens"),
-      lensBtn("macro", "Macro Lens"),
-      lensBtn("combined", "Combined view"),
-      lensBtn("thesis", "Macro Thesis"),
+      lensBtn("quality", "Quality Lens", "lens_quality"),
+      lensBtn("macro", "Macro Lens", "lens_macro"),
+      lensBtn("combined", "Combined view", "lens_combined"),
+      lensBtn("thesis", "Macro Thesis", "lens_thesis"),
     );
   }
 
@@ -338,23 +394,39 @@
     }
     // Regime banner
     const r = thesis.regime || {};
+    // Helper for compact "<label> ⓘ" pairs used in the regime banner.
+    const thesisLabel = (text, termId) => {
+      const node = el("div", {
+        style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-flex", alignItems: "center", gap: "5px" },
+      }, text);
+      const bubble = infoBubble(termId);
+      if (bubble) node.appendChild(bubble);
+      return node;
+    };
+    const regimeTermId = typeof regimeIdFromLabel === "function" ? regimeIdFromLabel(r.regime) : null;
+    const regimeValueAttrs = { style: { fontSize: "16px", fontWeight: "600", color: "#e2e8f0" } };
+    if (regimeTermId && window.GLOSSARY && window.GLOSSARY[regimeTermId]) {
+      regimeValueAttrs.className = "glossary-term";
+      regimeValueAttrs["data-term-id"] = regimeTermId;
+      regimeValueAttrs.style.cursor = "help";
+    }
     root.appendChild(el("div", {
       style: { display: "flex", gap: "16px", flexWrap: "wrap", padding: "12px 16px", background: "rgba(15,20,34,0.5)", border: "1px solid #1a2233", borderRadius: "8px", marginBottom: "16px" },
     },
       el("div", null,
-        el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase" } }, "Current regime"),
-        el("div", { style: { fontSize: "16px", fontWeight: "600", color: "#e2e8f0" } }, r.label || r.regime || "?"),
+        thesisLabel("Current regime", null),
+        el("div", regimeValueAttrs, r.label || r.regime || "?"),
       ),
       el("div", null,
-        el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase" } }, "Severity"),
+        thesisLabel("Severity", "regime_severity"),
         el("div", { style: { fontSize: "16px", fontWeight: "600", color: r.severity >= 4 ? "#f87171" : r.severity >= 3 ? "#fbbf24" : "#93c5fd" } }, String(r.severity ?? "—")),
       ),
       r.days_in_state != null ? el("div", null,
-        el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase" } }, "Days in state"),
+        thesisLabel("Days in state", "regime_days_in_state"),
         el("div", { style: { fontSize: "16px", fontWeight: "600", color: "#e2e8f0" } }, `${r.days_in_state}d`),
       ) : null,
       r.confidence != null ? el("div", null,
-        el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase" } }, "Regime confidence"),
+        thesisLabel("Regime confidence", "regime_confidence"),
         el("div", { style: { fontSize: "16px", fontWeight: "600", color: r.confidence < 0.6 ? "#fbbf24" : "#86efac" } }, `${Math.round(r.confidence * 100)}%`),
       ) : null,
     ));
@@ -391,9 +463,12 @@
     }
 
     // Position-cap warning banner (SEBI Reg 16)
-    root.appendChild(el("div", {
-      style: { padding: "10px 14px", border: "1px dashed #fbbf24", borderRadius: "6px", marginBottom: "16px", fontSize: "11px", color: "#fbbf24" },
-    }, `⚠ Position-sizing cap: max ${thesis.position_cap_pct || 10}% of portfolio per thesis. Diversify across multiple theses; do not concentrate based on a single scenario.`));
+    const posCapBanner = el("div", {
+      style: { padding: "10px 14px", border: "1px dashed #fbbf24", borderRadius: "6px", marginBottom: "16px", fontSize: "11px", color: "#fbbf24", display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" },
+    }, `⚠ Position-sizing cap: max ${thesis.position_cap_pct || 10}% of portfolio per thesis. Diversify across multiple theses; do not concentrate based on a single scenario.`);
+    const posCapBubble = infoBubble("thesis_position_cap");
+    if (posCapBubble) posCapBanner.appendChild(posCapBubble);
+    root.appendChild(posCapBanner);
 
     // Per-branch cards
     const cardsWrap = el("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "12px" } });
@@ -406,20 +481,30 @@
         "data-testid": `thesis-branch-${b.key}`,
         style: { padding: "14px", border: "1px solid #1a2233", borderRadius: "8px", background: "rgba(15,20,34,0.6)" },
       });
+      const branchTermId = `thesis_branch_${b.key}`;
+      const branchKeyNode = el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-flex", alignItems: "center", gap: "5px" } }, b.key);
+      const branchKeyBubble = infoBubble(branchTermId);
+      if (branchKeyBubble) branchKeyNode.appendChild(branchKeyBubble);
+      const probNode = el("div", { style: { fontSize: "20px", fontWeight: "700", color: probColor, display: "inline-flex", alignItems: "center", gap: "4px" } }, `${Math.round((b.probability || 0) * 100)}%`);
+      const probBubble = infoBubble("thesis_probability");
+      if (probBubble) probNode.appendChild(probBubble);
       card.appendChild(el("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px", marginBottom: "10px" } },
         el("div", null,
-          el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase" } }, b.key),
+          branchKeyNode,
           el("div", { style: { fontSize: "13px", color: "#e2e8f0", fontWeight: "500" } }, b.label, indFlag),
         ),
         el("div", { style: { textAlign: "right" } },
-          el("div", { style: { fontSize: "20px", fontWeight: "700", color: probColor } }, `${Math.round((b.probability || 0) * 100)}%`),
+          probNode,
           el("div", { style: { fontSize: "9px", color: "var(--text-muted)" } }, `~${b.duration_days || "?"}d horizon · n=${b.n_analogs || 0}`),
         ),
       ));
       // Beneficiaries
       const ben = (b.beneficiaries || []).slice(0, 3);
       if (ben.length > 0) {
-        card.appendChild(el("div", { style: { fontSize: "10px", color: "#86efac", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "6px" } }, "▲ Beneficiaries"));
+        const benHeader = el("div", { style: { fontSize: "10px", color: "#86efac", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "6px", display: "inline-flex", alignItems: "center", gap: "5px" } }, "▲ Beneficiaries");
+        const benBubble = infoBubble("thesis_beneficiaries");
+        if (benBubble) benHeader.appendChild(benBubble);
+        card.appendChild(benHeader);
         for (const beneficiary of ben) {
           const benRow = el("div", { style: { padding: "6px 8px", background: "rgba(34,197,94,0.06)", borderRadius: "4px", marginBottom: "4px" } });
           const labelLine = beneficiary.source === "analog"
@@ -437,7 +522,10 @@
       // Losers
       const los = (b.losers || []).slice(0, 3);
       if (los.length > 0) {
-        card.appendChild(el("div", { style: { fontSize: "10px", color: "#fca5a5", letterSpacing: "0.05em", textTransform: "uppercase", marginTop: "6px", marginBottom: "6px" } }, "▼ Hit"));
+        const losHeader = el("div", { style: { fontSize: "10px", color: "#fca5a5", letterSpacing: "0.05em", textTransform: "uppercase", marginTop: "6px", marginBottom: "6px", display: "inline-flex", alignItems: "center", gap: "5px" } }, "▼ Hit");
+        const losBubble = infoBubble("thesis_losers");
+        if (losBubble) losHeader.appendChild(losBubble);
+        card.appendChild(losHeader);
         for (const loser of los) {
           const lossLine = loser.source === "analog"
             ? `${loser.sector_label} — median ${loser.expected_return_pct}% (IQR ${loser.p25}–${loser.p75}%, n=${loser.n_analogs})`
@@ -513,7 +601,10 @@
         "data-testid": "thesis-catalysts",
         style: { marginTop: "16px", padding: "12px 14px", border: "1px solid #1a2233", borderRadius: "6px", background: "rgba(15,20,34,0.6)" },
       });
-      cat.appendChild(el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "8px" } }, "Upcoming catalysts (next 30 days)"));
+      const catHeader = el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "8px", display: "inline-flex", alignItems: "center", gap: "5px" } }, "Upcoming catalysts (next 30 days)");
+      const catBubble = infoBubble("thesis_upcoming_catalysts");
+      if (catBubble) catHeader.appendChild(catBubble);
+      cat.appendChild(catHeader);
       const wrap = el("div", { style: { display: "flex", flexWrap: "wrap", gap: "6px" } });
       for (const c of thesis.upcoming_catalysts) {
         const chip = el("div", {
@@ -533,7 +624,10 @@
     // SEBI Reg 16 caveats
     if (thesis.caveats?.length > 0) {
       const cv = el("div", { "data-testid": "thesis-caveats", style: { marginTop: "16px", padding: "12px 14px", border: "1px solid rgba(148,163,184,0.3)", borderRadius: "6px", background: "rgba(15,20,34,0.4)" } });
-      cv.appendChild(el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "6px" } }, "SEBI Reg 16 caveats"));
+      const cvHeader = el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "6px", display: "inline-flex", alignItems: "center", gap: "5px" } }, "SEBI Reg 16 caveats");
+      const cvBubble = infoBubble("thesis_sebi_reg16");
+      if (cvBubble) cvHeader.appendChild(cvBubble);
+      cv.appendChild(cvHeader);
       for (const c of thesis.caveats) {
         cv.appendChild(el("div", { style: { fontSize: "11px", color: "#cbd5e1", marginBottom: "4px" } }, `• ${c}`));
       }
@@ -576,19 +670,26 @@
       .sort((a, b) => Number(a.quality_score_delta || 0) - Number(b.quality_score_delta || 0))
       .slice(0, 3);
 
-    function studyBlock(title, subtitle, list, lensType) {
+    function studyBlock(title, subtitle, list, lensType, titleTermId) {
+      const titleNode = el(
+        "div",
+        { style: { fontSize: "13px", fontWeight: "600", marginBottom: "4px", display: "inline-flex", alignItems: "center", gap: "6px" } },
+        title,
+      );
+      const titleBubble = infoBubble(titleTermId);
+      if (titleBubble) titleNode.appendChild(titleBubble);
       if (list.length === 0) {
         return el(
           "div",
           { style: { padding: "14px 16px", background: "rgba(20,30,50,0.4)", borderRadius: "8px", flex: "1" } },
-          el("div", { style: { fontSize: "13px", fontWeight: "600", marginBottom: "4px" } }, title),
+          titleNode,
           el("div", { style: { fontSize: "11px", color: "var(--text-muted)" } }, "No notable cases in current snapshot."),
         );
       }
       return el(
         "div",
         { style: { padding: "14px 16px", background: "rgba(20,30,50,0.4)", borderRadius: "8px", flex: "1" } },
-        el("div", { style: { fontSize: "13px", fontWeight: "600", marginBottom: "2px" } }, title),
+        titleNode,
         el("div", { style: { fontSize: "11px", color: "var(--text-muted)", marginBottom: "10px" } }, subtitle),
         ...list.map((s) => el(
           "div",
@@ -603,8 +704,8 @@
     return el(
       "div",
       { style: { display: "flex", gap: "14px", marginBottom: "20px", flexWrap: "wrap" } },
-      studyBlock("Macro lens — top discounted", "Stocks where the regime overlay imposed the largest negative delta.", macroNotables, "macro"),
-      studyBlock("Quality lens — KEC-class traps", "TOP_PICKs the Quality Lens would have flagged. Each has 3+ quality red flags in SWS data.", qualityNotables, "quality"),
+      studyBlock("Macro lens — top discounted", "Stocks where the regime overlay imposed the largest negative delta.", macroNotables, "macro", "lens_macro"),
+      studyBlock("Quality lens — KEC-class traps", "TOP_PICKs the Quality Lens would have flagged. Each has 3+ quality red flags in SWS data.", qualityNotables, "quality", "lens_quality"),
     );
   }
 
@@ -720,10 +821,15 @@
       },
       sortHeader("Ticker", "ticker"),
       sortHeader("Original Verdict", "origVerdict"),
-      sortHeader("Orig Score", "origScore", "right"),
-      sortHeader(deltaLabel, "delta", "right"),
-      sortHeader("Adjusted", "adjusted"),
-      el("div", null, "Reason / Flags"),
+      sortHeader("Orig Score", "origScore", "right", "col_orig_score"),
+      sortHeader(deltaLabel, "delta", "right", _activeLens === "macro" ? "col_macro_delta" : _activeLens === "quality" ? "col_quality_delta" : "col_combined_delta"),
+      sortHeader("Adjusted", "adjusted", null, "col_adjusted"),
+      (() => {
+        const reasonHeader = el("div", { style: { display: "inline-flex", alignItems: "center", gap: "6px" } }, "Reason / Flags");
+        const bubble = infoBubble("col_reason_flags");
+        if (bubble) reasonHeader.appendChild(bubble);
+        return reasonHeader;
+      })(),
     );
 
     const rows = (_showAll ? filtered : filtered.slice(0, 100)).map((s) => renderRow(s));
@@ -764,30 +870,57 @@
             ? "RISK HOLD"
             : s.quality_adjusted_verdict || s.macro_adjusted_verdict);
 
-    // Build reason / flags chip list
+    // Build reason / flags chip list. Each chip gets a data-term-id where
+    // a glossary entry exists so hovering the chip itself surfaces the
+    // explainer — no extra ⓘ icon needed inside the pill.
     const chips = [];
     if (_activeLens === "macro" || _activeLens === "combined") {
       if (s.macro_veto?.vetoed) {
-        chips.push(chip("MACRO VETO", "#ef4444"));
+        chips.push(chip("MACRO VETO", "#ef4444", "macro_veto"));
       }
       if (s.sector_used && s.macro_score_delta) {
+        // Sector + delta chip is data, not a glossary term — no termId.
         chips.push(chip(`${s.sector_used} ${fmtDelta(s.macro_score_delta)}`, colorForDelta(s.macro_score_delta)));
       }
     }
     if (_activeLens === "quality" || _activeLens === "combined") {
       if (s.quality_veto?.vetoed) {
-        chips.push(chip("QUALITY VETO", "#ef4444"));
+        chips.push(chip("QUALITY VETO", "#ef4444", "quality_veto"));
       }
       if (s.quality_verdict && s.quality_verdict !== "HIGH") {
-        chips.push(chip(s.quality_verdict, colorForQuality(s.quality_verdict)));
+        chips.push(chip(s.quality_verdict, colorForQuality(s.quality_verdict), `quality_${String(s.quality_verdict).toLowerCase()}`));
       }
       for (const f of (s.quality_flags || []).slice(0, 4)) {
         const label = f.category || f.type || f.overlay || "flag";
-        chips.push(chip(label, colorForDelta(f.severity)));
+        // Convention: glossary IDs follow flag_<category>. Falls back to
+        // null if the category isn't yet in the glossary — chip stays
+        // visible but without a tooltip.
+        chips.push(chip(label, colorForDelta(f.severity), label ? `flag_${label}` : null));
       }
       if ((s.quality_flags || []).length > 4) {
         chips.push(chip(`+${s.quality_flags.length - 4}`, "var(--text-muted)"));
       }
+    }
+
+    // Verdict cells get invisible tooltip triggers via data-term-id +
+    // .glossary-term (dashed underline + cursor: help). No visible ⓘ
+    // inside the cell — the Adjusted column is only 100px and a 14px
+    // icon would push the verdict text to ellipsis.
+    const origVerdictId = typeof verdictIdFromLabel === "function" ? verdictIdFromLabel(s.original_verdict) : null;
+    const origVerdictAttrs = { style: { color: "var(--text-muted)" } };
+    if (origVerdictId && window.GLOSSARY && window.GLOSSARY[origVerdictId]) {
+      origVerdictAttrs.className = "glossary-term";
+      origVerdictAttrs["data-term-id"] = origVerdictId;
+      origVerdictAttrs.style.cursor = "help";
+    }
+    const adjVerdictId = typeof verdictIdFromLabel === "function" ? verdictIdFromLabel(adjVerdict) : null;
+    const adjVerdictAttrs = {
+      style: { color: adjVerdict?.includes("HOLD") || adjVerdict?.includes("VETO") ? "#ef4444" : "var(--text-primary)" },
+    };
+    if (adjVerdictId && window.GLOSSARY && window.GLOSSARY[adjVerdictId]) {
+      adjVerdictAttrs.className = "glossary-term";
+      adjVerdictAttrs["data-term-id"] = adjVerdictId;
+      adjVerdictAttrs.style.cursor = "help";
     }
 
     return el(
@@ -805,17 +938,16 @@
         },
       },
       el("div", { style: { fontWeight: "600" } }, s.ticker || "?"),
-      el("div", { style: { color: "var(--text-muted)" } }, fmtVerdict(s.original_verdict)),
+      el("div", origVerdictAttrs, fmtVerdict(s.original_verdict)),
       el("div", { style: { textAlign: "right" } }, fmtScore(s.original_score)),
       el("div", { style: { textAlign: "right", color: colorForDelta(delta) } }, fmtDelta(delta)),
-      el("div", { style: { color: adjVerdict?.includes("HOLD") || adjVerdict?.includes("VETO") ? "#ef4444" : "var(--text-primary)" } },
-        fmtVerdict(adjVerdict)),
+      el("div", adjVerdictAttrs, fmtVerdict(adjVerdict)),
       el("div", { style: { display: "flex", flexWrap: "wrap", gap: "4px" } }, ...chips),
     );
   }
 
-  function chip(text, color) {
-    return el("span", {
+  function chip(text, color, termId) {
+    const attrs = {
       style: {
         padding: "2px 8px",
         background: `${color}22`,
@@ -826,7 +958,16 @@
         letterSpacing: "0.04em",
         whiteSpace: "nowrap",
       },
-    }, text);
+    };
+    // If the chip text is a known glossary term, wire it as an invisible
+    // tooltip trigger via the platform's delegated handler. The chip itself
+    // becomes the hover target — no extra ⓘ icon needed inside the pill.
+    if (termId && window.GLOSSARY && window.GLOSSARY[termId]) {
+      attrs.className = "glossary-term";
+      attrs["data-term-id"] = termId;
+      attrs.style.cursor = "help";
+    }
+    return el("span", attrs, text);
   }
 
   function renderUserToggle() {

@@ -61,7 +61,12 @@ test.describe("Risk Lab — sort & expand", () => {
     await expect(header).toHaveText(/Orig Score ↑/);
     await header.click();
     await expect(header).toHaveAttribute("aria-sort", "none");
-    await expect(header).toHaveText(/^Orig Score$/);
+    // Header text after reset starts with "Orig Score" (no arrow). The
+    // trailing "i" comes from the appended info bubble (.info-icon), which
+    // is part of the header but not part of the sort indicator.
+    const resetText = await header.textContent();
+    expect(resetText).toMatch(/^Orig Score/);
+    expect(resetText).not.toMatch(/[↓↑]/);
   });
 
   test("Descending Ticker sort orders Z→A (raw field, not display)", async ({ page, request }) => {
