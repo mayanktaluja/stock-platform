@@ -2934,17 +2934,8 @@ function loadMultibaggerJsonSafe(rel) {
   }
 }
 
-function isMultibaggerPersonalUser(req) {
-  // Match Compounder Lab pattern — personalUseGate is the middleware,
-  // here we just need the role flag.
-  return !!(req.session?.userId && req.session?.isPersonal);
-}
-
-app.get("/api/multibagger/overview", async (req, res) => {
+app.get("/api/multibagger/overview", personalUseGate, async (req, res) => {
   try {
-    if (!isMultibaggerPersonalUser(req)) {
-      return res.status(404).json({ error: "Not found" });
-    }
     const scores = loadMultibaggerJsonSafe("data/strategy/multibagger-scores-latest.json");
     const slate = loadMultibaggerJsonSafe("data/strategy/catalyst-slate-latest.json");
     const health = loadMultibaggerJsonSafe("data/strategy/multibagger-health-latest.json");
@@ -2980,9 +2971,8 @@ app.get("/api/multibagger/overview", async (req, res) => {
   }
 });
 
-app.get("/api/multibagger/candidates", async (req, res) => {
+app.get("/api/multibagger/candidates", personalUseGate, async (req, res) => {
   try {
-    if (!isMultibaggerPersonalUser(req)) return res.status(404).json({ error: "Not found" });
     const scores = loadMultibaggerJsonSafe("data/strategy/multibagger-scores-latest.json");
     if (!scores) return res.json({ candidates: [], built_at: null });
     const verdictFilter = String(req.query.verdict || "").toUpperCase();
@@ -3000,9 +2990,8 @@ app.get("/api/multibagger/candidates", async (req, res) => {
   }
 });
 
-app.get("/api/multibagger/portfolio", async (req, res) => {
+app.get("/api/multibagger/portfolio", personalUseGate, async (req, res) => {
   try {
-    if (!isMultibaggerPersonalUser(req)) return res.status(404).json({ error: "Not found" });
     const portfolio = loadMultibaggerJsonSafe("data/strategy/multibagger-portfolio.json");
     res.json(portfolio || { schema_version: "multibagger-portfolio-v1", cash_inr: 100_000, positions: [], closed_positions: [] });
   } catch (err) {
