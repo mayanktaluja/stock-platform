@@ -21,10 +21,19 @@
  *   2  — wrote fresh file, BUT at least one LLM provider returned auth_error.
  *        Operator must rotate the key. sws-nightly treats this as non-fatal
  *        but the PR body surfaces it.
- *   9  — both GROQ_API_KEY and GEMINI_API_KEY are missing from the env.
- *        Refuses to run rather than overwrite the prior file with a
- *        strictly-worse keyword-only snapshot. Most likely cause: .env
- *        not loaded (launchd, fresh shell). Prior file is preserved.
+ *   9  — both GROQ_API_KEY and GEMINI_API_KEY are missing from the env, AND
+ *        MACRO_ALLOW_HEURISTIC_ONLY is NOT set. Refuses to run rather than
+ *        overwrite the prior file with a strictly-worse keyword-only
+ *        snapshot. Most likely cause: .env not loaded (launchd, fresh
+ *        shell). Prior file is preserved.
+ *
+ * Env flags:
+ *   MACRO_ALLOW_HEURISTIC_ONLY=1
+ *        Opt-in: when both LLM keys are missing, run the keyword-only
+ *        heuristic and exit 0 (instead of exit 9). Used by the GH Actions
+ *        backup workflow, where shipping no secrets is the whole point.
+ *        Local cron leaves it unset so the strict "refuse to downgrade"
+ *        posture stays the default.
  *
  * Usage:
  *   node scripts/refresh-macro-regime.mjs            # full run
@@ -86,17 +95,29 @@ async function main() {
   // it in place rather than overwriting a known-good snapshot with a
   // strictly worse one. Returns exit 9 so sws-nightly can surface this
   // distinctly from the auth_error (exit 2) and no-data (exit 1) cases.
+  //
+  // MACRO_ALLOW_HEURISTIC_ONLY=1 opt-in inverts this for callers that
+  // explicitly want heuristic-only mode — GH Actions backup workflow ships
+  // without LLM secrets on purpose. Local cron leaves it unset.
   if (!process.env.GROQ_API_KEY && !process.env.GEMINI_API_KEY) {
+    const heuristicOnlyOK = process.env.MACRO_ALLOW_HEURISTIC_ONLY === "1";
     const existing = readExisting();
-    console.error(
-      "[macro-refresh] no GROQ_API_KEY and no GEMINI_API_KEY in env — refusing to run " +
-      "(would silently overwrite the cache with a keyword-only file). " +
-      "Check that .env is loaded and that the keys are present."
-    );
-    if (existing) {
-      console.warn(`[macro-refresh] kept existing file generatedAt=${existing.generatedAt}`);
+    if (!heuristicOnlyOK) {
+      console.error(
+        "[macro-refresh] no GROQ_API_KEY and no GEMINI_API_KEY in env — refusing to run " +
+        "(would silently overwrite the cache with a keyword-only file). " +
+        "Check that .env is loaded and that the keys are present, or set " +
+        "MACRO_ALLOW_HEURISTIC_ONLY=1 to opt into heuristic-only mode."
+      );
+      if (existing) {
+        console.warn(`[macro-refresh] kept existing file generatedAt=${existing.generatedAt}`);
+      }
+      return 9;
     }
-    return 9;
+    console.warn(
+      "[macro-refresh] no LLM keys present, but MACRO_ALLOW_HEURISTIC_ONLY=1 — " +
+      "running keyword-only heuristic classifier (lower fidelity than LLM)"
+    );
   }
 
   const headlines = await fetchMacroHeadlines();
