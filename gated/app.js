@@ -6428,6 +6428,21 @@ function renderSWSEarningsCalendar(report) {
       }
     }
 
+    const div = h?.sws?.next_dividend || null;
+    let holdByCell = "—";
+    if (div && div.hold_by_date) {
+      const hms = Date.parse(div.hold_by_date + "T00:00:00Z");
+      if (Number.isFinite(hms)) {
+        const hds = new Date(hms).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+        const daysLeft = div.days_until_hold_by;
+        const colorH = Number.isFinite(daysLeft) && daysLeft >= 0 && daysLeft <= 7 ? "#fbbf24" : "var(--text)";
+        const dpsTag = Number.isFinite(div.dps)
+          ? ` <span style="color:var(--text-muted); font-size:11px;">(₹${Number(div.dps).toFixed(2)})</span>`
+          : "";
+        holdByCell = `<span style="color:${colorH};">${hds}</span>${dpsTag}`;
+      }
+    }
+
     const trOpen = tickerCell
       ? `<tr style="border-bottom:1px solid #1a2238; opacity:${rowOpacity}; cursor:pointer; background:transparent; transition:background 0.15s;" title="Open ${swsEscapeAttr(tickerCell)} detail" onclick="openStockDetailModal('${escapeHtml(tickerCell)}','analyzer-earnings')" onmouseover="this.style.background='rgba(255,255,255,0.04)';" onmouseout="this.style.background='transparent';">`
       : `<tr style="border-bottom:1px solid #1a2238; opacity:${rowOpacity};">`;
@@ -6441,6 +6456,7 @@ function renderSWSEarningsCalendar(report) {
       <td style="padding:10px 12px; text-align:right; font-variant-numeric:tabular-nums;">${position}</td>
       <td style="padding:10px 12px; font-variant-numeric:tabular-nums;">${lastEarnCell}</td>
       <td style="padding:10px 12px; font-variant-numeric:tabular-nums;">${showDate}</td>
+      <td style="padding:10px 12px; font-variant-numeric:tabular-nums;">${holdByCell}</td>
       <td style="padding:10px 12px; font-variant-numeric:tabular-nums; color:${daysColor};">${showDays}</td>
     </tr>`;
   }).join("");
@@ -6458,12 +6474,123 @@ function renderSWSEarningsCalendar(report) {
               <th style="padding:10px 12px; text-align:right;">Position</th>
               <th style="padding:10px 12px;">Last earnings</th>
               <th style="padding:10px 12px;">Result date</th>
+              <th style="padding:10px 12px;" title="Last day to own the stock to be eligible for the upcoming dividend (one calendar day before NSE ex-date). Empty when no dividend is in flight.">Hold by</th>
               <th style="padding:10px 12px;">Days until</th>
             </tr>
           </thead>
           <tbody>${rowHtml}</tbody>
         </table>
       </div>
+    </div>
+  </details>`;
+}
+
+// Dividends to capture — per-holding upcoming ex-dividend calendar, populated
+// from data/catalysts/dividends-upcoming.json by services/portfolio/
+// portfolioDividendService.js. Rows are SWS-news-sourced; format is templated
+// so DPS + ex_date + record_date are parsed structurally from the body.
+// Section header is factual ("Dividends to capture") — the site-wide
+// #sebiSiteFooter ("Educational content only") is the canonical disclaimer.
+function renderSWSDividendCalendar(report) {
+  const all = Object.values(report?.holdingsByAction || {}).flat();
+  const seen = new Set();
+  const withDiv = [];
+  for (const h of all) {
+    const key = h?.sws?.ticker || h?.symbol;
+    if (!key || seen.has(key)) continue;
+    if (!h?.sws?.next_dividend) continue;
+    seen.add(key);
+    withDiv.push(h);
+  }
+
+  const stripSuffix = (s) => String(s || "").replace(/\.(NS|BO|BSE)$/i, "");
+  const rows = withDiv.slice().sort((a, b) => {
+    const da = a.sws.next_dividend.ex_date || "9999-12-31";
+    const db = b.sws.next_dividend.ex_date || "9999-12-31";
+    if (da !== db) return da < db ? -1 : 1;
+    return String(a.symbol || "").localeCompare(String(b.symbol || ""));
+  });
+
+  const rowHtml = rows.length === 0
+    ? ""
+    : rows.map((h, i) => {
+        const div = h.sws.next_dividend;
+        const ticker = stripSuffix(h.sws?.ticker || h.symbol || "");
+        const qty = Number.isFinite(h.quantity) ? h.quantity : null;
+        const dps = Number.isFinite(div.dps) ? div.dps : null;
+
+        const exMs = Date.parse(div.ex_date + "T00:00:00Z");
+        const exDateStr = Number.isFinite(exMs)
+          ? new Date(exMs).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })
+          : "—";
+        const holdByMs = div.hold_by_date ? Date.parse(div.hold_by_date + "T00:00:00Z") : NaN;
+        const holdByStr = Number.isFinite(holdByMs)
+          ? new Date(holdByMs).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })
+          : "—";
+
+        const daysLeft = div.days_until_hold_by;
+        const daysCell = Number.isFinite(daysLeft)
+          ? (daysLeft === 0 ? "today" : daysLeft > 0 ? `${daysLeft}d` : `${Math.abs(daysLeft)}d ago`)
+          : "—";
+        const daysColor = Number.isFinite(daysLeft) && daysLeft >= 0 && daysLeft <= 7 ? "#fbbf24" : "var(--text-muted)";
+
+        const qtyCell = qty != null ? String(qty) : "—";
+        const dpsCell = dps != null ? `₹${dps.toFixed(2)}` : "—";
+        const yieldCell = Number.isFinite(div.yield_on_cost_pct) ? `${div.yield_on_cost_pct.toFixed(2)}%` : "—";
+        const payoutCell = Number.isFinite(div.total_payout_inr)
+          ? (typeof formatINR === "function" ? formatINR(div.total_payout_inr, { compact: false }) : `₹${div.total_payout_inr.toFixed(2)}`)
+          : "—";
+        const typeChip = div.dividend_type
+          ? ` <span style="color:var(--text-muted); font-size:10px; text-transform:capitalize;">${swsEscapeAttr(div.dividend_type)}</span>`
+          : "";
+        const otherChip = Number.isFinite(div.other_dividends_count) && div.other_dividends_count > 0
+          ? ` <span title="${div.other_dividends_count} additional dividend(s) scheduled later" style="color:var(--text-muted); font-size:10px;">+${div.other_dividends_count}</span>`
+          : "";
+
+        const trOpen = ticker
+          ? `<tr style="border-bottom:1px solid #1a2238; cursor:pointer; background:transparent; transition:background 0.15s;" title="Open ${swsEscapeAttr(ticker)} detail" onclick="openStockDetailModal('${escapeHtml(ticker)}','analyzer-dividends')" onmouseover="this.style.background='rgba(255,255,255,0.04)';" onmouseout="this.style.background='transparent';">`
+          : `<tr style="border-bottom:1px solid #1a2238;">`;
+        return `${trOpen}
+          <td style="padding:10px 12px; color:var(--text-muted);">${i + 1}</td>
+          <td style="padding:10px 12px;">
+            <strong style="font-size:13px;">${swsEscapeAttr(ticker)}</strong>${typeChip}${otherChip}
+            <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(h?.name || "")}</div>
+          </td>
+          <td style="padding:10px 12px; text-align:right; font-variant-numeric:tabular-nums;">${qtyCell}</td>
+          <td style="padding:10px 12px; text-align:right; font-variant-numeric:tabular-nums;">${dpsCell}</td>
+          <td style="padding:10px 12px; text-align:right; font-variant-numeric:tabular-nums;">${yieldCell}</td>
+          <td style="padding:10px 12px; font-variant-numeric:tabular-nums;">${holdByStr}</td>
+          <td style="padding:10px 12px; font-variant-numeric:tabular-nums; color:var(--text-muted);">${exDateStr}</td>
+          <td style="padding:10px 12px; font-variant-numeric:tabular-nums; color:${daysColor};">${daysCell}</td>
+          <td style="padding:10px 12px; text-align:right; font-variant-numeric:tabular-nums;">${payoutCell}</td>
+        </tr>`;
+      }).join("");
+
+  const body = rows.length === 0
+    ? `<div style="padding: var(--space-200); color:var(--text-muted); font-size:13px;">No upcoming dividends in the next ~30 days for your holdings. We'll surface them here automatically when companies declare ex-dates.</div>`
+    : `<div style="background:var(--panel); border:1px solid #2a3349; border-radius:8px; overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;" aria-label="Holdings with upcoming ex-dividend dates, sorted ascending">
+          <thead>
+            <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+              <th style="padding:10px 12px;">#</th>
+              <th style="padding:10px 12px;">Stock</th>
+              <th style="padding:10px 12px; text-align:right;">Qty</th>
+              <th style="padding:10px 12px; text-align:right;">DPS</th>
+              <th style="padding:10px 12px; text-align:right;" title="Dividend per share ÷ your avg cost">Yield on cost</th>
+              <th style="padding:10px 12px;" title="Last day to own the stock (calendar day before ex-date) to be on the record for this dividend.">Hold by</th>
+              <th style="padding:10px 12px;" title="NSE ex-dividend date — the day the stock starts trading without the dividend right.">Ex-date</th>
+              <th style="padding:10px 12px;">Days until</th>
+              <th style="padding:10px 12px; text-align:right;" title="DPS × your quantity held. Educational, not a recommendation.">Est. ₹ for your qty</th>
+            </tr>
+          </thead>
+          <tbody>${rowHtml}</tbody>
+        </table>
+      </div>`;
+
+  return `<details class="analyzer-tier-details" style="margin-top: var(--space-200);" ${rows.length > 0 ? "open" : ""}>
+    <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Dividends to capture <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${rows.length})</span></summary>
+    <div style="padding-top: var(--space-200);">
+      ${body}
     </div>
   </details>`;
 }
@@ -7059,6 +7186,7 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
     </details>
 
     ${renderSWSEarningsCalendar(report)}
+    ${renderSWSDividendCalendar(report)}
 
     <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:#fde047; line-height:1.6;">
       ${swsEscapeAttr(report.disclaimer || "")}
@@ -7226,6 +7354,7 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
     </details>
 
     ${renderSWSEarningsCalendar(report)}
+    ${renderSWSDividendCalendar(report)}
 
     <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.15); border-radius:8px; padding:12px 16px; margin-top:24px; font-size:11px; color:#fde047; line-height:1.6;">
       ${swsEscapeAttr(report.disclaimer || "")}

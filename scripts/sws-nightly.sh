@@ -414,6 +414,13 @@ else
   aux_status "nse-announcements-rolling.json" "FAILED"
 fi
 
+if with_timeout 120 node scripts/refresh-dividends.mjs 2>&1 | sed 's/^/[dividends] /'; then
+  aux_status "dividends-upcoming.json" "OK"
+else
+  echo "[nightly] refresh-dividends.mjs failed — non-fatal, continuing"
+  aux_status "dividends-upcoming.json" "FAILED"
+fi
+
 # NSE index constituents (Nifty 100 / Midcap 150 / Smallcap 250 / 500).
 # Powers the universe-filter dropdown on the SWS Picks tab. Runs locally
 # only (Vercel datacenter IPs would 403). Non-fatal: the server falls
