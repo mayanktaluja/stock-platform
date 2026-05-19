@@ -88,19 +88,6 @@ fi
 
 trap 'node scripts/sws-deep-scrape.mjs release-pipeline-lock >/dev/null 2>&1 || true' EXIT
 
-# ---------- 2b. Phase 3 dual-write: open a new sws_runs row ----------
-# No-op when SWS_DB_DUAL_WRITE != 1 OR DATABASE_URL is unset. Pipeline
-# child scripts read SWS_RUN_ID from env and mirror writes via the DAL.
-if [ "${SWS_DB_DUAL_WRITE:-0}" = "1" ]; then
-  SWS_RUN_ID="$(node scripts/sws-pipeline-begin.mjs 2>/dev/null || true)"
-  export SWS_RUN_ID
-  if [ -n "${SWS_RUN_ID}" ]; then
-    echo "[refresh-api] DB run started: ${SWS_RUN_ID}"
-  else
-    echo "[refresh-api] DB dual-write enabled but begin returned empty — proceeding without DAL writes"
-  fi
-fi
-
 # ---------- 3. Detect already-running API shards ----------
 
 LIVE_SHARDS="$(ps -A -o command= | \
@@ -458,24 +445,6 @@ echo "=== refresh-api complete: $(ts) elapsed=${ELAPSED}s ==="
 # the score still bakes in the stale FV). On gate-fail, FAIL=1 so the
 # auto-PR step below also skips, prior-canonical keeps serving, and the
 # next nightly attempts a clean run. Loud-fail per CLAUDE.md.
-#
-# The SECOND step flips is_canonical (only when the gate passed).
-# The THIRD step is advisory: a 50-random-ticker disk/DB cross-check that
-# stays informational because a transient mismatch shouldn't roll back a
-# canonical that already serves users; we just log the warning.
-if [ "${SWS_DB_DUAL_WRITE:-0}" = "1" ] && [ -n "${SWS_RUN_ID:-}" ] && [ "${FAIL}" -eq 0 ]; then
-  echo "[refresh-api] pre-finalise gate: picks-vs-snapshots FV drift check …"
-  if ! node scripts/sws-verify-db-vs-json.mjs --check picks-snapshot-fv --run-id "${SWS_RUN_ID}" 2>&1 | sed 's/^/[verify-gate] /'; then
-    echo "[refresh-api] ABORT — picks/snapshot FV drift; NOT flipping is_canonical"
-    FAIL=1
-  else
-    node scripts/sws-pipeline-finalise.mjs "${SWS_RUN_ID}" 2>&1 | sed 's/^/[finalise] /' || FAIL=1
-    echo "[refresh-api] verify-db-vs-json (50 random tickers, advisory) …"
-    if ! node scripts/sws-verify-db-vs-json.mjs --count 50 --run-id "${SWS_RUN_ID}" 2>&1 | tail -20 | sed 's/^/[verify-post] /'; then
-      echo "[refresh-api] WARN — DB/JSON drift detected post-finalise; auto-PR continues but watch for regressions"
-    fi
-  fi
-fi
 
 # Release the pipeline lock now — data work is done and the auto-PR step
 # below invokes `git push`, whose pre-push hook runs `npm test`, which

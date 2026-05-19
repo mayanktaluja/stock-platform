@@ -7,10 +7,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import { PATHS } from "./sws-config.mjs";
-import * as dal from "../services/swsDal/index.js";
-import { closeDb } from "../db/client.js";
-
-const RUN_ID = process.env.SWS_RUN_ID || null;
 
 // Surveillance lookup is optional — gracefully degrades if module not available.
 // Loaded once at module init; the underlying snapshot is cached in surveillance.js.
@@ -1153,21 +1149,6 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     console.log(`Sections:`);
     for (const [k, v] of Object.entries(out.sections)) {
       console.log(`  ${k}: ${v.length}`);
-    }
-
-    // Phase 3 dual-write: mirror picks + universe stats into Postgres.
-    // Gated by SWS_DB_DUAL_WRITE=1 — no-op when disabled.
-    if (RUN_ID && dal.isDualWriteEnabled()) {
-      console.log(`[scoring] DAL: replacing picks for run ${RUN_ID}`);
-      await dal.replacePicksForRun(RUN_ID, out.sections);
-      const universeStatsPath = path.join(path.dirname(PATHS.picksLatest), "v3-universe-stats.json");
-      try {
-        const stats = JSON.parse(fs.readFileSync(universeStatsPath, "utf-8"));
-        await dal.upsertUniverseStats(RUN_ID, stats);
-      } catch (e) {
-        console.warn(`[scoring] DAL: universe-stats upsert skipped: ${e.message}`);
-      }
-      await closeDb();
     }
   }
 }

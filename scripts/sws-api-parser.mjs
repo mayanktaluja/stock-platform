@@ -32,11 +32,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import * as dal from "../services/swsDal/index.js";
-import { closeDb } from "../db/client.js";
-
-const RUN_ID = process.env.SWS_RUN_ID || null;
-
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
 const SRC_DIR = path.join(REPO_ROOT, "data/sws/deep-api");
@@ -861,19 +856,12 @@ async function main() {
       const parsed = parseStock(api, { sectorMap, nseCalendar: nseCal?.map || null });
       fs.writeFileSync(path.join(destDir, `${t}.json`), JSON.stringify(parsed, null, 2));
       ok++;
-      // Phase 3 dual-write: mirror each parsed snapshot into Postgres.
-      // The DAL gates on SWS_DB_DUAL_WRITE so this is a no-op when off.
-      if (RUN_ID && dal.isDualWriteEnabled()) {
-        await dal.upsertCompany(parsed);
-        await dal.upsertCompanySnapshot(RUN_ID, parsed);
-      }
     } catch (e) {
       console.error(`[parser]   err ${t}: ${e.message}`);
       failed++;
     }
   }
   console.log(`[parser] ✅ ${ok} parsed, ${failed} failed`);
-  if (RUN_ID && dal.isDualWriteEnabled()) await closeDb();
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
