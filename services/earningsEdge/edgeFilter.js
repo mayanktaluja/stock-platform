@@ -137,6 +137,15 @@ export function applyEarningsEdgeFilter(event, ctx, opts = EARNINGS_EDGE_FILTER)
     reasons.push("on-asm-gsm");
   }
 
+  // Promoter-sell veto (PR-7): if NSE PIT 7(2) shows promoter SELL
+  // activity in the 7d window before the result, reject. The promoterSignal
+  // map keys symbol → {net_inr_cr, direction}; absent symbol is fine
+  // (means no recent promoter activity, which is neutral).
+  const promoterSignal = (ctx && ctx.promoterSignal) || null;
+  if (promoterSignal && promoterSignal[symbol]?.direction === "SELL") {
+    reasons.push(`promoter-sell-7d:₹${promoterSignal[symbol].net_inr_cr.toFixed(1)}Cr`);
+  }
+
   return { passed: reasons.length === 0, reasons };
 }
 

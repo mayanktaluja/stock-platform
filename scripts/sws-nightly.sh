@@ -622,6 +622,16 @@ echo "[sws-nightly] refresh-risk-lab.mjs (timeout 60s)"
 with_timeout 60 node scripts/refresh-risk-lab.mjs 2>&1 | sed 's/^/[risk-lab] /' || \
   echo "[sws-nightly] refresh-risk-lab.mjs FAILED — continuing (non-fatal; lab tab will show stale data)"
 
+# Step 9b2: NSE PIT 7(2) — SEBI insider/promoter transaction disclosures.
+# Local-only fetch (cookie-gated, rejects Vercel IPs per nse.js:76-83).
+# Writes data/promoter-transactions/rolling-30d.json + a staleness alert
+# file. Consumed by Earnings Edge (promoter-sell veto) and surfaced by
+# the daily reconcile. Non-fatal — Earnings Edge gracefully degrades when
+# the file is absent.
+echo "[sws-nightly] refresh-promoter-transactions.mjs (timeout 120s)"
+with_timeout 120 node scripts/refresh-promoter-transactions.mjs 2>&1 | sed 's/^/[promoter-pit] /' || \
+  echo "[sws-nightly] refresh-promoter-transactions.mjs FAILED — continuing (non-fatal; staleness alert will fire if it persists)"
+
 # Step 9c: Compounder Lab refresh — SAFE sleeve from the 2026-05-19 alpha-
 # strategy plan. Reads data/sws/sws-scored-universe.json + deep JSONs, runs
 # the Snowflake-quality filter (Past ≥ 5, Health ≥ 4, Dividend ≥ 4, market

@@ -38,6 +38,10 @@ import {
   closeTrade,
   openTradesFor,
 } from "../services/compounder/paperTradeLog.js";
+import {
+  loadRolling as loadPromoterRolling,
+  computePromoterSignal,
+} from "../services/promoter/nsePitIngester.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -133,6 +137,13 @@ async function main() {
   const surveillance = loadSurveillance();
   console.log(`[edge] surveillance: ASM=${surveillance.ASM.size}, GSM=${surveillance.GSM.size}`);
 
+  // Promoter-sell veto signal from PR-7 NSE PIT scraper. Absent file is
+  // fine — filter just doesn't add the veto gate.
+  const promoterRolling = loadPromoterRolling();
+  const promoterSignal = computePromoterSignal(promoterRolling, { today_iso, windowDays: 7 });
+  const promoterSymbols = Object.keys(promoterSignal);
+  console.log(`[edge] promoter signal: ${promoterSymbols.length} symbols with recent activity`);
+
   const beats = collectResolvedBeats();
   console.log(`[edge] ${beats.length} resolved BEAT events to evaluate`);
 
@@ -146,7 +157,7 @@ async function main() {
   for (const event of beats) {
     if (openTickers.has(event.symbol)) continue; // already in flight
     const deep = loadDeep(event.symbol);
-    const verdict = applyEarningsEdgeFilter(event, { deep, surveillance });
+    const verdict = applyEarningsEdgeFilter(event, { deep, surveillance, promoterSignal });
     if (verdict.passed) {
       passed.push({ event, deep, size_inr: sizePosition(event?.signals?.market_cap_inr || deep?.overview?.market_cap_inr) });
     } else {
