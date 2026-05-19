@@ -149,6 +149,17 @@ fi
 cd "${WORKTREE_DIR}" || { echo "[macro-only] cannot cd to ${WORKTREE_DIR}"; exit 5; }
 echo "[macro-only] isolated worktree at ${WORKTREE_DIR} (detached at origin/main)"
 
+# Symlink node_modules from the main checkout — `git worktree add` gives us
+# a fresh tracked-files-only working dir without gitignored content, but
+# the refresh script imports `dotenv` and other deps. Re-running `npm ci`
+# would cost ~30s every fire; a symlink is instant and the deps are
+# identical (both checkouts share the same lockfile).
+if [ -d "${REPO_DIR}/node_modules" ]; then
+  ln -snf "${REPO_DIR}/node_modules" "${WORKTREE_DIR}/node_modules"
+else
+  echo "[macro-only] WARN: ${REPO_DIR}/node_modules missing — dependency imports will fail"
+fi
+
 # ---- 4. Refresh ----
 node scripts/refresh-macro-regime.mjs 2>&1 | sed 's/^/[macro] /'
 MACRO_RC=$?
