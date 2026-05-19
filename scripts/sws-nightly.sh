@@ -634,6 +634,16 @@ echo "[sws-nightly] refresh-compounder.mjs (timeout 120s)"
 with_timeout 120 node scripts/refresh-compounder.mjs 2>&1 | sed 's/^/[compounder] /' || \
   echo "[sws-nightly] refresh-compounder.mjs FAILED — continuing (non-fatal; tab will show prior basket)"
 
+# Step 9d: Earnings Edge refresh — AGGRESSIVE sleeve from the 2026-05-19
+# alpha-strategy plan. Reads earnings-watch-latest.json:recent_results +
+# earnings-history/*.json (resolved BEAT events), enriches with deep
+# snapshots, runs the deterministic KEC-bug-list filter, opens paper-
+# trade ledger entries for survivors and closes existing positions on
+# hard-stop / trail-stop / T+30 hold expiry. No LLM dependency. Non-fatal.
+echo "[sws-nightly] refresh-earnings-edge.mjs (timeout 120s)"
+with_timeout 120 node scripts/refresh-earnings-edge.mjs 2>&1 | sed 's/^/[edge] /' || \
+  echo "[sws-nightly] refresh-earnings-edge.mjs FAILED — continuing (non-fatal; tab will show prior ledger)"
+
 # Date/branch labels — computed here so both the PASS path (step 5) and
 # the sanity-gate FAIL path (data-only PR) can use them.
 DATE=$(date +%Y-%m-%d)

@@ -3923,6 +3923,8 @@
       <button class="tab" id="riskLabTabBtn" role="tab" aria-selected="false" onclick="switchTab('riskLab')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#fbbf24; box-shadow:0 0 0 2px rgba(251,191,36,0.18); animation: pulse 2s ease-in-out infinite;" aria-hidden="true"></span>Risk Lab<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:#fbbf24; background:rgba(251,191,36,0.12); border:1px solid rgba(251,191,36,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">EXPERIMENTAL</span></button>
       <!-- Compounder Lab — SAFE sleeve from the 2026-05-19 alpha-strategy plan. Personal-use only; server returns 404 for non-allowlisted users so the tab simply shows an empty state for everyone else. -->
       <button class="tab" id="compounderTabBtn" role="tab" aria-selected="false" hidden onclick="switchTab('compounder')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#34d399; box-shadow:0 0 0 2px rgba(52,211,153,0.18);" aria-hidden="true"></span>Compounder Lab<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:#34d399; background:rgba(52,211,153,0.10); border:1px solid rgba(52,211,153,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">PERSONAL</span></button>
+      <!-- Earnings Edge — AGGRESSIVE sleeve from the 2026-05-19 alpha-strategy plan. Personal-use only. -->
+      <button class="tab" id="earningsEdgeTabBtn" role="tab" aria-selected="false" hidden onclick="switchTab('earningsEdge')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#f87171; box-shadow:0 0 0 2px rgba(248,113,113,0.18);" aria-hidden="true"></span>Earnings Edge<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:#f87171; background:rgba(248,113,113,0.10); border:1px solid rgba(248,113,113,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">PERSONAL</span></button>
     </div>
 
     <!-- Track Record Tab -->
@@ -4529,6 +4531,9 @@
     <!-- Compounder Lab tab — populated by loadCompounderLab() in compounderLab.js. Server gates the underlying /api/compounder/* routes to a personal-use allowlist, so non-allowlisted users see only an empty state. -->
     <div id="compounderTab" class="tab-content" style="display:none;"></div>
 
+    <!-- Earnings Edge tab — populated by loadEarningsEdge() in earningsEdge.js. Personal-use only on the server side. -->
+    <div id="earningsEdgeTab" class="tab-content" style="display:none;"></div>
+
   </div>
 
   <!-- Stock detail modal — populated by openSwsModal(ticker) for SWS Picks, or openStockDetailModal(symbol, sourceTab) for every other clickable stock surface -->
@@ -4595,6 +4600,9 @@
   <!-- Compounder Lab — SAFE sleeve from the 2026-05-19 alpha-strategy plan.
        Defer so it initialises after app.js exposes switchTab + openSwsModal. -->
   <script src="compounderLab.js" defer></script>
+
+  <!-- Earnings Edge — AGGRESSIVE sleeve from the 2026-05-19 alpha-strategy plan. -->
+  <script src="earningsEdge.js" defer></script>
 
   <!-- PR #8: global keyboard shortcuts. Defer so it loads after app.js
        exposes window.switchTab + window.telemetry. -->

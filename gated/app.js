@@ -134,6 +134,8 @@ const auth = {
     if (me.isPersonal) {
       const compounderTabBtn = document.getElementById("compounderTabBtn");
       if (compounderTabBtn) compounderTabBtn.hidden = false;
+      const earningsEdgeTabBtn = document.getElementById("earningsEdgeTabBtn");
+      if (earningsEdgeTabBtn) earningsEdgeTabBtn.hidden = false;
     }
 
     const closeDropdown = () => {
@@ -2430,6 +2432,12 @@ const TAB_CONFIG = {
     elId: "compounderTab",
     guard: () => !!window.__starbhai_isPersonal,
     enter: () => { if (typeof loadCompounderLab === "function") loadCompounderLab(); },
+  },
+  // Earnings Edge — AGGRESSIVE sleeve. Same personal-use gate.
+  earningsEdge: {
+    elId: "earningsEdgeTab",
+    guard: () => !!window.__starbhai_isPersonal,
+    enter: () => { if (typeof loadEarningsEdge === "function") loadEarningsEdge(); },
   },
 };
 

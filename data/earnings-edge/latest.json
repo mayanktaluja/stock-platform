@@ -1,0 +1,1125 @@
+{
+  "schema_version": "earnings-edge-latest-v1",
+  "generated_at": "2026-05-19T13:27:44.265Z",
+  "duration_ms": 89,
+  "filter": {
+    "required_verdict": "BEAT",
+    "prior_miss_keywords": [
+      "miss analyst expectations",
+      "miss analyst estimates",
+      "missed analyst expectations",
+      "missed analyst estimates",
+      "below estimates",
+      "below analyst expectations",
+      "eps miss",
+      "missed by"
+    ],
+    "prior_miss_lookback_days": 120,
+    "forbidden_risk_keywords": [
+      "interest payments are not well covered",
+      "debt is not well covered",
+      "high level of debt",
+      "unprofitable"
+    ],
+    "problem_sectors": [
+      "Power T&D",
+      "Construction-Civil",
+      "EPC"
+    ],
+    "min_snowflake_health": 3,
+    "min_market_cap_inr": 10000000000,
+    "position_pct_of_adv": 0.0025,
+    "max_position_inr": 100000,
+    "hold_days": 30,
+    "trailing_stop_pct": -8,
+    "hard_stop_pct": -12
+  },
+  "resolved_beats_evaluated": 59,
+  "passed_count": 33,
+  "rejected_count": 26,
+  "rejection_tally": {
+    "prior-Q-miss": 9,
+    "risk": 16,
+    "snowflake_health": 6,
+    "market_cap": 1
+  },
+  "rejected_sample": [
+    {
+      "symbol": "BHARTIARTL",
+      "reasons": [
+        "prior-Q-miss:2026-02-06T12:00:37.000Z:missed analyst estimates"
+      ]
+    },
+    {
+      "symbol": "CROMPTON",
+      "reasons": [
+        "prior-Q-miss:2026-02-07T21:41:40.000Z:missed analyst estimates"
+      ]
+    },
+    {
+      "symbol": "IKS",
+      "reasons": [
+        "prior-Q-miss:2026-02-05T11:39:36.000Z:missed analyst estimates"
+      ]
+    },
+    {
+      "symbol": "LICHSGFIN",
+      "reasons": [
+        "risk:debt is not well covered by [[operating cash flow]]"
+      ]
+    },
+    {
+      "symbol": "OIL",
+      "reasons": [
+        "risk:has a high level of debt"
+      ]
+    },
+    {
+      "symbol": "PFC",
+      "reasons": [
+        "risk:debt is not well covered by [[operating cash flow]]"
+      ]
+    },
+    {
+      "symbol": "DIXON",
+      "reasons": [
+        "prior-Q-miss:2026-01-30T12:01:15.000Z:missed analyst estimates"
+      ]
+    },
+    {
+      "symbol": "BIRLACORPN",
+      "reasons": [
+        "prior-Q-miss:2026-02-01T17:43:36.000Z:miss analyst expectations"
+      ]
+    },
+    {
+      "symbol": "PRIVISCL",
+      "reasons": [
+        "risk:has a high level of debt"
+      ]
+    },
+    {
+      "symbol": "SATIN",
+      "reasons": [
+        "risk:debt is not well covered by [[operating cash flow]]"
+      ]
+    },
+    {
+      "symbol": "SAGCEM",
+      "reasons": [
+        "risk:interest payments are not well covered by earnings",
+        "snowflake_health<3 (got 0)"
+      ]
+    },
+    {
+      "symbol": "JSWSTEEL",
+      "reasons": [
+        "risk:interest payments are not well covered by earnings"
+      ]
+    },
+    {
+      "symbol": "DEEPAKNTR",
+      "reasons": [
+        "prior-Q-miss:2026-02-14T21:32:04.000Z:missed analyst estimates"
+      ]
+    },
+    {
+      "symbol": "CHALET",
+      "reasons": [
+        "risk:has a high level of debt"
+      ]
+    },
+    {
+      "symbol": "KIRLOSENG",
+      "reasons": [
+        "risk:interest payments are not well covered by earnings",
+        "snowflake_health<3 (got 2)"
+      ]
+    },
+    {
+      "symbol": "MATRIMONY",
+      "reasons": [
+        "market_cap<₹1000Cr (got ₹872Cr)"
+      ]
+    },
+    {
+      "symbol": "MUTHOOTFIN",
+      "reasons": [
+        "risk:debt is not well covered by [[operating cash flow]]",
+        "snowflake_health<3 (got 2)"
+      ]
+    },
+    {
+      "symbol": "PNGJL",
+      "reasons": [
+        "risk:debt is not well covered by [[operating cash flow]]"
+      ]
+    },
+    {
+      "symbol": "RBA",
+      "reasons": [
+        "risk:currently unprofitable and not forecast to become profitable over the next 3 years"
+      ]
+    },
+    {
+      "symbol": "ARVIND",
+      "reasons": [
+        "prior-Q-miss:2026-01-31T20:49:04.000Z:missed analyst estimates"
+      ]
+    }
+  ],
+  "opened_today": 33,
+  "closed_today": 0,
+  "open_trades": [
+    {
+      "ticker": "TMCV",
+      "name": "Tata Motors",
+      "sector": "Capital Goods",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 379.8,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-13",
+        "size_inr": 100000,
+        "snowflake_health": 4,
+        "risks": [
+          "Large [[one-off items]] impacting financial results",
+          "Profit margins (3.6%) are lower than last year (5.4%)"
+        ],
+        "market_cap_inr": 1398549455465
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "NEULANDLAB",
+      "name": "Neuland Laboratories",
+      "sector": "Pharmaceuticals & Biotech",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 16327,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-12",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [
+          "High level of [[non-cash earnings]]"
+        ],
+        "market_cap_inr": 209473633966.79282
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "ADVENZYMES",
+      "name": "Advanced Enzyme Technologies Limited",
+      "sector": "Materials",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 363.75,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-09",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [],
+        "market_cap_inr": 40713373500
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "GAEL",
+      "name": "Gujarat Ambuja Exports Limited",
+      "sector": "Food, Beverage & Tobacco",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 161.98,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-09",
+        "size_inr": 100000,
+        "snowflake_health": 5,
+        "risks": [
+          "Earnings have declined by 12.5% per year over past 5 years"
+        ],
+        "market_cap_inr": 74295468485.6027
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "ANANTRAJ",
+      "name": "Anant Raj Limited",
+      "sector": "Diversified Financials",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 476.25,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-11",
+        "size_inr": 100000,
+        "snowflake_health": 5,
+        "risks": [
+          "High level of [[non-cash earnings]]"
+        ],
+        "market_cap_inr": 171391428997.78842
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "CORONA",
+      "name": "CORONA Remedies Limited",
+      "sector": "Pharmaceuticals & Biotech",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 1820.2,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-11",
+        "size_inr": 100000,
+        "snowflake_health": 5,
+        "risks": [
+          "Dividend of 0.56% is not well covered by free cash flows"
+        ],
+        "market_cap_inr": 111323592177
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "FRACTAL",
+      "name": "Fractal Analytics Limited",
+      "sector": "Software",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 924.6,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-11",
+        "size_inr": 100000,
+        "snowflake_health": 5,
+        "risks": [],
+        "market_cap_inr": 158998919429.06775
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "INDHOTEL",
+      "name": "The Indian Hotels Company Limited",
+      "sector": "Consumer Services",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 648.55,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-11",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [
+          "Unstable dividend track record"
+        ],
+        "market_cap_inr": 923167013969.9031
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "JTLIND",
+      "name": "JTL Industries Limited",
+      "sector": "Materials",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 66.25,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-11",
+        "size_inr": 100000,
+        "snowflake_health": 5,
+        "risks": [
+          "High level of [[non-cash earnings]]",
+          "Highly volatile share price over past 3 months"
+        ],
+        "market_cap_inr": 26041666228.777348
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "NUVAMA",
+      "name": "Nuvama Wealth Management Limited",
+      "sector": "Diversified Financials",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 1439.6,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-11",
+        "size_inr": 100000,
+        "snowflake_health": 3,
+        "risks": [
+          "Dividend of 2.77% is not well covered by free cash flows"
+        ],
+        "market_cap_inr": 262066962114
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "SYRMA",
+      "name": "Syrma SGS Technology Limited",
+      "sector": "Tech",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 969.95,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-11",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [],
+        "market_cap_inr": 186800730600
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "CARERATING",
+      "name": "CARE Ratings Limited",
+      "sector": "Diversified Financials",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 1728.5,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-13",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [
+          "Unstable dividend track record"
+        ],
+        "market_cap_inr": 51939459695
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "SHARDACROP",
+      "name": "Sharda Cropchem Limited",
+      "sector": "Materials",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 901.2,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-13",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [
+          "High level of [[non-cash earnings]]",
+          "Unstable dividend track record",
+          "Highly volatile share price over past 3 months"
+        ],
+        "market_cap_inr": 81306710094
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "HAL",
+      "name": "Hindustan Aeronautics Limited",
+      "sector": "Capital Goods",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 4326.5,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-14",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [
+          "Unstable dividend track record"
+        ],
+        "market_cap_inr": 2893455037500
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "JTEKTINDIA",
+      "name": "JTEKT India Limited",
+      "sector": "Automobiles",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 128.88,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-14",
+        "size_inr": 100000,
+        "snowflake_health": 5,
+        "risks": [
+          "High level of [[non-cash earnings]]",
+          "Dividend of 0.53% is not well covered by free cash flows"
+        ],
+        "market_cap_inr": 35750909983.33022
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "PRICOLLTD",
+      "name": "Pricol Limited",
+      "sector": "Automobiles",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 553.55,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-14",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [
+          "Unstable dividend track record",
+          "High level of [[non-cash earnings]]"
+        ],
+        "market_cap_inr": 67467503217
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "TIMKEN",
+      "name": "Timken India Limited",
+      "sector": "Capital Goods",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 3435,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-14",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [
+          "Dividend of 1.02% is not well covered by free cash flows"
+        ],
+        "market_cap_inr": 258376330343.5186
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "GLAND",
+      "name": "Gland Pharma Limited",
+      "sector": "Pharmaceuticals & Biotech",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 2156.6,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-15",
+        "size_inr": 100000,
+        "snowflake_health": 5,
+        "risks": [],
+        "market_cap_inr": 355313701841
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "CAPLIPOINT",
+      "name": "Caplin Point Laboratories Limited",
+      "sector": "Pharmaceuticals & Biotech",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 1986.1,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-14",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [],
+        "market_cap_inr": 150966842995.76645
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "ENRIN",
+      "name": "Siemens Energy India Limited",
+      "sector": "Capital Goods",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 3060.7,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-14",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [],
+        "market_cap_inr": 1089978034529.1295
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "PGIL",
+      "name": "Pearl Global Industries Limited",
+      "sector": "Consumer Durables",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 1599.4,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-14",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [
+          "Unstable dividend track record"
+        ],
+        "market_cap_inr": 73805939589
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "SFL",
+      "name": "Sheela Foam Limited",
+      "sector": "Consumer Durables",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 598.3,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-14",
+        "size_inr": 100000,
+        "snowflake_health": 3,
+        "risks": [
+          "Earnings have declined by 19.5% per year over past 5 years"
+        ],
+        "market_cap_inr": 65626417751
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "SHADOWFAX",
+      "name": "Shadowfax Technologies Limited",
+      "sector": "Transportation",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 185.61,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-14",
+        "size_inr": 100000,
+        "snowflake_health": 5,
+        "risks": [],
+        "market_cap_inr": 108326023737
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "FCL",
+      "name": "Fineotex Chemical Limited",
+      "sector": "Materials",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 30.52,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-15",
+        "size_inr": 100000,
+        "snowflake_health": 5,
+        "risks": [
+          "Unstable dividend track record"
+        ],
+        "market_cap_inr": 35540567468
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "FUSION",
+      "name": "Fusion Finance Limited",
+      "sector": "Diversified Financials",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 183.34,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-15",
+        "size_inr": 100000,
+        "snowflake_health": 5,
+        "risks": [
+          "Significant insider selling over the past 3 months"
+        ],
+        "market_cap_inr": 29716942026
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "HINDCOPPER",
+      "name": "Hindustan Copper Limited",
+      "sector": "Materials",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 581.15,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-15",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [
+          "Dividend of 0.35% is not well covered by free cash flows"
+        ],
+        "market_cap_inr": 561986004024.5712
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "SOMANYCERA",
+      "name": "Somany Ceramics Limited",
+      "sector": "Capital Goods",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 445.9,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-15",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [
+          "Unstable dividend track record"
+        ],
+        "market_cap_inr": 18287608310.177
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "DELHIVERY",
+      "name": "Delhivery Limited",
+      "sector": "Transportation",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 455.75,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-16",
+        "size_inr": 100000,
+        "snowflake_health": 5,
+        "risks": [
+          "Large [[one-off items]] impacting financial results"
+        ],
+        "market_cap_inr": 341217442264
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "DODLA",
+      "name": "Dodla Dairy Limited",
+      "sector": "Food, Beverage & Tobacco",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 1023.3,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-16",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [
+          "Unstable dividend track record"
+        ],
+        "market_cap_inr": 61733446949
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "OSWALPUMPS",
+      "name": "Oswal Pumps Limited",
+      "sector": "Capital Goods",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 370.7,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-16",
+        "size_inr": 100000,
+        "snowflake_health": 4,
+        "risks": [],
+        "market_cap_inr": 42261612422.83404
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "ROLEXRINGS",
+      "name": "Rolex Rings Limited",
+      "sector": "Capital Goods",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 143.07,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-16",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [],
+        "market_cap_inr": 38962699478
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    },
+    {
+      "ticker": "SUBROS",
+      "name": "Subros Limited",
+      "sector": "Automobiles",
+      "entry_date": "2026-05-19",
+      "entry_price_inr": 729.15,
+      "entry_snapshot": {
+        "actual_verdict": "BEAT",
+        "event_iso_date": "2026-05-18",
+        "size_inr": 100000,
+        "snowflake_health": 6,
+        "risks": [
+          "Dividend of 0.35% is not well covered by free cash flows"
+        ],
+        "market_cap_inr": 47566647112.5
+      },
+      "exit_date": null,
+      "exit_price_inr": null,
+      "exit_action": null,
+      "exit_reason": null,
+      "status": "OPEN"
+    }
+  ],
+  "exit_actions": [
+    {
+      "ticker": "TMCV",
+      "days_held": 0,
+      "close": 379.8,
+      "peak": 379.8,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "NEULANDLAB",
+      "days_held": 0,
+      "close": 16327,
+      "peak": 16327,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "ADVENZYMES",
+      "days_held": 0,
+      "close": 363.75,
+      "peak": 363.75,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "GAEL",
+      "days_held": 0,
+      "close": 161.98,
+      "peak": 161.98,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "ANANTRAJ",
+      "days_held": 0,
+      "close": 476.25,
+      "peak": 476.25,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "CORONA",
+      "days_held": 0,
+      "close": 1820.2,
+      "peak": 1820.2,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "FRACTAL",
+      "days_held": 0,
+      "close": 924.6,
+      "peak": 924.6,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "INDHOTEL",
+      "days_held": 0,
+      "close": 648.55,
+      "peak": 648.55,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "JTLIND",
+      "days_held": 0,
+      "close": 66.25,
+      "peak": 66.25,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "NUVAMA",
+      "days_held": 0,
+      "close": 1439.6,
+      "peak": 1439.6,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "SYRMA",
+      "days_held": 0,
+      "close": 969.95,
+      "peak": 969.95,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "CARERATING",
+      "days_held": 0,
+      "close": 1728.5,
+      "peak": 1728.5,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "SHARDACROP",
+      "days_held": 0,
+      "close": 901.2,
+      "peak": 901.2,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "HAL",
+      "days_held": 0,
+      "close": 4326.5,
+      "peak": 4326.5,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "JTEKTINDIA",
+      "days_held": 0,
+      "close": 128.88,
+      "peak": 128.88,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "PRICOLLTD",
+      "days_held": 0,
+      "close": 553.55,
+      "peak": 553.55,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "TIMKEN",
+      "days_held": 0,
+      "close": 3435,
+      "peak": 3435,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "GLAND",
+      "days_held": 0,
+      "close": 2156.6,
+      "peak": 2156.6,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "CAPLIPOINT",
+      "days_held": 0,
+      "close": 1986.1,
+      "peak": 1986.1,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "ENRIN",
+      "days_held": 0,
+      "close": 3060.7,
+      "peak": 3060.7,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "PGIL",
+      "days_held": 0,
+      "close": 1599.4,
+      "peak": 1599.4,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "SFL",
+      "days_held": 0,
+      "close": 598.3,
+      "peak": 598.3,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "SHADOWFAX",
+      "days_held": 0,
+      "close": 185.61,
+      "peak": 185.61,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "FCL",
+      "days_held": 0,
+      "close": 30.52,
+      "peak": 30.52,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "FUSION",
+      "days_held": 0,
+      "close": 183.34,
+      "peak": 183.34,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "HINDCOPPER",
+      "days_held": 0,
+      "close": 581.15,
+      "peak": 581.15,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "SOMANYCERA",
+      "days_held": 0,
+      "close": 445.9,
+      "peak": 445.9,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "DELHIVERY",
+      "days_held": 0,
+      "close": 455.75,
+      "peak": 455.75,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "DODLA",
+      "days_held": 0,
+      "close": 1023.3,
+      "peak": 1023.3,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "OSWALPUMPS",
+      "days_held": 0,
+      "close": 370.7,
+      "peak": 370.7,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "ROLEXRINGS",
+      "days_held": 0,
+      "close": 143.07,
+      "peak": 143.07,
+      "action": "HOLD",
+      "reason": "ok"
+    },
+    {
+      "ticker": "SUBROS",
+      "days_held": 0,
+      "close": 729.15,
+      "peak": 729.15,
+      "action": "HOLD",
+      "reason": "ok"
+    }
+  ]
+}

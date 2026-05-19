@@ -21,6 +21,7 @@ import { loadRiskLabViewMap, buildLabViewForEvent } from "./services/riskLab/ear
 import { buildSizingDecision } from "./services/riskLab/positionSizing.js";
 import { loadHitRateSummary } from "./services/earnings/hitRateSummary.js";
 import { loadCompounderLatest, loadCompounderPaperTrades } from "./services/compounder/compounderService.js";
+import { loadEdgeLatest, loadEdgePaperTrades } from "./services/earningsEdge/edgeService.js";
 import { createPersonalUseGate, isPersonalAllowed } from "./services/auth/personalUseGate.js";
 
 // External-API circuit breaker for /api/sector-heatmap (Yahoo Finance batch
@@ -2841,6 +2842,27 @@ app.get("/api/compounder/paper-trades", personalUseGate, (req, res) => {
     res.json(loadCompounderPaperTrades());
   } catch (err) {
     console.error("[/api/compounder/paper-trades] failed:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Earnings Edge — AGGRESSIVE sleeve. Same personal-use gate.
+app.get("/api/earnings-edge/latest", personalUseGate, (req, res) => {
+  try {
+    const data = loadEdgeLatest();
+    if (!data) return res.status(404).json({ error: "earnings-edge-not-built" });
+    res.json(data);
+  } catch (err) {
+    console.error("[/api/earnings-edge/latest] failed:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/api/earnings-edge/paper-trades", personalUseGate, (req, res) => {
+  try {
+    res.json(loadEdgePaperTrades());
+  } catch (err) {
+    console.error("[/api/earnings-edge/paper-trades] failed:", err);
     res.status(500).json({ error: err.message });
   }
 });
