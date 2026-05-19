@@ -15,10 +15,6 @@
 import fs from "fs";
 import path from "path";
 import { computeSectionStatus } from "./sws-section-status.mjs";
-import * as dal from "../services/swsDal/index.js";
-import { closeDb } from "../db/client.js";
-
-const RUN_ID = process.env.SWS_RUN_ID || null;
 
 const DATA_DIR = path.resolve(process.cwd(), "data/sws");
 const PICKS_LATEST = path.join(DATA_DIR, "picks-latest.json");
@@ -82,21 +78,6 @@ async function main() {
   console.log(`[stamp] stamped=${stamped} newly_added=${newlyAdded} trending=${trending}`);
 
   // Phase 3 dual-write: mirror every section_status into Postgres. Gated
-  // by SWS_DB_DUAL_WRITE=1 in the DAL — no-op when disabled.
-  if (RUN_ID && dal.isDualWriteEnabled()) {
-    let dbStamped = 0;
-    for (const [section, items] of Object.entries(current.sections)) {
-      if (!Array.isArray(items)) continue;
-      for (const s of items) {
-        if (s?.ticker && s?.section_status) {
-          await dal.stampSectionStatus(RUN_ID, s.ticker, section, s.section_status);
-          dbStamped++;
-        }
-      }
-    }
-    console.log(`[stamp] DAL stamped ${dbStamped} rows`);
-    await closeDb();
-  }
 }
 
 await main();

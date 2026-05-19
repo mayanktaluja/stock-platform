@@ -1,30 +1,17 @@
 // services/swsDal — the single Data Access Layer for the SWS data tier.
 //
-// SHAPE OF THIS LAYER:
+// Reads are sync and served from on-disk JSON via jsonBackend. Writes are
+// async no-op stubs that preserve their prior call signatures and return
+// shapes; pipeline scripts keep calling them so they stay one-codepath.
 //
-//   Reads (sync) — default JSON backend, swappable via SWS_READ_FROM_DB=1
-//     when callers can be made async. See "Phase 4 activation" in
-//     services/swsDal/README.md before flipping the env flag.
-//
-//   Writes (async) — always go to the SQL backend, but only fire when
-//     DATABASE_URL is set AND SWS_DB_DUAL_WRITE=1 (else they're no-ops so
-//     callers stay one-codepath across enabled/disabled environments).
-//
-// See /Users/mayanktaluja/.claude/plans/sws-json-indexed-stroustrup.md
-// for the migration plan this DAL anchors.
+// History: this DAL anchored a JSON → Postgres migration that targeted
+// Neon. The migration was decommissioned on 2026-05-19 (see
+// ~/.claude/plans/create-a-plan-to-precious-dongarra.md). The
+// `__setBackend()` test seam is preserved so a future migration can swap
+// the backend wholesale.
 
 import * as jsonBackend from "./jsonBackend.js";
-import * as sqlBackend from "./sqlBackend.js";
-import * as dbCache from "./dbCache.js";
-import { isDbConfigured } from "../../db/client.js";
 
-// Env flags are read FRESH on every check so tests + pipeline shells can
-// flip them mid-process. Cheap (string compare); no caching trade-off.
-const readFromDb = () => process.env.SWS_READ_FROM_DB === "1";
-const dualWrite = () => process.env.SWS_DB_DUAL_WRITE === "1";
-
-// Tests can swap the entire backend; Phase 4 read activation will swap
-// the default at boot.
 let _backend = jsonBackend;
 
 export function __setBackend(impl) {
@@ -36,238 +23,200 @@ export function __getBackend() {
 }
 
 // ── Read-side flags ─────────────────────────────────────────────────────
+// Kept for caller compatibility. Both always return false post-decommission.
 
 export function isReadingFromDb() {
-  return readFromDb();
+  return false;
 }
 
 export function isDualWriteEnabled() {
-  return dualWrite() && isDbConfigured();
+  return false;
 }
 
-// ── Reads (sync) — Phase 1+ ─────────────────────────────────────────────
-// These stay sync. When SWS_READ_FROM_DB=1 and the in-memory dbCache has
-// fresh data (populated by `await warmUp(...)`), reads serve from there;
-// otherwise they fall through to the JSON backend. The dbCache fallback
-// means callers never have to await individual lookups.
-
-function fromDbOr(cacheRead, jsonRead) {
-  if (dbCache.isEnabled()) {
-    const v = cacheRead();
-    if (v != null) return v;
-  }
-  return jsonRead();
-}
+// ── Reads (sync) ────────────────────────────────────────────────────────
 
 export function getStockByTicker(ticker) {
-  return fromDbOr(
-    () => dbCache.readStockByTicker(ticker),
-    () => _backend.getStockByTicker(ticker),
-  );
+  return _backend.getStockByTicker(ticker);
 }
 
 export function listDeepTickers() {
-  if (dbCache.isEnabled()) {
-    const cached = dbCache.readDeepTickers();
-    if (cached.length) return cached;
-  }
   return _backend.listDeepTickers();
 }
 
 export function getScoredUniverse() {
-  return fromDbOr(dbCache.readScoredUniverse, () => _backend.getScoredUniverse());
+  return _backend.getScoredUniverse();
 }
 
 export function getUniverseIndex() {
-  return fromDbOr(dbCache.readUniverseIndex, () => _backend.getUniverseIndex());
+  return _backend.getUniverseIndex();
 }
 
 export function getUniverseIndexMtime() {
-  if (dbCache.isEnabled()) {
-    const m = dbCache.readUniverseIndexMtime();
-    if (m != null) return m;
-  }
   return _backend.getUniverseIndexMtime?.() ?? null;
 }
 
 export function getV3UniverseStats() {
-  return fromDbOr(dbCache.readV3UniverseStats, () => _backend.getV3UniverseStats());
+  return _backend.getV3UniverseStats();
 }
 
 export function getPicksLatest() {
-  return fromDbOr(dbCache.readPicksLatest, () => _backend.getPicksLatest());
+  return _backend.getPicksLatest();
 }
 
 export function getLastRefresh() {
-  return fromDbOr(dbCache.readLastRefresh, () => _backend.getLastRefresh());
+  return _backend.getLastRefresh();
 }
 
 export function getShardProgressApi(n) {
-  return fromDbOr(
-    () => dbCache.readShardProgressApi(n),
-    () => _backend.getShardProgressApi(n),
-  );
+  return _backend.getShardProgressApi(n);
 }
 
 export function getAllShardProgressApi() {
-  if (dbCache.isEnabled()) {
-    const cached = dbCache.readAllShardProgressApi();
-    // If any shard has data from cache, prefer cache; else fall back.
-    if (cached.some((s) => s.done_count != null)) return cached;
-  }
   return _backend.getAllShardProgressApi();
 }
 
-// Returns { map: Map<sector, { avg_1m_pct, sample_size }>, scanned: number }.
-// Phase 4 SQL backend replaces the O(5,517) deep-file scan with one SQL
-// aggregate. See sqlBackend.getSectorMomentum.
 export function getSectorMomentum() {
-  return fromDbOr(dbCache.readSectorMomentum, () => _backend.getSectorMomentum());
+  return _backend.getSectorMomentum();
 }
 
 export function invalidateAll() {
   if (typeof _backend.invalidateAll === "function") _backend.invalidateAll();
-  if (isDbConfigured()) {
-    sqlBackend.invalidateAll();
-    dbCache.invalidateAll();
-  }
 }
 
-// ── Warmup (async) — populates the in-memory cache that backs sync reads
-//    when SWS_READ_FROM_DB=1. No-op otherwise so callers can be unconditional. ──
+// ── Warmup (async) — no-op shims kept for callers that still await them. ──
 
-export async function warmUp(opts = {}) {
-  if (!dbCache.isEnabled()) return;
-  return dbCache.warmUp(opts);
+export async function warmUp() {
+  return;
 }
 
 export async function warmUpEssentials() {
-  if (!dbCache.isEnabled()) return;
-  return dbCache.warmUpEssentials();
+  return;
 }
 
-export async function warmUpSnapshots(tickers) {
-  if (!dbCache.isEnabled()) return;
-  return dbCache.warmUpSnapshots(tickers);
+export async function warmUpSnapshots() {
+  return;
 }
 
-// Path constants — used by a few callers that still need raw paths during
-// the migration. Removed in Phase 5 cleanup.
+// Path constants — used by a few callers that still need raw paths.
 export const DATA_DIR = jsonBackend.DATA_DIR;
 export const DEEP_DIR = jsonBackend.DEEP_DIR;
 
 // ────────────────────────────────────────────────────────────────────────
-// Writes (async) — dispatch to SQL backend when dual-write is on.
+// Writes — async no-op stubs. Pipeline scripts keep calling these so they
+// stay backend-agnostic; the JSON files are written directly by the
+// pipeline scripts themselves, not through this layer.
 // ────────────────────────────────────────────────────────────────────────
-//
-// Pipeline scripts call these alongside their existing JSON writes. When
-// SWS_DB_DUAL_WRITE=0 (or DATABASE_URL is unset), every write below is a
-// no-op so production behaviour is unchanged.
 
-function gated(fn) {
-  return async (...args) => {
-    if (!isDualWriteEnabled()) return null;
-    try {
-      return await fn(...args);
-    } catch (err) {
-      // Dual-write failures should NOT take down a pipeline run; they
-      // surface as warnings and verify-db-vs-json catches the drift.
-      console.warn(`[dal] write failed (${fn.name || "anon"}): ${err.message}`);
-      return null;
-    }
-  };
+export async function beginRun() {
+  return null;
 }
 
-// Run lifecycle
-export const beginRun = gated(sqlBackend.beginRun);
-export const recordRunProgress = gated(sqlBackend.recordRunProgress);
-export const finaliseRun = gated(sqlBackend.finaliseRun);
+export async function recordRunProgress() {
+  return null;
+}
 
-// Run reads (always SQL — these don't have a JSON equivalent)
-export const getCanonicalRunId = async () => {
-  if (!isDbConfigured()) return null;
-  return sqlBackend.getCanonicalRunId();
-};
-export const getPriorCanonicalRunId = async () => {
-  if (!isDbConfigured()) return null;
-  return sqlBackend.getPriorCanonicalRunId();
-};
+export async function finaliseRun() {
+  return null;
+}
 
-// Company + snapshot writes
-export const upsertCompany = gated(sqlBackend.upsertCompany);
-export const upsertCompanySnapshot = gated(sqlBackend.upsertCompanySnapshot);
+export async function getCanonicalRunId() {
+  return null;
+}
 
-// Pick writes
-export const replacePicksForRun = gated(sqlBackend.replacePicksForRun);
-export const applyNarrativeAcrossSections = gated(sqlBackend.applyNarrativeAcrossSections);
-export const stampSectionStatus = gated(sqlBackend.stampSectionStatus);
-export const updatePickEarningsBeat = gated(sqlBackend.updatePickEarningsBeat);
+export async function getPriorCanonicalRunId() {
+  return null;
+}
 
-// Universe writes
-export const upsertUniverseEntries = gated(sqlBackend.upsertUniverseEntries);
-export const upsertUniverseStats = gated(sqlBackend.upsertUniverseStats);
+export async function upsertCompany() {
+  return null;
+}
 
-// Sanity + failures
-export const recordSanityReport = gated(sqlBackend.recordSanityReport);
-export const recordScrapeFailure = gated(sqlBackend.recordScrapeFailure);
-export const listScrapeFailuresForTicker = async (...args) => {
-  if (!isDbConfigured()) return [];
-  return sqlBackend.listScrapeFailuresForTicker(...args);
-};
+export async function upsertCompanySnapshot() {
+  return null;
+}
 
-// Shard progress
-export const upsertShardProgress = gated(sqlBackend.upsertShardProgress);
-export const getShardProgressApiAsync = async (n) => {
-  if (!isDbConfigured()) return null;
-  return sqlBackend.getShardProgressApi(n);
-};
+export async function replacePicksForRun() {
+  return null;
+}
 
-// Control flags
-export const setControlFlag = gated(sqlBackend.setControlFlag);
-export const getControlFlag = async (...args) => {
-  if (!isDbConfigured()) return null;
-  return sqlBackend.getControlFlag(...args);
-};
-export const acquirePipelineLock = async (...args) => {
-  if (!isDbConfigured()) return { acquired: false, reason: "DATABASE_URL not set" };
-  return sqlBackend.acquirePipelineLock(...args);
-};
-export const releasePipelineLock = gated(sqlBackend.releasePipelineLock);
+export async function applyNarrativeAcrossSections() {
+  return null;
+}
 
-// ────────────────────────────────────────────────────────────────────────
-// Async-aware READ siblings — Phase 4 will swap the sync read methods
-// above to use these once consumers are awaited.
-// ────────────────────────────────────────────────────────────────────────
+export async function stampSectionStatus() {
+  return null;
+}
 
-export const getStockByTickerAsync = async (ticker) => {
-  if (readFromDb() && isDbConfigured()) return sqlBackend.getStockByTicker(ticker);
+export async function updatePickEarningsBeat() {
+  return null;
+}
+
+export async function upsertUniverseEntries() {
+  return null;
+}
+
+export async function upsertUniverseStats() {
+  return null;
+}
+
+export async function recordSanityReport() {
+  return null;
+}
+
+export async function recordScrapeFailure() {
+  return null;
+}
+
+export async function listScrapeFailuresForTicker() {
+  return [];
+}
+
+export async function upsertShardProgress() {
+  return null;
+}
+
+export async function getShardProgressApiAsync(n) {
+  return _backend.getShardProgressApi(n);
+}
+
+export async function setControlFlag() {
+  return null;
+}
+
+export async function getControlFlag() {
+  return null;
+}
+
+export async function acquirePipelineLock() {
+  return { acquired: false, reason: "DAL is JSON-only; use the file-based lock at data/sws/pipeline.lock" };
+}
+
+export async function releasePipelineLock() {
+  return null;
+}
+
+// ── Async-aware read siblings ───────────────────────────────────────────
+
+export async function getStockByTickerAsync(ticker) {
   return jsonBackend.getStockByTicker(ticker);
-};
+}
 
-export const getPicksLatestAsync = async () => {
-  if (readFromDb() && isDbConfigured()) return sqlBackend.getPicksLatest();
+export async function getPicksLatestAsync() {
   return jsonBackend.getPicksLatest();
-};
+}
 
-export const getSectorMomentumAsync = async () => {
-  if (readFromDb() && isDbConfigured()) return sqlBackend.getSectorMomentum();
+export async function getSectorMomentumAsync() {
   return jsonBackend.getSectorMomentum();
-};
+}
 
-export const getLastRefreshAsync = async () => {
-  if (readFromDb() && isDbConfigured()) return sqlBackend.getLastRefresh();
+export async function getLastRefreshAsync() {
   return jsonBackend.getLastRefresh();
-};
+}
 
 // Returns Map<bareTicker, {fair_value_inr, current_price_inr, upside_pct}>
-// for the snapshot side of the canonical run. Used at /api/sws-picks
-// response time so a pick card's FV can be overwritten with the snapshot's
-// freshest value — closes the picks-vs-snapshots drift gap (the bug where
-// the homepage Earnings card and the stock modal disagreed on STAR's Fair
-// Value). SQL backend ignores the `tickers` arg and returns the whole
-// canonical map (one query, memoised). JSON backend uses `tickers` to
-// limit per-file deep-JSON reads to ~250 entries per response.
-export const getSnapshotFvMap = async (tickers) => {
-  if (readFromDb() && isDbConfigured()) return sqlBackend.getSnapshotFvMap(tickers);
+// from the on-disk deep files for the requested tickers. Used at
+// /api/sws-picks response time to overwrite each pick card's FV with the
+// snapshot's freshest value (closes the picks-vs-snapshots drift gap).
+export async function getSnapshotFvMap(tickers) {
   return jsonBackend.getSnapshotFvMap(tickers);
-};
+}

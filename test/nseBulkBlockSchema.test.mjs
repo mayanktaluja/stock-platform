@@ -15,8 +15,6 @@
 //   - scripts/refresh-nse-corporate.mjs reads `deal_count` from the JSON
 //   - services/earnings/signalAggregator.js reads `bulk_count` / `block_count`
 //     from the IN-MEMORY rollup (NOT the JSON)
-//   - db/schema.js / sws-seed-from-json.mjs / sqlBackend.js use `blockCount`
-//     but for an unrelated `sanity` report table — separate schema entirely
 //
 // These tests pin the contract so any future writer/reader change has to
 // confront the existing shape head-on instead of silently drifting.

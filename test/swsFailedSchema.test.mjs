@@ -135,8 +135,7 @@ it("treats object missing entries[] as empty (legacy/partial files)", () => {
 
 console.log("[5] consumer-side reader contract — entries[] iteration ignores orphans");
 it("Array.isArray(payload.entries) iteration sees only real entries", () => {
-  // Simulate the consumer pattern from scripts/sws-seed-from-json.mjs:86
-  // and scripts/sws-sanity-gate.mjs:291.
+  // Simulate the consumer pattern from scripts/sws-sanity-gate.mjs:291.
   const legacy = {
     entries: [
       { ticker: "A", failed_tab: "x", error: "y", recorded_at: "2026-05-17T00:00:00.000Z" },

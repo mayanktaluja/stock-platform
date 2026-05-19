@@ -60,12 +60,11 @@ function logEvent(obj) {
 }
 
 // Top-level safety net for unhandled errors. Without these handlers, Node
-// terminates the process on any unhandled rejection / uncaught exception
-// (e.g. the pg.Pool 'error' that killed shard 2 on 2026-05-17 — see
-// db/client.js for the primary fix). With them, we log a grep-able JSON
-// line carrying the shard id and exit(2) so the launcher's retry loop in
-// scripts/sws-refresh-api.sh can distinguish a fatal crash from a clean
-// non-zero exit and resume from the last persisted next_local_index.
+// terminates the process on any unhandled rejection / uncaught exception.
+// With them, we log a grep-able JSON line carrying the shard id and
+// exit(2) so the launcher's retry loop in scripts/sws-refresh-api.sh can
+// distinguish a fatal crash from a clean non-zero exit and resume from
+// the last persisted next_local_index.
 function installFatalHandlers() {
   const shardArg = parseInt(process.argv[2], 10);
   const shardId = Number.isFinite(shardArg) ? shardArg : null;

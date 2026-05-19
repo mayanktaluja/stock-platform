@@ -36,11 +36,6 @@ import fs from "node:fs";
 import path from "node:path";
 import YahooFinance from "yahoo-finance2";
 import { PATHS } from "./sws-config.mjs";
-import * as dal from "../services/swsDal/index.js";
-import { closeDb } from "../db/client.js";
-
-const RUN_ID = process.env.SWS_RUN_ID || null;
-
 const args = process.argv.slice(2);
 let CONCURRENCY = 5;
 let MAX_AGE_DAYS = 180;
@@ -175,16 +170,6 @@ async function main() {
   writeJsonAtomic(PATHS.picksLatest, picks);
   console.log(`\nWrote ${PATHS.picksLatest}`);
   console.log(`Summary: beat=${nBeat} miss=${nMiss} inline=${nInline} unknown=${nUnknown} (of ${upcoming.length} upcoming-earnings cards)`);
-
-  if (RUN_ID && dal.isDualWriteEnabled()) {
-    for (const card of upcoming) {
-      if (card.ticker && card.last_quarter_result !== undefined) {
-        await dal.updatePickEarningsBeat(RUN_ID, card.ticker, card.last_quarter_result);
-      }
-    }
-    await closeDb();
-    console.log(`[earnings-beat] DAL updated ${upcoming.length} rows`);
-  }
 }
 
 main().catch((e) => {

@@ -6799,19 +6799,6 @@ if (!process.env.VERCEL) {
       }, 15 * 60 * 1000);
     }
 
-    // Warm the SWS DAL cache from Neon when SWS_READ_FROM_DB=1; no-op
-    // otherwise so this is safe to leave unconditional. Non-blocking —
-    // the JSON backend keeps serving until the DB warmup completes.
-    swsDal.warmUpEssentials().then(() => {
-      if (swsDal.isReadingFromDb()) console.log("  SWS DAL: warmed from Neon (DB-backed reads active)");
-    }).catch((e) => console.warn("[SWS-DAL] warmUp failed at startup:", e.message));
-    // Periodic re-warm so canonical-run flips during the day propagate.
-    // 10-minute interval is well under the dbCache TTL (5 min) — we keep
-    // the cache hot without hammering Neon's compute-hour budget.
-    setInterval(() => {
-      swsDal.warmUpEssentials().catch((e) => console.error("[SWS-DAL] warmUp refresh failed:", e.message));
-    }, 10 * 60 * 1000);
-
     // Hourly earnings-health refresh — closes the up-to-14h staleness gap
     // between the twice-daily sws-nightly.sh runs that previously owned
     // this file. UI banners read data/catalysts/earnings-health.json
@@ -6901,16 +6888,6 @@ if (process.env.VERCEL) {
       console.warn("[GOVERNANCE] KV prime failed on cold start:", e.message)
     ),
     new Promise((resolve) => setTimeout(resolve, 1500)),
-  ]);
-  // SWS DAL warmup — best-effort, 3s timeout so a Neon hiccup doesn't
-  // block the cold start. Reads fall through to the JSON backend until
-  // the cache hydrates (which usually happens before the first request
-  // anyway — picks/universe queries are < 500ms).
-  await Promise.race([
-    swsDal.warmUpEssentials().catch((e) =>
-      console.warn("[SWS-DAL] warmUp failed on cold start:", e.message)
-    ),
-    new Promise((resolve) => setTimeout(resolve, 3000)),
   ]);
 }
 
