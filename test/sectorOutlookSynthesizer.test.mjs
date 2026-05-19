@@ -1,0 +1,322 @@
+import {
+  synthesizeSectorAtHorizon,
+  synthesizeAll,
+  TESTING_CONSTANTS,
+} from "../services/sectorOutlook/outlookSynthesizer.js";
+
+let _failed = 0;
+function assert(name, cond, got) {
+  if (cond) {
+    console.log(`  ok: ${name}`);
+  } else {
+    console.log(`  FAIL: ${name}${got !== undefined ? ` — got ${JSON.stringify(got)}` : ""}`);
+    _failed += 1;
+  }
+}
+
+// Helper to build a sector aggregate with custom per-window stats
+function buildAggregate(sector, perWindow) {
+  const defaultSummary = (overrides = {}) => ({
+    theme_distribution: { CAPACITY_CAPEX: 0.2, M_AND_A: 0.1, ORDER_WINS: 0.1, REGULATORY_EVENT: 0.1, MARGIN_MOVE: 0.1, EARNINGS_MOVE: 0.2, STRATEGIC_GEOPOLITICAL: 0.1, NEUTRAL: 0.1 },
+    signed_index: 0,
+    breadth_pct: 0,
+    catalyst_proximity_count: 0,
+    evidence_top5: [],
+    n_tickers: 0,
+    n_news: 0,
+    ...overrides,
+  });
+  return {
+    sector,
+    n_tickers_total: 10,
+    windows: {
+      "30d": defaultSummary(perWindow["30d"] || {}),
+      "90d": defaultSummary(perWindow["90d"] || {}),
+      "365d": defaultSummary(perWindow["365d"] || {}),
+    },
+  };
+}
+
+// ─── horizon blend math ──────────────────────────────────────────────
+console.log("synthesizer: horizon blend math");
+{
+  // Pure +1 signal at 30d, 0 elsewhere
+  const agg = buildAggregate("Pharma", {
+    "30d": { signed_index: 1.0, breadth_pct: 0.6, n_news: 10 },
+    "90d": { signed_index: 0.5, breadth_pct: 0.6, n_news: 20 },
+    "365d": { signed_index: 0.0, breadth_pct: 0.6, n_news: 50 },
+  });
+  // 3_12m blend: 30d×0.5 + 90d×0.3 + 365d×0.2 = 0.5 + 0.15 + 0 = 0.65
+  const short = synthesizeSectorAtHorizon(agg, null, "3_12m");
+  assert("3_12m blend ~0.65", Math.abs(short.bottom_up.score - 0.65) < 1e-9, short.bottom_up.score);
+  // 12_24m blend: 30d×0.1 + 90d×0.3 + 365d×0.6 = 0.1 + 0.15 + 0 = 0.25
+  const long = synthesizeSectorAtHorizon(agg, null, "12_24m");
+  assert("12_24m blend ~0.25", Math.abs(long.bottom_up.score - 0.25) < 1e-9, long.bottom_up.score);
+}
+
+// ─── outlook label thresholds ────────────────────────────────────────
+console.log("synthesizer: outlook label thresholds");
+{
+  // Pure bottom-up at 0.6, top_down 0 → composite = 0.3 → TAILWIND
+  const t = synthesizeSectorAtHorizon(
+    buildAggregate("Pharma", {
+      "30d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 10 },
+      "90d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 10 },
+      "365d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 10 },
+    }),
+    null,
+    "3_12m",
+  );
+  assert("composite 0.3 → TAILWIND", t.outlook_label === "TAILWIND", t);
+
+  // composite 0.6 → STRONG_TAILWIND (when both bu + td > 0.5)
+  const s = synthesizeSectorAtHorizon(
+    buildAggregate("Pharma", {
+      "30d": { signed_index: 0.8, breadth_pct: 0.5, n_news: 10 },
+      "90d": { signed_index: 0.8, breadth_pct: 0.5, n_news: 10 },
+      "365d": { signed_index: 0.8, breadth_pct: 0.5, n_news: 10 },
+    }),
+    { regime: "BOOM", sectorImpacts: [{ sector: "Pharma", impact: 3, reason: "x" }] },
+    "3_12m",
+  );
+  assert("strong both sides → STRONG_TAILWIND", s.outlook_label === "STRONG_TAILWIND", s);
+
+  // Negative composite → HEADWIND
+  const h = synthesizeSectorAtHorizon(
+    buildAggregate("Pharma", {
+      "30d": { signed_index: -0.4, breadth_pct: 0.5, n_news: 10 },
+      "90d": { signed_index: -0.4, breadth_pct: 0.5, n_news: 10 },
+      "365d": { signed_index: -0.4, breadth_pct: 0.5, n_news: 10 },
+    }),
+    null,
+    "3_12m",
+  );
+  assert("composite -0.2 → HEADWIND", h.outlook_label === "HEADWIND", h);
+
+  // Strong-negative both sides
+  const sh = synthesizeSectorAtHorizon(
+    buildAggregate("Pharma", {
+      "30d": { signed_index: -0.8, breadth_pct: 0.5, n_news: 10 },
+      "90d": { signed_index: -0.8, breadth_pct: 0.5, n_news: 10 },
+      "365d": { signed_index: -0.8, breadth_pct: 0.5, n_news: 10 },
+    }),
+    { regime: "CRASH", sectorImpacts: [{ sector: "Pharma", impact: -3, reason: "x" }] },
+    "3_12m",
+  );
+  assert("strong-neg both → STRONG_HEADWIND", sh.outlook_label === "STRONG_HEADWIND", sh);
+
+  // Neutral both sides
+  const n = synthesizeSectorAtHorizon(
+    buildAggregate("Pharma", {
+      "30d": { signed_index: 0.05, breadth_pct: 0.5, n_news: 10 },
+      "90d": { signed_index: 0.05, breadth_pct: 0.5, n_news: 10 },
+      "365d": { signed_index: 0.05, breadth_pct: 0.5, n_news: 10 },
+    }),
+    null,
+    "3_12m",
+  );
+  assert("near-zero → NEUTRAL", n.outlook_label === "NEUTRAL", n);
+}
+
+// ─── cross_check classifications ─────────────────────────────────────
+console.log("synthesizer: cross_check STRONG / PARTIAL / DIVERGENT / NEUTRAL");
+{
+  const strongAgg = buildAggregate("IT Services", {
+    "30d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 12 },
+    "90d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 12 },
+    "365d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 12 },
+  });
+  const strongMacro = { regime: "BOOM", sectorImpacts: [{ sector: "IT Services", impact: 3, reason: "rupee weak helps" }] };
+  const s = synthesizeSectorAtHorizon(strongAgg, strongMacro, "3_12m");
+  assert("strong agreement → cross_check=STRONG", s.cross_check === "STRONG", s);
+
+  // Same sign but lower magnitude — PARTIAL
+  const partialMacro = { regime: "CALM", sectorImpacts: [{ sector: "IT Services", impact: 1, reason: "" }] };
+  const partialAgg = buildAggregate("IT Services", {
+    "30d": { signed_index: 0.2, breadth_pct: 0.4, n_news: 12 },
+    "90d": { signed_index: 0.2, breadth_pct: 0.4, n_news: 12 },
+    "365d": { signed_index: 0.2, breadth_pct: 0.4, n_news: 12 },
+  });
+  const p = synthesizeSectorAtHorizon(partialAgg, partialMacro, "3_12m");
+  assert("weak agreement → cross_check=PARTIAL", p.cross_check === "PARTIAL", p);
+
+  // Signs disagree — DIVERGENT
+  const divMacro = { regime: "RATE_HIKE", sectorImpacts: [{ sector: "IT Services", impact: -2, reason: "rupee weak" }] };
+  const divAgg = buildAggregate("IT Services", {
+    "30d": { signed_index: 0.4, breadth_pct: 0.5, n_news: 12 },
+    "90d": { signed_index: 0.4, breadth_pct: 0.5, n_news: 12 },
+    "365d": { signed_index: 0.4, breadth_pct: 0.5, n_news: 12 },
+  });
+  const d = synthesizeSectorAtHorizon(divAgg, divMacro, "3_12m");
+  assert("opposite signs → cross_check=DIVERGENT", d.cross_check === "DIVERGENT", d);
+
+  // One side zero — NEUTRAL
+  const n = synthesizeSectorAtHorizon(partialAgg, null, "3_12m");
+  assert("missing macro → cross_check=NEUTRAL", n.cross_check === "NEUTRAL", n);
+}
+
+// ─── confidence classifications ──────────────────────────────────────
+console.log("synthesizer: confidence HIGH / MED / LOW");
+{
+  // HIGH: STRONG cross_check + breadth >= 0.4 + n_news >= 8
+  const high = synthesizeSectorAtHorizon(
+    buildAggregate("Pharma", {
+      "30d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 12 },
+      "90d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 12 },
+      "365d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 12 },
+    }),
+    { regime: "BOOM", sectorImpacts: [{ sector: "Pharma", impact: 3, reason: "x" }] },
+    "3_12m",
+  );
+  assert("STRONG + breadth 0.6 + n 12 → HIGH", high.confidence === "HIGH", high);
+
+  // LOW: DIVERGENT
+  const lowDiv = synthesizeSectorAtHorizon(
+    buildAggregate("Pharma", {
+      "30d": { signed_index: 0.4, breadth_pct: 0.6, n_news: 12 },
+      "90d": { signed_index: 0.4, breadth_pct: 0.6, n_news: 12 },
+      "365d": { signed_index: 0.4, breadth_pct: 0.6, n_news: 12 },
+    }),
+    { regime: "X", sectorImpacts: [{ sector: "Pharma", impact: -2, reason: "x" }] },
+    "3_12m",
+  );
+  assert("DIVERGENT → LOW", lowDiv.confidence === "LOW", lowDiv);
+
+  // LOW: breadth too low
+  const lowBreadth = synthesizeSectorAtHorizon(
+    buildAggregate("Pharma", {
+      "30d": { signed_index: 0.4, breadth_pct: 0.05, n_news: 12 },
+      "90d": { signed_index: 0.4, breadth_pct: 0.05, n_news: 12 },
+      "365d": { signed_index: 0.4, breadth_pct: 0.05, n_news: 12 },
+    }),
+    null,
+    "3_12m",
+  );
+  assert("breadth 0.05 → LOW", lowBreadth.confidence === "LOW", lowBreadth);
+
+  // LOW: too few news
+  const lowEvidence = synthesizeSectorAtHorizon(
+    buildAggregate("Pharma", {
+      "30d": { signed_index: 0.4, breadth_pct: 0.6, n_news: 2 },
+      "90d": { signed_index: 0.4, breadth_pct: 0.6, n_news: 2 },
+      "365d": { signed_index: 0.4, breadth_pct: 0.6, n_news: 2 },
+    }),
+    null,
+    "3_12m",
+  );
+  assert("n_news=2 → LOW", lowEvidence.confidence === "LOW", lowEvidence);
+
+  // MED: between
+  const med = synthesizeSectorAtHorizon(
+    buildAggregate("Pharma", {
+      "30d": { signed_index: 0.3, breadth_pct: 0.3, n_news: 10 },
+      "90d": { signed_index: 0.3, breadth_pct: 0.3, n_news: 10 },
+      "365d": { signed_index: 0.3, breadth_pct: 0.3, n_news: 10 },
+    }),
+    null,
+    "3_12m",
+  );
+  assert("between thresholds → MED", med.confidence === "MED", med);
+}
+
+// ─── synthesizeAll: output shape ─────────────────────────────────────
+console.log("synthesizer: synthesizeAll output shape");
+{
+  const aggregatorResult = {
+    sectors: {
+      Pharma: buildAggregate("Pharma", {
+        "30d": { signed_index: 0.5, breadth_pct: 0.5, n_news: 10 },
+        "90d": { signed_index: 0.5, breadth_pct: 0.5, n_news: 10 },
+        "365d": { signed_index: 0.5, breadth_pct: 0.5, n_news: 10 },
+      }),
+      "IT Services": buildAggregate("IT Services", {
+        "30d": { signed_index: -0.4, breadth_pct: 0.5, n_news: 10 },
+        "90d": { signed_index: -0.4, breadth_pct: 0.5, n_news: 10 },
+        "365d": { signed_index: -0.4, breadth_pct: 0.5, n_news: 10 },
+      }),
+    },
+    orphaned_tickers: 12,
+    total_entries: 100,
+  };
+  const macroRegime = {
+    regime: "RATE_HIKE",
+    severity: 3,
+    confidence: 0.7,
+    generatedAt: "2026-05-19T18:30:29.237Z",
+    sectorImpacts: [
+      { sector: "IT Services", impact: -2, reason: "rupee weakness" },
+    ],
+  };
+
+  const out = synthesizeAll(aggregatorResult, macroRegime);
+  assert("schema_version stamped", out.schema_version === "sector-outlook-v1");
+  assert("generated_at present", typeof out.generated_at === "string");
+  assert("regime_at_generation present", out.regime_at_generation?.regime === "RATE_HIKE");
+  assert("audit.orphaned_tickers passed through", out.audit.orphaned_tickers === 12);
+  assert("audit.sector_count = 2", out.audit.sector_count === 2);
+  assert("gate_met = false (v1)", out.gate_met === false);
+  assert("caveats array present", Array.isArray(out.caveats) && out.caveats.length > 0);
+
+  assert("2 sectors in array", out.sectors.length === 2);
+  for (const s of out.sectors) {
+    assert(`${s.sector}: has horizons.3_12m`, s.horizons["3_12m"] != null);
+    assert(`${s.sector}: has horizons.12_24m`, s.horizons["12_24m"] != null);
+    assert(`${s.sector}: outlook_label set`, typeof s.horizons["3_12m"].outlook_label === "string");
+    assert(`${s.sector}: confidence set`, ["HIGH", "MED", "LOW"].includes(s.horizons["3_12m"].confidence));
+  }
+
+  // Sort order: TAILWIND-ish first
+  const labels = out.sectors.map((s) => s.horizons["3_12m"].outlook_label);
+  // Pharma should rank ahead of IT Services (Pharma is TAILWIND-ish, IT is HEADWIND/DIV)
+  const pharmaIdx = out.sectors.findIndex((s) => s.sector === "Pharma");
+  const itIdx = out.sectors.findIndex((s) => s.sector === "IT Services");
+  assert("Pharma ranks before IT Services", pharmaIdx < itIdx, { labels, pharmaIdx, itIdx });
+}
+
+// ─── conservative-language audit: caveats avoid "predict" ────────────
+console.log("synthesizer: caveats use SEBI-conservative language");
+{
+  const out = synthesizeAll({ sectors: {}, orphaned_tickers: 0, total_entries: 0 }, null);
+  const joined = out.caveats.join(" ").toLowerCase();
+  assert("no 'guarantee'", !joined.includes("guarantee"));
+  assert("no 'will outperform'", !joined.includes("will outperform"));
+  // Note: 'prediction' (noun) appears in "do not interpret as a prediction" — that's the disclaimer text itself
+  assert("'indicative' OR similar present",
+    joined.includes("indicative") || joined.includes("observed"));
+}
+
+// ─── unknown horizon throws ──────────────────────────────────────────
+console.log("synthesizer: unknown horizon throws");
+{
+  let threw = false;
+  try {
+    synthesizeSectorAtHorizon(buildAggregate("X", {}), null, "999d");
+  } catch { threw = true; }
+  assert("unknown horizon throws", threw);
+}
+
+// ─── empty sector aggregate ──────────────────────────────────────────
+console.log("synthesizer: handles missing aggregate gracefully");
+{
+  const r = synthesizeSectorAtHorizon(null, null, "3_12m");
+  assert("null aggregate → null result", r === null);
+}
+
+// ─── TESTING_CONSTANTS shape ─────────────────────────────────────────
+console.log("synthesizer: TESTING_CONSTANTS exposed");
+{
+  assert("HORIZONS has 2 entries", TESTING_CONSTANTS.HORIZONS.length === 2);
+  assert("HORIZON_BLENDS has 3_12m + 12_24m",
+    "3_12m" in TESTING_CONSTANTS.HORIZON_BLENDS && "12_24m" in TESTING_CONSTANTS.HORIZON_BLENDS);
+  // Blends sum to 1 within rounding
+  for (const h of TESTING_CONSTANTS.HORIZONS) {
+    const sum = Object.values(TESTING_CONSTANTS.HORIZON_BLENDS[h]).reduce((a, b) => a + b, 0);
+    assert(`${h} weights sum to ~1`, Math.abs(sum - 1) < 1e-9, sum);
+  }
+}
+
+if (_failed > 0) {
+  console.log(`\nsectorOutlookSynthesizer: ${_failed} failures`);
+  process.exit(1);
+}
+console.log("\nsectorOutlookSynthesizer: all tests passed");
