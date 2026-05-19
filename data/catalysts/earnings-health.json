@@ -1,6 +1,6 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-05-18T06:26:54.173Z",
+  "generated_at": "2026-05-18T22:16:33.449Z",
   "resolved": {
     "count": 47,
     "delta_vs_prior": 0,
@@ -8,22 +8,22 @@
   },
   "llm_providers": {
     "groq": 59,
-    "gemini": 47,
-    "heuristic": 375,
-    "none": 9,
-    "total": 490
+    "gemini": 74,
+    "heuristic": 466,
+    "none": 12,
+    "total": 611
   },
   "llm_offline": false,
-  "llm_heuristic_share_pct": 40,
+  "llm_heuristic_share_pct": 0,
   "llm_stats": {
-    "total": 490,
-    "classified": 481,
-    "cache_hits": 170,
-    "llm_calls": 21,
-    "heuristic": 287,
-    "heuristic_cache_invalidations": 0,
+    "total": 611,
+    "classified": 599,
+    "cache_hits": 393,
+    "llm_calls": 4,
+    "heuristic": 179,
+    "heuristic_cache_invalidations": 88,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 150,
+    "below_v3_floor": 179,
     "composite_floor": 50,
     "llm_available": true,
     "skip_llm": false
@@ -31,9 +31,9 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 7,
+    "days_in_current_state": 14,
     "current_resolved": 0,
-    "current_resolved_note": "0 of latest predictor version (earnings-predict-v2-2026-05) (47 across all versions)",
+    "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (47 across all versions)",
     "detail": {
       "resolved_required": 30,
       "bucket_60_64_hit_rate_required": 55,
@@ -41,14 +41,14 @@
       "current_resolved": 0,
       "current_bucket_60_64_hit_rate": 0,
       "current_brier": null,
-      "predictor_version": "earnings-predict-v2-2026-05"
+      "predictor_version": "earnings-predict-v3-2026-05"
     }
   },
   "archive_schema": {
     "earnings-history-v4": 7
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 490
+    "earnings-predict-v3-2026-05": 611
   },
   "restatements": {
     "count": 0,
@@ -61,20 +61,20 @@
     "examples": []
   },
   "insufficient_data": {
-    "count_total": 24,
-    "count_7d": 21,
-    "count_30d": 24,
+    "count_total": 27,
+    "count_7d": 24,
+    "count_30d": 27,
     "count_prior_30d": 0,
     "trend_pct_30d_vs_prior": 100
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-05-17T11:19:24.621Z",
-    "age_hours": 19,
+    "generated_at": "2026-05-18T22:16:05.931Z",
+    "age_hours": 0,
     "classifier_provider": "groq",
-    "regime": "OIL_SHOCK",
-    "stale": true,
-    "alert": "Macro regime is 19h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log"
+    "regime": "CALM",
+    "stale": false,
+    "alert": null
   },
   "picks_snapshot_fv_drift": {
     "pipeline": null,
@@ -82,10 +82,41 @@
     "alert": null
   },
   "history_files": 7,
+  "hit_rate_summary": {
+    "schema_version": "hit-rate-summary-v1",
+    "generated_at": "2026-05-18T22:16:33.472Z",
+    "resolved_count": 47,
+    "unresolved_count": 971,
+    "strict": {
+      "hit_rate_pct": 23.4,
+      "ci_low_pct": 12.8,
+      "ci_high_pct": 36.2,
+      "sample_size": 47
+    },
+    "lenient": {
+      "hit_rate_pct": 82.6,
+      "ci_low_pct": 69.6,
+      "ci_high_pct": 91.3,
+      "sample_size": 46
+    },
+    "catastrophic": {
+      "rate_pct": 17.4,
+      "ci_low_pct": 6.5,
+      "ci_high_pct": 28.3,
+      "sample_size": 46
+    },
+    "rolling_30": {
+      "window": 30,
+      "catastrophic_count": 6,
+      "catastrophic_rate_pct": 20
+    },
+    "catastrophic_alert": true,
+    "catastrophic_alert_threshold_pct": 12
+  },
   "alerts": [
-    "LLM heuristic share (above V3 floor): 137/340 = 40% (threshold 20%; 150 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
-    "INSUFFICIENT_DATA predictions trending UP: 24 in last 30d vs 0 prior 30d (+100%) — predictor coverage may be degrading",
-    "Macro regime is 19h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log"
+    "Heuristic cache invalidations: 88 in last refresh (steady state is <10) — LLM provider may be rate-limited or erroring; check earningsLlmSignal.js logs",
+    "INSUFFICIENT_DATA predictions trending UP: 27 in last 30d vs 0 prior 30d (+100%) — predictor coverage may be degrading",
+    "Catastrophic rate alert: rolling-30 20% (6/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
 }

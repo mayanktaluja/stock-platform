@@ -1,13 +1,13 @@
 {
   "schema_version": "earnings-backtest-v2",
-  "generated_at": "2026-05-16T21:04:20.787Z",
-  "history_files": 6,
+  "generated_at": "2026-05-18T21:56:37.618Z",
+  "history_files": 7,
   "span": {
     "from": "2026-05-09",
-    "to": "2026-05-17"
+    "to": "2026-05-18"
   },
   "resolved_count": 47,
-  "expected_count": 890,
+  "expected_count": 1018,
   "brier": 0.296,
   "brier_last_quarter": null,
   "hit_rate_overall_pct": 23.4,
@@ -22,6 +22,8 @@
     "BEAT": 32,
     "INSUFFICIENT_DATA": 0
   },
+  "hit_rate_by_classifier_provider": {},
+  "hit_rate_by_classifier_provider_ci": {},
   "v1_gate": {
     "resolved_required": 30,
     "bucket_60_64_hit_rate_required": 55,
@@ -29,7 +31,7 @@
     "current_resolved": 0,
     "current_bucket_60_64_hit_rate": 0,
     "current_brier": null,
-    "predictor_version": "earnings-predict-v2-2026-05"
+    "predictor_version": "earnings-predict-v3-2026-05"
   },
   "enough_data_to_lift_cap": false,
   "by_predictor_version": {
@@ -87,7 +89,7 @@
         "BEAT": {
           "hit_rate_pct": 32,
           "ci_low_pct": 16,
-          "ci_high_pct": 52,
+          "ci_high_pct": 48,
           "sample_size": 25
         },
         "INSUFFICIENT_DATA": {
@@ -97,6 +99,8 @@
           "sample_size": 1
         }
       },
+      "hit_rate_by_classifier_provider": {},
+      "hit_rate_by_classifier_provider_ci": {},
       "brier_score": 0.296,
       "enough_data_to_lift_cap": false,
       "cap_lift_gate": {
@@ -106,11 +110,19 @@
         "current_resolved": 47,
         "current_bucket_60_64_hit_rate": 25,
         "current_brier": 0.296
-      }
+      },
+      "hit_rate_lenient_pct": 82.6,
+      "hit_rate_lenient_ci_low_pct": 71.7,
+      "hit_rate_lenient_ci_high_pct": 93.5,
+      "hit_rate_lenient_sample_size": 46,
+      "hit_rate_catastrophic_pct": 17.4,
+      "hit_rate_catastrophic_ci_low_pct": 6.5,
+      "hit_rate_catastrophic_ci_high_pct": 28.3,
+      "hit_rate_catastrophic_sample_size": 46
     },
     "earnings-predict-v2-2026-05": {
       "resolved_count": 0,
-      "unresolved_count": 670,
+      "unresolved_count": 126,
       "hit_rate_overall_pct": null,
       "hit_rate_overall_ci_low_pct": null,
       "hit_rate_overall_ci_high_pct": null,
@@ -119,6 +131,8 @@
       "hit_rate_by_confidence_bucket_ci": {},
       "hit_rate_by_verdict": {},
       "hit_rate_by_verdict_ci": {},
+      "hit_rate_by_classifier_provider": {},
+      "hit_rate_by_classifier_provider_ci": {},
       "brier_score": null,
       "enough_data_to_lift_cap": false,
       "cap_lift_gate": {
@@ -128,8 +142,48 @@
         "current_resolved": 0,
         "current_bucket_60_64_hit_rate": 0,
         "current_brier": null
-      }
+      },
+      "hit_rate_lenient_pct": null,
+      "hit_rate_lenient_ci_low_pct": null,
+      "hit_rate_lenient_ci_high_pct": null,
+      "hit_rate_lenient_sample_size": 0,
+      "hit_rate_catastrophic_pct": null,
+      "hit_rate_catastrophic_ci_low_pct": null,
+      "hit_rate_catastrophic_ci_high_pct": null,
+      "hit_rate_catastrophic_sample_size": 0
+    },
+    "earnings-predict-v3-2026-05": {
+      "resolved_count": 0,
+      "unresolved_count": 672,
+      "hit_rate_overall_pct": null,
+      "hit_rate_overall_ci_low_pct": null,
+      "hit_rate_overall_ci_high_pct": null,
+      "hit_rate_overall_sample_size": 0,
+      "hit_rate_by_confidence_bucket": {},
+      "hit_rate_by_confidence_bucket_ci": {},
+      "hit_rate_by_verdict": {},
+      "hit_rate_by_verdict_ci": {},
+      "hit_rate_by_classifier_provider": {},
+      "hit_rate_by_classifier_provider_ci": {},
+      "brier_score": null,
+      "enough_data_to_lift_cap": false,
+      "cap_lift_gate": {
+        "resolved_required": 30,
+        "bucket_60_64_hit_rate_required": 55,
+        "max_brier_required": 0.2,
+        "current_resolved": 0,
+        "current_bucket_60_64_hit_rate": 0,
+        "current_brier": null
+      },
+      "hit_rate_lenient_pct": null,
+      "hit_rate_lenient_ci_low_pct": null,
+      "hit_rate_lenient_ci_high_pct": null,
+      "hit_rate_lenient_sample_size": 0,
+      "hit_rate_catastrophic_pct": null,
+      "hit_rate_catastrophic_ci_low_pct": null,
+      "hit_rate_catastrophic_ci_high_pct": null,
+      "hit_rate_catastrophic_sample_size": 0
     }
   },
-  "latest_predictor_version": "earnings-predict-v2-2026-05"
+  "latest_predictor_version": "earnings-predict-v3-2026-05"
 }

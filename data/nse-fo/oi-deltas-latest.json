@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-05-18",
-  "fetchedAt": "2026-05-18T17:04:08.466Z",
+  "fetchedAt": "2026-05-19T01:34:07.603Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20260518_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -13,7 +13,7 @@
     "broaderCount": 15,
     "historyPointsAppended": 214,
     "historyRestoredFromKV": 0,
-    "walkedBack": 0
+    "walkedBack": 1
   },
   "sections": {
     "inBook": [
@@ -663,6 +663,25 @@
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
+        "underlying": "TVSMOTOR",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-05-26",
+        "nearMonthSettle": 3298.1,
+        "underlyingPrice": 3291,
+        "oiTotal": 9087925,
+        "oiChangeTotal": 517125,
+        "volumeTotal": 14214,
+        "oiDeltaPct": 6.033567461613852,
+        "priceDeltaPct": -5.1152219569032535,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_buildup",
+        "decoupled": false,
+        "score": 6,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
+      },
+      {
         "underlying": "MOTHERSON",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -908,25 +927,6 @@
         "decoupled": false,
         "score": 3,
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
-      },
-      {
-        "underlying": "HYUNDAI",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-05-26",
-        "nearMonthSettle": 1778,
-        "underlyingPrice": 1781.9,
-        "oiTotal": 14573350,
-        "oiChangeTotal": 459525,
-        "volumeTotal": 5647,
-        "oiDeltaPct": 3.2558502036124155,
-        "priceDeltaPct": -1.6266460108443115,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_buildup",
-        "decoupled": false,
-        "score": 3,
-        "interpretation": "Bears adding fresh shorts — OI up while price drops."
       }
     ],
     "broader": [
@@ -1004,25 +1004,6 @@
         "signal": "short_buildup",
         "decoupled": false,
         "score": 8,
-        "interpretation": "Bears adding fresh shorts — OI up while price drops."
-      },
-      {
-        "underlying": "TVSMOTOR",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-05-26",
-        "nearMonthSettle": 3298.1,
-        "underlyingPrice": 3291,
-        "oiTotal": 9087925,
-        "oiChangeTotal": 517125,
-        "volumeTotal": 14214,
-        "oiDeltaPct": 6.033567461613852,
-        "priceDeltaPct": -5.1152219569032535,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_buildup",
-        "decoupled": false,
-        "score": 6,
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
@@ -1213,6 +1194,25 @@
         "signal": "short_buildup",
         "decoupled": false,
         "score": 4,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
+      },
+      {
+        "underlying": "PNB",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-05-26",
+        "nearMonthSettle": 99.9,
+        "underlyingPrice": 99.49,
+        "oiTotal": 327848000,
+        "oiChangeTotal": 7912000,
+        "volumeTotal": 9165,
+        "oiDeltaPct": 2.472994598919784,
+        "priceDeltaPct": -2.3364942809658817,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_buildup",
+        "decoupled": false,
+        "score": 3,
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
       }
     ]
