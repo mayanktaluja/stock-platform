@@ -69,10 +69,13 @@ test.describe("Portfolio Analyzer — Upcoming results calendar", () => {
     const rowCount = await tableRows.count();
     expect(rowCount).toBeGreaterThan(0);
 
-    // Pull the date column (5th cell, index 4) for every row.
+    // Pull the result-date column (6th cell, index 5) for every row. The
+    // "Last earnings" column was inserted at index 4 between "Position" and
+    // "Result date", so the next-result-date that this assertion covers
+    // shifted from index 4 to index 5.
     const dateStrings = [];
     for (let i = 0; i < rowCount; i++) {
-      const text = (await tableRows.nth(i).locator("td").nth(4).innerText()).trim();
+      const text = (await tableRows.nth(i).locator("td").nth(5).innerText()).trim();
       dateStrings.push(text);
     }
 

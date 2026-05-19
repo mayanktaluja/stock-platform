@@ -6157,6 +6157,26 @@ function renderSWSEarningsCalendar(report) {
     const position = (typeof formatINR === "function")
       ? formatINR(h?.currentValue ?? h?.invested ?? 0, { compact: true })
       : "—";
+
+    // Last-earnings column — date of the most recent reported quarter/annual,
+    // sourced from h.sws.last_earnings_date + last_earnings_period (populated
+    // by extractLastEarnings in services/earnings/lastEarningsExtractor.js).
+    // Reuses the same en-IN "DD Mon YYYY" formatting as the next-result date
+    // above, and the muted (past)-suffix styling for the period tag.
+    const lastEarnDate = h?.sws?.last_earnings_date;
+    const lastEarnPeriod = h?.sws?.last_earnings_period;
+    let lastEarnCell = "—";
+    if (lastEarnDate) {
+      const lms = Date.parse(lastEarnDate + "T00:00:00Z");
+      if (Number.isFinite(lms)) {
+        const lds = new Date(lms).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+        const tag = lastEarnPeriod
+          ? ` <span style="color:var(--text-muted); font-size:11px;">(${swsEscapeAttr(lastEarnPeriod)})</span>`
+          : "";
+        lastEarnCell = `${lds}${tag}`;
+      }
+    }
+
     const trOpen = tickerCell
       ? `<tr style="border-bottom:1px solid #1a2238; opacity:${rowOpacity}; cursor:pointer; background:transparent; transition:background 0.15s;" title="Open ${swsEscapeAttr(tickerCell)} detail" onclick="openStockDetailModal('${escapeHtml(tickerCell)}','analyzer-earnings')" onmouseover="this.style.background='rgba(255,255,255,0.04)';" onmouseout="this.style.background='transparent';">`
       : `<tr style="border-bottom:1px solid #1a2238; opacity:${rowOpacity};">`;
@@ -6168,6 +6188,7 @@ function renderSWSEarningsCalendar(report) {
       </td>
       <td style="padding:10px 12px; font-size:12px; color:var(--text-muted);">${swsEscapeAttr(h?.sector || "—")}</td>
       <td style="padding:10px 12px; text-align:right; font-variant-numeric:tabular-nums;">${position}</td>
+      <td style="padding:10px 12px; font-variant-numeric:tabular-nums;">${lastEarnCell}</td>
       <td style="padding:10px 12px; font-variant-numeric:tabular-nums;">${showDate}</td>
       <td style="padding:10px 12px; font-variant-numeric:tabular-nums; color:${daysColor};">${showDays}</td>
     </tr>`;
@@ -6184,6 +6205,7 @@ function renderSWSEarningsCalendar(report) {
               <th style="padding:10px 12px;">Stock</th>
               <th style="padding:10px 12px;">Sector</th>
               <th style="padding:10px 12px; text-align:right;">Position</th>
+              <th style="padding:10px 12px;">Last earnings</th>
               <th style="padding:10px 12px;">Result date</th>
               <th style="padding:10px 12px;">Days until</th>
             </tr>
