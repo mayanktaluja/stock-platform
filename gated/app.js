@@ -185,6 +185,44 @@ document.addEventListener("DOMContentLoaded", () => {
   // popstate doesn't fire on initial page load.
   const bootHash = typeof window.parseHash === "function" ? window.parseHash() : {};
   switchTab(bootHash.tab || 'picks');
+  // PR #10: wire the mobile bottom-nav buttons + the desktop tab-bar
+  // scroll-shadow indicator. Both are additive — desktop UX is unchanged.
+  document.querySelectorAll(".bottom-nav-btn[data-tab]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const tab = btn.getAttribute("data-tab");
+      if (tab) window.switchTab(tab);
+    });
+  });
+  // Sync aria-current on bottom-nav buttons whenever the tab changes
+  // (driven by switchTab via the telemetry emit at the dispatch wrapper).
+  document.addEventListener("DOMContentLoaded", () => {
+    const sync = () => {
+      const view = window.currentView || "picks";
+      document.querySelectorAll(".bottom-nav-btn").forEach((b) => {
+        if (b.dataset.tab === view) b.setAttribute("aria-current", "page");
+        else b.removeAttribute("aria-current");
+      });
+    };
+    sync();
+    // Re-sync on every switchTab call by piggybacking on popstate +
+    // a MutationObserver on #mainTabs (which already gets .active toggled).
+    window.addEventListener("popstate", sync);
+    const tabBar = document.getElementById("mainTabs");
+    if (tabBar) new MutationObserver(sync).observe(tabBar, { subtree: true, attributes: true, attributeFilter: ["class", "aria-selected"] });
+  });
+  // Scroll-shadow indicator on the horizontal tab bar (desktop overflow):
+  // toggle data-scroll-overflow when scrollWidth > clientWidth.
+  const tabBar = document.getElementById("mainTabs");
+  if (tabBar) {
+    const update = () => {
+      const overflow = tabBar.scrollWidth - tabBar.clientWidth > 4;
+      const atEnd = tabBar.scrollLeft + tabBar.clientWidth >= tabBar.scrollWidth - 4;
+      tabBar.setAttribute("data-scroll-overflow", String(overflow && !atEnd));
+    };
+    update();
+    tabBar.addEventListener("scroll", update);
+    window.addEventListener("resize", update);
+  }
   setupSearch();
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
   auth.init();
@@ -766,6 +804,48 @@ function updateClock() {
   document.getElementById("currentTime").textContent = timeStr;
   const dateEl = document.getElementById("currentDate");
   if (dateEl) dateEl.textContent = dateStr;
+
+  // PR #10: live "opens in 2h 14m" / "closes in 1h 09m" countdown into the
+  // market-status pill so the user gets the *feel* of liveness without a
+  // WebSocket push. NSE regular session is 09:15–15:30 IST Mon–Fri.
+  const countEl = document.getElementById("marketCountdown");
+  if (countEl) {
+    // Compute now in IST regardless of user's TZ via the Asia/Kolkata
+    // toLocaleString trick (returns a Date in IST clock).
+    const istNow = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+    const dow = istNow.getDay(); // 0 = Sun
+    const minutes = istNow.getHours() * 60 + istNow.getMinutes();
+    const OPEN_MIN  = 9 * 60 + 15;  // 09:15 IST
+    const CLOSE_MIN = 15 * 60 + 30; // 15:30 IST
+    const isWeekday = dow >= 1 && dow <= 5;
+    let label = "";
+    if (isWeekday && minutes >= OPEN_MIN && minutes < CLOSE_MIN) {
+      const mins = CLOSE_MIN - minutes;
+      const h = Math.floor(mins / 60);
+      const m = mins % 60;
+      label = `closes in ${h > 0 ? h + "h " : ""}${m}m`;
+    } else {
+      // Next open: same day if before 09:15 weekday, otherwise next weekday 09:15
+      let daysAhead = 0;
+      if (isWeekday && minutes < OPEN_MIN) {
+        daysAhead = 0;
+      } else {
+        // walk forward until next weekday
+        daysAhead = 1;
+        let probeDow = (dow + 1) % 7;
+        while (probeDow === 0 || probeDow === 6) {
+          daysAhead++;
+          probeDow = (probeDow + 1) % 7;
+        }
+      }
+      const remainingToday = (24 * 60 - minutes) + OPEN_MIN; // overshoot for "tomorrow"
+      const totalMins = daysAhead === 0 ? (OPEN_MIN - minutes) : (remainingToday + (daysAhead - 1) * 24 * 60);
+      const h = Math.floor(totalMins / 60);
+      const m = totalMins % 60;
+      label = `opens in ${h > 0 ? h + "h " : ""}${m}m`;
+    }
+    countEl.textContent = label;
+  }
 }
 
 // ==================== MARKET DATA ====================

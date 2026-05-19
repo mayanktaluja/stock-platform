@@ -2515,6 +2515,108 @@
     }
 
     /* ============================================================
+     * PR #10 — Market countdown chip inside #marketStatusPill +
+     * mobile bottom nav + 44px hit-target floor on small viewports +
+     * horizontal scroll-shadow on the desktop tab bar.
+     * ============================================================ */
+    .market-countdown {
+      margin-left: var(--space-100);
+      padding-left: var(--space-100);
+      border-left: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+    }
+    /* Hide the countdown on the narrowest viewports — the pill itself
+       has limited real estate; the time + status are higher priority. */
+    @media (max-width: 480px) {
+      .market-countdown { display: none; }
+    }
+
+    /* Scroll-shadow indicator on the horizontal desktop tab bar.
+       Communicates "there's more to the right" when tabs overflow. */
+    #mainTabs {
+      position: relative;
+    }
+    #mainTabs::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 24px;
+      pointer-events: none;
+      background: linear-gradient(90deg, transparent, var(--bg-primary));
+      opacity: 0;
+      transition: opacity var(--dur-quick) var(--ease-standard);
+    }
+    #mainTabs[data-scroll-overflow="true"]::after { opacity: 0.7; }
+
+    /* Mobile bottom nav (shown ≤720px). 5 tabs sit fixed at the bottom of
+       the viewport so the user doesn't have to scroll up to navigate.
+       Buttons are ≥44×44px to meet the WCAG 2.5.5 hit-target rule. */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: var(--z-sticky);
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: var(--space-50) var(--space-100);
+      backdrop-filter: blur(8px) saturate(1.1);
+      -webkit-backdrop-filter: blur(8px) saturate(1.1);
+    }
+    .bottom-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-50);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .bottom-nav-btn {
+      min-height: 44px;
+      min-width: 44px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: var(--radius-100);
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 10px;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: color var(--dur-quick) var(--ease-standard),
+                  background var(--dur-quick) var(--ease-standard);
+    }
+    .bottom-nav-btn[aria-current="page"] {
+      color: var(--gold);
+      background: var(--yellow-bg);
+    }
+    .bottom-nav-btn:active { background: var(--yellow-bg); }
+    .bottom-nav-glyph { font-size: 16px; line-height: 1; }
+    @media (max-width: 720px) {
+      .bottom-nav { display: block; padding-bottom: max(var(--space-50), env(safe-area-inset-bottom)); }
+      /* Push page content above the bottom nav so the last row isn't
+         covered. 64px = approx nav height. */
+      body { padding-bottom: 64px; }
+    }
+
+    /* Minimum hit-target sizes on small viewports. WCAG 2.5.5 wants
+       ≥24×24 (AA) but Apple/Google guidelines specify 44×44; we honor
+       the stricter rule on phones where finger taps are imprecise. */
+    @media (max-width: 720px) {
+      .info-icon { min-width: 44px; min-height: 44px; display: inline-flex !important; align-items: center; justify-content: center; }
+      .watchlist-btn { min-width: 44px; min-height: 44px; padding: 8px !important; }
+      .refresh-btn, .btn { min-height: 44px; }
+    }
+
+    /* ============================================================
      * PR #8 — Shortcuts cheatsheet modal. Toggled by '?' key.
      * Uses --z-modal-backdrop (1300) for the dim layer + --z-modal
      * (1400) for the card. Hidden by default; .open shows it.
@@ -3722,6 +3824,9 @@
         <div class="market-status-pill closed" id="marketStatusPill">
           <span class="status-dot closed" id="statusDot"></span>
           <span id="statusText">Loading...</span>
+          <!-- PR #10: live countdown driven by updateClock() — "opens in 2h 14m"
+               while market is closed, "closes in 1h 09m" while open. -->
+          <span id="marketCountdown" class="market-countdown"></span>
         </div>
         <div class="header-clock">
           <div class="header-time" id="currentTime">--:--:-- --</div>
@@ -4458,6 +4563,28 @@
   <!-- PR #8: global keyboard shortcuts. Defer so it loads after app.js
        exposes window.switchTab + window.telemetry. -->
   <script src="keyboard.js" defer></script>
+
+  <!-- PR #10: Mobile bottom-nav. Shown ≤720px via the .bottom-nav
+       media query; click delegates to window.switchTab. -->
+  <nav class="bottom-nav" aria-label="Primary navigation (mobile)">
+    <div class="bottom-nav-grid">
+      <button type="button" class="bottom-nav-btn" data-tab="picks" aria-label="Picks">
+        <span class="bottom-nav-glyph" aria-hidden="true">★</span>Picks
+      </button>
+      <button type="button" class="bottom-nav-btn" data-tab="news" aria-label="News">
+        <span class="bottom-nav-glyph" aria-hidden="true">≣</span>News
+      </button>
+      <button type="button" class="bottom-nav-btn" data-tab="watchlist" aria-label="Watchlist">
+        <span class="bottom-nav-glyph" aria-hidden="true">☆</span>Watch
+      </button>
+      <button type="button" class="bottom-nav-btn" data-tab="track" aria-label="Track Record">
+        <span class="bottom-nav-glyph" aria-hidden="true">↗</span>Track
+      </button>
+      <button type="button" class="bottom-nav-btn" data-tab="analyzer" aria-label="Analyzer">
+        <span class="bottom-nav-glyph" aria-hidden="true">≡</span>Mine
+      </button>
+    </div>
+  </nav>
 
   <!-- PR #5: Toast stack. Body-level so position:fixed survives any
        transformed ancestor; first consumer of --z-toast. -->
