@@ -1124,6 +1124,15 @@ function renderSnowflakeHexagon(pillars, opts = {}) {
     `;
   }).join('');
 
+  // PR #9: data-table fallback sibling. Screen readers + assistive tech
+  // get the same content as the SVG; for sighted users it's a
+  // <details>-collapsed "View as table" expandable for copy-paste.
+  const tableRows = order.map((k, i) => {
+    const sc = scores[i];
+    const grade = pillars[k]?.grade || '';
+    return `<tr><th scope="row">${labels[k]}</th><td>${fmt(sc)}/5</td><td>${grade || '—'}</td></tr>`;
+  }).join('');
+
   return `
     <svg viewBox="0 0 ${size} ${size}" width="100%" style="max-width:${size}px;display:block;margin:0 auto;" role="img" aria-label="Snowflake pillar radar — ${defined.length}/6 pillars scored, average ${avg.toFixed(1)}/5">
       ${axisLines}
@@ -1133,6 +1142,13 @@ function renderSnowflakeHexagon(pillars, opts = {}) {
       ${dots}
       ${labelEls}
     </svg>
+    <details data-testid="snowflake-data-table" style="margin-top:8px;font-size:11px;">
+      <summary style="cursor:pointer;color:var(--text-muted);user-select:none;">View as table</summary>
+      <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:11px;">
+        <thead><tr style="border-bottom:1px solid var(--border);"><th style="text-align:left;padding:4px 8px;">Pillar</th><th style="text-align:left;padding:4px 8px;">Score</th><th style="text-align:left;padding:4px 8px;">Grade</th></tr></thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </details>
   `;
 }
 
@@ -3814,7 +3830,26 @@ function renderCalibrationSvg(data) {
             style="font-family: var(--font-sans); font-size: 11px; fill: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em;">
         Realised hit-rate
       </text>
-    </svg>`;
+    </svg>
+    <details data-testid="calibration-data-table" style="margin-top:8px;font-size:11px;">
+      <summary style="cursor:pointer;color:var(--text-muted);user-select:none;">View as table</summary>
+      <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:11px;">
+        <thead><tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left;padding:4px 8px;">Bucket</th>
+          <th style="text-align:left;padding:4px 8px;">n</th>
+          <th style="text-align:left;padding:4px 8px;">Realised</th>
+          <th style="text-align:left;padding:4px 8px;">95% CI</th>
+        </tr></thead>
+        <tbody>${buckets.map((b) => `
+          <tr>
+            <th scope="row" style="text-align:left;padding:4px 8px;">${b.bucket_low}–${b.bucket_high}%</th>
+            <td style="padding:4px 8px;">${b.n}</td>
+            <td style="padding:4px 8px;">${b.realised_pct == null ? '—' : b.realised_pct.toFixed(1) + '%'}</td>
+            <td style="padding:4px 8px;">${b.ci_lo_pct != null && b.ci_hi_pct != null ? b.ci_lo_pct.toFixed(0) + '–' + b.ci_hi_pct.toFixed(0) + '%' : '—'}</td>
+          </tr>
+        `).join('')}</tbody>
+      </table>
+    </details>`;
 }
 
 async function loadTrackRecord(forceBust = false) {
@@ -4137,6 +4172,25 @@ function renderTrackChart(trades) {
         the faint line is Nifty 50 over the identical window. ${months.length} month${months.length === 1 ? "" : "s"} of data ·
         ${trades.length} pick${trades.length === 1 ? "" : "s"} · oldest ${months[0]}.
       </div>
+      <details data-testid="track-chart-data-table" style="margin-top:8px;font-size:11px;">
+        <summary style="cursor:pointer;color:var(--text-muted);user-select:none;">View as table</summary>
+        <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:11px;">
+          <thead><tr style="border-bottom:1px solid var(--border);">
+            <th style="text-align:left;padding:4px 8px;">Month</th>
+            <th style="text-align:left;padding:4px 8px;">Picks avg %</th>
+            <th style="text-align:left;padding:4px 8px;">Nifty avg %</th>
+            <th style="text-align:left;padding:4px 8px;">n</th>
+          </tr></thead>
+          <tbody>${months.map((m, i) => `
+            <tr>
+              <th scope="row" style="text-align:left;padding:4px 8px;">${m}</th>
+              <td style="padding:4px 8px;">${pickSeries[i] != null ? pickSeries[i].toFixed(1) : '—'}</td>
+              <td style="padding:4px 8px;">${niftySeries[i] != null ? niftySeries[i].toFixed(1) : '—'}</td>
+              <td style="padding:4px 8px;">${countSeries[i]}</td>
+            </tr>
+          `).join('')}</tbody>
+        </table>
+      </details>
     </div>
   `;
 }
