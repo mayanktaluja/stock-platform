@@ -1002,6 +1002,9 @@
           } catch {}
           const btn = document.getElementById("riskLabTabBtn");
           if (btn) btn.style.display = "none";
+          // If the privileged "More" menu is mounted, rebuild it so the now-
+          // disabled Risk Lab item drops out (it reads this same localStorage key).
+          if (typeof window.buildLabsMenu === "function") window.buildLabsMenu();
           // Send the user back to the default Picks tab
           if (typeof switchTab === "function") switchTab("picks");
         },

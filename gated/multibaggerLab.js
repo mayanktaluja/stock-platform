@@ -83,24 +83,24 @@ function renderTrajectorySection(data) {
   return `
     <section data-section="trajectory" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; padding:16px; background:rgba(167,139,250,0.04); border:1px solid rgba(167,139,250,0.20); border-radius:8px; margin-bottom:24px;">
       <div>
-        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em;">Current value</div>
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em;">Current value${infoIcon("mb_current_value")}</div>
         <div data-test="multibagger-current-value" style="font-size:28px; font-weight:600;">${escapeHtml(fmtInr(value))}</div>
         <div style="font-size:11px; color:var(--text-muted);">${pct}% from ₹1L start</div>
       </div>
       <div>
-        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em;">Target (net)</div>
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em;">Target (net)${infoIcon("mb_target_net")}</div>
         <div style="font-size:24px; font-weight:500;">${escapeHtml(fmtInr(target))}</div>
         <div style="font-size:11px; color:var(--text-muted);">5x net in 12 months</div>
       </div>
       <div>
-        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em;">Gross required</div>
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em;">Gross required${infoIcon("mb_gross_required")}</div>
         <div style="font-size:24px; font-weight:500; color:#fbbf24;">~₹6.0L</div>
         <div style="font-size:11px; color:var(--text-muted);">After STCG churn (6x gross)</div>
       </div>
       <div>
-        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em;">Macro regime</div>
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em;">Macro regime${infoIcon("macro_regime")}</div>
         <div data-test="multibagger-macro-regime" style="font-size:18px; font-weight:500;">${escapeHtml(data.macro_regime || "—")}</div>
-        <div style="font-size:11px; color:var(--text-muted);">Universe scored ${data.universe_size ?? "—"}</div>
+        <div style="font-size:11px; color:var(--text-muted);">Universe scored ${data.universe_size ?? "—"}${infoIcon("mb_universe_scored")}</div>
       </div>
     </section>
   `;
@@ -214,8 +214,8 @@ function renderPipelineSection(data) {
           <th style="padding:6px 8px; text-align:left; font-weight:600; color:var(--text-muted);">#</th>
           <th style="padding:6px 8px; text-align:left; font-weight:600; color:var(--text-muted);">Ticker</th>
           <th style="padding:6px 8px; text-align:left; font-weight:600; color:var(--text-muted);">Sector</th>
-          <th style="padding:6px 8px; text-align:right; font-weight:600; color:var(--text-muted);">Score</th>
-          <th style="padding:6px 8px; text-align:right; font-weight:600; color:var(--text-muted);">Verdict</th>
+          <th style="padding:6px 8px; text-align:right; font-weight:600; color:var(--text-muted);">Score${infoIcon("mb_score")}</th>
+          <th style="padding:6px 8px; text-align:right; font-weight:600; color:var(--text-muted);">Verdict${infoIcon("mb_verdict")}</th>
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>
@@ -232,11 +232,11 @@ function renderCandidateRationale(c) {
     <details style="font-size:12px;">
       <summary style="cursor:pointer; color:#a78bfa; font-size:11px;">Why this pick + bear case</summary>
       <div style="padding:8px 0 4px;">
-        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:#34d399; margin-bottom:2px;">Bull case</div>
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:#34d399; margin-bottom:2px;">Bull case${infoIcon("mb_bull_case")}</div>
         <ul style="margin:0 0 8px; padding-left:18px; color:var(--text-secondary); line-height:1.5;">${why || "<li>Composite score across 12 factors.</li>"}</ul>
-        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:#f87171; margin-bottom:2px;">Bear case</div>
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:#f87171; margin-bottom:2px;">Bear case${infoIcon("mb_bear_case")}</div>
         <ul style="margin:0 0 8px; padding-left:18px; color:#fca5a5; line-height:1.5;">${bear}</ul>
-        <div style="font-size:11px; color:var(--text-muted); font-style:italic;">${escapeHtml(r.target_multiple_rationale || "")}</div>
+        <div style="font-size:11px; color:var(--text-muted); font-style:italic;">${escapeHtml(r.target_multiple_rationale || "")}${r.target_multiple_rationale ? infoIcon("mb_target_multiple") : ""}</div>
       </div>
     </details>
   `;

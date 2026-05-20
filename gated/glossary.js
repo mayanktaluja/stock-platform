@@ -1007,4 +1007,152 @@ window.GLOSSARY = {
     short: "Known events in the next 30 days that could move the current regime.",
     full: "Pulled from the events calendar: earnings, RBI policy, SEBI announcements, ECB / Fed decisions, etc. Each catalyst is color-coded by urgency (red ≤ 7 days, amber ≤ 14 days, blue > 14 days). The list isn't predictive — it's a 'don't forget these are coming' reminder. Use it to time portfolio reviews and avoid getting caught flat-footed.",
   },
+
+  // ══════════════════════════════════════════════════════════════════════
+  // SECTOR OUTLOOK
+  // ══════════════════════════════════════════════════════════════════════
+
+  sector_outlook_label: {
+    term: "Sector Outlook",
+    category: "macro",
+    short: "Directional call for the sector: Tailwind, Headwind, or Neutral (with Strong variants).",
+    full: "Derived from the composite score — Strong Tailwind / Tailwind lean positive, Strong Headwind / Headwind lean negative, Neutral has no clear edge. It blends the bottom-up news signal with the top-down macro regime, and a sector only earns a 'Strong' label when both agree. Sector-level only; never a buy/sell call on any single stock.",
+  },
+
+  sector_outlook_confidence: {
+    term: "Outlook Confidence",
+    category: "macro",
+    short: "How much to trust this sector's outlook — Low, Medium, or High.",
+    full: "High requires a strong same-direction signal with broad participation (breadth) plus at least ~8 news items in the 90-day window. When bottom-up news and the top-down macro regime point opposite ways the sector is flagged DIVERGENT and confidence drops to Low. Medium is the default in between. Treat Low-confidence rows as noise, not signal.",
+  },
+
+  sector_composite: {
+    term: "Composite Score",
+    category: "macro",
+    short: "The headline cross-check score for the sector, on a −1 to +1 scale.",
+    full: "Composite is the average of the bottom-up news signal and the top-down macro impact. Positive means both lenses lean constructive; negative means both lean cautious. Because it's an average, a strong bottom-up read can be cancelled by a hostile macro regime (and vice-versa) — that disagreement is exactly what the confidence column flags as DIVERGENT.",
+  },
+
+  sector_bottom_up: {
+    term: "Bottom-up Signal",
+    category: "macro",
+    short: "News-driven read on the sector from SWS deep briefs, scaled −1 to +1.",
+    full: "Built from company news classified into themes (Earnings Move, M&A, Capacity/Capex, etc.), weighted by market cap and blended across 30/90/365-day windows — shorter windows dominate the 3–12m horizon, longer windows the 12–24m. It answers 'what is actually happening to companies in this sector right now?' independent of the macro overlay.",
+  },
+
+  sector_top_down: {
+    term: "Top-down Signal",
+    category: "macro",
+    short: "How the current macro regime tilts this sector, scaled −1 to +1.",
+    full: "Taken from the active macro regime's per-sector impact (a −3 to +3 tilt) and normalized to the −1 to +1 range. A RATE_HIKE regime, for example, pushes banks up and rate-sensitive sectors down. This is the pure macro lens — it ignores company news and asks only 'does the prevailing regime help or hurt this sector?'",
+  },
+
+  sector_breadth: {
+    term: "Breadth",
+    category: "macro",
+    short: "Share of the sector's stocks actually carrying a news signal in the last 90 days.",
+    full: "A participation check. A sector can look strong on one mega-cap's news, so breadth measures how many distinct tickers contribute — and each single issuer is capped at 15% of the total so one giant can't manufacture broad-looking breadth. Low breadth with a high composite means a narrow signal; high breadth means a genuinely sector-wide move.",
+  },
+
+  sector_news_90d: {
+    term: "News (90d)",
+    category: "macro",
+    short: "Count of classified SWS news items for the sector in the trailing 90 days.",
+    full: "The raw evidence volume behind the bottom-up signal, after de-duplication and a confidence floor. More items mean a better-supported read; a handful means the signal is thin and should be treated with caution — below ~8 items the confidence column is capped at Medium.",
+  },
+
+  sector_top_themes: {
+    term: "Top Themes",
+    category: "track",
+    short: "The two highest-weighted news themes driving this sector's signal.",
+    full: "Every news item is classified into a theme (Earnings Move, M&A, Capacity/Capex, Regulatory, Management, etc.); the two with the largest share of weighted signal are shown with their percentage. They tell you why the sector is moving — 'Earnings Move 15%, Capacity/Capex 4%' means the read is mostly earnings-driven with a smaller capex thread.",
+  },
+
+  sector_tailwind: {
+    term: "Tailwind Sectors",
+    category: "macro",
+    short: "Count of sectors leaning positive (Tailwind or Strong Tailwind) in the active horizon.",
+    full: "Tally of sectors whose composite and outlook lean constructive — bottom-up news and the macro regime both supportive. It's a quick breadth-of-market read: many tailwind sectors suggest a broad risk-on backdrop, only a couple suggests a narrow, selective market. Reflects the horizon you've selected (3–12m vs 12–24m).",
+  },
+
+  sector_headwind: {
+    term: "Headwind Sectors",
+    category: "macro",
+    short: "Count of sectors leaning negative (Headwind or Strong Headwind) in the active horizon.",
+    full: "Tally of sectors where the signals lean cautious. A rising headwind count alongside a high-severity macro regime is the defensive cue — it's where the lab flags elevated risk at the sector level. Sector-level context only, not a mandate to sell any specific name.",
+  },
+
+  sector_neutral: {
+    term: "Neutral / Divergent Sectors",
+    category: "macro",
+    short: "Count of sectors with no clear lean, or where bottom-up and top-down disagree.",
+    full: "Two cases land here: genuinely balanced sectors near a zero composite, and DIVERGENT sectors where company news and the macro regime point opposite ways. Divergence isn't a verdict — it's a 'wait for confirmation' flag, and it caps that sector's confidence at Low.",
+  },
+
+  // ══════════════════════════════════════════════════════════════════════
+  // 5x LAB (MULTIBAGGER)
+  // ══════════════════════════════════════════════════════════════════════
+
+  mb_current_value: {
+    term: "Current Value",
+    category: "portfolio",
+    short: "Live INR value of the ₹1L paper-trading book behind the 5x model.",
+    full: "The 5x Lab tracks a hypothetical ₹1,00,000 starting book. This is its current marked value; the percentage shows the gain (or loss) from the ₹1L start. It's a paper-trade for studying the strategy — no real capital is deployed.",
+  },
+
+  mb_target_net: {
+    term: "Target (net)",
+    category: "portfolio",
+    short: "The 5× net goal — ₹5L on a ₹1L start — over roughly 12 months.",
+    full: "'Net' means after taxes and trading costs. The 5x framing is the target the strategy is built around, not a forecast: a portfolio 5x in a year is a top-few-percent outcome. The honest base case is far lower — see the pre-mortem in Strategy & reasoning before reading anything into this number.",
+  },
+
+  mb_gross_required: {
+    term: "Gross Required",
+    category: "portfolio",
+    short: "Gross P&L needed to net 5× after taxes and churn — roughly 6× gross.",
+    full: "Netting 5× isn't the same as making 5× gross. Short-term capital gains tax (~17% with cess) plus round-trip brokerage on an actively churned book mean you need closer to ~6× of gross profit to keep 5× net. This line is a reminder that turnover is expensive and the tax drag is real.",
+  },
+
+  mb_universe_scored: {
+    term: "Universe Scored",
+    category: "portfolio",
+    short: "How many stocks were scored in this run — the denominator for the pipeline.",
+    full: "The total count of stocks that passed data checks and went through the 12-factor multibagger scorer. It frames how selective the pipeline is — '8 of 487 cleared the 5X bar' is a far stronger filter than '8 of 40'.",
+  },
+
+  mb_score: {
+    term: "Multibagger Score",
+    category: "verdict",
+    short: "Composite 0–100 score from 12 weighted factors minus risk penalties.",
+    full: "Combines earnings inflection, SWS future-growth and valuation pillars, fair-value upside, market-cap headroom, sector tailwind, price momentum, liquidity, balance-sheet health, forward growth, and a thematic story bonus — then subtracts penalties for surveillance flags, thin data, and recent earnings-miss streaks. Higher means more of the multibagger fingerprint, but it's a screen, not a promise.",
+  },
+
+  mb_verdict: {
+    term: "Verdict",
+    category: "verdict",
+    short: "Score band: 5X_CANDIDATE, HIGH_CONVICTION, WATCH, PASS, or HARD_REJECT.",
+    full: "5X_CANDIDATE (score ≥70) is the top tier; HIGH_CONVICTION (55–69) is a strong core holding; WATCH (40–54) needs a better catalyst or entry; PASS (<40) is below the bar. HARD_REJECT overrides the score entirely — the stock failed a non-negotiable gate (promoter pledge, illiquidity, GSM surveillance, audit flag, insufficient data, or a balance-sheet-health floor).",
+  },
+
+  mb_bull_case: {
+    term: "Bull Case",
+    category: "verdict",
+    short: "The factors that scored highest for this pick — why it's on the list.",
+    full: "The top positive drivers behind the composite score, in plain language: earnings-inflection turnaround, a strong SWS future-growth pillar, fair-value upside, small-cap headroom, and the like. It's the constructive half of the thesis — read it alongside the bear case, never on its own.",
+  },
+
+  mb_bear_case: {
+    term: "Bear Case",
+    category: "verdict",
+    short: "Stock-specific vulnerabilities plus the baseline concentration risk.",
+    full: "Where this pick can break: gate-adjacent risks, sector exhaustion, an inflection that may be a one-off, weak momentum, health flags, or a thin margin of safety. Every pick also carries the baseline caveat that a concentrated small-cap position can draw down 40%+ even when the thesis is intact. This is the pre-mortem at the single-stock level.",
+  },
+
+  mb_target_multiple: {
+    term: "Target Multiple",
+    category: "verdict",
+    short: "The modeled return band for this verdict over ~12 months.",
+    full: "Roughly 5–10× for a 5X_CANDIDATE and 3–5× for a HIGH_CONVICTION name, with WATCH/PASS below the actionable bar. These are modeled ranges conditional on a favorable regime and the thesis playing out — emphatically not promises, and most picks will land well short. The number exists to size conviction, not to set expectations.",
+  },
 };
