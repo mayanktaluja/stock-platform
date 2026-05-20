@@ -722,6 +722,30 @@
     }
     .user-menu-dropdown[hidden] { display: none; }
 
+    /* Privileged "More" menu — pulled-out tabs. Mirrors .user-menu positioning;
+       reuses .user-menu-dropdown for the panel chrome. */
+    .labs-menu { position: relative; }
+    .labs-menu[hidden] { display: none; }
+    .labs-menu-trigger { gap: 6px; }
+    .labs-menu-glyph { font-size: 13px; line-height: 1; }
+    .labs-menu-trigger.is-active { color: var(--gold); border-color: var(--gold); background: var(--yellow-bg); }
+
+    .labs-menu-dropdown { min-width: 240px; }
+    .labs-menu-item {
+      display: flex; align-items: center; gap: 8px; width: 100%;
+      padding: 8px 10px; border: 0; border-radius: 6px; background: transparent;
+      color: var(--text-secondary); font-family: inherit; font-size: 13px; font-weight: 500;
+      text-align: left; cursor: pointer; transition: color 120ms ease, background 120ms ease;
+    }
+    .labs-menu-item:hover { color: var(--text-primary); background: rgba(255,255,255,0.04); }
+    .labs-menu-item:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+    .labs-menu-item[aria-current="true"] { color: var(--gold); background: var(--yellow-bg); }
+    .labs-menu-item-dot { width: 6px; height: 6px; border-radius: 50%; flex: 0 0 auto; }
+
+    /* Mobile: keep the trigger REACHABLE (do NOT hide the menu) — these tabs have
+       no bottom-nav entry, so hiding it would strand them. Collapse to icon-only. */
+    @media (max-width: 720px) { .labs-menu-label { display: none; } }
+
     .user-menu-info { padding: 4px 4px 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); margin-bottom: 8px; }
     .user-menu-name {
       font-size: 13px;
@@ -2755,11 +2779,6 @@
        the stricter rule on phones where finger taps are imprecise. */
     @media (max-width: 720px) {
       .info-icon { min-width: 44px; min-height: 44px; display: inline-flex !important; align-items: center; justify-content: center; }
-      /* Dense table headers (Sector Outlook, 5x Lab) can't spare 44px per
-         icon without bloating the horizontal scroll — keep these at natural
-         size; the tap still lands on the glyph. */
-      #sectorOutlookTab th .info-icon,
-      #multibaggerLabContent th .info-icon { min-width: auto; min-height: auto; }
       .watchlist-btn { min-width: 44px; min-height: 44px; padding: 8px !important; }
       .refresh-btn, .btn { min-height: 44px; }
     }
@@ -4359,6 +4378,19 @@
         <div class="header-clock" aria-hidden="true">
           <div class="header-time" id="currentTime">--:--:-- --</div>
           <div class="header-date" id="currentDate">IST</div>
+        </div>
+        <!-- Privileged "More" menu — revealed by auth.init() only for admin/personal
+             users. Holds the tabs pulled out of #mainTabs so the owner's bar isn't
+             congested. Items are injected in JS (buildLabsMenu) so a normal user's
+             DOM never lists them. -->
+        <div class="labs-menu" id="labsMenu" hidden>
+          <button class="btn btn--ghost btn--sm labs-menu-trigger" id="labsMenuBtn"
+                  aria-label="More sections" aria-haspopup="true" aria-expanded="false" type="button">
+            <span class="labs-menu-glyph" aria-hidden="true">&#9638;</span>
+            <span class="labs-menu-label">More</span>
+          </button>
+          <div class="labs-menu-dropdown user-menu-dropdown" id="labsMenuDropdown" hidden
+               role="menu" aria-label="More sections"></div>
         </div>
         <div class="user-menu" id="userMenu" hidden>
           <button class="user-menu-trigger" id="userMenuBtn" aria-label="Account menu" aria-expanded="false" aria-haspopup="true">

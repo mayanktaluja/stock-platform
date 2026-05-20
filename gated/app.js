@@ -12,6 +12,10 @@ let searchAbortController = null;
 const searchClientCache = new Map(); // FIFO, capped at SEARCH_CLIENT_CACHE_MAX
 const SEARCH_CLIENT_CACHE_MAX = 50;
 let watchlist = new Set(); // symbol set for quick lookup
+// The currently-shown tab id. NOTE: `currentView` is NOT this — it only ever
+// holds "dashboard"|"stock". switchTab() maintains _activeTab (+ window.__activeTab)
+// so the "More" menu, deep-link recovery, and popstate dedupe have a reliable signal.
+let _activeTab = "picks";
 
 // DOM Elements
 const searchInput = document.getElementById("searchInput");
@@ -94,6 +98,24 @@ telemetry.emit("page_load", { ua: navigator.userAgent.slice(0, 200) });
 // wires the dropdown + sign-out. The page-level gate already redirects
 // unauthenticated requests to /login.html, so a 401 here is just a
 // safety net (e.g. the cookie expired between page load and this fetch).
+
+// Reusable popover wiring: toggle [hidden] on the dropdown, mirror
+// aria-expanded on the trigger, close on outside-click + Escape. Returns an
+// { open, close } handle. Used by the privileged "More" menu; the avatar menu
+// keeps its own (older) inline wiring untouched.
+function wireMenu(trigger, dropdown, wrapper) {
+  if (!trigger || !dropdown || !wrapper) return { open() {}, close() {} };
+  const close = () => { dropdown.hidden = true; trigger.setAttribute("aria-expanded", "false"); };
+  const open = () => { dropdown.hidden = false; trigger.setAttribute("aria-expanded", "true"); };
+  trigger.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (dropdown.hidden) open(); else close();
+  });
+  document.addEventListener("click", (e) => { if (!wrapper.contains(e.target)) close(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+  return { open, close };
+}
+
 const auth = {
   async init() {
     const menu = document.getElementById("userMenu");
@@ -118,26 +140,56 @@ const auth = {
     if (emailEl) emailEl.textContent = me.email || "";
     menu.hidden = false;
 
-    // Expose admin status so the Users tab can self-gate (server still
-    // enforces via /api/admin/users 403). Reveal the tab button only when
-    // the signed-in user is an admin — non-admins never see it in the DOM.
+    // Expose admin + personal status (server still enforces via 403/404 on the
+    // underlying routes). For privileged users, the previously per-tab "unhide
+    // the button in the bar" logic is replaced by the header "More" dropdown:
+    // the 6 privileged tabs are pulled OUT of #mainTabs and reached via the menu
+    // so the owner's bar isn't congested. Normal users are unaffected — they
+    // never had these buttons (the 4 sleeve tabs) or keep Risk Lab + Sector
+    // Outlook inline (the 2 public tabs).
     window.__starbhai_isAdmin = !!me.isAdmin;
-    if (me.isAdmin) {
-      const usersTabBtn = document.getElementById("usersTabBtn");
-      if (usersTabBtn) usersTabBtn.hidden = false;
-    }
-
-    // Personal-use sleeves (Compounder Lab, Earnings Edge) — same pattern
-    // as admin gating. Server 404s the underlying routes for everyone
-    // outside the allowlist; the button just stays hidden for them too.
     window.__starbhai_isPersonal = !!me.isPersonal;
-    if (me.isPersonal) {
-      const compounderTabBtn = document.getElementById("compounderTabBtn");
-      if (compounderTabBtn) compounderTabBtn.hidden = false;
-      const earningsEdgeTabBtn = document.getElementById("earningsEdgeTabBtn");
-      if (earningsEdgeTabBtn) earningsEdgeTabBtn.hidden = false;
-      const multibaggerLabTabBtn = document.getElementById("multibaggerLabTabBtn");
-      if (multibaggerLabTabBtn) multibaggerLabTabBtn.hidden = false;
+    const isPrivileged = window.__starbhai_isAdmin || window.__starbhai_isPersonal;
+
+    if (isPrivileged) {
+      window.__labsMigratedTabs = new Set(
+        ["users", "compounder", "earningsEdge", "multibaggerLab", "riskLab", "sectorOutlook"],
+      );
+      // Pull these out of the bar. `hidden` covers the 4 sleeve tabs (admin
+      // Users + personal sleeves, already hidden in markup); style.display
+      // covers riskLab/sectorOutlook (inline-flex, no `hidden` attr, visible by
+      // default for everyone — only the owner migrates them into the menu).
+      window.__labsMigratedTabs.forEach((id) => {
+        const b = document.getElementById(`${id}TabBtn`);
+        if (b) {
+          b.hidden = true;
+          b.style.display = "none";
+          // Drop any .active set by the boot switchTab() that ran before this
+          // migrated set existed, so no hidden bar button keeps a stale state.
+          b.classList.remove("active");
+          b.setAttribute("aria-selected", "false");
+        }
+      });
+
+      buildLabsMenu();
+      const labsMenu = document.getElementById("labsMenu");
+      const labsBtn = document.getElementById("labsMenuBtn");
+      const labsDrop = document.getElementById("labsMenuDropdown");
+      if (labsMenu) labsMenu.hidden = false;
+      window.__labsMenuCtl = wireMenu(labsBtn, labsDrop, labsMenu);
+
+      // Deep-link recovery: boot ran before this async auth resolved, so a
+      // guarded deep-link (#tab=users) was deferred to picks (see boot path).
+      // Enter it for real now if its guard passes — via the base fn so we don't
+      // push a duplicate history entry (the hash already points at the target).
+      const boot = (typeof window.parseHash === "function" ? window.parseHash() : {});
+      if (boot.tab && TAB_CONFIG[boot.tab] && window.__activeTab !== boot.tab) {
+        const cfg = TAB_CONFIG[boot.tab];
+        if ((!cfg.guard || cfg.guard()) && typeof window.__enterTab === "function") {
+          window.__enterTab(boot.tab);
+        }
+      }
+      syncLabsActive(window.__activeTab || "picks");
     }
 
     const closeDropdown = () => {
@@ -197,7 +249,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // ALSO listens for popstate, but boot needs explicit handling because
   // popstate doesn't fire on initial page load.
   const bootHash = typeof window.parseHash === "function" ? window.parseHash() : {};
-  switchTab(bootHash.tab || 'picks');
+  // Honor the deep-link tab on boot. If it's a guarded tab whose guard can't
+  // pass yet (auth.init runs async, AFTER this), show picks WITHOUT rewriting
+  // the hash — auth.init's deep-link recovery enters the real tab once the
+  // privileged flags resolve. Avoids both a blank page and history pollution.
+  const bootTab = bootHash.tab || 'picks';
+  const bootCfg = TAB_CONFIG[bootTab];
+  if (bootCfg && (!bootCfg.guard || bootCfg.guard())) {
+    switchTab(bootTab);
+  } else if (typeof window.__enterTab === "function") {
+    window.__enterTab('picks');
+  } else {
+    switchTab('picks');
+  }
   // PR #10: wire the mobile bottom-nav buttons + the desktop tab-bar
   // scroll-shadow indicator. Both are additive — desktop UX is unchanged.
   document.querySelectorAll(".bottom-nav-btn[data-tab]").forEach((btn) => {
@@ -239,7 +303,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setupSearch();
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
   attachNumericFlash();     // MutationObserver: data-num cells flash on update
-  initUiDensity();          // restore + wire density-mode toggle (Phase 6)
   auth.init();
   // Snapshot freshness banner — surfaces when any underlying fixture
   // (fundamentals, surveillance, governance, picks-latest, macro) is older
@@ -657,52 +720,6 @@ function regimeIdFromLabel(regime) {
 }
 
 let _activeTooltipTermId = null;
-
-// UI/UX overhaul 2026-05-19 — Phase 6 density toggle.
-//
-// Three modes:
-//   "comfortable" (default, no html attribute) — current spacing
-//   "compact"  — tighter rows + smaller body font for laptop power users
-//   "pro"      — tightest, Bloomberg-style — for "I-want-to-see-everything"
-//
-// Persisted in localStorage. Setting is applied at boot so the page
-// never flashes from comfortable → compact. The user menu has 3 radio
-// buttons that call setUiDensity().
-const UI_DENSITY_KEY = "ui.density.v1";
-const UI_DENSITIES = new Set(["comfortable", "compact", "pro"]);
-function getUiDensity() {
-  try {
-    const stored = localStorage.getItem(UI_DENSITY_KEY);
-    if (UI_DENSITIES.has(stored)) return stored;
-  } catch {}
-  return "comfortable";
-}
-function setUiDensity(density) {
-  if (!UI_DENSITIES.has(density)) density = "comfortable";
-  try { localStorage.setItem(UI_DENSITY_KEY, density); } catch {}
-  // "comfortable" is the unset state — remove the attribute entirely so
-  // the html selector doesn't match (matches the CSS expectation that
-  // html[data-density="compact"|"pro"] flips tokens, html without the
-  // attr inherits Phase 1 defaults).
-  if (density === "comfortable") {
-    document.documentElement.removeAttribute("data-density");
-  } else {
-    document.documentElement.setAttribute("data-density", density);
-  }
-  // Sync visible state on the toggle buttons.
-  document.querySelectorAll(".density-btn[data-density]").forEach((btn) => {
-    const active = btn.getAttribute("data-density") === density;
-    btn.classList.toggle("is-active", active);
-    btn.setAttribute("aria-checked", String(active));
-  });
-  try { window.telemetry?.emit?.("ui_density_change", { density }); } catch {}
-}
-window.setUiDensity = setUiDensity;
-
-function initUiDensity() {
-  // Boot-time apply. No-op if user is on the default.
-  setUiDensity(getUiDensity());
-}
 
 // UI/UX overhaul 2026-05-19 — Phase 3 "alive" interactivity.
 // A scoped MutationObserver that watches elements carrying a `data-num`
@@ -2685,6 +2702,8 @@ async function switchTab(tab) {
   if (!TAB_CONFIG[tab]) tab = "picks";
   const config = TAB_CONFIG[tab];
   if (config.guard && !config.guard()) return;
+  _activeTab = tab;
+  window.__activeTab = tab;
 
   try { telemetry.emit("tab_switch", { from: currentView, to: tab }); } catch {}
 
@@ -2708,14 +2727,18 @@ async function switchTab(tab) {
   // cycles without per-tab loaders stomping on its state.
   loadMacroRegime();
 
-  // Find and activate the matching tab button by its onclick attribute.
-  const activeBtn = Array.from(tabs).find((t) =>
-    t.getAttribute("onclick")?.includes(tab),
+  // Activate the matching bar button by EXACT tab id. A substring match would
+  // let switchTab('earnings') also light the 'earningsEdge' button. Skip
+  // lighting a migrated button — for privileged users it lives in the "More"
+  // menu and its bar button is hidden, so the trigger reflects active-state.
+  const activeBtn = Array.from(tabs).find(
+    (t) => t.getAttribute("onclick") === `switchTab('${tab}')`,
   );
-  if (activeBtn) {
+  if (activeBtn && !(window.__labsMigratedTabs && window.__labsMigratedTabs.has(tab))) {
     activeBtn.classList.add("active");
     activeBtn.setAttribute("aria-selected", "true");
   }
+  syncLabsActive(tab);
 
   const el = document.getElementById(config.elId);
   if (el) el.style.display = "block";
@@ -2741,6 +2764,76 @@ async function switchTab(tab) {
     console.warn(`[switchTab] ${tab} loader threw:`, e);
   }
 }
+
+// ==================== PRIVILEGED "MORE" MENU ====================
+//
+// The 6 privileged tabs (admin Users + personal sleeves + the two experimental
+// public tabs) are pulled out of the congested #mainTabs bar for privileged
+// users and reached via the header "More" dropdown instead. Each item is gated
+// identically to its tab's own guard, so an admin who isn't "personal" sees only
+// Users (+ riskLab/sectorOutlook), etc.
+const LABS_MENU_TABS = [
+  { id: "users",          label: "Users",          dot: null,      show: () => !!window.__starbhai_isAdmin },
+  { id: "compounder",     label: "Compounder Lab", dot: "#34d399", show: () => !!window.__starbhai_isPersonal },
+  { id: "earningsEdge",   label: "Earnings Edge",  dot: "#f87171", show: () => !!window.__starbhai_isPersonal },
+  { id: "multibaggerLab", label: "5x Lab",         dot: "#a78bfa", show: () => !!window.__starbhai_isPersonal },
+  { id: "riskLab",        label: "Risk Lab",       dot: "#fbbf24", show: () => labsLsEnabled("riskLabEnabled_v2") },
+  { id: "sectorOutlook",  label: "Sector Outlook", dot: "#a78bfa", show: () => labsLsEnabled("sectorOutlookEnabled_v1") },
+];
+const LABS_LABELS = Object.fromEntries(LABS_MENU_TABS.map((t) => [t.id, t.label]));
+function labsLsEnabled(key) {
+  try { return localStorage.getItem(key) !== "false"; } catch { return true; }
+}
+
+// Inject the menu items the current user is allowed to see. Idempotent — call
+// again to rebuild after a per-tab opt-out changes (e.g. Risk Lab self-disable).
+function buildLabsMenu() {
+  const dropdown = document.getElementById("labsMenuDropdown");
+  if (!dropdown) return;
+  dropdown.replaceChildren();
+  for (const t of LABS_MENU_TABS) {
+    if (!t.show()) continue;
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "labs-menu-item";
+    item.id = `labsItem_${t.id}`;
+    item.setAttribute("role", "menuitem");
+    item.dataset.tab = t.id;
+    if (t.dot) {
+      const dot = document.createElement("span");
+      dot.className = "labs-menu-item-dot";
+      dot.style.background = t.dot;
+      dot.setAttribute("aria-hidden", "true");
+      item.appendChild(dot);
+    }
+    item.appendChild(document.createTextNode(t.label));
+    item.addEventListener("click", (e) => {
+      e.stopPropagation();
+      window.switchTab(t.id);
+      if (window.__labsMenuCtl) window.__labsMenuCtl.close();
+    });
+    dropdown.appendChild(item);
+  }
+}
+window.buildLabsMenu = buildLabsMenu; // exposed for e2e
+
+// Reflect the active tab in the "More" menu: highlight the matching item, and
+// tint + relabel the trigger when the current tab lives in the dropdown (its
+// bar button is hidden, so the trigger is the only visible active affordance).
+function syncLabsActive(tab) {
+  let activeItem = null;
+  document.querySelectorAll(".labs-menu-item").forEach((it) => {
+    const on = it.dataset.tab === tab;
+    it.setAttribute("aria-current", on ? "true" : "false");
+    if (on) activeItem = it;
+  });
+  const trigger = document.getElementById("labsMenuBtn");
+  if (!trigger) return;
+  trigger.classList.toggle("is-active", !!activeItem);
+  const labelEl = trigger.querySelector(".labs-menu-label");
+  if (labelEl) labelEl.textContent = activeItem ? (LABS_LABELS[tab] || tab) : "More";
+}
+window.syncLabsActive = syncLabsActive;
 
 // ==================== USERS (admin) ====================
 //
@@ -12159,6 +12252,10 @@ window.writeHash = writeHash;
 // popstate triggers switchTab with _suppressHashWrite=true so we don't
 // re-push our own pop.
 const _origSwitchTab = window.switchTab;
+// Base switchTab (no hash write) — used by boot + auth.init deep-link recovery
+// to enter a tab when the hash already points at it, avoiding a duplicate
+// history entry the wrapper's writeHash() would otherwise push.
+window.__enterTab = _origSwitchTab;
 window.switchTab = async function switchTabRouterWrap(tab) {
   await _origSwitchTab(tab);
   // Preserve existing modal symbol in the URL if it's still open
@@ -12188,7 +12285,12 @@ window.addEventListener("popstate", async () => {
   _suppressHashWrite = true;
   try {
     const state = parseHash();
-    if (state.tab && state.tab !== currentView) {
+    // Always re-enter the hash's tab (idempotent + robust). _origSwitchTab keeps
+    // _activeTab/window.__activeTab and the "More" trigger in sync on every
+    // back/forward. (Deliberately no dedupe — the prior currentView comparison
+    // was effectively always-true, and a stale-flag dedupe risks skipping a
+    // real navigation.)
+    if (state.tab) {
       await _origSwitchTab(state.tab);
     }
     const backdrop = document.getElementById("swsModalBackdrop");
