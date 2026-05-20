@@ -3,7 +3,6 @@
 // Covers the load-bearing UI affordances added across Phases 1-6:
 //   • main / h1 landmark + tabpanel ARIA on all tabs
 //   • Indian number formatter (window.IndianNumber) exposed
-//   • density toggle persists across reload
 //   • SWS-modal section chips are buttons (clickable) not spans
 //   • Esc closes both modals + focus returns to opener
 //   • Search input has accessible label
@@ -74,31 +73,6 @@ test.describe("UI/UX overhaul 2026-05-19", () => {
     expect(out.signed).toBe("+₹1,250");
     expect(out.pct).toBe("+8.23%");
     expect(out.bad).toBe("—");
-  });
-
-  test("density toggle applies and persists in localStorage", async ({ page }) => {
-    // gotoApp clears localStorage on every navigation via addInitScript,
-    // which interferes with a reload-survival test. We exercise the
-    // round-trip in a single page lifecycle: apply density, verify DOM
-    // attribute + localStorage; the reload survival path is covered by
-    // initUiDensity() unit-style on every page boot (setUiDensity reads
-    // localStorage at boot time).
-    await gotoApp(page);
-    await expect(page.locator("html")).not.toHaveAttribute("data-density", /.+/);
-
-    await page.evaluate(() => window.setUiDensity("compact"));
-    await expect(page.locator("html")).toHaveAttribute("data-density", "compact");
-    const stored = await page.evaluate(() => localStorage.getItem("ui.density.v1"));
-    expect(stored).toBe("compact");
-
-    // Switch to pro and back to comfortable to verify the full state machine.
-    await page.evaluate(() => window.setUiDensity("pro"));
-    await expect(page.locator("html")).toHaveAttribute("data-density", "pro");
-
-    await page.evaluate(() => window.setUiDensity("comfortable"));
-    await expect(page.locator("html")).not.toHaveAttribute("data-density", /.+/);
-    const back = await page.evaluate(() => localStorage.getItem("ui.density.v1"));
-    expect(back).toBe("comfortable");
   });
 
   test("Esc hint chip is present on stock-detail modal markup", async ({ page }) => {

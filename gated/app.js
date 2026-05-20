@@ -239,7 +239,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setupSearch();
   attachGlossaryTooltips(); // event delegation for all .info-icon clicks/hovers
   attachNumericFlash();     // MutationObserver: data-num cells flash on update
-  initUiDensity();          // restore + wire density-mode toggle (Phase 6)
   auth.init();
   // Snapshot freshness banner — surfaces when any underlying fixture
   // (fundamentals, surveillance, governance, picks-latest, macro) is older
@@ -657,52 +656,6 @@ function regimeIdFromLabel(regime) {
 }
 
 let _activeTooltipTermId = null;
-
-// UI/UX overhaul 2026-05-19 — Phase 6 density toggle.
-//
-// Three modes:
-//   "comfortable" (default, no html attribute) — current spacing
-//   "compact"  — tighter rows + smaller body font for laptop power users
-//   "pro"      — tightest, Bloomberg-style — for "I-want-to-see-everything"
-//
-// Persisted in localStorage. Setting is applied at boot so the page
-// never flashes from comfortable → compact. The user menu has 3 radio
-// buttons that call setUiDensity().
-const UI_DENSITY_KEY = "ui.density.v1";
-const UI_DENSITIES = new Set(["comfortable", "compact", "pro"]);
-function getUiDensity() {
-  try {
-    const stored = localStorage.getItem(UI_DENSITY_KEY);
-    if (UI_DENSITIES.has(stored)) return stored;
-  } catch {}
-  return "comfortable";
-}
-function setUiDensity(density) {
-  if (!UI_DENSITIES.has(density)) density = "comfortable";
-  try { localStorage.setItem(UI_DENSITY_KEY, density); } catch {}
-  // "comfortable" is the unset state — remove the attribute entirely so
-  // the html selector doesn't match (matches the CSS expectation that
-  // html[data-density="compact"|"pro"] flips tokens, html without the
-  // attr inherits Phase 1 defaults).
-  if (density === "comfortable") {
-    document.documentElement.removeAttribute("data-density");
-  } else {
-    document.documentElement.setAttribute("data-density", density);
-  }
-  // Sync visible state on the toggle buttons.
-  document.querySelectorAll(".density-btn[data-density]").forEach((btn) => {
-    const active = btn.getAttribute("data-density") === density;
-    btn.classList.toggle("is-active", active);
-    btn.setAttribute("aria-checked", String(active));
-  });
-  try { window.telemetry?.emit?.("ui_density_change", { density }); } catch {}
-}
-window.setUiDensity = setUiDensity;
-
-function initUiDensity() {
-  // Boot-time apply. No-op if user is on the default.
-  setUiDensity(getUiDensity());
-}
 
 // UI/UX overhaul 2026-05-19 — Phase 3 "alive" interactivity.
 // A scoped MutationObserver that watches elements carrying a `data-num`
