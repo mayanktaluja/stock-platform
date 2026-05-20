@@ -28,6 +28,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: refresh-macro-regime
@@ -45,7 +46,11 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Prefer a fine-grained PAT (contents + pull-requests write) so the
+          # PR this workflow opens triggers CI and can auto-merge. Falls back
+          # to GITHUB_TOKEN, whose PRs do NOT trigger CI (GitHub blocks
+          # workflow-on-workflow recursion) — see the merge step note.
+          token: ${{ secrets.MACRO_REFRESH_PAT || secrets.GITHUB_TOKEN }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -90,10 +95,17 @@ jobs:
           echo "no_change=0" >> "$GITHUB_OUTPUT"
           echo "will commit: last commit ${age_min}m ago, generatedAt ${gen_age_min}m old"
 
-      - name: Commit and push to main
+      - name: Open / update backup PR (never push protected main directly)
         if: steps.gate.outputs.no_change == '0'
+        env:
+          GH_TOKEN: ${{ secrets.MACRO_REFRESH_PAT || secrets.GITHUB_TOKEN }}
         run: |
-          set -euo pipefail
+          # main is a protected branch (required check "Smoke + unit tests"),
+          # so a direct push is rejected with GH006. Route the refresh through
+          # a PR instead. A backup path must never turn a transient error into
+          # a red scheduled run, so every step below is non-fatal (no `set -e`).
+          set -uo pipefail
+          BRANCH="automation/macro-backup"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           regime=$(node --input-type=module -e '
@@ -103,14 +115,33 @@ jobs:
               process.stdout.write(`${r.regimeLabel || r.regime} (sev ${r.severity}, ${r.classifierProvider})`);
             } catch { process.stdout.write("classifier output"); }
           ' 2>/dev/null)
+          # Single reusable branch so backup PRs can never pile up.
+          git checkout -B "$BRANCH"
           git add data/macroRegime.json
           # Stage history + headline-archive side effects too, so the next
           # local cron run sees consistent state and doesn't re-archive.
           git add data/macro-headlines/ 2>/dev/null || true
           git add data/macroRegime-history/ 2>/dev/null || true
-          msg=$(printf 'chore(macro): GH Actions backup refresh — %s\n\nHeuristic-classified macro regime via the free GH Actions backup\nworkflow (every 4h, github-hosted runners). Defence-in-depth against\nthe local cron being unavailable. Lower fidelity than the local LLM\npath; the local cron next fire supersedes this with a Groq or\nGemini-classified regime.\n' "$regime")
-          git commit -m "$msg"
-          # Rebase onto latest origin/main in case the local cron pushed
-          # while we were running.
-          git pull --rebase origin main
-          git push origin HEAD:main
+          msg=$(printf 'chore(macro): GH Actions backup refresh — %s\n\nHeuristic-classified macro regime via the free GH Actions backup\nworkflow (every 4h, github-hosted runners). Defence-in-depth against\nthe local cron being unavailable. Lower fidelity than the local LLM\npath; the next local cron fire supersedes this with a Groq or\nGemini-classified regime.\n' "$regime")
+          git commit -m "$msg" || { echo "nothing to commit"; exit 0; }
+          # Push the branch (never main). Automation-exclusive branch, so force
+          # is safe; concurrency.group serialises runs.
+          if ! git push --force origin "$BRANCH"; then
+            echo "::warning::could not push $BRANCH; will retry next run"
+            exit 0
+          fi
+          # Reuse an open PR if one exists, else open one.
+          if [ -z "$(gh pr list --head "$BRANCH" --state open --json number -q '.[0].number' 2>/dev/null)" ]; then
+            gh pr create --base main --head "$BRANCH" \
+              --title "chore(macro): GH Actions backup refresh — $regime" \
+              --body "Automated heuristic macro-regime refresh from the backup workflow (fires every 4h when the local cron is unavailable). Auto-merges once \"Smoke + unit tests\" passes; supersede freely with a local-cron refresh." \
+              || { echo "::warning::pr create failed; leaving branch for next run"; exit 0; }
+          fi
+          # Best-effort auto-merge once the required check passes.
+          # CAVEAT: with only GITHUB_TOKEN the PR will NOT trigger CI, so the
+          # required check never reports and this PR waits. Add a
+          # MACRO_REFRESH_PAT secret (fine-grained: contents + pull-requests
+          # write) to make the PR trigger CI and auto-merge while offline.
+          gh pr merge --squash --auto "$BRANCH" \
+            || echo "::warning::auto-merge unavailable or check pending; PR left open for next run / manual merge"
+          exit 0
