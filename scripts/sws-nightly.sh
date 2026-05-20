@@ -233,6 +233,16 @@ $(git status 2>&1 | head -40)"
   exit 5
 fi
 
+# Single-writer guard: the macro-only cron is the sole writer of
+# data/macroRegime.json (rewrites it every ~2h, merges it via its own PRs); this
+# nightly never commits it. Discard any local delta BEFORE the autostash so the
+# file can't enter the stash and conflict on pop against origin/main's newer
+# copy. A pop conflict leaves <<<<<<< markers that (a) make the file invalid
+# JSON so `npm test` crashes in the pre-push hook and blocks this push, and (b)
+# trip the unmerged-paths guard above on the NEXT run, locking out the whole
+# pipeline. origin/main is canonical and is re-installed by the checkout below.
+git checkout -- data/macroRegime.json 2>/dev/null || true
+
 # Autostash BEFORE we move the working copy. The tree is routinely dirty
 # with regenerated files (data/coverage/*, data/sws/_sanity/_latest.json);
 # a dirty tracked file would otherwise block the checkout below.
@@ -293,6 +303,16 @@ if [ "${STASHED}" -eq 1 ]; then
   git stash list
   git stash apply stash@{0}   # or specific stash"
   fi
+fi
+
+# Self-heal: if any future pop conflicts on the cron-owned macro file despite the
+# pre-stash discard above, auto-resolve it to origin/main's version so we never
+# leave <<<<<<< markers behind (which would invalidate the JSON and lock out the
+# next run via the unmerged-paths guard). sws-nightly-base points at origin/main.
+if git ls-files -u -- data/macroRegime.json | grep -q .; then
+  echo "[nightly] data/macroRegime.json unmerged after pop — auto-resolving to origin/main"
+  git checkout sws-nightly-base -- data/macroRegime.json
+  git add data/macroRegime.json
 fi
 
 if [ ${DRY_RUN} -eq 1 ]; then
