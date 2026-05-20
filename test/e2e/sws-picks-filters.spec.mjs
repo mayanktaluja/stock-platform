@@ -115,30 +115,23 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
     await expect(page.locator("#picksSectorFilter")).toHaveValue(sectorValue);
   });
 
-  test("Avoid section bypasses universe + sector filters", async ({ page }) => {
+  test("Avoid section + chip removed from SWS Picks; payload carries no avoid bucket", async ({ page }) => {
     await gotoApp(page, { tab: "picks" });
     await waitForPicksLoaded(page);
 
-    const available = await page.evaluate(() => !!window.currentPicksData?.indexConstituentsAvailable);
-    test.skip(!available, "indexConstituentsAvailable=false");
+    // The Avoid List was removed from the SWS Picks tab — neither the chip nor
+    // the collapsible section should render.
+    await expect(page.locator('.sws-pick-chip[data-section-key="avoid"]')).toHaveCount(0);
+    await expect(page.locator('.sws-pick-section[data-section-key="avoid"]')).toHaveCount(0);
 
-    // Read the Avoid chip's count before applying any filter.
-    const avoidCountBefore = await page.evaluate(() => {
-      const el = document.querySelector('.sws-pick-chip[data-section-key="avoid"] .sws-pick-chip-count');
-      return el ? parseInt((el.textContent || "0").trim(), 10) : 0;
-    });
-    // Skip if there's no Avoid bucket in this snapshot.
-    test.skip(!Number.isFinite(avoidCountBefore) || avoidCountBefore === 0, "no Avoid items in this snapshot");
+    // Sanity: the tab still renders the other curated sections (didn't blank out).
+    expect(await page.locator(".sws-pick-chip").count()).toBeGreaterThan(0);
 
-    // Apply Nifty 100 → Avoid count must stay identical (bypass).
-    await page.selectOption("#picksUniverseFilter", "nifty100");
-    // Wait a tick for renderPicks to flush.
-    await page.waitForFunction(() => true);
-    const avoidCountAfter = await page.evaluate(() => {
-      const el = document.querySelector('.sws-pick-chip[data-section-key="avoid"] .sws-pick-chip-count');
-      return el ? parseInt((el.textContent || "0").trim(), 10) : 0;
-    });
-    expect(avoidCountAfter).toBe(avoidCountBefore);
+    // Payload check — /api/sws-picks must not ship the ~1,191-row avoid bucket.
+    const res = await page.request.get("/api/sws-picks");
+    test.skip(res.status() !== 200, "no picks data in this environment");
+    const body = await res.json();
+    expect(Object.keys(body.sections || {})).not.toContain("avoid");
   });
 
   test("v1 → v2 localStorage migration runs at most once", async ({ page }) => {

@@ -2,9 +2,10 @@
  * /api/sws-picks server-side query-param regression.
  *
  * Until 2026-05-18 the handler ignored `req.query.limit` and `req.query.category`
- * — every call shipped the full 7.15 MB body including the ~1208-item `avoid`
- * section. Mobile + slow-network users paid the full payload even when asking
- * for top 10. This spec pins the fixed semantics so any future drift fails
+ * — every call shipped the full multi-MB body. Mobile + slow-network users paid
+ * the full payload even when asking for top 10. (The single largest bucket, the
+ * ~1,191-row `avoid` section, has since been dropped from the payload entirely.)
+ * This spec pins the fixed limit/category semantics so any future drift fails
  * loudly.
  *
  * Self-skips when /api/sws-picks returns 404 (no picks data loaded).
