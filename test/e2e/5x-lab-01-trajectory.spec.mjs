@@ -34,6 +34,13 @@ test.describe("5x Lab — trajectory + overview", () => {
     expect(body.verdicts).toHaveProperty("high_conviction_count");
     expect(body).toHaveProperty("top_candidates");
     expect(Array.isArray(body.top_candidates)).toBe(true);
+    // Strategy explainer + per-candidate rationale must be present.
+    expect(body).toHaveProperty("strategy");
+    expect(Array.isArray(body.strategy.pre_mortem)).toBe(true);
+    expect(body.strategy.honest_note).toMatch(/cannot guarantee 5x/i);
+    if (body.top_candidates.length) {
+      expect(body.top_candidates[0]).toHaveProperty("rationale");
+    }
   });
 
   test("tab is gated behind personal-use flag (button hidden by default)", async ({ page }) => {

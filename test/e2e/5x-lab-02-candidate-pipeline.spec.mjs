@@ -65,16 +65,39 @@ test.describe("5x Lab — candidate pipeline", () => {
 
     // Wait for table render
     await page.waitForSelector("[data-test='multibagger-candidate-table']", { timeout: 10000 });
-    // Pull all verdict pills; assert at least one has the 5X-purple background.
+    // Pull all verdict pills (data-test scoped so the rationale detail rows
+    // don't get swept in); assert each has a non-empty background.
     const pillColors = await page.$$eval(
-      "[data-test='multibagger-candidate-table'] tbody tr td:last-child span",
+      "[data-test='verdict-pill']",
       (els) => els.map((e) => ({ text: e.textContent, bg: e.style.background })),
     );
     expect(pillColors.length).toBeGreaterThan(0);
-    // Either we have a 5X_CANDIDATE (rare — only ~1 expected in a normal run)
-    // or we have other verdicts. Just confirm pills have non-empty backgrounds.
     for (const p of pillColors) {
       expect(p.bg).toBeTruthy();
     }
+  });
+
+  test("each candidate carries a why/bear-case rationale", async ({ page }) => {
+    await gotoApp(page);
+    await page.evaluate(() => {
+      window.__starbhai_isPersonal = true;
+      const btn = document.getElementById("multibaggerLabTabBtn");
+      if (btn) btn.hidden = false;
+    });
+    await page.evaluate(() => window.switchTab && window.switchTab("multibaggerLab"));
+
+    const apiOk = await page.evaluate(async () => (await fetch("/api/multibagger/overview")).ok);
+    if (!apiOk) test.skip(true, "API not personal-gated open");
+
+    await page.waitForSelector("[data-test='multibagger-candidate-table']", { timeout: 10000 });
+    const rationaleRows = await page.locator("[data-test='candidate-rationale-row']").count();
+    expect(rationaleRows).toBeGreaterThan(0);
+    // The API must attach a rationale object per candidate.
+    const hasRationale = await page.evaluate(async () => {
+      const j = await (await fetch("/api/multibagger/overview")).json();
+      const c = (j.top_candidates || [])[0];
+      return !!(c && c.rationale && Array.isArray(c.rationale.why_picked) && Array.isArray(c.rationale.bear_case));
+    });
+    expect(hasRationale).toBe(true);
   });
 });
