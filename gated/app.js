@@ -10296,7 +10296,6 @@ const PICKS_SECTIONS = [
   { key: "smallcap_gems", term_id: "section_smallcap_gems", emoji: "🔍", label: "🔍 Smallcap Hidden Gems", chip_label: "Smallcap Gems", subtitle: "True smallcap quality: mcap < ₹15,000cr (NSE rank 251+) + Snowflake ≥ 22 + upside ≥ 15%." },
   { key: "insider_buying", term_id: "section_insider_buying", emoji: "👁", label: "👁 Insider Buying", chip_label: "Insider", subtitle: "Material insider / MD buys in last 90 days. Data field not yet captured." },
   { key: "upcoming_earnings", term_id: "section_upcoming_earnings", emoji: "📅", label: "📅 Upcoming Earnings (next 75 days)", chip_label: "Earnings", subtitle: "Catalyst calendar — sorted by results date. Avoid initiating right before; useful pre-results setups for holdings." },
-  { key: "avoid", term_id: "section_avoid", emoji: "⚠", label: "⚠ Avoid List", chip_label: "Avoid", subtitle: "v3 AVOID — cross-check against your portfolio every refresh." },
 ];
 
 // Per-section soft cap on cards displayed inline. The Top-30 section gets
@@ -10315,7 +10314,7 @@ const PICKS_INLINE_CAP = {
 const PICKS_INLINE_DEFAULT_CAP = 12;
 
 // Chunked progressive render for expanded sections. When the user clicks
-// "Show all (N)" on a large section (e.g. Avoid at ~1206 stocks), rendering
+// "Show all (N)" on a large section (e.g. Upcoming Earnings at ~640 stocks), rendering
 // every card synchronously builds ~40 DOM nodes × N in one innerHTML
 // assignment and blocks the main thread for 2–5 s. Instead, when an expanded
 // section's filtered count > PICKS_EXPANDED_THRESHOLD, only the first
@@ -10325,7 +10324,7 @@ const PICKS_EXPANDED_CHUNK_SIZE = 100;
 const PICKS_EXPANDED_THRESHOLD = 100;
 
 // Synthetic section prepended above curated sections when the user's search
-// matches scored stocks that didn't land in any of the 11 curated picks
+// matches scored stocks that didn't land in any of the 10 curated picks
 // buckets. Reuses the same section-header / chip / card pipeline so chip-nav,
 // force-expand, and overflow logic apply automatically.
 const PICKS_OFF_SECTION_DEF = {
@@ -10366,12 +10365,6 @@ let picksChunkObserver = null;
 const PICKS_FILTERS_LS_KEY    = "swsPicksFilters_v2";
 const PICKS_FILTERS_V1_LS_KEY = "swsPicksIndexFilter_v1";
 const PICKS_FILTERS_MIGRATED_KEY = "swsPicksFiltersMigrated_v2";
-
-// Sections that intentionally bypass the universe + sector filters. The
-// Avoid list is a portfolio cross-check dashboard — narrowing it to e.g.
-// "Nifty 100" would silently hide avoid-tagged stocks the user holds in
-// mid/small-caps. Search still applies (typing a ticker is explicit intent).
-const BYPASS_FILTERS_SECTIONS = new Set(["avoid"]);
 
 function loadPicksFilters() {
   try {
@@ -10607,13 +10600,13 @@ function renderPicksMetaBanner(data) {
     : "";
   // Stamping-failure banner — last-refresh.json carries `stamping_status` from
   // scripts/sws-refresh-api.sh. When set to "failed", the section_status field
-  // didn't land on picks-latest.json, so the New / ↑N / Newly Flagged badges
+  // didn't land on picks-latest.json, so the New / ↑N badges
   // on every per-section card will be silently absent until the next run.
   // Surface that loudly here so the user notices within seconds of opening the
   // tab — without this line, the May-11 incident (silent SyntaxError swallowed
   // by `|| true`) went unnoticed for two days.
   const stampWarn = lr.stamping_status === "failed"
-    ? `<br><span style="color:var(--red);">⚠ Stamping failed last run — "New" / "↑N" / "Newly Flagged" badges will not render until the next successful refresh.</span>`
+    ? `<br><span style="color:var(--red);">⚠ Stamping failed last run — "New" / "↑N" badges will not render until the next successful refresh.</span>`
     : "";
 
   return `${refreshLine} · ${totals}${inFlightLine}${stampWarn}`;
@@ -10839,9 +10832,7 @@ function renderPicks(data) {
   const collapsedState = loadPicksCollapsedState();
 
   // Filter once so chip-nav and the section list stay in sync. Order:
-  // universe → sector → search. Avoid section bypasses universe + sector
-  // because the user uses it as a portfolio cross-check (narrowing it to
-  // e.g. "Nifty 100" would silently hide held mid/small-cap avoid names).
+  // universe → sector → search.
   const visibleSections = [];
   let totalShown = 0;
   // Deduped ticker sets so the "Showing N of M" summary counts a stock
@@ -10853,17 +10844,14 @@ function renderPicks(data) {
     for (const it of rawItems) {
       if (it && it.ticker) totalTickers.add(it.ticker);
     }
-    const bypass = BYPASS_FILTERS_SECTIONS.has(section.key);
     const items = rawItems
-      .filter((it) => bypass || matchesUniverse(it, picksFilters.universe))
-      .filter((it) => bypass || matchesSector(it, picksFilters.sector))
+      .filter((it) => matchesUniverse(it, picksFilters.universe))
+      .filter((it) => matchesSector(it, picksFilters.sector))
       .filter((it) => pickMatchesSearch(it, picksSearchQuery));
     if (items.length === 0) continue;
     visibleSections.push({ section, items });
     totalShown += items.length;
-    if (!bypass) {
-      for (const it of items) if (it && it.ticker) shownTickers.add(it.ticker);
-    }
+    for (const it of items) if (it && it.ticker) shownTickers.add(it.ticker);
   }
 
   updatePicksFilterSummary(shownTickers.size, totalTickers.size);
@@ -11088,9 +11076,7 @@ function pickFreshnessPill(parsedAtIso) {
 // Section-membership badges — driven by `section_status` stamped on each
 // per-section stock by scripts/sws-stamp-section-status.mjs. "Newly Added"
 // appears the first nightly a stock enters a section; "Trending" appears when
-// rank gain crosses a section-size-aware threshold (and never on AVOID, where
-// climbing the list is not a buy signal). On AVOID, the "newly added" badge
-// is relabeled to "Newly Flagged" so the framing matches a sell-side list.
+// rank gain crosses a section-size-aware threshold.
 function humanPickSection(sectionKey) {
   const sec = PICKS_SECTIONS.find((s) => s.key === sectionKey);
   return sec ? (sec.chip_label || sec.label || sectionKey) : sectionKey;
@@ -11111,18 +11097,12 @@ function formatPickPriorScanTooltip(iso) {
 function renderPickStatusBadges(stock, sectionKey) {
   const ss = stock && stock.section_status;
   if (!ss) return "";
-  const isAvoid = sectionKey === "avoid";
   const sectionLabel = humanPickSection(sectionKey);
   const priorTip = formatPickPriorScanTooltip(ss.prior_scanned_at);
   const parts = [];
   if (ss.newly_added) {
-    if (isAvoid) {
-      const tip = `Newly flagged for avoidance in this scan. Was not in the Avoid List in the previous scan (${priorTip}).`;
-      parts.push(`<span class="sws-pick-badge sws-pick-badge--flagged" title="${escapeHtml(tip)}">Newly Flagged</span>`);
-    } else {
-      const tip = `Newly added to ${sectionLabel} in this scan. Was not in this list in the previous scan (${priorTip}).`;
-      parts.push(`<span class="sws-pick-badge sws-pick-badge--new" title="${escapeHtml(tip)}">New</span>`);
-    }
+    const tip = `Newly added to ${sectionLabel} in this scan. Was not in this list in the previous scan (${priorTip}).`;
+    parts.push(`<span class="sws-pick-badge sws-pick-badge--new" title="${escapeHtml(tip)}">New</span>`);
   }
   if (ss.trending && Number.isFinite(ss.rank_delta) && ss.rank_delta > 0) {
     const tip = `Climbed ${ss.rank_delta} rank${ss.rank_delta === 1 ? "" : "s"} in ${sectionLabel} since the previous scan (${priorTip}).`;
@@ -11857,13 +11837,12 @@ function renderSwsModal(data) {
     </div>` : "";
 
   // PR 2.11 — section-membership banner. Uses the same labels/emojis defined
-  // in PICKS_SECTIONS so chip-nav and modal stay in lockstep. `avoid` and
-  // `upcoming_earnings` are informational rather than buy-list signals — we
-  // surface them only when they're the SOLE membership, otherwise users would
-  // see e.g. "💎 Deep Value · ⚠ Avoid" which is incoherent (the avoid filter
-  // captures different stocks than deep_value, but a stock in both makes the
-  // page nervous; it'll be clearer once 2.8/2.9 land separately).
-  const INFORMATIONAL_KEYS = new Set(["avoid", "upcoming_earnings"]);
+  // in PICKS_SECTIONS so chip-nav and modal stay in lockstep. `upcoming_earnings`
+  // is informational rather than a buy-list signal, so it's suppressed whenever
+  // the stock also has buy-list memberships. keysToRender is then filtered to
+  // keys that still exist in PICKS_SECTIONS, so a membership for a removed
+  // section (e.g. the retired Avoid list) never renders a dead/un-navigable chip.
+  const INFORMATIONAL_KEYS = new Set(["upcoming_earnings"]);
   const sectionLabelByKey = (() => {
     const m = {};
     if (Array.isArray(PICKS_SECTIONS)) {
@@ -11877,7 +11856,8 @@ function renderSwsModal(data) {
   const buyListMemberships = memberships.filter((k) => !INFORMATIONAL_KEYS.has(k));
   const sectionsBannerHtml = (() => {
     if (memberships.length === 0) return "";
-    const keysToRender = buyListMemberships.length ? buyListMemberships : memberships;
+    const keysToRender = (buyListMemberships.length ? buyListMemberships : memberships)
+      .filter((k) => sectionLabelByKey[k]);
     // UI/UX overhaul 2026-05-19 — chips are now clickable buttons that
     // close the modal and switch to the SWS Picks tab, scrolled to the
     // section that holds this stock. Previously they were inert spans

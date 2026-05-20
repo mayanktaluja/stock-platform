@@ -7222,8 +7222,18 @@ app.get("/api/sws-universe", async (req, res) => {
 // slow-network users paid the full 7 MB even when asking for top 10.
 const SWS_PICKS_MAX_LIMIT = 200;
 app.get("/api/sws-picks", async (req, res) => {
-  const data = swsDal.getPicksLatest();
-  if (!data) return res.status(404).json({ error: "no_picks_yet", hint: "Run /sws-scan-shard 1/2/3 in Claude to start the initial scan." });
+  const raw = swsDal.getPicksLatest();
+  if (!raw) return res.status(404).json({ error: "no_picks_yet", hint: "Run /sws-scan-shard 1/2/3 in Claude to start the initial scan." });
+  // The Avoid List was removed from the SWS Picks tab — drop its ~1,191-row
+  // section from the payload so it stops shipping on every load. Shallow-clone
+  // `raw` + its sections so we never mutate the mtime-cached object that
+  // getPicksLatest() shares with other in-process consumers (earnings,
+  // portfolio aggregate). The SWS pipeline still computes + snapshots `avoid`
+  // for the Track Record short-side tracker, which reads picks-latest.json
+  // directly — not this route — so that tracker is unaffected.
+  const data = raw.sections && raw.sections.avoid
+    ? { ...raw, sections: (() => { const { avoid, ...rest } = raw.sections; return rest; })() }
+    : raw;
   const limitRaw = req.query.limit;
   const limit = limitRaw != null
     ? Math.min(Math.max(parseInt(limitRaw, 10) || 0, 0), SWS_PICKS_MAX_LIMIT)

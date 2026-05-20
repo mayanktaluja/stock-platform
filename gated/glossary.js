@@ -596,13 +596,6 @@ window.GLOSSARY = {
     full: "Catalyst calendar: every stock with an earnings date in the next ~75 days, sorted by proximity. Earnings are the single biggest scheduled price-mover for a stock — a beat on a high-quality name is often a 5–10% gap up; a miss on a richly-valued name is often a 10–20% gap down. Use this section to (a) avoid initiating on names reporting tomorrow, and (b) spot pre-results setups on high-conviction holdings.",
   },
 
-  section_avoid: {
-    term: "Avoid List",
-    category: "verdict",
-    short: "v3 AVOID verdict — composite < 22, bottom-quartile fundamentals + risk overlay.",
-    full: "The mirror image of TOP_PICK: weak pillars + active safety penalties (ASM/GSM, declining revenue, unsustainable payout, etc.). Listed not as a 'short these' signal — Indian shorting is restricted to F&O and carries its own risks — but as a 'don't be the bag-holder' list. Cross-check against your portfolio every refresh; if any of your holdings appear here, it's worth a fundamental re-examination.",
-  },
-
   // ══════════════════════════════════════════════════════════════════════
   // PORTFOLIO RISK METRICS — added for the V2 analyzer UI
   // ══════════════════════════════════════════════════════════════════════
