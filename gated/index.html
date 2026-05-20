@@ -2755,6 +2755,11 @@
        the stricter rule on phones where finger taps are imprecise. */
     @media (max-width: 720px) {
       .info-icon { min-width: 44px; min-height: 44px; display: inline-flex !important; align-items: center; justify-content: center; }
+      /* Dense table headers (Sector Outlook, 5x Lab) can't spare 44px per
+         icon without bloating the horizontal scroll — keep these at natural
+         size; the tap still lands on the glyph. */
+      #sectorOutlookTab th .info-icon,
+      #multibaggerLabContent th .info-icon { min-width: auto; min-height: auto; }
       .watchlist-btn { min-width: 44px; min-height: 44px; padding: 8px !important; }
       .refresh-btn, .btn { min-height: 44px; }
     }

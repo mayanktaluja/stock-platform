@@ -58,10 +58,10 @@
       tally[l] = (tally[l] || 0) + 1;
     }
     const tiles = [
-      { value: tally.STRONG_TAILWIND + tally.TAILWIND, label: "Tailwind sectors", color: "#10b981" },
-      { value: tally.HEADWIND + tally.STRONG_HEADWIND, label: "Headwind sectors", color: "#ef4444" },
-      { value: tally.NEUTRAL, label: "Neutral / divergent", color: "#9ca3af" },
-      { value: regimeLabel, label: `Macro regime · severity ${regimeSeverity}`, color: "#a78bfa" },
+      { value: tally.STRONG_TAILWIND + tally.TAILWIND, label: "Tailwind sectors", color: "#10b981", termId: "sector_tailwind" },
+      { value: tally.HEADWIND + tally.STRONG_HEADWIND, label: "Headwind sectors", color: "#ef4444", termId: "sector_headwind" },
+      { value: tally.NEUTRAL, label: "Neutral / divergent", color: "#9ca3af", termId: "sector_neutral" },
+      { value: regimeLabel, label: `Macro regime · severity ${regimeSeverity}`, color: "#a78bfa", termId: "macro_regime" },
       { value: ts, label: "Last refreshed", color: "var(--text-muted)" },
     ];
     return `
@@ -80,7 +80,7 @@
         ${tiles.map((t) => `
           <div style="padding:14px 16px; background:var(--bg-secondary); border-radius:8px;">
             <div style="font-size:22px; font-weight:600; color:${t.color}; font-variant-numeric:tabular-nums;">${escapeHtml(t.value)}</div>
-            <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">${escapeHtml(t.label)}</div>
+            <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">${escapeHtml(t.label)}${t.termId ? infoIcon(t.termId) : ""}</div>
           </div>`).join("")}
       </div>`;
   }
@@ -167,14 +167,14 @@
           <thead>
             <tr style="border-bottom:2px solid var(--bg-graphite); color:var(--text-muted); font-size:11px; letter-spacing:0.04em; text-transform:uppercase;">
               <th style="padding:10px 8px; text-align:left;">Sector</th>
-              <th style="padding:10px 8px; text-align:left;">Outlook</th>
-              <th style="padding:10px 8px; text-align:left;">Confidence</th>
-              <th style="padding:10px 8px; text-align:right;">Composite</th>
-              <th style="padding:10px 8px; text-align:right;">Bottom-up</th>
-              <th style="padding:10px 8px; text-align:right;">Top-down</th>
-              <th style="padding:10px 8px; text-align:right;">Breadth</th>
-              <th style="padding:10px 8px; text-align:right;">News (90d)</th>
-              <th style="padding:10px 8px; text-align:left;">Top themes</th>
+              <th style="padding:10px 8px; text-align:left;">Outlook${infoIcon("sector_outlook_label")}</th>
+              <th style="padding:10px 8px; text-align:left;">Confidence${infoIcon("sector_outlook_confidence")}</th>
+              <th style="padding:10px 8px; text-align:right;">Composite${infoIcon("sector_composite")}</th>
+              <th style="padding:10px 8px; text-align:right;">Bottom-up${infoIcon("sector_bottom_up")}</th>
+              <th style="padding:10px 8px; text-align:right;">Top-down${infoIcon("sector_top_down")}</th>
+              <th style="padding:10px 8px; text-align:right;">Breadth${infoIcon("sector_breadth")}</th>
+              <th style="padding:10px 8px; text-align:right;">News (90d)${infoIcon("sector_news_90d")}</th>
+              <th style="padding:10px 8px; text-align:left;">Top themes${infoIcon("sector_top_themes")}</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>
