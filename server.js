@@ -23,6 +23,7 @@ import { loadHitRateSummary } from "./services/earnings/hitRateSummary.js";
 import { loadCompounderLatest, loadCompounderPaperTrades } from "./services/compounder/compounderService.js";
 import { loadEdgeLatest, loadEdgePaperTrades } from "./services/earningsEdge/edgeService.js";
 import { createPersonalUseGate, isPersonalAllowed } from "./services/auth/personalUseGate.js";
+import { narrateCandidate, buildStrategyExplainer } from "./services/multibagger/rationaleNarrator.js";
 
 // External-API circuit breaker for /api/sector-heatmap (Yahoo Finance batch
 // quote). 3 consecutive failures → opens for 60s; serves stale cached
@@ -2951,7 +2952,14 @@ app.get("/api/multibagger/overview", personalUseGate, async (req, res) => {
         hard_reject_count: scores?.hard_reject_count || 0,
       },
       macro_regime: scores?.macro_regime || null,
-      top_candidates: (scores?.top_50 || []).slice(0, 30),
+      // Attach plain-English reasoning per candidate (why picked + bear
+      // case + target multiple), computed on the fly from the stored
+      // breakdown + diagnostics.
+      top_candidates: (scores?.top_50 || []).slice(0, 30).map((c) => ({
+        ...c,
+        rationale: narrateCandidate(c),
+      })),
+      strategy: scores ? buildStrategyExplainer({ scores }) : null,
       catalyst_slate: slate?.slate || [],
       health: {
         alerts: health?.alerts || [],

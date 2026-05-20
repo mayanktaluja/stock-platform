@@ -63,6 +63,7 @@ function renderMultibaggerLab(data) {
   if (!target) return;
   const html = [
     renderTrajectorySection(data),
+    renderStrategySection(data),
     renderActionsSection(data),
     renderPortfolioSection(data),
     renderPipelineSection(data),
@@ -100,6 +101,51 @@ function renderTrajectorySection(data) {
         <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em;">Macro regime</div>
         <div data-test="multibagger-macro-regime" style="font-size:18px; font-weight:500;">${escapeHtml(data.macro_regime || "—")}</div>
         <div style="font-size:11px; color:var(--text-muted);">Universe scored ${data.universe_size ?? "—"}</div>
+      </div>
+    </section>
+  `;
+}
+
+function bulletList(items, color) {
+  if (!Array.isArray(items) || !items.length) return "";
+  return `<ul style="margin:6px 0 0; padding-left:18px; color:${color || "var(--text-secondary)"};">` +
+    items.map((t) => `<li style="margin-bottom:4px; line-height:1.5;">${escapeHtml(t)}</li>`).join("") +
+    `</ul>`;
+}
+
+function renderStrategySection(data) {
+  const s = data.strategy;
+  if (!s) return "";
+  return `
+    <section data-section="strategy" data-test="multibagger-strategy" style="margin-bottom:24px; border:1px solid var(--bg-graphite); border-radius:8px; overflow:hidden;">
+      <div style="padding:14px 16px; background:var(--bg-graphite);">
+        <h3 style="margin:0; font-size:14px; font-weight:600;">Strategy &amp; reasoning</h3>
+        <p style="margin:4px 0 0; font-size:12px; color:var(--text-muted);">${escapeHtml(s.headline || "")}</p>
+      </div>
+      <div style="padding:8px 16px 16px;">
+        <details open style="margin-top:10px;">
+          <summary style="cursor:pointer; font-size:12px; font-weight:600; color:#a78bfa;">How stocks are picked</summary>
+          ${bulletList(s.how_stocks_are_picked)}
+        </details>
+        <details style="margin-top:10px;">
+          <summary style="cursor:pointer; font-size:12px; font-weight:600; color:#a78bfa;">How sectors are picked</summary>
+          ${bulletList(s.how_sectors_are_picked)}
+        </details>
+        <details style="margin-top:10px;">
+          <summary style="cursor:pointer; font-size:12px; font-weight:600; color:#a78bfa;">What gets removed (hard gates)</summary>
+          ${bulletList(s.what_gets_removed)}
+        </details>
+        <details style="margin-top:10px;">
+          <summary style="cursor:pointer; font-size:12px; font-weight:600; color:#a78bfa;">The 5x mechanism</summary>
+          ${bulletList(s.the_5x_mechanism)}
+        </details>
+        <details style="margin-top:10px;">
+          <summary style="cursor:pointer; font-size:12px; font-weight:600; color:#f87171;">Pre-mortem — how this fails</summary>
+          ${bulletList(s.pre_mortem, "#fca5a5")}
+        </details>
+        <div data-test="multibagger-honest-note" style="margin-top:14px; padding:10px 12px; background:rgba(248,113,113,0.08); border:1px solid rgba(248,113,113,0.25); border-radius:6px; font-size:12px; color:#fca5a5; line-height:1.5;">
+          ${escapeHtml(s.honest_note || "")}
+        </div>
       </div>
     </section>
   `;
@@ -153,8 +199,11 @@ function renderPipelineSection(data) {
       <td style="padding:6px 8px; color:var(--text-muted); font-size:12px;">${escapeHtml(c.sector || "—")}</td>
       <td style="padding:6px 8px; text-align:right; font-weight:500;">${(c.score_0_100 ?? 0).toFixed(1)}</td>
       <td style="padding:6px 8px; text-align:right; font-size:11px;">
-        <span style="padding:2px 6px; border-radius:4px; background:${verdictColor(c.verdict)}; color:white;">${escapeHtml(c.verdict || "—")}</span>
+        <span data-test="verdict-pill" style="padding:2px 6px; border-radius:4px; background:${verdictColor(c.verdict)}; color:white;">${escapeHtml(c.verdict || "—")}</span>
       </td>
+    </tr>
+    <tr data-test="candidate-rationale-row">
+      <td colspan="5" style="padding:0 8px 10px;">${renderCandidateRationale(c)}</td>
     </tr>
   `).join("");
   return `
@@ -171,6 +220,25 @@ function renderPipelineSection(data) {
         <tbody>${rows}</tbody>
       </table>
     </section>
+  `;
+}
+
+function renderCandidateRationale(c) {
+  const r = c.rationale;
+  if (!r) return `<span style="font-size:11px; color:var(--text-muted);">No rationale available.</span>`;
+  const why = (r.why_picked || []).map((t) => `<li style="margin-bottom:3px;">${escapeHtml(t)}</li>`).join("");
+  const bear = (r.bear_case || []).map((t) => `<li style="margin-bottom:3px;">${escapeHtml(t)}</li>`).join("");
+  return `
+    <details style="font-size:12px;">
+      <summary style="cursor:pointer; color:#a78bfa; font-size:11px;">Why this pick + bear case</summary>
+      <div style="padding:8px 0 4px;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:#34d399; margin-bottom:2px;">Bull case</div>
+        <ul style="margin:0 0 8px; padding-left:18px; color:var(--text-secondary); line-height:1.5;">${why || "<li>Composite score across 12 factors.</li>"}</ul>
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:#f87171; margin-bottom:2px;">Bear case</div>
+        <ul style="margin:0 0 8px; padding-left:18px; color:#fca5a5; line-height:1.5;">${bear}</ul>
+        <div style="font-size:11px; color:var(--text-muted); font-style:italic;">${escapeHtml(r.target_multiple_rationale || "")}</div>
+      </div>
+    </details>
   `;
 }
 
