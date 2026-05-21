@@ -7,7 +7,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { profileDirForShard, SHARED_FINGERPRINT } from "./sws-config.mjs";
+import { profileDirForShard as indiaProfileDirForShard, SHARED_FINGERPRINT as INDIA_FINGERPRINT } from "./sws-config.mjs";
 
 // playwright-extra + stealth: wraps the chromium launcher to mask the headless
 // fingerprint. Imported dynamically so this file can be required from the
@@ -19,11 +19,15 @@ async function loadStealthChromium() {
   return extraChromium;
 }
 
-export async function launchShardContext(shardId, { headless = false, devtools = false } = {}) {
+export async function launchShardContext(shardId, { headless = false, devtools = false, cfg = null } = {}) {
+  // `cfg` lets a sibling pipeline (e.g. the US fork) supply its own per-shard
+  // profile dirs + fingerprint. Null = India config, so existing callers are
+  // byte-for-byte unchanged.
+  const profileDirForShard = cfg?.profileDirForShard || indiaProfileDirForShard;
   const userDataDir = profileDirForShard(shardId);
   fs.mkdirSync(userDataDir, { recursive: true });
 
-  const fp = SHARED_FINGERPRINT;
+  const fp = cfg?.SHARED_FINGERPRINT || INDIA_FINGERPRINT;
 
   // First-time setup hint: if the profile is empty, the user needs cookies.
   const looksEmpty =
@@ -70,5 +74,5 @@ export async function launchShardContext(shardId, { headless = false, devtools =
 }
 
 export function profilePathForShard(shardId) {
-  return profileDirForShard(shardId);
+  return indiaProfileDirForShard(shardId);
 }
