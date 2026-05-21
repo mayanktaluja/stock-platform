@@ -52,11 +52,11 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       await expect(container.locator('.sws-pick-section[data-section-key="top_ranked_30_v3"]')).toBeVisible();
     });
 
-    test("admin-gated: tab stays hidden without the admin flag", async ({ page }) => {
+    test("open to all signed-in users: tab renders without the admin flag", async ({ page }) => {
       await gotoApp(page);
       await page.evaluate(() => { window.__starbhai_isAdmin = false; window.__starbhai_isPersonal = false; });
       await page.evaluate((c) => window.switchTab(`${c}Picks`), code);
-      await expect(page.locator(`#${dom}Tab`)).toBeHidden();
+      await expect(page.locator(`#${dom}Tab`)).toBeVisible({ timeout: 10_000 });
     });
 
     test(`modal opens with the full rich detail (score breakdown + returns) in ${cfg.symbol}`, async ({ page }) => {

@@ -7611,16 +7611,15 @@ app.post("/api/sws-refresh/full", express.json(), async (req, res) => {
 // admin-only in prod. This differs from requireAdminForSwsRefresh — that one
 // 401s when auth is off (correct for a *mutation* endpoint, wrong for a *read*
 // tab that e2e + local dev must reach).
-async function requireAdminRead(req, res) {
+// Open to every signed-in user (was admin-only requireAdminRead). The global
+// session gate already requires a session for /api/*; this stays as
+// defence-in-depth + the AUTH-off bypass for e2e/local dev. Renamed + opened in
+// the picks-parity work so US/KR/TW match the India SWS Picks tab's audience.
+async function requireSignedInRead(req, res) {
   if (!AUTH_ENABLED) return true;
   const sub = req.user && req.user.sub;
   if (!sub) {
     res.status(401).json({ error: "unauthenticated" });
-    return false;
-  }
-  const me = await getUserStorage().read(sub);
-  if (!me || !me.isAdmin) {
-    res.status(403).json({ error: "forbidden" });
     return false;
   }
   return true;
@@ -7628,7 +7627,7 @@ async function requireAdminRead(req, res) {
 
 const US_PICKS_MAX_LIMIT = 200;
 app.get("/api/us-picks", async (req, res) => {
-  if (!(await requireAdminRead(req, res))) return;
+  if (!(await requireSignedInRead(req, res))) return;
   const raw = usPicksDal.getUsPicksLatest();
   if (!raw) {
     return res.status(404).json({
@@ -7669,7 +7668,7 @@ app.get("/api/us-picks", async (req, res) => {
 });
 
 app.get("/api/us-stock/:ticker", async (req, res) => {
-  if (!(await requireAdminRead(req, res))) return;
+  if (!(await requireSignedInRead(req, res))) return;
   // US tickers are alphanumeric + dotted share classes (BRK.B) — allow the dot.
   const ticker = String(req.params.ticker || "").toUpperCase().trim();
   if (!ticker || !/^[A-Z0-9.\-]+$/.test(ticker)) {
@@ -7706,7 +7705,7 @@ app.get("/api/us-stock/:ticker", async (req, res) => {
 });
 
 app.get("/api/us-scan/status", async (req, res) => {
-  if (!(await requireAdminRead(req, res))) return;
+  if (!(await requireSignedInRead(req, res))) return;
   const now = Date.now();
   const RECENT_MS = 5 * 60 * 1000;
   const shards = [1, 2, 3].map((n) => {
@@ -7740,14 +7739,14 @@ app.get("/api/us-scan/status", async (req, res) => {
 // ── Region picks (Korea / Taiwan) — generic route factory ──
 // Registers the same 3 read routes the US tab uses, bound to a region DAL:
 //   GET /api/<code>-picks, /api/<code>-stock/:ticker, /api/<code>-scan/status
-// requireAdminRead (AUTH-off ⇒ allow) is reused so e2e + local dev reach the tab.
+// requireSignedInRead (AUTH-off ⇒ allow) is reused so e2e + local dev reach the tab.
 // The US routes above are frozen — this is purely additive.
 const REGION_PICKS_MAX_LIMIT = 200;
 function registerRegionPicksRoutes(app, dal) {
   const prefix = dal.code;
 
   app.get(`/api/${prefix}-picks`, async (req, res) => {
-    if (!(await requireAdminRead(req, res))) return;
+    if (!(await requireSignedInRead(req, res))) return;
     const raw = dal.getPicksLatest();
     if (!raw) {
       return res.status(404).json({
@@ -7788,7 +7787,7 @@ function registerRegionPicksRoutes(app, dal) {
   });
 
   app.get(`/api/${prefix}-stock/:ticker`, async (req, res) => {
-    if (!(await requireAdminRead(req, res))) return;
+    if (!(await requireSignedInRead(req, res))) return;
     // KR/TW canonical keys are uppercase + dotted (005930.KS / 2330.TW) — allow the dot.
     const ticker = String(req.params.ticker || "").toUpperCase().trim();
     if (!ticker || !/^[A-Z0-9.\-]+$/.test(ticker)) {
@@ -7824,7 +7823,7 @@ function registerRegionPicksRoutes(app, dal) {
   });
 
   app.get(`/api/${prefix}-scan/status`, async (req, res) => {
-    if (!(await requireAdminRead(req, res))) return;
+    if (!(await requireSignedInRead(req, res))) return;
     const now = Date.now();
     const RECENT_MS = 5 * 60 * 1000;
     const shards = [1, 2, 3].map((n) => {

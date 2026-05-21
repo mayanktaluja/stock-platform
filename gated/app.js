@@ -2647,26 +2647,27 @@ const TAB_CONFIG = {
     guard: () => !!window.__starbhai_isAdmin,
     enter: () => loadUsersList(),
   },
-  // US Picks — admin-only SWS-sourced US-equity leaderboard. Same guard as the
-  // Users tab; server enforces via requireAdminRead on /api/us-*.
+  // US Picks — SWS-sourced US-equity leaderboard. Open to every signed-in user
+  // (parity with the India SWS Picks tab); the global session gate is the only
+  // auth requirement — /api/us-* carries no per-route admin check.
   usPicks: {
     elId: "usPicksTab",
     label: "US Picks",
-    guard: () => !!window.__starbhai_isAdmin,
+    guard: () => true,
     enter: () => loadUSPicks(),
   },
-  // Korea / Taiwan Picks — admin-only SWS leaderboards, registry-driven render
-  // path. Same guard as US; server enforces via requireAdminRead on /api/{kr,tw}-*.
+  // Korea / Taiwan Picks — SWS leaderboards, registry-driven render path. Open to
+  // every signed-in user, same as US; only the global session gate applies.
   krPicks: {
     elId: "krPicksTab",
     label: "Korea Picks",
-    guard: () => !!window.__starbhai_isAdmin,
+    guard: () => true,
     enter: () => loadRegionPicks("kr"),
   },
   twPicks: {
     elId: "twPicksTab",
     label: "Taiwan Picks",
-    guard: () => !!window.__starbhai_isAdmin,
+    guard: () => true,
     enter: () => loadRegionPicks("tw"),
   },
   earnings: {
@@ -2796,9 +2797,9 @@ async function switchTab(tab) {
 // Users (+ riskLab/sectorOutlook), etc.
 const LABS_MENU_TABS = [
   { id: "users",          label: "Users",          dot: null,      show: () => !!window.__starbhai_isAdmin },
-  { id: "usPicks",        label: "US Picks",       dot: "#60a5fa", show: () => !!window.__starbhai_isAdmin },
-  { id: "krPicks",        label: "Korea Picks",    dot: "#f472b6", show: () => !!window.__starbhai_isAdmin },
-  { id: "twPicks",        label: "Taiwan Picks",   dot: "#fbbf24", show: () => !!window.__starbhai_isAdmin },
+  { id: "usPicks",        label: "US Picks",       dot: "#60a5fa", show: () => true },
+  { id: "krPicks",        label: "Korea Picks",    dot: "#f472b6", show: () => true },
+  { id: "twPicks",        label: "Taiwan Picks",   dot: "#fbbf24", show: () => true },
   { id: "compounder",     label: "Compounder Lab", dot: "#34d399", show: () => !!window.__starbhai_isPersonal },
   { id: "earningsEdge",   label: "Earnings Edge",  dot: "#f87171", show: () => !!window.__starbhai_isPersonal },
   { id: "multibaggerLab", label: "5x Lab",         dot: "#a78bfa", show: () => !!window.__starbhai_isPersonal },

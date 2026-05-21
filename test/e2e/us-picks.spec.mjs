@@ -43,11 +43,11 @@ test.describe("US Picks tab", () => {
     await expect(container.locator('.sws-pick-section[data-section-key="top_ranked_30_v3"]')).toBeVisible();
   });
 
-  test("admin-gated: tab stays hidden without the admin flag", async ({ page }) => {
+  test("open to all signed-in users: tab renders without the admin flag", async ({ page }) => {
     await gotoApp(page);
     await page.evaluate(() => { window.__starbhai_isAdmin = false; window.__starbhai_isPersonal = false; });
     await page.evaluate(() => window.switchTab("usPicks"));
-    await expect(page.locator("#usPicksTab")).toBeHidden();
+    await expect(page.locator("#usPicksTab")).toBeVisible({ timeout: 10_000 });
   });
 
   test("modal opens with the full rich detail (score breakdown + returns + snowflake), all in $", async ({ page }) => {
