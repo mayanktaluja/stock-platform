@@ -1,0 +1,26 @@
+# Korea SWS pipeline — what NOT to commit.
+#
+# The raw API payloads and parsed deep briefs are large (~2.6k files). In prod
+# the per-stock modal is served from a committed, compressed deep-kr.tar.gz
+# (lazy per-ticker extract), mirroring the India/US deep tarball pattern — so the
+# loose dirs are never committed.
+deep/
+deep-api/
+deep-parsed/
+
+# Transient build / run artifacts.
+universe-from-sitemap.json
+*.tmp.*
+progress-api-*.json
+active-shards.lock
+scan-*.lock
+pipeline.lock
+pipeline-status.json
+panic-stop.flag
+captures/
+failed.json
+refresh-requested.json
+
+# Committed (NOT ignored): universe.json, picks-latest.json,
+# sws-scored-universe.json, v3-universe-stats.json, last-refresh.json,
+# deep-kr.tar.gz
