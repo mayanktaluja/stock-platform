@@ -148,8 +148,10 @@ const auth = {
     // never had these buttons (the 4 sleeve tabs) or keep Risk Lab + Sector
     // Outlook inline (the 2 public tabs).
     window.__starbhai_isAdmin = !!me.isAdmin;
-    window.__starbhai_isPersonal = !!me.isPersonal;
-    const isPrivileged = window.__starbhai_isAdmin || window.__starbhai_isPersonal;
+    // Two-tier model: admin is the only privileged tier. The former personal-use
+    // sleeves (Compounder Lab, Earnings Edge, 5x Lab) plus the experimental Risk
+    // Lab + Sector Outlook tabs are now admin-only, reached via the "More" menu.
+    const isPrivileged = window.__starbhai_isAdmin;
 
     if (isPrivileged) {
       window.__labsMigratedTabs = new Set(
@@ -2678,6 +2680,7 @@ const TAB_CONFIG = {
   riskLab: {
     elId: "riskLabTab",
     label: "Risk Lab",
+    guard: () => !!window.__starbhai_isAdmin,
     enter: () => { if (typeof loadRiskLab === "function") loadRiskLab(); },
   },
   // Compounder Lab — SAFE sleeve. Personal-use only; the tab button is
@@ -2685,13 +2688,13 @@ const TAB_CONFIG = {
   // (mirroring the admin pattern at usersTabBtn).
   compounder: {
     elId: "compounderTab",
-    guard: () => !!window.__starbhai_isPersonal,
+    guard: () => !!window.__starbhai_isAdmin,
     enter: () => { if (typeof loadCompounderLab === "function") loadCompounderLab(); },
   },
   // Earnings Edge — AGGRESSIVE sleeve. Same personal-use gate.
   earningsEdge: {
     elId: "earningsEdgeTab",
-    guard: () => !!window.__starbhai_isPersonal,
+    guard: () => !!window.__starbhai_isAdmin,
     enter: () => { if (typeof loadEarningsEdge === "function") loadEarningsEdge(); },
   },
   // 5x Lab — concentrated multibagger strategy targeting ₹1L → ₹5L
@@ -2700,7 +2703,7 @@ const TAB_CONFIG = {
   multibaggerLab: {
     elId: "multibaggerLabTab",
     label: "5x Lab",
-    guard: () => !!window.__starbhai_isPersonal,
+    guard: () => !!window.__starbhai_isAdmin,
     enter: () => { if (typeof loadMultibaggerLab === "function") loadMultibaggerLab(); },
   },
   // Sector Outlook — EXPERIMENTAL bottom-up SWS news + macro cross-check.
@@ -2710,11 +2713,7 @@ const TAB_CONFIG = {
   sectorOutlook: {
     elId: "sectorOutlookTab",
     label: "Sector Outlook",
-    guard: () => {
-      try {
-        return localStorage.getItem("sectorOutlookEnabled_v1") !== "false";
-      } catch { return true; }
-    },
+    guard: () => !!window.__starbhai_isAdmin,
     enter: () => { if (typeof loadSectorOutlook === "function") loadSectorOutlook(); },
   },
 };
@@ -2800,11 +2799,11 @@ const LABS_MENU_TABS = [
   { id: "usPicks",        label: "US Picks",       dot: "#60a5fa", show: () => true },
   { id: "krPicks",        label: "Korea Picks",    dot: "#f472b6", show: () => true },
   { id: "twPicks",        label: "Taiwan Picks",   dot: "#fbbf24", show: () => true },
-  { id: "compounder",     label: "Compounder Lab", dot: "#34d399", show: () => !!window.__starbhai_isPersonal },
-  { id: "earningsEdge",   label: "Earnings Edge",  dot: "#f87171", show: () => !!window.__starbhai_isPersonal },
-  { id: "multibaggerLab", label: "5x Lab",         dot: "#a78bfa", show: () => !!window.__starbhai_isPersonal },
-  { id: "riskLab",        label: "Risk Lab",       dot: "#fbbf24", show: () => labsLsEnabled("riskLabEnabled_v2") },
-  { id: "sectorOutlook",  label: "Sector Outlook", dot: "#a78bfa", show: () => labsLsEnabled("sectorOutlookEnabled_v1") },
+  { id: "compounder",     label: "Compounder Lab", dot: "#34d399", show: () => !!window.__starbhai_isAdmin },
+  { id: "earningsEdge",   label: "Earnings Edge",  dot: "#f87171", show: () => !!window.__starbhai_isAdmin },
+  { id: "multibaggerLab", label: "5x Lab",         dot: "#a78bfa", show: () => !!window.__starbhai_isAdmin },
+  { id: "riskLab",        label: "Risk Lab",       dot: "#fbbf24", show: () => !!window.__starbhai_isAdmin && labsLsEnabled("riskLabEnabled_v2") },
+  { id: "sectorOutlook",  label: "Sector Outlook", dot: "#a78bfa", show: () => !!window.__starbhai_isAdmin && labsLsEnabled("sectorOutlookEnabled_v1") },
 ];
 const LABS_LABELS = Object.fromEntries(LABS_MENU_TABS.map((t) => [t.id, t.label]));
 function labsLsEnabled(key) {

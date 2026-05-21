@@ -36,7 +36,7 @@ test.describe("5x Lab — candidate pipeline", () => {
   test("candidate table renders with ticker + score + verdict columns", async ({ page }) => {
     await gotoApp(page);
     await page.evaluate(() => {
-      window.__starbhai_isPersonal = true;
+      window.__starbhai_isAdmin = true;
       const btn = document.getElementById("multibaggerLabTabBtn");
       if (btn) btn.hidden = false;
     });
@@ -54,7 +54,7 @@ test.describe("5x Lab — candidate pipeline", () => {
   test("verdict pill colour distinguishes 5X_CANDIDATE from HIGH_CONVICTION", async ({ page }) => {
     await gotoApp(page);
     await page.evaluate(() => {
-      window.__starbhai_isPersonal = true;
+      window.__starbhai_isAdmin = true;
       const btn = document.getElementById("multibaggerLabTabBtn");
       if (btn) btn.hidden = false;
     });
@@ -80,7 +80,7 @@ test.describe("5x Lab — candidate pipeline", () => {
   test("each candidate carries a why/bear-case rationale", async ({ page }) => {
     await gotoApp(page);
     await page.evaluate(() => {
-      window.__starbhai_isPersonal = true;
+      window.__starbhai_isAdmin = true;
       const btn = document.getElementById("multibaggerLabTabBtn");
       if (btn) btn.hidden = false;
     });

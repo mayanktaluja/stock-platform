@@ -32,7 +32,7 @@ test.describe("5x Lab — risk + health", () => {
   test("health section renders either 'clean' or alert list", async ({ page }) => {
     await gotoApp(page);
     await page.evaluate(() => {
-      window.__starbhai_isPersonal = true;
+      window.__starbhai_isAdmin = true;
       const btn = document.getElementById("multibaggerLabTabBtn");
       if (btn) btn.hidden = false;
     });
@@ -55,7 +55,7 @@ test.describe("5x Lab — risk + health", () => {
   test("trajectory regime pill shows the macro regime label", async ({ page }) => {
     await gotoApp(page);
     await page.evaluate(() => {
-      window.__starbhai_isPersonal = true;
+      window.__starbhai_isAdmin = true;
       const btn = document.getElementById("multibaggerLabTabBtn");
       if (btn) btn.hidden = false;
     });

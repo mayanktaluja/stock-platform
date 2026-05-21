@@ -3,10 +3,10 @@
 // Verifies:
 //   1. /api/compounder/latest serves the JSON schema we expect
 //   2. /api/compounder/paper-trades serves the ledger
-//   3. /api/auth/me returns the isPersonal flag (always false in test mode
-//      since AUTH_ENABLED=false; the flag is still in the response shape)
-//   4. The Compounder Lab tab renders the basket when window.__starbhai_isPersonal
-//      is forced on (the tab is hidden + guarded by default for non-allowlisted)
+//   3. /api/auth/me no longer carries an isPersonal flag (the personal-use
+//      tier was folded into admin; the response is { ..., isAdmin } only)
+//   4. The Compounder Lab tab renders the basket when window.__starbhai_isAdmin
+//      is forced on (the tab is admin-gated + hidden by default)
 //
 // Self-skips when data/compounder/latest.json is missing — same pattern as
 // every other tab-with-snapshot e2e spec in this repo.
@@ -61,17 +61,17 @@ test.describe("Compounder Lab (SAFE sleeve)", () => {
     }
   });
 
-  test("UI renders the basket table when personal flag is on", async ({ page, request }) => {
+  test("UI renders the basket table when admin flag is on", async ({ page, request }) => {
     const apiRes = await request.get("/api/compounder/latest");
     test.skip(apiRes.status() === 404, "no compounder snapshot");
 
     await gotoApp(page);
     // In test mode AUTH_ENABLED=false so /api/auth/me returns 401 and the
-    // SPA never sets __starbhai_isPersonal=true. Force it on here so the
-    // tab is reachable; this is exactly what the SPA bootstrap does when a
-    // real allowlisted user signs in.
+    // SPA never sets __starbhai_isAdmin=true. Force it on here so the tab is
+    // reachable; this is exactly what the SPA bootstrap does when a real
+    // admin signs in.
     await page.evaluate(() => {
-      window.__starbhai_isPersonal = true;
+      window.__starbhai_isAdmin = true;
       const btn = document.getElementById("compounderTabBtn");
       if (btn) btn.hidden = false;
     });
@@ -88,9 +88,9 @@ test.describe("Compounder Lab (SAFE sleeve)", () => {
     expect(rowCount).toBeGreaterThanOrEqual(1);
   });
 
-  test("tab guard rejects when personal flag is off", async ({ page }) => {
+  test("tab guard rejects when admin flag is off", async ({ page }) => {
     await gotoApp(page);
-    // Default state: __starbhai_isPersonal undefined → guard returns false →
+    // Default state: __starbhai_isAdmin undefined → guard returns false →
     // switchTab is an early return → tab stays hidden.
     await page.evaluate(() => window.switchTab("compounder"));
     // The compounder tab should NOT be visible — switchTab is a no-op when
@@ -98,12 +98,17 @@ test.describe("Compounder Lab (SAFE sleeve)", () => {
     await expect(page.locator("#compounderTab")).toBeHidden();
   });
 
-  test("/api/auth/me response shape includes isPersonal field surface", async ({ request }) => {
+  test("/api/auth/me response shape no longer carries isPersonal", async ({ request }) => {
     // In test mode AUTH_ENABLED=false so /api/auth/me returns 401. The
-    // server-side flag wiring is unit-tested via personalUseGate.test.mjs.
-    // This spec just asserts the test-mode shape so a future change to the
-    // response surface gets caught.
+    // server-side admin wiring is unit-tested via adminGate.test.mjs. This
+    // spec asserts the test-mode shape; if auth is ever enabled in e2e it also
+    // guards that the dropped isPersonal field does not resurface.
     const res = await request.get("/api/auth/me");
     expect([200, 401]).toContain(res.status());
+    if (res.status() === 200) {
+      const body = await res.json();
+      expect(body).not.toHaveProperty("isPersonal");
+      expect(body).toHaveProperty("isAdmin");
+    }
   });
 });

@@ -36,13 +36,13 @@ test.describe("Earnings Edge (AGGRESSIVE sleeve)", () => {
     expect(Array.isArray(body.trades)).toBe(true);
   });
 
-  test("UI renders the open-trades table when personal flag is on", async ({ page, request }) => {
+  test("UI renders the open-trades table when admin flag is on", async ({ page, request }) => {
     const apiRes = await request.get("/api/earnings-edge/latest");
     test.skip(apiRes.status() === 404, "no earnings-edge snapshot");
 
     await gotoApp(page);
     await page.evaluate(() => {
-      window.__starbhai_isPersonal = true;
+      window.__starbhai_isAdmin = true;
       const btn = document.getElementById("earningsEdgeTabBtn");
       if (btn) btn.hidden = false;
     });
@@ -53,7 +53,7 @@ test.describe("Earnings Edge (AGGRESSIVE sleeve)", () => {
     });
   });
 
-  test("tab guard rejects when personal flag is off", async ({ page }) => {
+  test("tab guard rejects when admin flag is off", async ({ page }) => {
     await gotoApp(page);
     await page.evaluate(() => window.switchTab("earningsEdge"));
     await expect(page.locator("#earningsEdgeTab")).toBeHidden();
