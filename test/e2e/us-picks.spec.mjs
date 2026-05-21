@@ -50,7 +50,7 @@ test.describe("US Picks tab", () => {
     await expect(page.locator("#usPicksTab")).toBeHidden();
   });
 
-  test("modal opens with Snowflake pillars + rewards/risks, all in $", async ({ page }) => {
+  test("modal opens with the full rich detail (score breakdown + returns + snowflake), all in $", async ({ page }) => {
     await openUSPicks(page);
     const firstTicker = await page
       .locator("#usPicksContainer .sws-pick-card")
@@ -62,8 +62,15 @@ test.describe("US Picks tab", () => {
     const txt = await page.locator("#usModalBody").innerText();
     expect(txt).toContain("$");
     expect(txt).not.toContain("₹");
-    expect(txt).toMatch(/Health/);
-    expect(txt).toMatch(/Rewards/);
+    // Section headers are uppercased by CSS text-transform, so innerText is
+    // "FINANCIAL HEALTH" / "REWARDS" — match case-insensitively.
+    expect(txt).toMatch(/Health/i);
+    expect(txt).toMatch(/Rewards/i);
+    // PR2 parity: these sections were ABSENT from the old simplified US modal —
+    // their presence proves the US tab now renders via the shared renderSwsModalCore.
+    expect(txt).toMatch(/Score breakdown/i);
+    expect(txt).toMatch(/Total returns/i);
+    expect(txt).toMatch(/Snowflake/i);
     await page.evaluate(() => window.closeUSModal());
     await expect(modal).not.toHaveClass(/open/);
   });

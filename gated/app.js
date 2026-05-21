@@ -11509,44 +11509,9 @@ function closeUSModal() {
   usModalTicker = null;
 }
 function renderUSModal(data) {
-  const card = data.card || {};
-  const deep = data.deep || {};
-  const ov = deep.overview || {};
-  const cur = data.currency || card.currency || "USD";
-  const sn = ov.snowflake || card.snowflake || {};
-  const pillars = [
-    ["Health", sn.financial_health != null ? sn.financial_health : sn.health],
-    ["Future", sn.future != null ? sn.future : sn.future_growth],
-    ["Valuation", sn.valuation != null ? sn.valuation : sn.value],
-    ["Past", sn.past != null ? sn.past : sn.past_performance],
-    ["Dividends", sn.dividends != null ? sn.dividends : sn.dividend],
-  ].map(([k, v]) => `<div style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 14px;border:1px solid var(--bg-graphite);border-radius:6px;min-width:60px;"><span style="font-size:11px;color:var(--text-muted);">${k}</span><strong>${v == null ? "—" : v}/6</strong></div>`).join("");
-  const rewards = (ov.rewards || []).map((r) => `<li>${escapeHtml(r)}</li>`).join("");
-  const risks = (ov.risks || []).map((r) => `<li>${escapeHtml(r)}</li>`).join("");
-  const score = card.v3_score_100 != null ? card.v3_score_100.toFixed(1) : "—";
-  const verdict = String(card.composite_verdict || card.v3_verdict || "—").replace(/_/g, " ");
-  const upside = card.upside_pct != null ? `${card.upside_pct > 0 ? "+" : ""}${card.upside_pct.toFixed(1)}%` : "—";
-  const inSec = (data.in_sections || []).map((k) => `<span class="sws-modal-section-chip">${escapeHtml(String(k).replace(/_/g, " "))}</span>`).join("");
-  return `
-    <div class="sws-modal-hero">
-      <h2 id="usModalTitle">${escapeHtml(data.ticker || "")} <span style="font-size:13px;color:var(--text-muted);font-weight:400;">${escapeHtml(card.name || deep.name || "")}${card.sector ? " · " + escapeHtml(card.sector) : ""}</span></h2>
-      <div class="sws-modal-score"><span class="score-value">${score}</span><span class="score-label">${verdict}</span></div>
-    </div>
-    <div style="display:flex;gap:24px;flex-wrap:wrap;margin:14px 0;font-size:13px;">
-      <div><span style="color:var(--text-muted);">Price</span> <strong>${fmtMoney(ov.current_price_inr != null ? ov.current_price_inr : card.current_price_inr, cur)}</strong></div>
-      <div><span style="color:var(--text-muted);">Fair value</span> <strong>${card.fair_value_inr == null ? "unavailable" : fmtMoney(card.fair_value_inr, cur)}</strong></div>
-      <div><span style="color:var(--text-muted);">Upside</span> <strong style="color:${card.upside_pct != null && card.upside_pct >= 0 ? "var(--green)" : "var(--red)"};">${upside}</strong></div>
-      <div><span style="color:var(--text-muted);">Mcap</span> <strong>${fmtMoney(ov.market_cap_inr != null ? ov.market_cap_inr : card.market_cap_inr, cur)}</strong></div>
-    </div>
-    ${inSec ? `<div class="sws-modal-sections-banner"><span class="label">In sections</span> ${inSec}</div>` : ""}
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin:14px 0;">${pillars}</div>
-    <div style="display:flex;gap:28px;flex-wrap:wrap;">
-      <div style="flex:1;min-width:220px;"><h4 style="color:var(--green);margin-bottom:6px;">Rewards</h4><ul style="margin:0;padding-left:18px;">${rewards || `<li style="color:var(--text-muted);list-style:none;margin-left:-18px;">None listed.</li>`}</ul></div>
-      <div style="flex:1;min-width:220px;"><h4 style="color:var(--red);margin-bottom:6px;">Risks</h4><ul style="margin:0;padding-left:18px;">${risks || `<li style="color:var(--text-muted);list-style:none;margin-left:-18px;">None listed.</li>`}</ul></div>
-    </div>
-    ${card.one_line ? `<p style="color:var(--text-muted);margin-top:14px;">${escapeHtml(card.one_line)}</p>` : ""}
-    ${(deep.sws_url || card.sws_url) ? `<div style="margin-top:16px;"><a href="${escapeHtml(deep.sws_url || card.sws_url)}" target="_blank" rel="noopener">Open on Simply Wall St →</a></div>` : ""}
-  `;
+  // Parity (PR2): delegate to the shared rich modal core. US opts — USD currency,
+  // own modal title id, no India watchlist star, inert section chips until PR3.
+  return renderSwsModalCore(data, { currency: data.currency || "USD", titleId: "usModalTitle", watchlistSuffix: null, sectionNavFn: null });
 }
 
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && usModalTicker) closeUSModal(); });
@@ -11783,44 +11748,9 @@ function closeRegionModal(code) {
   _rp(code).modalTicker = null;
 }
 function renderRegionModal(code, data) {
-  const card = data.card || {};
-  const deep = data.deep || {};
-  const ov = deep.overview || {};
-  const cur = data.currency || card.currency || REGION_PICKS_UI[code].currency;
-  const sn = ov.snowflake || card.snowflake || {};
-  const pillars = [
-    ["Health", sn.financial_health != null ? sn.financial_health : sn.health],
-    ["Future", sn.future != null ? sn.future : sn.future_growth],
-    ["Valuation", sn.valuation != null ? sn.valuation : sn.value],
-    ["Past", sn.past != null ? sn.past : sn.past_performance],
-    ["Dividends", sn.dividends != null ? sn.dividends : sn.dividend],
-  ].map(([k, v]) => `<div style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 14px;border:1px solid var(--bg-graphite);border-radius:6px;min-width:60px;"><span style="font-size:11px;color:var(--text-muted);">${k}</span><strong>${v == null ? "—" : v}/6</strong></div>`).join("");
-  const rewards = (ov.rewards || []).map((r) => `<li>${escapeHtml(r)}</li>`).join("");
-  const risks = (ov.risks || []).map((r) => `<li>${escapeHtml(r)}</li>`).join("");
-  const score = card.v3_score_100 != null ? card.v3_score_100.toFixed(1) : "—";
-  const verdict = String(card.composite_verdict || card.v3_verdict || "—").replace(/_/g, " ");
-  const upside = card.upside_pct != null ? `${card.upside_pct > 0 ? "+" : ""}${card.upside_pct.toFixed(1)}%` : "—";
-  const inSec = (data.in_sections || []).map((k) => `<span class="sws-modal-section-chip">${escapeHtml(String(k).replace(/_/g, " "))}</span>`).join("");
-  return `
-    <div class="sws-modal-hero">
-      <h2 id="${code}ModalTitle">${escapeHtml(data.ticker || "")} <span style="font-size:13px;color:var(--text-muted);font-weight:400;">${escapeHtml(card.name || deep.name || "")}${card.sector ? " · " + escapeHtml(card.sector) : ""}</span></h2>
-      <div class="sws-modal-score"><span class="score-value">${score}</span><span class="score-label">${verdict}</span></div>
-    </div>
-    <div style="display:flex;gap:24px;flex-wrap:wrap;margin:14px 0;font-size:13px;">
-      <div><span style="color:var(--text-muted);">Price</span> <strong>${fmtMoney(ov.current_price_inr != null ? ov.current_price_inr : card.current_price_inr, cur)}</strong></div>
-      <div><span style="color:var(--text-muted);">Fair value</span> <strong>${card.fair_value_inr == null ? "unavailable" : fmtMoney(card.fair_value_inr, cur)}</strong></div>
-      <div><span style="color:var(--text-muted);">Upside</span> <strong style="color:${card.upside_pct != null && card.upside_pct >= 0 ? "var(--green)" : "var(--red)"};">${upside}</strong></div>
-      <div><span style="color:var(--text-muted);">Mcap</span> <strong>${fmtMoney(ov.market_cap_inr != null ? ov.market_cap_inr : card.market_cap_inr, cur)}</strong></div>
-    </div>
-    ${inSec ? `<div class="sws-modal-sections-banner"><span class="label">In sections</span> ${inSec}</div>` : ""}
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin:14px 0;">${pillars}</div>
-    <div style="display:flex;gap:28px;flex-wrap:wrap;">
-      <div style="flex:1;min-width:220px;"><h4 style="color:var(--green);margin-bottom:6px;">Rewards</h4><ul style="margin:0;padding-left:18px;">${rewards || `<li style="color:var(--text-muted);list-style:none;margin-left:-18px;">None listed.</li>`}</ul></div>
-      <div style="flex:1;min-width:220px;"><h4 style="color:var(--red);margin-bottom:6px;">Risks</h4><ul style="margin:0;padding-left:18px;">${risks || `<li style="color:var(--text-muted);list-style:none;margin-left:-18px;">None listed.</li>`}</ul></div>
-    </div>
-    ${card.one_line ? `<p style="color:var(--text-muted);margin-top:14px;">${escapeHtml(card.one_line)}</p>` : ""}
-    ${(deep.sws_url || card.sws_url) ? `<div style="margin-top:16px;"><a href="${escapeHtml(deep.sws_url || card.sws_url)}" target="_blank" rel="noopener">Open on Simply Wall St →</a></div>` : ""}
-  `;
+  // Parity (PR2): delegate to the shared rich modal core. Region opts — native
+  // currency, per-code modal title id, no watchlist star, inert chips until PR3.
+  return renderSwsModalCore(data, { currency: data.currency || REGION_PICKS_UI[code].currency, titleId: code + "ModalTitle", watchlistSuffix: null, sectionNavFn: null });
 }
 
 document.addEventListener("keydown", (e) => {

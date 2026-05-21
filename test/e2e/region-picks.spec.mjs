@@ -59,7 +59,7 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       await expect(page.locator(`#${dom}Tab`)).toBeHidden();
     });
 
-    test(`modal opens with Snowflake pillars + rewards/risks in ${cfg.symbol}`, async ({ page }) => {
+    test(`modal opens with the full rich detail (score breakdown + returns) in ${cfg.symbol}`, async ({ page }) => {
       await openRegionTab(page);
       const firstTicker = await page.locator(`#${dom}Container .sws-pick-card`).first().getAttribute("data-ticker");
       await page.evaluate(({ c, t }) => window.openRegionModal(c, t), { c: code, t: firstTicker });
@@ -68,8 +68,15 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       const txt = await page.locator(`#${code}ModalBody`).innerText();
       expect(txt).toContain(cfg.symbol);
       for (const bad of cfg.forbidden) expect(txt).not.toContain(bad);
-      expect(txt).toMatch(/Health/);
-      expect(txt).toMatch(/Rewards/);
+      // Headers are uppercased by CSS text-transform → match case-insensitively.
+      // (Rewards/Risks are data-dependent — the top-scored fixture name may have
+      // none — so the rich-modal proof rests on the always-present sections below.)
+      expect(txt).toMatch(/Health/i);
+      // PR2 parity: rich sections absent from the old simplified region modal —
+      // proves KR/TW now render via the shared renderSwsModalCore.
+      expect(txt).toMatch(/Snowflake/i);
+      expect(txt).toMatch(/Score breakdown/i);
+      expect(txt).toMatch(/Total returns/i);
       await page.evaluate((c) => window.closeRegionModal(c), code);
       await expect(modal).not.toHaveClass(/open/);
     });
