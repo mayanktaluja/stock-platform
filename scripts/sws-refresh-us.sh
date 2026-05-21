@@ -22,17 +22,15 @@ DATA_DIR="data/sws-us"
 PANIC_FLAG="${DATA_DIR}/panic-stop.flag"
 mkdir -p "${DATA_DIR}"
 
-# ---------- 1. Co-run guard ----------
-# The US and India pipelines share ONE SWS account + cf_clearance cookie, so a
-# concurrent run doubles ban exposure and contends on the Chrome profile lock.
-# Refuse if any India scrape (sws-api-scrape.mjs <shard> or sws-refresh-api.sh)
-# is live. The regex matches the India script but NOT sws-api-scrape-us.mjs
-# (which has "-us" before ".mjs").
-INDIA_RUNNING="$(ps -A -o command= | grep -E 'sws-api-scrape\.mjs[ ]+[123]|sws-refresh-api\.sh' | grep -v grep | head -1 || true)"
-if [ -n "${INDIA_RUNNING}" ]; then
-  echo "[refresh-us] REFUSING to start — an India SWS scrape is running (shared SWS account/cf_clearance):"
-  echo "    ${INDIA_RUNNING}"
-  echo "[refresh-us] wait for it to finish, then re-run /sws-refresh-us."
+# ---------- 1. Co-run guard (shared SWS account: India / KR / TW) ----------
+# All four markets share ONE SWS account + cf_clearance cookie, so a concurrent
+# run doubles ban exposure and contends on the Chrome profile lock. Refuse if any
+# India OR region (KR/TW) scrape is live. The shared guard skips the US patterns,
+# so this run never matches itself.
+# shellcheck source=scripts/sws-corun-guard.sh
+. ./scripts/sws-corun-guard.sh
+if ! corun_guard us; then
+  echo "[refresh-us] aborting — see above."
   exit 5
 fi
 

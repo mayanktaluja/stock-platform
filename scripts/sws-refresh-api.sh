@@ -38,6 +38,14 @@ LOG="data/sws/refresh-api.log"
 SUMMARY="data/sws/last-refresh.json"
 mkdir -p data/sws
 
+# Cross-pipeline co-run guard (shared SWS account/cf_clearance): refuse if a US
+# or KR/TW scrape is live. India's own already-running shards are handled below
+# (LIVE_SHARDS). Closes the bidirectional gap so no two markets ever scrape at
+# once on the one SWS account.
+# shellcheck source=scripts/sws-corun-guard.sh
+. "${SCRIPT_DIR}/sws-corun-guard.sh"
+if ! corun_guard in; then exit 5; fi
+
 exec > >(tee -a "${LOG}") 2>&1
 
 ts() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
