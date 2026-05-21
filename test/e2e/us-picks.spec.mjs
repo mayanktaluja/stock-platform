@@ -37,7 +37,15 @@ test.describe("US Picks tab", () => {
     await openUSPicks(page);
     const container = page.locator("#usPicksContainer");
     expect(await container.locator(".sws-pick-card").count()).toBeGreaterThan(0);
-    const text = await container.innerText();
+    // Read the rendered CARD text, not the container's innerText: innerText
+    // surfaces only the always-visible accordion chrome (chip-nav + section
+    // headers/subtitles), and the US subtitles literally contain "$"
+    // ("Hygiene: mcap ≥ $50M", "Mcap < $2B") — so innerText satisfies
+    // toContain("$") even if the card prices rendered with the wrong/no symbol.
+    // The prices live inside .section-body (overflow:hidden; non-hero sections
+    // collapse to max-height:0), so textContent — which ignores CSS visibility —
+    // is the surface that actually reflects what the cards render.
+    const text = (await container.locator(".sws-pick-card").allTextContents()).join("\n");
     expect(text).toContain("$");
     expect(text).not.toContain("₹");
     await expect(container.locator('.sws-pick-section[data-section-key="top_ranked_30_v3"]')).toBeVisible();
