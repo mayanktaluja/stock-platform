@@ -1,6 +1,6 @@
 // 5x Lab — info-icon tooltips on trajectory metrics + pipeline table headers.
 //
-// The tab is gated behind window.__starbhai_isPersonal, so we force the flag
+// The tab is gated behind window.__starbhai_isAdmin, so we force the flag
 // and unhide the button (mirrors 5x-lab-01-trajectory.spec.mjs). Verifies the
 // platform tooltip system (#starbhaiTooltip + .info-icon + data-term-id):
 //   1. Visible ⓘ icons on the trajectory metrics + the Score / Verdict headers.
@@ -22,7 +22,7 @@ async function loadFiveXLab(page) {
   await gotoApp(page);
   // Force the personal-use flag so the gated tab is reachable.
   await page.evaluate(() => {
-    window.__starbhai_isPersonal = true;
+    window.__starbhai_isAdmin = true;
     const btn = document.getElementById("multibaggerLabTabBtn");
     if (btn) btn.hidden = false;
   });

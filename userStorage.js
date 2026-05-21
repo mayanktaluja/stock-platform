@@ -96,7 +96,11 @@ function parseAdminEmails() {
     .filter(Boolean);
 }
 
-function computeIsAdmin(email) {
+// Exported so server-side authorization sites can recompute admin status LIVE
+// from the current ADMIN_EMAILS on every request, rather than trusting the
+// persisted `isAdmin` flag (which only updates at login). This is what makes
+// removing an email from ADMIN_EMAILS take effect without a re-login.
+export function computeIsAdmin(email) {
   const list = parseAdminEmails();
   return !!email && list.includes(String(email).toLowerCase());
 }

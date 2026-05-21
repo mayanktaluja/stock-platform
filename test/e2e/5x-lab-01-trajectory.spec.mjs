@@ -20,11 +20,11 @@ test.describe("5x Lab — trajectory + overview", () => {
     }
   });
 
-  test("/api/multibagger/overview returns expected schema OR 404 for non-personal users", async ({ request }) => {
+  test("/api/multibagger/overview returns expected schema OR 404 for non-admin users", async ({ request }) => {
     const res = await request.get("/api/multibagger/overview");
     if (res.status() === 404) {
-      // Non-personal user — expected in CI where session.isPersonal is false.
-      test.skip(true, "not a personal-use account (expected in CI)");
+      // Non-admin user — expected in CI where the caller isn't in ADMIN_EMAILS.
+      test.skip(true, "not an admin account (expected in CI)");
     }
     expect(res.ok()).toBe(true);
     const body = await res.json();
@@ -43,7 +43,7 @@ test.describe("5x Lab — trajectory + overview", () => {
     }
   });
 
-  test("tab is gated behind personal-use flag (button hidden by default)", async ({ page }) => {
+  test("tab is gated behind admin flag (button hidden by default)", async ({ page }) => {
     await gotoApp(page);
     const btn = page.locator("#multibaggerLabTabBtn");
     // Default: hidden attribute set on the element.
@@ -56,7 +56,7 @@ test.describe("5x Lab — trajectory + overview", () => {
 
     // Force the personal-use flag so the tab is reachable.
     await page.evaluate(() => {
-      window.__starbhai_isPersonal = true;
+      window.__starbhai_isAdmin = true;
       const btn = document.getElementById("multibaggerLabTabBtn");
       if (btn) btn.hidden = false;
     });
@@ -83,7 +83,7 @@ test.describe("5x Lab — trajectory + overview", () => {
   test("honest footer with backtest-not-validated language is present", async ({ page }) => {
     await gotoApp(page);
     await page.evaluate(() => {
-      window.__starbhai_isPersonal = true;
+      window.__starbhai_isAdmin = true;
       const btn = document.getElementById("multibaggerLabTabBtn");
       if (btn) btn.hidden = false;
     });

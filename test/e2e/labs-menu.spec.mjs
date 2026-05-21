@@ -1,6 +1,6 @@
-// Privileged "More" menu — the 6 privileged tabs (admin Users + personal
-// sleeves + the 2 experimental public tabs) are pulled out of the congested
-// #mainTabs bar for privileged users and reached via a header dropdown instead.
+// Privileged "More" menu — the 6 admin-only tabs (Users + the former personal
+// sleeves + the 2 experimental tabs) are pulled out of the congested #mainTabs
+// bar for admins and reached via a header dropdown instead.
 //
 // In test mode AUTH_ENABLED=false, so /api/auth/me returns 401 and the SPA
 // never sets the privileged flags. We intercept that endpoint to drive the REAL
@@ -16,7 +16,6 @@ const PRIVILEGED_ME = {
   name: "Owner",
   picture: "",
   isAdmin: true,
-  isPersonal: true,
 };
 
 // Register before navigation so the SPA's /api/auth/me fetch is intercepted.
@@ -40,7 +39,7 @@ const MIGRATED_BTNS = [
 ];
 
 test.describe("Privileged 'More' menu", () => {
-  test("admin+personal: trigger shows, 6 tabs leave the bar, dropdown lists the gated set", async ({ page }) => {
+  test("admin: trigger shows, 6 tabs leave the bar, dropdown lists the gated set", async ({ page }) => {
     await mockPrivileged(page);
     await gotoApp(page);
 
@@ -54,14 +53,16 @@ test.describe("Privileged 'More' menu", () => {
       await expect(page.locator(`#${id}`)).toBeHidden();
     }
 
-    // Open the menu → dropdown visible, aria-expanded flips, exactly 6 items
-    // (admin + personal, no localStorage opt-outs since gotoApp clears storage).
+    // Open the menu → dropdown visible, aria-expanded flips. An admin sees 9
+    // items: Users + US/Korea/Taiwan Picks (open to all, surfaced here too) +
+    // Compounder/Earnings Edge/5x Lab + Risk Lab + Sector Outlook (gotoApp
+    // clears storage, so the two opt-out tabs are present).
     await page.locator("#labsMenuBtn").click();
     await expect(page.locator("#labsMenuDropdown")).toBeVisible();
     await expect(page.locator("#labsMenuDropdown")).toHaveAttribute("role", "menu");
     await expect(page.locator("#labsMenuBtn")).toHaveAttribute("aria-expanded", "true");
-    await expect(page.locator(".labs-menu-item")).toHaveCount(6);
-    await expect(page.locator('.labs-menu-item[role="menuitem"]')).toHaveCount(6);
+    await expect(page.locator(".labs-menu-item")).toHaveCount(9);
+    await expect(page.locator('.labs-menu-item[role="menuitem"]')).toHaveCount(9);
   });
 
   test("clicking a dropdown tab activates it + lights the trigger; bar clears; switching back resets", async ({ page }) => {
@@ -102,13 +103,14 @@ test.describe("Privileged 'More' menu", () => {
     await expect(page.locator("#labsMenuBtn")).not.toHaveClass(/is-active/);
   });
 
-  test("normal user: no trigger; Risk Lab + Sector Outlook stay inline", async ({ page }) => {
-    // No /api/auth/me mock → 401 in test mode → not privileged.
+  test("normal user: no trigger; Risk Lab + Sector Outlook are hidden", async ({ page }) => {
+    // No /api/auth/me mock → 401 in test mode → not admin.
     await gotoApp(page);
     await expect(page.locator("#picksTab")).toBeVisible({ timeout: 10_000 });
     await expect(page.locator("#labsMenu")).toBeHidden();
-    // The two public tabs remain inline for non-privileged users.
-    await expect(page.locator("#riskLabTabBtn")).toBeVisible();
-    await expect(page.locator("#sectorOutlookTabBtn")).toBeVisible();
+    // Two-tier model: the experimental tabs are admin-only now, so their bar
+    // buttons are hidden for non-admins (reached only via the admin dropdown).
+    await expect(page.locator("#riskLabTabBtn")).toBeHidden();
+    await expect(page.locator("#sectorOutlookTabBtn")).toBeHidden();
   });
 });
