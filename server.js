@@ -98,6 +98,7 @@ import { buildSymbolEarningsCalibration } from "./services/trackRecord/earningsC
 import { deriveGovernanceGate } from "./services/swsIndianRiskLayer.js";
 import { dedupeByBareSymbol } from "./services/searchDedup.js";
 import * as swsDal from "./services/swsDal/index.js";
+import * as usPicksDal from "./services/usPicksDal.js";
 import { loadIndexConstituentsFromFile, stampIndexFlags } from "./services/indexConstituents.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
 import { buildSWSReport, surfaceOutsidePicks, rebuildTierAggregates } from "./services/swsPortfolioAggregate.js";
@@ -7568,6 +7569,142 @@ app.post("/api/sws-refresh/full", express.json(), async (req, res) => {
   if (!(await requireAdminForSwsRefresh(req, res))) return;
   writeRefreshRequest("full");
   res.json({ queued: true, next_step: "Open 3 terminals, run `claude`, type `/sws-resume` in each." });
+});
+
+// ─────────────────────────── US Picks (admin-only) ───────────────────────────
+// Mirror of the SWS Picks tab for US-listed stocks, served from the isolated
+// data/sws-us/ pipeline. Cards are fully built by the offline US batch scorer,
+// so — unlike /api/sws-picks — there is NO live-quote enrichment, FV-drift
+// guard, or NSE index stamping here (all India-coupled).
+//
+// READ gate: open in local/test (the global auth gate already allows everything
+// when AUTH_ENABLED=false, and the client tab guard handles visibility), and
+// admin-only in prod. This differs from requireAdminForSwsRefresh — that one
+// 401s when auth is off (correct for a *mutation* endpoint, wrong for a *read*
+// tab that e2e + local dev must reach).
+async function requireAdminRead(req, res) {
+  if (!AUTH_ENABLED) return true;
+  const sub = req.user && req.user.sub;
+  if (!sub) {
+    res.status(401).json({ error: "unauthenticated" });
+    return false;
+  }
+  const me = await getUserStorage().read(sub);
+  if (!me || !me.isAdmin) {
+    res.status(403).json({ error: "forbidden" });
+    return false;
+  }
+  return true;
+}
+
+const US_PICKS_MAX_LIMIT = 200;
+app.get("/api/us-picks", async (req, res) => {
+  if (!(await requireAdminRead(req, res))) return;
+  const raw = usPicksDal.getUsPicksLatest();
+  if (!raw) {
+    return res.status(404).json({
+      error: "no_us_picks_yet",
+      hint: "Run /sws-refresh-us (or the seed scrape) to populate data/sws-us/.",
+    });
+  }
+  // Shallow-clone so we never mutate the mtime-cached object the DAL shares.
+  const data = { ...raw, sections: { ...(raw.sections || {}) } };
+  const limit =
+    req.query.limit != null
+      ? Math.min(Math.max(parseInt(req.query.limit, 10) || 0, 0), US_PICKS_MAX_LIMIT)
+      : null;
+  const category =
+    typeof req.query.category === "string" && req.query.category.trim() ? req.query.category.trim() : null;
+  if (data.sections && (limit !== null || category)) {
+    if (category) {
+      const keep = data.sections[category];
+      data.sections = keep ? { [category]: keep } : {};
+    }
+    if (limit !== null) {
+      const totals = {};
+      for (const k of Object.keys(data.sections)) {
+        const arr = data.sections[k];
+        if (Array.isArray(arr) && arr.length > limit) {
+          totals[`${k}_total`] = arr.length;
+          data.sections[k] = arr.slice(0, limit);
+        }
+      }
+      data._meta = { ...(data._meta || {}), ...totals, limit };
+    }
+    if (category) data._meta = { ...(data._meta || {}), category };
+  }
+  data.last_refresh = usPicksDal.getUsLastRefresh();
+  data.scan_progress = usPicksDal.getUsAllShardProgressApi();
+  res.json(data);
+});
+
+app.get("/api/us-stock/:ticker", async (req, res) => {
+  if (!(await requireAdminRead(req, res))) return;
+  // US tickers are alphanumeric + dotted share classes (BRK.B) — allow the dot.
+  const ticker = String(req.params.ticker || "").toUpperCase().trim();
+  if (!ticker || !/^[A-Z0-9.\-]+$/.test(ticker)) {
+    return res.status(400).json({ error: "invalid_ticker" });
+  }
+  const deep = usPicksDal.getUsStockByTicker(ticker);
+  const picks = usPicksDal.getUsPicksLatest();
+  let card = null;
+  const sectionMemberships = [];
+  if (picks && picks.sections) {
+    for (const [key, items] of Object.entries(picks.sections)) {
+      if (!Array.isArray(items)) continue;
+      const found = items.find((c) => c.ticker === ticker);
+      if (found) {
+        sectionMemberships.push(key);
+        if (!card) card = found;
+      }
+    }
+  }
+  // Fallback to the scored-universe card when the ticker isn't in a curated
+  // section (the modal degrades gracefully even without a deep file present).
+  if (!card) {
+    const idx = usPicksDal.getUsUniverseIndex();
+    if (idx) card = idx.get(ticker) || null;
+  }
+  if (!deep && !card) return res.status(404).json({ error: "no_us_data", ticker });
+  res.json({
+    ticker,
+    deep: deep || null,
+    card: card || null,
+    in_sections: sectionMemberships,
+    currency: (deep && deep.currency) || (card && card.currency) || "USD",
+  });
+});
+
+app.get("/api/us-scan/status", async (req, res) => {
+  if (!(await requireAdminRead(req, res))) return;
+  const now = Date.now();
+  const RECENT_MS = 5 * 60 * 1000;
+  const shards = [1, 2, 3].map((n) => {
+    const p = usPicksDal.getUsShardProgressApi(n);
+    if (!p) return { id: n, started: false };
+    const recent = p.last_run_at && now - new Date(p.last_run_at).getTime() < RECENT_MS;
+    return {
+      id: n,
+      done_count: p.done_count || 0,
+      next_local_index: p.next_local_index || 0,
+      last_ticker: p.last_ticker || null,
+      last_run_at: p.last_run_at || null,
+      complete: !recent && p.last_run_at != null,
+      today_count: p.today_count || 0,
+    };
+  });
+  const totalDone = shards.reduce((a, s) => a + (s.done_count || 0), 0);
+  const inProgress = shards.some((s) => s.last_run_at && now - new Date(s.last_run_at).getTime() < RECENT_MS);
+  const lr = usPicksDal.getUsLastRefresh();
+  res.json({
+    in_progress: inProgress,
+    total_done: totalDone,
+    all_complete: !inProgress,
+    universe_size: lr?.universe_size ?? null,
+    scored_count: lr?.scored_count ?? null,
+    last_refresh_at: lr?.scanned_at ?? null,
+    shards,
+  });
 });
 
 // Latest PDF download (returns most recent Top-50-Buy-Now-*.pdf)

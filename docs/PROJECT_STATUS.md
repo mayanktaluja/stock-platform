@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-05-19**
+**Last updated: 2026-05-21**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -28,6 +28,15 @@ harness) shipped in #337 — a separate experimental surface from the main
 portfolio analyzer.
 
 ## Recently shipped (last ~10 commits, themed)
+
+### US Picks tab (May 2026)
+- **#379** — Admin-only **US Picks** tab: an SWS-sourced US-equity leaderboard
+  (NASDAQ/NYSE/NYSEMKT, ~5,448 liquid names), mirroring the SWS Picks tab. Built
+  as a **fully isolated fork** — new `data/sws-us/` namespace, US scorer/parser
+  IMPORT the India ones (never edit them), new `requireAdminRead`-gated
+  `/api/us-picks` routes, cloned US render path ($ not ₹). Manual
+  `/sws-refresh-us` refresh with a co-run guard (won't scrape while India is).
+  Ships **empty** — needs a scrape to populate. PDF export deferred.
 
 ### Alpha-strategy two-sleeve book (May 2026)
 - **#337** — Compounder Lab + Earnings Edge + paper-trade harness + NSE PIT

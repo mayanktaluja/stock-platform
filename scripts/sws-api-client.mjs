@@ -149,8 +149,10 @@ export class TransportError extends Error {
  * IMPORTANT: this acquires the shard lock (the launchShardContext does), so
  * the chosen shardId must NOT be running a scraper. Default to shard 1.
  */
-export async function createClient({ shardId = 1, headless = true } = {}) {
-  const ctx = await launchShardContext(shardId, { headless });
+export async function createClient({ shardId = 1, headless = true, cfg = null } = {}) {
+  // `cfg` is forwarded to the stealth launcher so a sibling pipeline (the US
+  // fork) can use its own profile dirs. Null = India defaults (unchanged).
+  const ctx = await launchShardContext(shardId, { headless, cfg });
   const page = await ctx.newPage();
 
   // Prime the session: navigate to a stock page so SWS issues the JWT to
