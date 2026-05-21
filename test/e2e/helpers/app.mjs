@@ -32,10 +32,19 @@ export async function clearRiskProfile(page) {
 }
 
 export async function gotoApp(page, { tab, riskProfile = "MODERATE" } = {}) {
+  // Clear storage ONCE at the start of the test, not on every navigation.
+  // addInitScript re-runs on every navigation (page.goto AND page.reload), so
+  // an unguarded clear here silently re-wipes localStorage on reload — which
+  // defeats any test that reloads to assert persistence or to boot a migration
+  // off pre-seeded state. The sessionStorage sentinel scopes the wipe to the
+  // first navigation of each test (Playwright gives every test a fresh context,
+  // so the sentinel always starts unset).
   await page.addInitScript(() => {
     try {
+      if (sessionStorage.getItem("__e2eStorageCleared")) return;
       localStorage.clear();
       sessionStorage.clear();
+      sessionStorage.setItem("__e2eStorageCleared", "1");
     } catch {}
   });
   // Set (or clear) the per-user risk profile via API before navigating so
