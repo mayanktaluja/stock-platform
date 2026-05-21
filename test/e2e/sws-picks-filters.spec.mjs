@@ -19,17 +19,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CONSTITUENTS_PATH = path.join(__dirname, "..", "..", "data", "nse-index-constituents.json");
 
 test.describe("SWS Picks · Universe + Sector filters", () => {
-  test.beforeEach(async ({ page }) => {
-    // Clear filter state so each spec starts from defaults regardless of
-    // what the previous run persisted.
-    await page.addInitScript(() => {
-      try {
-        localStorage.removeItem("swsPicksFilters_v2");
-        localStorage.removeItem("swsPicksFiltersMigrated_v2");
-        localStorage.removeItem("swsPicksIndexFilter_v1");
-      } catch {}
-    });
-  });
+  // gotoApp() clears all storage once on each test's first navigation, so every
+  // spec already starts from filter defaults. A beforeEach that re-cleared the
+  // filter keys via addInitScript would re-fire on page.reload() and wipe the
+  // very state the persistence/migration specs rely on — so it's deliberately
+  // absent here.
 
   test("default load: both dropdowns rendered, summary shows N of M", async ({ page }) => {
     await gotoApp(page, { tab: "picks" });
@@ -135,16 +129,22 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
   });
 
   test("v1 → v2 localStorage migration runs at most once", async ({ page }) => {
-    // Seed v1 BEFORE the app boots so the migration runs on first render.
-    await page.addInitScript(() => {
-      try {
-        localStorage.setItem("swsPicksIndexFilter_v1", "nifty500");
-        // Make sure no sentinel exists.
-        localStorage.removeItem("swsPicksFiltersMigrated_v2");
-        localStorage.removeItem("swsPicksFilters_v2");
-      } catch {}
-    });
+    // Boot once to get a live same-origin context, then plant the legacy
+    // single-radio v1 key and strip the v2 sentinel — exactly the on-disk
+    // state a returning user upgrading from the old build would have. Reloading
+    // re-evaluates app.js with that state present, so the boot-time migration
+    // runs against a real seed. gotoApp()'s storage wipe is scoped to the first
+    // navigation, so the seed survives this reload (an addInitScript-based seed
+    // would instead be clobbered by that wipe before the app ever read it).
     await gotoApp(page, { tab: "picks" });
+    await waitForPicksLoaded(page);
+
+    await page.evaluate(() => {
+      localStorage.setItem("swsPicksIndexFilter_v1", "nifty500");
+      localStorage.removeItem("swsPicksFiltersMigrated_v2");
+      localStorage.removeItem("swsPicksFilters_v2");
+    });
+    await page.reload();
     await waitForPicksLoaded(page);
 
     // Universe dropdown should reflect the migrated value.
