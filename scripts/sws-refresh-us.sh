@@ -130,6 +130,19 @@ node scripts/sws-api-parser-us.mjs --dest deep 2>&1 | tail -5 | sed 's/^/[parser
 echo "[refresh-us] running scoring..."
 node scripts/sws-scoring-us.mjs 2>&1 | tail -14 | sed 's/^/[scoring-us] /'
 
+# ---------- 6b. Pack deep briefs for prod serving ----------
+# data/sws-us/deep/ is gitignored (~5.4k files). Prod (Vercel) serves the
+# per-stock modal from this committed tarball (usPicksDal extracts one member
+# on demand). Members are deep/<TICKER>.json — matching usPicksDal's lookup.
+if [ -d "${DATA_DIR}/deep" ] && [ -n "$(ls -A "${DATA_DIR}/deep" 2>/dev/null)" ]; then
+  echo "[refresh-us] packing deep-us.tar.gz..."
+  if tar -czf "${DATA_DIR}/deep-us.tar.gz" -C "${DATA_DIR}" deep; then
+    echo "[refresh-us] packed $(ls "${DATA_DIR}/deep" | wc -l | tr -d ' ') deep files → ${DATA_DIR}/deep-us.tar.gz"
+  else
+    echo "[refresh-us] tarball pack failed — non-fatal (local deep/ still serves the modal)"
+  fi
+fi
+
 # ---------- 7. Narrate (optional — only if the script + an API key exist) ----------
 HAVE_KEY=0
 [ -n "${ANTHROPIC_API_KEY:-}" ] && HAVE_KEY=1
