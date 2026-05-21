@@ -11298,6 +11298,30 @@ function fmtMoney(v, currency = "USD") {
   return `${sym}${v.toLocaleString("en-US", { maximumFractionDigits: dp })}`;
 }
 
+// Currency symbol for per-share formatting (₹ for INR, which fmtMoney omits).
+function moneySymbolFor(currency) {
+  return { INR: "₹", USD: "$", CAD: "C$", GBP: "£", EUR: "€", KRW: "₩", TWD: "NT$" }[currency] || (currency ? currency + " " : "$");
+}
+// Large-number hero money. INR keeps the India "₹X.XX L Cr / ₹X Cr" style
+// (byte-identical to the legacy renderSwsModal fmtInr); other currencies use
+// fmtMoney's T/B/M abbreviation.
+function fmtBigMoney(v, currency = "INR") {
+  if (v == null || !Number.isFinite(Number(v))) return "—";
+  v = Number(v);
+  if (currency === "INR") {
+    return v >= 1e12 ? `₹${(v / 1e12).toFixed(2)} L Cr`
+      : v >= 1e7 ? `₹${(v / 1e7).toFixed(v >= 1e10 ? 0 : 2)} Cr`
+      : `₹${v.toLocaleString("en-IN")}`;
+  }
+  return fmtMoney(v, currency);
+}
+// Per-share money (EPS, analyst targets): currency symbol + 2 decimals. INR
+// matches the legacy `₹${v.toFixed(2)}`.
+function fmtPerShareMoney(v, currency = "INR") {
+  if (v == null || !Number.isFinite(Number(v))) return "—";
+  return `${moneySymbolFor(currency)}${Number(v).toFixed(2)}`;
+}
+
 async function loadUSPicks() {
   const container = document.getElementById("usPicksContainer");
   const meta = document.getElementById("usPicksMeta");
@@ -12150,12 +12174,30 @@ function closeActionListModal() {
   }
 }
 
-function renderSwsModal(data) {
-  const { ticker, deep, card, surveillance, file_mtime, section_memberships, fundamentals_fallback } = data;
+// India modal opts — the renderSwsModal wrapper passes this so existing callers
+// (openSwsModal, openStockDetailModal) stay byte-identical after the refactor.
+const INDIA_MODAL_OPTS = {
+  currency: "INR",
+  titleId: "swsModalTitle",
+  watchlistSuffix: ".NS",
+  sectionNavFn: "navigateToPicksSection",
+};
+
+// Region-parametrised modal core. India → renderSwsModal wrapper (INDIA_MODAL_OPTS,
+// byte-identical output); US/KR/TW pass their own opts (currency, modal title id,
+// watchlist suffix, section-nav handler). Single source of truth so every market's
+// modal renders the same sections from the same code.
+function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
+  const { ticker, deep, card, surveillance, file_mtime, fundamentals_fallback } = data;
+  // US/region endpoints return `in_sections`; India returns `section_memberships`.
+  const section_memberships = data.section_memberships || data.in_sections || [];
+  const cur = opts.currency || "INR";
   const ov = (deep && deep.overview) || {};
   const card_ = card || {};
   const fb = fundamentals_fallback || {};
-  const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)} L Cr` : v >= 1e7 ? `₹${(v / 1e7).toFixed(v >= 1e10 ? 0 : 2)} Cr` : `₹${v.toLocaleString("en-IN")}`;
+  // fmtInr: legacy name kept to minimise diff — now currency-aware (₹ L Cr/Cr for
+  // INR via fmtBigMoney, else fmtMoney $/₩/NT$ B/M).
+  const fmtInr = (v) => fmtBigMoney(v, cur);
   const fmtPct = (v, d = 2) => v == null ? "—" : `${v >= 0 ? "+" : ""}${Number(v).toFixed(d)}%`;
   const headlineRaw = card_.v3_score_100 != null ? card_.v3_score_100 : (card_.v2_score != null ? card_.v2_score : card_.score);
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
@@ -12324,7 +12366,7 @@ function renderSwsModal(data) {
     ["P/E", peVal != null ? `${peVal.toFixed(1)}x` : null],
     ["P/B", pbVal != null ? `${pbVal.toFixed(2)}x` : null],
     ["P/S", psVal != null ? `${psVal.toFixed(1)}x` : null],
-    ["EPS", epsVal != null ? `₹${epsVal.toFixed(2)}` : null],
+    ["EPS", epsVal != null ? fmtPerShareMoney(epsVal, cur) : null],
     ["ROE", roeVal != null ? `${roeVal.toFixed(1)}%` : null],
     ["ROCE", roceVal != null ? `${roceVal.toFixed(1)}%` : null],
     ["D/E", deVal != null ? `${deVal.toFixed(1)}%` : null],
@@ -12381,7 +12423,7 @@ function renderSwsModal(data) {
       <h4>Catalysts &amp; activity</h4>
       <div style="font-size:12px;line-height:1.6;color:var(--text-primary);">
         ${ov.next_earnings_date ? `<div>📅 Next earnings: <strong>${ov.next_earnings_date}</strong>${lqrModal ? ` · last quarter: <span style="color:${lqrColor};text-transform:uppercase;font-weight:600;">${lqrModal}</span>` : ""}</div>` : ""}
-        ${revisions.length ? `<div style="margin-top:6px;">📊 Recent analyst revisions: ${revisions.map((r) => `${r.direction === "increased" ? "↑" : "↓"} ${r.pct}% to ₹${r.new_target_inr} (${r.date})`).join(" · ")}</div>` : ""}
+        ${revisions.length ? `<div style="margin-top:6px;">📊 Recent analyst revisions: ${revisions.map((r) => `${r.direction === "increased" ? "↑" : "↓"} ${r.pct}% to ${fmtPerShareMoney(r.new_target_inr, cur)} (${r.date})`).join(" · ")}</div>` : ""}
         ${insiders.length ? `<div style="margin-top:6px;">👁 Insider activity: ${insiders.length} event(s)</div>` : ""}
       </div>
     </div>` : "";
@@ -12448,7 +12490,12 @@ function renderSwsModal(data) {
       const display = meta ? `${meta.emoji} ${meta.label}` : key;
       const safeKey = escapeHtml(key);
       const safeDisplay = escapeHtml(display);
-      return `<button type="button" class="sws-modal-section-chip is-clickable" data-section-key="${safeKey}" onclick="navigateToPicksSection('${safeKey.replace(/'/g, "\\'")}')" title="Open SWS Picks → ${safeDisplay}">${safeDisplay}</button>`;
+      // India wires chips to navigateToPicksSection; markets without a section
+      // scroller yet (US/KR/TW pre-PR3) get inert chips — same look, no nav.
+      if (opts.sectionNavFn) {
+        return `<button type="button" class="sws-modal-section-chip is-clickable" data-section-key="${safeKey}" onclick="${opts.sectionNavFn}('${safeKey.replace(/'/g, "\\'")}')" title="Open SWS Picks → ${safeDisplay}">${safeDisplay}</button>`;
+      }
+      return `<span class="sws-modal-section-chip" data-section-key="${safeKey}">${safeDisplay}</span>`;
     }).join("");
     if (!chips) return "";
     return `
@@ -12461,7 +12508,7 @@ function renderSwsModal(data) {
   return `
     <div class="sws-modal-hero">
       <div style="flex:1;min-width:0;">
-        <h2 id="swsModalTitle">${ticker} ${watchlistButton(`${ticker}.NS`, card_.name || ticker, card_.sector || '')}${survBadge}</h2>
+        <h2 id="${opts.titleId || "swsModalTitle"}">${ticker} ${opts.watchlistSuffix ? watchlistButton(`${ticker}${opts.watchlistSuffix}`, card_.name || ticker, card_.sector || '') : ""}${survBadge}</h2>
         <div style="font-size:13px;color:var(--text-muted);">${escapeHtml(card_.name || ticker)}${card_.sector ? ` · ${escapeHtml(card_.sector)}` : ""}${fresh}</div>
         <div style="display:flex;gap:14px;margin-top:10px;font-size:12px;flex-wrap:wrap;">
           <div><span style="color:var(--text-muted);">Price</span> ${fmtInr(ov.current_price_inr)}</div>
@@ -12527,6 +12574,10 @@ function renderSwsModal(data) {
       ${card_.sws_url ? `<a href="${card_.sws_url}" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none;">Open on Simply Wall Street →</a>` : ""}
     </div>
   `;
+}
+
+function renderSwsModal(data) {
+  return renderSwsModalCore(data, INDIA_MODAL_OPTS);
 }
 
 function escapeHtml(s) {
