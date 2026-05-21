@@ -100,7 +100,7 @@ trap 'node scripts/sws-deep-scrape.mjs release-pipeline-lock >/dev/null 2>&1 || 
 
 LIVE_SHARDS="$(ps -A -o command= | \
   grep -E 'node[^|]*sws-api-scrape\.mjs[ ]+[123]' | \
-  grep -v 'grep' | \
+  grep -vE 'grep|gh pr|pr create|--body|sws-status' | \
   sed -E 's/.*sws-api-scrape\.mjs[ ]+([123]).*/\1/' | \
   sort -u | paste -sd, -)"
 

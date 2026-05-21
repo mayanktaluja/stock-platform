@@ -42,7 +42,7 @@ if [ -f "${PANIC_FLAG}" ]; then
 fi
 
 # ---------- 3. Detect already-running US shards ----------
-LIVE_SHARDS="$(ps -A -o command= | grep -E 'sws-api-scrape-us\.mjs[ ]+[123]' | grep -v grep | sed -E 's/.*sws-api-scrape-us\.mjs[ ]+([123]).*/\1/' | sort -u | paste -sd, - || true)"
+LIVE_SHARDS="$(ps -A -o command= | grep -E 'node[^|]*sws-api-scrape-us\.mjs[ ]+[123]' | grep -vE 'grep|gh pr|pr create|--body|sws-status' | sed -E 's/.*sws-api-scrape-us\.mjs[ ]+([123]).*/\1/' | sort -u | paste -sd, - || true)"
 PIDS=()
 FAIL=0
 SCRAPE_SKIPPED=false

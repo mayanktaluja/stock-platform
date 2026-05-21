@@ -16,16 +16,26 @@
 corun_guard() {
   local SELF="$1"
   local PS M PAT HIT
-  PS="$(ps -A -o command= 2>/dev/null)"
+  # SWS_CORUN_PS_OVERRIDE is a test seam — when set, the guard inspects it
+  # instead of the live process table, so test/swsCorunGuard.test.sh can feed
+  # synthetic `ps` output deterministically. Unset in every real invocation.
+  PS="${SWS_CORUN_PS_OVERRIDE:-$(ps -A -o command= 2>/dev/null)}"
   for M in in us kr tw; do
     [ "${M}" = "${SELF}" ] && continue
+    # Anchor each pattern to an actual INVOCATION — a `node …scrape….mjs <shard>`
+    # worker or a `bash …refresh….sh` orchestrator — so a mere mention of the
+    # script name (an editor, a `cat`, a `gh pr --body` quoting the filename)
+    # can't trip the guard. [^|]* keeps the match inside one pipeline segment.
     case "${M}" in
-      in) PAT='sws-api-scrape\.mjs[ ]+[123]|sws-refresh-api\.sh' ;;
-      us) PAT='sws-api-scrape-us\.mjs[ ]+[123]|sws-refresh-us\.sh' ;;
-      kr) PAT='sws-api-scrape-region\.mjs.*--region[ ]+kr|sws-refresh-region\.sh[ ]+kr' ;;
-      tw) PAT='sws-api-scrape-region\.mjs.*--region[ ]+tw|sws-refresh-region\.sh[ ]+tw' ;;
+      in) PAT='node[^|]*sws-api-scrape\.mjs[ ]+[123]|bash[^|]*sws-refresh-api\.sh' ;;
+      us) PAT='node[^|]*sws-api-scrape-us\.mjs[ ]+[123]|bash[^|]*sws-refresh-us\.sh' ;;
+      kr) PAT='node[^|]*sws-api-scrape-region\.mjs.*--region[ ]+kr|bash[^|]*sws-refresh-region\.sh[ ]+kr' ;;
+      tw) PAT='node[^|]*sws-api-scrape-region\.mjs.*--region[ ]+tw|bash[^|]*sws-refresh-region\.sh[ ]+tw' ;;
     esac
-    HIT="$(echo "${PS}" | grep -E "${PAT}" | grep -v grep | head -1 || true)"
+    # Exclude the guard's own grep plus read-only tooling that legitimately
+    # mentions the patterns: `gh pr create --body '…'` (a PR body can quote a
+    # script name — the 2026-05-21 false-positive) and the sws-status monitors.
+    HIT="$(echo "${PS}" | grep -E "${PAT}" | grep -vE 'grep|gh pr|pr create|--body|sws-status' | head -1 || true)"
     if [ -n "${HIT}" ]; then
       echo "[corun-guard] REFUSING (${SELF}) — a '${M}' SWS scrape is live (shared SWS account/cf_clearance):"
       echo "    ${HIT}"
