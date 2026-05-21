@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-05-20",
-  "fetchedAt": "2026-05-20T16:27:31.616Z",
+  "fetchedAt": "2026-05-21T01:47:27.768Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20260520_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -13,7 +13,7 @@
     "broaderCount": 15,
     "historyPointsAppended": 214,
     "historyRestoredFromKV": 0,
-    "walkedBack": 0
+    "walkedBack": 1
   },
   "sections": {
     "inBook": [
@@ -663,25 +663,6 @@
         "interpretation": "Bulls adding fresh longs — OI up with price."
       },
       {
-        "underlying": "MANKIND",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-05-26",
-        "nearMonthSettle": 2592.5,
-        "underlyingPrice": 2583.9,
-        "oiTotal": 5298225,
-        "oiChangeTotal": 736000,
-        "volumeTotal": 22151,
-        "oiDeltaPct": 16.132479217925464,
-        "priceDeltaPct": 4.041255317441199,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "long_buildup",
-        "decoupled": false,
-        "score": 19,
-        "interpretation": "Bulls adding fresh longs — OI up with price."
-      },
-      {
         "underlying": "MOTHERSON",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -699,25 +680,6 @@
         "decoupled": false,
         "score": 16,
         "interpretation": "Bulls adding fresh longs — OI up with price."
-      },
-      {
-        "underlying": "GAIL",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-05-26",
-        "nearMonthSettle": 154.63,
-        "underlyingPrice": 155.64,
-        "oiTotal": 82620650,
-        "oiChangeTotal": 7136450,
-        "volumeTotal": 9993,
-        "oiDeltaPct": 9.45423015677453,
-        "priceDeltaPct": -0.48268760458231436,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "neutral",
-        "decoupled": false,
-        "score": 10,
-        "interpretation": "No meaningful conviction — OI/price moves both within noise."
       },
       {
         "underlying": "POWERINDIA",
@@ -927,6 +889,44 @@
         "decoupled": false,
         "score": 5,
         "interpretation": "Bulls adding fresh longs — OI up with price."
+      },
+      {
+        "underlying": "KALYANKJIL",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-05-26",
+        "nearMonthSettle": 344.95,
+        "underlyingPrice": 343.55,
+        "oiTotal": 38957075,
+        "oiChangeTotal": 1665700,
+        "volumeTotal": 7390,
+        "oiDeltaPct": 4.466716499458655,
+        "priceDeltaPct": -0.10136113524472133,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "neutral",
+        "decoupled": false,
+        "score": 5,
+        "interpretation": "No meaningful conviction — OI/price moves both within noise."
+      },
+      {
+        "underlying": "SAMMAANCAP",
+        "instrumentType": "STF",
+        "expiryCount": 2,
+        "nearMonthExpiry": "2026-05-26",
+        "nearMonthSettle": 141.95,
+        "underlyingPrice": 141.8,
+        "oiTotal": 108691100,
+        "oiChangeTotal": 4072100,
+        "volumeTotal": 10947,
+        "oiDeltaPct": 3.8923140156185783,
+        "priceDeltaPct": 2.780392440808033,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "long_buildup",
+        "decoupled": false,
+        "score": 5,
+        "interpretation": "Bulls adding fresh longs — OI up with price."
       }
     ],
     "broader": [
@@ -948,6 +948,25 @@
         "decoupled": false,
         "score": 30,
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
+      },
+      {
+        "underlying": "MANKIND",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-05-26",
+        "nearMonthSettle": 2592.5,
+        "underlyingPrice": 2583.9,
+        "oiTotal": 5298225,
+        "oiChangeTotal": 736000,
+        "volumeTotal": 22151,
+        "oiDeltaPct": 16.132479217925464,
+        "priceDeltaPct": 4.041255317441199,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "long_buildup",
+        "decoupled": false,
+        "score": 19,
+        "interpretation": "Bulls adding fresh longs — OI up with price."
       },
       {
         "underlying": "ZYDUSLIFE",
@@ -1042,6 +1061,25 @@
         "signal": "neutral",
         "decoupled": false,
         "score": 11,
+        "interpretation": "No meaningful conviction — OI/price moves both within noise."
+      },
+      {
+        "underlying": "GAIL",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-05-26",
+        "nearMonthSettle": 154.63,
+        "underlyingPrice": 155.64,
+        "oiTotal": 82620650,
+        "oiChangeTotal": 7136450,
+        "volumeTotal": 9993,
+        "oiDeltaPct": 9.45423015677453,
+        "priceDeltaPct": -0.48268760458231436,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "neutral",
+        "decoupled": false,
+        "score": 10,
         "interpretation": "No meaningful conviction — OI/price moves both within noise."
       },
       {
@@ -1175,44 +1213,6 @@
         "signal": "long_buildup",
         "decoupled": false,
         "score": 6,
-        "interpretation": "Bulls adding fresh longs — OI up with price."
-      },
-      {
-        "underlying": "TIINDIA",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-05-26",
-        "nearMonthSettle": 2976,
-        "underlyingPrice": 2971,
-        "oiTotal": 2433600,
-        "oiChangeTotal": 100200,
-        "volumeTotal": 2600,
-        "oiDeltaPct": 4.294163023913603,
-        "priceDeltaPct": 3.118503118503119,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "long_buildup",
-        "decoupled": false,
-        "score": 5,
-        "interpretation": "Bulls adding fresh longs — OI up with price."
-      },
-      {
-        "underlying": "COCHINSHIP",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-05-26",
-        "nearMonthSettle": 1511.4,
-        "underlyingPrice": 1507.7,
-        "oiTotal": 3415600,
-        "oiChangeTotal": 124800,
-        "volumeTotal": 2852,
-        "oiDeltaPct": 3.7923909079859,
-        "priceDeltaPct": 1.71613163739148,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "long_buildup",
-        "decoupled": false,
-        "score": 5,
         "interpretation": "Bulls adding fresh longs — OI up with price."
       }
     ]
