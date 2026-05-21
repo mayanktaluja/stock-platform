@@ -46,7 +46,14 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       await openRegionTab(page);
       const container = page.locator(`#${dom}Container`);
       expect(await container.locator(".sws-pick-card").count()).toBeGreaterThan(0);
-      const text = await container.innerText();
+      // Read the rendered CARD text, not the container's innerText: innerText
+      // surfaces only the always-visible accordion chrome (chip-nav + section
+      // headers/subtitles), and the region subtitles are currency-neutral by
+      // design. The prices live inside .section-body (overflow:hidden; non-hero
+      // sections collapse to max-height:0), so they never reach the container's
+      // innerText. textContent ignores CSS visibility, so it reflects exactly
+      // what the cards render — which is the thing this test means to assert.
+      const text = (await container.locator(".sws-pick-card").allTextContents()).join("\n");
       expect(text).toContain(cfg.symbol);
       for (const bad of cfg.forbidden) expect(text).not.toContain(bad);
       await expect(container.locator('.sws-pick-section[data-section-key="top_ranked_30_v3"]')).toBeVisible();
