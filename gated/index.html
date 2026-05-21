@@ -2752,9 +2752,13 @@
 
     /* Minimum hit-target sizes on small viewports. WCAG 2.5.5 wants
        ≥24×24 (AA) but Apple/Google guidelines specify 44×44; we honor
-       the stricter rule on phones where finger taps are imprecise. */
+       the stricter rule on phones where finger taps are imprecise.
+       NOTE: .info-icon is intentionally excluded — it's a *visible*
+       circular glyph (14px, border-radius:50%, yellow fill), so a 44px
+       min-size renders a giant yellow disc on phones. It stays at its
+       base 14px (inline help tooltip, exempt under the WCAG 2.5.8
+       inline-target rule). Do not add min-width/min-height back here. */
     @media (max-width: 720px) {
-      .info-icon { min-width: 44px; min-height: 44px; display: inline-flex !important; align-items: center; justify-content: center; }
       .watchlist-btn { min-width: 44px; min-height: 44px; padding: 8px !important; }
       .refresh-btn, .btn { min-height: 44px; }
     }
