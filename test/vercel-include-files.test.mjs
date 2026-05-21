@@ -62,15 +62,18 @@ function globToRegExp(glob) {
   return new RegExp("^" + re + "$");
 }
 
-// Pull the includeFiles glob out of vercel.json and split the brace-list into
-// individual patterns. None of the patterns contain a comma, so a plain split
-// is safe; tolerate an un-braced single pattern too.
-function loadIncludePatterns() {
+// Read the raw includeFiles glob string from vercel.json.
+function loadIncludeFilesRaw() {
   const vercel = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "vercel.json"), "utf-8"));
-  const fns = vercel.functions || {};
-  const entry = fns["api/index.js"];
+  const entry = (vercel.functions || {})["api/index.js"];
   assert.ok(entry && typeof entry.includeFiles === "string", "vercel.json functions['api/index.js'].includeFiles must be a string");
-  let glob = entry.includeFiles.trim();
+  return entry.includeFiles;
+}
+
+// Split the brace-list into individual patterns. None of the patterns contain a
+// comma, so a plain split is safe; tolerate an un-braced single pattern too.
+function loadIncludePatterns() {
+  let glob = loadIncludeFilesRaw().trim();
   if (glob.startsWith("{") && glob.endsWith("}")) glob = glob.slice(1, -1);
   return glob.split(",").map((p) => p.trim()).filter(Boolean);
 }
@@ -93,16 +96,31 @@ const regexes = patterns.map(globToRegExp);
 const required = requiredBundledFiles();
 const isCovered = (file) => regexes.some((re) => re.test(file));
 
+check("includeFiles stays within Vercel's 256-char schema limit", () => {
+  const raw = loadIncludeFilesRaw();
+  assert.ok(
+    raw.length <= 256,
+    `includeFiles is ${raw.length} chars; Vercel's vercel.json schema rejects >256. ` +
+      `Consolidate patterns (e.g. data/sws*/*.json + data/sws*/*.tar.gz instead of one pair per region).`,
+  );
+});
+
 check("discovery sanity: found the India + US deep tarballs (else git/glob is broken)", () => {
   assert.ok(required.includes("data/sws/deep.tar.gz"), "India deep.tar.gz not discovered");
   assert.ok(required.includes("data/sws-us/deep-us.tar.gz"), "US deep-us.tar.gz not discovered");
   assert.ok(required.length >= 4, `expected ≥4 required artifacts (≥2 tarballs + ≥2 picks), found ${required.length}`);
 });
 
-check("the glob matcher actually matches a known-bundled India tarball", () => {
-  // Sanity-check the matcher itself so a broken globToRegExp can't mask a real gap.
+check("the glob matcher discriminates (covers sws tarballs, rejects unrelated paths)", () => {
+  // Sanity-check the matcher itself so a broken globToRegExp (e.g. one that
+  // collapses to /.*/  ) can't silently mask a real coverage gap.
   assert.ok(isCovered("data/sws/deep.tar.gz"), "matcher failed on a pattern that IS present");
-  assert.ok(!isCovered("data/sws-zz/deep-zz.tar.gz"), "matcher matched an unlisted namespace");
+  // data/sws*/*.tar.gz deliberately covers ANY sws-* namespace, so future
+  // regions are bundled the moment they exist — no vercel.json edit needed.
+  assert.ok(isCovered("data/sws-zz/deep-zz.tar.gz"), "data/sws*/*.tar.gz should cover any sws-* namespace");
+  // …but it must NOT match paths outside the include globs.
+  assert.ok(!isCovered("data/nse-fo/history/RELIANCE.json"), "matcher must NOT match a deep, unrelated data path");
+  assert.ok(!isCovered("package.json"), "matcher must NOT match an unlisted root file");
 });
 
 check("EVERY committed regional deep tarball + picks-latest.json is in includeFiles", () => {
