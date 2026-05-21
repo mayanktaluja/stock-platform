@@ -40,17 +40,17 @@ test.describe("US Picks tab", () => {
     const text = await container.innerText();
     expect(text).toContain("$");
     expect(text).not.toContain("₹");
-    await expect(container.locator('[data-section-key="top_ranked_30_v3"]')).toBeVisible();
+    await expect(container.locator('.sws-pick-section[data-section-key="top_ranked_30_v3"]')).toBeVisible();
   });
 
-  test("admin-gated: tab stays hidden without the admin flag", async ({ page }) => {
+  test("open to all signed-in users: tab renders without the admin flag", async ({ page }) => {
     await gotoApp(page);
     await page.evaluate(() => { window.__starbhai_isAdmin = false; window.__starbhai_isPersonal = false; });
     await page.evaluate(() => window.switchTab("usPicks"));
-    await expect(page.locator("#usPicksTab")).toBeHidden();
+    await expect(page.locator("#usPicksTab")).toBeVisible({ timeout: 10_000 });
   });
 
-  test("modal opens with Snowflake pillars + rewards/risks, all in $", async ({ page }) => {
+  test("modal opens with the full rich detail (score breakdown + returns + snowflake), all in $", async ({ page }) => {
     await openUSPicks(page);
     const firstTicker = await page
       .locator("#usPicksContainer .sws-pick-card")
@@ -62,10 +62,30 @@ test.describe("US Picks tab", () => {
     const txt = await page.locator("#usModalBody").innerText();
     expect(txt).toContain("$");
     expect(txt).not.toContain("₹");
-    expect(txt).toMatch(/Health/);
-    expect(txt).toMatch(/Rewards/);
+    // Section headers are uppercased by CSS text-transform, so innerText is
+    // "FINANCIAL HEALTH" / "REWARDS" — match case-insensitively.
+    expect(txt).toMatch(/Health/i);
+    expect(txt).toMatch(/Rewards/i);
+    // PR2 parity: these sections were ABSENT from the old simplified US modal —
+    // their presence proves the US tab now renders via the shared renderSwsModalCore.
+    expect(txt).toMatch(/Score breakdown/i);
+    expect(txt).toMatch(/Total returns/i);
+    expect(txt).toMatch(/Snowflake/i);
     await page.evaluate(() => window.closeUSModal());
     await expect(modal).not.toHaveClass(/open/);
+  });
+
+  test("collapsible sections: chip-nav + Expand/Collapse-all toggle the accordion", async ({ page }) => {
+    await openUSPicks(page);
+    await expect(page.locator("#usPicksContainer .sws-pick-chipnav")).toBeVisible();
+    const hero = page.locator('#usPicksContainer .sws-pick-section[data-section-key="top_ranked_30_v3"]');
+    await expect(hero).not.toHaveClass(/collapsed/); // hero open by default
+    await page.locator("#usPicksContainer .sws-pick-chip-action", { hasText: "Collapse all" }).click();
+    await expect(hero).toHaveClass(/collapsed/);
+    await page.locator("#usPicksContainer .sws-pick-chip-action", { hasText: "Expand all" }).click();
+    await expect(hero).not.toHaveClass(/collapsed/);
+    await hero.locator(".section-header").click(); // header click toggles its own section
+    await expect(hero).toHaveClass(/collapsed/);
   });
 
   test("search filter narrows then restores cards", async ({ page }) => {

@@ -2647,26 +2647,27 @@ const TAB_CONFIG = {
     guard: () => !!window.__starbhai_isAdmin,
     enter: () => loadUsersList(),
   },
-  // US Picks — admin-only SWS-sourced US-equity leaderboard. Same guard as the
-  // Users tab; server enforces via requireAdminRead on /api/us-*.
+  // US Picks — SWS-sourced US-equity leaderboard. Open to every signed-in user
+  // (parity with the India SWS Picks tab); the global session gate is the only
+  // auth requirement — /api/us-* carries no per-route admin check.
   usPicks: {
     elId: "usPicksTab",
     label: "US Picks",
-    guard: () => !!window.__starbhai_isAdmin,
+    guard: () => true,
     enter: () => loadUSPicks(),
   },
-  // Korea / Taiwan Picks — admin-only SWS leaderboards, registry-driven render
-  // path. Same guard as US; server enforces via requireAdminRead on /api/{kr,tw}-*.
+  // Korea / Taiwan Picks — SWS leaderboards, registry-driven render path. Open to
+  // every signed-in user, same as US; only the global session gate applies.
   krPicks: {
     elId: "krPicksTab",
     label: "Korea Picks",
-    guard: () => !!window.__starbhai_isAdmin,
+    guard: () => true,
     enter: () => loadRegionPicks("kr"),
   },
   twPicks: {
     elId: "twPicksTab",
     label: "Taiwan Picks",
-    guard: () => !!window.__starbhai_isAdmin,
+    guard: () => true,
     enter: () => loadRegionPicks("tw"),
   },
   earnings: {
@@ -2796,9 +2797,9 @@ async function switchTab(tab) {
 // Users (+ riskLab/sectorOutlook), etc.
 const LABS_MENU_TABS = [
   { id: "users",          label: "Users",          dot: null,      show: () => !!window.__starbhai_isAdmin },
-  { id: "usPicks",        label: "US Picks",       dot: "#60a5fa", show: () => !!window.__starbhai_isAdmin },
-  { id: "krPicks",        label: "Korea Picks",    dot: "#f472b6", show: () => !!window.__starbhai_isAdmin },
-  { id: "twPicks",        label: "Taiwan Picks",   dot: "#fbbf24", show: () => !!window.__starbhai_isAdmin },
+  { id: "usPicks",        label: "US Picks",       dot: "#60a5fa", show: () => true },
+  { id: "krPicks",        label: "Korea Picks",    dot: "#f472b6", show: () => true },
+  { id: "twPicks",        label: "Taiwan Picks",   dot: "#fbbf24", show: () => true },
   { id: "compounder",     label: "Compounder Lab", dot: "#34d399", show: () => !!window.__starbhai_isPersonal },
   { id: "earningsEdge",   label: "Earnings Edge",  dot: "#f87171", show: () => !!window.__starbhai_isPersonal },
   { id: "multibaggerLab", label: "5x Lab",         dot: "#a78bfa", show: () => !!window.__starbhai_isPersonal },
@@ -11279,6 +11280,7 @@ const US_PICKS_SECTIONS = [
 
 let currentUSPicksData = null;
 let usPicksSectorFilter = "all";
+let usPicksUniverse = "all";
 let usPicksSearchTerm = "";
 let usPicksStatusPollTimer = null;
 let usModalTicker = null;
@@ -11298,6 +11300,30 @@ function fmtMoney(v, currency = "USD") {
   return `${sym}${v.toLocaleString("en-US", { maximumFractionDigits: dp })}`;
 }
 
+// Currency symbol for per-share formatting (₹ for INR, which fmtMoney omits).
+function moneySymbolFor(currency) {
+  return { INR: "₹", USD: "$", CAD: "C$", GBP: "£", EUR: "€", KRW: "₩", TWD: "NT$" }[currency] || (currency ? currency + " " : "$");
+}
+// Large-number hero money. INR keeps the India "₹X.XX L Cr / ₹X Cr" style
+// (byte-identical to the legacy renderSwsModal fmtInr); other currencies use
+// fmtMoney's T/B/M abbreviation.
+function fmtBigMoney(v, currency = "INR") {
+  if (v == null || !Number.isFinite(Number(v))) return "—";
+  v = Number(v);
+  if (currency === "INR") {
+    return v >= 1e12 ? `₹${(v / 1e12).toFixed(2)} L Cr`
+      : v >= 1e7 ? `₹${(v / 1e7).toFixed(v >= 1e10 ? 0 : 2)} Cr`
+      : `₹${v.toLocaleString("en-IN")}`;
+  }
+  return fmtMoney(v, currency);
+}
+// Per-share money (EPS, analyst targets): currency symbol + 2 decimals. INR
+// matches the legacy `₹${v.toFixed(2)}`.
+function fmtPerShareMoney(v, currency = "INR") {
+  if (v == null || !Number.isFinite(Number(v))) return "—";
+  return `${moneySymbolFor(currency)}${Number(v).toFixed(2)}`;
+}
+
 async function loadUSPicks() {
   const container = document.getElementById("usPicksContainer");
   const meta = document.getElementById("usPicksMeta");
@@ -11314,6 +11340,7 @@ async function loadUSPicks() {
     const data = await res.json();
     currentUSPicksData = data;
     hydrateUSSectorOptions(data);
+    hydrateUniverseDropdown("usPicksUniverseFilter", data);
     renderUSPicks(data);
     if (meta) {
       const when = data.scanned_at ? new Date(data.scanned_at).toLocaleString() : "—";
@@ -11338,8 +11365,26 @@ function hydrateUSSectorOptions(data) {
   if (current && opts.includes(current)) sel.value = current;
 }
 
+// Disable universe-dropdown options whose index list isn't loaded yet
+// (server sends the loaded keys in data.universeFilters.available). Shared by
+// the US + region tabs — mirrors India's hydratePicksFilterDropdowns degradation.
+function hydrateUniverseDropdown(selectId, data) {
+  const sel = document.getElementById(selectId);
+  if (!sel) return;
+  const avail = (data && data.universeFilters && Array.isArray(data.universeFilters.available)) ? data.universeFilters.available : [];
+  for (const opt of sel.options) {
+    if (opt.value === "all") continue;
+    const ok = avail.includes(opt.value);
+    opt.disabled = !ok;
+    opt.title = ok ? "" : "Index list not loaded yet — run the constituents refresh script";
+  }
+  const cur = sel.options[sel.selectedIndex];
+  if (cur && cur.disabled) sel.value = "all";
+}
+
 function usPickMatchesFilters(it) {
   if (!it) return false;
+  if (usPicksUniverse !== "all" && it[usPicksUniverse] !== true) return false;
   if (usPicksSectorFilter !== "all" && it.sector !== usPicksSectorFilter) return false;
   if (usPicksSearchTerm) {
     const hay = `${it.ticker || ""} ${it.name || ""} ${it.sector || ""}`.toLowerCase();
@@ -11348,26 +11393,131 @@ function usPickMatchesFilters(it) {
   return true;
 }
 
+// ── Generic collapsible-section machinery for the US + region picks tabs ──
+// India's togglePicksSection / setAllPicksCollapsed are bound to swsPicksCollapsed_v1
+// and a global `.sws-pick-section` query. US/KR/TW reuse the SAME section keys
+// (top_ranked_30_v3, deep_value, …), so they MUST persist to their own
+// localStorage key and scope DOM queries to their own container — otherwise
+// collapse state bleeds across tabs. Markup/CSS classes are shared with India
+// (.dashboard-section.collapsed .section-body, .section-chevron, .sws-pick-chip*).
+const PICKS_COLLAPSE_EXPAND_CAP = 5;
+function loadTabCollapsedState(lsKey) {
+  try { const raw = localStorage.getItem(lsKey); return raw ? JSON.parse(raw) : {}; } catch { return {}; }
+}
+function saveTabCollapsedState(lsKey, state) {
+  try { localStorage.setItem(lsKey, JSON.stringify(state)); } catch {}
+}
+function isTabSectionCollapsed(state, sectionKey) {
+  if (Object.prototype.hasOwnProperty.call(state, sectionKey)) return state[sectionKey];
+  return sectionKey !== "top_ranked_30_v3"; // hero open by default; the rest collapse
+}
+function syncTabChipActiveStates(containerId) {
+  document.querySelectorAll(`#${containerId} .sws-pick-chip[data-section-key]`).forEach((chip) => {
+    const key = chip.getAttribute("data-section-key");
+    const sec = document.querySelector(`#${containerId} .sws-pick-section[data-section-key="${key}"]`);
+    if (sec) chip.classList.toggle("active", !sec.classList.contains("collapsed"));
+  });
+}
+function toggleTabSection(headerEl, lsKey, containerId) {
+  const section = headerEl.closest(".dashboard-section");
+  if (!section) return;
+  section.classList.toggle("collapsed");
+  const key = section.getAttribute("data-section-key");
+  if (!key) return;
+  const state = loadTabCollapsedState(lsKey);
+  state[key] = section.classList.contains("collapsed");
+  saveTabCollapsedState(lsKey, state);
+  syncTabChipActiveStates(containerId);
+}
+function setAllTabCollapsed(containerId, lsKey, collapsed) {
+  const state = loadTabCollapsedState(lsKey);
+  let expanded = 0;
+  document.querySelectorAll(`#${containerId} .sws-pick-section`).forEach((sec) => {
+    const key = sec.getAttribute("data-section-key");
+    if (!key) return;
+    if (collapsed) { sec.classList.add("collapsed"); state[key] = true; }
+    else if (expanded < PICKS_COLLAPSE_EXPAND_CAP) { sec.classList.remove("collapsed"); state[key] = false; expanded++; }
+  });
+  saveTabCollapsedState(lsKey, state);
+  syncTabChipActiveStates(containerId);
+}
+function jumpToTabSection(containerId, lsKey, sectionKey) {
+  const section = document.querySelector(`#${containerId} .sws-pick-section[data-section-key="${sectionKey}"]`);
+  if (!section) return;
+  if (section.classList.contains("collapsed")) {
+    section.classList.remove("collapsed");
+    const state = loadTabCollapsedState(lsKey);
+    state[sectionKey] = false;
+    saveTabCollapsedState(lsKey, state);
+  }
+  section.scrollIntoView({ behavior: "smooth", block: "start" });
+  syncTabChipActiveStates(containerId);
+}
+// chip-nav + Expand-all/Collapse-all bar. `sections` carries a precomputed
+// `collapsed` flag; opts gives the inline onclick strings for this tab.
+function renderTabChipNav(sections, opts) {
+  const chips = sections.map(({ section, count, collapsed }) => {
+    const chipLabel = section.label.split(" — ")[0];
+    return `<button type="button" class="sws-pick-chip${collapsed ? "" : " active"}" data-section-key="${section.key}" onclick="${opts.jumpOnclick(section.key)}" title="${escapeHtml(section.subtitle)}"><span class="sws-pick-chip-label">${escapeHtml(chipLabel)}</span><span class="sws-pick-chip-count">${count}</span></button>`;
+  }).join("");
+  return `
+    <div class="sws-pick-chipnav" role="navigation" aria-label="Jump to section">
+      <div class="sws-pick-chipnav-scroll">${chips}</div>
+      <div class="sws-pick-chipnav-actions">
+        <button type="button" class="sws-pick-chip-action" onclick="${opts.expandAllOnclick}" title="Expand up to ${PICKS_COLLAPSE_EXPAND_CAP} sections">Expand all</button>
+        <button type="button" class="sws-pick-chip-action" onclick="${opts.collapseAllOnclick}" title="Collapse every section">Collapse all</button>
+      </div>
+    </div>`;
+}
+// Per-tab wrappers (inline onclick targets). Distinct localStorage keys keep
+// US / KR / TW / India collapse state isolated despite shared section keys.
+const US_PICKS_COLLAPSED_KEY = "swsUSPicksCollapsed_v1";
+window.toggleUSPicksSection = (el) => toggleTabSection(el, US_PICKS_COLLAPSED_KEY, "usPicksContainer");
+window.setAllUSPicksCollapsed = (c) => setAllTabCollapsed("usPicksContainer", US_PICKS_COLLAPSED_KEY, c);
+window.jumpToUSPicksSection = (k) => jumpToTabSection("usPicksContainer", US_PICKS_COLLAPSED_KEY, k);
+const regionPicksCollapsedKey = (code) => `sws${String(code).toUpperCase()}PicksCollapsed_v1`;
+window.toggleRegionPicksSection = (el, code) => toggleTabSection(el, regionPicksCollapsedKey(code), `${code}PicksContainer`);
+window.setAllRegionPicksCollapsed = (code, c) => setAllTabCollapsed(`${code}PicksContainer`, regionPicksCollapsedKey(code), c);
+window.jumpToRegionPicksSection = (code, k) => jumpToTabSection(`${code}PicksContainer`, regionPicksCollapsedKey(code), k);
+
 function renderUSPicks(data) {
   const container = document.getElementById("usPicksContainer");
   if (!container) return;
   if (!data || !data.sections) { container.innerHTML = `<div style="padding:40px;color:var(--text-muted);">No data.</div>`; return; }
+  const collapsedState = loadTabCollapsedState(US_PICKS_COLLAPSED_KEY);
+  const forceExpand = !!usPicksSearchTerm; // an active search reveals every match
+  const visibleSections = [];
   let html = "";
   let totalShown = 0;
   for (const sec of US_PICKS_SECTIONS) {
     const items = (data.sections[sec.key] || []).filter(usPickMatchesFilters);
     if (!items.length) continue;
     totalShown += items.length;
-    const cards = items.map((s, i) => renderUSPickCard(s, sec.key, sec.key === "top_ranked_30_v3" ? i + 1 : null)).join("");
+    const isHero = sec.key === "top_ranked_30_v3";
+    const isCollapsed = !forceExpand && isTabSectionCollapsed(collapsedState, sec.key);
+    visibleSections.push({ section: sec, count: items.length, collapsed: isCollapsed });
+    const cards = items.map((s, i) => renderUSPickCard(s, sec.key, isHero ? i + 1 : null)).join("");
     html += `
-      <div class="dashboard-section sws-pick-section" data-section-key="${sec.key}">
-        <div class="sws-pick-section-title"><span class="section-name">${sec.label}</span> <span class="sws-pick-section-count">${items.length}</span></div>
-        <p class="sws-pick-section-subtitle">${escapeHtml(sec.subtitle)}</p>
-        <div class="stock-cards sws-pick-grid">${cards}</div>
+      <div class="dashboard-section sws-pick-section${isCollapsed ? " collapsed" : ""}${isHero ? " sws-pick-section-hero" : ""}" data-section-key="${sec.key}">
+        <div class="section-header" onclick="toggleUSPicksSection(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleUSPicksSection(this);}">
+          <div class="section-header-left"><div>
+            <div class="sws-pick-section-title"><span class="section-name">${sec.label}</span> <span class="sws-pick-section-count">${items.length}</span> <span class="section-chevron">&#9660;</span></div>
+            <p class="sws-pick-section-subtitle">${escapeHtml(sec.subtitle)}</p>
+          </div></div>
+        </div>
+        <div class="section-body"><div class="stock-cards sws-pick-grid">${cards}</div></div>
       </div>`;
   }
-  if (!totalShown) html = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No US stocks match your filters.</div>`;
-  container.innerHTML = html;
+  if (!totalShown) {
+    container.innerHTML = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No US stocks match your filters.</div>`;
+  } else {
+    const chipNav = renderTabChipNav(visibleSections, {
+      jumpOnclick: (k) => `jumpToUSPicksSection('${k}')`,
+      expandAllOnclick: "setAllUSPicksCollapsed(false)",
+      collapseAllOnclick: "setAllUSPicksCollapsed(true)",
+    });
+    container.innerHTML = chipNav + html;
+  }
   const summary = document.getElementById("usPicksFilterSummary");
   if (summary) summary.textContent = `Showing ${totalShown} card${totalShown === 1 ? "" : "s"}`;
 }
@@ -11422,6 +11572,7 @@ function renderUSPickCard(s, sectionKey, rank) {
 }
 
 function onUSPicksSectorChange(v) { usPicksSectorFilter = v; if (currentUSPicksData) renderUSPicks(currentUSPicksData); }
+function onUSPicksUniverseChange(v) { usPicksUniverse = v; if (currentUSPicksData) renderUSPicks(currentUSPicksData); }
 function onUSPicksSearchInput(v) {
   usPicksSearchTerm = (v || "").trim();
   const clr = document.getElementById("usPicksSearchClear");
@@ -11485,44 +11636,9 @@ function closeUSModal() {
   usModalTicker = null;
 }
 function renderUSModal(data) {
-  const card = data.card || {};
-  const deep = data.deep || {};
-  const ov = deep.overview || {};
-  const cur = data.currency || card.currency || "USD";
-  const sn = ov.snowflake || card.snowflake || {};
-  const pillars = [
-    ["Health", sn.financial_health != null ? sn.financial_health : sn.health],
-    ["Future", sn.future != null ? sn.future : sn.future_growth],
-    ["Valuation", sn.valuation != null ? sn.valuation : sn.value],
-    ["Past", sn.past != null ? sn.past : sn.past_performance],
-    ["Dividends", sn.dividends != null ? sn.dividends : sn.dividend],
-  ].map(([k, v]) => `<div style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 14px;border:1px solid var(--bg-graphite);border-radius:6px;min-width:60px;"><span style="font-size:11px;color:var(--text-muted);">${k}</span><strong>${v == null ? "—" : v}/6</strong></div>`).join("");
-  const rewards = (ov.rewards || []).map((r) => `<li>${escapeHtml(r)}</li>`).join("");
-  const risks = (ov.risks || []).map((r) => `<li>${escapeHtml(r)}</li>`).join("");
-  const score = card.v3_score_100 != null ? card.v3_score_100.toFixed(1) : "—";
-  const verdict = String(card.composite_verdict || card.v3_verdict || "—").replace(/_/g, " ");
-  const upside = card.upside_pct != null ? `${card.upside_pct > 0 ? "+" : ""}${card.upside_pct.toFixed(1)}%` : "—";
-  const inSec = (data.in_sections || []).map((k) => `<span class="sws-modal-section-chip">${escapeHtml(String(k).replace(/_/g, " "))}</span>`).join("");
-  return `
-    <div class="sws-modal-hero">
-      <h2 id="usModalTitle">${escapeHtml(data.ticker || "")} <span style="font-size:13px;color:var(--text-muted);font-weight:400;">${escapeHtml(card.name || deep.name || "")}${card.sector ? " · " + escapeHtml(card.sector) : ""}</span></h2>
-      <div class="sws-modal-score"><span class="score-value">${score}</span><span class="score-label">${verdict}</span></div>
-    </div>
-    <div style="display:flex;gap:24px;flex-wrap:wrap;margin:14px 0;font-size:13px;">
-      <div><span style="color:var(--text-muted);">Price</span> <strong>${fmtMoney(ov.current_price_inr != null ? ov.current_price_inr : card.current_price_inr, cur)}</strong></div>
-      <div><span style="color:var(--text-muted);">Fair value</span> <strong>${card.fair_value_inr == null ? "unavailable" : fmtMoney(card.fair_value_inr, cur)}</strong></div>
-      <div><span style="color:var(--text-muted);">Upside</span> <strong style="color:${card.upside_pct != null && card.upside_pct >= 0 ? "var(--green)" : "var(--red)"};">${upside}</strong></div>
-      <div><span style="color:var(--text-muted);">Mcap</span> <strong>${fmtMoney(ov.market_cap_inr != null ? ov.market_cap_inr : card.market_cap_inr, cur)}</strong></div>
-    </div>
-    ${inSec ? `<div class="sws-modal-sections-banner"><span class="label">In sections</span> ${inSec}</div>` : ""}
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin:14px 0;">${pillars}</div>
-    <div style="display:flex;gap:28px;flex-wrap:wrap;">
-      <div style="flex:1;min-width:220px;"><h4 style="color:var(--green);margin-bottom:6px;">Rewards</h4><ul style="margin:0;padding-left:18px;">${rewards || `<li style="color:var(--text-muted);list-style:none;margin-left:-18px;">None listed.</li>`}</ul></div>
-      <div style="flex:1;min-width:220px;"><h4 style="color:var(--red);margin-bottom:6px;">Risks</h4><ul style="margin:0;padding-left:18px;">${risks || `<li style="color:var(--text-muted);list-style:none;margin-left:-18px;">None listed.</li>`}</ul></div>
-    </div>
-    ${card.one_line ? `<p style="color:var(--text-muted);margin-top:14px;">${escapeHtml(card.one_line)}</p>` : ""}
-    ${(deep.sws_url || card.sws_url) ? `<div style="margin-top:16px;"><a href="${escapeHtml(deep.sws_url || card.sws_url)}" target="_blank" rel="noopener">Open on Simply Wall St →</a></div>` : ""}
-  `;
+  // Parity (PR2): delegate to the shared rich modal core. US opts — USD currency,
+  // own modal title id, no India watchlist star, inert section chips until PR3.
+  return renderSwsModalCore(data, { currency: data.currency || "USD", titleId: "usModalTitle", watchlistSuffix: null, sectionNavFn: null });
 }
 
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && usModalTicker) closeUSModal(); });
@@ -11531,6 +11647,7 @@ window.openUSModal = openUSModal;
 window.closeUSModal = closeUSModal;
 window.loadUSPicks = loadUSPicks;
 window.onUSPicksSectorChange = onUSPicksSectorChange;
+window.onUSPicksUniverseChange = onUSPicksUniverseChange;
 window.onUSPicksSearchInput = onUSPicksSearchInput;
 window.onUSPicksSearchClear = onUSPicksSearchClear;
 
@@ -11559,8 +11676,8 @@ const REGION_PICKS_SECTIONS = [
 ];
 
 const regionPicksState = {
-  kr: { data: null, sector: "all", search: "", pollTimer: null, modalTicker: null },
-  tw: { data: null, sector: "all", search: "", pollTimer: null, modalTicker: null },
+  kr: { data: null, sector: "all", universe: "all", search: "", pollTimer: null, modalTicker: null },
+  tw: { data: null, sector: "all", universe: "all", search: "", pollTimer: null, modalTicker: null },
 };
 const _rp = (code) => regionPicksState[code];
 const _rpDom = (code) => code + "Picks"; // krPicks / twPicks element-id prefix
@@ -11583,6 +11700,7 @@ async function loadRegionPicks(code) {
     const data = await res.json();
     _rp(code).data = data;
     hydrateRegionSectorOptions(code, data);
+    hydrateUniverseDropdown(_rpDom(code) + "UniverseFilter", data);
     renderRegionPicks(code);
     if (meta) {
       const when = data.scanned_at ? new Date(data.scanned_at).toLocaleString() : "—";
@@ -11610,6 +11728,7 @@ function hydrateRegionSectorOptions(code, data) {
 function regionPickMatchesFilters(code, it) {
   const st = _rp(code);
   if (!it) return false;
+  if (st.universe && st.universe !== "all" && it[st.universe] !== true) return false;
   if (st.sector !== "all" && it.sector !== st.sector) return false;
   if (st.search) {
     const hay = `${it.ticker || ""} ${it.name || ""} ${it.sector || ""}`.toLowerCase();
@@ -11624,22 +11743,41 @@ function renderRegionPicks(code) {
   const data = _rp(code).data;
   if (!container) return;
   if (!data || !data.sections) { container.innerHTML = `<div style="padding:40px;color:var(--text-muted);">No data.</div>`; return; }
+  const lsKey = regionPicksCollapsedKey(code);
+  const collapsedState = loadTabCollapsedState(lsKey);
+  const forceExpand = !!_rp(code).search; // an active search reveals every match
+  const visibleSections = [];
   let html = "";
   let totalShown = 0;
   for (const sec of REGION_PICKS_SECTIONS) {
     const items = (data.sections[sec.key] || []).filter((it) => regionPickMatchesFilters(code, it));
     if (!items.length) continue;
     totalShown += items.length;
-    const cards = items.map((s, i) => renderRegionPickCard(code, s, sec.key, sec.key === "top_ranked_30_v3" ? i + 1 : null)).join("");
+    const isHero = sec.key === "top_ranked_30_v3";
+    const isCollapsed = !forceExpand && isTabSectionCollapsed(collapsedState, sec.key);
+    visibleSections.push({ section: sec, count: items.length, collapsed: isCollapsed });
+    const cards = items.map((s, i) => renderRegionPickCard(code, s, sec.key, isHero ? i + 1 : null)).join("");
     html += `
-      <div class="dashboard-section sws-pick-section" data-section-key="${sec.key}">
-        <div class="sws-pick-section-title"><span class="section-name">${sec.label}</span> <span class="sws-pick-section-count">${items.length}</span></div>
-        <p class="sws-pick-section-subtitle">${escapeHtml(sec.subtitle)}</p>
-        <div class="stock-cards sws-pick-grid">${cards}</div>
+      <div class="dashboard-section sws-pick-section${isCollapsed ? " collapsed" : ""}${isHero ? " sws-pick-section-hero" : ""}" data-section-key="${sec.key}">
+        <div class="section-header" onclick="toggleRegionPicksSection(this, '${code}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleRegionPicksSection(this, '${code}');}">
+          <div class="section-header-left"><div>
+            <div class="sws-pick-section-title"><span class="section-name">${sec.label}</span> <span class="sws-pick-section-count">${items.length}</span> <span class="section-chevron">&#9660;</span></div>
+            <p class="sws-pick-section-subtitle">${escapeHtml(sec.subtitle)}</p>
+          </div></div>
+        </div>
+        <div class="section-body"><div class="stock-cards sws-pick-grid">${cards}</div></div>
       </div>`;
   }
-  if (!totalShown) html = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No stocks match your filters.</div>`;
-  container.innerHTML = html;
+  if (!totalShown) {
+    container.innerHTML = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No stocks match your filters.</div>`;
+  } else {
+    const chipNav = renderTabChipNav(visibleSections, {
+      jumpOnclick: (k) => `jumpToRegionPicksSection('${code}','${k}')`,
+      expandAllOnclick: `setAllRegionPicksCollapsed('${code}',false)`,
+      collapseAllOnclick: `setAllRegionPicksCollapsed('${code}',true)`,
+    });
+    container.innerHTML = chipNav + html;
+  }
   const summary = document.getElementById(dom + "FilterSummary");
   if (summary) summary.textContent = `Showing ${totalShown} card${totalShown === 1 ? "" : "s"}`;
 }
@@ -11694,6 +11832,7 @@ function renderRegionPickCard(code, s, sectionKey, rank) {
 }
 
 function onRegionPicksSectorChange(code, v) { _rp(code).sector = v; if (_rp(code).data) renderRegionPicks(code); }
+function onRegionPicksUniverseChange(code, v) { _rp(code).universe = v; if (_rp(code).data) renderRegionPicks(code); }
 function onRegionPicksSearchInput(code, v) {
   _rp(code).search = (v || "").trim();
   const clr = document.getElementById(_rpDom(code) + "SearchClear");
@@ -11759,44 +11898,9 @@ function closeRegionModal(code) {
   _rp(code).modalTicker = null;
 }
 function renderRegionModal(code, data) {
-  const card = data.card || {};
-  const deep = data.deep || {};
-  const ov = deep.overview || {};
-  const cur = data.currency || card.currency || REGION_PICKS_UI[code].currency;
-  const sn = ov.snowflake || card.snowflake || {};
-  const pillars = [
-    ["Health", sn.financial_health != null ? sn.financial_health : sn.health],
-    ["Future", sn.future != null ? sn.future : sn.future_growth],
-    ["Valuation", sn.valuation != null ? sn.valuation : sn.value],
-    ["Past", sn.past != null ? sn.past : sn.past_performance],
-    ["Dividends", sn.dividends != null ? sn.dividends : sn.dividend],
-  ].map(([k, v]) => `<div style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 14px;border:1px solid var(--bg-graphite);border-radius:6px;min-width:60px;"><span style="font-size:11px;color:var(--text-muted);">${k}</span><strong>${v == null ? "—" : v}/6</strong></div>`).join("");
-  const rewards = (ov.rewards || []).map((r) => `<li>${escapeHtml(r)}</li>`).join("");
-  const risks = (ov.risks || []).map((r) => `<li>${escapeHtml(r)}</li>`).join("");
-  const score = card.v3_score_100 != null ? card.v3_score_100.toFixed(1) : "—";
-  const verdict = String(card.composite_verdict || card.v3_verdict || "—").replace(/_/g, " ");
-  const upside = card.upside_pct != null ? `${card.upside_pct > 0 ? "+" : ""}${card.upside_pct.toFixed(1)}%` : "—";
-  const inSec = (data.in_sections || []).map((k) => `<span class="sws-modal-section-chip">${escapeHtml(String(k).replace(/_/g, " "))}</span>`).join("");
-  return `
-    <div class="sws-modal-hero">
-      <h2 id="${code}ModalTitle">${escapeHtml(data.ticker || "")} <span style="font-size:13px;color:var(--text-muted);font-weight:400;">${escapeHtml(card.name || deep.name || "")}${card.sector ? " · " + escapeHtml(card.sector) : ""}</span></h2>
-      <div class="sws-modal-score"><span class="score-value">${score}</span><span class="score-label">${verdict}</span></div>
-    </div>
-    <div style="display:flex;gap:24px;flex-wrap:wrap;margin:14px 0;font-size:13px;">
-      <div><span style="color:var(--text-muted);">Price</span> <strong>${fmtMoney(ov.current_price_inr != null ? ov.current_price_inr : card.current_price_inr, cur)}</strong></div>
-      <div><span style="color:var(--text-muted);">Fair value</span> <strong>${card.fair_value_inr == null ? "unavailable" : fmtMoney(card.fair_value_inr, cur)}</strong></div>
-      <div><span style="color:var(--text-muted);">Upside</span> <strong style="color:${card.upside_pct != null && card.upside_pct >= 0 ? "var(--green)" : "var(--red)"};">${upside}</strong></div>
-      <div><span style="color:var(--text-muted);">Mcap</span> <strong>${fmtMoney(ov.market_cap_inr != null ? ov.market_cap_inr : card.market_cap_inr, cur)}</strong></div>
-    </div>
-    ${inSec ? `<div class="sws-modal-sections-banner"><span class="label">In sections</span> ${inSec}</div>` : ""}
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin:14px 0;">${pillars}</div>
-    <div style="display:flex;gap:28px;flex-wrap:wrap;">
-      <div style="flex:1;min-width:220px;"><h4 style="color:var(--green);margin-bottom:6px;">Rewards</h4><ul style="margin:0;padding-left:18px;">${rewards || `<li style="color:var(--text-muted);list-style:none;margin-left:-18px;">None listed.</li>`}</ul></div>
-      <div style="flex:1;min-width:220px;"><h4 style="color:var(--red);margin-bottom:6px;">Risks</h4><ul style="margin:0;padding-left:18px;">${risks || `<li style="color:var(--text-muted);list-style:none;margin-left:-18px;">None listed.</li>`}</ul></div>
-    </div>
-    ${card.one_line ? `<p style="color:var(--text-muted);margin-top:14px;">${escapeHtml(card.one_line)}</p>` : ""}
-    ${(deep.sws_url || card.sws_url) ? `<div style="margin-top:16px;"><a href="${escapeHtml(deep.sws_url || card.sws_url)}" target="_blank" rel="noopener">Open on Simply Wall St →</a></div>` : ""}
-  `;
+  // Parity (PR2): delegate to the shared rich modal core. Region opts — native
+  // currency, per-code modal title id, no watchlist star, inert chips until PR3.
+  return renderSwsModalCore(data, { currency: data.currency || REGION_PICKS_UI[code].currency, titleId: code + "ModalTitle", watchlistSuffix: null, sectionNavFn: null });
 }
 
 document.addEventListener("keydown", (e) => {
@@ -11808,6 +11912,7 @@ window.loadRegionPicks = loadRegionPicks;
 window.openRegionModal = openRegionModal;
 window.closeRegionModal = closeRegionModal;
 window.onRegionPicksSectorChange = onRegionPicksSectorChange;
+window.onRegionPicksUniverseChange = onRegionPicksUniverseChange;
 window.onRegionPicksSearchInput = onRegionPicksSearchInput;
 window.onRegionPicksSearchClear = onRegionPicksSearchClear;
 
@@ -12150,12 +12255,30 @@ function closeActionListModal() {
   }
 }
 
-function renderSwsModal(data) {
-  const { ticker, deep, card, surveillance, file_mtime, section_memberships, fundamentals_fallback } = data;
+// India modal opts — the renderSwsModal wrapper passes this so existing callers
+// (openSwsModal, openStockDetailModal) stay byte-identical after the refactor.
+const INDIA_MODAL_OPTS = {
+  currency: "INR",
+  titleId: "swsModalTitle",
+  watchlistSuffix: ".NS",
+  sectionNavFn: "navigateToPicksSection",
+};
+
+// Region-parametrised modal core. India → renderSwsModal wrapper (INDIA_MODAL_OPTS,
+// byte-identical output); US/KR/TW pass their own opts (currency, modal title id,
+// watchlist suffix, section-nav handler). Single source of truth so every market's
+// modal renders the same sections from the same code.
+function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
+  const { ticker, deep, card, surveillance, file_mtime, fundamentals_fallback } = data;
+  // US/region endpoints return `in_sections`; India returns `section_memberships`.
+  const section_memberships = data.section_memberships || data.in_sections || [];
+  const cur = opts.currency || "INR";
   const ov = (deep && deep.overview) || {};
   const card_ = card || {};
   const fb = fundamentals_fallback || {};
-  const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)} L Cr` : v >= 1e7 ? `₹${(v / 1e7).toFixed(v >= 1e10 ? 0 : 2)} Cr` : `₹${v.toLocaleString("en-IN")}`;
+  // fmtInr: legacy name kept to minimise diff — now currency-aware (₹ L Cr/Cr for
+  // INR via fmtBigMoney, else fmtMoney $/₩/NT$ B/M).
+  const fmtInr = (v) => fmtBigMoney(v, cur);
   const fmtPct = (v, d = 2) => v == null ? "—" : `${v >= 0 ? "+" : ""}${Number(v).toFixed(d)}%`;
   const headlineRaw = card_.v3_score_100 != null ? card_.v3_score_100 : (card_.v2_score != null ? card_.v2_score : card_.score);
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
@@ -12324,7 +12447,7 @@ function renderSwsModal(data) {
     ["P/E", peVal != null ? `${peVal.toFixed(1)}x` : null],
     ["P/B", pbVal != null ? `${pbVal.toFixed(2)}x` : null],
     ["P/S", psVal != null ? `${psVal.toFixed(1)}x` : null],
-    ["EPS", epsVal != null ? `₹${epsVal.toFixed(2)}` : null],
+    ["EPS", epsVal != null ? fmtPerShareMoney(epsVal, cur) : null],
     ["ROE", roeVal != null ? `${roeVal.toFixed(1)}%` : null],
     ["ROCE", roceVal != null ? `${roceVal.toFixed(1)}%` : null],
     ["D/E", deVal != null ? `${deVal.toFixed(1)}%` : null],
@@ -12381,7 +12504,7 @@ function renderSwsModal(data) {
       <h4>Catalysts &amp; activity</h4>
       <div style="font-size:12px;line-height:1.6;color:var(--text-primary);">
         ${ov.next_earnings_date ? `<div>📅 Next earnings: <strong>${ov.next_earnings_date}</strong>${lqrModal ? ` · last quarter: <span style="color:${lqrColor};text-transform:uppercase;font-weight:600;">${lqrModal}</span>` : ""}</div>` : ""}
-        ${revisions.length ? `<div style="margin-top:6px;">📊 Recent analyst revisions: ${revisions.map((r) => `${r.direction === "increased" ? "↑" : "↓"} ${r.pct}% to ₹${r.new_target_inr} (${r.date})`).join(" · ")}</div>` : ""}
+        ${revisions.length ? `<div style="margin-top:6px;">📊 Recent analyst revisions: ${revisions.map((r) => `${r.direction === "increased" ? "↑" : "↓"} ${r.pct}% to ${fmtPerShareMoney(r.new_target_inr, cur)} (${r.date})`).join(" · ")}</div>` : ""}
         ${insiders.length ? `<div style="margin-top:6px;">👁 Insider activity: ${insiders.length} event(s)</div>` : ""}
       </div>
     </div>` : "";
@@ -12448,7 +12571,12 @@ function renderSwsModal(data) {
       const display = meta ? `${meta.emoji} ${meta.label}` : key;
       const safeKey = escapeHtml(key);
       const safeDisplay = escapeHtml(display);
-      return `<button type="button" class="sws-modal-section-chip is-clickable" data-section-key="${safeKey}" onclick="navigateToPicksSection('${safeKey.replace(/'/g, "\\'")}')" title="Open SWS Picks → ${safeDisplay}">${safeDisplay}</button>`;
+      // India wires chips to navigateToPicksSection; markets without a section
+      // scroller yet (US/KR/TW pre-PR3) get inert chips — same look, no nav.
+      if (opts.sectionNavFn) {
+        return `<button type="button" class="sws-modal-section-chip is-clickable" data-section-key="${safeKey}" onclick="${opts.sectionNavFn}('${safeKey.replace(/'/g, "\\'")}')" title="Open SWS Picks → ${safeDisplay}">${safeDisplay}</button>`;
+      }
+      return `<span class="sws-modal-section-chip" data-section-key="${safeKey}">${safeDisplay}</span>`;
     }).join("");
     if (!chips) return "";
     return `
@@ -12461,7 +12589,7 @@ function renderSwsModal(data) {
   return `
     <div class="sws-modal-hero">
       <div style="flex:1;min-width:0;">
-        <h2 id="swsModalTitle">${ticker} ${watchlistButton(`${ticker}.NS`, card_.name || ticker, card_.sector || '')}${survBadge}</h2>
+        <h2 id="${opts.titleId || "swsModalTitle"}">${ticker} ${opts.watchlistSuffix ? watchlistButton(`${ticker}${opts.watchlistSuffix}`, card_.name || ticker, card_.sector || '') : ""}${survBadge}</h2>
         <div style="font-size:13px;color:var(--text-muted);">${escapeHtml(card_.name || ticker)}${card_.sector ? ` · ${escapeHtml(card_.sector)}` : ""}${fresh}</div>
         <div style="display:flex;gap:14px;margin-top:10px;font-size:12px;flex-wrap:wrap;">
           <div><span style="color:var(--text-muted);">Price</span> ${fmtInr(ov.current_price_inr)}</div>
@@ -12527,6 +12655,10 @@ function renderSwsModal(data) {
       ${card_.sws_url ? `<a href="${card_.sws_url}" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none;">Open on Simply Wall Street →</a>` : ""}
     </div>
   `;
+}
+
+function renderSwsModal(data) {
+  return renderSwsModalCore(data, INDIA_MODAL_OPTS);
 }
 
 function escapeHtml(s) {
