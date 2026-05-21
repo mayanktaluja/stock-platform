@@ -2647,6 +2647,14 @@ const TAB_CONFIG = {
     guard: () => !!window.__starbhai_isAdmin,
     enter: () => loadUsersList(),
   },
+  // US Picks — admin-only SWS-sourced US-equity leaderboard. Same guard as the
+  // Users tab; server enforces via requireAdminRead on /api/us-*.
+  usPicks: {
+    elId: "usPicksTab",
+    label: "US Picks",
+    guard: () => !!window.__starbhai_isAdmin,
+    enter: () => loadUSPicks(),
+  },
   earnings: {
     elId: "earningsTab",
     label: "Earnings Watch",
@@ -2774,6 +2782,7 @@ async function switchTab(tab) {
 // Users (+ riskLab/sectorOutlook), etc.
 const LABS_MENU_TABS = [
   { id: "users",          label: "Users",          dot: null,      show: () => !!window.__starbhai_isAdmin },
+  { id: "usPicks",        label: "US Picks",       dot: "#60a5fa", show: () => !!window.__starbhai_isAdmin },
   { id: "compounder",     label: "Compounder Lab", dot: "#34d399", show: () => !!window.__starbhai_isPersonal },
   { id: "earningsEdge",   label: "Earnings Edge",  dot: "#f87171", show: () => !!window.__starbhai_isPersonal },
   { id: "multibaggerLab", label: "5x Lab",         dot: "#a78bfa", show: () => !!window.__starbhai_isPersonal },
@@ -11231,6 +11240,280 @@ function renderPickCard(s, sectionKey, rank = null) {
     </div>`;
 }
 
+
+// ==================== US PICKS (admin-only) ====================
+// Mirror of the SWS Picks tab for US-listed stocks (data/sws-us/ pipeline).
+// Fully isolated render path — own loader / renderer / card / modal + a
+// currency-aware money formatter — so the India picks code (renderPickCard,
+// openSwsModal, formatINR) is never touched. Cards carry a `currency` field;
+// values render with the right symbol ($ for USD).
+
+const US_PICKS_SECTIONS = [
+  { key: "top_ranked_30_v3", label: "⭐ Top 30 — Multi-Factor Score", subtitle: "Universe-wide top 30 by v3 composite — start every session here." },
+  { key: "best_to_buy_now", label: "🎯 Best Stocks to Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks." },
+  { key: "deep_value", label: "💎 Deep Value", subtitle: "TOP_PICK names trading ≥ 20% below analyst-consensus fair value." },
+  { key: "quality_growth", label: "🌱 Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
+  { key: "best_fundamentals", label: "🧱 Best Fundamentals", subtitle: "Ranked by the 5 SWS pillars + analyst FV upside. Hygiene: mcap ≥ $50M." },
+  { key: "midterm", label: "⚡ Midterm Picks (3-12 months)", subtitle: "Momentum already on side, with FV upside ≥ 15% remaining." },
+  { key: "dividend_aristocrats", label: "💰 Dividend Aristocrats", subtitle: "Dividend pillar ≥ 5, payout < 70%, yield ≥ 1.5%." },
+  { key: "smallcap_gems", label: "🔍 Smallcap Hidden Gems", subtitle: "Mcap < $2B + Snowflake ≥ 22 + upside ≥ 15%." },
+  { key: "insider_buying", label: "👁 Insider Buying", subtitle: "Material insider buys. Data field not yet captured for US." },
+  { key: "upcoming_earnings", label: "📅 Upcoming Earnings", subtitle: "Catalyst calendar. Not captured for US v1." },
+];
+
+let currentUSPicksData = null;
+let usPicksSectorFilter = "all";
+let usPicksSearchTerm = "";
+let usPicksStatusPollTimer = null;
+let usModalTicker = null;
+
+// Currency-aware compact money formatter. US values are USD; the symbol comes
+// from the row's `currency` field (rare non-USD listings render their own).
+function fmtMoney(v, currency = "USD") {
+  if (v == null || !Number.isFinite(v)) return "—";
+  const sym = { USD: "$", CAD: "C$", GBP: "£", EUR: "€" }[currency] || (currency ? currency + " " : "$");
+  const abs = Math.abs(v);
+  if (abs >= 1e12) return `${sym}${(v / 1e12).toFixed(2)}T`;
+  if (abs >= 1e9) return `${sym}${(v / 1e9).toFixed(2)}B`;
+  if (abs >= 1e6) return `${sym}${(v / 1e6).toFixed(2)}M`;
+  return `${sym}${v.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
+}
+
+async function loadUSPicks() {
+  const container = document.getElementById("usPicksContainer");
+  const meta = document.getElementById("usPicksMeta");
+  if (!container) return;
+  container.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading US picks…</div></div>`;
+  try {
+    const res = await fetch("/api/us-picks");
+    if (res.status === 404) {
+      currentUSPicksData = null;
+      container.innerHTML = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No US picks yet. Run <code>/sws-refresh-us</code> (or the seed scrape) to populate the US universe — the tab fills in as stocks are scored.</div>`;
+      if (meta) meta.textContent = "No data yet";
+      return;
+    }
+    const data = await res.json();
+    currentUSPicksData = data;
+    hydrateUSSectorOptions(data);
+    renderUSPicks(data);
+    if (meta) {
+      const when = data.scanned_at ? new Date(data.scanned_at).toLocaleString() : "—";
+      meta.textContent = `${data.scored_count != null ? data.scored_count : "—"} US stocks scored · ${data.currency || "USD"} · updated ${when}`;
+    }
+    pollUSScanStatus();
+  } catch (e) {
+    container.innerHTML = `<div style="color:var(--red);padding:24px;">Failed to load US picks: ${escapeHtml(String((e && e.message) || e))}</div>`;
+  }
+}
+
+function hydrateUSSectorOptions(data) {
+  const sel = document.getElementById("usPicksSectorFilter");
+  if (!sel || !data || !data.sections) return;
+  const sectors = new Set();
+  for (const items of Object.values(data.sections)) {
+    if (Array.isArray(items)) for (const it of items) if (it && it.sector) sectors.add(it.sector);
+  }
+  const current = sel.value;
+  const opts = [...sectors].sort();
+  sel.innerHTML = `<option value="all">All sectors</option>` + opts.map((s) => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join("");
+  if (current && opts.includes(current)) sel.value = current;
+}
+
+function usPickMatchesFilters(it) {
+  if (!it) return false;
+  if (usPicksSectorFilter !== "all" && it.sector !== usPicksSectorFilter) return false;
+  if (usPicksSearchTerm) {
+    const hay = `${it.ticker || ""} ${it.name || ""} ${it.sector || ""}`.toLowerCase();
+    if (!hay.includes(usPicksSearchTerm.toLowerCase())) return false;
+  }
+  return true;
+}
+
+function renderUSPicks(data) {
+  const container = document.getElementById("usPicksContainer");
+  if (!container) return;
+  if (!data || !data.sections) { container.innerHTML = `<div style="padding:40px;color:var(--text-muted);">No data.</div>`; return; }
+  let html = "";
+  let totalShown = 0;
+  for (const sec of US_PICKS_SECTIONS) {
+    const items = (data.sections[sec.key] || []).filter(usPickMatchesFilters);
+    if (!items.length) continue;
+    totalShown += items.length;
+    const cards = items.map((s, i) => renderUSPickCard(s, sec.key, sec.key === "top_ranked_30_v3" ? i + 1 : null)).join("");
+    html += `
+      <div class="dashboard-section sws-pick-section" data-section-key="${sec.key}">
+        <div class="sws-pick-section-title"><span class="section-name">${sec.label}</span> <span class="sws-pick-section-count">${items.length}</span></div>
+        <p class="sws-pick-section-subtitle">${escapeHtml(sec.subtitle)}</p>
+        <div class="stock-cards sws-pick-grid">${cards}</div>
+      </div>`;
+  }
+  if (!totalShown) html = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No US stocks match your filters.</div>`;
+  container.innerHTML = html;
+  const summary = document.getElementById("usPicksFilterSummary");
+  if (summary) summary.textContent = `Showing ${totalShown} card${totalShown === 1 ? "" : "s"}`;
+}
+
+function renderUSPickCard(s, sectionKey, rank) {
+  const cur = s.currency || "USD";
+  const upside = s.upside_pct != null ? `${s.upside_pct > 0 ? "+" : ""}${s.upside_pct.toFixed(1)}%` : "—";
+  const upsideColor = s.upside_pct == null ? "var(--text-muted)" : s.upside_pct >= 0 ? "var(--green)" : "var(--red)";
+  const sn = s.snowflake_total != null ? s.snowflake_total : "—";
+  const headlineRaw = s.v3_score_100 != null ? s.v3_score_100 : s.score;
+  const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
+  const scoreColor = (typeof pickScoreColor === "function") ? pickScoreColor(headlineRaw) : "var(--text-primary)";
+  const verdict = s.composite_verdict || s.v3_verdict || s.verdict || "—";
+  const verdictColor = { TOP_PICK: "var(--gold)", STRONG: "var(--green)", ACCEPTABLE: "var(--cyan)", WATCH: "var(--text-muted)", AVOID: "var(--red)" }[verdict] || "var(--text-muted)";
+  const valBand = s.valuation_band || null;
+  const valBandColor = { DEEP_DISCOUNT: "var(--gold)", DISCOUNT: "var(--green)", FAIR: "var(--cyan)", PREMIUM: "var(--text-muted)", EXPENSIVE: "var(--red)" }[valBand] || "var(--text-muted)";
+  const valBandChip = valBand ? `<span class="sws-pick-valband-chip" style="color:${valBandColor};border-color:${valBandColor};" title="Price vs analyst fair value">${valBand.replace(/_/g, " ")}</span>` : "";
+  const cov = typeof s.data_completeness_pct === "number" ? s.data_completeness_pct : null;
+  const coverageBadge = (cov != null && cov < 60) ? `<span class="sws-thin-coverage-badge" title="Only ${cov}% of SWS input fields populated when scored — verify before acting.">Thin · ${cov}%</span>` : "";
+  const rankBadge = rank ? `<span class="sws-pick-rank">${rank}</span>` : "";
+  const safeTicker = String(s.ticker || "").replace(/[^A-Z0-9.\-]/gi, "");
+  const fvCell = s.fair_value_inr == null
+    ? `<span class="sws-pick-fv-unavailable" title="Fair value outside sanity bounds or not published by SWS — card stays on Snowflake quality; no discount claim made.">unavailable</span>`
+    : fmtMoney(s.fair_value_inr, cur);
+  return `
+    <div class="stock-card sws-pick-card" tabindex="0" role="button" aria-label="Open detail for ${safeTicker}"
+         data-ticker="${safeTicker}"
+         onclick="openUSModal('${safeTicker}')"
+         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openUSModal('${safeTicker}');}">
+      <div class="sws-pick-card-top">
+        <div class="sws-pick-card-id">
+          ${rankBadge}
+          <div class="sws-pick-card-id-text">
+            <div class="sws-pick-card-ticker">${escapeHtml(s.ticker || "")}${coverageBadge}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
+            <div class="sws-pick-card-name">${escapeHtml(s.name || "")}</div>
+          </div>
+        </div>
+        <div class="sws-pick-card-score">
+          <div class="sws-pick-card-score-num" style="color:${scoreColor};">${score}</div>
+          <div class="sws-pick-card-score-verdict" style="color:${verdictColor};">${String(verdict).replace(/_/g, " ")}</div>
+        </div>
+      </div>
+      <div class="sws-pick-card-stats">
+        <div class="sws-pick-stat"><span class="sws-pick-stat-label">Px</span> ${fmtMoney(s.current_price_inr, cur)}</div>
+        <div class="sws-pick-stat"><span class="sws-pick-stat-label">FV</span> ${fvCell}</div>
+        <div class="sws-pick-stat" style="color:${upsideColor};">${upside}${valBandChip ? " " + valBandChip : ""}</div>
+        <div class="sws-pick-stat sws-pick-stat-snow"><span class="sws-pick-stat-label">Snow</span> ${sn}/30</div>
+      </div>
+      <div class="sws-pick-card-narrative">${escapeHtml((s.narrative && s.narrative.card_one_line) || s.one_line || "")}</div>
+      ${s.sws_url ? `<div class="sws-pick-card-link"><a href="${escapeHtml(s.sws_url)}" target="_blank" rel="noopener" onclick="event.stopPropagation();">Open on SWS →</a></div>` : ""}
+    </div>`;
+}
+
+function onUSPicksSectorChange(v) { usPicksSectorFilter = v; if (currentUSPicksData) renderUSPicks(currentUSPicksData); }
+function onUSPicksSearchInput(v) {
+  usPicksSearchTerm = (v || "").trim();
+  const clr = document.getElementById("usPicksSearchClear");
+  if (clr) clr.hidden = !usPicksSearchTerm;
+  if (currentUSPicksData) renderUSPicks(currentUSPicksData);
+}
+function onUSPicksSearchClear() {
+  usPicksSearchTerm = "";
+  const inp = document.getElementById("usPicksSearchInput"); if (inp) inp.value = "";
+  const clr = document.getElementById("usPicksSearchClear"); if (clr) clr.hidden = true;
+  if (currentUSPicksData) renderUSPicks(currentUSPicksData);
+}
+
+async function pollUSScanStatus() {
+  if (usPicksStatusPollTimer) clearInterval(usPicksStatusPollTimer);
+  const banner = document.getElementById("usPicksStatusBanner");
+  const tick = async () => {
+    try {
+      const s = await (await fetch("/api/us-scan/status")).json();
+      if (!banner) return;
+      if (s && s.in_progress) {
+        const lines = (s.shards || []).filter((sh) => sh.last_run_at).map((sh) => `Shard ${sh.id}: ${sh.done_count} done${sh.last_ticker ? ` (${sh.last_ticker})` : ""}`).join(" · ");
+        banner.style.display = "block";
+        banner.style.background = "rgba(0,180,100,0.1)";
+        banner.style.border = "1px solid var(--green)";
+        banner.style.color = "var(--green)";
+        banner.innerHTML = `🟢 US scan in progress · ${lines || "starting…"} · Total ${s.total_done}`;
+      } else {
+        banner.style.display = "none";
+      }
+    } catch {}
+  };
+  tick();
+  usPicksStatusPollTimer = setInterval(tick, 30000);
+}
+
+async function openUSModal(ticker) {
+  ticker = String(ticker || "").toUpperCase();
+  usModalTicker = ticker;
+  const backdrop = document.getElementById("usModalBackdrop");
+  const body = document.getElementById("usModalBody");
+  if (!backdrop || !body) return;
+  body.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading ${escapeHtml(ticker)}…</div></div>`;
+  backdrop.classList.add("open");
+  document.body.style.overflow = "hidden";
+  try {
+    const res = await fetch(`/api/us-stock/${encodeURIComponent(ticker)}`);
+    if (usModalTicker !== ticker) return;
+    if (!res.ok) { body.innerHTML = `<div style="padding:24px;color:var(--text-muted);">No detail available for ${escapeHtml(ticker)}.</div>`; return; }
+    const data = await res.json();
+    if (usModalTicker !== ticker) return;
+    body.innerHTML = renderUSModal(data);
+  } catch (e) {
+    body.innerHTML = `<div style="padding:24px;color:var(--red);">Failed: ${escapeHtml(String((e && e.message) || e))}</div>`;
+  }
+}
+function closeUSModal() {
+  const backdrop = document.getElementById("usModalBackdrop");
+  if (backdrop) backdrop.classList.remove("open");
+  document.body.style.overflow = "";
+  usModalTicker = null;
+}
+function renderUSModal(data) {
+  const card = data.card || {};
+  const deep = data.deep || {};
+  const ov = deep.overview || {};
+  const cur = data.currency || card.currency || "USD";
+  const sn = ov.snowflake || card.snowflake || {};
+  const pillars = [
+    ["Health", sn.financial_health != null ? sn.financial_health : sn.health],
+    ["Future", sn.future != null ? sn.future : sn.future_growth],
+    ["Valuation", sn.valuation != null ? sn.valuation : sn.value],
+    ["Past", sn.past != null ? sn.past : sn.past_performance],
+    ["Dividends", sn.dividends != null ? sn.dividends : sn.dividend],
+  ].map(([k, v]) => `<div style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 14px;border:1px solid var(--bg-graphite);border-radius:6px;min-width:60px;"><span style="font-size:11px;color:var(--text-muted);">${k}</span><strong>${v == null ? "—" : v}/6</strong></div>`).join("");
+  const rewards = (ov.rewards || []).map((r) => `<li>${escapeHtml(r)}</li>`).join("");
+  const risks = (ov.risks || []).map((r) => `<li>${escapeHtml(r)}</li>`).join("");
+  const score = card.v3_score_100 != null ? card.v3_score_100.toFixed(1) : "—";
+  const verdict = String(card.composite_verdict || card.v3_verdict || "—").replace(/_/g, " ");
+  const upside = card.upside_pct != null ? `${card.upside_pct > 0 ? "+" : ""}${card.upside_pct.toFixed(1)}%` : "—";
+  const inSec = (data.in_sections || []).map((k) => `<span class="sws-modal-section-chip">${escapeHtml(String(k).replace(/_/g, " "))}</span>`).join("");
+  return `
+    <div class="sws-modal-hero">
+      <h2 id="usModalTitle">${escapeHtml(data.ticker || "")} <span style="font-size:13px;color:var(--text-muted);font-weight:400;">${escapeHtml(card.name || deep.name || "")}${card.sector ? " · " + escapeHtml(card.sector) : ""}</span></h2>
+      <div class="sws-modal-score"><span class="score-value">${score}</span><span class="score-label">${verdict}</span></div>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin:14px 0;font-size:13px;">
+      <div><span style="color:var(--text-muted);">Price</span> <strong>${fmtMoney(ov.current_price_inr != null ? ov.current_price_inr : card.current_price_inr, cur)}</strong></div>
+      <div><span style="color:var(--text-muted);">Fair value</span> <strong>${card.fair_value_inr == null ? "unavailable" : fmtMoney(card.fair_value_inr, cur)}</strong></div>
+      <div><span style="color:var(--text-muted);">Upside</span> <strong style="color:${card.upside_pct != null && card.upside_pct >= 0 ? "var(--green)" : "var(--red)"};">${upside}</strong></div>
+      <div><span style="color:var(--text-muted);">Mcap</span> <strong>${fmtMoney(ov.market_cap_inr != null ? ov.market_cap_inr : card.market_cap_inr, cur)}</strong></div>
+    </div>
+    ${inSec ? `<div class="sws-modal-sections-banner"><span class="label">In sections</span> ${inSec}</div>` : ""}
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin:14px 0;">${pillars}</div>
+    <div style="display:flex;gap:28px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:220px;"><h4 style="color:var(--green);margin-bottom:6px;">Rewards</h4><ul style="margin:0;padding-left:18px;">${rewards || `<li style="color:var(--text-muted);list-style:none;margin-left:-18px;">None listed.</li>`}</ul></div>
+      <div style="flex:1;min-width:220px;"><h4 style="color:var(--red);margin-bottom:6px;">Risks</h4><ul style="margin:0;padding-left:18px;">${risks || `<li style="color:var(--text-muted);list-style:none;margin-left:-18px;">None listed.</li>`}</ul></div>
+    </div>
+    ${card.one_line ? `<p style="color:var(--text-muted);margin-top:14px;">${escapeHtml(card.one_line)}</p>` : ""}
+    ${(deep.sws_url || card.sws_url) ? `<div style="margin-top:16px;"><a href="${escapeHtml(deep.sws_url || card.sws_url)}" target="_blank" rel="noopener">Open on Simply Wall St →</a></div>` : ""}
+  `;
+}
+
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && usModalTicker) closeUSModal(); });
+
+window.openUSModal = openUSModal;
+window.closeUSModal = closeUSModal;
+window.loadUSPicks = loadUSPicks;
+window.onUSPicksSectorChange = onUSPicksSectorChange;
+window.onUSPicksSearchInput = onUSPicksSearchInput;
+window.onUSPicksSearchClear = onUSPicksSearchClear;
 
 function showPicksBanner(kind, msg) {
   const b = document.getElementById("picksStatusBanner");
