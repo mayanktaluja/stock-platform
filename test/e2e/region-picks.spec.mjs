@@ -17,8 +17,8 @@ const picksPath = (code) => path.join(__dirname, "..", "..", "data", `sws-${code
 // Per region: the symbol that MUST appear and the symbols that MUST NOT (a USD/INR
 // leak). KRW has no "$"; TWD is "NT$" so we forbid ₹ + ₩ (not a bare "$").
 const REGIONS = {
-  kr: { label: "Korea", symbol: "₩", forbidden: ["₹", "$"] },
-  tw: { label: "Taiwan", symbol: "NT$", forbidden: ["₹", "₩"] },
+  kr: { label: "Korea", symbol: "₩", forbidden: ["₹", "$"], universeLabels: ["KOSPI 200", "KOSDAQ 150", "KRX 300"], enabledIndex: "kospi200" },
+  tw: { label: "Taiwan", symbol: "NT$", forbidden: ["₹", "₩"], universeLabels: ["Taiwan 50", "Taiwan Mid-Cap 100", "TPEx 50"], enabledIndex: null },
 };
 
 for (const [code, cfg] of Object.entries(REGIONS)) {
@@ -107,6 +107,55 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       expect(await page.locator(`#${dom}SectorFilter option`).count()).toBeGreaterThan(1);
       await expect(page.locator(`#${dom}Tab #picksUniverseFilter`)).toHaveCount(0);
       expect(await page.locator(`#${dom}SectorFilter`).innerText()).not.toMatch(/Nifty/i);
+    });
+
+    test("universe dropdown renders the region's index options", async ({ page }) => {
+      await openRegionTab(page);
+      const sel = page.locator(`#${dom}UniverseFilter`);
+      await expect(sel).toBeVisible();
+      const txt = await sel.innerText();
+      expect(txt).toMatch(/All scored/);
+      for (const lbl of cfg.universeLabels) expect(txt).toContain(lbl);
+    });
+
+    test("each index option is enabled iff the server reports its constituents loaded", async ({ page }) => {
+      await openRegionTab(page);
+      const state = await page.evaluate((c) => {
+        const d = regionPicksState[c] && regionPicksState[c].data;
+        const avail = (d && d.universeFilters && d.universeFilters.available) || [];
+        const sel = document.getElementById(`${c}PicksUniverseFilter`);
+        const opts = [...sel.options].filter((o) => o.value !== "all").map((o) => ({ value: o.value, disabled: o.disabled }));
+        return { avail, opts };
+      }, code);
+      expect(state.opts.length).toBeGreaterThan(0);
+      // Graceful degradation: a named option is disabled exactly when its index
+      // list isn't loaded (KR ships KOSPI 200; TW ships none until a feed is wired).
+      for (const o of state.opts) {
+        expect(o.disabled, `${code} option ${o.value} disabled should equal !available`).toBe(!state.avail.includes(o.value));
+      }
+    });
+
+    test("selecting an available index narrows to members, then restores", async ({ page }) => {
+      test.skip(!cfg.enabledIndex, `${cfg.label} has no sourced index constituents yet`);
+      await openRegionTab(page);
+      const before = await page.locator(`#${dom}Container .sws-pick-card`).count();
+      await page.selectOption(`#${dom}UniverseFilter`, cfg.enabledIndex);
+      await page.waitForTimeout(300);
+      const res = await page.evaluate(({ c, idx }) => {
+        const d = regionPicksState[c].data;
+        const mem = new Set();
+        for (const items of Object.values(d.sections)) {
+          if (Array.isArray(items)) for (const it of items) if (it && it[idx]) mem.add(it.ticker);
+        }
+        const tickers = [...document.querySelectorAll(`#${c}PicksContainer .sws-pick-card`)].map((x) => x.getAttribute("data-ticker"));
+        return { ok: tickers.every((t) => mem.has(t)), members: mem.size };
+      }, { c: code, idx: cfg.enabledIndex });
+      expect(res.members).toBeGreaterThan(0); // fixture carries real KOSPI 200 names
+      expect(res.ok).toBe(true);              // every visible card is an index member
+      expect(await page.locator(`#${dom}Container .sws-pick-card`).count()).toBeLessThanOrEqual(before);
+      await page.selectOption(`#${dom}UniverseFilter`, "all");
+      await page.waitForTimeout(300);
+      expect(await page.locator(`#${dom}Container .sws-pick-card`).count()).toBe(before);
     });
   });
 }
