@@ -11372,26 +11372,131 @@ function usPickMatchesFilters(it) {
   return true;
 }
 
+// ── Generic collapsible-section machinery for the US + region picks tabs ──
+// India's togglePicksSection / setAllPicksCollapsed are bound to swsPicksCollapsed_v1
+// and a global `.sws-pick-section` query. US/KR/TW reuse the SAME section keys
+// (top_ranked_30_v3, deep_value, …), so they MUST persist to their own
+// localStorage key and scope DOM queries to their own container — otherwise
+// collapse state bleeds across tabs. Markup/CSS classes are shared with India
+// (.dashboard-section.collapsed .section-body, .section-chevron, .sws-pick-chip*).
+const PICKS_COLLAPSE_EXPAND_CAP = 5;
+function loadTabCollapsedState(lsKey) {
+  try { const raw = localStorage.getItem(lsKey); return raw ? JSON.parse(raw) : {}; } catch { return {}; }
+}
+function saveTabCollapsedState(lsKey, state) {
+  try { localStorage.setItem(lsKey, JSON.stringify(state)); } catch {}
+}
+function isTabSectionCollapsed(state, sectionKey) {
+  if (Object.prototype.hasOwnProperty.call(state, sectionKey)) return state[sectionKey];
+  return sectionKey !== "top_ranked_30_v3"; // hero open by default; the rest collapse
+}
+function syncTabChipActiveStates(containerId) {
+  document.querySelectorAll(`#${containerId} .sws-pick-chip[data-section-key]`).forEach((chip) => {
+    const key = chip.getAttribute("data-section-key");
+    const sec = document.querySelector(`#${containerId} .sws-pick-section[data-section-key="${key}"]`);
+    if (sec) chip.classList.toggle("active", !sec.classList.contains("collapsed"));
+  });
+}
+function toggleTabSection(headerEl, lsKey, containerId) {
+  const section = headerEl.closest(".dashboard-section");
+  if (!section) return;
+  section.classList.toggle("collapsed");
+  const key = section.getAttribute("data-section-key");
+  if (!key) return;
+  const state = loadTabCollapsedState(lsKey);
+  state[key] = section.classList.contains("collapsed");
+  saveTabCollapsedState(lsKey, state);
+  syncTabChipActiveStates(containerId);
+}
+function setAllTabCollapsed(containerId, lsKey, collapsed) {
+  const state = loadTabCollapsedState(lsKey);
+  let expanded = 0;
+  document.querySelectorAll(`#${containerId} .sws-pick-section`).forEach((sec) => {
+    const key = sec.getAttribute("data-section-key");
+    if (!key) return;
+    if (collapsed) { sec.classList.add("collapsed"); state[key] = true; }
+    else if (expanded < PICKS_COLLAPSE_EXPAND_CAP) { sec.classList.remove("collapsed"); state[key] = false; expanded++; }
+  });
+  saveTabCollapsedState(lsKey, state);
+  syncTabChipActiveStates(containerId);
+}
+function jumpToTabSection(containerId, lsKey, sectionKey) {
+  const section = document.querySelector(`#${containerId} .sws-pick-section[data-section-key="${sectionKey}"]`);
+  if (!section) return;
+  if (section.classList.contains("collapsed")) {
+    section.classList.remove("collapsed");
+    const state = loadTabCollapsedState(lsKey);
+    state[sectionKey] = false;
+    saveTabCollapsedState(lsKey, state);
+  }
+  section.scrollIntoView({ behavior: "smooth", block: "start" });
+  syncTabChipActiveStates(containerId);
+}
+// chip-nav + Expand-all/Collapse-all bar. `sections` carries a precomputed
+// `collapsed` flag; opts gives the inline onclick strings for this tab.
+function renderTabChipNav(sections, opts) {
+  const chips = sections.map(({ section, count, collapsed }) => {
+    const chipLabel = section.label.split(" — ")[0];
+    return `<button type="button" class="sws-pick-chip${collapsed ? "" : " active"}" data-section-key="${section.key}" onclick="${opts.jumpOnclick(section.key)}" title="${escapeHtml(section.subtitle)}"><span class="sws-pick-chip-label">${escapeHtml(chipLabel)}</span><span class="sws-pick-chip-count">${count}</span></button>`;
+  }).join("");
+  return `
+    <div class="sws-pick-chipnav" role="navigation" aria-label="Jump to section">
+      <div class="sws-pick-chipnav-scroll">${chips}</div>
+      <div class="sws-pick-chipnav-actions">
+        <button type="button" class="sws-pick-chip-action" onclick="${opts.expandAllOnclick}" title="Expand up to ${PICKS_COLLAPSE_EXPAND_CAP} sections">Expand all</button>
+        <button type="button" class="sws-pick-chip-action" onclick="${opts.collapseAllOnclick}" title="Collapse every section">Collapse all</button>
+      </div>
+    </div>`;
+}
+// Per-tab wrappers (inline onclick targets). Distinct localStorage keys keep
+// US / KR / TW / India collapse state isolated despite shared section keys.
+const US_PICKS_COLLAPSED_KEY = "swsUSPicksCollapsed_v1";
+window.toggleUSPicksSection = (el) => toggleTabSection(el, US_PICKS_COLLAPSED_KEY, "usPicksContainer");
+window.setAllUSPicksCollapsed = (c) => setAllTabCollapsed("usPicksContainer", US_PICKS_COLLAPSED_KEY, c);
+window.jumpToUSPicksSection = (k) => jumpToTabSection("usPicksContainer", US_PICKS_COLLAPSED_KEY, k);
+const regionPicksCollapsedKey = (code) => `sws${String(code).toUpperCase()}PicksCollapsed_v1`;
+window.toggleRegionPicksSection = (el, code) => toggleTabSection(el, regionPicksCollapsedKey(code), `${code}PicksContainer`);
+window.setAllRegionPicksCollapsed = (code, c) => setAllTabCollapsed(`${code}PicksContainer`, regionPicksCollapsedKey(code), c);
+window.jumpToRegionPicksSection = (code, k) => jumpToTabSection(`${code}PicksContainer`, regionPicksCollapsedKey(code), k);
+
 function renderUSPicks(data) {
   const container = document.getElementById("usPicksContainer");
   if (!container) return;
   if (!data || !data.sections) { container.innerHTML = `<div style="padding:40px;color:var(--text-muted);">No data.</div>`; return; }
+  const collapsedState = loadTabCollapsedState(US_PICKS_COLLAPSED_KEY);
+  const forceExpand = !!usPicksSearchTerm; // an active search reveals every match
+  const visibleSections = [];
   let html = "";
   let totalShown = 0;
   for (const sec of US_PICKS_SECTIONS) {
     const items = (data.sections[sec.key] || []).filter(usPickMatchesFilters);
     if (!items.length) continue;
     totalShown += items.length;
-    const cards = items.map((s, i) => renderUSPickCard(s, sec.key, sec.key === "top_ranked_30_v3" ? i + 1 : null)).join("");
+    const isHero = sec.key === "top_ranked_30_v3";
+    const isCollapsed = !forceExpand && isTabSectionCollapsed(collapsedState, sec.key);
+    visibleSections.push({ section: sec, count: items.length, collapsed: isCollapsed });
+    const cards = items.map((s, i) => renderUSPickCard(s, sec.key, isHero ? i + 1 : null)).join("");
     html += `
-      <div class="dashboard-section sws-pick-section" data-section-key="${sec.key}">
-        <div class="sws-pick-section-title"><span class="section-name">${sec.label}</span> <span class="sws-pick-section-count">${items.length}</span></div>
-        <p class="sws-pick-section-subtitle">${escapeHtml(sec.subtitle)}</p>
-        <div class="stock-cards sws-pick-grid">${cards}</div>
+      <div class="dashboard-section sws-pick-section${isCollapsed ? " collapsed" : ""}${isHero ? " sws-pick-section-hero" : ""}" data-section-key="${sec.key}">
+        <div class="section-header" onclick="toggleUSPicksSection(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleUSPicksSection(this);}">
+          <div class="section-header-left"><div>
+            <div class="sws-pick-section-title"><span class="section-name">${sec.label}</span> <span class="sws-pick-section-count">${items.length}</span> <span class="section-chevron">&#9660;</span></div>
+            <p class="sws-pick-section-subtitle">${escapeHtml(sec.subtitle)}</p>
+          </div></div>
+        </div>
+        <div class="section-body"><div class="stock-cards sws-pick-grid">${cards}</div></div>
       </div>`;
   }
-  if (!totalShown) html = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No US stocks match your filters.</div>`;
-  container.innerHTML = html;
+  if (!totalShown) {
+    container.innerHTML = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No US stocks match your filters.</div>`;
+  } else {
+    const chipNav = renderTabChipNav(visibleSections, {
+      jumpOnclick: (k) => `jumpToUSPicksSection('${k}')`,
+      expandAllOnclick: "setAllUSPicksCollapsed(false)",
+      collapseAllOnclick: "setAllUSPicksCollapsed(true)",
+    });
+    container.innerHTML = chipNav + html;
+  }
   const summary = document.getElementById("usPicksFilterSummary");
   if (summary) summary.textContent = `Showing ${totalShown} card${totalShown === 1 ? "" : "s"}`;
 }
@@ -11613,22 +11718,41 @@ function renderRegionPicks(code) {
   const data = _rp(code).data;
   if (!container) return;
   if (!data || !data.sections) { container.innerHTML = `<div style="padding:40px;color:var(--text-muted);">No data.</div>`; return; }
+  const lsKey = regionPicksCollapsedKey(code);
+  const collapsedState = loadTabCollapsedState(lsKey);
+  const forceExpand = !!_rp(code).search; // an active search reveals every match
+  const visibleSections = [];
   let html = "";
   let totalShown = 0;
   for (const sec of REGION_PICKS_SECTIONS) {
     const items = (data.sections[sec.key] || []).filter((it) => regionPickMatchesFilters(code, it));
     if (!items.length) continue;
     totalShown += items.length;
-    const cards = items.map((s, i) => renderRegionPickCard(code, s, sec.key, sec.key === "top_ranked_30_v3" ? i + 1 : null)).join("");
+    const isHero = sec.key === "top_ranked_30_v3";
+    const isCollapsed = !forceExpand && isTabSectionCollapsed(collapsedState, sec.key);
+    visibleSections.push({ section: sec, count: items.length, collapsed: isCollapsed });
+    const cards = items.map((s, i) => renderRegionPickCard(code, s, sec.key, isHero ? i + 1 : null)).join("");
     html += `
-      <div class="dashboard-section sws-pick-section" data-section-key="${sec.key}">
-        <div class="sws-pick-section-title"><span class="section-name">${sec.label}</span> <span class="sws-pick-section-count">${items.length}</span></div>
-        <p class="sws-pick-section-subtitle">${escapeHtml(sec.subtitle)}</p>
-        <div class="stock-cards sws-pick-grid">${cards}</div>
+      <div class="dashboard-section sws-pick-section${isCollapsed ? " collapsed" : ""}${isHero ? " sws-pick-section-hero" : ""}" data-section-key="${sec.key}">
+        <div class="section-header" onclick="toggleRegionPicksSection(this, '${code}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleRegionPicksSection(this, '${code}');}">
+          <div class="section-header-left"><div>
+            <div class="sws-pick-section-title"><span class="section-name">${sec.label}</span> <span class="sws-pick-section-count">${items.length}</span> <span class="section-chevron">&#9660;</span></div>
+            <p class="sws-pick-section-subtitle">${escapeHtml(sec.subtitle)}</p>
+          </div></div>
+        </div>
+        <div class="section-body"><div class="stock-cards sws-pick-grid">${cards}</div></div>
       </div>`;
   }
-  if (!totalShown) html = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No stocks match your filters.</div>`;
-  container.innerHTML = html;
+  if (!totalShown) {
+    container.innerHTML = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No stocks match your filters.</div>`;
+  } else {
+    const chipNav = renderTabChipNav(visibleSections, {
+      jumpOnclick: (k) => `jumpToRegionPicksSection('${code}','${k}')`,
+      expandAllOnclick: `setAllRegionPicksCollapsed('${code}',false)`,
+      collapseAllOnclick: `setAllRegionPicksCollapsed('${code}',true)`,
+    });
+    container.innerHTML = chipNav + html;
+  }
   const summary = document.getElementById(dom + "FilterSummary");
   if (summary) summary.textContent = `Showing ${totalShown} card${totalShown === 1 ? "" : "s"}`;
 }

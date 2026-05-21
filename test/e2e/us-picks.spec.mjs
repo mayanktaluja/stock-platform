@@ -40,7 +40,7 @@ test.describe("US Picks tab", () => {
     const text = await container.innerText();
     expect(text).toContain("$");
     expect(text).not.toContain("₹");
-    await expect(container.locator('[data-section-key="top_ranked_30_v3"]')).toBeVisible();
+    await expect(container.locator('.sws-pick-section[data-section-key="top_ranked_30_v3"]')).toBeVisible();
   });
 
   test("admin-gated: tab stays hidden without the admin flag", async ({ page }) => {
@@ -73,6 +73,19 @@ test.describe("US Picks tab", () => {
     expect(txt).toMatch(/Snowflake/i);
     await page.evaluate(() => window.closeUSModal());
     await expect(modal).not.toHaveClass(/open/);
+  });
+
+  test("collapsible sections: chip-nav + Expand/Collapse-all toggle the accordion", async ({ page }) => {
+    await openUSPicks(page);
+    await expect(page.locator("#usPicksContainer .sws-pick-chipnav")).toBeVisible();
+    const hero = page.locator('#usPicksContainer .sws-pick-section[data-section-key="top_ranked_30_v3"]');
+    await expect(hero).not.toHaveClass(/collapsed/); // hero open by default
+    await page.locator("#usPicksContainer .sws-pick-chip-action", { hasText: "Collapse all" }).click();
+    await expect(hero).toHaveClass(/collapsed/);
+    await page.locator("#usPicksContainer .sws-pick-chip-action", { hasText: "Expand all" }).click();
+    await expect(hero).not.toHaveClass(/collapsed/);
+    await hero.locator(".section-header").click(); // header click toggles its own section
+    await expect(hero).toHaveClass(/collapsed/);
   });
 
   test("search filter narrows then restores cards", async ({ page }) => {
