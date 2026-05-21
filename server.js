@@ -101,6 +101,12 @@ import * as swsDal from "./services/swsDal/index.js";
 import * as usPicksDal from "./services/usPicksDal.js";
 import { makeRegionPicksDal } from "./services/regionPicksDal.js";
 import { loadIndexConstituentsFromFile, stampIndexFlags } from "./services/indexConstituents.js";
+import {
+  MARKET_INDEX_KEYS,
+  loadMarketIndexConstituents,
+  stampMarketIndexFlags,
+  availableMarketIndexKeys,
+} from "./services/regionIndexConstituents.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
 import { buildSWSReport, surfaceOutsidePicks, rebuildTierAggregates } from "./services/swsPortfolioAggregate.js";
 import { getPortfolioHistoryStorage } from "./portfolioHistoryStorage.js";
@@ -7090,6 +7096,28 @@ function stampIndexFlagsOnRow(it) {
   stampIndexFlags(it, NSE_INDEX_SETS, NIFTY500_SYMBOLS);
 }
 
+// US + region (KR/TW) universe-membership sets — same pattern as the NSE list,
+// parametrised per market (services/regionIndexConstituents.js). Files written
+// locally by scripts/refresh-<market>-index-constituents.mjs; an absent/empty
+// file → empty sets → the dropdown options disable gracefully.
+const MARKET_INDEX_STATE = {};
+for (const market of ["us", "kr", "tw"]) {
+  const fp = path.join(__dirname, "data", `sws-${market}`, `${market}-index-constituents.json`);
+  MARKET_INDEX_STATE[market] = loadMarketIndexConstituents(fp, market);
+}
+// Stamp every row in a picks payload with its market's index-membership booleans
+// (idempotent) + expose which index options have data, for the universe dropdown.
+function stampMarketRows(data, market) {
+  const st = MARKET_INDEX_STATE[market];
+  if (!st || !data) return;
+  if (data.sections) {
+    for (const items of Object.values(data.sections)) {
+      if (Array.isArray(items)) for (const it of items) stampMarketIndexFlags(it, st.sets, market);
+    }
+  }
+  data.universeFilters = { keys: MARKET_INDEX_KEYS[market], available: availableMarketIndexKeys(st.sets, market) };
+}
+
 function enrichPickRow(it) {
   if (!it || !it.ticker) return;
   if (it.composite_verdict == null && it.v3_verdict != null) {
@@ -7636,6 +7664,7 @@ app.get("/api/us-picks", async (req, res) => {
   }
   data.last_refresh = usPicksDal.getUsLastRefresh();
   data.scan_progress = usPicksDal.getUsAllShardProgressApi();
+  stampMarketRows(data, "us");
   res.json(data);
 });
 
@@ -7754,6 +7783,7 @@ function registerRegionPicksRoutes(app, dal) {
     }
     data.last_refresh = dal.getLastRefresh();
     data.scan_progress = dal.getAllShardProgressApi();
+    stampMarketRows(data, prefix);
     res.json(data);
   });
 

@@ -4887,6 +4887,16 @@
       <div id="usPicksFilters" class="sws-pick-filters">
         <div class="sws-pick-index-filter" aria-label="US picks filters">
           <label class="sws-pick-filter-field">
+            <span class="sws-pick-index-filter-label">Universe</span>
+            <select id="usPicksUniverseFilter" class="sws-pick-filter-select" onchange="onUSPicksUniverseChange(this.value)" aria-label="Universe filter">
+              <option value="all">All scored</option>
+              <option value="sp500">S&amp;P 500</option>
+              <option value="nasdaq100">NASDAQ-100</option>
+              <option value="russell2000">Russell 2000</option>
+              <option value="dow30">Dow Jones 30</option>
+            </select>
+          </label>
+          <label class="sws-pick-filter-field">
             <span class="sws-pick-index-filter-label">Sector</span>
             <select id="usPicksSectorFilter" class="sws-pick-filter-select" onchange="onUSPicksSectorChange(this.value)" aria-label="Sector filter">
               <option value="all">All sectors</option>
@@ -4931,6 +4941,16 @@
       <div id="krPicksFilters" class="sws-pick-filters">
         <div class="sws-pick-index-filter" aria-label="Korea picks filters">
           <label class="sws-pick-filter-field">
+            <span class="sws-pick-index-filter-label">Universe</span>
+            <select id="krPicksUniverseFilter" class="sws-pick-filter-select" onchange="onRegionPicksUniverseChange('kr', this.value)" aria-label="Universe filter">
+              <option value="all">All scored</option>
+              <option value="kospi200">KOSPI 200</option>
+              <option value="kosdaq150">KOSDAQ 150</option>
+              <option value="krx300">KRX 300</option>
+              <option value="kospi">KOSPI (all)</option>
+            </select>
+          </label>
+          <label class="sws-pick-filter-field">
             <span class="sws-pick-index-filter-label">Sector</span>
             <select id="krPicksSectorFilter" class="sws-pick-filter-select" onchange="onRegionPicksSectorChange('kr', this.value)" aria-label="Sector filter">
               <option value="all">All sectors</option>
@@ -4974,6 +4994,16 @@
 
       <div id="twPicksFilters" class="sws-pick-filters">
         <div class="sws-pick-index-filter" aria-label="Taiwan picks filters">
+          <label class="sws-pick-filter-field">
+            <span class="sws-pick-index-filter-label">Universe</span>
+            <select id="twPicksUniverseFilter" class="sws-pick-filter-select" onchange="onRegionPicksUniverseChange('tw', this.value)" aria-label="Universe filter">
+              <option value="all">All scored</option>
+              <option value="taiwan50">Taiwan 50</option>
+              <option value="taiwanMidcap100">Taiwan Mid-Cap 100</option>
+              <option value="tpex50">TPEx 50</option>
+              <option value="twse">TWSE (all)</option>
+            </select>
+          </label>
           <label class="sws-pick-filter-field">
             <span class="sws-pick-index-filter-label">Sector</span>
             <select id="twPicksSectorFilter" class="sws-pick-filter-select" onchange="onRegionPicksSectorChange('tw', this.value)" aria-label="Sector filter">

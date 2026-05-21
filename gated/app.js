@@ -11279,6 +11279,7 @@ const US_PICKS_SECTIONS = [
 
 let currentUSPicksData = null;
 let usPicksSectorFilter = "all";
+let usPicksUniverse = "all";
 let usPicksSearchTerm = "";
 let usPicksStatusPollTimer = null;
 let usModalTicker = null;
@@ -11338,6 +11339,7 @@ async function loadUSPicks() {
     const data = await res.json();
     currentUSPicksData = data;
     hydrateUSSectorOptions(data);
+    hydrateUniverseDropdown("usPicksUniverseFilter", data);
     renderUSPicks(data);
     if (meta) {
       const when = data.scanned_at ? new Date(data.scanned_at).toLocaleString() : "—";
@@ -11362,8 +11364,26 @@ function hydrateUSSectorOptions(data) {
   if (current && opts.includes(current)) sel.value = current;
 }
 
+// Disable universe-dropdown options whose index list isn't loaded yet
+// (server sends the loaded keys in data.universeFilters.available). Shared by
+// the US + region tabs — mirrors India's hydratePicksFilterDropdowns degradation.
+function hydrateUniverseDropdown(selectId, data) {
+  const sel = document.getElementById(selectId);
+  if (!sel) return;
+  const avail = (data && data.universeFilters && Array.isArray(data.universeFilters.available)) ? data.universeFilters.available : [];
+  for (const opt of sel.options) {
+    if (opt.value === "all") continue;
+    const ok = avail.includes(opt.value);
+    opt.disabled = !ok;
+    opt.title = ok ? "" : "Index list not loaded yet — run the constituents refresh script";
+  }
+  const cur = sel.options[sel.selectedIndex];
+  if (cur && cur.disabled) sel.value = "all";
+}
+
 function usPickMatchesFilters(it) {
   if (!it) return false;
+  if (usPicksUniverse !== "all" && it[usPicksUniverse] !== true) return false;
   if (usPicksSectorFilter !== "all" && it.sector !== usPicksSectorFilter) return false;
   if (usPicksSearchTerm) {
     const hay = `${it.ticker || ""} ${it.name || ""} ${it.sector || ""}`.toLowerCase();
@@ -11551,6 +11571,7 @@ function renderUSPickCard(s, sectionKey, rank) {
 }
 
 function onUSPicksSectorChange(v) { usPicksSectorFilter = v; if (currentUSPicksData) renderUSPicks(currentUSPicksData); }
+function onUSPicksUniverseChange(v) { usPicksUniverse = v; if (currentUSPicksData) renderUSPicks(currentUSPicksData); }
 function onUSPicksSearchInput(v) {
   usPicksSearchTerm = (v || "").trim();
   const clr = document.getElementById("usPicksSearchClear");
@@ -11625,6 +11646,7 @@ window.openUSModal = openUSModal;
 window.closeUSModal = closeUSModal;
 window.loadUSPicks = loadUSPicks;
 window.onUSPicksSectorChange = onUSPicksSectorChange;
+window.onUSPicksUniverseChange = onUSPicksUniverseChange;
 window.onUSPicksSearchInput = onUSPicksSearchInput;
 window.onUSPicksSearchClear = onUSPicksSearchClear;
 
@@ -11653,8 +11675,8 @@ const REGION_PICKS_SECTIONS = [
 ];
 
 const regionPicksState = {
-  kr: { data: null, sector: "all", search: "", pollTimer: null, modalTicker: null },
-  tw: { data: null, sector: "all", search: "", pollTimer: null, modalTicker: null },
+  kr: { data: null, sector: "all", universe: "all", search: "", pollTimer: null, modalTicker: null },
+  tw: { data: null, sector: "all", universe: "all", search: "", pollTimer: null, modalTicker: null },
 };
 const _rp = (code) => regionPicksState[code];
 const _rpDom = (code) => code + "Picks"; // krPicks / twPicks element-id prefix
@@ -11677,6 +11699,7 @@ async function loadRegionPicks(code) {
     const data = await res.json();
     _rp(code).data = data;
     hydrateRegionSectorOptions(code, data);
+    hydrateUniverseDropdown(_rpDom(code) + "UniverseFilter", data);
     renderRegionPicks(code);
     if (meta) {
       const when = data.scanned_at ? new Date(data.scanned_at).toLocaleString() : "—";
@@ -11704,6 +11727,7 @@ function hydrateRegionSectorOptions(code, data) {
 function regionPickMatchesFilters(code, it) {
   const st = _rp(code);
   if (!it) return false;
+  if (st.universe && st.universe !== "all" && it[st.universe] !== true) return false;
   if (st.sector !== "all" && it.sector !== st.sector) return false;
   if (st.search) {
     const hay = `${it.ticker || ""} ${it.name || ""} ${it.sector || ""}`.toLowerCase();
@@ -11807,6 +11831,7 @@ function renderRegionPickCard(code, s, sectionKey, rank) {
 }
 
 function onRegionPicksSectorChange(code, v) { _rp(code).sector = v; if (_rp(code).data) renderRegionPicks(code); }
+function onRegionPicksUniverseChange(code, v) { _rp(code).universe = v; if (_rp(code).data) renderRegionPicks(code); }
 function onRegionPicksSearchInput(code, v) {
   _rp(code).search = (v || "").trim();
   const clr = document.getElementById(_rpDom(code) + "SearchClear");
@@ -11886,6 +11911,7 @@ window.loadRegionPicks = loadRegionPicks;
 window.openRegionModal = openRegionModal;
 window.closeRegionModal = closeRegionModal;
 window.onRegionPicksSectorChange = onRegionPicksSectorChange;
+window.onRegionPicksUniverseChange = onRegionPicksUniverseChange;
 window.onRegionPicksSearchInput = onRegionPicksSearchInput;
 window.onRegionPicksSearchClear = onRegionPicksSearchClear;
 
