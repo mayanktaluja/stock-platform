@@ -71,10 +71,15 @@ test.describe("Sector Outlook tab (v1)", () => {
     await gotoApp(page, { tab: "sectorOutlook" });
     // Heading
     await expect(page.locator("h2:has-text('Sector Outlook')")).toBeVisible({ timeout: 15_000 });
+    // Scope summary lookups to this tab — the Track Record tab ships its own
+    // SEBI "Methodology — how these numbers are computed" <summary> that lives
+    // in the DOM regardless of the active tab, so a page-global
+    // summary:has-text('Methodology') resolves to 2 elements (strict-mode fail).
+    const tab = page.locator("#sectorOutlookTab");
     // Methodology section is always rendered
-    await expect(page.locator("summary:has-text('Methodology')")).toBeVisible();
+    await expect(tab.locator("summary:has-text('Methodology')")).toBeVisible();
     // Backtest panel — explicit EXPERIMENTAL status
-    await expect(page.locator("summary:has-text('Backtest status')")).toBeVisible();
+    await expect(tab.locator("summary:has-text('Backtest status')")).toBeVisible();
   });
 
   test("horizon tabs switch matrix between 3-12m and 12-24m", async ({ page, request }) => {
@@ -103,11 +108,13 @@ test.describe("Sector Outlook tab (v1)", () => {
     if (apiRes.status() === 503) test.skip(true, "outlook-latest.json not generated");
     await gotoApp(page, { tab: "sectorOutlook" });
     await expect(page.locator("h2:has-text('Sector Outlook')")).toBeVisible({ timeout: 15_000 });
-    // Open the methodology section so its body is in the DOM tree
-    await page.locator("summary:has-text('Methodology')").click();
     // Search the visible tab content (not the whole page — site footer might
-    // legitimately contain regulatory phrasing).
+    // legitimately contain regulatory phrasing). Scoping to #sectorOutlookTab
+    // also disambiguates the methodology toggle from the Track Record tab's own
+    // "Methodology — how these numbers are computed" <summary> in the DOM.
     const tab = page.locator("#sectorOutlookTab");
+    // Open the methodology section so its body is in the DOM tree
+    await tab.locator("summary:has-text('Methodology')").click();
     const text = (await tab.textContent()) || "";
     expect(text.toLowerCase()).not.toContain("guarantee");
     expect(text.toLowerCase()).not.toContain("will outperform");
