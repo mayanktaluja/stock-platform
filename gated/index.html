@@ -4350,6 +4350,8 @@
       <!-- Admin-only. Hidden by default; auth.init() unhides for users with isAdmin=true. -->
       <button class="tab" id="usersTabBtn" role="tab" aria-selected="false" aria-controls="usersTab" hidden onclick="switchTab('users')">Users</button>
       <button class="tab" id="usPicksTabBtn" role="tab" aria-selected="false" aria-controls="usPicksTab" hidden onclick="switchTab('usPicks')">US Picks</button>
+      <button class="tab" id="krPicksTabBtn" role="tab" aria-selected="false" aria-controls="krPicksTab" hidden onclick="switchTab('krPicks')">Korea Picks</button>
+      <button class="tab" id="twPicksTabBtn" role="tab" aria-selected="false" aria-controls="twPicksTab" hidden onclick="switchTab('twPicks')">Taiwan Picks</button>
       <button class="tab" id="earningsTabBtn" role="tab" aria-selected="false" aria-controls="earningsTab" onclick="switchTab('earnings')">Earnings Watch</button>
       <!-- Risk Lab (experimental) — macro/geopolitical + earnings-quality overlay on existing picks/predictions. Hidden when localStorage.riskLabEnabled === "false". -->
       <button class="tab" id="riskLabTabBtn" role="tab" aria-selected="false" aria-controls="riskLabTab" onclick="switchTab('riskLab')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#fbbf24; box-shadow:0 0 0 2px rgba(251,191,36,0.18); animation: pulse 2s ease-in-out infinite;" aria-hidden="true"></span>Risk Lab<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:#fbbf24; background:rgba(251,191,36,0.12); border:1px solid rgba(251,191,36,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">EXPERIMENTAL</span></button>
@@ -4913,6 +4915,94 @@
       </div>
     </div>
 
+    <!-- Korea Picks (admin-only) — registry-driven render path; own state + modal. -->
+    <div id="krPicksTab" class="tab-content" role="tabpanel" aria-labelledby="krPicksTabBtn" style="display:none;">
+      <div id="krPicksLoadingBanner" class="sws-loading-banner" hidden>Loading Korea Picks…</div>
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">
+        <div>
+          <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Korea Picks</h2>
+          <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Categorised buy-list for Korean stocks (KOSPI / KOSDAQ) — Snowflake + multi-factor scored from Simply Wall Street. Admin-only. Click any card for full detail.</p>
+          <p id="krPicksMeta" style="font-size:11px; color:var(--text-muted); margin-top:6px;">Loading…</p>
+        </div>
+      </div>
+
+      <div id="krPicksStatusBanner" style="display:none; padding:12px 16px; border-radius:6px; margin-bottom:16px;"></div>
+
+      <div id="krPicksFilters" class="sws-pick-filters">
+        <div class="sws-pick-index-filter" aria-label="Korea picks filters">
+          <label class="sws-pick-filter-field">
+            <span class="sws-pick-index-filter-label">Sector</span>
+            <select id="krPicksSectorFilter" class="sws-pick-filter-select" onchange="onRegionPicksSectorChange('kr', this.value)" aria-label="Sector filter">
+              <option value="all">All sectors</option>
+            </select>
+          </label>
+          <span class="sws-pick-filter-summary" id="krPicksFilterSummary" aria-live="polite">Showing — of —</span>
+        </div>
+        <div class="sws-pick-search-wrap">
+          <span class="sws-pick-search-icon" aria-hidden="true">&#128269;</span>
+          <input type="text" id="krPicksSearchInput" class="sws-pick-search-input"
+                 placeholder="Search ticker, name, or sector — e.g. 005930.KS, samsung, Banks"
+                 autocomplete="off" spellcheck="false"
+                 oninput="onRegionPicksSearchInput('kr', this.value)"
+                 onkeydown="if(event.key==='Escape'){onRegionPicksSearchClear('kr');this.blur();}"
+                 aria-label="Search Korea picks">
+          <button type="button" id="krPicksSearchClear" class="sws-pick-search-clear"
+                  onclick="onRegionPicksSearchClear('kr')" aria-label="Clear search" hidden>&times;</button>
+        </div>
+      </div>
+
+      <div id="krPicksContainer">
+        <div class="loading">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">Loading Korea picks…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Taiwan Picks (admin-only) — registry-driven render path; own state + modal. -->
+    <div id="twPicksTab" class="tab-content" role="tabpanel" aria-labelledby="twPicksTabBtn" style="display:none;">
+      <div id="twPicksLoadingBanner" class="sws-loading-banner" hidden>Loading Taiwan Picks…</div>
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">
+        <div>
+          <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">Taiwan Picks</h2>
+          <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Categorised buy-list for Taiwanese stocks (TWSE / TPEx) — Snowflake + multi-factor scored from Simply Wall Street. Admin-only. Click any card for full detail.</p>
+          <p id="twPicksMeta" style="font-size:11px; color:var(--text-muted); margin-top:6px;">Loading…</p>
+        </div>
+      </div>
+
+      <div id="twPicksStatusBanner" style="display:none; padding:12px 16px; border-radius:6px; margin-bottom:16px;"></div>
+
+      <div id="twPicksFilters" class="sws-pick-filters">
+        <div class="sws-pick-index-filter" aria-label="Taiwan picks filters">
+          <label class="sws-pick-filter-field">
+            <span class="sws-pick-index-filter-label">Sector</span>
+            <select id="twPicksSectorFilter" class="sws-pick-filter-select" onchange="onRegionPicksSectorChange('tw', this.value)" aria-label="Sector filter">
+              <option value="all">All sectors</option>
+            </select>
+          </label>
+          <span class="sws-pick-filter-summary" id="twPicksFilterSummary" aria-live="polite">Showing — of —</span>
+        </div>
+        <div class="sws-pick-search-wrap">
+          <span class="sws-pick-search-icon" aria-hidden="true">&#128269;</span>
+          <input type="text" id="twPicksSearchInput" class="sws-pick-search-input"
+                 placeholder="Search ticker, name, or sector — e.g. 2330.TW, tsmc, Semiconductors"
+                 autocomplete="off" spellcheck="false"
+                 oninput="onRegionPicksSearchInput('tw', this.value)"
+                 onkeydown="if(event.key==='Escape'){onRegionPicksSearchClear('tw');this.blur();}"
+                 aria-label="Search Taiwan picks">
+          <button type="button" id="twPicksSearchClear" class="sws-pick-search-clear"
+                  onclick="onRegionPicksSearchClear('tw')" aria-label="Clear search" hidden>&times;</button>
+        </div>
+      </div>
+
+      <div id="twPicksContainer">
+        <div class="loading">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">Loading Taiwan picks…</div>
+        </div>
+      </div>
+    </div>
+
     <!-- Watchlist Tab — saved stocks the user is tracking (★ toggle from any card) -->
     <div id="watchlistTab" class="tab-content" role="tabpanel" aria-labelledby="watchlistTabBtn" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">
@@ -5059,6 +5149,23 @@
       <button class="sws-modal-close" onclick="closeUSModal()" aria-label="Close detail (Esc)" title="Close (Esc)">×</button>
       <span class="esc-hint" aria-hidden="true"><kbd>Esc</kbd> to close</span>
       <div class="sws-modal-body" id="usModalBody"><!-- Filled by renderUSModal() --></div>
+    </div>
+  </div>
+
+  <!-- Korea / Taiwan stock-detail modals — own backdrop + body per region so
+       they share no state with each other or the US/India modals. -->
+  <div id="krModalBackdrop" class="sws-modal-backdrop modal--sheet" role="dialog" aria-modal="true" aria-labelledby="krModalTitle" onclick="if(event.target===this)closeRegionModal('kr')">
+    <div class="sws-modal">
+      <button class="sws-modal-close" onclick="closeRegionModal('kr')" aria-label="Close detail (Esc)" title="Close (Esc)">×</button>
+      <span class="esc-hint" aria-hidden="true"><kbd>Esc</kbd> to close</span>
+      <div class="sws-modal-body" id="krModalBody"><!-- Filled by renderRegionModal('kr') --></div>
+    </div>
+  </div>
+  <div id="twModalBackdrop" class="sws-modal-backdrop modal--sheet" role="dialog" aria-modal="true" aria-labelledby="twModalTitle" onclick="if(event.target===this)closeRegionModal('tw')">
+    <div class="sws-modal">
+      <button class="sws-modal-close" onclick="closeRegionModal('tw')" aria-label="Close detail (Esc)" title="Close (Esc)">×</button>
+      <span class="esc-hint" aria-hidden="true"><kbd>Esc</kbd> to close</span>
+      <div class="sws-modal-body" id="twModalBody"><!-- Filled by renderRegionModal('tw') --></div>
     </div>
   </div>
 
