@@ -6,7 +6,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { randomUUID, randomBytes, createHmac, createHash, timingSafeEqual } from "node:crypto";
 import { OAuth2Client } from "google-auth-library";
-import { getUserStorage } from "./userStorage.js";
+import { getUserStorage, computeIsAdmin } from "./userStorage.js";
 import dotenv from "dotenv";
 const __filenameForEnv = fileURLToPath(import.meta.url);
 const __dirnameForEnv = path.dirname(__filenameForEnv);
@@ -22,7 +22,7 @@ import { buildSizingDecision } from "./services/riskLab/positionSizing.js";
 import { loadHitRateSummary } from "./services/earnings/hitRateSummary.js";
 import { loadCompounderLatest, loadCompounderPaperTrades } from "./services/compounder/compounderService.js";
 import { loadEdgeLatest, loadEdgePaperTrades } from "./services/earningsEdge/edgeService.js";
-import { createPersonalUseGate, isPersonalAllowed } from "./services/auth/personalUseGate.js";
+import { createAdminGate } from "./services/auth/adminGate.js";
 import { narrateCandidate, buildStrategyExplainer } from "./services/multibagger/rationaleNarrator.js";
 
 // External-API circuit breaker for /api/sector-heatmap (Yahoo Finance batch
@@ -812,13 +812,11 @@ app.get("/api/auth/me", async (req, res) => {
     email: record.email,
     name: record.name,
     picture: record.picture,
-    isAdmin: !!record.isAdmin,
-    // Personal-use sleeves (Compounder Lab, Earnings Edge) are restricted to
-    // the hard-coded allowlist in services/auth/personalUseGate.js. The flag
-    // here lets the SPA unhide the tab buttons without an extra round-trip;
-    // the server still 404s the underlying /api/compounder/* and
-    // /api/earningsEdge/* routes for non-allowlisted callers.
-    isPersonal: isPersonalAllowed(record.email),
+    // Recompute admin status LIVE from ADMIN_EMAILS rather than trusting the
+    // persisted flag, so removing an email from the allowlist revokes access on
+    // the next request — no re-login required. (The former personal-use tier
+    // was folded into admin under the two-tier model.)
+    isAdmin: computeIsAdmin(record.email),
   });
 });
 
@@ -2056,7 +2054,7 @@ app.get("/api/admin/users", async (req, res) => {
   if (!sub) return res.status(401).json({ error: "unauthenticated" });
   const userStore = getUserStorage();
   const me = await userStore.read(sub);
-  if (!me || !me.isAdmin) return res.status(403).json({ error: "forbidden" });
+  if (!me || !computeIsAdmin(me.email)) return res.status(403).json({ error: "forbidden" });
   const all = await userStore.list();
   all.sort((a, b) =>
     (b.lastSeenAt || b.lastLoginAt || 0) -
@@ -2071,7 +2069,7 @@ app.get("/api/admin/users", async (req, res) => {
       const p = await portfolioStore.read(u.sub);
       hasPortfolio = !!(p && ((p.stocks && p.stocks.length) || (p.mutualFunds && p.mutualFunds.length)));
     } catch { /* if storage hiccups, fall back to no-link */ }
-    return { ...u, hasPortfolio };
+    return { ...u, isAdmin: computeIsAdmin(u.email), hasPortfolio };
   }));
   return res.json({ count: users.length, users });
 });
@@ -2092,7 +2090,7 @@ app.get("/api/admin/users/:sub/portfolio.xlsx", async (req, res) => {
   if (!meSub) return res.status(401).json({ error: "unauthenticated" });
   const userStore = getUserStorage();
   const me = await userStore.read(meSub);
-  if (!me || !me.isAdmin) return res.status(403).json({ error: "forbidden" });
+  if (!me || !computeIsAdmin(me.email)) return res.status(403).json({ error: "forbidden" });
 
   const targetSub = String(req.params.sub || "");
   const target = await userStore.read(targetSub);
@@ -2147,7 +2145,7 @@ app.get("/api/admin/combined-shadow-diff", async (req, res) => {
   if (!sub) return res.status(401).json({ error: "unauthenticated" });
   const userStore = getUserStorage();
   const me = await userStore.read(sub);
-  if (!me || !me.isAdmin) return res.status(403).json({ error: "forbidden" });
+  if (!me || !computeIsAdmin(me.email)) return res.status(403).json({ error: "forbidden" });
   try {
     const store = await readShadowDiffStore();
     let entries = store.entries || [];
@@ -2827,15 +2825,14 @@ function readEarningsHealthSlim() {
 
 // ──────────────────────────────────────────────────────────────────────
 // Compounder Lab routes — SAFE sleeve from the 2026-05-19 alpha-strategy
-// plan (~/.claude/plans/sws-alpha-strategy-2026-05-19.md). Personal-use
-// only: every route is gated by createPersonalUseGate, which 404s any
-// authenticated user whose email isn't in PERSONAL_USE_EMAILS (default:
-// mtaluja11@gmail.com). The 404 (vs 403) is deliberate — the routes are
-// invisible to other users, no admin-discovery surface.
+// plan (~/.claude/plans/sws-alpha-strategy-2026-05-19.md). Admin-only:
+// every route is gated by createAdminGate, which 404s any authenticated
+// user who isn't in ADMIN_EMAILS. The 404 (vs 403) is deliberate — the
+// routes are invisible to non-admin users, no admin-discovery surface.
 // ──────────────────────────────────────────────────────────────────────
-const personalUseGate = createPersonalUseGate({ authEnabled: AUTH_ENABLED });
+const adminGate = createAdminGate({ authEnabled: AUTH_ENABLED });
 
-app.get("/api/compounder/latest", personalUseGate, (req, res) => {
+app.get("/api/compounder/latest", adminGate, (req, res) => {
   try {
     const data = loadCompounderLatest();
     if (!data) return res.status(404).json({ error: "compounder-not-built" });
@@ -2846,7 +2843,7 @@ app.get("/api/compounder/latest", personalUseGate, (req, res) => {
   }
 });
 
-app.get("/api/compounder/paper-trades", personalUseGate, (req, res) => {
+app.get("/api/compounder/paper-trades", adminGate, (req, res) => {
   try {
     res.json(loadCompounderPaperTrades());
   } catch (err) {
@@ -2856,7 +2853,7 @@ app.get("/api/compounder/paper-trades", personalUseGate, (req, res) => {
 });
 
 // Earnings Edge — AGGRESSIVE sleeve. Same personal-use gate.
-app.get("/api/earnings-edge/latest", personalUseGate, (req, res) => {
+app.get("/api/earnings-edge/latest", adminGate, (req, res) => {
   try {
     const data = loadEdgeLatest();
     if (!data) return res.status(404).json({ error: "earnings-edge-not-built" });
@@ -2867,7 +2864,7 @@ app.get("/api/earnings-edge/latest", personalUseGate, (req, res) => {
   }
 });
 
-app.get("/api/earnings-edge/paper-trades", personalUseGate, (req, res) => {
+app.get("/api/earnings-edge/paper-trades", adminGate, (req, res) => {
   try {
     res.json(loadEdgePaperTrades());
   } catch (err) {
@@ -2943,7 +2940,7 @@ function loadMultibaggerJsonSafe(rel) {
   }
 }
 
-app.get("/api/multibagger/overview", personalUseGate, async (req, res) => {
+app.get("/api/multibagger/overview", adminGate, async (req, res) => {
   try {
     const scores = loadMultibaggerJsonSafe("data/strategy/multibagger-scores-latest.json");
     const slate = loadMultibaggerJsonSafe("data/strategy/catalyst-slate-latest.json");
@@ -2987,7 +2984,7 @@ app.get("/api/multibagger/overview", personalUseGate, async (req, res) => {
   }
 });
 
-app.get("/api/multibagger/candidates", personalUseGate, async (req, res) => {
+app.get("/api/multibagger/candidates", adminGate, async (req, res) => {
   try {
     const scores = loadMultibaggerJsonSafe("data/strategy/multibagger-scores-latest.json");
     if (!scores) return res.json({ candidates: [], built_at: null });
@@ -3006,7 +3003,7 @@ app.get("/api/multibagger/candidates", personalUseGate, async (req, res) => {
   }
 });
 
-app.get("/api/multibagger/portfolio", personalUseGate, async (req, res) => {
+app.get("/api/multibagger/portfolio", adminGate, async (req, res) => {
   try {
     const portfolio = loadMultibaggerJsonSafe("data/strategy/multibagger-portfolio.json");
     res.json(portfolio || { schema_version: "multibagger-portfolio-v1", cash_inr: 100_000, positions: [], closed_positions: [] });
@@ -7569,7 +7566,7 @@ async function requireAdminForSwsRefresh(req, res) {
     return false;
   }
   const me = await getUserStorage().read(sub);
-  if (!me || !me.isAdmin) {
+  if (!me || !computeIsAdmin(me.email)) {
     res.status(403).json({ error: "forbidden" });
     return false;
   }
