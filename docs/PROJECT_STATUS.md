@@ -29,6 +29,21 @@ portfolio analyzer.
 
 ## Recently shipped (last ~10 commits, themed)
 
+### Korea + Taiwan Picks tabs (May 2026)
+- Admin-only **Korea Picks** (KOSPI+KOSDAQ, ~2,623 names) + **Taiwan Picks**
+  (TWSE+TPEx, ~2,335 names) leaderboards, in ₩ / NT$. Rather than a 5th/6th hard
+  fork of the US `-us` scripts, the SWS picks pipeline was **generalized into a
+  region registry** (`scripts/sws-regions.mjs`): config / universe / scrape /
+  parse / score / DAL + a `registerRegionPicksRoutes` factory + a generic
+  `renderRegionPicks` path, all keyed by region code. KR/TW are ~40-line registry
+  entries; the shipped **US + India pipelines are frozen** (NS1 regression
+  safety — only `fmtMoney` + the co-run guards took additive, snapshot/test-proven
+  edits). Numeric KR/TW tickers are dot-suffixed at the universe builder
+  (005930.KS / 2330.TW) so they're never pure-numeric and survive the India BSE
+  filters untouched; currency stamped authoritatively (KRW/TWD). A 4-market
+  co-run guard protects the one shared SWS account. Manual `/sws-refresh-kr` /
+  `/sws-refresh-tw`; ship **empty** until scraped. Narrate/PDF deferred (as US).
+
 ### US Picks tab (May 2026)
 - **#379** — Admin-only **US Picks** tab: an SWS-sourced US-equity leaderboard
   (NASDAQ/NYSE/NYSEMKT, ~5,448 liquid names), mirroring the SWS Picks tab. Built
