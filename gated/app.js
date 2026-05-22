@@ -12306,6 +12306,15 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const sn = ov.snowflake || {};
   const ret = ov.returns_pct || {};
   const mult = ov.multiples || {};
+  // US/KR/TW deep brief is lazily extracted from a per-region tarball on prod and
+  // can be absent; fall back to the picks-card fields so the header + snowflake
+  // never render all-blank. India's deep is always present, so these no-op there.
+  const priceVal = ov.current_price_inr ?? card_.current_price_inr;
+  const fvVal = ov.fair_value_inr ?? card_.fair_value_inr;
+  const upsideVal = ov.upside_pct ?? card_.upside_pct;
+  const mcapVal = ov.market_cap_inr ?? card_.market_cap_inr;
+  const snObj = Object.keys(sn).length ? sn : (card_.snowflake || {});
+  const snTotalVal = ov.snowflake_total ?? card_.snowflake_total;
 
   // Score breakdown bars — show v3 when available (3-bar fundamentals/
   // momentum/safety split), v2 otherwise.
@@ -12343,12 +12352,12 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   })();
 
   // Snowflake hexagon strip (5 dims)
-  const hexHtml = (sn && Object.keys(sn).length) ? `
+  const hexHtml = (snObj && Object.keys(snObj).length) ? `
     <div class="sws-modal-section">
-      <h4>Snowflake — ${ov.snowflake_total ?? "?"}/30 ${ov.snowflake_summary ? `· ${ov.snowflake_summary}` : ""}</h4>
+      <h4>Snowflake — ${snTotalVal ?? "?"}/30 ${ov.snowflake_summary ? `· ${ov.snowflake_summary}` : ""}</h4>
       <div class="sws-modal-grid">
         ${["valuation","future_growth","past_performance","financial_health","dividends"].map((k) => {
-          const score = sn[k];
+          const score = snObj[k];
           const lbl = k.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
           const pct = score != null ? Math.round((score / 6) * 100) : 0;
           const col = score == null ? "var(--text-muted)" : score >= 5 ? "var(--green)" : score >= 3 ? "var(--cyan)" : "var(--red)";
@@ -12591,10 +12600,10 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
         <h2 id="${opts.titleId || "swsModalTitle"}">${ticker} ${opts.watchlistSuffix ? watchlistButton(`${ticker}${opts.watchlistSuffix}`, card_.name || ticker, card_.sector || '') : ""}${survBadge}</h2>
         <div style="font-size:13px;color:var(--text-muted);">${escapeHtml(card_.name || ticker)}${card_.sector ? ` · ${escapeHtml(card_.sector)}` : ""}${fresh}</div>
         <div style="display:flex;gap:14px;margin-top:10px;font-size:12px;flex-wrap:wrap;">
-          <div><span style="color:var(--text-muted);">Price</span> ${fmtInr(ov.current_price_inr)}</div>
-          <div><span style="color:var(--text-muted);">Fair value</span> ${fmtInr(ov.fair_value_inr)}</div>
-          <div><span style="color:var(--text-muted);">Upside</span> <span style="color:${ov.upside_pct == null ? "var(--text-muted)" : ov.upside_pct >= 0 ? "var(--green)" : "var(--red)"};">${fmtPct(ov.upside_pct, 1)}</span></div>
-          <div><span style="color:var(--text-muted);">Mcap</span> ${fmtInr(ov.market_cap_inr)}</div>
+          <div><span style="color:var(--text-muted);">Price</span> ${fmtInr(priceVal)}</div>
+          <div><span style="color:var(--text-muted);">Fair value</span> ${fmtInr(fvVal)}</div>
+          <div><span style="color:var(--text-muted);">Upside</span> <span style="color:${upsideVal == null ? "var(--text-muted)" : upsideVal >= 0 ? "var(--green)" : "var(--red)"};">${fmtPct(upsideVal, 1)}</span></div>
+          <div><span style="color:var(--text-muted);">Mcap</span> ${fmtInr(mcapVal)}</div>
           <div><span style="color:var(--text-muted);">52w</span> ${(() => {
             const lo = ov.fifty_two_week?.low ?? fb.week52_low_inr;
             const hi = ov.fifty_two_week?.high ?? fb.week52_high_inr;
