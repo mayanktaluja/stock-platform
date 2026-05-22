@@ -79,6 +79,55 @@ test.describe("US Picks tab", () => {
     expect(txt).toMatch(/Score breakdown/i);
     expect(txt).toMatch(/Total returns/i);
     expect(txt).toMatch(/Snowflake/i);
+    expect(txt).toMatch(/Quick stats/i);
+    // The reported bug left the header blank (Price —, Mcap —) because the modal
+    // only read the deep brief. Assert the deep-sourced price actually surfaced.
+    const hero = await page.locator("#usModalBody .sws-modal-hero").innerText();
+    expect(hero).not.toMatch(/Price\s*—/);
+    await page.evaluate(() => window.closeUSModal());
+    await expect(modal).not.toHaveClass(/open/);
+  });
+
+  test("modal falls back to picks-card fields when the deep brief is unavailable", async ({ page }) => {
+    await openUSPicks(page);
+    // Simulate prod when the per-region deep tarball hasn't been bundled/extracted
+    // yet: /api/us-stock returns a card but deep:null. The modal must still render
+    // the header + snowflake from the card instead of a blank "—" everywhere.
+    await page.route("**/api/us-stock/**", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          ticker: "AAPL",
+          deep: null,
+          card: {
+            ticker: "AAPL", name: "Apple", sector: "tech", currency: "USD",
+            current_price_inr: 220, fair_value_inr: 250, upside_pct: 13.6, market_cap_inr: 3.2e12,
+            v3_score_100: 78, v3_verdict: "STRONG", composite_verdict: "STRONG",
+            v3_breakdown: {
+              pts_health: 18, pts_future: 16, pts_valuation: 8, pts_past: 10, pts_dividends: 4,
+              pts_fv_upside: 8, pts_mom_1y: 6, pts_mom_3m: 3, pts_mom_1m: 1, pts_overlay: 0,
+            },
+            snowflake: { valuation: 3, future_growth: 4, past_performance: 6, financial_health: 5, dividends: 2 },
+            snowflake_total: 20,
+          },
+          in_sections: ["top_ranked_30_v3"],
+          currency: "USD",
+        }),
+      }),
+    );
+    await page.evaluate(() => window.openUSModal("AAPL"));
+    const modal = page.locator("#usModalBackdrop");
+    await expect(modal).toHaveClass(/open/, { timeout: 10_000 });
+    const hero = await page.locator("#usModalBody .sws-modal-hero").innerText();
+    // Header values came from the card (deep was null) — not blank dashes.
+    expect(hero).toContain("$");
+    expect(hero).not.toMatch(/Price\s*—/);
+    expect(hero).not.toMatch(/Fair value\s*—/);
+    const txt = await page.locator("#usModalBody").innerText();
+    // Snowflake hex falls back to card.snowflake (20/30 here).
+    expect(txt).toMatch(/Snowflake/i);
+    expect(txt).toContain("20/30");
     await page.evaluate(() => window.closeUSModal());
     await expect(modal).not.toHaveClass(/open/);
   });
