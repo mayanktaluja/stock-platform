@@ -13,7 +13,8 @@
 //   node scripts/sws-universe-from-sitemap.mjs                # write side
 //                                                              # file only
 //   node scripts/sws-universe-from-sitemap.mjs --merge        # commit into
-//                                                              # universe.json
+//                                                              # universe.json +
+//                                                              # stamp universe-meta.json
 //   node scripts/sws-universe-from-sitemap.mjs --reset-progress  # rewrite
 //                                                              # progress-N
 //
@@ -462,6 +463,18 @@ async function main() {
   fs.writeFileSync(tmp, JSON.stringify(result.merged, null, 2));
   fs.renameSync(tmp, PATHS.universe);
   console.error(`✓ ${PATHS.universe} updated → ${result.merged.length} entries.`);
+
+  // 4b. Stamp the monitored sidecar. universe.json is a bare array with no
+  // room for a top-level timestamp, so /api/health/snapshots reads
+  // universe-meta.json's generatedAt to compute the "SWS universe (Nd old)"
+  // staleness banner (server.js). This is the canonical rebuild path, so it
+  // MUST refresh the stamp — otherwise the banner stays stale even though the
+  // membership list was just rebuilt. (sws-merge-universe.mjs writes the same
+  // sidecar for its append-only path.)
+  const metaTmp = PATHS.universeMeta + ".tmp." + process.pid;
+  fs.writeFileSync(metaTmp, JSON.stringify({ generatedAt: new Date().toISOString(), count: result.merged.length }, null, 2));
+  fs.renameSync(metaTmp, PATHS.universeMeta);
+  console.error(`✓ ${PATHS.universeMeta} stamped (count=${result.merged.length}).`);
 
   if (resetProgress) {
     console.error("\nRebuilding progress-{1,2,3}.json from data/sws/deep/ ...");

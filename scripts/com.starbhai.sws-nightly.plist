@@ -59,6 +59,12 @@
         <string>/Users/mayanktaluja</string>
         <key>LANG</key>
         <string>en_US.UTF-8</string>
+        <!-- Mirror scrape progress to Neon via the dual-write DAL. -->
+        <key>SWS_DB_DUAL_WRITE</key>
+        <string>1</string>
+        <!-- Proceed even on battery — the ship-to-prod run must not silently no-op when unplugged. -->
+        <key>SWS_NIGHTLY_SKIP_BATTERY</key>
+        <string>1</string>
     </dict>
 
     <!-- Don't run on launchctl load; only at scheduled time. -->

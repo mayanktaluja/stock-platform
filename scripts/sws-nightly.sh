@@ -476,6 +476,54 @@ else
   aux_status "oi-deltas-latest.json" "FAILED"
 fi
 
+# ---- 3c-bis. SWS universe rebuild (public sitemap crawl) — 11-day cadence ----
+#
+# Rebuilds data/sws/universe.json (the master ticker list the scrape iterates
+# over) from SWS's PUBLIC sitemap — no login, no subscription risk (see the
+# script header at scripts/sws-universe-from-sitemap.mjs). Picks up new
+# listings / drops delistings and stamps data/sws/universe-meta.json, which
+# /api/health/snapshots reads for the user-facing "SWS universe (Nd old)"
+# staleness banner.
+#
+# WHY a separate cadence: this is NOT the daily scored-data refresh (that's
+# sws-refresh-api.sh → picks-latest.json, run earlier this same nightly).
+# Universe MEMBERSHIP changes rarely, so a daily ~580 MB sitemap crawl would
+# be pure waste. The 264h (11-day) gate sits comfortably under the 336h (14d)
+# staleness threshold in server.js, leaving a ~3-day margin so the banner
+# never trips between rebuilds. Skips entirely (age=9999) if the sidecar is
+# missing/unparseable, which forces a rebuild.
+#
+# NO --reset-progress on purpose: the live API pipeline resets its own
+# progress-api-*.json for a full-universe pass each run (sws-refresh-api.sh),
+# and the script's --reset-progress only touches the dormant legacy DOM-scrape
+# progress-{1,2,3}.json. Under the full-pass model, reordering/growth of
+# universe.json is safe — every ticker is still covered exactly once by its
+# index%3 shard. The rebuilt universe takes effect on the NEXT nightly scrape.
+UNIVERSE_AGE_HOURS=$(node --input-type=module -e '
+import {readFileSync, existsSync} from "fs";
+if (!existsSync("data/sws/universe-meta.json")) { console.log(9999); process.exit(0); }
+try {
+  const j = JSON.parse(readFileSync("data/sws/universe-meta.json", "utf-8"));
+  if (!j.generatedAt) { console.log(9999); process.exit(0); }
+  const ms = Date.now() - new Date(j.generatedAt).getTime();
+  console.log(Math.floor(ms / 3600000));
+} catch { console.log(9999); }
+' 2>/dev/null)
+UNIVERSE_AGE_HOURS="${UNIVERSE_AGE_HOURS:-9999}"
+
+if [ "${UNIVERSE_AGE_HOURS}" -lt 264 ]; then
+  echo "[nightly] universe-meta.json is ${UNIVERSE_AGE_HOURS}h old — skipping rebuild (< 264h / 11d freshness)"
+  aux_status "universe-meta.json" "SKIPPED-fresh" "${UNIVERSE_AGE_HOURS}"
+else
+  echo "[nightly] universe-meta.json is ${UNIVERSE_AGE_HOURS}h old — rebuilding universe from sitemap..."
+  if with_timeout 600 node scripts/sws-universe-from-sitemap.mjs --merge 2>&1 | sed 's/^/[universe] /'; then
+    aux_status "universe-meta.json" "OK"
+  else
+    echo "[nightly] sws-universe-from-sitemap.mjs failed — non-fatal; universe stays on prior snapshot"
+    aux_status "universe-meta.json" "FAILED" "${UNIVERSE_AGE_HOURS}"
+  fi
+fi
+
 # Macro regime refresh: handled by the STANDALONE cron com.starbhai.macro-only
 # (scripts/refresh-macro-only.sh, every 2h). Decoupled from this nightly per
 # the 2026-05-17 permanent fix — single-writer rule for data/macroRegime.json.
@@ -978,6 +1026,8 @@ git add data/sws/deep/ \
         data/sws/last-refresh.json \
         data/sws/sws-scored-universe.json \
         data/sws/v3-universe-stats.json \
+        data/sws/universe.json \
+        data/sws/universe-meta.json \
         data/sws/nse-event-calendar.json \
         data/nse-index-constituents.json \
         data/catalysts/ \
