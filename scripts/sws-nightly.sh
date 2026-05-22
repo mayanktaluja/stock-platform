@@ -31,7 +31,7 @@
 #   5  git/network failure
 #   6  scrape pipeline failure
 #   7  sanity gate failed (data committed but NOT pushed)
-#   8  push or PR creation failed
+#   8  commit, push, or PR creation failed
 
 set -uo pipefail
 
@@ -233,15 +233,28 @@ $(git status 2>&1 | head -40)"
   exit 5
 fi
 
-# Single-writer guard: the macro-only cron is the sole writer of
-# data/macroRegime.json (rewrites it every ~2h, merges it via its own PRs); this
-# nightly never commits it. Discard any local delta BEFORE the autostash so the
-# file can't enter the stash and conflict on pop against origin/main's newer
-# copy. A pop conflict leaves <<<<<<< markers that (a) make the file invalid
-# JSON so `npm test` crashes in the pre-push hook and blocks this push, and (b)
-# trip the unmerged-paths guard above on the NEXT run, locking out the whole
+# Single-writer guard: the macro-only cron + the GH Actions macro backup are the
+# sole writers of the macro-cron-owned paths below. macroRegime.json is rewritten
+# every ~2h; macro-headlines/ and macroRegime-history/ are appended on each macro
+# refresh and reach origin/main via the macro backup's own PRs. This nightly never
+# commits any of them. Discard any local delta BEFORE the autostash so they can't
+# enter the stash and conflict on pop against origin/main's newer copy. A pop
+# conflict leaves unmerged (UU) index entries that (a) make `git commit` refuse and
+# (b) trip the unmerged-paths guard above on the NEXT run — either way bricking the
 # pipeline. origin/main is canonical and is re-installed by the checkout below.
-git checkout -- data/macroRegime.json 2>/dev/null || true
+#
+# 2026-05-22: macro-headlines/ + macroRegime-history/ added to this list after a
+# stash-pop conflict on data/macro-headlines/2026-05-20.jsonl left UU entries that
+# silently broke the auto-commit (empty branch pushed → "No commits between main"
+# at PR create, launchd exit 8). Previously only macroRegime.json was guarded.
+MACRO_CRON_PATHS=(
+  data/macroRegime.json
+  data/macro-headlines
+  data/macroRegime-history
+)
+for macro_path in "${MACRO_CRON_PATHS[@]}"; do
+  git checkout -- "${macro_path}" 2>/dev/null || true
+done
 
 # Autostash BEFORE we move the working copy. The tree is routinely dirty
 # with regenerated files (data/coverage/*, data/sws/_sanity/_latest.json);
@@ -305,15 +318,19 @@ if [ "${STASHED}" -eq 1 ]; then
   fi
 fi
 
-# Self-heal: if any future pop conflicts on the cron-owned macro file despite the
+# Self-heal: if a pop still conflicts on any macro-cron-owned path despite the
 # pre-stash discard above, auto-resolve it to origin/main's version so we never
-# leave <<<<<<< markers behind (which would invalidate the JSON and lock out the
-# next run via the unmerged-paths guard). sws-nightly-base points at origin/main.
-if git ls-files -u -- data/macroRegime.json | grep -q .; then
-  echo "[nightly] data/macroRegime.json unmerged after pop — auto-resolving to origin/main"
-  git checkout sws-nightly-base -- data/macroRegime.json
-  git add data/macroRegime.json
-fi
+# leave UU entries behind (which would make `git commit` refuse below and lock out
+# the next run via the unmerged-paths guard). sws-nightly-base points at origin/main.
+# The `git add` after the checkout clears the unmerged state; because the restored
+# content equals HEAD (origin/main), it contributes nothing to the eventual commit.
+for macro_path in "${MACRO_CRON_PATHS[@]}"; do
+  if git ls-files -u -- "${macro_path}" | grep -q .; then
+    echo "[nightly] ${macro_path} unmerged after pop — auto-resolving to origin/main"
+    git checkout sws-nightly-base -- "${macro_path}"
+    git add "${macro_path}"
+  fi
+done
 
 if [ ${DRY_RUN} -eq 1 ]; then
   echo "[nightly] DRY RUN — skipping scrape, sanity gate, commit, PR"
@@ -1030,6 +1047,29 @@ git commit -m "chore(sws): auto-refresh ${RUN_LABEL} — full universe rescan
 ${COMMIT_BODY}
 
 Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>" 2>&1 | sed 's/^/[git] /'
+COMMIT_RC=${PIPESTATUS[0]}
+
+# Guard (2026-05-22 permanent fix): the commit is piped to sed and the script runs
+# without `set -e`, so a failed `git commit` used to be silently ignored — the run
+# then pushed a commitless branch and died at `gh pr create` with "No commits
+# between main and <branch>" (exit 8), masking the real cause (unmerged macro-cron
+# files in the index). Fail loud HERE instead of pushing an empty branch.
+# ${PIPESTATUS[0]} is git's own rc — robust whether or not pipefail is set.
+if [ "${COMMIT_RC}" -ne 0 ]; then
+  echo "[nightly] git commit failed (rc=${COMMIT_RC}) — refusing to push an empty branch"
+  send_mail "🚨 SWS nightly — git commit failed" "git commit returned ${COMMIT_RC} at $(ts).
+NOT pushing ${BRANCH}: a commitless branch would fail PR creation with
+'No commits between main and ${BRANCH}'. Most likely unmerged paths in the index
+that the macro-cron self-heal did not cover. Inspect:
+
+  cd ${REPO_DIR}
+  git status
+  git ls-files -u
+
+Last 30 lines of nightly log:
+$(tail -30 ${LOG})"
+  exit 8
+fi
 
 if ! git push -u origin "${BRANCH}" 2>&1 | sed 's/^/[git] /'; then
   echo "[nightly] git push failed"
