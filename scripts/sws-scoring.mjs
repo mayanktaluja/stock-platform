@@ -7,6 +7,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { PATHS } from "./sws-config.mjs";
+import { relativeFvPoints, buildFvUpsideBenchmark } from "../services/scoring/fvUpsideRelative.js";
 
 // Surveillance lookup is optional — gracefully degrades if module not available.
 // Loaded once at module init; the underlying snapshot is cached in surveillance.js.
@@ -26,7 +27,7 @@ const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinite(v) ? 
 // Bump PICKS_SCHEMA_VERSION on a breaking field rename; bump
 // PICKS_SCORING_VERSION when scoring math changes.
 export const PICKS_SCHEMA_VERSION = "picks-latest-v2";
-export const PICKS_SCORING_VERSION = "sws-v3-100pt-2026-05";
+export const PICKS_SCORING_VERSION = "sws-v3-100pt-fvrel-2026-05";
 
 // 13 input fields the scoring engine looks at. Track which were populated
 // so we can flag thin-coverage names rather than silently scoring missing
@@ -483,11 +484,19 @@ export function computeV3Score(stock, opts = {}) {
   const pts_past = (v_past / 6) * 12;
   const pts_dividends = (v_dividends / 6) * 8;
 
-  // ---- FV upside (12 pts, neutral=6 if missing) ----
+  // ---- FV upside (12 pts) — relative, magnitude-aware vs the universe
+  // benchmark (median/MAD of signed-log upside, micro-caps excluded) when
+  // present; else the legacy absolute band (graceful fallback, mirrors
+  // momentum's neutral-impute). ----
   const upside = num(ov.upside_pct, null);
+  const fvBenchmark = opts.fvBenchmark || universe?.fvBenchmark || null;
   let pts_fv_upside;
   let fv_imputed = false;
-  if (upside == null) { pts_fv_upside = 6; fv_imputed = true; }
+  if (fvBenchmark) {
+    const fv = relativeFvPoints(upside, fvBenchmark);
+    pts_fv_upside = fv.pts;
+    fv_imputed = fv.imputed;
+  } else if (upside == null) { pts_fv_upside = 6; fv_imputed = true; }
   else if (upside >= 30) pts_fv_upside = 12;
   else if (upside >= 15) pts_fv_upside = 9;
   else if (upside >= 0) pts_fv_upside = 6;
@@ -543,7 +552,7 @@ export function computeV3Score(stock, opts = {}) {
       pts_valuation: Math.round(pts_valuation * 10) / 10,
       pts_past: Math.round(pts_past * 10) / 10,
       pts_dividends: Math.round(pts_dividends * 10) / 10,
-      pts_fv_upside,
+      pts_fv_upside: Math.round(pts_fv_upside * 10) / 10,
       fv_imputed,
       pts_mom_1y: Math.round(pts_mom_1y * 10) / 10,
       pts_mom_3m: Math.round(pts_mom_3m * 10) / 10,
@@ -955,6 +964,14 @@ export function runFullScoring() {
     }
   }
   const universe = buildUniverseStats(loaded);
+  // Relative FV-upside benchmark — median/MAD of signed-log upside over the
+  // universe with micro-caps (< ₹500cr) excluded. Attached to `universe` so it
+  // flows to computeV3Score via the existing opts plumbing; persisted into
+  // v3-universe-stats.json so on-demand scorers can load it.
+  universe.fvBenchmark = buildFvUpsideBenchmark(
+    loaded.map((s) => ({ upside_pct: s?.overview?.upside_pct, market_cap_inr: s?.overview?.market_cap_inr })),
+    { microCapFloorInr: 5e9 },
+  );
 
   const scored = [];
   for (const stock of loaded) {
@@ -1040,6 +1057,7 @@ export function runFullScoring() {
     generated_at: new Date().toISOString(),
     universe_size: universe.r1m.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
+    fv_upside_benchmark: universe.fvBenchmark,
     momentum_coverage: coverage,
     excluded_for_momentum: excludedForMomentum,
     notes:
@@ -1076,6 +1094,14 @@ export function rebuildUniverseStatsOnly() {
     } catch {}
   }
   const universe = buildUniverseStats(loaded);
+  // Relative FV-upside benchmark — median/MAD of signed-log upside over the
+  // universe with micro-caps (< ₹500cr) excluded. Attached to `universe` so it
+  // flows to computeV3Score via the existing opts plumbing; persisted into
+  // v3-universe-stats.json so on-demand scorers can load it.
+  universe.fvBenchmark = buildFvUpsideBenchmark(
+    loaded.map((s) => ({ upside_pct: s?.overview?.upside_pct, market_cap_inr: s?.overview?.market_cap_inr })),
+    { microCapFloorInr: 5e9 },
+  );
   const coverage = buildMomentumCoverageReport(loaded);
   const excludedForMomentum = collectExcludedForMomentum(loaded);
   // universe_size === r1m.length === r3m.length === r1y.length by construction.
@@ -1084,6 +1110,7 @@ export function rebuildUniverseStatsOnly() {
     generated_at: new Date().toISOString(),
     universe_size: universe.r1m.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
+    fv_upside_benchmark: universe.fvBenchmark,
     momentum_coverage: coverage,
     excluded_for_momentum: excludedForMomentum,
     notes:

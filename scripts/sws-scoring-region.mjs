@@ -35,6 +35,7 @@ import {
   PICKS_SCHEMA_VERSION,
   PICKS_SCORING_VERSION,
 } from "./sws-scoring.mjs";
+import { buildFvUpsideBenchmark } from "../services/scoring/fvUpsideRelative.js";
 
 const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinite(v) ? v : fallback);
 
@@ -230,6 +231,13 @@ export function runFullScoringRegion(code) {
     }
   }
   const universe = buildUniverseStats(loaded);
+  // Relative FV-upside benchmark — the region-native market-cap floor
+  // (region.mcapFloorNative) excludes micro-caps. Currency-neutral: the floor
+  // and market_cap_inr are both in the region's native units.
+  universe.fvBenchmark = buildFvUpsideBenchmark(
+    loaded.map((s) => ({ upside_pct: s?.overview?.upside_pct, market_cap_inr: s?.overview?.market_cap_inr })),
+    { microCapFloorInr: region.mcapFloorNative },
+  );
 
   const scored = [];
   for (const stock of loaded) {
@@ -281,6 +289,7 @@ export function runFullScoringRegion(code) {
     region: region.code.toUpperCase(),
     universe_size: universe.r1m.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
+    fv_upside_benchmark: universe.fvBenchmark,
     momentum_coverage: coverage,
     excluded_for_momentum: excludedForMomentum,
     r1m: universe.r1m,
