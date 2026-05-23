@@ -5,6 +5,8 @@
 // Inputs: per-stock objects matching data/sws/deep/{TICKER}.json schema.
 // Outputs: composite_score_100 (v1), verdict, categories, v2_score_100, v2_breakdown.
 
+import { relativeFvPoints } from "./scoring/fvUpsideRelative.js";
+
 let _getSurveillanceFlag = () => null;
 try {
   const mod = await import("../surveillance.js");
@@ -20,7 +22,7 @@ export const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinit
 // PICKS_SCORING_VERSION when the scoring math changes (weights, gates,
 // imputation rules).
 export const PICKS_SCHEMA_VERSION = "picks-latest-v2";
-export const PICKS_SCORING_VERSION = "sws-v3-100pt-2026-05";
+export const PICKS_SCORING_VERSION = "sws-v3-100pt-fvrel-2026-05";
 
 // 13 input fields the scoring engine looks at. Track which were populated
 // so we can flag thin-coverage names rather than silently scoring missing
@@ -302,10 +304,19 @@ export function computeV3Score(stock, opts = {}) {
   const pts_past = (v_past / 6) * 12;
   const pts_dividends = (v_dividends / 6) * 8;
 
+  // FV upside (12 pts) — relative, magnitude-aware score against the universe
+  // benchmark (median/MAD of signed-log upside, micro-caps excluded) when one is
+  // present; else the legacy absolute band, so on-demand scoring before the
+  // benchmark is persisted still works (mirrors momentum's neutral-impute fallback).
   const upside = num(ov.upside_pct, null);
+  const fvBenchmark = opts.fvBenchmark || universe?.fvBenchmark || null;
   let pts_fv_upside;
   let fv_imputed = false;
-  if (upside == null) { pts_fv_upside = 6; fv_imputed = true; }
+  if (fvBenchmark) {
+    const fv = relativeFvPoints(upside, fvBenchmark);
+    pts_fv_upside = fv.pts;
+    fv_imputed = fv.imputed;
+  } else if (upside == null) { pts_fv_upside = 6; fv_imputed = true; }
   else if (upside >= 30) pts_fv_upside = 12;
   else if (upside >= 15) pts_fv_upside = 9;
   else if (upside >= 0) pts_fv_upside = 6;
@@ -359,7 +370,7 @@ export function computeV3Score(stock, opts = {}) {
       pts_valuation: Math.round(pts_valuation * 10) / 10,
       pts_past: Math.round(pts_past * 10) / 10,
       pts_dividends: Math.round(pts_dividends * 10) / 10,
-      pts_fv_upside,
+      pts_fv_upside: Math.round(pts_fv_upside * 10) / 10,
       fv_imputed,
       pts_mom_1y: Math.round(pts_mom_1y * 10) / 10,
       pts_mom_3m: Math.round(pts_mom_3m * 10) / 10,
