@@ -56,6 +56,12 @@ const YEARS = parseInt(ARGS.years || "4", 10);
 const HOLD_N = parseInt(ARGS.hold || "30", 10);
 const POOL_SIZE = parseInt(ARGS.pool || "60", 10); // candidate pool — wider than HOLD_N to give the blend room to choose
 const WEIGHTS = (ARGS.weights || "0,15,30,45,60").split(",").map((s) => parseFloat(s) / 100);
+// --rank-field=<field> ranks the candidate pool by any score on the picks card
+// (default v1 `score`; pass v3_score_100 or v4_score_100 to compare scoring
+// models, e.g. `--rank-field=v4_score_100 --weights=0`). STILL look-ahead-biased
+// (present-day score held constant at every past rebalance) — directional only,
+// never a forward-return pass/fail gate.
+const RANK_FIELD = typeof ARGS["rank-field"] === "string" ? ARGS["rank-field"] : "score";
 const INITIAL_CAPITAL = 1_000_000; // ₹10L
 const REBALANCE_MONTHS = 3; // quarterly
 
@@ -186,20 +192,22 @@ function monthlySharpe(equityCurve, dates) {
 
 function loadUniverse() {
   const picks = JSON.parse(fs.readFileSync(PATHS.picksLatest, "utf-8"));
-  // Take all stocks from sections with v1 score >= 30 and mcap >= ₹500cr.
-  // Dedupe across sections; keep the highest-scoring entry.
+  // Rank by RANK_FIELD (v1 `score` by default; v3_score_100 / v4_score_100 to
+  // compare models) and mcap >= ₹500cr. Dedupe across sections; keep the
+  // highest-ranked entry.
+  const rv = (c) => c[RANK_FIELD];
   const map = new Map();
   for (const items of Object.values(picks.sections || {})) {
     if (!Array.isArray(items)) continue;
     for (const c of items) {
-      if (!c.ticker || c.score == null) continue;
+      if (!c.ticker || rv(c) == null) continue;
       if ((c.market_cap_inr || 0) < 5_000_000_000) continue; // ₹500cr floor
       const ex = map.get(c.ticker);
-      if (!ex || (c.score || 0) > (ex.score || 0)) map.set(c.ticker, c);
+      if (!ex || (rv(c) || 0) > (rv(ex) || 0)) map.set(c.ticker, c);
     }
   }
-  // Sort by v1 score desc, take POOL_SIZE.
-  const ranked = [...map.values()].sort((a, b) => (b.score || 0) - (a.score || 0)).slice(0, POOL_SIZE);
+  // Sort by RANK_FIELD desc, take POOL_SIZE.
+  const ranked = [...map.values()].sort((a, b) => (rv(b) || 0) - (rv(a) || 0)).slice(0, POOL_SIZE);
   return ranked;
 }
 
@@ -285,7 +293,7 @@ function runWeight(weight, candidates, priceData) {
         if (!bars) continue;
         const tech = techScoreAt(bars, day);
         if (tech == null) continue;
-        const v1 = c.score; // CONSTANT — known limitation
+        const v1 = c[RANK_FIELD] ?? c.score; // ranked by --rank-field; CONSTANT (look-ahead) — known limitation
         const blended = v1 * (1 - weight) + tech * weight;
         scored.push({ ticker: c.ticker, blended, v1, tech, price: priceAt(bars, day) });
       }

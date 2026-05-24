@@ -112,15 +112,15 @@ console.log("\ndetectTailwindSectors: three-layer evidence\n");
 }
 
 {
-  // Layer 2: 5 Defence picks averaging +35% upside, v3 60+ → +6 on Defence
+  // Layer 2: 5 Defence picks averaging +35% upside, v4 60+ → +6 on Defence
   const picks = {
     sections: {
-      top_ranked_30_v3: [
-        { ticker: "HAL",      sector: "Aerospace & Defense", v3_score_100: 70, upside_pct: 30 },
-        { ticker: "BEL",      sector: "Aerospace & Defense", v3_score_100: 68, upside_pct: 35 },
-        { ticker: "BDL",      sector: "Aerospace & Defense", v3_score_100: 65, upside_pct: 40 },
-        { ticker: "MAZDOCK",  sector: "Defence",             v3_score_100: 62, upside_pct: 32 },
-        { ticker: "DATAPATTNS", sector: "Defence",           v3_score_100: 60, upside_pct: 38 },
+      top_ranked_30: [
+        { ticker: "HAL",      sector: "Aerospace & Defense", v4_score_100: 70, upside_pct: 30 },
+        { ticker: "BEL",      sector: "Aerospace & Defense", v4_score_100: 68, upside_pct: 35 },
+        { ticker: "BDL",      sector: "Aerospace & Defense", v4_score_100: 65, upside_pct: 40 },
+        { ticker: "MAZDOCK",  sector: "Defence",             v4_score_100: 62, upside_pct: 32 },
+        { ticker: "DATAPATTNS", sector: "Defence",           v4_score_100: 60, upside_pct: 38 },
       ],
     },
   };
@@ -154,10 +154,10 @@ console.log("\ndetectTailwindSectors: three-layer evidence\n");
   };
   const picks = {
     sections: {
-      top_ranked_30_v3: [
-        { ticker: "HAL",     sector: "Defence", v3_score_100: 70, upside_pct: 30 },
-        { ticker: "BEL",     sector: "Defence", v3_score_100: 68, upside_pct: 35 },
-        { ticker: "BDL",     sector: "Defence", v3_score_100: 65, upside_pct: 40 },
+      top_ranked_30: [
+        { ticker: "HAL",     sector: "Defence", v4_score_100: 70, upside_pct: 30 },
+        { ticker: "BEL",     sector: "Defence", v4_score_100: 68, upside_pct: 35 },
+        { ticker: "BDL",     sector: "Defence", v4_score_100: 65, upside_pct: 40 },
       ],
     },
   };
@@ -195,10 +195,10 @@ console.log("\nscoreSectorFit: gap × tailwind matrix\n");
   ];
   const picks = {
     sections: {
-      top_ranked_30_v3: [
-        { ticker: "HAL",     sector: "Defence", v3_score_100: 70, upside_pct: 35 },
-        { ticker: "BEL",     sector: "Defence", v3_score_100: 68, upside_pct: 35 },
-        { ticker: "BDL",     sector: "Defence", v3_score_100: 65, upside_pct: 35 },
+      top_ranked_30: [
+        { ticker: "HAL",     sector: "Defence", v4_score_100: 70, upside_pct: 35 },
+        { ticker: "BEL",     sector: "Defence", v4_score_100: 68, upside_pct: 35 },
+        { ticker: "BDL",     sector: "Defence", v4_score_100: 65, upside_pct: 35 },
       ],
     },
   };
@@ -245,10 +245,10 @@ console.log("\nscoreSectorFit: gap × tailwind matrix\n");
   const overlay = [{ sector: "Defence", pct: 10 }];
   const picks = {
     sections: {
-      top_ranked_30_v3: [
-        { ticker: "A", sector: "Defence", v3_score_100: 70, upside_pct: 35 },
-        { ticker: "B", sector: "Defence", v3_score_100: 68, upside_pct: 35 },
-        { ticker: "C", sector: "Defence", v3_score_100: 65, upside_pct: 35 },
+      top_ranked_30: [
+        { ticker: "A", sector: "Defence", v4_score_100: 70, upside_pct: 35 },
+        { ticker: "B", sector: "Defence", v4_score_100: 68, upside_pct: 35 },
+        { ticker: "C", sector: "Defence", v4_score_100: 65, upside_pct: 35 },
       ],
     },
   };
@@ -276,22 +276,22 @@ console.log("\nselectSectorGapPicks: per-sector cap + priority ordering\n");
 
   // 10 candidates across 4 sectors. All clear the perfect-fit floor.
   const candidates = [
-    // Defence — Layer 1 tailwind, missing → fit 16, total 16+v3
-    { source: "fresh", ticker: "HAL", sector: "Defence",      v3_score: 70, snowflake_total: 18, upside_pct: 30 },
-    { source: "fresh", ticker: "BEL", sector: "Defence",      v3_score: 65, snowflake_total: 17, upside_pct: 28 },
+    // Defence — Layer 1 tailwind, missing → fit 16, total 16+v4
+    { source: "fresh", ticker: "HAL", sector: "Defence",      v4_score: 70, snowflake_total: 18, upside_pct: 30 },
+    { source: "fresh", ticker: "BEL", sector: "Defence",      v4_score: 65, snowflake_total: 17, upside_pct: 28 },
     // Pharma — Layer 1 tailwind, missing
-    { source: "fresh", ticker: "CIPLA", sector: "Pharma",     v3_score: 60, snowflake_total: 18, upside_pct: 25 },
-    { source: "fresh", ticker: "DRREDDY", sector: "Pharma",   v3_score: 58, snowflake_total: 17, upside_pct: 22 },
+    { source: "fresh", ticker: "CIPLA", sector: "Pharma",     v4_score: 60, snowflake_total: 18, upside_pct: 25 },
+    { source: "fresh", ticker: "DRREDDY", sector: "Pharma",   v4_score: 58, snowflake_total: 17, upside_pct: 22 },
     // Capital Goods — Layer 1 tailwind, missing
-    { source: "fresh", ticker: "ABB", sector: "Capital Goods", v3_score: 62, snowflake_total: 17, upside_pct: 18 },
+    { source: "fresh", ticker: "ABB", sector: "Capital Goods", v4_score: 62, snowflake_total: 17, upside_pct: 18 },
     // Cement — NO tailwind, missing
-    { source: "fresh", ticker: "ULTRA", sector: "Cement",     v3_score: 70, snowflake_total: 17, upside_pct: 15 },
+    { source: "fresh", ticker: "ULTRA", sector: "Cement",     v4_score: 70, snowflake_total: 17, upside_pct: 15 },
     // Banking — overweight, should be excluded
-    { source: "fresh", ticker: "HDFCBANK", sector: "Banking", v3_score: 80, snowflake_total: 19, upside_pct: 20 },
+    { source: "fresh", ticker: "HDFCBANK", sector: "Banking", v4_score: 80, snowflake_total: 19, upside_pct: 20 },
     // Below floor — should be excluded
-    { source: "fresh", ticker: "LOW1", sector: "Defence",     v3_score: 30, snowflake_total: 18, upside_pct: 30 },
-    { source: "fresh", ticker: "LOW2", sector: "Pharma",      v3_score: 60, snowflake_total: 10, upside_pct: 30 },
-    { source: "fresh", ticker: "LOW3", sector: "Defence",     v3_score: 60, snowflake_total: 18, upside_pct: 5 },
+    { source: "fresh", ticker: "LOW1", sector: "Defence",     v4_score: 30, snowflake_total: 18, upside_pct: 30 },
+    { source: "fresh", ticker: "LOW2", sector: "Pharma",      v4_score: 60, snowflake_total: 10, upside_pct: 30 },
+    { source: "fresh", ticker: "LOW3", sector: "Defence",     v4_score: 60, snowflake_total: 18, upside_pct: 5 },
   ];
   const picks = selectSectorGapPicks(candidates, ctx, { limit: 5 });
 
@@ -340,9 +340,9 @@ console.log("\nselectSectorGapPicks: per-sector cap + priority ordering\n");
     picks.map((p) => p.whyFit),
   );
   assert(
-    "perfectFitScore set and equals v3 + sectorFit.score",
-    picks.every((p) => Math.abs(p.perfectFitScore - (p.v3_score + p._sectorFit.score)) < 0.001),
-    picks.map((p) => ({ ticker: p.ticker, v3: p.v3_score, fit: p._sectorFit.score, total: p.perfectFitScore })),
+    "perfectFitScore set and equals v4 + sectorFit.score",
+    picks.every((p) => Math.abs(p.perfectFitScore - (p.v4_score + p._sectorFit.score)) < 0.001),
+    picks.map((p) => ({ ticker: p.ticker, v4: p.v4_score, fit: p._sectorFit.score, total: p.perfectFitScore })),
   );
 }
 
@@ -351,8 +351,8 @@ console.log("\nselectSectorGapPicks: per-sector cap + priority ordering\n");
   const overlay = [{ sector: "Banking", pct: 35 }];
   const ctx = buildSectorContext(overlay, null, null);
   const candidates = [
-    { source: "fresh", ticker: "HAL", sector: "Defence", v3_score: 70, snowflake_total: 18, upside_pct: 30 },
-    { source: "fresh", ticker: "BEL", sector: "Defence", v3_score: 68, snowflake_total: 17, upside_pct: 28 },
+    { source: "fresh", ticker: "HAL", sector: "Defence", v4_score: 70, snowflake_total: 18, upside_pct: 30 },
+    { source: "fresh", ticker: "BEL", sector: "Defence", v4_score: 68, snowflake_total: 17, upside_pct: 28 },
   ];
   const picks = selectSectorGapPicks(candidates, ctx, { limit: 5 });
   assert(
@@ -366,7 +366,7 @@ console.log("\nselectSectorGapPicks: per-sector cap + priority ordering\n");
   // Only holdings (no fresh) → returns empty
   const ctx = buildSectorContext([{ sector: "Banking", pct: 35 }], null, null);
   const candidates = [
-    { source: "holding", ticker: "HAL", sector: "Defence", v3_score: 70, snowflake_total: 18, upside_pct: 30 },
+    { source: "holding", ticker: "HAL", sector: "Defence", v4_score: 70, snowflake_total: 18, upside_pct: 30 },
   ];
   const picks = selectSectorGapPicks(candidates, ctx, { limit: 5 });
   assert(
@@ -416,8 +416,8 @@ console.log("\nbuildPerfectFitReason: copy variants\n");
 console.log("\nExported constants\n");
 {
   assert(
-    "PERFECT_FIT_FLOOR matches plan: v3=45, snowflake=16, upside=8",
-    PERFECT_FIT_FLOOR.v3 === 45 && PERFECT_FIT_FLOOR.snowflake_total === 16 && PERFECT_FIT_FLOOR.upside_pct === 8,
+    "PERFECT_FIT_FLOOR matches plan: v4=47, snowflake=16, upside=8",
+    PERFECT_FIT_FLOOR.v4 === 47 && PERFECT_FIT_FLOOR.snowflake_total === 16 && PERFECT_FIT_FLOOR.upside_pct === 8,
     PERFECT_FIT_FLOOR,
   );
   assert(

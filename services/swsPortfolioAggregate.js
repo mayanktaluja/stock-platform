@@ -138,7 +138,7 @@ export function buildTiers(scoredHoldings) {
       freedRupees += freed;
       tierA.push({ ...h, freedRupees: Math.round(freed) });
     } else if (h.action === "HOLD") {
-      const v3 = num(h.sws.v3_score, 0);
+      const v4 = num(h.sws.v4_score, 0);
       const upside = num(h.sws.upside_pct, 0);
       const days = h.sws.next_earnings_date
         ? Math.ceil((new Date(h.sws.next_earnings_date + "T00:00:00Z") - Date.now()) / 86400000)
@@ -147,17 +147,17 @@ export function buildTiers(scoredHoldings) {
       // earnings ≤7d) was so strict that EVERY HOLD on a real personal
       // book landed in Tier D, leaving Tier C empty (real-portfolio
       // diagnostic gap #3). New rule:
-      //   • v3 < 25  → genuinely borderline (universe p25 zone)
+      //   • v4 < 28  → genuinely borderline (V4 WATCH floor, ~universe p25)
       //   • upside < -5 (significantly overvalued, not just modest)
       //   • earnings ≤3d (true imminent catalyst, not 7d window)
       // Anything else stays in Tier C.
-      const isWatch = v3 < 25 || upside < -5 || (days != null && days >= 0 && days <= 3);
+      const isWatch = v4 < 28 || upside < -5 || (days != null && days >= 0 && days <= 3);
       if (isWatch) {
         tierD.push({
           ...h,
           watchReason: days != null && days >= 0 && days <= 3
             ? `Earnings in ${days}d — re-evaluate post-result.`
-            : v3 < 25 ? `Low score (v3 ${v3.toFixed(1)}) — watch for catalyst.`
+            : v4 < 28 ? `Low score (v4 ${v4.toFixed(1)}) — watch for catalyst.`
             : `Notable overvaluation (${upside.toFixed(1)}%) — re-rate next quarter.`,
         });
       } else {
@@ -170,7 +170,7 @@ export function buildTiers(scoredHoldings) {
 }
 
 // PR 7 calibration: the v1 filter required v1-verdict ∈ {QUALITY_GROWTH,
-// DEEP_VALUE} which gate at composite ≥ 62. v3-aware filter uses v3_verdict
+// DEEP_VALUE} which gate at composite ≥ 62. v3-aware filter uses v4_verdict
 // (TOP_PICK ≥60, STRONG ≥45) which is the score the action engine
 // authoritatively drives off. Real-portfolio symptom: Tier B Growth basket
 // was empty despite 30 Top-up candidates because v1 verdict bands almost
@@ -186,8 +186,8 @@ function classifyBasket(rec) {
   const upsideRaw = rec.upside_pct;
   const hasUpside = upsideRaw != null && Number.isFinite(upsideRaw);
   const upside = num(upsideRaw, 0);
-  const v3Verdict = rec.v3_verdict || rec.verdict;
-  const v3Score = num(rec.v3_score, 0);
+  const v4Verdict = rec.v4_verdict || rec.verdict;
+  const v4Score = num(rec.v4_score, 0);
   const risksFlag = rec.v2_breakdown?.risks_flag === true;
 
   // PR 2.4 — fresh-pick basket gate: require upside ≥ 5% to FV. Holdings
@@ -215,7 +215,7 @@ function classifyBasket(rec) {
       rec.surveillance === false ||
       rec.surveillance === "";
     const passesPerfectFit =
-      v3Score >= PERFECT_FIT_FLOOR.v3 &&
+      v4Score >= PERFECT_FIT_FLOOR.v4 &&
       num(snow.total, 0) >= PERFECT_FIT_FLOOR.snowflake_total &&
       hasUpside && upside >= PERFECT_FIT_FLOOR.upside_pct &&
       !risksFlag &&
@@ -236,9 +236,9 @@ function classifyBasket(rec) {
   // longer requires the v1 verdict label.
   const passesGrowth =
     !risksFlag && (
-      ["TOP_PICK", "STRONG"].includes(v3Verdict) ||
+      ["TOP_PICK", "STRONG"].includes(v4Verdict) ||
       (snow.future_growth >= 4 && upside >= 10) ||
-      v3Score >= 50
+      v4Score >= 47
     );
 
   return { defensive: passesDefensive, growth: passesGrowth };
@@ -255,7 +255,7 @@ function holdingToBasketRow(h) {
     snowflake: snow,
     snowflake_total: snow.total,
     verdict: h.sws.verdict,
-    v3_score: h.sws.v3_score,
+    v4_score: h.sws.v4_score,
     v2_score: h.sws.v2_score,
     current_price_inr: ov.current_price_inr,
     fair_value_inr: ov.fair_value_inr,
@@ -300,7 +300,7 @@ function pickToBasketRow(pick) {
     snowflake: snow,
     snowflake_total: snow?.total ?? pick.snowflake_total,
     verdict: pick.verdict,
-    v3_score: pick.v3_score_100 ?? pick.v3_score ?? null,
+    v4_score: pick.v4_score_100 ?? pick.v4_score ?? null,
     v2_score: pick.v2_score,
     current_price_inr: ov.current_price_inr ?? pick.current_price_inr,
     fair_value_inr: reconciled.fair_value_inr,
@@ -378,7 +378,7 @@ export function surfaceOutsidePicks({ scoredHoldings, freshCapitalInr, limit = 1
     ...(sections.deep_value || []),
   ].filter((p) => p?.ticker && !heldTickers.has(p.ticker));
 
-  // Dedupe within each list, then take top by v3_score. Cross-bucket
+  // Dedupe within each list, then take top by v4_score. Cross-bucket
   // dedupe runs after — if a ticker qualifies for both growth and
   // defensive buckets (common: a top-ranked v3 name with strong
   // quality_growth metrics), it stays in growth (the higher-priority
@@ -387,7 +387,7 @@ export function surfaceOutsidePicks({ scoredHoldings, freshCapitalInr, limit = 1
   const dedupe = (arr) => {
     const seen = new Set();
     const out = [];
-    for (const p of arr.sort((a, b) => num(b.v3_score, 0) - num(a.v3_score, 0))) {
+    for (const p of arr.sort((a, b) => num(b.v4_score, 0) - num(a.v4_score, 0))) {
       if (seen.has(p.ticker)) continue;
       seen.add(p.ticker);
       out.push(p);
@@ -500,7 +500,7 @@ function buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit, sectorO
           name: scored.sws.name,
           sector: scored.sws.sector,
           verdict: scored.sws.verdict,
-          v3_score: scored.sws.v3_score,
+          v4_score: scored.sws.v4_score,
           v2_score: scored.sws.v2_score,
           snowflake_total: snow.total,
           snowflake: snow,
@@ -527,7 +527,7 @@ function buildBaskets({ scoredHoldings, freshCapitalInr, freshPickLimit, sectorO
   for (const row of combined) {
     const fit = scoreSectorFit(row.sector, sectorCtx);
     row._sectorFit = fit;
-    row.perfectFitScore = num(row.v3_score, 0) + (fit.score === -999 ? 0 : fit.score);
+    row.perfectFitScore = num(row.v4_score, 0) + (fit.score === -999 ? 0 : fit.score);
     row.whyFit = buildPerfectFitReason(row, sectorCtx, fit);
   }
 
@@ -684,7 +684,7 @@ function buildSectorOverlay(scoredHoldings) {
     row.holdings.push(h.sws?.ticker || h.symbol);
     if (h.swsCovered) {
       row._snowSum += num(h.sws.snowflake_total, 0);
-      row._v3Sum += num(h.sws.v3_score, 0);
+      row._v3Sum += num(h.sws.v4_score, 0);
       row._n += 1;
     }
   }
@@ -722,7 +722,7 @@ function buildSnapshot(scoredHoldings) {
       coveredCount++;
       snowSum += num(h.sws.snowflake_total, 0);
       snowN++;
-      v3Sum += num(h.sws.v3_score, 0);
+      v3Sum += num(h.sws.v4_score, 0);
       v3N++;
       const verdict = h.sws.verdict || "n/a";
       verdictMix[verdict] = (verdictMix[verdict] || 0) + 1;
@@ -743,7 +743,7 @@ function buildSnapshot(scoredHoldings) {
   };
 }
 
-// Apply macro-regime tilt to a list of basket rows. Each row's v3_score
+// Apply macro-regime tilt to a list of basket rows. Each row's v4_score
 // is shifted by half the regime delta (portfolio scores move less than
 // scanner scores per the legacy convention). Pure transform; mutates a
 // copy, not the input.
@@ -756,7 +756,7 @@ function _applyMacroTilt(rows, regime) {
       ...r,
       macro_delta: +(tilt.delta * 0.5).toFixed(2),
       macro_reason: tilt.reason,
-      v3_score: num(r.v3_score, 0) + tilt.delta * 0.5,
+      v4_score: num(r.v4_score, 0) + tilt.delta * 0.5,
     };
   });
 }

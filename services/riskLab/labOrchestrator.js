@@ -140,11 +140,11 @@ export function buildLabPayload(picks, regime, opts = {}) {
     } catch (err) {
       macro = {
         ticker: row?.ticker || null,
-        original_score: Number(row?.v3_score_100 ?? row?.score ?? 0),
-        original_verdict: row?.v3_verdict || null,
+        original_score: Number(row?.v4_score_100 ?? row?.score ?? 0),
+        original_verdict: row?.v4_verdict || null,
         macro_score_delta: 0,
-        macro_adjusted_score: Number(row?.v3_score_100 ?? row?.score ?? 0),
-        macro_adjusted_verdict: row?.v3_verdict || null,
+        macro_adjusted_score: Number(row?.v4_score_100 ?? row?.score ?? 0),
+        macro_adjusted_verdict: row?.v4_verdict || null,
         macro_veto: { vetoed: false, reason: null, regime: null, severity: null, sectorImpact: 0 },
         error: err.message,
       };
@@ -155,10 +155,10 @@ export function buildLabPayload(picks, regime, opts = {}) {
       const deepInputs = extractDeepQualityInputs(deep) || { risks: [], news: [] };
       quality = computeQualityScore({
         ticker: row?.ticker || null,
-        original_score: Number(row?.v3_score_100 ?? row?.score ?? 0),
-        original_verdict: row?.v3_verdict || row?.verdict || null,
+        original_score: Number(row?.v4_score_100 ?? row?.score ?? 0),
+        original_verdict: row?.v4_verdict || row?.verdict || null,
         original_confidence: null, // picks rows don't carry a predictor confidence
-        v3_breakdown: row?.v3_breakdown || null,
+        v4_breakdown: row?.v4_breakdown || null,
         sector: row?.sector || null,
         counter_thesis: row?.counter_thesis || null,
         risks: deepInputs.risks,
@@ -170,8 +170,8 @@ export function buildLabPayload(picks, regime, opts = {}) {
       quality = {
         quality_flags: [],
         quality_score_delta: 0,
-        quality_adjusted_score: Number(row?.v3_score_100 ?? row?.score ?? 0),
-        quality_adjusted_verdict: row?.v3_verdict || null,
+        quality_adjusted_score: Number(row?.v4_score_100 ?? row?.score ?? 0),
+        quality_adjusted_verdict: row?.v4_verdict || null,
         quality_verdict: "INSUFFICIENT_DATA",
         combined_verdict: null,
         quality_veto: { vetoed: false, reason: null },
@@ -370,7 +370,7 @@ export async function runRiskLabWithLlm(opts = {}) {
       sector: row.sector || s.original_sector || null,
       predicted_verdict: prodVerdict,
       predicted_confidence_pct: prodConf,
-      v3_score: s.original_score,
+      v4_score: s.original_score,
       counter_thesis_text: typeof row.counter_thesis === "string"
         ? row.counter_thesis
         : (row.counter_thesis?.bull_thesis_summary || row.counter_thesis?.text || ""),

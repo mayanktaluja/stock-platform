@@ -8,16 +8,16 @@
 // inputs. Returns { earnings_beat[], dividend_capture[], block_deal[] }
 // each capped at the Pillar-2 max-positions count from the strategy
 // plan. Per the V3≥50 LLM-floor memory, earnings BEAT only fires when
-// v3_score_100 ≥ 50.
+// v4_score_100 ≥ 50.
 
 const EARNINGS_MIN_CONFIDENCE_PCT = 60;
-const EARNINGS_MIN_V3_SCORE = 50;
+const EARNINGS_MIN_V3_SCORE = 47;
 const DIVIDEND_MIN_YIELD_ON_COST_PCT = 4;
 const DIVIDEND_MAX_DAYS_UNTIL_HOLDBY = 7;
-const DIVIDEND_MIN_V3_SCORE = 40;
+const DIVIDEND_MIN_V3_SCORE = 37;
 const BLOCK_MIN_DEAL_INR = 50e7; // ₹50 Cr
 const BLOCK_MAX_MARKET_CAP_INR = 3000e7; // ₹3000 Cr
-const BLOCK_MIN_V3_SCORE = 50;
+const BLOCK_MIN_V3_SCORE = 47;
 
 const PILLAR2_MAX_TOTAL = 5;
 
@@ -41,8 +41,12 @@ function filterEarningsBeat(earningsWatch, today_iso) {
       const s = e?.signals;
       if (!p || p.verdict !== "BEAT") return false;
       if (!isFiniteNumber(p.confidence_pct) || p.confidence_pct < EARNINGS_MIN_CONFIDENCE_PCT) return false;
-      const v3 = s?.v3?.v3_score_100;
-      if (!isFiniteNumber(v3) || v3 < EARNINGS_MIN_V3_SCORE) return false;
+      // The earnings signal bus key `signals.v3` is a legacy carrier that now
+      // holds the V4 score under its inner alias `v3_score_100` (set by
+      // v3SignalAdapter / signalAggregator). Read that alias — NOT v4_score_100,
+      // which the bus never sets — or this floor silently rejects every event.
+      const v4 = s?.v3?.v3_score_100;
+      if (!isFiniteNumber(v4) || v4 < EARNINGS_MIN_V3_SCORE) return false;
       const days = daysBetweenIso(today_iso, e.event_iso_date);
       if (days === null || days < 0 || days > 7) return false;
       return true;
@@ -52,7 +56,7 @@ function filterEarningsBeat(earningsWatch, today_iso) {
       symbol: e.symbol,
       event_iso_date: e.event_iso_date,
       confidence_pct: e.prediction.confidence_pct,
-      v3_score_100: e.signals?.v3?.v3_score_100 ?? null,
+      v4_score_100: e.signals?.v3?.v3_score_100 ?? null,
       sector: e.signals?.sector || null,
       reasons_top: e.prediction.reasons_top || [],
     }))
@@ -92,7 +96,7 @@ function filterBlockDeals(deals, today_iso) {
       if (!d || d.side !== "BUY") return false;
       if (!isFiniteNumber(d.deal_value_inr) || d.deal_value_inr < BLOCK_MIN_DEAL_INR) return false;
       if (isFiniteNumber(d.market_cap_inr) && d.market_cap_inr > BLOCK_MAX_MARKET_CAP_INR) return false;
-      if (isFiniteNumber(d.v3_score_100) && d.v3_score_100 < BLOCK_MIN_V3_SCORE) return false;
+      if (isFiniteNumber(d.v4_score_100) && d.v4_score_100 < BLOCK_MIN_V3_SCORE) return false;
       const days = daysBetweenIso(d.deal_date_iso, today_iso);
       if (days === null || days < 0 || days > 7) return false;
       return true;

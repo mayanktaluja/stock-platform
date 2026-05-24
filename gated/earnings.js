@@ -856,7 +856,7 @@
 
   // ────────── "How this prediction was built" expander ──────────
   // A collapsible audit panel on each card. Surfaces the top-3 component
-  // impacts, the SWS V3 breakdown bars, the LLM qualitative read, and
+  // impacts, the SWS V4 breakdown bars, the LLM qualitative read, and
   // the version audit trail.
   //
   // SEBI-RA boundary: the LLM read renders in a SEPARATELY-LABELLED,
@@ -870,9 +870,9 @@
   // until the user opts in.
 
   const COMPONENT_LABELS = {
-    v3_future_past: "V3 future + past",
-    v3_valuation: "V3 valuation",
-    v3_overlay: "V3 risk overlay",
+    v3_future_past: "V4 future + past",
+    v3_valuation: "V4 valuation",
+    v3_overlay: "V4 risk overlay",
     runup: "Pre-runup vs sector",
     sector_momentum: "Sector momentum",
     trajectory: "EPS YoY trajectory",
@@ -917,7 +917,7 @@
       </div>`;
     }).join("");
 
-    // 2 — SWS V3 breakdown bars.
+    // 2 — SWS V4 breakdown bars.
     const v3 = signals.v3;
     let v3Html = "";
     if (v3 && v3.breakdown) {
@@ -925,12 +925,12 @@
       v3Html = `
         <div>
           <div style="font-size:9px; color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:5px;">
-            SWS V3 breakdown · ${escHtml(v3.v3_verdict || "")} ${v3.v3_score_100 != null ? `(${v3.v3_score_100}/100)` : ""} · ${escHtml(v3.source || "")}
+            SWS V4 breakdown · ${escHtml(v3.v3_verdict || "")} ${v3.v3_score_100 != null ? `(${v3.v3_score_100}/100)` : ""} · ${escHtml(v3.source || "")}
           </div>
           <div style="display:flex; flex-direction:column; gap:4px;">
             ${v3Bar("Future", b.pts_future, 20)}
-            ${v3Bar("Past", b.pts_past, 12)}
-            ${v3Bar("Valuation", b.pts_fv_upside, 12)}
+            ${v3Bar("Past", b.pts_past, 16)}
+            ${v3Bar("Valuation", b.pts_fv_total, 12)}
             ${v3Bar("Risk overlay", b.pts_overlay, 15, { negative: true })}
           </div>
         </div>`;

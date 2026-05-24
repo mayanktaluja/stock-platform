@@ -124,10 +124,10 @@ function scoreV3FuturePast(signals) {
   if (!b) return { pts: 0, breakdown: { futurePts: 0, pastPts: 0 }, why: "no V3 signal" };
 
   const ptsFuture = num(b.pts_future) ?? 10; // neutral = (3/6)*20
-  const ptsPast = num(b.pts_past) ?? 6; // neutral = (3/6)*12
+  const ptsPast = num(b.pts_past) ?? 8; // V4: neutral = (3/6)*16 (Past is 0–16)
   // Anchor at the neutral midpoint, scale to ±12 / ±6.
   const futureContrib = clamp(((ptsFuture - 10) / 10) * 12, -12, 12);
-  const pastContrib = clamp(((ptsPast - 6) / 6) * 6, -6, 6);
+  const pastContrib = clamp(((ptsPast - 8) / 8) * 6, -6, 6); // V4 Past 0–16, neutral 8
   const verdictNudge = num(V3_VERDICT_NUDGE[signals.v3?.v3_verdict]) ?? 0;
 
   const pts = Math.round(clamp(futureContrib + pastContrib + verdictNudge, -18, 18) * 10) / 10;
@@ -156,23 +156,28 @@ function scoreV3FuturePast(signals) {
  */
 function scoreV3Valuation(signals) {
   const b = signals.v3?.breakdown;
-  if (!b || num(b.pts_fv_upside) == null) {
-    // Fallback — no V3 block; score off raw FV upside (rare: the
-    // predictor only runs when SWS deep exists, which yields a V3 block).
+  if (!b || num(b.pts_fv_total) == null) {
+    // Fallback — no V4 FV composite; score off raw FV upside.
     return scoreFvUpside(signals);
   }
-  const ptsFv = num(b.pts_fv_upside); // 0..12, neutral 6
-  const pts = Math.round(clamp(((ptsFv - 6) / 6) * 8, -8, 8) * 10) / 10;
+  const ptsFv = num(b.pts_fv_total); // 0..12, neutral 6 (renormalised V4 composite)
+  let raw = ((ptsFv - 6) / 6) * 8;
+  // MED-9 guard: a single-signal composite (e.g. cheap-P/E with NO analyst FV)
+  // is a weaker BEAT/fade signal than a two-signal one — halve its weight so a
+  // P/E-only stock can't masquerade as a max-discount BEAT. fv_imputed (zero
+  // signals) is already neutral (ptsFv=6 → 0).
+  if (num(b.fv_subsignals_present) === 1) raw *= 0.5;
+  const pts = Math.round(clamp(raw, -8, 8) * 10) / 10;
   return {
     pts,
-    breakdown: { fvPts: pts, pts_fv_upside: ptsFv, imputed: !!b.fv_imputed },
+    breakdown: { fvPts: pts, pts_fv_total: ptsFv, subsignals: b.fv_subsignals_present ?? null, imputed: !!b.fv_imputed },
     why: b.fv_imputed
-      ? "V3 valuation: fair-value imputed (no FV anchor)"
+      ? "V4 valuation: fair-value imputed (no FV anchor)"
       : pts > 0
-        ? `V3 valuation: ${ptsFv}/12 fv-upside tier (discount → BEAT setup)`
+        ? `V4 valuation: ${ptsFv}/12 FV-composite (discount → BEAT setup)`
         : pts < 0
-          ? `V3 valuation: ${ptsFv}/12 fv-upside tier (rich → fade risk)`
-          : "V3 valuation: fairly valued",
+          ? `V4 valuation: ${ptsFv}/12 FV-composite (rich → fade risk)`
+          : "V4 valuation: fairly valued",
   };
 }
 

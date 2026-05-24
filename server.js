@@ -6,7 +6,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { randomUUID, randomBytes, createHmac, createHash, timingSafeEqual } from "node:crypto";
 import { OAuth2Client } from "google-auth-library";
-import { getUserStorage, computeIsAdmin } from "./userStorage.js";
+import { getUserStorage } from "./userStorage.js";
 import dotenv from "dotenv";
 const __filenameForEnv = fileURLToPath(import.meta.url);
 const __dirnameForEnv = path.dirname(__filenameForEnv);
@@ -22,7 +22,7 @@ import { buildSizingDecision } from "./services/riskLab/positionSizing.js";
 import { loadHitRateSummary } from "./services/earnings/hitRateSummary.js";
 import { loadCompounderLatest, loadCompounderPaperTrades } from "./services/compounder/compounderService.js";
 import { loadEdgeLatest, loadEdgePaperTrades } from "./services/earningsEdge/edgeService.js";
-import { createAdminGate } from "./services/auth/adminGate.js";
+import { createPersonalUseGate, isPersonalAllowed } from "./services/auth/personalUseGate.js";
 import { narrateCandidate, buildStrategyExplainer } from "./services/multibagger/rationaleNarrator.js";
 
 // External-API circuit breaker for /api/sector-heatmap (Yahoo Finance batch
@@ -93,6 +93,7 @@ import { parsePortfolioFile, resolveUnmatchedLive, toIsoDate } from "./portfolio
 import { buildReport } from "./portfolioAnalyzer.js";
 import { scoreHolding as swsScoreHolding, loadV3Universe } from "./services/swsHoldingEngine.js";
 import { scoreStock as swsScoreStock, valuationBandFromUpside } from "./services/swsScoring.js";
+import { computeV4Score, verdictV4FromScore } from "./services/swsScoringV4.js";
 import { buildCalibration as buildTrackCalibration } from "./services/trackRecord/calibration.js";
 import { buildSymbolEarningsCalibration } from "./services/trackRecord/earningsCalibration.js";
 import { deriveGovernanceGate } from "./services/swsIndianRiskLayer.js";
@@ -812,11 +813,13 @@ app.get("/api/auth/me", async (req, res) => {
     email: record.email,
     name: record.name,
     picture: record.picture,
-    // Recompute admin status LIVE from ADMIN_EMAILS rather than trusting the
-    // persisted flag, so removing an email from the allowlist revokes access on
-    // the next request — no re-login required. (The former personal-use tier
-    // was folded into admin under the two-tier model.)
-    isAdmin: computeIsAdmin(record.email),
+    isAdmin: !!record.isAdmin,
+    // Personal-use sleeves (Compounder Lab, Earnings Edge) are restricted to
+    // the hard-coded allowlist in services/auth/personalUseGate.js. The flag
+    // here lets the SPA unhide the tab buttons without an extra round-trip;
+    // the server still 404s the underlying /api/compounder/* and
+    // /api/earningsEdge/* routes for non-allowlisted callers.
+    isPersonal: isPersonalAllowed(record.email),
   });
 });
 
@@ -2054,7 +2057,7 @@ app.get("/api/admin/users", async (req, res) => {
   if (!sub) return res.status(401).json({ error: "unauthenticated" });
   const userStore = getUserStorage();
   const me = await userStore.read(sub);
-  if (!me || !computeIsAdmin(me.email)) return res.status(403).json({ error: "forbidden" });
+  if (!me || !me.isAdmin) return res.status(403).json({ error: "forbidden" });
   const all = await userStore.list();
   all.sort((a, b) =>
     (b.lastSeenAt || b.lastLoginAt || 0) -
@@ -2069,7 +2072,7 @@ app.get("/api/admin/users", async (req, res) => {
       const p = await portfolioStore.read(u.sub);
       hasPortfolio = !!(p && ((p.stocks && p.stocks.length) || (p.mutualFunds && p.mutualFunds.length)));
     } catch { /* if storage hiccups, fall back to no-link */ }
-    return { ...u, isAdmin: computeIsAdmin(u.email), hasPortfolio };
+    return { ...u, hasPortfolio };
   }));
   return res.json({ count: users.length, users });
 });
@@ -2090,7 +2093,7 @@ app.get("/api/admin/users/:sub/portfolio.xlsx", async (req, res) => {
   if (!meSub) return res.status(401).json({ error: "unauthenticated" });
   const userStore = getUserStorage();
   const me = await userStore.read(meSub);
-  if (!me || !computeIsAdmin(me.email)) return res.status(403).json({ error: "forbidden" });
+  if (!me || !me.isAdmin) return res.status(403).json({ error: "forbidden" });
 
   const targetSub = String(req.params.sub || "");
   const target = await userStore.read(targetSub);
@@ -2145,7 +2148,7 @@ app.get("/api/admin/combined-shadow-diff", async (req, res) => {
   if (!sub) return res.status(401).json({ error: "unauthenticated" });
   const userStore = getUserStorage();
   const me = await userStore.read(sub);
-  if (!me || !computeIsAdmin(me.email)) return res.status(403).json({ error: "forbidden" });
+  if (!me || !me.isAdmin) return res.status(403).json({ error: "forbidden" });
   try {
     const store = await readShadowDiffStore();
     let entries = store.entries || [];
@@ -2825,14 +2828,15 @@ function readEarningsHealthSlim() {
 
 // ──────────────────────────────────────────────────────────────────────
 // Compounder Lab routes — SAFE sleeve from the 2026-05-19 alpha-strategy
-// plan (~/.claude/plans/sws-alpha-strategy-2026-05-19.md). Admin-only:
-// every route is gated by createAdminGate, which 404s any authenticated
-// user who isn't in ADMIN_EMAILS. The 404 (vs 403) is deliberate — the
-// routes are invisible to non-admin users, no admin-discovery surface.
+// plan (~/.claude/plans/sws-alpha-strategy-2026-05-19.md). Personal-use
+// only: every route is gated by createPersonalUseGate, which 404s any
+// authenticated user whose email isn't in PERSONAL_USE_EMAILS (default:
+// mtaluja11@gmail.com). The 404 (vs 403) is deliberate — the routes are
+// invisible to other users, no admin-discovery surface.
 // ──────────────────────────────────────────────────────────────────────
-const adminGate = createAdminGate({ authEnabled: AUTH_ENABLED });
+const personalUseGate = createPersonalUseGate({ authEnabled: AUTH_ENABLED });
 
-app.get("/api/compounder/latest", adminGate, (req, res) => {
+app.get("/api/compounder/latest", personalUseGate, (req, res) => {
   try {
     const data = loadCompounderLatest();
     if (!data) return res.status(404).json({ error: "compounder-not-built" });
@@ -2843,7 +2847,7 @@ app.get("/api/compounder/latest", adminGate, (req, res) => {
   }
 });
 
-app.get("/api/compounder/paper-trades", adminGate, (req, res) => {
+app.get("/api/compounder/paper-trades", personalUseGate, (req, res) => {
   try {
     res.json(loadCompounderPaperTrades());
   } catch (err) {
@@ -2853,7 +2857,7 @@ app.get("/api/compounder/paper-trades", adminGate, (req, res) => {
 });
 
 // Earnings Edge — AGGRESSIVE sleeve. Same personal-use gate.
-app.get("/api/earnings-edge/latest", adminGate, (req, res) => {
+app.get("/api/earnings-edge/latest", personalUseGate, (req, res) => {
   try {
     const data = loadEdgeLatest();
     if (!data) return res.status(404).json({ error: "earnings-edge-not-built" });
@@ -2864,7 +2868,7 @@ app.get("/api/earnings-edge/latest", adminGate, (req, res) => {
   }
 });
 
-app.get("/api/earnings-edge/paper-trades", adminGate, (req, res) => {
+app.get("/api/earnings-edge/paper-trades", personalUseGate, (req, res) => {
   try {
     res.json(loadEdgePaperTrades());
   } catch (err) {
@@ -2940,7 +2944,7 @@ function loadMultibaggerJsonSafe(rel) {
   }
 }
 
-app.get("/api/multibagger/overview", adminGate, async (req, res) => {
+app.get("/api/multibagger/overview", personalUseGate, async (req, res) => {
   try {
     const scores = loadMultibaggerJsonSafe("data/strategy/multibagger-scores-latest.json");
     const slate = loadMultibaggerJsonSafe("data/strategy/catalyst-slate-latest.json");
@@ -2984,7 +2988,7 @@ app.get("/api/multibagger/overview", adminGate, async (req, res) => {
   }
 });
 
-app.get("/api/multibagger/candidates", adminGate, async (req, res) => {
+app.get("/api/multibagger/candidates", personalUseGate, async (req, res) => {
   try {
     const scores = loadMultibaggerJsonSafe("data/strategy/multibagger-scores-latest.json");
     if (!scores) return res.json({ candidates: [], built_at: null });
@@ -3003,7 +3007,7 @@ app.get("/api/multibagger/candidates", adminGate, async (req, res) => {
   }
 });
 
-app.get("/api/multibagger/portfolio", adminGate, async (req, res) => {
+app.get("/api/multibagger/portfolio", personalUseGate, async (req, res) => {
   try {
     const portfolio = loadMultibaggerJsonSafe("data/strategy/multibagger-portfolio.json");
     res.json(portfolio || { schema_version: "multibagger-portfolio-v1", cash_inr: 100_000, positions: [], closed_positions: [] });
@@ -7060,7 +7064,7 @@ function readJsonSafe(p, fallback = null) {
 // This function makes that invariant a single line at the call site.
 //
 // Back-fills:
-//   • composite_verdict ← v3_verdict   (PR 2.3 alias, renderer prefers it)
+//   • composite_verdict ← v4_verdict   (PR 2.3 alias, renderer prefers it)
 //   • valuation_band    ← upside_pct   (renders DISCOUNT/PREMIUM/… chip)
 //
 // Live-price overlay (issue 2.10): picks-latest.json is typically 12-24h old,
@@ -7117,8 +7121,8 @@ function stampMarketRows(data, market) {
 
 function enrichPickRow(it) {
   if (!it || !it.ticker) return;
-  if (it.composite_verdict == null && it.v3_verdict != null) {
-    it.composite_verdict = it.v3_verdict;
+  if (it.composite_verdict == null && it.v4_verdict != null) {
+    it.composite_verdict = it.v4_verdict;
   }
   if (it.valuation_band == null && typeof it.upside_pct === "number") {
     it.valuation_band = valuationBandFromUpside(it.upside_pct);
@@ -7404,6 +7408,9 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
     try {
       const universe = loadV3Universe();
       const scored = swsScoreStock({ ...deep }, { universe });
+      // v4 — the platform score; computed on-demand for the ~80% of stocks not
+      // in picks-latest.json. Verdict is absolute (no bands needed).
+      const v4 = computeV4Score({ ...deep }, { universe });
       const ov = deep.overview || {};
       card = {
         ticker,
@@ -7413,10 +7420,10 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
         verdict: scored.verdict,
         v2_score: scored.v2_score_100,
         v2_breakdown: scored.v2_breakdown,
-        v3_score: scored.v3_score_100,
-        v3_score_100: scored.v3_score_100,
-        v3_breakdown: scored.v3_breakdown,
-        v3_verdict: scored.v3_verdict,
+        v4_score: v4.v4_score_100,
+        v4_score_100: v4.v4_score_100,
+        v4_breakdown: v4.v4_breakdown,
+        v4_verdict: verdictV4FromScore(v4.v4_score_100),
         snowflake_total: ov.snowflake_total,
         current_price_inr: ov.current_price_inr,
         fair_value_inr: ov.fair_value_inr,
@@ -7434,8 +7441,8 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
   // pickCardFields change. Mirrors the /api/sws-picks back-fill so the modal
   // can show composite_verdict + valuation_band even on stale snapshots.
   if (card) {
-    if (card.composite_verdict == null && card.v3_verdict != null) {
-      card.composite_verdict = card.v3_verdict;
+    if (card.composite_verdict == null && card.v4_verdict != null) {
+      card.composite_verdict = card.v4_verdict;
     }
     if (card.valuation_band == null) {
       const u = Number(card.upside_pct);
@@ -7446,6 +7453,18 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
           u >= -5 ? "FAIR" :
           u >= -20 ? "PREMIUM" : "EXPENSIVE";
       }
+    }
+    // v4 back-fill for picks cards cached before the v4 re-score landed, so the
+    // modal's V4 view renders even on a stale picks-latest.json.
+    if (card.v4_score_100 == null && deep) {
+      try {
+        const universe = loadV3Universe();
+        const v4 = computeV4Score({ ...deep }, { universe });
+        card.v4_score = v4.v4_score_100;
+        card.v4_score_100 = v4.v4_score_100;
+        card.v4_breakdown = v4.v4_breakdown;
+        card.v4_verdict = verdictV4FromScore(v4.v4_score_100);
+      } catch {}
     }
   }
 
@@ -7566,7 +7585,7 @@ async function requireAdminForSwsRefresh(req, res) {
     return false;
   }
   const me = await getUserStorage().read(sub);
-  if (!me || !computeIsAdmin(me.email)) {
+  if (!me || !me.isAdmin) {
     res.status(403).json({ error: "forbidden" });
     return false;
   }

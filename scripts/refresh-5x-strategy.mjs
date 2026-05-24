@@ -91,7 +91,7 @@ async function main() {
       ticker: row.ticker,
       sector: row.sector || deep?.sector || null,
       overview,
-      v3_breakdown: row.v3_breakdown || row,
+      v4_breakdown: row.v4_breakdown || row,
       data_completeness_pct: row.data_completeness_pct ?? null,
       news,
       yearly_history,

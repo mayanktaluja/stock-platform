@@ -100,9 +100,9 @@ for (const code of ["kr", "tw"]) {
     assert.equal(cardOf(region, s).currency, ISO);
   });
 
-  check(`[${code}] surveillance OFF (v2 + v3 breakdown null)`, () => {
+  check(`[${code}] surveillance OFF (v2 + v4 breakdown null)`, () => {
     const s = scoreStockRegion(stock(region, { ticker: "X" + dot }), region, { universe });
-    assert.equal(s.v3_breakdown.surveillance, null);
+    assert.equal(s.v4_breakdown.surveillance, null);
     assert.equal(s.v2_breakdown.surveillance, null);
   });
 
@@ -163,13 +163,14 @@ for (const code of ["kr", "tw"]) {
       region,
       { universe },
     );
-    assert.ok(Number.isFinite(s.v3_score_100));
-    assert.equal(s.v3_breakdown.fv_imputed, true);
+    assert.ok(Number.isFinite(s.v4_score_100));
+    assert.equal(s.v4_breakdown.fv_imputed, true);
   });
 
-  check(`[${code}] (b) negative upside −45% → pts_fv_upside 0`, () => {
+  check(`[${code}] (b) negative upside −45% → pts_fv_total 0`, () => {
     const s = scoreStockRegion(stock(region, { ticker: "EXP" + dot, overview: { current_price_inr: 200, fair_value_inr: 110, upside_pct: -45 } }), region, { universe });
-    assert.equal(s.v3_breakdown.pts_fv_upside, 0);
+    // V4 renamed pts_fv_upside → pts_fv_total; upside ≤ −10 → 0/12.
+    assert.equal(s.v4_breakdown.pts_fv_total, 0);
     assert.ok(cardOf(region, s).upside_pct < 0);
   });
 
@@ -182,9 +183,10 @@ for (const code of ["kr", "tw"]) {
 
   check(`[${code}] (d) missing Snowflake axes → 0, no throw`, () => {
     const s = scoreStockRegion(stock(region, { ticker: "GAP" + dot, overview: { snowflake: { financial_health: 3, valuation: 4 }, snowflake_total: 7 } }), region, { universe });
-    assert.ok(Number.isFinite(s.v3_score_100));
-    assert.equal(s.v3_breakdown.pts_future, 0);
-    assert.equal(s.v3_breakdown.pts_dividends, 0);
+    assert.ok(Number.isFinite(s.v4_score_100));
+    assert.equal(s.v4_breakdown.pts_future, 0);
+    // V4 dropped the dividend pillar — there is no pts_dividends key.
+    assert.ok(!("pts_dividends" in s.v4_breakdown));
   });
 
   check(`[${code}] (e) Infinity / NaN → clamped finite, mcap→0 drops from top30`, () => {
@@ -193,20 +195,20 @@ for (const code of ["kr", "tw"]) {
       region,
       { universe },
     );
-    assert.ok(Number.isFinite(s.v3_score_100));
+    assert.ok(Number.isFinite(s.v4_score_100));
     assert.ok(Number.isFinite(s.composite_score_100));
     assert.ok(!buildLeaderboardRegion([s], region).top_ranked_30_v3.some((c) => c.ticker === "NAN" + dot));
   });
 
   check(`[${code}] (f) no universe → momentum imputed at p50`, () => {
     const s = scoreStockRegion(stock(region, { ticker: "NOUNI" + dot }), region, {});
-    assert.equal(s.v3_breakdown.momentum_imputed, true);
+    assert.equal(s.v4_breakdown.momentum_imputed, true);
   });
 
   check(`[${code}] (g) neg P/B + dotted id → no throw, fields carried`, () => {
     const t = code === "kr" ? "005930.KS" : "2330.TW";
     const s = scoreStockRegion(stock(region, { ticker: t, currency: ISO, overview: { multiples: { pe: null, pb: -3 } } }), region, { universe });
-    assert.ok(Number.isFinite(s.v3_score_100));
+    assert.ok(Number.isFinite(s.v4_score_100));
     const card = cardOf(region, s);
     assert.equal(card.ticker, t);
     assert.equal(card.currency, ISO);
@@ -239,6 +241,17 @@ check("parseStockRegion stamps TWD on a currency-less payload", () => {
   const out = parseStockRegion({ ticker: "2330.TW" }, getRegion("tw"), {});
   assert.equal(out.currency, "TWD");
   assert.equal(out.ticker, "2330.TW");
+});
+
+check("V4 surface — scoreStockRegion emits finite v4 fields, no v3 residue, card carries v4", () => {
+  const region = getRegion("kr");
+  const s = scoreStockRegion(stock(region), region, { universe });
+  assert.ok(Number.isFinite(s.v4_score_100));
+  // V4 is the sole composite score — the V3 fields were deleted in the migration.
+  assert.ok(!("v3_score_100" in s) && !("v3_breakdown" in s) && !("v3_verdict" in s));
+  // V4 breakdown uses pts_fv_total; the old pts_fv_upside name is gone.
+  assert.ok("pts_fv_total" in s.v4_breakdown && !("pts_fv_upside" in s.v4_breakdown));
+  assert.equal(cardOf(region, s).v4_score_100, s.v4_score_100); // regionCardFields spreads pickCardFields → v4 carried
 });
 
 console.log(`\n${pass} passed, ${fail} failed\n`);

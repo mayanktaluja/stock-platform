@@ -101,9 +101,9 @@ function weightedAvg(scoredHoldings, getValue) {
 
 // ─── Component computations ──────────────────────────────────────────
 
-// Quality: weighted avg v3_score → 0..25. Linear map 0→0, 50→12.5, 100→25.
+// Quality: weighted avg v4_score → 0..25. Linear map 0→0, 50→12.5, 100→25.
 function _quality(scoredHoldings) {
-  const avg = weightedAvg(scoredHoldings, (h) => (h.swsCovered ? num(h.sws?.v3_score, null) : null));
+  const avg = weightedAvg(scoredHoldings, (h) => (h.swsCovered ? num(h.sws?.v4_score, null) : null));
   if (avg == null) return { delta: 0, avg: null };
   return { delta: +mapRange(avg, 0, 100, 0, 25).toFixed(2), avg: +avg.toFixed(1) };
 }

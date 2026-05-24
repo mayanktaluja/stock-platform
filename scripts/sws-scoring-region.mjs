@@ -26,8 +26,6 @@ import {
   computeCompositeScore,
   verdictFromScore,
   computeV2Score,
-  computeV3Score,
-  verdictV3FromScore,
   pickCardFields,
   buildUniverseStats,
   buildMomentumCoverageReport,
@@ -35,7 +33,7 @@ import {
   PICKS_SCHEMA_VERSION,
   PICKS_SCORING_VERSION,
 } from "./sws-scoring.mjs";
-import { buildFvUpsideBenchmark } from "../services/scoring/fvUpsideRelative.js";
+import { computeV4Score, verdictV4FromScore } from "./swsScoringV4.mjs";
 
 const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinite(v) ? v : fallback);
 
@@ -51,7 +49,7 @@ function writeJsonAtomic(filePath, value) {
 export function categoriseStockRegion(stock, region) {
   const ov = stock.overview || {};
   const sn = ov.snowflake || {};
-  const v3Verdict = stock.v3_verdict || "WATCH";
+  const v4Verdict = stock.v4_verdict || "WATCH";
   const upsideRaw = num(ov.upside_pct, null);
   const upside = upsideRaw != null ? upsideRaw : 0;
   const hasUpside = upsideRaw != null;
@@ -70,11 +68,11 @@ export function categoriseStockRegion(stock, region) {
 
   const cats = [];
 
-  if (v3Verdict === "TOP_PICK" && valSnow >= 4 && hasUpside && upside >= 20) cats.push("deep_value");
-  if (["TOP_PICK", "STRONG"].includes(v3Verdict) && healthSnow >= 5 && futureSnow >= 4) cats.push("quality_growth");
+  if (v4Verdict === "TOP_PICK" && valSnow >= 4 && hasUpside && upside >= 20) cats.push("deep_value");
+  if (["TOP_PICK", "STRONG"].includes(v4Verdict) && healthSnow >= 5 && futureSnow >= 4) cats.push("quality_growth");
   const positiveMomentum = (ret1y != null && ret1y > 0) || (ret3m != null && ret3m > 5);
   if (
-    ["TOP_PICK", "STRONG", "ACCEPTABLE"].includes(v3Verdict) &&
+    ["TOP_PICK", "STRONG", "ACCEPTABLE"].includes(v4Verdict) &&
     positiveMomentum &&
     hasUpside &&
     upside >= 15 &&
@@ -109,10 +107,11 @@ export function scoreStockRegion(stock, region, opts = {}) {
   stock.v2_score_100 = v2.v2_score_100;
   stock.v2_breakdown = v2.v2_breakdown;
 
-  const v3 = computeV3Score(stock, { ...opts, surveillanceFlag });
-  stock.v3_score_100 = v3.v3_score_100;
-  stock.v3_breakdown = v3.v3_breakdown;
-  stock.v3_verdict = verdictV3FromScore(v3.v3_score_100);
+  // v4 — the platform's sole composite score (region surveillance flag).
+  const v4 = computeV4Score(stock, { ...opts, surveillanceFlag });
+  stock.v4_score_100 = v4.v4_score_100;
+  stock.v4_breakdown = v4.v4_breakdown;
+  stock.v4_verdict = verdictV4FromScore(v4.v4_score_100);
 
   stock.categories = categoriseStockRegion(stock, region);
   return stock;
@@ -137,9 +136,9 @@ function slimUniverseEntryRegion(stock, region, inSections) {
     currency: card.currency,
     score: card.score,
     v2_score: card.v2_score,
-    v3_score: card.v3_score,
-    v3_score_100: card.v3_score_100,
-    v3_verdict: card.v3_verdict,
+    v4_score: card.v4_score,
+    v4_score_100: card.v4_score_100,
+    v4_verdict: card.v4_verdict,
     composite_verdict: card.composite_verdict,
     valuation_band: card.valuation_band,
     verdict: card.verdict,
@@ -158,7 +157,7 @@ function slimUniverseEntryRegion(stock, region, inSections) {
 // Mirror of sws-scoring.mjs::buildLeaderboard: native hygiene floor, NO pure-numeric
 // (BSE) ticker filter, region card fields, and no `avoid` section.
 export function buildLeaderboardRegion(scoredStocks, region) {
-  const ordered = [...scoredStocks].sort((a, b) => (b.v3_score_100 || 0) - (a.v3_score_100 || 0));
+  const ordered = [...scoredStocks].sort((a, b) => (b.v4_score_100 || 0) - (a.v4_score_100 || 0));
   const hygiene = (s) => num(s.overview?.market_cap_inr, 0) >= region.mcapFloorNative;
   const card = (s) => regionCardFields(s, region);
 
@@ -184,14 +183,13 @@ export function buildLeaderboardRegion(scoredStocks, region) {
   const top30 = ordered.filter(hygiene).slice(0, 30).map(card);
 
   const fundamentalsSum = (s) => {
-    const b = s.v3_breakdown || {};
+    const b = s.v4_breakdown || {};
     return (
       (b.pts_health || 0) +
       (b.pts_future || 0) +
       (b.pts_valuation || 0) +
       (b.pts_past || 0) +
-      (b.pts_dividends || 0) +
-      (b.pts_fv_upside || 0)
+      (b.pts_fv_total || 0)
     );
   };
   const bestFundamentals = ordered
@@ -231,13 +229,6 @@ export function runFullScoringRegion(code) {
     }
   }
   const universe = buildUniverseStats(loaded);
-  // Relative FV-upside benchmark — the region-native market-cap floor
-  // (region.mcapFloorNative) excludes micro-caps. Currency-neutral: the floor
-  // and market_cap_inr are both in the region's native units.
-  universe.fvBenchmark = buildFvUpsideBenchmark(
-    loaded.map((s) => ({ upside_pct: s?.overview?.upside_pct, market_cap_inr: s?.overview?.market_cap_inr })),
-    { microCapFloorInr: region.mcapFloorNative },
-  );
 
   const scored = [];
   for (const stock of loaded) {
@@ -289,7 +280,6 @@ export function runFullScoringRegion(code) {
     region: region.code.toUpperCase(),
     universe_size: universe.r1m.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
-    fv_upside_benchmark: universe.fvBenchmark,
     momentum_coverage: coverage,
     excluded_for_momentum: excludedForMomentum,
     r1m: universe.r1m,
@@ -325,8 +315,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
           ticker: scored.ticker,
           currency: scored.currency,
           composite_score_100: scored.composite_score_100,
-          v3_score_100: scored.v3_score_100,
-          v3_verdict: scored.v3_verdict,
+          v4_score_100: scored.v4_score_100,
+          v4_verdict: scored.v4_verdict,
           categories: scored.categories,
         },
         null,

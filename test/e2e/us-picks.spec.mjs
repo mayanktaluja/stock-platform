@@ -37,15 +37,7 @@ test.describe("US Picks tab", () => {
     await openUSPicks(page);
     const container = page.locator("#usPicksContainer");
     expect(await container.locator(".sws-pick-card").count()).toBeGreaterThan(0);
-    // Read the rendered CARD text, not the container's innerText: innerText
-    // surfaces only the always-visible accordion chrome (chip-nav + section
-    // headers/subtitles), and the US subtitles literally contain "$"
-    // ("Hygiene: mcap ≥ $50M", "Mcap < $2B") — so innerText satisfies
-    // toContain("$") even if the card prices rendered with the wrong/no symbol.
-    // The prices live inside .section-body (overflow:hidden; non-hero sections
-    // collapse to max-height:0), so textContent — which ignores CSS visibility —
-    // is the surface that actually reflects what the cards render.
-    const text = (await container.locator(".sws-pick-card").allTextContents()).join("\n");
+    const text = await container.innerText();
     expect(text).toContain("$");
     expect(text).not.toContain("₹");
     await expect(container.locator('.sws-pick-section[data-section-key="top_ranked_30_v3"]')).toBeVisible();
@@ -53,7 +45,7 @@ test.describe("US Picks tab", () => {
 
   test("open to all signed-in users: tab renders without the admin flag", async ({ page }) => {
     await gotoApp(page);
-    await page.evaluate(() => { window.__starbhai_isAdmin = false; });
+    await page.evaluate(() => { window.__starbhai_isAdmin = false; window.__starbhai_isPersonal = false; });
     await page.evaluate(() => window.switchTab("usPicks"));
     await expect(page.locator("#usPicksTab")).toBeVisible({ timeout: 10_000 });
   });
@@ -103,10 +95,10 @@ test.describe("US Picks tab", () => {
           card: {
             ticker: "AAPL", name: "Apple", sector: "tech", currency: "USD",
             current_price_inr: 220, fair_value_inr: 250, upside_pct: 13.6, market_cap_inr: 3.2e12,
-            v3_score_100: 78, v3_verdict: "STRONG", composite_verdict: "STRONG",
-            v3_breakdown: {
-              pts_health: 18, pts_future: 16, pts_valuation: 8, pts_past: 10, pts_dividends: 4,
-              pts_fv_upside: 8, pts_mom_1y: 6, pts_mom_3m: 3, pts_mom_1m: 1, pts_overlay: 0,
+            v4_score_100: 78, v4_verdict: "TOP_PICK", composite_verdict: "TOP_PICK",
+            v4_breakdown: {
+              pts_health: 18, pts_future: 16, pts_valuation: 14, pts_past: 12,
+              pts_fv_total: 8, pts_mom_1y: 6, pts_mom_3m: 3, pts_mom_1m: 1, pts_overlay: 0,
             },
             snowflake: { valuation: 3, future_growth: 4, past_performance: 6, financial_health: 5, dividends: 2 },
             snowflake_total: 20,

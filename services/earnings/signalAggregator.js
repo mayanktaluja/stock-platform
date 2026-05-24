@@ -516,8 +516,8 @@ export function aggregateSignalsForEvent(event, ctx, opts = {}) {
     },
     picks_universe: pickRow
       ? {
-          v3_score_100: num(pickRow.v3_score_100),
-          v3_verdict: pickRow.v3_verdict || null,
+          v3_score_100: num(pickRow.v4_score_100),
+          v3_verdict: pickRow.v4_verdict || null,
           composite_verdict: pickRow.composite_verdict || null,
           // Convey the broad section the picks pipeline filed this stock
           // under (audit_trail.categories_assigned). Useful in the UI as
@@ -578,9 +578,9 @@ export function aggregateSignalsForEvent(event, ctx, opts = {}) {
     // back to scoring from raw signals when not.
     sws_upcoming_earnings: upcomingRow
       ? {
-          v3_verdict: upcomingRow.v3_verdict || null,
+          v3_verdict: upcomingRow.v4_verdict || null,
           composite_verdict: upcomingRow.composite_verdict || null,
-          v3_score_100: num(upcomingRow.v3_score_100),
+          v3_score_100: num(upcomingRow.v4_score_100),
           snowflake_total: num(upcomingRow.snowflake_total),
           fair_value_inr: num(upcomingRow.fair_value_inr),
           current_price_inr: num(upcomingRow.current_price_inr),

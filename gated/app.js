@@ -148,10 +148,8 @@ const auth = {
     // never had these buttons (the 4 sleeve tabs) or keep Risk Lab + Sector
     // Outlook inline (the 2 public tabs).
     window.__starbhai_isAdmin = !!me.isAdmin;
-    // Two-tier model: admin is the only privileged tier. The former personal-use
-    // sleeves (Compounder Lab, Earnings Edge, 5x Lab) plus the experimental Risk
-    // Lab + Sector Outlook tabs are now admin-only, reached via the "More" menu.
-    const isPrivileged = window.__starbhai_isAdmin;
+    window.__starbhai_isPersonal = !!me.isPersonal;
+    const isPrivileged = window.__starbhai_isAdmin || window.__starbhai_isPersonal;
 
     if (isPrivileged) {
       window.__labsMigratedTabs = new Set(
@@ -2294,8 +2292,8 @@ function renderSwsChip(stock) {
   const fallback = stock.swsSource === "fallback";
   const labelV = v === "—" ? "" : v.replace(/_/g, " ");
   const tip = fallback
-    ? `SWS coverage missing — score derived from fundamentalsV2 fallback. SWS v3 score ${score}/100, verdict ${v}.`
-    : `Simply Wall St v3 score ${score}/100, verdict ${v}. Snowflake total ${stock.snowflakeTotal ?? "—"}/30.`;
+    ? `SWS coverage missing — score derived from fundamentalsV2 fallback. SWS v4 score ${score}/100, verdict ${v}.`
+    : `Simply Wall St v4 score ${score}/100, verdict ${v}. Snowflake total ${stock.snowflakeTotal ?? "—"}/30.`;
   const fallbackTag = fallback ? ` <span style="opacity:0.7;font-size:9px;">(fallback)</span>` : "";
   return `<span class="sws-chip" style="font-size:10px;padding:3px 8px;border-radius:6px;background:${color}18;color:${color};border:1px solid ${color}33;font-weight:700;" title="${tip.replace(/"/g, "&quot;")}">SWS ${score}${labelV ? " · " + labelV : ""}${fallbackTag}</span>`;
 }
@@ -2680,7 +2678,6 @@ const TAB_CONFIG = {
   riskLab: {
     elId: "riskLabTab",
     label: "Risk Lab",
-    guard: () => !!window.__starbhai_isAdmin,
     enter: () => { if (typeof loadRiskLab === "function") loadRiskLab(); },
   },
   // Compounder Lab — SAFE sleeve. Personal-use only; the tab button is
@@ -2688,13 +2685,13 @@ const TAB_CONFIG = {
   // (mirroring the admin pattern at usersTabBtn).
   compounder: {
     elId: "compounderTab",
-    guard: () => !!window.__starbhai_isAdmin,
+    guard: () => !!window.__starbhai_isPersonal,
     enter: () => { if (typeof loadCompounderLab === "function") loadCompounderLab(); },
   },
   // Earnings Edge — AGGRESSIVE sleeve. Same personal-use gate.
   earningsEdge: {
     elId: "earningsEdgeTab",
-    guard: () => !!window.__starbhai_isAdmin,
+    guard: () => !!window.__starbhai_isPersonal,
     enter: () => { if (typeof loadEarningsEdge === "function") loadEarningsEdge(); },
   },
   // 5x Lab — concentrated multibagger strategy targeting ₹1L → ₹5L
@@ -2703,7 +2700,7 @@ const TAB_CONFIG = {
   multibaggerLab: {
     elId: "multibaggerLabTab",
     label: "5x Lab",
-    guard: () => !!window.__starbhai_isAdmin,
+    guard: () => !!window.__starbhai_isPersonal,
     enter: () => { if (typeof loadMultibaggerLab === "function") loadMultibaggerLab(); },
   },
   // Sector Outlook — EXPERIMENTAL bottom-up SWS news + macro cross-check.
@@ -2713,7 +2710,11 @@ const TAB_CONFIG = {
   sectorOutlook: {
     elId: "sectorOutlookTab",
     label: "Sector Outlook",
-    guard: () => !!window.__starbhai_isAdmin,
+    guard: () => {
+      try {
+        return localStorage.getItem("sectorOutlookEnabled_v1") !== "false";
+      } catch { return true; }
+    },
     enter: () => { if (typeof loadSectorOutlook === "function") loadSectorOutlook(); },
   },
 };
@@ -2799,11 +2800,11 @@ const LABS_MENU_TABS = [
   { id: "usPicks",        label: "US Picks",       dot: "#60a5fa", show: () => true },
   { id: "krPicks",        label: "Korea Picks",    dot: "#f472b6", show: () => true },
   { id: "twPicks",        label: "Taiwan Picks",   dot: "#fbbf24", show: () => true },
-  { id: "compounder",     label: "Compounder Lab", dot: "#34d399", show: () => !!window.__starbhai_isAdmin },
-  { id: "earningsEdge",   label: "Earnings Edge",  dot: "#f87171", show: () => !!window.__starbhai_isAdmin },
-  { id: "multibaggerLab", label: "5x Lab",         dot: "#a78bfa", show: () => !!window.__starbhai_isAdmin },
-  { id: "riskLab",        label: "Risk Lab",       dot: "#fbbf24", show: () => !!window.__starbhai_isAdmin && labsLsEnabled("riskLabEnabled_v2") },
-  { id: "sectorOutlook",  label: "Sector Outlook", dot: "#a78bfa", show: () => !!window.__starbhai_isAdmin && labsLsEnabled("sectorOutlookEnabled_v1") },
+  { id: "compounder",     label: "Compounder Lab", dot: "#34d399", show: () => !!window.__starbhai_isPersonal },
+  { id: "earningsEdge",   label: "Earnings Edge",  dot: "#f87171", show: () => !!window.__starbhai_isPersonal },
+  { id: "multibaggerLab", label: "5x Lab",         dot: "#a78bfa", show: () => !!window.__starbhai_isPersonal },
+  { id: "riskLab",        label: "Risk Lab",       dot: "#fbbf24", show: () => labsLsEnabled("riskLabEnabled_v2") },
+  { id: "sectorOutlook",  label: "Sector Outlook", dot: "#a78bfa", show: () => labsLsEnabled("sectorOutlookEnabled_v1") },
 ];
 const LABS_LABELS = Object.fromEntries(LABS_MENU_TABS.map((t) => [t.id, t.label]));
 function labsLsEnabled(key) {
@@ -4027,7 +4028,7 @@ function rsiLabel(rsi) {
 
 const TRACK_TYPE_LABELS = {
   // SWS picks — primary source of truth, snapshotted on every pipeline run
-  sws_top30_v3: "SWS · Top 30 (v3)",
+  sws_top30_v3: "SWS · Top 30 (v4)",
   sws_best_buynow: "SWS · Best to Buy Now",
   sws_deep_value: "SWS · Deep Value",
   sws_quality_growth: "SWS · Quality Growth",
@@ -4930,7 +4931,7 @@ function _sectionCardHTML(section, primaryHorizon) {
     <div style="padding: 12px 14px;">
       <div style="font-size: 12px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">${escapeHtml(section.label)}</div>
       <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px; line-height: 1.5;">
-        <strong style="color: var(--gold);">Methodology:</strong> top ${nTracked || 10} ranked stocks from this section by V3 composite score, snapshotted into the paper-trade ledger on <strong style="color: var(--text-primary);">${escapeHtml(snapshotDate)}</strong>.
+        <strong style="color: var(--gold);">Methodology:</strong> top ${nTracked || 10} ranked stocks from this section by V4 composite score, snapshotted into the paper-trade ledger on <strong style="color: var(--text-primary);">${escapeHtml(snapshotDate)}</strong>.
       </div>
       <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.5;">${sideExplain}</div>
       <div style="max-height: 240px; overflow-y: auto; border-top: 1px solid var(--border); padding-top: 8px;">
@@ -5741,7 +5742,7 @@ window.formatINR = formatINR;
 // the ticker is outside the curated set (renders as muted "—" in the UI).
 //
 // Schema (verified by direct jq on data/sws/picks-latest.json):
-//   .sections.<section_key>[] → { ticker, name, sector, composite_verdict, v3_verdict, v3_score_100, snowflake, sws_url, ... }
+//   .sections.<section_key>[] → { ticker, name, sector, composite_verdict, v4_verdict, v4_score_100, snowflake, sws_url, ... }
 //
 // Ticker is bare (no .NS suffix). Watchlist stores symbols like "RELIANCE.NS",
 // so we normalise via normalizeTickerKey() on every lookup.
@@ -5773,8 +5774,8 @@ async function loadPicksByTicker() {
             const key = normalizeTickerKey(stock.ticker);
             if (!map.has(key)) {
               map.set(key, {
-                verdict: stock.composite_verdict || stock.v3_verdict || stock.verdict || null,
-                v3_score: stock.v3_score_100 || stock.v3_score || null,
+                verdict: stock.v4_verdict || stock.composite_verdict || stock.verdict || null,
+                v4_score: stock.v4_score_100 || stock.v4_score || null,
                 upside: stock.upside_pct || null,
                 snowflake: stock.snowflake_total || stock.snowflake || null,
                 sector: stock.sector || null,
@@ -6224,7 +6225,7 @@ function swsHoldingRow(h) {
   const sws = h.sws || {};
   const tk = sws.ticker || h.symbol || "—";
   const name = sws.name || h.name || "";
-  const v3 = sws.v3_score != null ? sws.v3_score : "—";
+  const v4 = sws.v4_score != null ? sws.v4_score : "—";
   const verdict = sws.verdict || "—";
   const cv = h.currentValue;
   const pos = h.positionWeight != null ? h.positionWeight + "%" : "—";
@@ -6244,7 +6245,7 @@ function swsHoldingRow(h) {
     </td>
     <td style="padding:10px 12px;">${swsActionBadge(h.action)}${rupeesInline}</td>
     <td style="padding:10px 12px;">
-      <div style="font-weight:600;">${v3}</div>
+      <div style="font-weight:600;">${v4}</div>
       <div style="font-size:10px; color:var(--text-muted);">${verdict}</div>
     </td>
     <td style="padding:10px 12px;">${swsSnowflakeMini(sws.snowflake)}</td>
@@ -6289,7 +6290,7 @@ function swsTopPeerChip(holding) {
   const top = peer.top_peer;
   const tk = swsEscapeAttr(top.ticker);
   const why = swsEscapeAttr(top.why || "");
-  return `<div style="margin-top:8px; padding:6px 10px; background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.25); border-radius:5px; font-size:11px; cursor:pointer;" onclick="openStockDetailModal('${tk}','peer-rotation')" title="Same-sector peer with higher v3 — consider as rotation candidate">
+  return `<div style="margin-top:8px; padding:6px 10px; background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.25); border-radius:5px; font-size:11px; cursor:pointer;" onclick="openStockDetailModal('${tk}','peer-rotation')" title="Same-sector peer with higher v4 — consider as rotation candidate">
     <strong style="color:#93c5fd;">↻ Peer: ${tk}</strong> <span style="color:var(--text-muted);">— ${why}</span>
   </div>`;
 }
@@ -6371,11 +6372,11 @@ function swsPeerSubstitutes(peer) {
   if (!peer || !peer.available || !Array.isArray(peer.peers) || peer.peers.length === 0) return "";
   const peers = peer.peers.slice(0, 2);
   return `<div style="margin-top:10px; padding:8px 10px; background:rgba(34,197,94,0.05); border:1px solid rgba(34,197,94,0.15); border-radius:5px; font-size:11px;">
-    <div style="font-weight:700; color:#86efac; margin-bottom:4px; letter-spacing:0.3px;">Peer substitutes (same sector, higher v3)</div>
+    <div style="font-weight:700; color:#86efac; margin-bottom:4px; letter-spacing:0.3px;">Peer substitutes (same sector, higher v4)</div>
     <div style="display:flex; flex-direction:column; gap:4px;">
       ${peers.map((p) => `<div>
         <strong>${swsEscapeAttr(p.ticker)}</strong>
-        <span style="color:var(--text-muted);"> v3 ${p.v3_score ?? "—"}, snow ${p.snowflake_total ?? "—"}/30</span>
+        <span style="color:var(--text-muted);"> v4 ${p.v4_score ?? "—"}, snow ${p.snowflake_total ?? "—"}/30</span>
         ${p.why ? `<div style="color:var(--text-muted); margin-top:2px; line-height:1.4;">${swsEscapeAttr(p.why)}</div>` : ""}
       </div>`).join("")}
     </div>
@@ -6459,7 +6460,7 @@ function renderSWSTierA(tier) {
           <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
             <th style="padding:10px 12px;">Stock</th>
             <th style="padding:10px 12px;">Action</th>
-            <th style="padding:10px 12px;">v3 score</th>
+            <th style="padding:10px 12px;">v4 score</th>
             <th style="padding:10px 12px;">Snowflake</th>
             <th style="padding:10px 12px;">Position</th>
             <th style="padding:10px 12px; text-align:right;">P&amp;L</th>
@@ -6766,7 +6767,7 @@ function swsBasketRow(r) {
         ${sourceTag}
         ${gapTag}
       </div>
-      <div style="font-size:11px; color:var(--text-muted); font-weight:600;">v3 ${r.v3_score ?? "—"}</div>
+      <div style="font-size:11px; color:var(--text-muted); font-weight:600;">v4 ${r.v4_score ?? "—"}</div>
     </div>
     <div style="margin-top:4px; font-size:11px; color:var(--text-muted); display:flex; gap:10px; flex-wrap:wrap;">
       <span>${swsEscapeAttr(r.sector || "—")}</span>
@@ -6851,7 +6852,7 @@ function renderSWSTierB(baskets) {
     ${renderSWSSectorGapSpotlight(gaps, tw)}
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px;">
       ${swsBasketCard("Defensive", "Health ≥4 · Div ≥2 · Beta &lt;0.9 · perfect-fit floor", def, "#86efac")}
-      ${swsBasketCard("Growth", "v3 verdict STRONG/TOP_PICK or Future ≥4 · perfect-fit floor", grw, "#93c5fd")}
+      ${swsBasketCard("Growth", "v4 verdict STRONG/TOP_PICK or Future ≥4 · perfect-fit floor", grw, "#93c5fd")}
       ${swsBasketCard("Shared Core", "Passes both filters · top 3", core, "#fde047")}
     </div>
   </div>`;
@@ -6871,7 +6872,7 @@ function renderSWSTierC(tier) {
             <span style="font-size:11px; color:var(--text-muted); margin-left:8px;">${swsEscapeAttr(sws.name || "")} · ${swsEscapeAttr(sws.sector || "—")}</span>
           </div>
           <div style="display:flex; align-items:center; gap:10px; font-size:11px;">
-            <span>v3 <strong>${sws.v3_score ?? "—"}</strong></span>
+            <span>v4 <strong>${sws.v4_score ?? "—"}</strong></span>
             ${swsSnowflakeMini(sws.snowflake)}
             <span style="color:${pctColor(h.pnlPercent)};">${h.pnlPercent != null ? (h.pnlPercent >= 0 ? "+" : "") + h.pnlPercent + "%" : "—"}</span>
           </div>
@@ -6896,7 +6897,7 @@ function renderSWSTierD(tier) {
               <strong style="font-size:13px;">${tk}</strong>
               <span style="font-size:11px; color:var(--text-muted); margin-left:8px;">${swsEscapeAttr(sws.name || h.name || "")}${sws.sector ? " · " + swsEscapeAttr(sws.sector) : ""}</span>
             </div>
-            <div style="font-size:11px; color:var(--text-muted);">${h.swsCovered === false ? '<span style="padding:2px 6px; background:rgba(107,114,128,0.15); border-radius:3px;">No SWS data</span>' : `v3 ${sws.v3_score ?? "—"}`}</div>
+            <div style="font-size:11px; color:var(--text-muted);">${h.swsCovered === false ? '<span style="padding:2px 6px; background:rgba(107,114,128,0.15); border-radius:3px;">No SWS data</span>' : `v4 ${sws.v4_score ?? "—"}`}</div>
           </div>
           <div style="margin-top:4px; font-size:11px; color:#fde047;">${swsEscapeAttr(h.watchReason || "")}</div>
         </div>`;
@@ -6971,7 +6972,7 @@ function renderSWSOutsidePicks(picks) {
       : rows.map((r) => `<div style="padding:8px 0; border-top:1px solid #1a2238; cursor:pointer;" onclick="openStockDetailModal('${swsEscapeAttr(r.ticker)}','outside-pick')">
         <div style="display:flex; justify-content:space-between; gap:8px; align-items:baseline;">
           <strong style="font-size:13px;">${swsEscapeAttr(r.ticker)}</strong>
-          <span style="font-size:11px; color:var(--text-muted);">v3 ${r.v3_score ?? "—"}</span>
+          <span style="font-size:11px; color:var(--text-muted);">v4 ${r.v4_score ?? "—"}</span>
         </div>
         <div style="margin-top:4px; font-size:11px; color:var(--text-muted); display:flex; gap:10px; flex-wrap:wrap;">
           <span>${swsEscapeAttr(r.sector || "—")}</span>
@@ -7170,7 +7171,7 @@ function swsRenderFreedCapitalBanner(report) {
   const pickCards = picksList.map((p) => {
     const ticker = swsEscapeAttr(p.ticker || p.symbol || "—");
     const name = swsEscapeAttr(p.name || p.companyName || "");
-    const score = Number.isFinite(p.v3_score_100) ? p.v3_score_100
+    const score = Number.isFinite(p.v4_score_100) ? p.v4_score_100
                 : Number.isFinite(p.score) ? p.score : null;
     const allocation = Number.isFinite(p.suggestedAllocationInr) ? inr(p.suggestedAllocationInr) : null;
     const reason = swsEscapeAttr(p.reason || p.section || "");
@@ -7293,7 +7294,7 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
       <summary class="tx-meta" style="cursor:pointer; padding: 6px 0; color: var(--text-muted);">Secondary KPIs (snowflake, v3, holdings count)</summary>
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-top:8px;">
         ${swsKpiCard("Avg Snowflake", `${snap.avgSnowflake ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/30</span>`)}
-        ${swsKpiCard("Avg v3 score", `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
+        ${swsKpiCard("Avg v4 score", `${snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
         ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} SWS-covered)</span>`)}
       </div>
     </details>
@@ -10311,7 +10312,7 @@ function renderHoldingCardV2(h, defaultOpen) {
 // inclusion criteria in plain English (replaces the cryptic threshold-spec
 // subtitles that used to live here). emoji + chip_label feed the chip-nav.
 const PICKS_SECTIONS = [
-  { key: "top_ranked_30_v3", term_id: "section_top_ranked_30", emoji: "⭐", label: "⭐ Top 30 — Multi-Factor Score", chip_label: "Top 30", subtitle: "Universe-wide top 30 by v3 composite — start every session here." },
+  { key: "top_ranked_30_v3", term_id: "section_top_ranked_30", emoji: "⭐", label: "⭐ Top 30 — Multi-Factor Score", chip_label: "Top 30", subtitle: "Universe-wide top 30 by composite score — start every session here." },
   { key: "best_to_buy_now", term_id: "section_best_to_buy_now", emoji: "🎯", label: "🎯 Best Stocks to Buy Now", chip_label: "Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks. Use for fresh capital today." },
   { key: "deep_value", term_id: "section_deep_value", emoji: "💎", label: "💎 Deep Value", chip_label: "Deep Value", subtitle: "Quality + cheap. TOP_PICK names trading at ≥ 20% discount to consensus FV." },
   { key: "quality_growth", term_id: "section_quality_growth", emoji: "🌱", label: "🌱 Quality Growth", chip_label: "Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
@@ -10366,6 +10367,9 @@ let picksStatusPollTimer = null;
 // Cached payload from /api/sws-picks so the radio filter can re-render
 // without re-fetching. Set on every successful loadPicks().
 let currentPicksData = null;
+
+// V4 is the platform's sole composite score (the V3→V4 migration removed V3 and
+// the A/B toggle). Cards/modals read v4_score_100 / v4_verdict directly.
 
 // Per-section "Show all" override (in-memory only — resets on reload, matching
 // picksSearchQuery's ephemeral convention). Holds section.key strings whose
@@ -11082,6 +11086,17 @@ function pickScoreColor(score) {
   return "var(--red, #ef4444)";
 }
 
+// V4 verdicts are RANK-based (top ~8% = TOP_PICK), so colour by the verdict
+// LABEL — the absolute pickScoreColor thresholds would mis-colour a
+// percentile-anchored distribution.
+function pickScoreColorV4(score, verdict) {
+  if (score == null) return "var(--text-muted)";
+  return {
+    TOP_PICK: "var(--gold, #f5c542)", STRONG: "var(--green, #22c55e)",
+    ACCEPTABLE: "var(--cyan, #4a90e2)", WATCH: "var(--text-muted)", AVOID: "var(--red, #ef4444)",
+  }[verdict] || "var(--text-muted)";
+}
+
 // Freshness pill — green-ish if within 48h, muted if older, "stale" badge >7d.
 function pickFreshnessPill(parsedAtIso) {
   if (!parsedAtIso) return "";
@@ -11142,15 +11157,14 @@ function renderPickCard(s, sectionKey, rank = null) {
   const upsideColor = s.upside_pct == null ? "var(--text-muted)" : s.upside_pct >= 0 ? "var(--green)" : "var(--red)";
   const sn = s.snowflake_total ?? "—";
   // Headline score: v3 (fundamentals 74 + momentum 14 + safety overlay −15) > v2 > v1.
-  // v3 is the primary score across the universe — the runFullScoring pipeline
-  // emits it for every stock alongside v1/v2 for backward-compat.
-  const headlineRaw = s.v3_score_100 != null ? s.v3_score_100 : (s.v2_score != null ? s.v2_score : s.score);
+  // v4 is the platform's sole composite score (fundamentals 76 + FV 12 +
+  // momentum 12 − safety overlay), emitted for every stock alongside v1/v2.
+  const headlineRaw = s.v4_score_100 != null ? s.v4_score_100 : (s.v2_score != null ? s.v2_score : s.score);
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
-  const scoreColor = pickScoreColor(headlineRaw);
-  const scoreTermId = s.v3_score_100 != null ? "v3_composite_score" : "combined_score";
-  // Composite verdict (multi-factor quality band): TOP_PICK/STRONG/ACCEPTABLE/WATCH/AVOID
-  // when v3 is the headline; legacy v1 labels otherwise.
-  const verdict = (s.v3_score_100 != null ? (s.composite_verdict || s.v3_verdict) : s.verdict) || "—";
+  const scoreColor = s.v4_score_100 != null ? pickScoreColorV4(s.v4_score_100, s.v4_verdict) : pickScoreColor(headlineRaw);
+  const scoreTermId = s.v4_score_100 != null ? "v4_composite_score" : "combined_score";
+  // Composite verdict (multi-factor quality band): TOP_PICK/STRONG/ACCEPTABLE/WATCH/AVOID.
+  const verdict = (s.v4_score_100 != null ? (s.v4_verdict || s.composite_verdict) : s.verdict) || "—";
   const verdictColor = {
     TOP_PICK: "var(--gold)", STRONG: "var(--green)", ACCEPTABLE: "var(--cyan)", WATCH: "var(--text-muted)", AVOID: "var(--red)",
     DEEP_VALUE: "var(--gold)", QUALITY_GROWTH: "var(--green)", FAIR_VALUE: "var(--cyan)", FULLY_VALUED: "var(--text-muted)", OVERVALUED: "var(--red)",
@@ -11188,12 +11202,12 @@ function renderPickCard(s, sectionKey, rank = null) {
   // ranking number on the card itself. Identity: badge value = (modal value
   // ÷ 74) × 100, so the two displays always agree.
   let fundBadge = "";
-  if (sectionKey === "best_fundamentals" && s.v3_breakdown) {
-    const b = s.v3_breakdown;
+  if (sectionKey === "best_fundamentals" && s.v4_breakdown) {
+    const b = s.v4_breakdown;
     const fundSum = (b.pts_health || 0) + (b.pts_future || 0) + (b.pts_valuation || 0)
-                  + (b.pts_past || 0) + (b.pts_dividends || 0) + (b.pts_fv_upside || 0);
-    const fundScore100 = (fundSum / 74) * 100;
-    fundBadge = `<span class="sws-fund-badge" title="Fundamentals score, rescaled to 100. Same definition as the score-breakdown modal's 'Fundamentals 74' line: 5 SWS pillars (Health + Future + Valuation + Past + Dividends) + AnalystConsensus FV upside.">F ${fundScore100.toFixed(1)}/100</span>`;
+                  + (b.pts_past || 0) + (b.pts_fv_total || 0);
+    const fundScore100 = (fundSum / 88) * 100;
+    fundBadge = `<span class="sws-fund-badge" title="Fundamentals score, rescaled to 100. Same definition as the score-breakdown modal's 'Pillars 76 + FV 12' lines: 4 SWS pillars (Health 22 + Future 20 + Valuation 18 + Past 16) + FV composite (12).">F ${fundScore100.toFixed(1)}/100</span>`;
   }
   const statusBadges = renderPickStatusBadges(s, sectionKey);
   const rankBadge = rank ? `<span class="sws-pick-rank">${rank}</span>` : "";
@@ -11265,7 +11279,7 @@ function renderPickCard(s, sectionKey, rank = null) {
 // values render with the right symbol ($ for USD).
 
 const US_PICKS_SECTIONS = [
-  { key: "top_ranked_30_v3", label: "⭐ Top 30 — Multi-Factor Score", subtitle: "Universe-wide top 30 by v3 composite — start every session here." },
+  { key: "top_ranked_30_v3", label: "⭐ Top 30 — Multi-Factor Score", subtitle: "Universe-wide top 30 by composite score — start every session here." },
   { key: "best_to_buy_now", label: "🎯 Best Stocks to Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks." },
   { key: "deep_value", label: "💎 Deep Value", subtitle: "TOP_PICK names trading ≥ 20% below analyst-consensus fair value." },
   { key: "quality_growth", label: "🌱 Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
@@ -11526,10 +11540,10 @@ function renderUSPickCard(s, sectionKey, rank) {
   const upside = s.upside_pct != null ? `${s.upside_pct > 0 ? "+" : ""}${s.upside_pct.toFixed(1)}%` : "—";
   const upsideColor = s.upside_pct == null ? "var(--text-muted)" : s.upside_pct >= 0 ? "var(--green)" : "var(--red)";
   const sn = s.snowflake_total != null ? s.snowflake_total : "—";
-  const headlineRaw = s.v3_score_100 != null ? s.v3_score_100 : s.score;
+  const headlineRaw = s.v4_score_100 != null ? s.v4_score_100 : s.score;
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
-  const scoreColor = (typeof pickScoreColor === "function") ? pickScoreColor(headlineRaw) : "var(--text-primary)";
-  const verdict = s.composite_verdict || s.v3_verdict || s.verdict || "—";
+  const scoreColor = (typeof pickScoreColorV4 === "function") ? pickScoreColorV4(s.v4_score_100, s.v4_verdict) : "var(--text-primary)";
+  const verdict = s.v4_verdict || s.composite_verdict || s.verdict || "—";
   const verdictColor = { TOP_PICK: "var(--gold)", STRONG: "var(--green)", ACCEPTABLE: "var(--cyan)", WATCH: "var(--text-muted)", AVOID: "var(--red)" }[verdict] || "var(--text-muted)";
   const valBand = s.valuation_band || null;
   const valBandColor = { DEEP_DISCOUNT: "var(--gold)", DISCOUNT: "var(--green)", FAIR: "var(--cyan)", PREMIUM: "var(--text-muted)", EXPENSIVE: "var(--red)" }[valBand] || "var(--text-muted)";
@@ -11662,7 +11676,7 @@ const REGION_PICKS_UI = {
 
 // Region-neutral subtitles — no "$50M"/"for US" leaks (native gates differ).
 const REGION_PICKS_SECTIONS = [
-  { key: "top_ranked_30_v3", label: "⭐ Top 30 — Multi-Factor Score", subtitle: "Universe-wide top 30 by v3 composite — start every session here." },
+  { key: "top_ranked_30_v3", label: "⭐ Top 30 — Multi-Factor Score", subtitle: "Universe-wide top 30 by composite score — start every session here." },
   { key: "best_to_buy_now", label: "🎯 Best Stocks to Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks." },
   { key: "deep_value", label: "💎 Deep Value", subtitle: "TOP_PICK names trading ≥ 20% below analyst-consensus fair value." },
   { key: "quality_growth", label: "🌱 Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
@@ -11786,10 +11800,10 @@ function renderRegionPickCard(code, s, sectionKey, rank) {
   const upside = s.upside_pct != null ? `${s.upside_pct > 0 ? "+" : ""}${s.upside_pct.toFixed(1)}%` : "—";
   const upsideColor = s.upside_pct == null ? "var(--text-muted)" : s.upside_pct >= 0 ? "var(--green)" : "var(--red)";
   const sn = s.snowflake_total != null ? s.snowflake_total : "—";
-  const headlineRaw = s.v3_score_100 != null ? s.v3_score_100 : s.score;
+  const headlineRaw = s.v4_score_100 != null ? s.v4_score_100 : s.score;
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
-  const scoreColor = (typeof pickScoreColor === "function") ? pickScoreColor(headlineRaw) : "var(--text-primary)";
-  const verdict = s.composite_verdict || s.v3_verdict || s.verdict || "—";
+  const scoreColor = (typeof pickScoreColorV4 === "function") ? pickScoreColorV4(s.v4_score_100, s.v4_verdict) : "var(--text-primary)";
+  const verdict = s.v4_verdict || s.composite_verdict || s.verdict || "—";
   const verdictColor = { TOP_PICK: "var(--gold)", STRONG: "var(--green)", ACCEPTABLE: "var(--cyan)", WATCH: "var(--text-muted)", AVOID: "var(--red)" }[verdict] || "var(--text-muted)";
   const valBand = s.valuation_band || null;
   const valBandColor = { DEEP_DISCOUNT: "var(--gold)", DISCOUNT: "var(--green)", FAIR: "var(--cyan)", PREMIUM: "var(--text-muted)", EXPENSIVE: "var(--red)" }[valBand] || "var(--text-muted)";
@@ -12193,7 +12207,7 @@ function openActionListModal(action) {
              <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
                <th style="padding:10px 12px;">Stock</th>
                <th style="padding:10px 12px;">Action</th>
-               <th style="padding:10px 12px;">v3 score</th>
+               <th style="padding:10px 12px;">v4 score</th>
                <th style="padding:10px 12px;">Snowflake</th>
                <th style="padding:10px 12px;">Position</th>
                <th style="padding:10px 12px; text-align:right;">P&amp;L</th>
@@ -12279,12 +12293,15 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   // INR via fmtBigMoney, else fmtMoney $/₩/NT$ B/M).
   const fmtInr = (v) => fmtBigMoney(v, cur);
   const fmtPct = (v, d = 2) => v == null ? "—" : `${v >= 0 ? "+" : ""}${Number(v).toFixed(d)}%`;
-  const headlineRaw = card_.v3_score_100 != null ? card_.v3_score_100 : (card_.v2_score != null ? card_.v2_score : card_.score);
+  // v4 is the platform's sole composite score; v2/score is the thin-coverage
+  // fallback for stocks the v4 scorer couldn't reach (no pillars on disk).
+  const modalUseV4 = card_.v4_score_100 != null;
+  const headlineRaw = modalUseV4 ? card_.v4_score_100 : (card_.v2_score != null ? card_.v2_score : card_.score);
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
-  const scoreColor = pickScoreColor(headlineRaw);
-  const scoreLabel = card_.v3_score_100 != null ? "v3" : (card_.v2_score != null ? "v2" : "score");
+  const scoreColor = modalUseV4 ? pickScoreColorV4(card_.v4_score_100, card_.v4_verdict) : pickScoreColor(headlineRaw);
+  const scoreLabel = modalUseV4 ? "v4" : (card_.v2_score != null ? "v2" : "score");
   // Composite verdict (multi-factor quality band) — TOP_PICK / STRONG / …
-  const verdict = (card_.v3_score_100 != null ? (card_.composite_verdict || card_.v3_verdict) : card_.verdict) || "—";
+  const verdict = (modalUseV4 ? (card_.v4_verdict || card_.composite_verdict) : card_.verdict) || "—";
   const verdictColor = {
     TOP_PICK: "var(--gold)", STRONG: "var(--green)", ACCEPTABLE: "var(--cyan)", WATCH: "var(--text-muted)", AVOID: "var(--red)",
     DEEP_VALUE: "var(--gold)", QUALITY_GROWTH: "var(--green)", FAIR_VALUE: "var(--cyan)", FULLY_VALUED: "var(--text-muted)", OVERVALUED: "var(--red)",
@@ -12316,21 +12333,21 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const snObj = Object.keys(sn).length ? sn : (card_.snowflake || {});
   const snTotalVal = ov.snowflake_total ?? card_.snowflake_total;
 
-  // Score breakdown bars — show v3 when available (3-bar fundamentals/
-  // momentum/safety split), v2 otherwise.
+  // Score breakdown bars — show v4 when available (pillars/FV/momentum/safety
+  // split), v2 otherwise (thin coverage).
   const v2bd = card_.v2_breakdown || {};
-  const v3bd = card_.v3_breakdown || null;
-  const hasV3 = v3bd != null && card_.v3_score_100 != null;
+  const v4bd = card_.v4_breakdown || null;
   const barsHtml = (() => {
     if (headlineRaw == null) return "";
     let items;
-    if (hasV3) {
-      const fundTotal = (v3bd.pts_health || 0) + (v3bd.pts_future || 0) + (v3bd.pts_valuation || 0) + (v3bd.pts_past || 0) + (v3bd.pts_dividends || 0) + (v3bd.pts_fv_upside || 0);
-      const momTotal = (v3bd.pts_mom_1y || 0) + (v3bd.pts_mom_3m || 0) + (v3bd.pts_mom_1m || 0);
+    if (v4bd) {
+      const pillarTotal = (v4bd.pts_health || 0) + (v4bd.pts_future || 0) + (v4bd.pts_valuation || 0) + (v4bd.pts_past || 0);
+      const momTotal = (v4bd.pts_mom_1y || 0) + (v4bd.pts_mom_3m || 0) + (v4bd.pts_mom_1m || 0);
       items = [
-        { label: "Fundamentals 74", value: Math.round(fundTotal * 10) / 10, max: 74, hint: "5 SWS pillars (Health 22 · Future 20 · Valuation 12 · Past 12 · Dividends 8) + AnalystConsensus FV upside (12)" },
-        { label: "Momentum 14", value: Math.round(momTotal * 10) / 10, max: 14, hint: "Universe-percentile returns: 1Y (8) + 3M (4) + 1M (2)" },
-        { label: "Safety overlay", value: v3bd.pts_overlay, max: 0, min: -15, negative: true, hint: (v3bd.overlay_reasons || []).join(" · ") || "No surveillance / momentum-tail penalties triggered" },
+        { label: "Pillars 76", value: Math.round(pillarTotal * 10) / 10, max: 76, hint: "Health 22 · Future 20 · Valuation 18 · Past 16 (no dividend pillar in v4)" },
+        { label: "FV composite 12", value: v4bd.pts_fv_total, max: 12, hint: "Capped analyst-upside + P/E-vs-industry, renormalised over present signals" + (v4bd.fv_max_inflation_haircut ? " · analyst-max inflation haircut applied" : "") },
+        { label: "Momentum 12", value: Math.round(momTotal * 10) / 10, max: 12, hint: "Universe-percentile returns: 1Y (7) + 3M (3) + 1M (2)" },
+        { label: "Safety overlay", value: v4bd.pts_overlay, max: 0, min: -15, negative: true, hint: (v4bd.overlay_reasons || []).join(" · ") || "No surveillance / value-trap / momentum-tail penalties triggered" },
       ];
     } else {
       items = [
@@ -12626,7 +12643,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
       ${barsHtml}
       ${hasV3 ? `
         <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v3 = 5 SWS pillars (74) + AnalystConsensus FV upside + universe-percentile momentum (14) − safety overlay (max −15). Only inputs with ≥50% universe coverage are scored; 30% of stocks lack a fair-value estimate and get a neutral 6/12 on FV upside (flagged as fv_imputed in the breakdown).</div>
-        <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">Score evolution: <strong>v1</strong> ${card_.score?.toFixed(1) || "—"} (fund only) → <strong>v2</strong> ${card_.v2_score?.toFixed(1) || "—"} (+ catalyst/risk) → <strong>v3</strong> ${card_.v3_score_100.toFixed(1)} (+ momentum, ≥50% coverage gate).</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">Score evolution: <strong>v1</strong> ${card_.score?.toFixed(1) || "—"} (fund only) → <strong>v2</strong> ${card_.v2_score?.toFixed(1) || "—"} (+ catalyst/risk) → <strong>v4</strong> ${card_.v4_score_100?.toFixed(1) || "—"} (quality-value reweight + momentum).</div>
       ` : `
         <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v2 = fundamentals (max 100) + catalyst (max +5) − risk overlay (max −15), clamped 0-100.</div>
       `}

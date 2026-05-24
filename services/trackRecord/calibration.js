@@ -43,7 +43,19 @@ function inferConfidencePct(trade) {
   if (trade && trade.prediction && Number.isFinite(trade.prediction.confidence_pct)) {
     return trade.prediction.confidence_pct;
   }
-  // SWS-shape: derive from v3 score using the public mapping.
+  // V4 SWS trades: the anchor table below was fit to the V3 distribution and
+  // mis-maps the lower V4 distribution (V4 median ~37, TOP_PICK cut ~59).
+  // Until it's re-fit on V4 forward hit-rate data we return null — an honest
+  // "no confidence estimate" beats a fabricated number.
+  // TODO(v4-calibration): re-fit anchors from the V4 calibration backtest.
+  const v4 =
+    (trade && Number.isFinite(trade.v4_score_100)) ? trade.v4_score_100 :
+    (trade && Number.isFinite(trade.v4_score)) ? trade.v4_score :
+    (trade && trade.snapshot && Number.isFinite(trade.snapshot.v4_score_100)) ? trade.snapshot.v4_score_100 :
+    null;
+  if (Number.isFinite(v4)) return null;
+  // Historical V3 trades (pre-migration snapshots) keep their original V3-fit
+  // calibration — those scores were produced by the now-removed V3 model.
   const v3 =
     (trade && Number.isFinite(trade.v3_score_100)) ? trade.v3_score_100 :
     (trade && Number.isFinite(trade.v3_score)) ? trade.v3_score :
@@ -51,7 +63,7 @@ function inferConfidencePct(trade) {
     null;
   if (!Number.isFinite(v3)) return null;
   if (v3 < 40) return null;
-  // Anchor points (score → implied hit rate %) from the documented mapping.
+  // Anchor points (score → implied hit rate %) from the documented V3 mapping.
   const anchors = [
     [40, 45], [50, 50], [60, 55], [70, 62], [78, 65], [85, 70], [100, 75],
   ];

@@ -113,13 +113,13 @@ export function lookupSwsScore(symbol) {
   const idx = _loadUniverseIndex();
   if (idx) {
     const hit = idx.get(k);
-    if (hit && (hit.v3_score_100 != null || hit.v3_score != null)) {
-      const v3 = hit.v3_score_100 ?? hit.v3_score;
+    if (hit && (hit.v4_score_100 != null || hit.v4_score != null)) {
+      const v3 = hit.v4_score_100 ?? hit.v4_score;
       return {
         v3Score: typeof v3 === "number" ? v3 : null,
         snowflakeTotal: hit.snowflake_total ?? null,
         surveillance: hit.v2_breakdown?.surveillance ?? null,
-        v3Verdict: hit.v3_verdict ?? null,
+        v3Verdict: hit.v4_verdict ?? null,
         compositeScore: hit.score ?? null,
         v1Verdict: hit.verdict ?? null,
         source: "primary",
@@ -134,10 +134,10 @@ export function lookupSwsScore(symbol) {
     try {
       const scored = scoreStock({ ...deep, ticker: k });
       return {
-        v3Score: scored.v3_score_100 ?? null,
+        v3Score: scored.v4_score_100 ?? null,
         snowflakeTotal: scored.overview?.snowflake_total ?? null,
         surveillance: scored.v2_breakdown?.surveillance ?? null,
-        v3Verdict: scored.v3_verdict ?? null,
+        v3Verdict: scored.v4_verdict ?? null,
         compositeScore: scored.composite_score_100 ?? null,
         v1Verdict: scored.verdict ?? null,
         source: "primary",
@@ -153,10 +153,10 @@ export function lookupSwsScore(symbol) {
     const fb = buildFallbackHolding({ ticker: k, name: null, sector: null, holding: {} });
     if (fb && fb.sws) {
       return {
-        v3Score: fb.sws.v3_score ?? null,
+        v3Score: fb.sws.v4_score ?? null,
         snowflakeTotal: fb.sws.snowflake_total ?? null,
         surveillance: null,
-        v3Verdict: fb.sws.v3_verdict ?? null,
+        v3Verdict: fb.sws.v4_verdict ?? null,
         compositeScore: fb.sws.score ?? null,
         v1Verdict: fb.sws.verdict ?? null,
         source: "fallback",
@@ -203,13 +203,13 @@ export function lookupSwsScoreBulk(symbols) {
       continue;
     }
     const hit = idx?.get(k);
-    if (hit && (hit.v3_score_100 != null || hit.v3_score != null)) {
-      const v3 = hit.v3_score_100 ?? hit.v3_score;
+    if (hit && (hit.v4_score_100 != null || hit.v4_score != null)) {
+      const v3 = hit.v4_score_100 ?? hit.v4_score;
       out.set(sym, {
         v3Score: typeof v3 === "number" ? v3 : null,
         snowflakeTotal: hit.snowflake_total ?? null,
         surveillance: hit.v2_breakdown?.surveillance ?? null,
-        v3Verdict: hit.v3_verdict ?? null,
+        v3Verdict: hit.v4_verdict ?? null,
         compositeScore: hit.score ?? null,
         v1Verdict: hit.verdict ?? null,
         source: "primary",
@@ -232,7 +232,7 @@ export function lookupSwsScoreBulk(symbols) {
  * @param {object} args
  * @param {number|null} args.techScore       — 0..100, e.g. analysis.score
  * @param {number|null} args.fundScore       — 0..100, fundamentalsV2 composite
- * @param {number|null} args.swsScore        — 0..100, SWS v3_score_100
+ * @param {number|null} args.swsScore        — 0..100, SWS v4_score_100
  * @param {string}      args.scannerType     — buynow | midterm | sell | fund | smallcap | uniform
  * @param {object|null} [args.surveillanceFlag]  — surveillance row, attached for audit only
  * @returns {object} {

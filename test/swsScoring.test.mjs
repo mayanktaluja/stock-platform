@@ -7,11 +7,11 @@
  *   • num / clamp numeric helpers
  *   • dataCompletenessPct (0%, partial, 100%)
  *   • _countInsiderBuys
- *   • verdictFromScore + verdictV3FromScore bucket boundaries
+ *   • verdictFromScore (v1) bucket boundaries
  *   • computeCompositeScore math + clamping
  *   • computeV2Score catalyst & risk overlay
- *   • buildUniverseStats sorting / NaN filter
- *   • computeV3Score FV upside imputation + momentum imputation
+ *   • buildUniverseStats sorting / NaN filter (momentum infra V4 reads)
+ *   • scoreStock now emits v4_score_100 / v4_verdict (V3 deleted — see swsScoringV4.test.mjs)
  *   • categoriseStock (deep_value, quality_growth, midterm, insider, avoid)
  *   • buildPickCounterThesis (bullish, bearish, neutral)
  *   • buildPickAuditTrail
@@ -33,8 +33,6 @@ import {
   verdictFromScore,
   computeV2Score,
   buildUniverseStats,
-  computeV3Score,
-  verdictV3FromScore,
   buildPickCounterThesis,
   buildPickAuditTrail,
   pickCardFields,
@@ -64,8 +62,8 @@ check("num undefined default 0",     () => assert.equal(num(undefined), 0));
 
 console.log("\nschema/scoring version constants\n");
 
-check("schema version is v2 string", () => assert.equal(PICKS_SCHEMA_VERSION, "picks-latest-v2"));
-check("scoring version stamp present", () => assert.ok(/sws-v3-100pt/.test(PICKS_SCORING_VERSION)));
+check("schema version is v3 string", () => assert.equal(PICKS_SCHEMA_VERSION, "picks-latest-v3"));
+check("scoring version stamp present", () => assert.ok(/sws-v4-100pt/.test(PICKS_SCORING_VERSION)));
 
 console.log("\ndataCompletenessPct\n");
 
@@ -101,14 +99,6 @@ check("=48 FAIR_VALUE",        () => assert.equal(verdictFromScore(48), "FAIR_VA
 check("=40 FULLY_VALUED",      () => assert.equal(verdictFromScore(40), "FULLY_VALUED"));
 check("=0 OVERVALUED",         () => assert.equal(verdictFromScore(0),  "OVERVALUED"));
 check("just below 72 → QG", () => assert.equal(verdictFromScore(71.9), "QUALITY_GROWTH"));
-
-console.log("\nverdictV3FromScore boundaries\n");
-
-check("=60 TOP_PICK",   () => assert.equal(verdictV3FromScore(60), "TOP_PICK"));
-check("=45 STRONG",     () => assert.equal(verdictV3FromScore(45), "STRONG"));
-check("=30 ACCEPTABLE", () => assert.equal(verdictV3FromScore(30), "ACCEPTABLE"));
-check("=22 WATCH",      () => assert.equal(verdictV3FromScore(22), "WATCH"));
-check("=21.9 AVOID",    () => assert.equal(verdictV3FromScore(21.9), "AVOID"));
 
 console.log("\ncomputeCompositeScore\n");
 
@@ -194,70 +184,24 @@ check("sorts ascending and skips non-finite", () => {
   assert.deepEqual(u.r1m, [-2, 5]);
 });
 
-console.log("\ncomputeV3Score\n");
-
-check("FV upside imputed when null", () => {
-  const r = computeV3Score({ overview: { upside_pct: null } }, { surveillanceFlag: null });
-  assert.equal(r.v3_breakdown.fv_imputed, true);
-  assert.equal(r.v3_breakdown.pts_fv_upside, 6);
-});
-check("FV upside +30 → 12 pts", () => {
-  const r = computeV3Score({ overview: { upside_pct: 30 } }, { surveillanceFlag: null });
-  assert.equal(r.v3_breakdown.pts_fv_upside, 12);
-  assert.equal(r.v3_breakdown.fv_imputed, false);
-});
-check("FV upside -15 → 0 pts", () => {
-  const r = computeV3Score({ overview: { upside_pct: -15 } }, { surveillanceFlag: null });
-  assert.equal(r.v3_breakdown.pts_fv_upside, 0);
-});
-check("momentum imputed when no universe", () => {
-  const r = computeV3Score({ overview: { upside_pct: 10, returns_pct: { "1Y": 15, "3M": 5, "1M": 1 } } }, { surveillanceFlag: null });
-  assert.equal(r.v3_breakdown.momentum_imputed, true);
-});
-check("momentum NOT imputed when universe present", () => {
-  const universe = buildUniverseStats([
-    { overview: { returns_pct: { "1Y": 5, "3M": 2, "1M": 1 } } },
-    { overview: { returns_pct: { "1Y": 25, "3M": 8, "1M": 4 } } },
-  ]);
-  const r = computeV3Score(
-    { overview: { upside_pct: 10, returns_pct: { "1Y": 15, "3M": 5, "1M": 2 } } },
-    { surveillanceFlag: null, universe },
-  );
-  assert.equal(r.v3_breakdown.momentum_imputed, false);
-});
-check("falling-knife overlay fires", () => {
-  const r = computeV3Score(
-    { overview: { upside_pct: 10, snowflake: { financial_health: 1 }, returns_pct: { "1M": -30 } } },
-    { surveillanceFlag: null },
-  );
-  assert.ok(r.v3_breakdown.overlay_reasons.some((s) => /Falling knife/.test(s)));
-});
-check("overlay clamped to -15 floor", () => {
-  const r = computeV3Score(
-    { overview: { snowflake: { financial_health: 1, valuation: 1 }, returns_pct: { "1M": -40 } } },
-    { surveillanceFlag: { list: "GSM" } },
-  );
-  assert.equal(r.v3_breakdown.pts_overlay, -15);
-});
-
 console.log("\nscoreStock end-to-end mutates input\n");
 
-check("scoreStock writes composite/v2/v3/categories onto stock", () => {
+check("scoreStock writes composite/v2/v4/categories onto stock", () => {
   const s = { ticker: "X", overview: { snowflake_total: 24, snowflake: { financial_health: 5, future: 4, valuation: 4, past: 4, dividends: 3 }, upside_pct: 20, returns_pct: { "1Y": 15, "3M": 5, "1M": 2 } } };
   scoreStock(s);
   assert.ok(Number.isFinite(s.composite_score_100));
   assert.ok(Number.isFinite(s.v2_score_100));
-  assert.ok(Number.isFinite(s.v3_score_100));
+  assert.ok(Number.isFinite(s.v4_score_100));
   assert.ok(Array.isArray(s.categories));
-  assert.ok(typeof s.verdict === "string" && typeof s.v3_verdict === "string");
+  assert.ok(typeof s.verdict === "string" && typeof s.v4_verdict === "string");
 });
 
 console.log("\nbuildPickCounterThesis branches\n");
 
 check("bullish path returns bullish bias + triggers", () => {
   const ct = buildPickCounterThesis({
-    v3_verdict: "TOP_PICK",
-    v3_breakdown: { surveillance: { list: "ASM" }, fv_imputed: true },
+    v4_verdict: "TOP_PICK",
+    v4_breakdown: { surveillance: { list: "ASM" }, fv_imputed: true },
     overview: { upside_pct: 25, risks: ["a", "b", "c", "d", "e"] },
   });
   assert.equal(ct.verdict_bias, "bullish");
@@ -266,13 +210,13 @@ check("bullish path returns bullish bias + triggers", () => {
 });
 check("bearish path returns bearish bias", () => {
   const ct = buildPickCounterThesis({
-    v3_verdict: "AVOID",
+    v4_verdict: "AVOID",
     overview: { snowflake_total: 20, upside_pct: 35, insider_activity: [{ direction: "buy" }] },
   });
   assert.equal(ct.verdict_bias, "bearish");
 });
 check("neutral path returns neutral bias", () => {
-  const ct = buildPickCounterThesis({ v3_verdict: "WATCH", overview: {} });
+  const ct = buildPickCounterThesis({ v4_verdict: "WATCH", overview: {} });
   assert.equal(ct.verdict_bias, "neutral");
   assert.ok(typeof ct.text === "string" && ct.text.length > 0);
 });
@@ -283,7 +227,7 @@ check("audit trail captures inputs + version", () => {
   const a = buildPickAuditTrail({
     overview: { snowflake_total: 22, upside_pct: 12, risks: ["x"] },
     v2_breakdown: { surveillance: null },
-    v3_breakdown: { fv_imputed: true, momentum_imputed: false },
+    v4_breakdown: { fv_imputed: true, momentum_imputed: false },
     categories: ["midterm"],
   });
   assert.equal(a.scoring_version, PICKS_SCORING_VERSION);
@@ -295,16 +239,16 @@ check("audit trail captures inputs + version", () => {
 
 console.log("\npickCardFields surface\n");
 
-check("pickCardFields exposes both verdict aliases", () => {
+check("pickCardFields exposes verdict + score aliases", () => {
   const card = pickCardFields({
     ticker: "ABC", name: "ABC Ltd", sector: "Tech",
-    composite_score_100: 60, v2_score_100: 58, v3_score_100: 55, v3_verdict: "STRONG", verdict: "FAIR_VALUE",
+    composite_score_100: 60, v2_score_100: 58, v4_score_100: 55, v4_verdict: "STRONG", verdict: "FAIR_VALUE",
     overview: { upside_pct: 12, multiples: { pe: 18 }, dividend: { yield_pct: 2 }, snowflake_total: 22 },
   });
   assert.equal(card.composite_verdict, "STRONG");
   assert.equal(card.valuation_band, "DISCOUNT");
-  assert.equal(card.v3_score, 55);
-  assert.equal(card.v3_score_100, 55);
+  assert.equal(card.v4_score, 55);
+  assert.equal(card.v4_score_100, 55);
   assert.ok(card.counter_thesis && card.audit_trail);
 });
 
@@ -315,7 +259,7 @@ check("deep_value requires TOP_PICK + valSnow>=4 + upside>=20", () => {
     snowflake: { valuation: 5, future: 4, past: 4, financial_health: 5, dividends: 3 },
     snowflake_total: 25, upside_pct: 30, market_cap_inr: 1e12, returns_pct: { "1Y": 10, "3M": 5, "1M": 1 },
   } }).categories;
-  // v3 score for that input puts it well into TOP_PICK territory.
+  // v4 score for that input puts it well into TOP_PICK territory.
   assert.ok(cats.includes("deep_value"), `cats=${cats}`);
 });
 check("insider_buying category set by single buy", () => {
@@ -360,7 +304,7 @@ check("hygiene drops GSM-flagged stocks from top_ranked_30", () => {
   assert.ok(!tickers.includes("A") && tickers.includes("B"), `tickers=${tickers}`);
 });
 
-check("ordered respects v3_score descending (tie-stable)", () => {
+check("ordered respects v4_score descending (tie-stable)", () => {
   const high = mkScored({ ticker: "HI", overview: { snowflake: { financial_health: 5, future: 5, valuation: 4, past: 4, dividends: 3 }, snowflake_total: 25, upside_pct: 30, market_cap_inr: 1e12 } });
   const low  = mkScored({ ticker: "LO", overview: { snowflake: { financial_health: 2, future: 2, valuation: 2, past: 2, dividends: 1 }, snowflake_total: 8, upside_pct: -5, market_cap_inr: 1e12 } });
   const lb = buildLeaderboard([low, high]);

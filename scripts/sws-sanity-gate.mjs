@@ -108,7 +108,7 @@ const SANE = {
   upside_pct:          { min: -95,  max: 500,   inclusive: true  },
   market_cap_inr:      { min: 0,    max: null,  inclusive: false },
   dividend_yield_pct:  { min: 0,    max: 50,    inclusive: true  },
-  v3_score_100:        { min: 0,    max: 100,   inclusive: true  },
+  v4_score_100:        { min: 0,    max: 100,   inclusive: true  },
 };
 const SANE_INSANE_WARN_PCT  = 0.1;      // unique-ticker insane >= 0.1% → WARN
 const SANE_INSANE_BLOCK_PCT = 0.5;      // unique-ticker insane >= 0.5% → BLOCK
@@ -409,8 +409,8 @@ function layer3() {
       offenders.push({ ticker: s.ticker, field: "fair_value_inr", value: s.fair_value_inr });
     if (isInsane(s.market_cap_inr, SANE.market_cap_inr))
       offenders.push({ ticker: s.ticker, field: "market_cap_inr", value: s.market_cap_inr });
-    if (isInsane(s.v3_score_100, SANE.v3_score_100))
-      offenders.push({ ticker: s.ticker, field: "v3_score_100", value: s.v3_score_100 });
+    if (isInsane(s.v4_score_100, SANE.v4_score_100))
+      offenders.push({ ticker: s.ticker, field: "v4_score_100", value: s.v4_score_100 });
   }
 
   // Pass 2: walk every deep file for fields not in scored-universe
@@ -519,17 +519,17 @@ function layer6(picks, scored, insaneOffenders) {
   const top30 = picks.sections.top_ranked_30_v3 || [];
   let sortedDesc = true;
   for (let i = 1; i < top30.length; i++) {
-    if ((top30[i].v3_score_100 ?? 0) > (top30[i - 1].v3_score_100 ?? 0)) {
+    if ((top30[i].v4_score_100 ?? 0) > (top30[i - 1].v4_score_100 ?? 0)) {
       sortedDesc = false; break;
     }
   }
   record(layer, "top30_sorted_desc", WARN, sortedDesc);
 
-  const subThresh = top30.filter(s => (s.v3_score_100 ?? 0) < TOP_PICK_MIN_SCORE);
+  const subThresh = top30.filter(s => (s.v4_score_100 ?? 0) < TOP_PICK_MIN_SCORE);
   record(layer, "top30_above_threshold", WARN,
     subThresh.length === 0,
     { threshold: TOP_PICK_MIN_SCORE, violations: subThresh.length,
-      sample: subThresh.slice(0, 5).map(s => ({ ticker: s.ticker, v3_score_100: s.v3_score_100 })) });
+      sample: subThresh.slice(0, 5).map(s => ({ ticker: s.ticker, v4_score_100: s.v4_score_100 })) });
 
   const dupes = [];
   for (const [secName, list] of Object.entries(picks.sections)) {

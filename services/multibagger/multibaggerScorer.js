@@ -62,19 +62,19 @@ function fvUpsidePts(upside_pct, fv_imputed) {
   return fv_imputed ? Math.round((raw / 3) * 10) / 10 : raw;
 }
 
-function momentumPts(v3_breakdown, has_one_year_close) {
+function momentumPts(v4_breakdown, has_one_year_close) {
   if (!has_one_year_close) {
     // No reachable 1y return → cap momentum at 3 pts (rewritten rule per
     // adversarial; was based on momentum_imputed flag which doesn't exist
     // in picks-latest).
     return 3;
   }
-  const m1y = clamp(v3_breakdown?.pts_mom_1y, 0, 8);
-  const m3m = clamp(v3_breakdown?.pts_mom_3m, 0, 4);
-  const m1m = clamp(v3_breakdown?.pts_mom_1m, 0, 2);
-  // Plan says weights 5+3+2 = 10 total. V3 already weights 8+4+2 = 14;
-  // we rescale 8→5, 4→3, 2→2.
-  return Math.round(((m1y * 5 / 8) + (m3m * 3 / 4) + m1m) * 10) / 10;
+  const m1y = clamp(v4_breakdown?.pts_mom_1y, 0, 7);
+  const m3m = clamp(v4_breakdown?.pts_mom_3m, 0, 3);
+  const m1m = clamp(v4_breakdown?.pts_mom_1m, 0, 2);
+  // Target weights 5+3+2 = 10 total. V4 momentum maxes are 7+3+2 = 12;
+  // rescale 7→5, keep 3, keep 2.
+  return Math.round(((m1y * 5 / 7) + m3m + m1m) * 10) / 10;
 }
 
 function liquidityBonusPts(adv_inr_30d) {
@@ -160,7 +160,7 @@ export function scoreCandidate({
   ticker,
   sector,
   overview = {},
-  v3_breakdown = {},
+  v4_breakdown = {},
   data_completeness_pct = null,
   news = [],
   yearly_history = [],
@@ -174,7 +174,7 @@ export function scoreCandidate({
 } = {}) {
   const market_cap_inr = overview.market_cap_inr;
   const upside_pct = overview.upside_pct;
-  const fv_imputed = !!v3_breakdown.fv_imputed;
+  const fv_imputed = !!v4_breakdown.fv_imputed;
   const has_one_year_close = isFiniteNumber(overview?.returns_pct?.["1Y"]);
   const adv_inr_30d = isFiniteNumber(overview.adv_inr_30d)
     ? overview.adv_inr_30d
@@ -182,14 +182,14 @@ export function scoreCandidate({
 
   // Components (additive)
   const c_mcap = mcapBandPts(market_cap_inr);
-  const c_future = isFiniteNumber(v3_breakdown.pts_future) ? Math.round(v3_breakdown.pts_future / 20 * 12 * 10) / 10 : 0;
-  const c_valuation = isFiniteNumber(v3_breakdown.pts_valuation) ? Math.round(v3_breakdown.pts_valuation / 12 * 10 * 10) / 10 : 0;
+  const c_future = isFiniteNumber(v4_breakdown.pts_future) ? Math.round(v4_breakdown.pts_future / 20 * 12 * 10) / 10 : 0;
+  const c_valuation = isFiniteNumber(v4_breakdown.pts_valuation) ? Math.round(v4_breakdown.pts_valuation / 18 * 10 * 10) / 10 : 0;
   const c_fv_upside = fvUpsidePts(upside_pct, fv_imputed);
   const inflection = scoreInflection({ yearly_history, news, most_recent_reported_date });
   const c_inflection = inflection.score;
   const tailwind = computeSectorTailwind({ sector, macroRegime, ttmReturnPct: sector_ttm_return_pct });
   const c_tailwind = tailwind.pts;
-  const c_momentum = momentumPts(v3_breakdown, has_one_year_close);
+  const c_momentum = momentumPts(v4_breakdown, has_one_year_close);
   const c_liquidity_bonus = liquidityBonusPts(adv_inr_30d);
   const c_health = snowflakeHealthPts(overview.snowflake);
   const story = tagStoryStock(overview);
@@ -197,7 +197,7 @@ export function scoreCandidate({
   const c_story_bonus = story.score_bonus;
 
   // Penalties (subtractive)
-  const p_surveillance = surveillancePenalty(v3_breakdown.surveillance);
+  const p_surveillance = surveillancePenalty(v4_breakdown.surveillance);
   const p_completeness = dataCompletenessPenalty(data_completeness_pct);
   const p_miss_streak = priorMissStreakPenalty(news);
 
@@ -232,7 +232,7 @@ export function scoreCandidate({
   }
 
   if (auditQualityFlag(news)) gateReasons.push("audit_quality_flag");
-  if (String(v3_breakdown.surveillance?.list || "").toUpperCase() === "GSM") gateReasons.push("surveillance_gsm");
+  if (String(v4_breakdown.surveillance?.list || "").toUpperCase() === "GSM") gateReasons.push("surveillance_gsm");
   if (isFiniteNumber(data_completeness_pct) && data_completeness_pct < DATA_COMPLETENESS_HARD_REJECT) {
     gateReasons.push("data_completeness_below_40pct");
   }

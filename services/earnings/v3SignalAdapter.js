@@ -20,30 +20,33 @@
  * pillars the predictor reads depend on it anyway.
  */
 
-import { computeV3Score, verdictV3FromScore } from "../swsScoring.js";
+import { computeV4Score, verdictV4FromScore } from "../swsScoringV4.js";
 
 const num = (v) => (typeof v === "number" && Number.isFinite(v) ? v : null);
 
-// A v3_breakdown is usable by the predictor only if the four pillars it
-// scores on are present and numeric. Anything less and we fall through
-// to the next resolution source.
+// NOTE: the `signals.v3` bus key + the v3_* return keys below are retained as
+// internal labels but now carry V4 data (V3 was deleted in the 2026-05
+// migration). The breakdown is a v4_breakdown.
+//
+// A breakdown is usable by the predictor only if the pillars it scores on are
+// present and numeric. Anything less and we fall through to the next source.
 function hasUsableBreakdown(b) {
   return (
     b &&
     typeof b === "object" &&
     num(b.pts_future) != null &&
     num(b.pts_past) != null &&
-    num(b.pts_fv_upside) != null &&
+    num(b.pts_fv_total) != null &&
     num(b.pts_overlay) != null
   );
 }
 
 function fromPickRow(row, source) {
-  if (!row || !hasUsableBreakdown(row.v3_breakdown)) return null;
+  if (!row || !hasUsableBreakdown(row.v4_breakdown)) return null;
   return {
-    v3_score_100: num(row.v3_score_100),
-    v3_verdict: row.v3_verdict || null,
-    v3_breakdown: row.v3_breakdown,
+    v3_score_100: num(row.v4_score_100),
+    v3_verdict: row.v4_verdict || null,
+    v3_breakdown: row.v4_breakdown,
     source,
   };
 }
@@ -68,12 +71,12 @@ export function extractV3SignalsForEvent({ swsDeep, pickRow, upcomingRow, univer
   // 3 — inline compute off the SWS deep file.
   if (swsDeep && swsDeep.overview) {
     try {
-      const computed = computeV3Score(swsDeep, { universe: universe || null });
-      if (computed && hasUsableBreakdown(computed.v3_breakdown)) {
+      const computed = computeV4Score(swsDeep, { universe: universe || null });
+      if (computed && hasUsableBreakdown(computed.v4_breakdown)) {
         return {
-          v3_score_100: num(computed.v3_score_100),
-          v3_verdict: verdictV3FromScore(computed.v3_score_100),
-          v3_breakdown: computed.v3_breakdown,
+          v3_score_100: num(computed.v4_score_100),
+          v3_verdict: verdictV4FromScore(computed.v4_score_100),
+          v3_breakdown: computed.v4_breakdown,
           source: "computed",
         };
       }

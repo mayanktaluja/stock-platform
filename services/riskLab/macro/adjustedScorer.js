@@ -7,10 +7,10 @@
  *
  *   1. Soft delta: macro_score_delta = lab impact * 0.5 (capped at -5..+5,
  *      since the lab is conservative initially — penalty-heavy not bullish).
- *   2. Hard veto: when severity ≥ 4 AND worst impact ≤ -3 AND v3_verdict
+ *   2. Hard veto: when severity ≥ 4 AND worst impact ≤ -3 AND v4_verdict
  *      is TOP_PICK, set macro_veto = true.
  *
- * The original v3_score_100 and v3_verdict fields are NEVER mutated. The
+ * The original v4_score_100 and v4_verdict fields are NEVER mutated. The
  * returned object carries both originals and adjusted views side by side,
  * which the UI uses to render the diff.
  *
@@ -97,8 +97,8 @@ export function adjustedScoreForRow(row, regime, opts = {}) {
   const staleHours = opts.staleHours ?? DEFAULT_STALE_HOURS;
   const now = opts.now || new Date();
   const ticker = row?.ticker || null;
-  const originalScore = Number(row?.v3_score_100 ?? row?.score ?? 0);
-  const originalVerdict = row?.v3_verdict || row?.verdict || null;
+  const originalScore = Number(row?.v4_score_100 ?? row?.score ?? 0);
+  const originalVerdict = row?.v4_verdict || row?.verdict || null;
 
   const base = {
     ticker,

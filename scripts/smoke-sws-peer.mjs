@@ -35,10 +35,10 @@ for (const h of scored) {
   if (peer?.top_peer) {
     withPeers++;
     console.log(
-      `${h.sws.ticker.padEnd(12)}${(h.sws.sector || "—").padEnd(18)}${`${h.sws.v3_score}`.padEnd(6)}${peer.top_peer.ticker.padEnd(14)}${peer.top_peer.why}`,
+      `${h.sws.ticker.padEnd(12)}${(h.sws.sector || "—").padEnd(18)}${`${h.sws.v4_score}`.padEnd(6)}${peer.top_peer.ticker.padEnd(14)}${peer.top_peer.why}`,
     );
   } else {
-    console.log(`${h.sws.ticker.padEnd(12)}${(h.sws.sector || "—").padEnd(18)}${`${h.sws.v3_score}`.padEnd(6)}—`);
+    console.log(`${h.sws.ticker.padEnd(12)}${(h.sws.sector || "—").padEnd(18)}${`${h.sws.v4_score}`.padEnd(6)}—`);
   }
 }
 console.log(`\nWith peer substitutes: ${withPeers}/${scored.length}`);

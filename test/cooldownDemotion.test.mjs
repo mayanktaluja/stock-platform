@@ -30,13 +30,13 @@ process.env.SWS_COOLDOWN_GATE = "1";
 
 const NOW = new Date("2026-05-14T08:00:00.000Z");
 
-function scored({ symbol, isin, action, qty = 100, weight = 0.5, v3 = 50, severity = 0.18 }) {
+function scored({ symbol, isin, action, qty = 100, weight = 0.5, v4 = 50, severity = 0.18 }) {
   return {
     symbol, isin, action,
     quantity: qty,
     positionWeight: weight,
-    combinedScore: v3,
-    score: v3,
+    combinedScore: v4,
+    score: v4,
     severity,
     swsCovered: true,
     currentValue: qty * 100,
@@ -46,7 +46,7 @@ function scored({ symbol, isin, action, qty = 100, weight = 0.5, v3 = 50, severi
       snowflake_total: 12,
       snowflake: { total: 12, valuation: 3, future_growth: 2, past_performance: 3, financial_health: 2, dividends: 2 },
       multiples: { pe: 20, ps: 3, pb: 4, ev_ebitda: 12 },
-      v3_score: v3,
+      v4_score: v4,
       verdict: "FAIR",
       upside_pct: -5,
       next_earnings_date: null,
@@ -109,7 +109,7 @@ console.log("\nrebuildTierAggregates\n");
   const holdings = [
     scored({ symbol: "JWL", isin: "INE363M01019", action: "Reduction-25%" }),
     scored({ symbol: "TATATECH", isin: "INE142M01025", action: "Reduction-25%" }),
-    scored({ symbol: "TCS", isin: "INE467B01029", action: "HOLD", v3: 60 }),
+    scored({ symbol: "TCS", isin: "INE467B01029", action: "HOLD", v4: 60 }),
   ];
   // Initial build — Tier A has both reductions.
   const initialTiers = buildTiers(holdings);

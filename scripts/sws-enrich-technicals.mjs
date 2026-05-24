@@ -8,7 +8,7 @@
 // back into picks-latest.json so the UI lists the blended score.
 //
 // Rules of the blend:
-//   v3_score_100 = clamp(0, v1 * 0.7 + tech * 0.3 + catalyst + risk_overlay, 100)
+//   v4_score_100 = clamp(0, v1 * 0.7 + tech * 0.3 + catalyst + risk_overlay, 100)
 //
 // Falls back to v2 when tech is unavailable (recent IPO, missing history).
 //
@@ -143,8 +143,8 @@ async function main() {
       const risk = card.v2_breakdown?.pts_risk_overlay || 0;
       const v3 = computeV3(v1, enr.technical_score_100, cat, risk);
       if (v3 != null) {
-        card.v3_score_100 = v3;
-        card.v3_breakdown = {
+        card.v4_score_100 = v3;
+        card.v4_breakdown = {
           fundamentals_component: Math.round(v1 * 0.7 * 10) / 10,
           technical_component: Math.round(enr.technical_score_100 * 0.3 * 10) / 10,
           pts_catalyst: cat,

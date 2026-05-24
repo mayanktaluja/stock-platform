@@ -59,6 +59,10 @@ export function getV3UniverseStats() {
   return _backend.getV3UniverseStats();
 }
 
+export function getV4VerdictBands() {
+  return _backend.getV4VerdictBands?.() ?? null;
+}
+
 export function getPicksLatest() {
   return _backend.getPicksLatest();
 }

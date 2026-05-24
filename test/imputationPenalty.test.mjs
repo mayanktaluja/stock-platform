@@ -23,7 +23,7 @@ console.log("imputationPenalty: fv imputed with high score");
   assert("fv imputed high: 1 flag", r.flags.length === 1);
   assert("fv imputed high: -2 pts", r.pts === -2);
   assert("fv imputed high: flag type", r.flags[0].type === "fv_imputed");
-  assert("fv imputed high: cites breakdown source", r.flags[0].source === "v3_breakdown.fv_imputed");
+  assert("fv imputed high: cites breakdown source", r.flags[0].source === "v4_breakdown.fv_imputed");
 }
 
 console.log("imputationPenalty: fv imputed but LOW score (no penalty)");

@@ -26,8 +26,8 @@ function _buildCandidatePool() {
     for (const r of sectionRows) {
       if (!r?.ticker) continue;
       const existing = byTicker.get(r.ticker);
-      const v3 = num(r.v3_score_100 ?? r.v3_score, 0);
-      if (!existing || v3 > num(existing.v3_score_100 ?? existing.v3_score, 0)) {
+      const v3 = num(r.v4_score_100 ?? r.v4_score, 0);
+      if (!existing || v3 > num(existing.v4_score_100 ?? existing.v4_score, 0)) {
         byTicker.set(r.ticker, r);
       }
     }
@@ -42,8 +42,8 @@ function _mcapBandMatch(candidateMcap, anchorMcap) {
 }
 
 function _peerWhy(p, anchorV3) {
-  const v3 = num(p.v3_score_100 ?? p.v3_score, 0);
-  const verdict = p.v3_verdict || p.verdict || "—";
+  const v3 = num(p.v4_score_100 ?? p.v4_score, 0);
+  const verdict = p.v4_verdict || p.verdict || "—";
   const upside = num(p.upside_pct, null);
   const bits = [`v3 ${v3.toFixed(0)} vs your ${num(anchorV3, 0).toFixed(0)}`, verdict];
   if (upside != null) bits.push(`${upside >= 0 ? "+" : ""}${upside.toFixed(0)}% to FV`);
@@ -59,7 +59,7 @@ function _peerWhy(p, anchorV3) {
 //   heldTickers     — Set of all currently-held tickers (excluded from
 //                     candidate pool)
 //
-// Returns { available, peers: [{ticker, name, sector, v3_score,
+// Returns { available, peers: [{ticker, name, sector, v4_score,
 // market_cap_inr, why }], top_peer } or { available: false, ... }.
 export function findPeerSubstitutes({ ticker, sector, sws_v3, market_cap_inr, heldTickers }) {
   if (!sector || sws_v3 == null) {
@@ -74,16 +74,16 @@ export function findPeerSubstitutes({ ticker, sector, sws_v3, market_cap_inr, he
   const candidates = pool
     .filter((p) => p.ticker !== ticker && !heldSet.has(p.ticker))
     .filter((p) => String(p.sector || "").toLowerCase().trim() === sectorLower)
-    .filter((p) => num(p.v3_score_100 ?? p.v3_score, 0) > num(sws_v3, 0))
+    .filter((p) => num(p.v4_score_100 ?? p.v4_score, 0) > num(sws_v3, 0))
     .filter((p) => _mcapBandMatch(num(p.market_cap_inr, null), num(market_cap_inr, null)))
-    .sort((a, b) => num(b.v3_score_100 ?? b.v3_score, 0) - num(a.v3_score_100 ?? a.v3_score, 0))
+    .sort((a, b) => num(b.v4_score_100 ?? b.v4_score, 0) - num(a.v4_score_100 ?? a.v4_score, 0))
     .slice(0, 3);
 
   const peers = candidates.map((p) => ({
     ticker: p.ticker,
     name: p.name || p.ticker,
     sector: p.sector,
-    v3_score: num(p.v3_score_100 ?? p.v3_score, 0),
+    v4_score: num(p.v4_score_100 ?? p.v4_score, 0),
     market_cap_inr: p.market_cap_inr ?? null,
     snowflake_total: p.snowflake_total ?? null,
     sws_url: p.sws_url ?? null,

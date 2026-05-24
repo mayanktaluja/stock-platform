@@ -431,11 +431,11 @@ window.GLOSSARY = {
     full: "Aggregates Value, Future, Past, Health, Dividend, and Past-vs-Industry into a single 0–30 score (each pillar 0–6, except Position-vs-Industry which adds variation). 22+ is the high-quality band. The shape matters as much as the score: a 20 with all pillars at 3-4 is a balanced compounder, while a 20 with Health=6 + Future=0 is a cash cow with no growth runway. Always look at the pillar breakdown alongside the headline number.",
   },
 
-  v3_composite_score: {
-    term: "Composite Score (v3)",
+  v4_composite_score: {
+    term: "Composite Score",
     category: "fundamental",
-    short: "Starbhai's 0–100 score: 74 fundamentals + 14 momentum − 15 safety overlay.",
-    full: "Built from three blocks. Fundamentals (74 points): SWS pillars + DCF discount + ROE/leverage guardrails. Momentum (14 points): 1Y / 3M / 1M price trend, RSI position. Safety overlay (−15 points): NSE ASM/GSM penalty, declining-revenue penalty, payout-ratio penalty for unsustainable dividends. Score ≥ 60 = TOP_PICK, ≥ 45 = STRONG, ≥ 30 = ACCEPTABLE, ≥ 22 = WATCH, < 22 = AVOID. The safety overlay is what makes v3 different from a pure quality screener — it actively penalises stocks where the headline metrics look good but the structure is fragile.",
+    short: "Starbhai's 0–100 score: 76 pillars + 12 fair-value + 12 momentum − 15 safety overlay.",
+    full: "Built from three blocks. Pillars (76 points): Health 22 · Future 20 · Valuation 18 · Past 16 — a deliberate quality-value tilt (cheap AND a proven track record); the dividend pillar is dropped because yield doesn't predict total return. Fair value (12 points): a coverage-renormalised composite of analyst-upside (with a guard against single-analyst-max inflation) + price-to-earnings vs the industry, instead of a single bucketed upside. Momentum (12 points): 1Y / 3M / 1M price trend. A safety overlay (−15 points) then penalises NSE ASM/GSM flags, declining revenue, and value-trap structure. Verdicts use ABSOLUTE cutoffs: ≥ 59 = TOP_PICK, ≥ 47 = STRONG, ≥ 37 = ACCEPTABLE, ≥ 28 = WATCH, < 28 = AVOID — a stock's label depends only on its own number, not where the rest of the universe sits.",
   },
 
   analyst_fair_value: {
@@ -495,38 +495,38 @@ window.GLOSSARY = {
   },
 
   v3_top_pick: {
-    term: "TOP PICK (v3)",
+    term: "TOP PICK",
     category: "verdict",
-    short: "Composite ≥ 60 — top-decile fundamentals + clean safety profile.",
-    full: "The highest v3 tier. Strong on at least 3 of the 4 SWS pillars (Value/Future/Health/Dividend) AND clean on safety (no ASM/GSM, no payout > 100%, no declining revenue trend). These are the ~5–8% of the universe that pass every gate. Suitable as core holdings — but TOP_PICK doesn't override valuation: if upside-to-FV is negative, treat it as a high-quality compounder at full price, not a fresh entry.",
+    short: "Composite ≥ 59 — top-decile fundamentals + clean safety profile.",
+    full: "The highest tier. Strong on at least 3 of the 4 SWS pillars (Health/Future/Valuation/Past) AND clean on safety (no ASM/GSM, no value-trap structure). Roughly the top ~8% of the scored universe. Suitable as core holdings — but TOP_PICK doesn't override valuation: if upside-to-FV is negative, treat it as a high-quality compounder at full price, not a fresh entry.",
   },
 
   v3_strong: {
-    term: "STRONG (v3)",
+    term: "STRONG",
     category: "verdict",
-    short: "Composite 45–59 — solid quality, minor blemish on one dimension.",
-    full: "Either fundamentals are strong but safety overlay shaved a few points (low-stage surveillance, slightly elevated payout) or fundamentals are very strong on 2 pillars but average on the others. Good initiation candidates with normal position sizing. Roughly the next 15–20% of the universe after TOP_PICK.",
+    short: "Composite 47–58 — solid quality, minor blemish on one dimension.",
+    full: "Either fundamentals are strong but the safety overlay shaved a few points (low-stage surveillance, value-trap brake) or fundamentals are very strong on 2 pillars but average on the others. Good initiation candidates with normal position sizing. Roughly the next 15–20% of the universe after TOP_PICK.",
   },
 
   v3_acceptable: {
-    term: "ACCEPTABLE (v3)",
+    term: "ACCEPTABLE",
     category: "verdict",
-    short: "Composite 30–44 — middle of the pack, no clear edge.",
-    full: "Neither cheap nor expensive, neither high-growth nor declining. The bulk of the universe lands here. For Acceptable stocks, the entry decision should be driven by sector view and technicals, not the v3 score — the score is just saying 'no fundamental red flags, no green flags either'. Smaller starter positions only.",
+    short: "Composite 37–46 — middle of the pack, no clear edge.",
+    full: "Neither cheap nor expensive, neither high-growth nor declining. The bulk of the universe lands here. For Acceptable stocks, the entry decision should be driven by sector view and technicals, not the composite score — the score is just saying 'no fundamental red flags, no green flags either'. Smaller starter positions only.",
   },
 
   v3_watch: {
-    term: "WATCH (v3)",
+    term: "WATCH",
     category: "verdict",
-    short: "Composite 22–29 — one or more weak signals; not actionable today.",
+    short: "Composite 28–36 — one or more weak signals; not actionable today.",
     full: "Either fundamentals are below average on multiple pillars, or the safety overlay has docked points. WATCH means 'don't initiate, but worth monitoring' — sometimes a turnaround starts here before it shows up in the headline score. Existing holdings should be reviewed: if the deterioration is structural, trim; if cyclical, hold with a stop.",
   },
 
   v3_avoid: {
-    term: "AVOID (v3)",
+    term: "AVOID",
     category: "verdict",
-    short: "Composite < 22 — bottom-quartile fundamentals + meaningful safety risk.",
-    full: "Combination of weak pillars (low Health or Future), bearish momentum, and active safety penalties (ASM/GSM placement, declining revenue, unsustainable payout). The v3 AVOID list exists explicitly to keep these out of buy categories — high downside, limited upside, regulatory friction. Existing positions should be reviewed for exit on next strength.",
+    short: "Composite < 28 — bottom-quartile fundamentals + meaningful safety risk.",
+    full: "Combination of weak pillars (low Health or Future), bearish momentum, and active safety penalties (ASM/GSM placement, value-trap structure). The AVOID list exists explicitly to keep these out of buy categories — high downside, limited upside, regulatory friction. Existing positions should be reviewed for exit on next strength.",
   },
 
   // ══════════════════════════════════════════════════════════════════════
@@ -536,8 +536,8 @@ window.GLOSSARY = {
   section_top_ranked_30: {
     term: "Top 30 — Multi-Factor Score",
     category: "verdict",
-    short: "The 30 highest v3 composite scores in the universe (mcap ≥ ₹500cr).",
-    full: "Pure ranking — the top 30 by v3 composite score across the entire scanned universe, gated to ≥ 50% data coverage on every input (no thin-data inflations) and market cap ≥ ₹500cr (no micro-caps where the underlying SWS data is sparse). This is the section to start every session with — the universe-wide best of class.",
+    short: "The 30 highest composite scores in the universe (mcap ≥ ₹500cr).",
+    full: "Pure ranking — the top 30 by composite score across the entire scanned universe, gated to ≥ 50% data coverage on every input (no thin-data inflations) and market cap ≥ ₹500cr (no micro-caps where the underlying SWS data is sparse). This is the section to start every session with — the universe-wide best of class.",
   },
 
   section_best_to_buy_now: {
@@ -727,7 +727,7 @@ window.GLOSSARY = {
     term: "Flag · Imputation Inflation",
     category: "fundamental",
     short: "Composite score relies on imputed (filled-in) values, not real measurements.",
-    full: "When SWS doesn't have an analyst Fair Value or sufficient price history, the V3 composite score backfills with neutral assumptions (typically +6 of ~12 points). The score isn't 'wrong' — it's just less anchored to real data. Stocks heavily reliant on imputed components may be coasting on optimistic defaults rather than measured upside.",
+    full: "When SWS doesn't have an analyst Fair Value or sufficient price history, the composite score backfills with neutral assumptions (typically +6 of ~12 points). The score isn't 'wrong' — it's just less anchored to real data. Stocks heavily reliant on imputed components may be coasting on optimistic defaults rather than measured upside.",
   },
 
   flag_fv_imputed: {
@@ -821,7 +821,7 @@ window.GLOSSARY = {
   col_orig_score: {
     term: "Original Score",
     category: "portfolio",
-    short: "The production SWS V3 composite score (0–100).",
+    short: "The production SWS composite score (V4, 0–100).",
     full: "Production's own number, before any lab adjustments. 0–40 = weak, 40–60 = fair, 60–80 = strong, 80–100 = exceptional. Built from fundamentals, fair-value upside, momentum, and quality pillars. The Risk Lab's deltas adjust THIS number to test alternate scoring approaches.",
   },
 

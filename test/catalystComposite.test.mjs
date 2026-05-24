@@ -16,17 +16,17 @@ const TODAY = "2026-05-20";
 
 it("config exposes thresholds", () => {
   assert.equal(CATALYST_COMPOSITE_CONFIG.EARNINGS_MIN_CONFIDENCE_PCT, 60);
-  assert.equal(CATALYST_COMPOSITE_CONFIG.EARNINGS_MIN_V3_SCORE, 50);
+  assert.equal(CATALYST_COMPOSITE_CONFIG.EARNINGS_MIN_V3_SCORE, 47);
   assert.equal(CATALYST_COMPOSITE_CONFIG.BLOCK_MIN_DEAL_INR, 50e7);
 });
 
-it("earnings BEAT filtered by confidence + V3 floor + within 7 days", () => {
+it("earnings BEAT filtered by confidence + V4 floor + within 7 days", () => {
   const earnings_watch = {
     events: [
       {
         symbol: "GOOD",
         event_iso_date: "2026-05-25",
-        prediction: { verdict: "BEAT", confidence_pct: 68, reasons_top: ["V3 future strong"] },
+        prediction: { verdict: "BEAT", confidence_pct: 68, reasons_top: ["V4 future strong"] },
         signals: { v3: { v3_score_100: 60 }, sector: "Renewables" },
       },
       {
@@ -36,7 +36,7 @@ it("earnings BEAT filtered by confidence + V3 floor + within 7 days", () => {
         signals: { v3: { v3_score_100: 60 } },
       },
       {
-        symbol: "LOWV3",
+        symbol: "LOWSCORE",
         event_iso_date: "2026-05-25",
         prediction: { verdict: "BEAT", confidence_pct: 70 },
         signals: { v3: { v3_score_100: 40 } },
@@ -78,14 +78,14 @@ it("dividend capture needs yield ≥4% AND hold-by ≤7d", () => {
   assert.equal(slate.dividend_capture[0].ticker, "HOLD1");
 });
 
-it("block deals need ≥₹50Cr buy in ≤₹3000Cr mcap with V3 ≥50", () => {
+it("block deals need ≥₹50Cr buy in ≤₹3000Cr mcap with V4 ≥47", () => {
   const bulk_block = {
     deals: [
-      { symbol: "FIT", side: "BUY", deal_value_inr: 80e7, market_cap_inr: 2000e7, v3_score_100: 60, deal_date_iso: "2026-05-19" },
-      { symbol: "TOOBIG", side: "BUY", deal_value_inr: 60e7, market_cap_inr: 5000e7, v3_score_100: 60, deal_date_iso: "2026-05-19" },
-      { symbol: "TOOSMALL", side: "BUY", deal_value_inr: 30e7, market_cap_inr: 1000e7, v3_score_100: 60, deal_date_iso: "2026-05-19" },
-      { symbol: "SELL", side: "SELL", deal_value_inr: 60e7, market_cap_inr: 2000e7, v3_score_100: 60, deal_date_iso: "2026-05-19" },
-      { symbol: "OLD", side: "BUY", deal_value_inr: 60e7, market_cap_inr: 2000e7, v3_score_100: 60, deal_date_iso: "2026-04-01" },
+      { symbol: "FIT", side: "BUY", deal_value_inr: 80e7, market_cap_inr: 2000e7, v4_score_100: 60, deal_date_iso: "2026-05-19" },
+      { symbol: "TOOBIG", side: "BUY", deal_value_inr: 60e7, market_cap_inr: 5000e7, v4_score_100: 60, deal_date_iso: "2026-05-19" },
+      { symbol: "TOOSMALL", side: "BUY", deal_value_inr: 30e7, market_cap_inr: 1000e7, v4_score_100: 60, deal_date_iso: "2026-05-19" },
+      { symbol: "SELL", side: "SELL", deal_value_inr: 60e7, market_cap_inr: 2000e7, v4_score_100: 60, deal_date_iso: "2026-05-19" },
+      { symbol: "OLD", side: "BUY", deal_value_inr: 60e7, market_cap_inr: 2000e7, v4_score_100: 60, deal_date_iso: "2026-04-01" },
     ],
   };
   const slate = buildCatalystSlate({ bulk_block, today_iso: TODAY });
@@ -111,7 +111,7 @@ it("slate is round-robin across the 3 streams, capped at PILLAR2_MAX_TOTAL", () 
   const bulk_block = {
     deals: Array.from({ length: 3 }, (_, i) => ({
       symbol: `B${i}`, side: "BUY", deal_value_inr: (80 - i * 5) * 1e7,
-      market_cap_inr: 2000e7, v3_score_100: 60, deal_date_iso: "2026-05-19",
+      market_cap_inr: 2000e7, v4_score_100: 60, deal_date_iso: "2026-05-19",
     })),
   };
   const slate = buildCatalystSlate({ earnings_watch, dividends_upcoming, bulk_block, current_holdings: holdings, today_iso: TODAY });

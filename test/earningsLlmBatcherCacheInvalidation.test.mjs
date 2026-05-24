@@ -48,7 +48,7 @@ const sampleEvent = {
   signals: {
     data_quality: "HIGH",
     sector: "IT",
-    v3: { v3_score_100: 75, v3_verdict: "BUY" },  // above the 50 floor by default
+    v3: { v3_score_100: 75, v3_verdict: "BUY" },  // above the 47 floor by default
     sws_upcoming_earnings: {
       one_line: "Strong order book and margin tailwinds expected.",
       counter_thesis: { text: "Slowing US BFSI demand", verdict_bias: "lean_miss" },
@@ -483,11 +483,13 @@ it("when opts.llmAvailable=true is passed, behaviour is independent of GROQ/GEMI
 /* ───────────────────── Layer I — V3 composite floor ───────────── */
 
 console.log("[12] meetsLlmCompositeFloor pure helper");
-it("score < 50 → below floor; >= 50 → meets floor; null/missing → below", () => {
+it("score < 47 → below floor; >= 47 → meets floor; null/missing → below", () => {
+  // Floor recalibrated 50 -> 47 (V4 STRONG cutoff) in the 2026-05 migration.
   const make = (s) => withV3(sampleEvent, s);
-  assert.equal(meetsLlmCompositeFloor(make(49)), false);
-  assert.equal(meetsLlmCompositeFloor(make(50)), true);
+  assert.equal(meetsLlmCompositeFloor(make(46)), false);
+  assert.equal(meetsLlmCompositeFloor(make(47)), true);
   assert.equal(meetsLlmCompositeFloor(make(75)), true);
+  // Fail-closed: a null/missing score must NEVER meet the floor (budget-safe).
   assert.equal(meetsLlmCompositeFloor(make(null)), false);
   assert.equal(meetsLlmCompositeFloor({ signals: {} }), false);
   assert.equal(meetsLlmCompositeFloor({}), false);
@@ -512,10 +514,10 @@ it("v3_score_100 = 40 → LLM NOT called, heuristic attached, _last_provider_att
   assert.equal(cached._last_provider_attempt, "below_floor");
 });
 
-console.log("[14] events at the floor boundary (=50) DO go to the LLM");
-it("v3_score_100 = 50 boundary → LLM IS called", async () => {
+console.log("[14] events at the floor boundary (=47) DO go to the LLM");
+it("v3_score_100 = 47 boundary → LLM IS called", async () => {
   const cachePath = tmpCachePath();
-  const events = [withV3(sampleEvent, 50)];
+  const events = [withV3(sampleEvent, 47)];
   const provider = makeGroqProvider();
   await classifyBatchForCalendar(events, {
     cachePath,
