@@ -148,9 +148,10 @@ These are the decisions everything else hangs off. Violating them is how you bre
 function via `includeFiles` so static files and deep briefs are reachable inside the Lambda rather
 than only from the CDN edge.
 
-**Production URL:** `https://stock-platform-gamma.vercel.app` (stable Vercel alias). The latest
+**Production URL:** `https://starbhai-stock-platform.vercel.app` (branded Vercel alias). The latest
 `stock-platform-<hash>-…vercel.app` deployment URL rotates per push. **`starbhai.com` is NOT this
-platform** — it 301s to a separate WordPress site. Always link the `-gamma` alias.
+platform** — it 301s to a separate WordPress site. Always link
+`https://starbhai-stock-platform.vercel.app`.
 
 ---
 
@@ -163,7 +164,7 @@ must come first so the ~5 MB `/api/sws-picks` payload fits under Lambda's sync l
  1. compression()                      gzip everything first (5 MB picks JSON → <1 MB)
  2. NodeCache instances initialised    quote 60s, historical 300s, news 120s, search 300s,
                                         catalyst 7200s, portfolio 30s, analyzer 1800s, macro 7200s
- 3. cors()                             allowlist: -gamma, localhost:3000/4011, preview regex
+ 3. cors()                             allowlist: branded Vercel alias, -gamma, localhost:3000/4011, preview regex
  4. helmet()                           CSP (unsafe-inline for ~28 onclick handlers), frameguard,
                                         HSTS, COOP same-origin-allow-popups (for OAuth popups)
  5. trust proxy = 1                    so rate-limiters see real X-Forwarded-For IPs

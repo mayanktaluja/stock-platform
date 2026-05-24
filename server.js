@@ -327,14 +327,15 @@ const macroHistory = [];
 // but CORS-open is still belt-and-braces wrong: it advertises the API as
 // usable from anywhere.
 //
-// Allowlist covers: the canonical Vercel alias (-gamma), Vercel preview
-// URLs under the same project (rotated per push), localhost for dev (3000)
-// and Playwright (4011). Custom domain (starbhai.com) is intentionally NOT
-// listed yet — see CLAUDE.md note that starbhai.com points at the WP site.
+// Allowlist covers: the branded Vercel alias, the existing -gamma alias
+// kept for backwards compatibility, Vercel preview URLs under the same
+// project (rotated per push), localhost for dev (3000) and Playwright (4011).
+// starbhai.com is intentionally NOT listed — it points at the WordPress site.
 //
 // Set CORS_ALLOWED_ORIGINS=foo.com,bar.com to add extras at runtime
 // without a deploy (used by integration tunnels e.g. ngrok).
 const CORS_ALLOWLIST = [
+  "https://starbhai-stock-platform.vercel.app",
   "https://stock-platform-gamma.vercel.app",
   "http://localhost:3000",
   "http://localhost:4011",
@@ -4834,7 +4835,7 @@ app.post("/api/track/snapshot", express.json(), async (req, res) => {
  * log with arbitrary entries.
  *
  * Usage:
- *   curl -X POST https://stock-platform-gamma.vercel.app/api/track/migrate \
+ *   curl -X POST https://starbhai-stock-platform.vercel.app/api/track/migrate \
  *     -H 'Authorization: Bearer XXX' \
  *     -H 'Content-Type: application/json' \
  *     --data @.paper-trades-export.json
@@ -6891,7 +6892,7 @@ app.get("/", (req, res) => {
 // Only listen when running directly (not on Vercel)
 if (!process.env.VERCEL) {
   app.listen(PORT, async () => {
-    console.log(`\n  Starbhai · Indian Stock Intelligence`);
+    console.log(`\n  Starbhai Stock Platform`);
     console.log(`  ========================================`);
     console.log(`  Running on: http://localhost:${PORT}`);
     console.log(`  Market Status: ${isMarketOpen() ? "OPEN" : "CLOSED"}`);

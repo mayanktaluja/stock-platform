@@ -29,7 +29,7 @@
  *
  * Usage:
  *   node scripts/probe-picks-fv-drift.mjs                      # localhost:3000
- *   PROBE_BASE_URL=https://stock-platform-gamma.vercel.app \
+ *   PROBE_BASE_URL=https://starbhai-stock-platform.vercel.app \
  *     node scripts/probe-picks-fv-drift.mjs                    # remote (needs auth cookie)
  */
 

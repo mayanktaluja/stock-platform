@@ -625,7 +625,7 @@ serving the previous deploy's snapshot of picks-latest.json + deep/*." >/dev/nul
 * shards_failed: ${FAIL}
 * see \`data/sws/last-refresh.json\` for full pipeline summary
 
-Once merged, prod (\`stock-platform-gamma.vercel.app\`) will redeploy with the new picks." 2>&1 | tail -1)"
+Once merged, prod (\`starbhai-stock-platform.vercel.app\`) will redeploy with the new picks." 2>&1 | tail -1)"
         echo "[refresh-api] auto-PR opened: ${PR_URL}"
 
         if [ "${SWS_AUTO_MERGE:-0}" = "1" ]; then
@@ -678,7 +678,7 @@ lines.push(
   ...Object.entries(j.per_shard_progress || {}).map(([sid, p]) =>
     `  shard ${sid}: ${p.done_count} done · today ${p.today_count} · last ${p.last_ticker}`),
   "",
-  "Prod: https://stock-platform-gamma.vercel.app/",
+  "Prod: https://starbhai-stock-platform.vercel.app/",
 );
 if (pr.length) lines.push("", `Auto-PR opened: ${pr}`);
 else lines.push("", "Auto-PR not opened (skipped or disabled — manual sync needed for prod to see fresh data).");

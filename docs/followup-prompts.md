@@ -651,7 +651,7 @@ never knows the underlying data is 19 days old.
 ```
 https://starbhai.com 301-redirects to https://www.starbhai.com,
 which is a separate WordPress site. The actual stock-platform
-deployment is at https://stock-platform-gamma.vercel.app (and
+deployment is at https://starbhai-stock-platform.vercel.app (and
 the latest deployment URL like
 stock-platform-mwjw1ryiz-mtaluja11-3604s-projects.vercel.app).
 
