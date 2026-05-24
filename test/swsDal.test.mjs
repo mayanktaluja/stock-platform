@@ -96,6 +96,11 @@ test("getV3UniverseStats returns { r1m, r3m, r1y }", () => {
   assert.ok(Array.isArray(stats.r1m));
   assert.ok(Array.isArray(stats.r3m));
   assert.ok(Array.isArray(stats.r1y));
+  if (stats.fvBenchmark != null) {
+    assert.equal(typeof stats.fvBenchmark.median_slog, "number");
+    assert.equal(typeof stats.fvBenchmark.robust_sigma, "number");
+    assert.equal(typeof stats.fvBenchmark.degenerate, "boolean");
+  }
 });
 
 test("getLastRefresh returns pipeline metadata when present", () => {

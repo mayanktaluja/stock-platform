@@ -12343,9 +12343,31 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     if (v4bd) {
       const pillarTotal = (v4bd.pts_health || 0) + (v4bd.pts_future || 0) + (v4bd.pts_valuation || 0) + (v4bd.pts_past || 0);
       const momTotal = (v4bd.pts_mom_1y || 0) + (v4bd.pts_mom_3m || 0) + (v4bd.pts_mom_1m || 0);
+      const n1 = (v) => Number.isFinite(Number(v)) ? Number(v).toFixed(1) : "—";
+      const fvHintParts = [];
+      if (Number.isFinite(Number(upsideVal))) {
+        const rel = Number.isFinite(Number(v4bd.fv_upside_relative_pts))
+          ? `relative ${n1(v4bd.fv_upside_relative_pts)}/12, `
+          : "";
+        const contribution = Number.isFinite(Number(v4bd.pts_fv_upside_effective))
+          ? `blended contribution ${n1(v4bd.pts_fv_upside_effective)}`
+          : "upside signal present";
+        fvHintParts.push(`Upside ${Number(upsideVal) >= 0 ? "+" : ""}${n1(upsideVal)}% -> ${rel}${contribution}`);
+      }
+      if (Number.isFinite(Number(v4bd.fv_pe_ratio))) {
+        const pe = Number.isFinite(Number(mult.pe)) ? `${n1(mult.pe)}x` : "P/E";
+        const peerPe = Number.isFinite(Number(ov.industry_benchmarks?.pe)) ? `${n1(ov.industry_benchmarks.pe)}x` : "industry";
+        const bucket = v4bd.fv_pe_bucket ? ` ${String(v4bd.fv_pe_bucket).replace(/_/g, " ")}` : "";
+        const peContribution = Number.isFinite(Number(v4bd.pts_fv_pe_effective)) ? n1(v4bd.pts_fv_pe_effective) : "—";
+        fvHintParts.push(`P/E ${pe} vs ${peerPe}${bucket ? ` (${bucket.trim()})` : ""} -> ${peContribution} pts`);
+      }
+      if (v4bd.fv_max_inflation_haircut) fvHintParts.push("Analyst max-inflation haircut applied");
+      if (v4bd.fv_imputed) fvHintParts.push("No FV sub-signal; neutral 6/12 imputed");
+      fvHintParts.push(`Total ${n1(v4bd.pts_fv_total)}/12`);
+      const fvHint = fvHintParts.join(" · ");
       items = [
         { label: "Pillars 76", value: Math.round(pillarTotal * 10) / 10, max: 76, hint: "Health 22 · Future 20 · Valuation 18 · Past 16 (no dividend pillar in v4)" },
-        { label: "FV composite 12", value: v4bd.pts_fv_total, max: 12, hint: "Capped analyst-upside + P/E-vs-industry, renormalised over present signals" + (v4bd.fv_max_inflation_haircut ? " · analyst-max inflation haircut applied" : "") },
+        { label: "FV composite 12", value: v4bd.pts_fv_total, max: 12, hint: fvHint || "Relative analyst-upside + P/E-vs-industry, renormalised over present signals" },
         { label: "Momentum 12", value: Math.round(momTotal * 10) / 10, max: 12, hint: "Universe-percentile returns: 1Y (7) + 3M (3) + 1M (2)" },
         { label: "Safety overlay", value: v4bd.pts_overlay, max: 0, min: -15, negative: true, hint: (v4bd.overlay_reasons || []).join(" · ") || "No surveillance / value-trap / momentum-tail penalties triggered" },
       ];

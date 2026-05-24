@@ -121,7 +121,12 @@ export function makeRegionPicksDal(code) {
     getLastRefresh: () => readLastRefresh(),
     getV3UniverseStats: () => {
       const r = readV3();
-      return r ? { r1m: r.r1m || [], r3m: r.r3m || [], r1y: r.r1y || [] } : null;
+      return r ? {
+        r1m: r.r1m || [],
+        r3m: r.r3m || [],
+        r1y: r.r1y || [],
+        fvBenchmark: r.fv_benchmark || r.fvBenchmark || null,
+      } : null;
     },
     getStockByTicker: (ticker) => {
       const key = normaliseTickerKey(ticker);
