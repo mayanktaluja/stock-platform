@@ -1,5 +1,5 @@
 /**
- * Starbhai · Indian Stock Intelligence — Frontend Application
+ * Starbhai · Stock Intelligence — Frontend Application
  */
 
 // State
@@ -2771,10 +2771,10 @@ async function switchTab(tab) {
   // Title bar also reflects the active tab for parity.
   const liveHeading = document.getElementById("liveTabHeading");
   if (liveHeading && config.label) {
-    liveHeading.textContent = `STARBHAI — ${config.label}`;
+    liveHeading.textContent = `Starbhai — ${config.label}`;
   }
   if (config.label) {
-    document.title = `${config.label} — STARBHAI`;
+    document.title = `${config.label} — Starbhai · Stock Intelligence`;
   }
 
   try {
@@ -12462,20 +12462,22 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     </div>`;
   })() : "";
 
-  // Quick stats — SWS first, fundamentals.json as fallback. Sanity clamps
-  // suppress obviously-bad values (e.g. INFY P/E = 1440 from a stale SWS row)
-  // by treating them as null so they fall through to the fallback.
+  // Quick stats — Groww-backed SWS overview first, fundamentals.json fallback.
+  // Sanity clamps suppress obviously-bad values by treating them as null so
+  // they fall through to the fallback.
   //
   // Rows whose value is null (data not available from any source) are filtered
   // out before render — see the .filter(([,v]) => v != null) in the grid below.
-  // ROE / ROCE / D/E / Debt cover / Interest cover / Beta / CEO tenure are
-  // currently unavailable from the API capture (`sws-api-parser.mjs` doesn't
-  // extract them and the underlying GraphQL ops don't surface them either);
-  // those rows will appear once a future parser change populates them.
   const pastPerf = (deep && deep.past_performance) || {};
   const finHealth = (deep && deep.financial_health) || {};
   const ownership = (deep && deep.ownership) || {};
   const mgmt = (deep && deep.management) || {};
+  const sourceMap = ov.source_map || {};
+  const growwSource = (deep && deep.groww_source) || (deep && deep.groww) || null;
+  const quickStatsHasGroww = Object.values(sourceMap).some((s) => s && s.provider === "groww_refinitiv");
+  const quickStatsSourceText = quickStatsHasGroww
+    ? `Groww/Refinitiv${growwSource?.fetched_at ? ` · ${String(growwSource.fetched_at).slice(0, 10)}` : ""}`
+    : "SWS snapshot";
   const sane = (v, lo, hi) => (v == null || !Number.isFinite(Number(v)) || Number(v) < lo || Number(v) > hi) ? null : Number(v);
   const pickVal = (...vals) => { for (const v of vals) { if (v != null && Number.isFinite(Number(v))) return Number(v); } return null; };
   const peVal = pickVal(sane(mult.pe, -500, 500), sane(fb.pe, -500, 500));
@@ -12490,11 +12492,17 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     ? ov.latest_net_income / ov.shares_outstanding
     : null;
   const epsVal = pickVal(sane(ov.latest_eps, 0.01, 1e6), sane(derivedEps, 0.01, 1e6), sane(fb.eps, 0.01, 1e6));
-  const roeVal = pickVal(sane(pastPerf.roe_pct, -200, 500), sane(fb.roe_pct, -200, 500));
+  const roeVal = pickVal(sane(ov.roe_pct, -200, 500), sane(pastPerf.roe_pct, -200, 500), sane(fb.roe_pct, -200, 500));
+  const roaVal = pickVal(sane(ov.roa_pct, -200, 500), sane(pastPerf.roa_pct, -200, 500));
+  const roicVal = pickVal(sane(ov.roic_pct, -200, 500), sane(pastPerf.roic_pct, -200, 500));
   const roceVal = pickVal(sane(pastPerf.roce_pct, -200, 500), sane(fb.roce_pct, -200, 500));
   const deVal = pickVal(sane(ov.debt_to_equity_pct, 0, 2000), sane(fb.debt_to_equity_pct, 0, 2000));
+  const currentRatioVal = sane(ov.current_ratio ?? finHealth.current_ratio, 0, 1000);
+  const quickRatioVal = sane(ov.quick_ratio ?? finHealth.quick_ratio, 0, 1000);
+  const cashRatioVal = sane(ov.cash_ratio ?? finHealth.cash_ratio, 0, 1000);
   const intCoverVal = pickVal(finHealth.interest_cover_x, fb.interest_cover_x);
   const netMarginVal = pickVal(sane(ov.net_margin_pct, -200, 200), sane(fb.net_margin_pct, -200, 200));
+  const operatingMarginVal = sane(ov.operating_margin_pct ?? pastPerf.operating_margin_pct, -200, 200);
   const divYieldVal = pickVal(sane(ov.dividend?.yield_pct, 0, 30), sane(fb.dividend_yield_pct, 0, 30));
   const payoutVal = pickVal(sane(ov.dividend?.payout_pct, 0, 200), sane(fb.payout_pct, 0, 200));
   const betaVal = sane(ov.beta, -10, 10);
@@ -12502,6 +12510,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   // Parser key: ownership.insider_ownership_pct. The legacy modal read
   // ownership.insider_pct, which never existed in the API-parser output.
   const insiderVal = sane(ownership.insider_ownership_pct ?? ownership.insider_pct, 0, 100);
+  const promoterVal = sane(ownership.promoter_pct, 0, 100);
   const ceoTenureVal = sane(mgmt.ceo_tenure_years, 0, 100);
   const stats = [
     ["P/E", peVal != null ? `${peVal.toFixed(1)}x` : null],
@@ -12509,14 +12518,21 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     ["P/S", psVal != null ? `${psVal.toFixed(1)}x` : null],
     ["EPS", epsVal != null ? fmtPerShareMoney(epsVal, cur) : null],
     ["ROE", roeVal != null ? `${roeVal.toFixed(1)}%` : null],
+    ["ROA", roaVal != null ? `${roaVal.toFixed(1)}%` : null],
+    ["ROIC", roicVal != null ? `${roicVal.toFixed(1)}%` : null],
     ["ROCE", roceVal != null ? `${roceVal.toFixed(1)}%` : null],
     ["D/E", deVal != null ? `${deVal.toFixed(1)}%` : null],
+    ["Current ratio", currentRatioVal != null ? `${currentRatioVal.toFixed(2)}x` : null],
+    ["Quick ratio", quickRatioVal != null ? `${quickRatioVal.toFixed(2)}x` : null],
+    ["Cash ratio", cashRatioVal != null ? `${cashRatioVal.toFixed(2)}x` : null],
     ["Debt cover", debtCoverVal != null ? `${debtCoverVal.toFixed(1)}%` : null],
     ["Interest cover", intCoverVal != null ? `${intCoverVal.toFixed(1)}x` : null],
     ["Net margin", netMarginVal != null ? `${netMarginVal.toFixed(1)}%` : null],
+    ["Operating margin", operatingMarginVal != null ? `${operatingMarginVal.toFixed(1)}%` : null],
     ["Beta", betaVal != null ? betaVal.toFixed(2) : null],
     ["Div yield", divYieldVal != null ? `${divYieldVal.toFixed(2)}%` : null,],
     ["Payout", payoutVal != null ? `${payoutVal.toFixed(0)}%` : null],
+    ["Promoter %", promoterVal != null ? `${promoterVal.toFixed(1)}%` : null],
     ["Insider %", insiderVal != null ? `${insiderVal.toFixed(1)}%` : null],
     ["CEO tenure", ceoTenureVal != null ? `${ceoTenureVal.toFixed(1)} yr` : null],
   ];
@@ -12569,12 +12585,23 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
       </div>
     </div>` : "";
 
-  // Recent news from SWS (Brief = analyst commentary, Event = corporate
-  // actions). Populated by scripts/sws-news-scrape.mjs onto the same deep
-  // JSON the /api/sws-stock endpoint already serves — no backend change.
-  // Hidden when the news scrape hasn't run yet for this ticker (deep.news
-  // empty or missing).
-  const newsItems = Array.isArray(deep?.news) ? deep.news.slice(0, 8) : [];
+  // Recent news: keep SWS Brief/Event activity, then blend in Groww headlines
+  // from the nightly cache so the modal does not depend on runtime Groww calls.
+  const swsNewsItems = Array.isArray(deep?.news) ? deep.news.map((n) => ({ ...n, sourceKind: "sws" })) : [];
+  const growwNewsItems = Array.isArray(deep?.groww?.news)
+    ? deep.groww.news.map((n) => ({
+        date: n.published_at,
+        title: n.title || n.summary,
+        body: n.summary,
+        source_url: n.url,
+        sourceKind: "groww",
+        sourceName: n.source,
+      }))
+    : [];
+  const newsItems = swsNewsItems.concat(growwNewsItems)
+    .filter((n) => n && n.title)
+    .sort((a, b) => Date.parse(b.date || b.published_at || 0) - Date.parse(a.date || a.published_at || 0))
+    .slice(0, 8);
   const newsHtml = newsItems.length ? `
     <div class="sws-modal-section">
       <details>
@@ -12584,13 +12611,16 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
         <ul class="sws-bullet-list" style="font-size:12px;line-height:1.55;margin-top:10px;">
           ${newsItems.map((n) => {
             const date = (n.date || "").slice(0, 10);
-            const typeBadge = n.type === "event"
+            const typeBadge = n.sourceKind === "groww"
+              ? `<span style="display:inline-block;padding:1px 6px;border-radius:3px;margin-right:4px;font-size:9px;background:rgba(34,197,94,0.12);color:var(--green);text-transform:uppercase;letter-spacing:0.5px;">groww</span>`
+              : n.type === "event"
               ? `<span style="display:inline-block;padding:1px 6px;border-radius:3px;margin-right:4px;font-size:9px;background:rgba(34,211,238,0.12);color:var(--cyan);text-transform:uppercase;letter-spacing:0.5px;">${escapeHtml(n.keyDevTypeId || "event")}</span>`
               : `<span style="display:inline-block;padding:1px 6px;border-radius:3px;margin-right:4px;font-size:9px;background:rgba(251,191,36,0.12);color:#fbbf24;text-transform:uppercase;letter-spacing:0.5px;">brief</span>`;
             return `<li style="margin:6px 0;">
               <span style="color:var(--text-muted);font-size:10px;margin-right:6px;">${escapeHtml(date)}</span>
               ${typeBadge}
               <span style="color:var(--text-primary);">${escapeHtml(n.title || "")}</span>
+              ${n.sourceName ? `<span style="font-size:10px;color:var(--text-muted);margin-left:4px;">${escapeHtml(n.sourceName)}</span>` : ""}
               ${n.body ? `<div style="margin-top:2px;font-size:11px;color:var(--text-secondary);line-height:1.5;">${escapeHtml(n.body)}</div>` : ""}
             </li>`;
           }).join("")}
@@ -12692,7 +12722,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
       const visibleStats = stats.filter(([, v]) => v != null);
       if (!visibleStats.length) return "";
       return `<div class="sws-modal-section">
-      <h4>Quick stats</h4>
+      <h4>Quick stats <span style="font-size:10px;color:var(--text-muted);font-weight:500;">${escapeHtml(quickStatsSourceText)}</span></h4>
       <div class="sws-modal-grid">
         ${visibleStats.map(([l, v]) => `<div class="sws-stat-cell"><div class="stat-label">${l}</div><div class="stat-value">${v}</div></div>`).join("")}
       </div>

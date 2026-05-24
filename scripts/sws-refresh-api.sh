@@ -239,17 +239,24 @@ if ! node scripts/sws-fetch-nse-calendar.mjs 2>&1 | tail -5 | sed 's/^/[nse-cal]
   echo "[refresh-api] NSE calendar fetch failed — non-fatal, parser will write next_earnings_date=null"
 fi
 
-# Groww/Refinitiv P/E is the canonical source for the FV relative-P/E leg.
-# This is TTL-gated inside the script (7d fresh, 21d stale grace), so the
-# twice-daily SWS run normally reuses the cache and only pays the refresh cost
-# about once a week. Non-fatal: parser falls back to SWS visible statements,
-# SWS industry API medians, internal medians, then drops the P/E leg.
-echo "[refresh-api] refreshing Groww/Refinitiv P/E cache (weekly TTL)..."
-if GROWW_OUT="$(node scripts/groww-pe-refresh.mjs --max-age-days 7 --stale-grace-days 21 2>&1)"; then
-  echo "${GROWW_OUT}" | tail -8 | sed 's/^/[groww-pe] /'
+# Groww/Refinitiv is canonical for fast-moving India fundamentals. The full
+# network pass is intentionally restricted to the 16:30 IST launchd window; the
+# 02:00 run validates and reuses the last good cache. The script writes both
+# groww-stock-latest.json and the legacy groww-pe-latest.json alias.
+IST_HHMM="$(TZ=Asia/Kolkata date +%H%M)"
+if [ "${SWS_GROWW_FORCE_REFRESH:-0}" = "1" ] || { [ "${IST_HHMM}" -ge 1600 ] && [ "${IST_HHMM}" -lt 1800 ]; }; then
+  echo "[refresh-api] refreshing Groww/Refinitiv stock cache (16:30 IST full pass; hhmm=${IST_HHMM})..."
+  GROWW_CMD=(node scripts/groww-pe-refresh.mjs --force --max-age-days 1 --stale-grace-days 3)
 else
-  echo "${GROWW_OUT}" | tail -8 | sed 's/^/[groww-pe] /'
-  echo "[refresh-api] Groww P/E refresh failed — non-fatal; parser will use stale cache/SWS fallback"
+  echo "[refresh-api] validating Groww/Refinitiv stock cache (reuse outside 16:30 IST; hhmm=${IST_HHMM})..."
+  GROWW_CMD=(node scripts/groww-pe-refresh.mjs --validate-only --max-age-days 1 --stale-grace-days 3)
+fi
+if GROWW_OUT="$("${GROWW_CMD[@]}" 2>&1)"; then
+  echo "${GROWW_OUT}" | tail -10 | sed 's/^/[groww-stock] /'
+else
+  echo "${GROWW_OUT}" | tail -12 | sed 's/^/[groww-stock] /'
+  echo "[refresh-api] Groww stock cache unavailable and no stale cache inside grace — aborting so canonical fields do not silently revert"
+  exit 6
 fi
 
 # ---------- 6. Parse raw API → scoring-compatible JSON ----------
@@ -443,6 +450,72 @@ try {
     };
   }
 } catch {}
+let growwStockCache = null;
+try {
+  const fp = "data/sws/groww-stock-latest.json";
+  if (existsSync(fp)) {
+    const g = JSON.parse(readFileSync(fp, "utf-8"));
+    const fetchedMs = Date.parse(g.fetched_at || "");
+    const expiresMs = Date.parse(g.expires_at || "");
+    const nowMs = Date.now();
+    growwStockCache = {
+      fetched_at: g.fetched_at || null,
+      expires_at: g.expires_at || null,
+      status: Number.isFinite(expiresMs) && nowMs < expiresMs ? "fresh" : "stale",
+      age_days: Number.isFinite(fetchedMs) ? Math.round(((nowMs - fetchedMs) / 86400000) * 100) / 100 : null,
+      coverage: g.coverage || null,
+    };
+  }
+} catch {}
+const parserConsumed = new Set([
+  "graphql:CompanySummary",
+  "graphql:getNarrativeValuation",
+  "graphql:CompanyNarrativesWithHistogram",
+  "graphql:getCompanyDividends",
+  "graphql:getCompanyPeers",
+  "graphql:NarrativeValuationHistory",
+  "rest:price",
+  "rest:ownership",
+  "rest:industry",
+  "rest:dashboard_company",
+  "rest:statements",
+]);
+function percentile(values, p) {
+  if (!values.length) return null;
+  const sorted = values.slice().sort((a, b) => a - b);
+  const idx = Math.min(sorted.length - 1, Math.max(0, Math.floor((p / 100) * (sorted.length - 1))));
+  return sorted[idx];
+}
+let endpointTiming = {};
+try {
+  const dir = "data/sws/deep-api";
+  const buckets = new Map();
+  if (existsSync(dir)) {
+    for (const f of readdirSync(dir)) {
+      if (!f.endsWith(".json")) continue;
+      try {
+        const d = JSON.parse(readFileSync(dir + "/" + f, "utf-8"));
+        for (const t of d.telemetry?.endpoint_timings || []) {
+          const key = String(t.kind || "") + ":" + String(t.name || "");
+          if (!buckets.has(key)) buckets.set(key, []);
+          buckets.get(key).push(t);
+        }
+      } catch {}
+    }
+  }
+  for (const [key, rows] of buckets.entries()) {
+    const ms = rows.map((r) => Number(r.ms)).filter(Number.isFinite);
+    endpointTiming[key] = {
+      count: rows.length,
+      failures: rows.filter((r) => r.ok === false).length,
+      bytes: rows.reduce((sum, r) => sum + (Number(r.bytes) || 0), 0),
+      total_ms: ms.reduce((sum, v) => sum + v, 0),
+      p50_ms: percentile(ms, 50),
+      p95_ms: percentile(ms, 95),
+      parser_consumed: parserConsumed.has(key),
+    };
+  }
+} catch {}
 const summary = {
   // started_at is the pipeline wrapper's wall-clock kickoff (captured at
   // refresh-api.sh:44 as RUN_STARTED_ISO). Pair with finished_at for the
@@ -461,7 +534,9 @@ const summary = {
   news_items_total: newsItemsTotal,
   rewards_populated_count: rewardsPopulatedCount,
   risks_populated_count: risksPopulatedCount,
+  groww_stock_cache: growwStockCache,
   groww_pe_cache: growwPeCache,
+  endpoint_timing: endpointTiming,
   deep_files_scanned: deepFilesScanned,
   stamping_status: ${STAMP_FAILED:-0} > 0 ? "failed" : "success",
   pipeline_status: ${SCRAPE_SKIPPED}
@@ -469,7 +544,7 @@ const summary = {
     : (${FAIL} > 0 ? "partial" : "success"),
 };
 writeFileSync("${SUMMARY}", JSON.stringify(summary, null, 2));
-console.log("[refresh-api] summary written: scored=" + scoredCount + " news_stocks=" + newsPopulatedCount + " news_items=" + newsItemsTotal + " rewards_stocks=" + rewardsPopulatedCount + " risks_stocks=" + risksPopulatedCount + " groww_pe=" + (growwPeCache?.coverage?.coverage_pct ?? "?") + "% shards=" + JSON.stringify(progress));
+console.log("[refresh-api] summary written: scored=" + scoredCount + " news_stocks=" + newsPopulatedCount + " news_items=" + newsItemsTotal + " rewards_stocks=" + rewardsPopulatedCount + " risks_stocks=" + risksPopulatedCount + " groww_stock=" + (growwStockCache?.coverage?.coverage_pct ?? "?") + "% groww_pe=" + (growwPeCache?.coverage?.coverage_pct ?? "?") + "% shards=" + JSON.stringify(progress));
 EOF
 
 echo "=== refresh-api complete: $(ts) elapsed=${ELAPSED}s ==="
@@ -518,7 +593,7 @@ if [ "${SWS_AUTO_PR:-1}" != "0" ] \
   echo "[refresh-api] auto-PR: branching ${AUTO_BRANCH} from ${ORIGINAL_BRANCH}"
 
   if git checkout -b "${AUTO_BRANCH}" >/dev/null 2>&1; then
-    git add data/sws/picks-latest.json data/sws/last-refresh.json data/sws/v3-universe-stats.json data/sws/sws-scored-universe.json data/sws/groww-pe-latest.json data/sws/groww-pe-failed.json 2>/dev/null
+    git add data/sws/picks-latest.json data/sws/last-refresh.json data/sws/v3-universe-stats.json data/sws/sws-scored-universe.json data/sws/groww-stock-latest.json data/sws/groww-stock-failed.json data/sws/groww-pe-latest.json data/sws/groww-pe-failed.json 2>/dev/null
     # Pack 5,517-file deep/ into a single tarball so Vercel can bundle it
     # without tripping its 15k source-file cap. swsDal's jsonBackend lazy-
     # extracts to /tmp on first read in a cold container. Pack BEFORE the

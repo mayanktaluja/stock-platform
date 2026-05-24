@@ -27,6 +27,9 @@ import {
   GROWW_PE_WARN_COVERAGE_PCT,
   GROWW_PE_BLOCK_COVERAGE_PCT,
   GROWW_PE_STALE_GRACE_DAYS,
+  GROWW_STOCK_WARN_COVERAGE_PCT,
+  GROWW_STOCK_BLOCK_COVERAGE_PCT,
+  GROWW_STOCK_STALE_GRACE_DAYS,
 } from "../scripts/sws-sanity-gate.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -130,6 +133,30 @@ function buildFixture(ageHours, opts = {}) {
     }));
   }
 
+  const growwStockOpt = opts.growwStockCache === undefined
+    ? { coveragePct: 90, ageDays: 1, targetCount: 1000, peCoveragePct: 55 }
+    : opts.growwStockCache;
+  if (growwStockOpt) {
+    const targetCount = growwStockOpt.targetCount ?? 1000;
+    const usableCount = growwStockOpt.usableCount ?? Math.round(targetCount * (growwStockOpt.coveragePct ?? 90) / 100);
+    const peUsableCount = Math.round(targetCount * (growwStockOpt.peCoveragePct ?? 55) / 100);
+    const fetchedAtMs = nowMs - (growwStockOpt.ageDays ?? 1) * 86400000;
+    writeFileSync(join(root, "groww-stock-latest.json"), JSON.stringify({
+      schema_version: "groww-stock-v1",
+      source: "groww_refinitiv",
+      fetched_at: new Date(fetchedAtMs).toISOString(),
+      expires_at: new Date(fetchedAtMs + 86400000).toISOString(),
+      coverage: {
+        target_count: targetCount,
+        usable_count: usableCount,
+        coverage_pct: growwStockOpt.coveragePct ?? (usableCount / targetCount) * 100,
+        pe_usable_count: peUsableCount,
+        pe_coverage_pct: growwStockOpt.peCoveragePct ?? (peUsableCount / targetCount) * 100,
+      },
+      by_ticker: { JSLL: { currentPriceInr: 100, marketCapInr: 1000, peRatio: 39.58, industryPe: 45.3 } },
+    }));
+  }
+
   writeFileSync(join(root, "universe.json"), "[]");
   writeFileSync(join(root, "sws-scored-universe.json"), "[]");
   return root;
@@ -153,6 +180,9 @@ function runGateAndGetFindings(ageHours, opts = {}) {
       growwWarn: l2.find((c) => c.name === "groww_pe_coverage_warn"),
       growwBlock: l2.find((c) => c.name === "groww_pe_coverage_block_floor"),
       growwGrace: l2.find((c) => c.name === "groww_pe_cache_grace_age"),
+      growwStockWarn: l2.find((c) => c.name === "groww_stock_coverage_warn"),
+      growwStockBlock: l2.find((c) => c.name === "groww_stock_coverage_block_floor"),
+      growwStockGrace: l2.find((c) => c.name === "groww_stock_cache_grace_age"),
     };
   } finally {
     try { rmSync(root, { recursive: true, force: true }); } catch {}
@@ -345,8 +375,41 @@ assert(
   "Groww coverage thresholds exported",
   GROWW_PE_WARN_COVERAGE_PCT === 85 &&
     GROWW_PE_BLOCK_COVERAGE_PCT === 70 &&
-    GROWW_PE_STALE_GRACE_DAYS === 21,
-  { GROWW_PE_WARN_COVERAGE_PCT, GROWW_PE_BLOCK_COVERAGE_PCT, GROWW_PE_STALE_GRACE_DAYS },
+    GROWW_PE_STALE_GRACE_DAYS === 21 &&
+    GROWW_STOCK_WARN_COVERAGE_PCT === 85 &&
+    GROWW_STOCK_BLOCK_COVERAGE_PCT === 70 &&
+    GROWW_STOCK_STALE_GRACE_DAYS === 3,
+  {
+    GROWW_PE_WARN_COVERAGE_PCT,
+    GROWW_PE_BLOCK_COVERAGE_PCT,
+    GROWW_PE_STALE_GRACE_DAYS,
+    GROWW_STOCK_WARN_COVERAGE_PCT,
+    GROWW_STOCK_BLOCK_COVERAGE_PCT,
+    GROWW_STOCK_STALE_GRACE_DAYS,
+  },
+);
+
+const growwStockBelowWarn = runGateAndGetFindings(1.0, {
+  growwStockCache: { coveragePct: 84.9, ageDays: 1 },
+});
+assert(
+  "Groww stock 84.9% fresh cache: WARN fails below 85%",
+  growwStockBelowWarn.growwStockWarn && growwStockBelowWarn.growwStockWarn.ok === false && growwStockBelowWarn.growwStockWarn.severity === "WARN",
+  growwStockBelowWarn.growwStockWarn,
+);
+assert(
+  "Groww stock 84.9% fresh cache: BLOCK floor passes",
+  growwStockBelowWarn.growwStockBlock && growwStockBelowWarn.growwStockBlock.ok === true,
+  growwStockBelowWarn.growwStockBlock,
+);
+
+const growwStockAncient = runGateAndGetFindings(1.0, {
+  growwStockCache: { coveragePct: 69.9, ageDays: 3.1 },
+});
+assert(
+  "Groww stock 69.9% ancient cache: BLOCK fails after 3d stale grace",
+  growwStockAncient.growwStockBlock && growwStockAncient.growwStockBlock.ok === false && growwStockAncient.growwStockBlock.severity === "BLOCK",
+  growwStockAncient.growwStockBlock,
 );
 
 const growwBelowWarn = runGateAndGetFindings(1.0, {

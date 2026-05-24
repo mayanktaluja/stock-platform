@@ -120,6 +120,72 @@ check("Groww P/E is canonical over stale SWS primaryIndustry benchmark", () => {
   assert.equal(parsed.overview.pe_benchmark_audit.sws_primary_industry.industry_pe, 22.616750576);
 });
 
+check("Groww stock cache overrides fresh fundamentals and records source_map", () => {
+  const parsed = parseStock(baseApi({ includeFiscal: true }), {
+    growwStockMap: new Map([["JSLL", {
+      searchId: "jeena-sikho-lifecare-ltd",
+      growwCompanyId: "GSTKJSLL",
+      isin: "INE0J5801011",
+      industryName: "Pharmaceuticals",
+      industryId: 46,
+      currentPriceInr: 125,
+      marketCapInr: 2500_00_00_000,
+      fiftyTwoWeek: { low: 80, high: 140 },
+      peRatio: 39.58,
+      industryPe: 45.29762059479049,
+      pbRatio: 4.4,
+      psRatio: 5.5,
+      evToEbitda: 18.2,
+      pegRatio: 1.4,
+      epsTtm: 3.16,
+      dividendYieldPct: 1.25,
+      roePct: 18.5,
+      roaPct: 8.1,
+      roicPct: 15.4,
+      netMarginPct: 12.2,
+      operatingMarginPct: 20.1,
+      debtToEquityPct: 24,
+      currentRatio: 1.8,
+      quickRatio: 1.1,
+      cashRatio: 0.4,
+      shareholding: {
+        period: "Mar '26",
+        promoter_pct: 55,
+        fii_pct: 12,
+        mutual_fund_pct: 8,
+        retail_pct: 20,
+      },
+      financials: { basis: "CONSOLIDATED", yearly: { revenue: { 2025: 100 } }, quarterly: {} },
+      news: [{ title: "JSLL expands", published_at: new Date().toISOString() }],
+      events: [{ title: "Dividend", type: "DIVIDEND" }],
+      fetchedAt: "2026-05-24T12:00:00.000Z",
+      url: "https://groww.in/stocks/jeena-sikho-lifecare-ltd",
+    }]]),
+    growwPeMap: new Map(),
+    internalIndustryPeMap: new Map(),
+  });
+  assert.equal(parsed.overview.current_price_inr, 125);
+  assert.equal(parsed.overview.market_cap_inr, 2500_00_00_000);
+  assert.deepEqual(parsed.overview.fifty_two_week, { low: 80, high: 140 });
+  assert.equal(parsed.overview.upside_pct, 44);
+  assert.equal(parsed.overview.multiples.pe, 39.58);
+  assert.equal(parsed.overview.multiples.pb, 4.4);
+  assert.equal(parsed.overview.multiples.ps, 5.5);
+  assert.equal(parsed.overview.multiples.ev_ebitda, 18.2);
+  assert.equal(parsed.overview.multiples.peg, 1.4);
+  assert.equal(parsed.overview.latest_eps, 3.16);
+  assert.equal(parsed.overview.roe_pct, 18.5);
+  assert.equal(parsed.overview.debt_to_equity_pct, 24);
+  assert.equal(parsed.overview.source_map.current_price_inr.provider, "groww_refinitiv");
+  assert.equal(parsed.overview.source_map["multiples.pb"].provider, "groww_refinitiv");
+  assert.equal(parsed.ownership.promoter_pct, 55);
+  assert.equal(parsed.ownership.insider_ownership_pct, null);
+  assert.equal(parsed.financials.groww.yearly.revenue["2025"], 100);
+  assert.equal(parsed.events.groww[0].type, "DIVIDEND");
+  assert.equal(parsed.groww.news[0].title, "JSLL expands");
+  assert.ok(parsed.overview.recent_news_count >= 1);
+});
+
 check("SWS visible statement is the first fallback when Groww is missing", () => {
   const parsed = parseStock(baseApi(), {
     growwPeMap: new Map(),

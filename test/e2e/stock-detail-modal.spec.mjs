@@ -59,4 +59,30 @@ test.describe("Stock detail modal (SWS)", () => {
     await page.keyboard.press("Escape");
     await expect(backdrop).not.toHaveClass(/open/, { timeout: 5_000 });
   });
+
+  test("Groww-backed quick stats render from cached nightly data when available", async ({ page, request }) => {
+    await gotoApp(page, { tab: "picks" });
+    await waitForPicksLoaded(page);
+
+    const tickers = await page.locator(".sws-pick-card").evaluateAll((cards) =>
+      cards.map((card) => card.getAttribute("data-ticker")).filter(Boolean).slice(0, 40)
+    );
+    let target = null;
+    for (const ticker of tickers) {
+      const res = await request.get(`/api/sws-stock/${encodeURIComponent(ticker)}`);
+      if (!res.ok()) continue;
+      const data = await res.json();
+      if (data?.deep?.groww_source && data?.deep?.overview?.source_map?.current_price_inr) {
+        target = ticker;
+        break;
+      }
+    }
+    test.skip(!target, "No Groww-backed SWS pick fixture available in the current data snapshot.");
+
+    await page.locator(`.sws-pick-card[data-ticker="${target}"]`).first().click();
+    const body = page.locator("#swsModalBody");
+    await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
+    await expect(body).toContainText("Groww/Refinitiv", { timeout: 5_000 });
+    await expect(body).toContainText("Promoter %", { timeout: 5_000 });
+  });
 });
