@@ -549,6 +549,14 @@ const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || "";
 const GOOGLE_OAUTH_REDIRECT_URI = process.env.GOOGLE_OAUTH_REDIRECT_URI || "";
 const AUTH_ENABLED = !!(SESSION_SECRET && GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET && GOOGLE_OAUTH_REDIRECT_URI);
+const OAUTH_CALLBACK_PATH = "/api/auth/google/callback";
+const OAUTH_REDIRECT_HOSTS = new Set([
+  "starbhai-stock-platform.vercel.app",
+  "stock-platform-gamma.vercel.app",
+  "localhost:3000",
+  "localhost:3013",
+  "localhost:4011",
+]);
 
 // P3.5 (2026-05-16) — Session-secret strength check.
 //
@@ -635,8 +643,14 @@ function signSession(sub) {
 function verifySession(token) {
   return verifyPayload(SESSION_PREFIX, token, SESSION_TTL_MS);
 }
-function signOAuthState({ state, verifier, returnTo }) {
-  return signPayload(OAUTH_PREFIX, { state, verifier, returnTo: returnTo || "/", ts: Date.now() });
+function signOAuthState({ state, verifier, returnTo, redirectUri }) {
+  return signPayload(OAUTH_PREFIX, {
+    state,
+    verifier,
+    returnTo: returnTo || "/",
+    redirectUri: redirectUri || GOOGLE_OAUTH_REDIRECT_URI,
+    ts: Date.now(),
+  });
 }
 function verifyOAuthState(token) {
   return verifyPayload(OAUTH_PREFIX, token, OAUTH_TTL_MS);
@@ -681,6 +695,22 @@ function clearOAuthCookie(res) {
   res.setHeader("Set-Cookie", buildCookie(OAUTH_COOKIE, "", 0));
 }
 
+function oauthRequestHost(req) {
+  return String(req.headers.host || "").split(",")[0].trim().toLowerCase();
+}
+
+function oauthOriginForHost(host) {
+  if (!OAUTH_REDIRECT_HOSTS.has(host)) return null;
+  const protocol = host.startsWith("localhost:") ? "http" : "https";
+  return `${protocol}://${host}`;
+}
+
+function oauthRedirectUriForRequest(req) {
+  const origin = oauthOriginForHost(oauthRequestHost(req));
+  if (!origin) return GOOGLE_OAUTH_REDIRECT_URI;
+  return `${origin}${OAUTH_CALLBACK_PATH}`;
+}
+
 // Same-origin path validator — defends /api/auth/google?returnTo=...
 // against open-redirect abuse. Only same-origin paths starting with a
 // single "/" are accepted.
@@ -706,8 +736,9 @@ app.get("/api/auth/google", (req, res) => {
   const verifier = randomBytes(32).toString("base64url");
   const challenge = createHash("sha256").update(verifier).digest("base64url");
   const returnTo = safeReturnTo(req.query.returnTo);
+  const redirectUri = oauthRedirectUriForRequest(req);
 
-  const stateToken = signOAuthState({ state, verifier, returnTo });
+  const stateToken = signOAuthState({ state, verifier, returnTo, redirectUri });
   setOAuthCookie(res, stateToken);
 
   const url = oauthClient.generateAuthUrl({
@@ -717,6 +748,7 @@ app.get("/api/auth/google", (req, res) => {
     code_challenge: challenge,
     code_challenge_method: "S256",
     prompt: "select_account",
+    redirect_uri: redirectUri,
   });
   res.redirect(302, url);
 });
@@ -743,11 +775,16 @@ app.get("/api/auth/google/callback", async (req, res) => {
       clearOAuthCookie(res);
       return res.status(400).json({ error: "state-mismatch" });
     }
+    const redirectUri = oauth.redirectUri || GOOGLE_OAUTH_REDIRECT_URI;
+    if (redirectUri !== oauthRedirectUriForRequest(req)) {
+      clearOAuthCookie(res);
+      return res.status(400).json({ error: "oauth-redirect-uri-mismatch" });
+    }
 
     const { tokens } = await oauthClient.getToken({
       code,
       codeVerifier: oauth.verifier,
-      redirect_uri: GOOGLE_OAUTH_REDIRECT_URI,
+      redirect_uri: redirectUri,
     });
     if (!tokens || !tokens.id_token) {
       clearOAuthCookie(res);
