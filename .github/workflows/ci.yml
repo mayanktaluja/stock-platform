@@ -41,3 +41,42 @@ jobs:
 
       - name: Unit tests
         run: npm test
+
+  e2e-modal:
+    name: E2E — stock modal renders
+    # Guards the most-used interactive surface: renderSwsModalCore (shared by the
+    # India/US/KR/TW stock-detail modals). A render-time ReferenceError — e.g. the
+    # `hasV3` leftover that shipped broken in #437 and was hotfixed in #438 —
+    # produces a silently-empty modal body that the smoke + unit gates CANNOT see
+    # (smoke `import()`s server.js, not the browser classic-script app.js; unit
+    # tests never touch app.js). These Playwright specs open the modal and assert
+    # the body actually populated (.sws-modal-hero + ≥1 .sws-modal-section / rich
+    # score-breakdown), so a modal-render regression fails the build, not prod.
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Build US Picks e2e fixture
+        # us-picks.spec serves a deterministic picks fixture; stock-detail-modal
+        # uses the committed India picks-latest.json (no fixture needed).
+        run: node test/e2e/helpers/build-us-picks-fixture.mjs
+
+      - name: Modal-render e2e (India stock-detail + US Picks modal)
+        # The Playwright config auto-starts `node server.js` on :4011 with auth
+        # disabled (reuseExistingServer:false under CI).
+        run: npx playwright test stock-detail-modal us-picks
