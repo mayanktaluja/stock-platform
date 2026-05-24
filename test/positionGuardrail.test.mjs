@@ -4,9 +4,9 @@
  *
  * Covers:
  *   • Catastrophic drawdown alone no longer forces EXIT — must combine with
- *     a structural-weakness signal (low v3, low snow, negative fwd growth,
+ *     a structural-weakness signal (low v4, low snow, negative fwd growth,
  *     or weak independent crosscheck).
- *   • Disposition-effect override only fires when v3 < 50 AND fundamentals
+ *   • Disposition-effect override only fires when v4 < 50 AND fundamentals
  *     also flag weakness — no longer trims TCS-style quality compounders.
  *   • Single-name concentration guardrail still fires.
  *
@@ -44,11 +44,11 @@ function neutralLayers(independentScore = 65) {
   };
 }
 
-function run({ pnl, v3, snow, fwd = null, indep = 65, pw = 5, swsAction = "HOLD" }) {
+function run({ pnl, v4, snow, fwd = null, indep = 65, pw = 5, swsAction = "HOLD" }) {
   const { crosscheck, catalyst, indianRisk } = neutralLayers(indep);
   return computeRecommendationV2({
     sws_action: swsAction,
-    sws_v3: v3,
+    sws_v4: v4,
     sws_verdict: null,
     crosscheck,
     catalyst,
@@ -64,29 +64,29 @@ console.log("\n_positionGuardrail — catastrophic drawdown (-43%)\n");
   // INOXWIND-style: drawdown deep but SWS still rates TOP_PICK and snow strong.
   // OLD rule: force EXIT. NEW rule: not structurally weak → fall through to
   // Reduction-50% with an "observe before exit" note.
-  const r = run({ pnl: -43, v3: 67, snow: 22 });
-  assert("v3=67 snow=22 → not EXIT", r.action !== "EXIT", r.action);
+  const r = run({ pnl: -43, v4: 67, snow: 22 });
+  assert("v4=67 snow=22 → not EXIT", r.action !== "EXIT", r.action);
   assert("emits Reduction-50%", r.action === "Reduction-50%", r.action);
   assert("guardrail_reason mentions partial trim", /partial trim|observe/i.test(r.guardrail_reason || ""), r.guardrail_reason);
 }
 
 {
-  // Genuinely broken: drawdown deep AND v3 weak AND snow weak.
-  const r = run({ pnl: -43, v3: 20, snow: 10 });
-  assert("v3=20 snow=10 → EXIT", r.action === "EXIT", r.action);
+  // Genuinely broken: drawdown deep AND v4 weak AND snow weak.
+  const r = run({ pnl: -43, v4: 20, snow: 10 });
+  assert("v4=20 snow=10 → EXIT", r.action === "EXIT", r.action);
   assert("guardrail_reason cites structural weakness", /structural weakness|thesis broken/i.test(r.guardrail_reason || ""), r.guardrail_reason);
 }
 
 {
-  // Borderline: drawdown deep, snow borderline, v3 borderline → still EXIT
-  // because v3<50 trips the structurallyWeak gate.
-  const r = run({ pnl: -43, v3: 30, snow: 15 });
-  assert("v3=30 snow=15 → EXIT (v3<50)", r.action === "EXIT", r.action);
+  // Borderline: drawdown deep, snow borderline, v4 borderline → still EXIT
+  // because v4<47 trips the structurallyWeak gate.
+  const r = run({ pnl: -43, v4: 30, snow: 15 });
+  assert("v4=30 snow=15 → EXIT (v4<47)", r.action === "EXIT", r.action);
 }
 
 {
   // Independent crosscheck flags weakness: drawdown + indep<50 → EXIT.
-  const r = run({ pnl: -43, v3: 60, snow: 20, indep: 40 });
+  const r = run({ pnl: -43, v4: 60, snow: 20, indep: 40 });
   assert("indep<50 + drawdown → EXIT", r.action === "EXIT", r.action);
   assert("reason mentions independent score", /indep/i.test(r.guardrail_reason || ""), r.guardrail_reason);
 }
@@ -94,44 +94,44 @@ console.log("\n_positionGuardrail — catastrophic drawdown (-43%)\n");
 console.log("\n_positionGuardrail — disposition-effect (-30%)\n");
 
 {
-  // TCS-style: -31% drawdown but v3=62 (TOP_PICK band) and snow strong.
+  // TCS-style: -31% drawdown but v4=62 (TOP_PICK band) and snow strong.
   // OLD rule: Reduction-50%. NEW rule: pass-through (no guardrail fires —
-  // v3 ≥ 50 means the disposition-effect gate doesn't open).
-  const r = run({ pnl: -31, v3: 62, snow: 20 });
-  assert("v3=62 snow=20 → no trim", r.action === "HOLD", r.action);
+  // v4 ≥ 47 means the disposition-effect gate doesn't open).
+  const r = run({ pnl: -31, v4: 62, snow: 20 });
+  assert("v4=62 snow=20 → no trim", r.action === "HOLD", r.action);
   assert("no guardrail_reason", !r.guardrail_reason, r.guardrail_reason);
 }
 
 {
-  // Genuinely weak compounder mid-correction: v3<50 AND snow<18.
-  const r = run({ pnl: -31, v3: 35, snow: 12 });
-  assert("v3=35 snow=12 → Reduction-50%", r.action === "Reduction-50%", r.action);
+  // Genuinely weak compounder mid-correction: v4<47 AND snow<18.
+  const r = run({ pnl: -31, v4: 35, snow: 12 });
+  assert("v4=35 snow=12 → Reduction-50%", r.action === "Reduction-50%", r.action);
   assert("guardrail_reason cites disposition-effect", /disposition-effect/i.test(r.guardrail_reason || ""), r.guardrail_reason);
 }
 
 {
-  // -31% but v3 borderline + crosscheck OK → pass-through.
-  const r = run({ pnl: -31, v3: 45, snow: 20, indep: 60 });
-  assert("v3=45 snow=20 indep=60 → pass-through", r.action === "HOLD", r.action);
+  // -31% but v4 borderline + crosscheck OK → pass-through.
+  const r = run({ pnl: -31, v4: 45, snow: 20, indep: 60 });
+  assert("v4=45 snow=20 indep=60 → pass-through", r.action === "HOLD", r.action);
 }
 
 console.log("\n_positionGuardrail — light-trim band (-25%)\n");
 
 {
-  const r = run({ pnl: -26, v3: 40, snow: 14 });
-  assert("v3=40 snow=14 → Reduction-25-33%", r.action === "Reduction-25-33%", r.action);
+  const r = run({ pnl: -26, v4: 36, snow: 14 });
+  assert("v4=36 snow=14 → Reduction-25-33%", r.action === "Reduction-25-33%", r.action);
 }
 
 {
   // -25% drawdown but quality intact → pass-through.
-  const r = run({ pnl: -26, v3: 60, snow: 22 });
-  assert("v3=60 snow=22 → no trim", r.action === "HOLD", r.action);
+  const r = run({ pnl: -26, v4: 60, snow: 22 });
+  assert("v4=60 snow=22 → no trim", r.action === "HOLD", r.action);
 }
 
 console.log("\n_positionGuardrail — single-name concentration\n");
 
 {
-  const r = run({ pnl: -5, v3: 55, snow: 20, pw: 17 });
+  const r = run({ pnl: -5, v4: 55, snow: 20, pw: 17 });
   assert("pw=17 → Reduction-25-33%", r.action === "Reduction-25-33%", r.action);
   assert("guardrail_reason cites concentration", /concentration|of book/i.test(r.guardrail_reason || ""), r.guardrail_reason);
 }
@@ -139,7 +139,7 @@ console.log("\n_positionGuardrail — single-name concentration\n");
 console.log("\n_positionGuardrail — no guardrail at small drawdown\n");
 
 {
-  const r = run({ pnl: -8, v3: 45, snow: 16 });
+  const r = run({ pnl: -8, v4: 45, snow: 16 });
   assert("pnl=-8 → pass-through", !r.guardrail_reason, r.guardrail_reason);
 }
 
