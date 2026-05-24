@@ -101,7 +101,7 @@ telemetry.emit("page_load", { ua: navigator.userAgent.slice(0, 200) });
 
 // Reusable popover wiring: toggle [hidden] on the dropdown, mirror
 // aria-expanded on the trigger, close on outside-click + Escape. Returns an
-// { open, close } handle. Used by the privileged "More" menu; the avatar menu
+// { open, close } handle. Used by the legacy "More" menu; the avatar menu
 // keeps its own (older) inline wiring untouched.
 function wireMenu(trigger, dropdown, wrapper) {
   if (!trigger || !dropdown || !wrapper) return { open() {}, close() {} };
@@ -140,57 +140,33 @@ const auth = {
     if (emailEl) emailEl.textContent = me.email || "";
     menu.hidden = false;
 
-    // Expose admin + personal status (server still enforces via 403/404 on the
-    // underlying routes). For privileged users, the previously per-tab "unhide
-    // the button in the bar" logic is replaced by the header "More" dropdown:
-    // the 6 privileged tabs are pulled OUT of #mainTabs and reached via the menu
-    // so the owner's bar isn't congested. Normal users are unaffected — they
-    // never had these buttons (the 4 sleeve tabs) or keep Risk Lab + Sector
-    // Outlook inline (the 2 public tabs).
+    // Expose admin + personal status. Public sections stay in the main tab bar;
+    // only Users remains hidden until the owner/admin identity resolves.
     window.__starbhai_isAdmin = !!me.isAdmin;
     window.__starbhai_isPersonal = !!me.isPersonal;
-    const isPrivileged = window.__starbhai_isAdmin || window.__starbhai_isPersonal;
 
-    if (isPrivileged) {
-      window.__labsMigratedTabs = new Set(
-        ["users", "compounder", "earningsEdge", "multibaggerLab", "riskLab", "sectorOutlook"],
-      );
-      // Pull these out of the bar. `hidden` covers the 4 sleeve tabs (admin
-      // Users + personal sleeves, already hidden in markup); style.display
-      // covers riskLab/sectorOutlook (inline-flex, no `hidden` attr, visible by
-      // default for everyone — only the owner migrates them into the menu).
-      window.__labsMigratedTabs.forEach((id) => {
+    const usersTabBtn = document.getElementById("usersTabBtn");
+    if (usersTabBtn) usersTabBtn.hidden = !window.__starbhai_isAdmin;
+
+    if (window.__starbhai_isPersonal) {
+      ["compounder", "earningsEdge", "multibaggerLab"].forEach((id) => {
         const b = document.getElementById(`${id}TabBtn`);
-        if (b) {
-          b.hidden = true;
-          b.style.display = "none";
-          // Drop any .active set by the boot switchTab() that ran before this
-          // migrated set existed, so no hidden bar button keeps a stale state.
-          b.classList.remove("active");
-          b.setAttribute("aria-selected", "false");
-        }
+        if (b) b.hidden = false;
       });
-
-      buildLabsMenu();
-      const labsMenu = document.getElementById("labsMenu");
-      const labsBtn = document.getElementById("labsMenuBtn");
-      const labsDrop = document.getElementById("labsMenuDropdown");
-      if (labsMenu) labsMenu.hidden = false;
-      window.__labsMenuCtl = wireMenu(labsBtn, labsDrop, labsMenu);
-
-      // Deep-link recovery: boot ran before this async auth resolved, so a
-      // guarded deep-link (#tab=users) was deferred to picks (see boot path).
-      // Enter it for real now if its guard passes — via the base fn so we don't
-      // push a duplicate history entry (the hash already points at the target).
-      const boot = (typeof window.parseHash === "function" ? window.parseHash() : {});
-      if (boot.tab && TAB_CONFIG[boot.tab] && window.__activeTab !== boot.tab) {
-        const cfg = TAB_CONFIG[boot.tab];
-        if ((!cfg.guard || cfg.guard()) && typeof window.__enterTab === "function") {
-          window.__enterTab(boot.tab);
-        }
-      }
-      syncLabsActive(window.__activeTab || "picks");
     }
+
+    // Deep-link recovery: boot ran before this async auth resolved, so a
+    // guarded deep-link (#tab=users) may have been deferred to picks. Enter it
+    // for real now if its guard passes, without pushing a duplicate history
+    // entry because the hash already points at the target.
+    const boot = (typeof window.parseHash === "function" ? window.parseHash() : {});
+    if (boot.tab && TAB_CONFIG[boot.tab] && window.__activeTab !== boot.tab) {
+      const cfg = TAB_CONFIG[boot.tab];
+      if ((!cfg.guard || cfg.guard()) && typeof window.__enterTab === "function") {
+        window.__enterTab(boot.tab);
+      }
+    }
+    syncLabsActive(window.__activeTab || "picks");
 
     const closeDropdown = () => {
       if (dropdown) dropdown.hidden = true;
@@ -252,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Honor the deep-link tab on boot. If it's a guarded tab whose guard can't
   // pass yet (auth.init runs async, AFTER this), show picks WITHOUT rewriting
   // the hash — auth.init's deep-link recovery enters the real tab once the
-  // privileged flags resolve. Avoids both a blank page and history pollution.
+  // auth flags resolve. Avoids both a blank page and history pollution.
   const bootTab = bootHash.tab || 'picks';
   const bootCfg = TAB_CONFIG[bootTab];
   if (bootCfg && (!bootCfg.guard || bootCfg.guard())) {
@@ -2751,13 +2727,11 @@ async function switchTab(tab) {
   loadMacroRegime();
 
   // Activate the matching bar button by EXACT tab id. A substring match would
-  // let switchTab('earnings') also light the 'earningsEdge' button. Skip
-  // lighting a migrated button — for privileged users it lives in the "More"
-  // menu and its bar button is hidden, so the trigger reflects active-state.
+  // let switchTab('earnings') also light the 'earningsEdge' button.
   const activeBtn = Array.from(tabs).find(
     (t) => t.getAttribute("onclick") === `switchTab('${tab}')`,
   );
-  if (activeBtn && !(window.__labsMigratedTabs && window.__labsMigratedTabs.has(tab))) {
+  if (activeBtn) {
     activeBtn.classList.add("active");
     activeBtn.setAttribute("aria-selected", "true");
   }
@@ -2788,31 +2762,17 @@ async function switchTab(tab) {
   }
 }
 
-// ==================== PRIVILEGED "MORE" MENU ====================
+// ==================== LEGACY "MORE" MENU ====================
 //
-// The 6 privileged tabs (admin Users + personal sleeves + the two experimental
-// public tabs) are pulled out of the congested #mainTabs bar for privileged
-// users and reached via the header "More" dropdown instead. Each item is gated
-// identically to its tab's own guard, so an admin who isn't "personal" sees only
-// Users (+ riskLab/sectorOutlook), etc.
+// Kept as inert compatibility for older e2e helpers and active-state syncing.
+// Public tabs now stay in #mainTabs; Users is revealed in the tab bar only for
+// the owner/admin account, so auth.init() no longer shows this menu.
 const LABS_MENU_TABS = [
   { id: "users",          label: "Users",          dot: null,      show: () => !!window.__starbhai_isAdmin },
-  { id: "usPicks",        label: "US Picks",       dot: "#60a5fa", show: () => true },
-  { id: "krPicks",        label: "Korea Picks",    dot: "#f472b6", show: () => true },
-  { id: "twPicks",        label: "Taiwan Picks",   dot: "#fbbf24", show: () => true },
-  { id: "compounder",     label: "Compounder Lab", dot: "#34d399", show: () => !!window.__starbhai_isPersonal },
-  { id: "earningsEdge",   label: "Earnings Edge",  dot: "#f87171", show: () => !!window.__starbhai_isPersonal },
-  { id: "multibaggerLab", label: "5x Lab",         dot: "#a78bfa", show: () => !!window.__starbhai_isPersonal },
-  { id: "riskLab",        label: "Risk Lab",       dot: "#fbbf24", show: () => labsLsEnabled("riskLabEnabled_v2") },
-  { id: "sectorOutlook",  label: "Sector Outlook", dot: "#a78bfa", show: () => labsLsEnabled("sectorOutlookEnabled_v1") },
 ];
 const LABS_LABELS = Object.fromEntries(LABS_MENU_TABS.map((t) => [t.id, t.label]));
-function labsLsEnabled(key) {
-  try { return localStorage.getItem(key) !== "false"; } catch { return true; }
-}
 
-// Inject the menu items the current user is allowed to see. Idempotent — call
-// again to rebuild after a per-tab opt-out changes (e.g. Risk Lab self-disable).
+// Inject the menu items the current user is allowed to see. Idempotent.
 function buildLabsMenu() {
   const dropdown = document.getElementById("labsMenuDropdown");
   if (!dropdown) return;
@@ -11271,7 +11231,7 @@ function renderPickCard(s, sectionKey, rank = null) {
 }
 
 
-// ==================== US PICKS (admin-only) ====================
+// ==================== US PICKS ====================
 // Mirror of the SWS Picks tab for US-listed stocks (data/sws-us/ pipeline).
 // Fully isolated render path — own loader / renderer / card / modal + a
 // currency-aware money formatter — so the India picks code (renderPickCard,

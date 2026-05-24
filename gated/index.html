@@ -698,7 +698,7 @@
     }
     .user-menu-dropdown[hidden] { display: none; }
 
-    /* Privileged "More" menu — pulled-out tabs. Mirrors .user-menu positioning;
+    /* Legacy "More" menu shell. Mirrors .user-menu positioning;
        reuses .user-menu-dropdown for the panel chrome. */
     .labs-menu { position: relative; }
     .labs-menu[hidden] { display: none; }
@@ -718,8 +718,7 @@
     .labs-menu-item[aria-current="true"] { color: var(--gold); background: var(--yellow-bg); }
     .labs-menu-item-dot { width: 6px; height: 6px; border-radius: 50%; flex: 0 0 auto; }
 
-    /* Mobile: keep the trigger REACHABLE (do NOT hide the menu) — these tabs have
-       no bottom-nav entry, so hiding it would strand them. Collapse to icon-only. */
+    /* Mobile: retained only for the inert legacy menu shell. */
     @media (max-width: 720px) { .labs-menu-label { display: none; } }
 
     .user-menu-info { padding: 4px 4px 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); margin-bottom: 8px; }
@@ -4267,10 +4266,8 @@
           <div class="header-time" id="currentTime">--:--:-- --</div>
           <div class="header-date" id="currentDate">IST</div>
         </div>
-        <!-- Privileged "More" menu — revealed by auth.init() only for admin/personal
-             users. Holds the tabs pulled out of #mainTabs so the owner's bar isn't
-             congested. Items are injected in JS (buildLabsMenu) so a normal user's
-             DOM never lists them. -->
+        <!-- Legacy More menu shell. Public tabs now stay in #mainTabs; Users is
+             revealed in the tab bar only for the hard-coded admin account. -->
         <div class="labs-menu" id="labsMenu" hidden>
           <button class="btn btn--ghost btn--sm labs-menu-trigger" id="labsMenuBtn"
                   aria-label="More sections" aria-haspopup="true" aria-expanded="false" type="button">
@@ -4347,11 +4344,11 @@
       <button class="tab" id="trackTabBtn" role="tab" aria-selected="false" aria-controls="trackTab" onclick="switchTab('track')">Track Record</button>
       <button class="tab" id="analyzerTabBtn" role="tab" aria-selected="false" aria-controls="analyzerTab" onclick="switchTab('analyzer')">Portfolio Analyzer</button>
       <button class="tab" id="watchlistTabBtn" role="tab" aria-selected="false" aria-controls="watchlistTab" onclick="switchTab('watchlist')">Watchlist</button>
-      <!-- Admin-only. Hidden by default; auth.init() unhides for users with isAdmin=true. -->
+      <!-- Admin-only. Hidden by default; auth.init() unhides for the owner/admin account. -->
       <button class="tab" id="usersTabBtn" role="tab" aria-selected="false" aria-controls="usersTab" hidden onclick="switchTab('users')">Users</button>
-      <button class="tab" id="usPicksTabBtn" role="tab" aria-selected="false" aria-controls="usPicksTab" hidden onclick="switchTab('usPicks')">US Picks</button>
-      <button class="tab" id="krPicksTabBtn" role="tab" aria-selected="false" aria-controls="krPicksTab" hidden onclick="switchTab('krPicks')">Korea Picks</button>
-      <button class="tab" id="twPicksTabBtn" role="tab" aria-selected="false" aria-controls="twPicksTab" hidden onclick="switchTab('twPicks')">Taiwan Picks</button>
+      <button class="tab" id="usPicksTabBtn" role="tab" aria-selected="false" aria-controls="usPicksTab" onclick="switchTab('usPicks')">US Picks</button>
+      <button class="tab" id="krPicksTabBtn" role="tab" aria-selected="false" aria-controls="krPicksTab" onclick="switchTab('krPicks')">Korea Picks</button>
+      <button class="tab" id="twPicksTabBtn" role="tab" aria-selected="false" aria-controls="twPicksTab" onclick="switchTab('twPicks')">Taiwan Picks</button>
       <button class="tab" id="earningsTabBtn" role="tab" aria-selected="false" aria-controls="earningsTab" onclick="switchTab('earnings')">Earnings Watch</button>
       <!-- Risk Lab (experimental) — macro/geopolitical + earnings-quality overlay on existing picks/predictions. Hidden when localStorage.riskLabEnabled === "false". -->
       <button class="tab" id="riskLabTabBtn" role="tab" aria-selected="false" aria-controls="riskLabTab" onclick="switchTab('riskLab')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#fbbf24; box-shadow:0 0 0 2px rgba(251,191,36,0.18); animation: pulse 2s ease-in-out infinite;" aria-hidden="true"></span>Risk Lab<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:#fbbf24; background:rgba(251,191,36,0.12); border:1px solid rgba(251,191,36,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">EXPERIMENTAL</span></button>
@@ -4869,7 +4866,7 @@
       </div>
     </div>
 
-    <!-- US Picks Tab (admin-only) — SWS-sourced US-equity leaderboard -->
+    <!-- US Picks Tab — SWS-sourced US-equity leaderboard, open to signed-in users -->
     <div id="usPicksTab" class="tab-content" role="tabpanel" aria-labelledby="usPicksTabBtn" style="display:none;">
       <div id="usPicksLoadingBanner" class="sws-loading-banner" hidden>Loading US Picks…</div>
       <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">
@@ -4923,7 +4920,7 @@
       </div>
     </div>
 
-    <!-- Korea Picks (admin-only) — registry-driven render path; own state + modal. -->
+    <!-- Korea Picks — registry-driven render path; own state + modal. -->
     <div id="krPicksTab" class="tab-content" role="tabpanel" aria-labelledby="krPicksTabBtn" style="display:none;">
       <div id="krPicksLoadingBanner" class="sws-loading-banner" hidden>Loading Korea Picks…</div>
       <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">
@@ -4977,7 +4974,7 @@
       </div>
     </div>
 
-    <!-- Taiwan Picks (admin-only) — registry-driven render path; own state + modal. -->
+    <!-- Taiwan Picks — registry-driven render path; own state + modal. -->
     <div id="twPicksTab" class="tab-content" role="tabpanel" aria-labelledby="twPicksTabBtn" style="display:none;">
       <div id="twPicksLoadingBanner" class="sws-loading-banner" hidden>Loading Taiwan Picks…</div>
       <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">

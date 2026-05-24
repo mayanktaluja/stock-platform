@@ -15,7 +15,6 @@ const HAS_FIXTURE = fs.existsSync(PICKS_PATH);
 
 async function openUSPicks(page) {
   await gotoApp(page);
-  await page.evaluate(() => { window.__starbhai_isAdmin = true; });
   await page.evaluate(() => window.switchTab("usPicks"));
   await expect(page.locator("#usPicksTab")).toBeVisible({ timeout: 10_000 });
   await page.waitForFunction(

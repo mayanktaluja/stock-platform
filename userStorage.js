@@ -22,6 +22,7 @@ const USERS_PATH = path.join(__dirname, "users.json");
 
 const userKey = (sub) => `user:${sub}`;
 const USER_KEY_PREFIX = "user:";
+const ADMIN_EMAIL = "mthaluja11@gmail.com";
 
 // Cap on per-user login history. We store the most recent N events inline on
 // the user record so the admin drill-down can show "every visit" without an
@@ -88,21 +89,11 @@ function _computeTouch(existing, now) {
   };
 }
 
-function parseAdminEmails() {
-  const raw = process.env.ADMIN_EMAILS || "";
-  return raw
-    .split(",")
-    .map((s) => s.trim().toLowerCase())
-    .filter(Boolean);
-}
-
-// Exported so server-side authorization sites can recompute admin status LIVE
-// from the current ADMIN_EMAILS on every request, rather than trusting the
-// persisted `isAdmin` flag (which only updates at login). This is what makes
-// removing an email from ADMIN_EMAILS take effect without a re-login.
+// Exported so server-side authorization sites can recompute admin status from
+// the canonical owner email on every request, rather than trusting the
+// persisted `isAdmin` flag (which only updates at login).
 export function computeIsAdmin(email) {
-  const list = parseAdminEmails();
-  return !!email && list.includes(String(email).toLowerCase());
+  return String(email || "").trim().toLowerCase() === ADMIN_EMAIL;
 }
 
 // ── File adapter ──
