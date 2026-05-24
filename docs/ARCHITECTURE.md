@@ -149,9 +149,9 @@ function via `includeFiles` so static files and deep briefs are reachable inside
 than only from the CDN edge.
 
 **Production URL:** `https://starbhai-stock-platform.vercel.app` (branded Vercel alias). The latest
-`stock-platform-<hash>-…vercel.app` deployment URL rotates per push. **`starbhai.com` is NOT this
-platform** — it 301s to a separate WordPress site. Always link
-`https://starbhai-stock-platform.vercel.app`.
+`stock-platform-<hash>-…vercel.app` deployment URL rotates per push. `starbhai.com` is out of
+scope for this platform; do not configure it in Vercel, OAuth, CORS, metadata, or shared app links.
+Always link `https://starbhai-stock-platform.vercel.app`.
 
 ---
 

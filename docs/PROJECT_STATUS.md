@@ -38,8 +38,8 @@ portfolio analyzer.
 ### Branded Vercel URL (May 2026)
 - **Vercel-only platform link** — the canonical public link is
   `https://starbhai-stock-platform.vercel.app`. This keeps the platform on
-  Vercel-managed DNS/CDN, leaves `starbhai.com` on WordPress, and avoids the
-  custom-domain/DNS cutover risk.
+  Vercel-managed DNS/CDN and keeps `starbhai.com` completely out of the stock
+  platform setup.
 
 ### V4 composite score — V3 deleted (May 2026)
 - **#437** — **V4 is now the sole SWS composite score; V3 is deleted.** New
@@ -143,8 +143,9 @@ portfolio analyzer.
   renamed to `test/personalUseGate.test.mjs`; the `&&` chain dies there. Fix the path.
 - **Auto-refresh PRs flood the repo** — `chore(macro|sws): auto-refresh ...` open every
   few hours. They commit data files, not code.
-- **`starbhai.com` is NOT this platform** — it 301s to a separate WordPress site. Always
-  link `https://starbhai-stock-platform.vercel.app`.
+- **`starbhai.com` is out of scope for this platform** — do not configure it in
+  Vercel, OAuth, CORS, metadata, or shared app links. Always link
+  `https://starbhai-stock-platform.vercel.app`.
 
 ## Roadmap items (not yet started)
 
