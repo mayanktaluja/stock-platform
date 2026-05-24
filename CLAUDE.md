@@ -178,7 +178,7 @@ node scripts/refresh-earnings.mjs --skip-llm   # ...or skip the LLM step (CI/off
 ```
 
 `refresh-earnings.mjs` runs the LLM qualitative signal (predictor component 9)
-between aggregation and prediction. It uses `GROQ_API_KEY` → `GEMINI_API_KEY`
+between aggregation and prediction. It uses `GEMINI_API_KEY` → `GROQ_API_KEY`
 → a deterministic keyword heuristic — so it works with no keys at all, just at
 lower fidelity. `--skip-llm` forces the heuristic. Results are hash-cached in
 `data/catalysts/llm-signal-cache.json` (commit it — keeps steady-state runs at
@@ -280,14 +280,22 @@ after the backtest so a silent failure in any stage surfaces.
 
 ### Modules
 
+> **V3→V4 naming note (#437).** The SWS composite score is now **V4**
+> (`services/swsScoringV4.js`); V3 is deleted. The earnings bus deliberately
+> kept the legacy `signals.v3.*`, `v3SignalAdapter.js`, `loadV3UniverseStats.js`,
+> and `v3-universe-stats.json` names as **V4-carrying aliases** — they are
+> load-bearing, not dead code. **Don't blind find-replace `v3`→`v4`.**
+> `PREDICTOR_VERSION` likewise still reads `earnings-predict-v3-2026-05` even
+> though it runs on V4 inputs. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) §8.
+
 | File | Role |
 |------|------|
 | `services/earnings/earningsCalendarBuilder.js` | NSE event-calendar → calendar rows |
-| `services/earnings/signalAggregator.js` | Joins SWS deep + V3 breakdown + history + sector + announcements + deals |
-| `services/earnings/v3SignalAdapter.js` | Resolves the SWS V3 100-pt breakdown (upcoming row → picks row → inline computeV3Score) |
-| `services/earnings/loadV3UniverseStats.js` | Loads `data/sws/v3-universe-stats.json` for the inline-compute momentum percentiles |
-| `services/earnings/earningsPredictor.js` | v2 component scorer (3 V3 pillars + runup + sector + trajectory + echo + announcements + deals + LLM signal) → BEAT/INLINE/MISS + confidence |
-| `services/earnings/earningsLlmSignal.js` | LLM qualitative classifier — Groq → Gemini → heuristic, never throws |
+| `services/earnings/signalAggregator.js` | Joins SWS deep + V4 breakdown (via the legacy `signals.v3` bus alias) + history + sector + announcements + deals |
+| `services/earnings/v3SignalAdapter.js` | Resolves the SWS **V4** 100-pt composite — reads `v4_breakdown`/`v4_score_100`, returns them under the legacy `v3_*` keys. (`computeV3Score` is deleted; it imports `computeV4Score`/`verdictV4FromScore`.) |
+| `services/earnings/loadV3UniverseStats.js` | Loads `data/sws/v3-universe-stats.json` (filename unchanged) for momentum percentiles only — V4 verdicts are absolute cutoffs, no runtime band lookup |
+| `services/earnings/earningsPredictor.js` | component scorer (3 V4 pillars: future/past + valuation + risk overlay; then runup + sector + trajectory + echo + announcements + deals + missing-data penalty + LLM signal) → BEAT/INLINE/MISS + confidence |
+| `services/earnings/earningsLlmSignal.js` | LLM qualitative classifier — Gemini → Groq → heuristic (Gemini-first since 2026-05-17), never throws |
 | `services/earnings/earningsLlmBatcher.js` | Batches the LLM signal across the calendar, hash-cached in `data/catalysts/llm-signal-cache.json` |
 | `services/earnings/llmPromptHardener.js` | Prompt-injection defence — sanitises + delimiter-wraps untrusted SWS news bodies |
 | `services/earnings/priceBandBuilder.js` | Bull/Base/Bear (capped ±15%) |
