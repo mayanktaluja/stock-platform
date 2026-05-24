@@ -103,6 +103,7 @@ export function _fvCompositeV4(ov, fvBenchmark = null) {
   // --- Relative-P/E sub (weight 4) — cheap vs industry benchmark ---
   const pe = num(ov.multiples?.pe, null);
   const indPe = num(ov.industry_benchmarks?.pe, null);
+  const peSource = ov.pe_benchmark_source || ov.industry_benchmarks_meta || ov.multiples_meta || null;
   let fv_pe_ratio = null;
   let fv_pe_bucket = null;
   if (pe != null && pe > 0 && indPe != null && indPe > 0) {
@@ -154,6 +155,13 @@ export function _fvCompositeV4(ov, fvBenchmark = null) {
     fv_upside_rz: r3(fv_upside_rz),
     fv_pe_ratio: r3(fv_pe_ratio),
     fv_pe_bucket,
+    fv_pe_source: peSource?.provider || peSource?.pe_source || null,
+    fv_pe_source_label: peSource?.label || peSource?.pe_source_label || null,
+    fv_pe_industry_name: peSource?.industry_name || peSource?.pe_industry_name || null,
+    fv_pe_company_pe: r3(pe),
+    fv_pe_industry_pe: r3(indPe),
+    fv_pe_fetched_at: peSource?.fetched_at || peSource?.pe_as_of || null,
+    fv_pe_source_url: peSource?.url || peSource?.pe_source_url || null,
   };
 }
 
@@ -243,6 +251,13 @@ export function computeV4Score(stock, opts = {}) {
       fv_upside_rz: fv.fv_upside_rz,
       fv_pe_ratio: fv.fv_pe_ratio,
       fv_pe_bucket: fv.fv_pe_bucket,
+      fv_pe_source: fv.fv_pe_source,
+      fv_pe_source_label: fv.fv_pe_source_label,
+      fv_pe_industry_name: fv.fv_pe_industry_name,
+      fv_pe_company_pe: fv.fv_pe_company_pe,
+      fv_pe_industry_pe: fv.fv_pe_industry_pe,
+      fv_pe_fetched_at: fv.fv_pe_fetched_at,
+      fv_pe_source_url: fv.fv_pe_source_url,
       pts_mom_1y: Math.round(pts_mom_1y * 10) / 10,
       pts_mom_3m: Math.round(pts_mom_3m * 10) / 10,
       pts_mom_1m: Math.round(pts_mom_1m * 10) / 10,

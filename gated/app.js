@@ -12355,11 +12355,18 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
         fvHintParts.push(`Upside ${Number(upsideVal) >= 0 ? "+" : ""}${n1(upsideVal)}% -> ${rel}${contribution}`);
       }
       if (Number.isFinite(Number(v4bd.fv_pe_ratio))) {
-        const pe = Number.isFinite(Number(mult.pe)) ? `${n1(mult.pe)}x` : "P/E";
-        const peerPe = Number.isFinite(Number(ov.industry_benchmarks?.pe)) ? `${n1(ov.industry_benchmarks.pe)}x` : "industry";
+        const n2 = (v) => Number.isFinite(Number(v)) ? Number(v).toFixed(2) : "—";
+        const pe = Number.isFinite(Number(mult.pe)) ? `${n2(mult.pe)}x` : "P/E";
+        const peerPe = Number.isFinite(Number(ov.industry_benchmarks?.pe)) ? `${n2(ov.industry_benchmarks.pe)}x` : "industry";
+        const providerRaw = v4bd.fv_pe_source || ov.pe_benchmark_source?.provider || ov.industry_benchmarks_meta?.pe_source || "";
+        const providerLabel = providerRaw === "groww_refinitiv"
+          ? "Groww"
+          : (v4bd.fv_pe_source_label || ov.pe_benchmark_source?.label || ov.industry_benchmarks_meta?.pe_source_label || "industry");
+        const industryName = v4bd.fv_pe_industry_name || ov.pe_benchmark_source?.industry_name || ov.industry_benchmarks_meta?.pe_industry_name || "";
+        const peerLabel = `${providerLabel}${industryName ? ` ${industryName}` : ""}`.trim();
         const bucket = v4bd.fv_pe_bucket ? ` ${String(v4bd.fv_pe_bucket).replace(/_/g, " ")}` : "";
         const peContribution = Number.isFinite(Number(v4bd.pts_fv_pe_effective)) ? n1(v4bd.pts_fv_pe_effective) : "—";
-        fvHintParts.push(`P/E ${pe} vs ${peerPe}${bucket ? ` (${bucket.trim()})` : ""} -> ${peContribution} pts`);
+        fvHintParts.push(`P/E ${pe} vs ${peerLabel} ${peerPe}${bucket ? ` (${bucket.trim()})` : ""} -> ${peContribution} pts`);
       }
       if (v4bd.fv_max_inflation_haircut) fvHintParts.push("Analyst max-inflation haircut applied");
       if (v4bd.fv_imputed) fvHintParts.push("No FV sub-signal; neutral 6/12 imputed");
@@ -12382,7 +12389,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
       const v = it.value == null ? 0 : it.value;
       const pct = it.negative ? (Math.abs(v) / 15) * 100 : (v / it.max) * 100;
       return `
-        <div class="sws-modal-bar" title="${it.hint}">
+        <div class="sws-modal-bar" title="${escapeHtml(it.hint || "")}">
           <div class="bar-label">${it.label}</div>
           <div class="bar-track"><div class="bar-fill ${it.negative ? "negative" : ""}" style="width:${Math.min(100, Math.abs(pct)).toFixed(0)}%"></div></div>
           <div class="bar-value">${v == null ? "—" : (v > 0 && !it.negative ? "+" : "") + Number(v).toFixed(1)}</div>
@@ -12426,10 +12433,16 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     // Sanity-clamp P/E (SWS occasionally publishes a stale 4-digit value, e.g.
     // INFY = 1440x). Falls back to the fundamentals.json snapshot.
     const ownPe = clampMult(mult.pe) ?? clampMult(fb.pe);
+    const peMeta = ov.pe_benchmark_source || ov.industry_benchmarks_meta || {};
+    const peProvider = (peMeta.provider || peMeta.pe_source) === "groww_refinitiv"
+      ? "Groww"
+      : (peMeta.label || peMeta.pe_source_label || "peer");
+    const peIndustry = peMeta.industry_name || peMeta.pe_industry_name || "";
+    const pePeerText = `vs ${peProvider}${peIndustry ? ` ${peIndustry}` : ""} ${fmtMult(ib.pe)}`.trim();
     // Future revenue growth — we don't have a per-stock equivalent, but show
     // the sector benchmark on its own.
     const cells = [
-      { label: "P/E", own: fmtMult(ownPe), peer: fmtMult(ib.pe) },
+      { label: "P/E", own: fmtMult(ownPe), peerText: pePeerText },
       { label: "Net margin (1Y)", own: fmtFrac(ownNetMargin), peer: fmtFrac(ib.net_income_margin_1y) },
       { label: "Future rev growth (3Y)", own: "—", peer: fmtFrac(ib.future_revenue_growth_3y) },
     ];
@@ -12442,7 +12455,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
             <div class="stat-label">${c.label}</div>
             <div style="display:flex;align-items:baseline;gap:8px;margin-top:4px;">
               <div class="stat-value" style="font-size:14px;">${c.own}</div>
-              <div style="font-size:10px;color:var(--text-muted);">vs ${c.peer} peer</div>
+              <div style="font-size:10px;color:var(--text-muted);">${escapeHtml(c.peerText || `vs ${c.peer} peer`)}</div>
             </div>
           </div>`).join("")}
       </div>

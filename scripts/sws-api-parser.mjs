@@ -37,6 +37,7 @@ const REPO_ROOT = path.resolve(__dirname, "..");
 const SRC_DIR = path.join(REPO_ROOT, "data/sws/deep-api");
 const DEFAULT_DEST = path.join(REPO_ROOT, "data/sws/deep-api-parsed");
 const NSE_CALENDAR_PATH = path.join(REPO_ROOT, "data/sws/nse-event-calendar.json");
+const GROWW_PE_PATH = process.env.SWS_GROWW_PE_CACHE || path.join(REPO_ROOT, "data/sws/groww-pe-latest.json");
 
 // Load the NSE corporate-actions calendar produced by
 // scripts/sws-fetch-nse-calendar.mjs. Returns a Map(symbol → { date, purpose })
@@ -406,6 +407,77 @@ function extractMultiples(api) {
   };
 }
 
+function asNumber(value) {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string" && value.trim() !== "") {
+    const n = Number(value.replace(/,/g, ""));
+    if (Number.isFinite(n)) return n;
+  }
+  return null;
+}
+
+function sanePe(value) {
+  const n = asNumber(value);
+  return n != null && n > 0 && n < 500 ? n : null;
+}
+
+function parsePeText(value) {
+  const n = asNumber(value);
+  return sanePe(n);
+}
+
+// Visible SWS valuation statement, e.g.
+// "JSLL is good value based on its Price-To-Earnings Ratio (37.9x)
+//  compared to the Indian Healthcare industry average (38.7x)."
+export function extractSwsStatementPe(api) {
+  const list = api?.rest?.statements?.data?.statements?.data;
+  if (!Array.isArray(list)) return null;
+  const row = list.find((s) => {
+    const name = String(s?.name || "");
+    const title = String(s?.title || "");
+    return name === "IsGoodValueComparingPreferredMultipleToIndustry" ||
+      /Price-To-Earnings vs Industry/i.test(title);
+  });
+  const desc = String(row?.description || "");
+  if (!desc) return null;
+  const companyPe = parsePeText(
+    desc.match(/Price-To-Earnings Ratio\s*\(([\d,.]+)\s*x\)/i)?.[1],
+  );
+  const industryPe = parsePeText(
+    desc.match(/industry average\s*\(([\d,.]+)\s*x\)/i)?.[1],
+  );
+  const industryName =
+    desc.match(/compared to the\s+(.+?)\s+industry average\s*\(/i)?.[1] ||
+    null;
+  if (companyPe == null && industryPe == null) return null;
+  return {
+    company_pe: companyPe,
+    industry_pe: industryPe,
+    industry_name: industryName,
+    description: desc,
+    title: row?.title || null,
+    name: row?.name || null,
+  };
+}
+
+export function extractSwsIndustryApiPe(api) {
+  const rows = api?.rest?.industry?.data?.company?.data;
+  if (!Array.isArray(rows)) return null;
+  const peRows = rows.filter((r) => r?.name === "pe" && sanePe(r.value) != null);
+  if (!peRows.length) return null;
+  const preferred =
+    peRows.find((r) => r.type === "median_profitable") ||
+    peRows.find((r) => /median/i.test(String(r.type || ""))) ||
+    peRows[0];
+  return {
+    industry_pe: sanePe(preferred.value),
+    industry_code: preferred.industry != null ? String(preferred.industry) : null,
+    type: preferred.type || null,
+    count: preferred.count ?? null,
+    source: preferred.source || null,
+  };
+}
+
 // Numeric SWS industry classification code attached to every stock under
 // rest.industry.data.company.data[0].industry. Codes look like 7-digit
 // integers (7011000 = Banks, 5110000 = Food/Beverage/Tobacco, ...).
@@ -501,6 +573,204 @@ function extractIndustryBenchmarks(api) {
     }
   }
   return Object.keys(out).length ? out : null;
+}
+
+export function buildInternalIndustryPeMap(srcDir, sectorMap = null) {
+  const byIndustry = new Map();
+  let files;
+  try {
+    files = fs.readdirSync(srcDir).filter((f) => f.endsWith(".json"));
+  } catch {
+    return new Map();
+  }
+  for (const f of files) {
+    try {
+      const api = JSON.parse(fs.readFileSync(path.join(srcDir, f), "utf-8"));
+      const code = extractIndustryCode(api);
+      if (!code) continue;
+      const statement = extractSwsStatementPe(api);
+      const pe = sanePe(statement?.company_pe) ?? sanePe(extractMultiples(api).pe);
+      if (pe == null) continue;
+      if (!byIndustry.has(code)) {
+        byIndustry.set(code, {
+          values: [],
+          industry_code: code,
+          industry_name: extractIndustry(api, sectorMap),
+        });
+      }
+      byIndustry.get(code).values.push(pe);
+    } catch {}
+  }
+  const medians = new Map();
+  for (const [code, bucket] of byIndustry) {
+    const values = bucket.values.sort((a, b) => a - b);
+    if (values.length < 3) continue;
+    const mid = Math.floor(values.length / 2);
+    const median = values.length % 2 ? values[mid] : (values[mid - 1] + values[mid]) / 2;
+    medians.set(code, {
+      industry_pe: median,
+      sample_count: values.length,
+      industry_code: code,
+      industry_name: bucket.industry_name,
+    });
+  }
+  return medians;
+}
+
+function normalizeTicker(value) {
+  if (value == null) return null;
+  return String(value).trim().toUpperCase()
+    .replace(/^NSE:/, "")
+    .replace(/^BSE:/, "")
+    .replace(/\.NS$/, "")
+    .replace(/\.BO$/, "") || null;
+}
+
+export function loadGrowwPeCache(file = GROWW_PE_PATH) {
+  try {
+    const cache = JSON.parse(fs.readFileSync(file, "utf-8"));
+    const map = new Map();
+    for (const [ticker, entry] of Object.entries(cache.by_ticker || {})) {
+      const key = normalizeTicker(ticker);
+      if (key) map.set(key, entry);
+      const nse = normalizeTicker(entry?.nseScriptCode);
+      const bse = normalizeTicker(entry?.bseScriptCode);
+      if (nse && !map.has(nse)) map.set(nse, entry);
+      if (bse && !map.has(bse)) map.set(bse, entry);
+    }
+    return { cache, map };
+  } catch {
+    return { cache: null, map: new Map() };
+  }
+}
+
+function resolvePeBenchmark({
+  ticker,
+  api,
+  growwEntry,
+  swsMultiples,
+  swsIndustryBenchmarks,
+  internalIndustryPeMap,
+  sectorMap,
+}) {
+  const swsStatement = extractSwsStatementPe(api);
+  const swsIndustryApi = extractSwsIndustryApiPe(api);
+  const industryCode = extractIndustryCode(api);
+  const internalMedian = industryCode && internalIndustryPeMap?.get?.(industryCode)
+    ? internalIndustryPeMap.get(industryCode)
+    : null;
+  const swsPrimary = swsIndustryBenchmarks?.pe != null
+    ? {
+        industry_pe: sanePe(swsIndustryBenchmarks.pe),
+        industry_name: extractIndustry(api, sectorMap),
+        source_path: "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe",
+      }
+    : null;
+
+  const audit = {
+    groww_refinitiv: growwEntry ? {
+      company_pe: sanePe(growwEntry.peRatio),
+      industry_pe: sanePe(growwEntry.industryPe),
+      industry_name: growwEntry.industryName || null,
+      industry_id: growwEntry.industryId ?? null,
+      fetched_at: growwEntry.fetchedAt || null,
+      url: growwEntry.url || null,
+    } : null,
+    sws_statement: swsStatement,
+    sws_industry_api: swsIndustryApi,
+    internal_median: internalMedian,
+    sws_primary_industry: swsPrimary,
+    sws_computed: { company_pe: sanePe(swsMultiples?.pe) },
+  };
+
+  const sourceFrom = (provider, label, companyPe, industryPe, extra = {}) => ({
+    provider,
+    label,
+    company_pe: sanePe(companyPe),
+    industry_pe: sanePe(industryPe),
+    ...extra,
+  });
+
+  let selected = null;
+  if (sanePe(growwEntry?.peRatio) != null && sanePe(growwEntry?.industryPe) != null) {
+    selected = sourceFrom(
+      "groww_refinitiv",
+      "Groww/Refinitiv",
+      growwEntry.peRatio,
+      growwEntry.industryPe,
+      {
+        industry_name: growwEntry.industryName || null,
+        industry_id: growwEntry.industryId ?? null,
+        fetched_at: growwEntry.fetchedAt || null,
+        url: growwEntry.url || null,
+        search_id: growwEntry.searchId || null,
+      },
+    );
+  } else if (sanePe(swsStatement?.company_pe) != null && sanePe(swsStatement?.industry_pe) != null) {
+    selected = sourceFrom(
+      "sws_statement",
+      "SWS visible statement",
+      swsStatement.company_pe,
+      swsStatement.industry_pe,
+      { industry_name: swsStatement.industry_name || extractIndustry(api, sectorMap) || null },
+    );
+  } else if (sanePe(swsIndustryApi?.industry_pe) != null) {
+    const companyPe = sanePe(swsStatement?.company_pe) ?? sanePe(swsMultiples?.pe);
+    if (companyPe != null) {
+      selected = sourceFrom(
+        "sws_industry_api",
+        "SWS industry API",
+        companyPe,
+        swsIndustryApi.industry_pe,
+        {
+          industry_name: extractIndustry(api, sectorMap) || swsIndustryApi?.source?.name || null,
+          industry_code: swsIndustryApi.industry_code,
+          sample_count: swsIndustryApi.count ?? null,
+          statistic: swsIndustryApi.type || null,
+        },
+      );
+    }
+  } else if (sanePe(internalMedian?.industry_pe) != null) {
+    const companyPe = sanePe(swsStatement?.company_pe) ?? sanePe(swsMultiples?.pe);
+    if (companyPe != null) {
+      selected = sourceFrom(
+        "internal_industry_median",
+        "Internal industry median",
+        companyPe,
+        internalMedian.industry_pe,
+        {
+          industry_name: internalMedian.industry_name || extractIndustry(api, sectorMap) || null,
+          industry_code: internalMedian.industry_code || industryCode || null,
+          sample_count: internalMedian.sample_count ?? null,
+        },
+      );
+    }
+  }
+
+  const companyOnly =
+    sanePe(growwEntry?.peRatio) ??
+    sanePe(swsStatement?.company_pe) ??
+    sanePe(swsMultiples?.pe);
+  if (!selected) {
+    return {
+      company_pe: companyOnly,
+      industry_pe: null,
+      source: {
+        provider: "degraded",
+        label: "No usable P/E benchmark",
+        company_pe: companyOnly,
+        industry_pe: null,
+        reason: "groww_sws_and_internal_benchmarks_missing",
+      },
+      audit,
+    };
+  }
+  return {
+    company_pe: selected.company_pe,
+    industry_pe: selected.industry_pe,
+    source: selected,
+    audit,
+  };
 }
 
 // ────────── News / activity extraction ──────────
@@ -696,6 +966,8 @@ function recentNewsCount(news, days = 30) {
 export function parseStock(api, opts = {}) {
   const sectorMap = opts.sectorMap || null;
   const nseCalendar = opts.nseCalendar || null;
+  const growwPeMap = opts.growwPeMap || null;
+  const internalIndustryPeMap = opts.internalIndustryPeMap || null;
   const company = api?.graphql?.CompanySummary?.Company || {};
   const info = extractInfo(api);
   const sf = extractSnowflake(api);
@@ -710,9 +982,28 @@ export function parseStock(api, opts = {}) {
   const dividendInfo = extractDividendInfo(api);
   const marketCap = extractMarketCap(api);
   const news = extractNews(api);
+  const ticker = api.ticker || info.ticker_symbol;
+  const tickerKey = normalizeTicker(ticker);
+  const swsMultiples = extractMultiples(api);
+  const swsIndustryBenchmarks = extractIndustryBenchmarks(api) || {};
+  const growwEntry = tickerKey && growwPeMap?.get ? growwPeMap.get(tickerKey) : null;
+  const peResolution = resolvePeBenchmark({
+    ticker: tickerKey,
+    api,
+    growwEntry,
+    swsMultiples,
+    swsIndustryBenchmarks,
+    internalIndustryPeMap,
+    sectorMap,
+  });
+  const multiples = { ...swsMultiples, pe: peResolution.company_pe ?? null };
+  const industryBenchmarks = { ...swsIndustryBenchmarks };
+  if (peResolution.industry_pe != null) industryBenchmarks.pe = peResolution.industry_pe;
+  else delete industryBenchmarks.pe;
+  const industryBenchmarksOrNull = Object.keys(industryBenchmarks).length ? industryBenchmarks : null;
 
   const out = {
-    ticker: api.ticker || info.ticker_symbol,
+    ticker,
     name: info.name || info.short_name || api.ticker,
     sector: extractIndustry(api, sectorMap) || info.sector || null,
     sws_url: "https://simplywall.st" + (api.canonicalUrl || ""),
@@ -731,7 +1022,17 @@ export function parseStock(api, opts = {}) {
       fair_value_inr: fv,
       fair_value_range_inr: fvRange,
       upside_pct: upsidePct,
-      multiples: extractMultiples(api),
+      multiples,
+      multiples_meta: {
+        pe_source: peResolution.source.provider,
+        pe_source_label: peResolution.source.label,
+        pe_source_text: peResolution.source.provider === "groww_refinitiv"
+          ? "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv."
+          : null,
+        pe_as_of: peResolution.source.fetched_at || null,
+        pe_basis: "trailing_ttm",
+        pe_source_url: peResolution.source.url || null,
+      },
       rewards,
       risks,
       dividend: dividendInfo, // ov.dividend.yield_pct etc — what scoring reads
@@ -740,7 +1041,18 @@ export function parseStock(api, opts = {}) {
       // Sector-level peer benchmarks (P/E, 1Y net margin, 3Y future revenue
       // growth) shipped by SWS alongside primaryIndustry. Stored as fractions
       // (e.g. 0.32 not 32%) — renderers format on display.
-      industry_benchmarks: extractIndustryBenchmarks(api),
+      industry_benchmarks: industryBenchmarksOrNull,
+      industry_benchmarks_meta: {
+        pe_source: peResolution.source.provider,
+        pe_source_label: peResolution.source.label,
+        pe_as_of: peResolution.source.fetched_at || null,
+        pe_basis: "provider_per_stock_benchmark",
+        pe_industry_name: peResolution.source.industry_name || null,
+        pe_industry_id: peResolution.source.industry_id ?? null,
+        pe_source_url: peResolution.source.url || null,
+      },
+      pe_benchmark_source: peResolution.source,
+      pe_benchmark_audit: peResolution.audit,
       // PAST YoY earnings growth (latest reported FY vs prior FY). The SWS
       // capture's yearlyTimeSeries holds only reported years, so this cannot
       // be "forward". v1's pts_growth used to read forward_earnings_growth_pct
@@ -834,6 +1146,18 @@ async function main() {
   const sectorMap = buildSectorCodeMap(SRC_DIR);
   console.log(`[parser]   ${sectorMap.size} unique sector codes mapped`);
 
+  const growwPe = loadGrowwPeCache(GROWW_PE_PATH);
+  if (growwPe.cache) {
+    const cov = growwPe.cache.coverage || {};
+    console.log(`[parser]   Groww/Refinitiv P/E cache: ${growwPe.map.size} ticker keys, usable=${cov.usable_count ?? "?"}/${cov.target_count ?? "?"}, fetched ${growwPe.cache.fetched_at || "unknown"}`);
+  } else {
+    console.log(`[parser]   Groww/Refinitiv P/E cache: not loaded (fallback hierarchy will use SWS/internal medians)`);
+  }
+
+  console.log(`[parser] pass 1b — building internal industry P/E median fallback…`);
+  const internalIndustryPeMap = buildInternalIndustryPeMap(SRC_DIR, sectorMap);
+  console.log(`[parser]   ${internalIndustryPeMap.size} industry P/E medians mapped`);
+
   // NSE event calendar (next earnings date per symbol). Optional — when the
   // cache file is missing, parser proceeds without next_earnings_date.
   const nseCal = loadNseCalendarMap();
@@ -853,7 +1177,12 @@ async function main() {
     }
     try {
       const api = JSON.parse(fs.readFileSync(srcPath, "utf8"));
-      const parsed = parseStock(api, { sectorMap, nseCalendar: nseCal?.map || null });
+      const parsed = parseStock(api, {
+        sectorMap,
+        nseCalendar: nseCal?.map || null,
+        growwPeMap: growwPe.map,
+        internalIndustryPeMap,
+      });
       fs.writeFileSync(path.join(destDir, `${t}.json`), JSON.stringify(parsed, null, 2));
       ok++;
     } catch (e) {

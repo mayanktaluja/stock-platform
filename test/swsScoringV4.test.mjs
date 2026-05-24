@@ -133,6 +133,28 @@ check("JSLL-like: high upside + expensive P/E can land near 5/12", () => {
   assert.equal(fv.fv_pe_bucket, "expensive");
   assert.equal(fv.fv_benchmark_used, true);
 });
+check("JSLL-like with Groww/Refinitiv P/E is inline, not expensive", () => {
+  const fv = _fvCompositeV4({
+    upside_pct: 84.68641785302039,
+    multiples: { pe: 39.58 },
+    industry_benchmarks: { pe: 45.29762059479049 },
+    pe_benchmark_source: {
+      provider: "groww_refinitiv",
+      label: "Groww/Refinitiv",
+      industry_name: "Pharmaceuticals",
+      company_pe: 39.58,
+      industry_pe: 45.29762059479049,
+      fetched_at: "2026-05-24T12:00:00.000Z",
+    },
+  }, JSLL_FV_BENCH);
+  assert.equal(fv.fv_pe_bucket, "inline");
+  assert.equal(fv.pts_fv_pe_effective, 2);
+  assert.equal(fv.pts_fv_total, 7);
+  assert.equal(fv.fv_pe_source, "groww_refinitiv");
+  assert.equal(fv.fv_pe_industry_name, "Pharmaceuticals");
+  assert.equal(fv.fv_pe_company_pe, 39.58);
+  assert.equal(fv.fv_pe_industry_pe, 45.298);
+});
 check("IMFA-like: missing P/E renormalises over upside only, so it can beat JSLL FV", () => {
   const jsll = _fvCompositeV4({
     upside_pct: 84.68641785302039,

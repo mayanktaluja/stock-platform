@@ -9,12 +9,13 @@
 #   2. Detect already-running shards
 #   3. If none running: spawn 3 parallel API shards
 #   4. Wait for shards
-#   5. Parse raw API output → scoring-compatible deep/<TICKER>.json
-#   6. Run scoring (sws-scoring.mjs)
-#   7. Backfill last-quarter beat/miss on upcoming-earnings cards (Yahoo Finance)
-#   8. Optionally narrate (if ANTHROPIC_API_KEY set)
-#   9. Generate PDF
-#  10. Write last-refresh.json
+#   5. Refresh auxiliary caches (NSE events, Groww/Refinitiv P/E TTL cache)
+#   6. Parse raw API output → scoring-compatible deep/<TICKER>.json
+#   7. Run scoring (sws-scoring.mjs)
+#   8. Backfill last-quarter beat/miss on upcoming-earnings cards (Yahoo Finance)
+#   9. Optionally narrate (if ANTHROPIC_API_KEY set)
+#  10. Generate PDF
+#  11. Write last-refresh.json
 #
 # Usage:
 #   ./scripts/sws-refresh-api.sh                       # full universe
@@ -238,6 +239,19 @@ if ! node scripts/sws-fetch-nse-calendar.mjs 2>&1 | tail -5 | sed 's/^/[nse-cal]
   echo "[refresh-api] NSE calendar fetch failed — non-fatal, parser will write next_earnings_date=null"
 fi
 
+# Groww/Refinitiv P/E is the canonical source for the FV relative-P/E leg.
+# This is TTL-gated inside the script (7d fresh, 21d stale grace), so the
+# twice-daily SWS run normally reuses the cache and only pays the refresh cost
+# about once a week. Non-fatal: parser falls back to SWS visible statements,
+# SWS industry API medians, internal medians, then drops the P/E leg.
+echo "[refresh-api] refreshing Groww/Refinitiv P/E cache (weekly TTL)..."
+if GROWW_OUT="$(node scripts/groww-pe-refresh.mjs --max-age-days 7 --stale-grace-days 21 2>&1)"; then
+  echo "${GROWW_OUT}" | tail -8 | sed 's/^/[groww-pe] /'
+else
+  echo "${GROWW_OUT}" | tail -8 | sed 's/^/[groww-pe] /'
+  echo "[refresh-api] Groww P/E refresh failed — non-fatal; parser will use stale cache/SWS fallback"
+fi
+
 # ---------- 6. Parse raw API → scoring-compatible JSON ----------
 
 echo "[refresh-api] parsing raw API payloads..."
@@ -412,6 +426,23 @@ try {
     }
   }
 } catch {}
+let growwPeCache = null;
+try {
+  const fp = "data/sws/groww-pe-latest.json";
+  if (existsSync(fp)) {
+    const g = JSON.parse(readFileSync(fp, "utf-8"));
+    const fetchedMs = Date.parse(g.fetched_at || "");
+    const expiresMs = Date.parse(g.expires_at || "");
+    const nowMs = Date.now();
+    growwPeCache = {
+      fetched_at: g.fetched_at || null,
+      expires_at: g.expires_at || null,
+      status: Number.isFinite(expiresMs) && nowMs < expiresMs ? "fresh" : "stale",
+      age_days: Number.isFinite(fetchedMs) ? Math.round(((nowMs - fetchedMs) / 86400000) * 100) / 100 : null,
+      coverage: g.coverage || null,
+    };
+  }
+} catch {}
 const summary = {
   // started_at is the pipeline wrapper's wall-clock kickoff (captured at
   // refresh-api.sh:44 as RUN_STARTED_ISO). Pair with finished_at for the
@@ -430,6 +461,7 @@ const summary = {
   news_items_total: newsItemsTotal,
   rewards_populated_count: rewardsPopulatedCount,
   risks_populated_count: risksPopulatedCount,
+  groww_pe_cache: growwPeCache,
   deep_files_scanned: deepFilesScanned,
   stamping_status: ${STAMP_FAILED:-0} > 0 ? "failed" : "success",
   pipeline_status: ${SCRAPE_SKIPPED}
@@ -437,7 +469,7 @@ const summary = {
     : (${FAIL} > 0 ? "partial" : "success"),
 };
 writeFileSync("${SUMMARY}", JSON.stringify(summary, null, 2));
-console.log("[refresh-api] summary written: scored=" + scoredCount + " news_stocks=" + newsPopulatedCount + " news_items=" + newsItemsTotal + " rewards_stocks=" + rewardsPopulatedCount + " risks_stocks=" + risksPopulatedCount + " shards=" + JSON.stringify(progress));
+console.log("[refresh-api] summary written: scored=" + scoredCount + " news_stocks=" + newsPopulatedCount + " news_items=" + newsItemsTotal + " rewards_stocks=" + rewardsPopulatedCount + " risks_stocks=" + risksPopulatedCount + " groww_pe=" + (growwPeCache?.coverage?.coverage_pct ?? "?") + "% shards=" + JSON.stringify(progress));
 EOF
 
 echo "=== refresh-api complete: $(ts) elapsed=${ELAPSED}s ==="
@@ -486,7 +518,7 @@ if [ "${SWS_AUTO_PR:-1}" != "0" ] \
   echo "[refresh-api] auto-PR: branching ${AUTO_BRANCH} from ${ORIGINAL_BRANCH}"
 
   if git checkout -b "${AUTO_BRANCH}" >/dev/null 2>&1; then
-    git add data/sws/picks-latest.json data/sws/last-refresh.json data/sws/v3-universe-stats.json data/sws/sws-scored-universe.json 2>/dev/null
+    git add data/sws/picks-latest.json data/sws/last-refresh.json data/sws/v3-universe-stats.json data/sws/sws-scored-universe.json data/sws/groww-pe-latest.json data/sws/groww-pe-failed.json 2>/dev/null
     # Pack 5,517-file deep/ into a single tarball so Vercel can bundle it
     # without tripping its 15k source-file cap. swsDal's jsonBackend lazy-
     # extracts to /tmp on first read in a cold container. Pack BEFORE the
