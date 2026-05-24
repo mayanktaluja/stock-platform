@@ -38,6 +38,14 @@
       "pb": null,
       "ev_ebitda": null
     },
+    "multiples_meta": {
+      "pe_source": "degraded",
+      "pe_source_label": "No usable P/E benchmark",
+      "pe_source_text": null,
+      "pe_as_of": null,
+      "pe_basis": "trailing_ttm",
+      "pe_source_url": null
+    },
     "rewards": [
       "Earnings are forecast to grow 132.58% per year",
       "Trading at good value vs. industry average Price-To-Book ratio",
@@ -59,6 +67,55 @@
     "dividend_yield_pct": null,
     "net_margin_pct": null,
     "industry_benchmarks": null,
+    "industry_benchmarks_meta": {
+      "pe_source": "degraded",
+      "pe_source_label": "No usable P/E benchmark",
+      "pe_as_of": null,
+      "pe_basis": "provider_per_stock_benchmark",
+      "pe_industry_name": null,
+      "pe_industry_id": null,
+      "pe_source_url": null
+    },
+    "pe_benchmark_source": {
+      "provider": "degraded",
+      "label": "No usable P/E benchmark",
+      "company_pe": null,
+      "industry_pe": null,
+      "reason": "groww_sws_and_internal_benchmarks_missing"
+    },
+    "pe_benchmark_audit": {
+      "groww_refinitiv": null,
+      "sws_statement": {
+        "company_pe": null,
+        "industry_pe": 1.5,
+        "industry_name": "Indian Consumer Finance",
+        "description": "890221 is good value based on its Price-To-Book Ratio (1.2x) compared to the Indian Consumer Finance industry average (1.5x).",
+        "title": "Price-To-Book vs Industry",
+        "name": "IsGoodValueComparingPreferredMultipleToIndustry"
+      },
+      "sws_industry_api": {
+        "industry_pe": 19.923857572,
+        "industry_code": "7120000",
+        "type": "median_profitable",
+        "count": 78,
+        "source": {
+          "type": "country",
+          "country": "IN",
+          "industry": 7120000,
+          "name": "India"
+        }
+      },
+      "internal_median": {
+        "industry_pe": 19.2,
+        "sample_count": 79,
+        "industry_code": "7120000",
+        "industry_name": "Diversified Financials"
+      },
+      "sws_primary_industry": null,
+      "sws_computed": {
+        "company_pe": null
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,

@@ -1,34 +1,68 @@
 {
-  "started_at": "2026-05-24T14:00:25.722Z",
-  "finished_at": "2026-05-24T14:03:12.258Z",
-  "pipeline": "manual_jsll_groww_pe_hotfix",
-  "duration_seconds": 167,
+  "started_at": "2026-05-24T11:00:17.000Z",
+  "finished_at": "2026-05-24T14:52:10.390Z",
+  "pipeline": "api_postscrape_resume",
+  "duration_seconds": 13913,
   "shards_failed": 0,
-  "scrape_skipped": true,
-  "scored_count": 5560,
+  "scrape_skipped": false,
+  "scored_count": 5561,
   "sections_count": {
     "top_ranked_30_v3": 30,
     "best_to_buy_now": 25,
-    "deep_value": 84,
-    "quality_growth": 227,
+    "deep_value": 98,
+    "quality_growth": 228,
     "best_fundamentals": 100,
-    "midterm": 187,
+    "midterm": 192,
     "dividend_aristocrats": 19,
     "smallcap_gems": 12,
     "insider_buying": 0,
-    "upcoming_earnings": 653,
-    "avoid": 1259
+    "upcoming_earnings": 699,
+    "avoid": 1257
   },
-  "per_shard_progress": null,
-  "news_populated_count": 5437,
-  "news_items_total": 36885,
-  "rewards_populated_count": 4625,
-  "risks_populated_count": 5224,
+  "per_shard_progress": {
+    "1": {
+      "shard_id": 1,
+      "next_local_index": 1818,
+      "done_count": 75685,
+      "today_count": 1811,
+      "today_date": "2026-05-24",
+      "started_at": "2026-04-28T09:30:38.240Z",
+      "last_ticker": "541338",
+      "last_run_at": "2026-05-24T14:39:56.402Z",
+      "last_duration_ms": 1746
+    },
+    "2": {
+      "shard_id": 2,
+      "next_local_index": 1818,
+      "done_count": 72415,
+      "today_count": 1817,
+      "today_date": "2026-05-24",
+      "started_at": "2026-04-28T09:30:55.036Z",
+      "last_ticker": "HONASA",
+      "last_run_at": "2026-05-24T14:41:49.029Z",
+      "last_duration_ms": 1216
+    },
+    "3": {
+      "shard_id": 3,
+      "next_local_index": 1819,
+      "done_count": 74014,
+      "today_count": 1813,
+      "today_date": "2026-05-24",
+      "started_at": "2026-04-28T09:31:10.334Z",
+      "last_ticker": "ZYDUSWELL",
+      "last_run_at": "2026-05-24T14:39:22.985Z",
+      "last_duration_ms": 1491
+    }
+  },
+  "news_populated_count": 5459,
+  "news_items_total": 37597,
+  "rewards_populated_count": 4623,
+  "risks_populated_count": 5234,
   "groww_pe_cache": {
     "fetched_at": "2026-05-24T13:55:03.203Z",
     "expires_at": "2026-05-31T13:55:03.203Z",
     "status": "fresh",
-    "age_days": 0.01,
+    "age_days": 0.04,
     "coverage": {
       "target_count": 5455,
       "screener_records_count": 4465,
@@ -39,8 +73,8 @@
       "coverage_pct": 54.81
     }
   },
-  "deep_files_scanned": 5560,
-  "stamping_status": "not_run_manual_hotfix",
-  "pipeline_status": "success",
-  "manual_note": "JSLL-only reparse/rescore to apply Groww/Refinitiv P/E benchmark cache while full SWS scrape was already running."
+  "deep_files_scanned": 5561,
+  "stamping_status": "success",
+  "pipeline_status": "success_postscrape_resume",
+  "manual_note": "Post-scrape resume after sws-refresh-api.sh shell error occurred after all 3 shards completed with 0 failures."
 }

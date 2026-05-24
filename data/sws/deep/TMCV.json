@@ -33,10 +33,18 @@
     },
     "upside_pct": 25.233456172677034,
     "multiples": {
-      "pe": 46.16890061395049,
+      "pe": 46.2,
       "ps": 1.6461922223161016,
       "pb": null,
       "ev_ebitda": null
+    },
+    "multiples_meta": {
+      "pe_source": "sws_statement",
+      "pe_source_label": "SWS visible statement",
+      "pe_source_text": null,
+      "pe_as_of": null,
+      "pe_basis": "trailing_ttm",
+      "pe_source_url": null
     },
     "rewards": [
       "Analysts in good agreement that stock price will rise by 22.8%",
@@ -61,7 +69,60 @@
     "industry_benchmarks": {
       "future_revenue_growth_3y": 0.6059074906,
       "net_income_margin_1y": 0.0774906926,
-      "pe": 21.558936607
+      "pe": 26.3
+    },
+    "industry_benchmarks_meta": {
+      "pe_source": "sws_statement",
+      "pe_source_label": "SWS visible statement",
+      "pe_as_of": null,
+      "pe_basis": "provider_per_stock_benchmark",
+      "pe_industry_name": "Indian Machinery",
+      "pe_industry_id": null,
+      "pe_source_url": null
+    },
+    "pe_benchmark_source": {
+      "provider": "sws_statement",
+      "label": "SWS visible statement",
+      "company_pe": 46.2,
+      "industry_pe": 26.3,
+      "industry_name": "Indian Machinery"
+    },
+    "pe_benchmark_audit": {
+      "groww_refinitiv": null,
+      "sws_statement": {
+        "company_pe": 46.2,
+        "industry_pe": 26.3,
+        "industry_name": "Indian Machinery",
+        "description": "TMCV is expensive based on its Price-To-Earnings Ratio (46.2x) compared to the Indian Machinery industry average (26.3x).",
+        "title": "Price-To-Earnings vs Industry",
+        "name": "IsGoodValueComparingPreferredMultipleToIndustry"
+      },
+      "sws_industry_api": {
+        "industry_pe": 25.680738955,
+        "industry_code": "3070000",
+        "type": "median_profitable",
+        "count": 216,
+        "source": {
+          "type": "country",
+          "country": "IN",
+          "industry": 3070000,
+          "name": "India"
+        }
+      },
+      "internal_median": {
+        "industry_pe": 26.35,
+        "sample_count": 220,
+        "industry_code": "3070000",
+        "industry_name": "Capital Goods"
+      },
+      "sws_primary_industry": {
+        "industry_pe": 21.558936607,
+        "industry_name": "Capital Goods",
+        "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
+      },
+      "sws_computed": {
+        "company_pe": 46.16890061395049
+      }
     },
     "earnings_growth_yoy_pct": -28.87322165492513,
     "forward_earnings_growth_pct": null,

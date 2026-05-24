@@ -33,10 +33,18 @@
     },
     "upside_pct": -5.187309932006853,
     "multiples": {
-      "pe": null,
+      "pe": 99.5,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
+    },
+    "multiples_meta": {
+      "pe_source": "sws_statement",
+      "pe_source_label": "SWS visible statement",
+      "pe_source_text": null,
+      "pe_as_of": null,
+      "pe_basis": "trailing_ttm",
+      "pe_source_url": null
     },
     "rewards": [
       "Earnings are forecast to grow 21.12% per year",
@@ -132,7 +140,58 @@
     },
     "dividend_yield_pct": 0.1605214334,
     "net_margin_pct": null,
-    "industry_benchmarks": null,
+    "industry_benchmarks": {
+      "pe": 28.4
+    },
+    "industry_benchmarks_meta": {
+      "pe_source": "sws_statement",
+      "pe_source_label": "SWS visible statement",
+      "pe_as_of": null,
+      "pe_basis": "provider_per_stock_benchmark",
+      "pe_industry_name": "Indian Electrical",
+      "pe_industry_id": null,
+      "pe_source_url": null
+    },
+    "pe_benchmark_source": {
+      "provider": "sws_statement",
+      "label": "SWS visible statement",
+      "company_pe": 99.5,
+      "industry_pe": 28.4,
+      "industry_name": "Indian Electrical"
+    },
+    "pe_benchmark_audit": {
+      "groww_refinitiv": null,
+      "sws_statement": {
+        "company_pe": 99.5,
+        "industry_pe": 28.4,
+        "industry_name": "Indian Electrical",
+        "description": "GVT&D is expensive based on its Price-To-Earnings Ratio (99.5x) compared to the Indian Electrical industry average (28.4x).",
+        "title": "Price-To-Earnings vs Industry",
+        "name": "IsGoodValueComparingPreferredMultipleToIndustry"
+      },
+      "sws_industry_api": {
+        "industry_pe": 28.436254655,
+        "industry_code": "3050000",
+        "type": "median_profitable",
+        "count": 125,
+        "source": {
+          "type": "country",
+          "country": "IN",
+          "industry": 3050000,
+          "name": "India"
+        }
+      },
+      "internal_median": {
+        "industry_pe": 27.4,
+        "sample_count": 129,
+        "industry_code": "3050000",
+        "industry_name": "Capital Goods"
+      },
+      "sws_primary_industry": null,
+      "sws_computed": {
+        "company_pe": null
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,

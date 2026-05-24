@@ -38,6 +38,14 @@
       "pb": null,
       "ev_ebitda": null
     },
+    "multiples_meta": {
+      "pe_source": "degraded",
+      "pe_source_label": "No usable P/E benchmark",
+      "pe_source_text": null,
+      "pe_as_of": null,
+      "pe_basis": "trailing_ttm",
+      "pe_source_url": null
+    },
     "rewards": [],
     "risks": [],
     "dividend": {
@@ -51,6 +59,48 @@
     "dividend_yield_pct": null,
     "net_margin_pct": null,
     "industry_benchmarks": null,
+    "industry_benchmarks_meta": {
+      "pe_source": "degraded",
+      "pe_source_label": "No usable P/E benchmark",
+      "pe_as_of": null,
+      "pe_basis": "provider_per_stock_benchmark",
+      "pe_industry_name": null,
+      "pe_industry_id": null,
+      "pe_source_url": null
+    },
+    "pe_benchmark_source": {
+      "provider": "degraded",
+      "label": "No usable P/E benchmark",
+      "company_pe": null,
+      "industry_pe": null,
+      "reason": "groww_sws_and_internal_benchmarks_missing"
+    },
+    "pe_benchmark_audit": {
+      "groww_refinitiv": null,
+      "sws_statement": null,
+      "sws_industry_api": {
+        "industry_pe": 23.071363393,
+        "industry_code": "2050000",
+        "type": "median_profitable",
+        "count": 188,
+        "source": {
+          "type": "country",
+          "country": "IN",
+          "industry": 2050000,
+          "name": "India"
+        }
+      },
+      "internal_median": {
+        "industry_pe": 21.1,
+        "sample_count": 196,
+        "industry_code": "2050000",
+        "industry_name": "Materials"
+      },
+      "sws_primary_industry": null,
+      "sws_computed": {
+        "company_pe": null
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
