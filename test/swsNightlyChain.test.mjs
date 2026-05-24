@@ -160,9 +160,22 @@ const growwPeIdx = refreshApi.indexOf("node scripts/groww-pe-refresh.mjs");
 const parserIdx = refreshApi.indexOf("node scripts/sws-api-parser.mjs --dest deep");
 const scoringIdx = refreshApi.indexOf("node scripts/sws-scoring.mjs");
 assert(
-  "sws-refresh-api.sh refreshes Groww P/E cache before parser/scoring",
+  "sws-refresh-api.sh refreshes/validates Groww stock cache before parser/scoring",
   growwPeIdx > -1 && parserIdx > growwPeIdx && scoringIdx > parserIdx,
   { growwPeIdx, parserIdx, scoringIdx },
+);
+assert(
+  "sws-refresh-api.sh gates full Groww refresh to the 16:30 IST launchd window",
+  /IST_HHMM=.*Asia\/Kolkata/.test(refreshApi) &&
+    /--validate-only/.test(refreshApi) &&
+    /--force --max-age-days 1 --stale-grace-days 3/.test(refreshApi),
+  null,
+);
+assert(
+  "sws-refresh-api.sh summary includes Groww stock cache and endpoint timing telemetry",
+  /groww_stock_cache: growwStockCache/.test(refreshApi) &&
+    /endpoint_timing: endpointTiming/.test(refreshApi),
+  null,
 );
 
 console.log(`\n  ${pass} passed, ${fail} failed\n`);

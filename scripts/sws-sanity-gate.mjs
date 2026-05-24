@@ -51,6 +51,7 @@ const SCORED = path.join(ROOT, "sws-scored-universe.json");
 const UNIVERSE = path.join(ROOT, "universe.json");
 const DEEP_DIR = path.join(ROOT, "deep");
 const FAILED = path.join(ROOT, "failed.json");
+const GROWW_STOCK_CACHE = path.join(ROOT, "groww-stock-latest.json");
 const GROWW_PE_CACHE = path.join(ROOT, "groww-pe-latest.json");
 const MACRO_REGIME = path.join("data", "macroRegime.json");
 
@@ -103,6 +104,9 @@ const FAILED_RETRY_TOLERANCE = 10;      // tickers in failed.json still not refr
 export const GROWW_PE_WARN_COVERAGE_PCT = 85;
 export const GROWW_PE_BLOCK_COVERAGE_PCT = 70;
 export const GROWW_PE_STALE_GRACE_DAYS = 21;
+export const GROWW_STOCK_WARN_COVERAGE_PCT = 85;
+export const GROWW_STOCK_BLOCK_COVERAGE_PCT = 70;
+export const GROWW_STOCK_STALE_GRACE_DAYS = 3;
 
 // L3
 const SANE = {
@@ -180,6 +184,45 @@ function growwPeCacheStats() {
     usableCount,
     ageDays,
     staleFallbackUsable: ageDays != null && ageDays <= GROWW_PE_STALE_GRACE_DAYS && usableCount > 0,
+  };
+}
+
+function growwStockCacheStats() {
+  const cache = readJson(GROWW_STOCK_CACHE);
+  if (!cache) {
+    return {
+      present: false,
+      coveragePct: 0,
+      ageDays: null,
+      targetCount: 0,
+      usableCount: 0,
+      peCoveragePct: 0,
+      staleFallbackUsable: false,
+    };
+  }
+  const cov = cache.coverage || {};
+  const targetCount = Number(cov.target_count ?? 0);
+  const usableCount = Number(cov.usable_count ?? 0);
+  const coveragePct = Number.isFinite(Number(cov.coverage_pct))
+    ? Number(cov.coverage_pct)
+    : (targetCount > 0 ? (usableCount / targetCount) * 100 : 0);
+  const peCoveragePct = Number.isFinite(Number(cov.pe_coverage_pct))
+    ? Number(cov.pe_coverage_pct)
+    : 0;
+  const fetchedMs = Date.parse(cache.fetched_at || "");
+  const ageDays = Number.isFinite(fetchedMs)
+    ? (Date.now() - fetchedMs) / 86400000
+    : null;
+  return {
+    present: true,
+    fetchedAt: cache.fetched_at || null,
+    expiresAt: cache.expires_at || null,
+    coveragePct,
+    targetCount,
+    usableCount,
+    peCoveragePct,
+    ageDays,
+    staleFallbackUsable: ageDays != null && ageDays <= GROWW_STOCK_STALE_GRACE_DAYS && usableCount > 0,
   };
 }
 
@@ -327,6 +370,40 @@ function layer1(lr, picks) {
 
 function layer2(lr) {
   const layer = "L2_coverage_audit";
+
+  const growwStock = growwStockCacheStats();
+  record(layer, "groww_stock_cache_present", WARN,
+    growwStock.present,
+    { reason: growwStock.present ? undefined : "groww-stock-latest.json missing" });
+  record(layer, "groww_stock_coverage_warn", WARN,
+    growwStock.coveragePct >= GROWW_STOCK_WARN_COVERAGE_PCT,
+    {
+      coverage_pct: +growwStock.coveragePct.toFixed(2),
+      warn_at: GROWW_STOCK_WARN_COVERAGE_PCT,
+      usable_count: growwStock.usableCount,
+      target_count: growwStock.targetCount,
+      pe_coverage_pct: +growwStock.peCoveragePct.toFixed(2),
+      fetched_at: growwStock.fetchedAt || null,
+      age_days: growwStock.ageDays == null ? null : +growwStock.ageDays.toFixed(2),
+    });
+  record(layer, "groww_stock_coverage_block_floor", BLOCK,
+    growwStock.coveragePct >= GROWW_STOCK_BLOCK_COVERAGE_PCT || growwStock.staleFallbackUsable,
+    {
+      coverage_pct: +growwStock.coveragePct.toFixed(2),
+      block_at: GROWW_STOCK_BLOCK_COVERAGE_PCT,
+      stale_grace_days: GROWW_STOCK_STALE_GRACE_DAYS,
+      stale_fallback_usable: growwStock.staleFallbackUsable,
+      usable_count: growwStock.usableCount,
+      target_count: growwStock.targetCount,
+      fetched_at: growwStock.fetchedAt || null,
+      age_days: growwStock.ageDays == null ? null : +growwStock.ageDays.toFixed(2),
+    });
+  record(layer, "groww_stock_cache_grace_age", WARN,
+    growwStock.ageDays != null && growwStock.ageDays <= GROWW_STOCK_STALE_GRACE_DAYS,
+    {
+      age_days: growwStock.ageDays == null ? null : +growwStock.ageDays.toFixed(2),
+      stale_grace_days: GROWW_STOCK_STALE_GRACE_DAYS,
+    });
 
   const groww = growwPeCacheStats();
   record(layer, "groww_pe_cache_present", WARN,

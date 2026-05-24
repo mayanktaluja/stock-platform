@@ -128,6 +128,38 @@ function loadQueries() {
   return _queries;
 }
 
+function payloadBytes(value) {
+  try {
+    return Buffer.byteLength(JSON.stringify(value ?? null));
+  } catch {
+    return null;
+  }
+}
+
+async function timedEndpoint(timings, meta, fn) {
+  const t0 = Date.now();
+  try {
+    const value = await fn();
+    timings.push({
+      ...meta,
+      ok: true,
+      ms: Date.now() - t0,
+      bytes: payloadBytes(value),
+    });
+    return value;
+  } catch (err) {
+    timings.push({
+      ...meta,
+      ok: false,
+      ms: Date.now() - t0,
+      bytes: 0,
+      error_kind: err?.kind || null,
+      status: err?.status || null,
+    });
+    throw err;
+  }
+}
+
 // ────────── Client (wraps a Playwright page) ──────────
 
 export class TransportError extends Error {
@@ -312,10 +344,15 @@ export async function fetchStockData(client, { ticker, canonicalUrl }) {
     graphql: {},
     rest: {},
     errors: [],
+    telemetry: { endpoint_timings: [] },
   };
 
   // Step 1: CompanySummary — gets companyId + score
-  const summary = await callGraphQL(client, "CompanySummary", { canonicalUrl });
+  const summary = await timedEndpoint(
+    out.telemetry.endpoint_timings,
+    { kind: "graphql", name: "CompanySummary" },
+    () => callGraphQL(client, "CompanySummary", { canonicalUrl }),
+  );
   out.graphql.CompanySummary = summary;
   const companyId = summary?.Company?.id;
   if (!companyId) {
@@ -341,7 +378,11 @@ export async function fetchStockData(client, { ticker, canonicalUrl }) {
     remainingOps.map((op) => {
       const sampleVars = queries.operations[op].sampleVariables || {};
       const vars = { ...sampleVars, ...(opVars[op] || {}) };
-      return callGraphQL(client, op, vars);
+      return timedEndpoint(
+        out.telemetry.endpoint_timings,
+        { kind: "graphql", name: op },
+        () => callGraphQL(client, op, vars),
+      );
     }),
   );
   for (let i = 0; i < remainingOps.length; i++) {
@@ -361,10 +402,17 @@ export async function fetchStockData(client, { ticker, canonicalUrl }) {
   // Step 8-12: REST endpoints in parallel
   const restResults = await Promise.allSettled(
     TARGET_REST_ENDPOINTS.map((ep) =>
-      callRest(client, {
-        method: ep.method,
-        path: ep.pathBuilder({ companyId, canonicalUrl }),
-      }),
+      {
+        const restPath = ep.pathBuilder({ companyId, canonicalUrl });
+        return timedEndpoint(
+          out.telemetry.endpoint_timings,
+          { kind: "rest", name: ep.name, method: ep.method, path: restPath.split("?")[0] },
+          () => callRest(client, {
+            method: ep.method,
+            path: restPath,
+          }),
+        );
+      }
     ),
   );
   for (let i = 0; i < TARGET_REST_ENDPOINTS.length; i++) {

@@ -27,6 +27,9 @@ console.log("\ngroww-pe-refresh parser/cache tests\n");
 
 check("Groww stock page parser extracts Apollo P/E and industry P/E", () => {
   const html = htmlWithPageProps({
+    livePriceData: {
+      APOLLOHOSP: { ltp: 8372.5, close: 8350, yearLowPrice: 6000, yearHighPrice: 8500, volume: 12345 },
+    },
     stockData: {
       header: {
         searchId: "apollo-hospitals-enterprise-ltd",
@@ -41,8 +44,42 @@ check("Groww stock page parser extracts Apollo P/E and industry P/E", () => {
         epsTtm: 139.28,
         industryPe: 60.45827539566765,
         sectorPe: 60.45827539566765,
+        marketCap: 120000,
+        pbRatio: 12.3,
+        priceToSales: 7.2,
+        evToEbitda: 33.4,
+        dividendYieldInPercent: 0.2,
+        roe: 16.4,
+        returnOnAssets: 8.2,
+        roic: 13.1,
+        netProfitMargin: 9.5,
+        operatingProfitMargin: 14.5,
+        debtToEquity: 0.24,
+        currentRatio: 1.8,
+        quickRatio: 1.1,
+        cashRatio: 0.3,
+        bookValue: 681,
+        faceValue: 5,
+      },
+      priceData: { nse: { yearLowPrice: 6000, yearHighPrice: 8500 } },
+      shareHoldingPattern: {
+        "Mar '26": {
+          promoters: { individual: { percent: 30 }, government: { percent: 0 }, corporation: { percent: 0 } },
+          mutualFunds: { percent: 12 },
+          foreignInstitutions: { percent: 18 },
+          otherDomesticInstitutions: { insurance: { percent: 6 }, otherFirms: { percent: 3 } },
+          retailAndOthers: { percent: 31 },
+        },
+      },
+      financialStatementV2: {
+        CONSOLIDATED: [
+          { title: "Revenue", yearly: { 2025: 100 }, quarterly: { "Mar '26": 30 } },
+          { title: "Profit", yearly: { 2025: 10 }, quarterly: { "Mar '26": 3 } },
+        ],
       },
     },
+    newsData: [{ id: "n1", title: "Apollo news", summary: "Summary", pubDate: "2026-05-24T10:00:00", source: "Mint", url: "https://example.com" }],
+    eventsData: [{ eventTitle: "Dividend", corporateEventFilter: "DIVIDEND", primaryDate: "2026-06-01T00:00:00", eventDetail: { value: "₹5.00" } }],
   });
   const parsed = parseGrowwNextData(html, "https://groww.in/stocks/apollo-hospitals-enterprise-ltd", "2026-05-24T12:00:00.000Z");
   assert.equal(parsed.searchId, "apollo-hospitals-enterprise-ltd");
@@ -50,6 +87,41 @@ check("Groww stock page parser extracts Apollo P/E and industry P/E", () => {
   assert.equal(parsed.peRatio, 60.02);
   assert.equal(parsed.industryPe, 60.45827539566765);
   assert.equal(parsed.epsTtm, 139.28);
+  assert.equal(parsed.currentPriceInr, 8372.5);
+  assert.equal(parsed.marketCapInr, 120000 * 1e7);
+  assert.deepEqual(parsed.fiftyTwoWeek, { low: 6000, high: 8500 });
+  assert.equal(parsed.pbRatio, 12.3);
+  assert.equal(parsed.psRatio, 7.2);
+  assert.equal(parsed.evToEbitda, 33.4);
+  assert.equal(parsed.debtToEquityPct, 24);
+  assert.equal(parsed.shareholding.promoter_pct, 30);
+  assert.equal(parsed.shareholding.fii_pct, 18);
+  assert.equal(parsed.financials.yearly.revenue["2025"], 100);
+  assert.equal(parsed.news[0].source, "Mint");
+  assert.equal(parsed.events[0].type, "DIVIDEND");
+});
+
+check("Groww parser tolerates bank-style NA debt/liquidity fields", () => {
+  const html = htmlWithPageProps({
+    livePriceData: { HDFCBANK: { ltp: 766.8, yearLowPrice: 726.65, yearHighPrice: 1020.5 } },
+    stockData: {
+      header: { searchId: "hdfc-bank-ltd", nseScriptCode: "HDFCBANK", industryName: "Banks" },
+      stats: {
+        peRatio: 14.9,
+        epsTtm: 51.45,
+        industryPe: 12.45,
+        pbRatio: 2.03,
+        debtToEquity: "NA",
+        currentRatio: "NA",
+        quickRatio: "NA",
+      },
+    },
+  });
+  const parsed = parseGrowwNextData(html);
+  assert.equal(parsed.peRatio, 14.9);
+  assert.equal(parsed.debtToEquityPct, null);
+  assert.equal(parsed.currentRatio, null);
+  assert.equal(parsed.quickRatio, null);
 });
 
 check("JSLL Groww parser extracts inline/non-expensive P/E inputs", () => {
