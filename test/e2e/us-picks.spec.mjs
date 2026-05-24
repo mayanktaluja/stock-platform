@@ -1,4 +1,4 @@
-// US Picks tab — render, currency, modal, filters, admin-gating.
+// US Picks tab — render, currency, modal, filters, signed-in visibility.
 //
 // Self-skips when data/sws-us/picks-latest.json is absent (a fresh checkout
 // without a US scrape). The test:e2e npm script builds a synthetic fixture
@@ -15,12 +15,10 @@ const PICKS_PATH = path.join(__dirname, "..", "..", "data", "sws-us", "picks-lat
 const HAS_FIXTURE = fs.existsSync(PICKS_PATH);
 
 // The harness runs with AUTH_ENABLED=false, so the global gate is open and the
-// US read routes serve data. The TAB itself is client-gated on
-// window.__starbhai_isAdmin — set it (as any admin-tab e2e would) before
-// switching. gotoApp boots into the picks tab; we then flip to US Picks.
+// US read routes serve data. gotoApp boots into the picks tab; we then flip to
+// US Picks through the public tab contract.
 async function openUSPicks(page) {
   await gotoApp(page);
-  await page.evaluate(() => { window.__starbhai_isAdmin = true; });
   await page.evaluate(() => window.switchTab("usPicks"));
   await expect(page.locator("#usPicksTab")).toBeVisible({ timeout: 10_000 });
   await page.waitForFunction(

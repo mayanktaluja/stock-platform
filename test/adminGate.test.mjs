@@ -3,11 +3,8 @@
  *
  * The former personal-use tier was folded into the admin tier under the
  * two-tier access model. Covers:
- *   • computeIsAdmin honours ADMIN_EMAILS + case-insensitive match
- *   • computeIsAdmin recomputes LIVE — mutating process.env.ADMIN_EMAILS
- *     flips the result on the very next call, with no re-import. This is the
- *     property that lets us revoke an admin by editing the allowlist without a
- *     re-login (the regression guard for the stale-persisted-flag bug).
+ *   • computeIsAdmin honours the hard-coded owner email + case-insensitive match
+ *   • computeIsAdmin ignores ADMIN_EMAILS drift
  *   • Middleware is a no-op when authEnabled=false (dev/test path)
  *   • Middleware 404s anonymous + sub-less callers when authEnabled=true
  *   • Middleware 404s authenticated-but-non-admin callers (stealth, not 403)
@@ -70,25 +67,22 @@ console.log("\nadminGate — computeIsAdmin");
 
 process.env.ADMIN_EMAILS = "mtaluja11@gmail.com, co@example.com";
 
-assert("allowlisted email passes", computeIsAdmin("mtaluja11@gmail.com") === true);
-assert("case-insensitive match", computeIsAdmin("MTaluja11@GMAIL.com") === true);
-assert("whitespace-tolerant allowlist entry passes", computeIsAdmin("co@example.com") === true);
+assert("hard-coded owner email passes", computeIsAdmin("mthaluja11@gmail.com") === true);
+assert("case-insensitive match", computeIsAdmin("MTHALUJA11@GMAIL.COM") === true);
+assert("whitespace-tolerant owner email passes", computeIsAdmin("  mthaluja11@gmail.com  ") === true);
+assert("ADMIN_EMAILS does not grant admin", computeIsAdmin("co@example.com") === false);
+assert("old misspelled owner email fails", computeIsAdmin("mtaluja11@gmail.com") === false);
 assert("non-allowlisted fails", computeIsAdmin("random@x.com") === false);
 assert("empty email fails", computeIsAdmin("") === false);
 assert("null email fails", computeIsAdmin(null) === false);
 assert("undefined email fails", computeIsAdmin(undefined) === false);
 
-console.log("\nadminGate — computeIsAdmin is LIVE (no caching)");
+console.log("\nadminGate — computeIsAdmin ignores env mutation");
 
-// The revoke guarantee: editing ADMIN_EMAILS changes authority on the very
-// next call, with no re-import / re-login. Regression guard for the
-// stale-persisted-flag bug that previously kept a removed admin authorized.
-process.env.ADMIN_EMAILS = "mtaluja11@gmail.com";
-assert("removed email is revoked immediately", computeIsAdmin("co@example.com") === false);
-process.env.ADMIN_EMAILS = "mtaluja11@gmail.com, co@example.com";
-assert("re-added email is admin immediately", computeIsAdmin("co@example.com") === true);
 process.env.ADMIN_EMAILS = "";
-assert("empty ADMIN_EMAILS → nobody is admin", computeIsAdmin("mtaluja11@gmail.com") === false);
+assert("empty ADMIN_EMAILS does not revoke the owner", computeIsAdmin("mthaluja11@gmail.com") === true);
+process.env.ADMIN_EMAILS = "co@example.com";
+assert("mutated ADMIN_EMAILS still does not grant co-admin", computeIsAdmin("co@example.com") === false);
 
 console.log("\nadminGate — middleware authEnabled=false (test mode)");
 
@@ -126,7 +120,7 @@ const mwProd = createAdminGate({ authEnabled: true });
 {
   // Authenticated sub with no matching user record (FileUserStorage has no
   // users.json in CI) → computeIsAdmin(null) is false → 404 stealth (not 403).
-  process.env.ADMIN_EMAILS = "mtaluja11@gmail.com";
+  process.env.ADMIN_EMAILS = "mthaluja11@gmail.com";
   const { res, nextCalled } = await runMiddleware(mwProd, { user: { sub: "no-such-user" } });
   assert(
     "prod mode: authenticated non-admin → 404",

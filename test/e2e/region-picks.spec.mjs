@@ -1,5 +1,5 @@
 // Korea + Taiwan Picks tabs — render, currency (₩ / NT$, never ₹/$), modal,
-// filters, admin-gating. One parametrized spec over both regions.
+// filters, signed-in visibility. One parametrized spec over both regions.
 //
 // Self-skips a region when its data/sws-<code>/picks-latest.json fixture is
 // absent. The test:e2e npm script builds both fixtures (via
@@ -25,11 +25,10 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
   const dom = `${code}Picks`;
   const HAS_FIXTURE = fs.existsSync(picksPath(code));
 
-  // gotoApp boots into the India picks tab; the region tabs are admin-gated on
-  // window.__starbhai_isAdmin, so we set it (as any admin-tab e2e does) first.
+  // gotoApp boots into the India picks tab; the region tabs are public for
+  // signed-in users, so the helper switches directly.
   async function openRegionTab(page) {
     await gotoApp(page);
-    await page.evaluate(() => { window.__starbhai_isAdmin = true; });
     await page.evaluate((c) => window.switchTab(`${c}Picks`), code);
     await expect(page.locator(`#${dom}Tab`)).toBeVisible({ timeout: 10_000 });
     await page.waitForFunction(

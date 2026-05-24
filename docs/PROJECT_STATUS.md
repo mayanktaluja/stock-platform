@@ -76,6 +76,10 @@ portfolio analyzer.
   promoter-transaction feed.
 
 ### Auth & navigation (May 2026)
+- **This PR** — Flatten privileged navigation: US/KR/TW Picks, Risk Lab, and
+  Sector Outlook stay visible in the main tab bar for signed-in users; only
+  Users remains owner-admin-only. Admin authority is now hard-coded to
+  `mthaluja11@gmail.com` via `computeIsAdmin()` rather than `ADMIN_EMAILS`.
 - **#395** — Two-tier access: `ADMIN_EMAILS` live allowlist; personal-use folded
   into the admin tier. (Direction still settling — see Active themes.)
 - **#361** — "More" dropdown for privileged tabs. **#370** — Avoid List section
@@ -112,10 +116,11 @@ portfolio analyzer.
   coverage/absent-FV traps). The score is deliberately *tunable, not frozen*;
   recovering the XIRR/Sharpe gap via `scripts/sws-backtest-weight-sweep.mjs` is
   the active work. `data/sws/predictor-weights-v1.json` is the rollback anchor.
-- **Auth model settling.** Two-tier (#395, `ADMIN_EMAILS`) shipped but the
-  direction has wobbled (a personal-use-gate reversal parked uncommitted at
-  points). Per-user data namespacing remains the eventual goal. **Verify
-  `server.js` + `services/auth/` before touching auth.**
+- **Auth model settling.** Two-tier (#395) shipped, and owner admin is now
+  centralized in `computeIsAdmin()` as `mthaluja11@gmail.com` while public
+  research tabs stay visible to signed-in users. Per-user data namespacing
+  remains the eventual goal. **Verify `server.js` + `services/auth/` before
+  touching auth.**
 - **Earnings predictor validation.** Backtest wired
   (`scripts/backtest-earnings-predictions.mjs`); the V1 cap-lift gate (≥30
   resolved + ≥55% bucket hit-rate + Brier <0.20) is still warming up. Weight
@@ -139,8 +144,6 @@ portfolio analyzer.
   user-scoped *writes* (watchlist, portfolio, track) via `userStorage.js`.
 - **Regional deep briefs ship as `deep-{us,kr,tw}.tar.gz`** (#393) — Vercel ~15k file cap.
 - **9× backtest scripts are forks**, not a shared library — propagate fixes by hand.
-- **`npm test` is currently broken** — it references `test/adminGate.test.mjs` which was
-  renamed to `test/personalUseGate.test.mjs`; the `&&` chain dies there. Fix the path.
 - **Auto-refresh PRs flood the repo** — `chore(macro|sws): auto-refresh ...` open every
   few hours. They commit data files, not code.
 - **`starbhai.com` is out of scope for this platform** — do not configure it in
@@ -166,8 +169,6 @@ portfolio analyzer.
 
 ## Near-term cleanups (small, known)
 
-- **Fix `npm test` path** — points at the renamed `test/adminGate.test.mjs`
-  (now `test/personalUseGate.test.mjs`); the suite breaks at that link.
 - **Stale V3 code comments (cosmetic).** `swsHoldingEngine.js`, `v3SignalAdapter.js`,
   and `loadV3UniverseStats.js` still describe `computeV3Score` as if it were live;
   `earningsLlmBatcher.js:202` JSDoc still says the LLM floor defaults to 50 (the

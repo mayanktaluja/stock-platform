@@ -1,14 +1,12 @@
-// Admin-gate middleware — restricts protected routes to the live ADMIN_EMAILS
-// allowlist. Replaces the former personal-use tier, which was folded into the
-// admin tier under the two-tier access model. Returns 404 (not 403) so the
-// gated routes stay invisible to non-admin authenticated users — no
+// Admin-gate middleware - restricts protected routes to the hard-coded owner
+// admin account. Replaces the former personal-use tier, which was folded into
+// the admin tier under the two-tier access model. Returns 404 (not 403) so the
+// gated routes stay invisible to non-admin authenticated users - no
 // admin-discovery surface. The sleeve routes (Compounder Lab, Earnings Edge,
 // 5x Lab) rely on this stealth posture.
 //
-// Admin membership is recomputed PER REQUEST from process.env.ADMIN_EMAILS via
-// computeIsAdmin(), so dropping an email from the allowlist revokes access on
-// the user's next request (once the process picks up the new env) — no
-// re-login required.
+// Admin membership is recomputed PER REQUEST via computeIsAdmin(), so the
+// persisted user record is never the source of truth.
 //
 // In dev / test (AUTH_ENABLED=false) the gate falls through — same posture as
 // every other route, so e2e specs and local-dev work unchanged.

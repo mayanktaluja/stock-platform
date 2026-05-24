@@ -857,10 +857,9 @@ app.get("/api/auth/me", async (req, res) => {
     email: record.email,
     name: record.name,
     picture: record.picture,
-    // Recompute admin status LIVE from ADMIN_EMAILS rather than trusting the
-    // persisted flag, so removing an email from the allowlist revokes access on
-    // the next request — no re-login required. (The former personal-use tier
-    // was folded into admin under the two-tier model.)
+    // Recompute admin status from the canonical owner email rather than
+    // trusting the persisted flag. The former personal-use tier was folded
+    // into admin under the two-tier model.
     isAdmin: computeIsAdmin(record.email),
   });
 });
@@ -2090,8 +2089,7 @@ app.get("/api/stock/:symbol", async (req, res) => {
  * `lastLoginAt` only on a fresh OAuth login — sorting by `lastLoginAt`
  * alone hid recently-active users who hadn't re-logged in.)
  * The auth gate above sets req.user.sub for any authenticated request; this
- * handler additionally checks the persisted isAdmin flag (computed from
- * ADMIN_EMAILS) before returning data.
+ * handler additionally checks computeIsAdmin() before returning data.
  */
 app.get("/api/admin/users", async (req, res) => {
   if (!AUTH_ENABLED) return res.status(401).json({ error: "auth-disabled" });
@@ -2872,7 +2870,7 @@ function readEarningsHealthSlim() {
 // Compounder Lab routes — SAFE sleeve from the 2026-05-19 alpha-strategy
 // plan (~/.claude/plans/sws-alpha-strategy-2026-05-19.md). Admin-only:
 // every route is gated by createAdminGate, which 404s any authenticated
-// user who isn't in ADMIN_EMAILS. The 404 (vs 403) is deliberate — the
+// user who is not the owner admin. The 404 (vs 403) is deliberate - the
 // routes are invisible to non-admin users, no admin-discovery surface.
 // ──────────────────────────────────────────────────────────────────────
 const adminGate = createAdminGate({ authEnabled: AUTH_ENABLED });
@@ -7602,7 +7600,7 @@ function writeRefreshRequest(mode) {
 // it tees up multi-hour scrape work — ANY signed-in user being able to
 // queue that is a privilege-escalation footgun. Match the existing
 // `/api/admin/*` convention: in local dev (AUTH_ENABLED=false) return
-// 401 "auth-disabled"; in prod require the persisted isAdmin flag.
+// 401 "auth-disabled"; in prod require computeIsAdmin() to pass.
 async function requireAdminForSwsRefresh(req, res) {
   if (!AUTH_ENABLED) {
     res.status(401).json({ error: "auth-disabled" });
@@ -7645,17 +7643,12 @@ app.post("/api/sws-refresh/full", express.json(), async (req, res) => {
   res.json({ queued: true, next_step: "Open 3 terminals, run `claude`, type `/sws-resume` in each." });
 });
 
-// ─────────────────────────── US Picks (admin-only) ───────────────────────────
+// ─────────────────────────── US Picks (signed-in read) ───────────────────────
 // Mirror of the SWS Picks tab for US-listed stocks, served from the isolated
 // data/sws-us/ pipeline. Cards are fully built by the offline US batch scorer,
 // so — unlike /api/sws-picks — there is NO live-quote enrichment, FV-drift
 // guard, or NSE index stamping here (all India-coupled).
 //
-// READ gate: open in local/test (the global auth gate already allows everything
-// when AUTH_ENABLED=false, and the client tab guard handles visibility), and
-// admin-only in prod. This differs from requireAdminForSwsRefresh — that one
-// 401s when auth is off (correct for a *mutation* endpoint, wrong for a *read*
-// tab that e2e + local dev must reach).
 // Open to every signed-in user (was admin-only requireAdminRead). The global
 // session gate already requires a session for /api/*; this stays as
 // defence-in-depth + the AUTH-off bypass for e2e/local dev. Renamed + opened in
