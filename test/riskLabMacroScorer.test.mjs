@@ -45,8 +45,8 @@ function makeRow(overrides = {}) {
     ticker: "ANANTRAJ",
     name: "Anant Raj Limited",
     sector: "Diversified Financials", // SWS miscategorisation
-    v3_verdict: "TOP_PICK",
-    v3_score_100: 64.8,
+    v4_verdict: "TOP_PICK",
+    v4_score_100: 64.8,
     score: 50.9,
     ...overrides,
   };
@@ -191,12 +191,12 @@ console.log("riskLabMacroScorer: adjustedScoreForRow — guards");
   assert("sev 1 → delta 0", lowSev.macro_score_delta === 0);
 
   // Unknown sector AND no override → no adjustment
-  const unknown = adjustedScoreForRow({ ticker: "UNKNOWN", v3_verdict: "TOP_PICK", v3_score_100: 50, sector: "Other" }, makeRegime());
+  const unknown = adjustedScoreForRow({ ticker: "UNKNOWN", v4_verdict: "TOP_PICK", v4_score_100: 50, sector: "Other" }, makeRegime());
   assert("unknown sector → delta 0", unknown.macro_score_delta === 0);
 
   // Sector not in regime impact list → delta 0
   const pharmaUnderOilShock = adjustedScoreForRow(
-    { ticker: "SUNPHARMA", v3_verdict: "STRONG", v3_score_100: 60, sector: "Pharmaceuticals & Biotech" },
+    { ticker: "SUNPHARMA", v4_verdict: "STRONG", v4_score_100: 60, sector: "Pharmaceuticals & Biotech" },
     makeRegime(),
   );
   // Pharma is not in OIL_SHOCK live or lab impacts → 0
@@ -214,7 +214,7 @@ console.log("riskLabMacroScorer: diversified worst-case picking");
   // base regime: Oil & Gas impact +3 (positive!), Telecom not in list,
   // Retail not in list. Worst should be Oil & Gas at +3 delta (positive).
   const ril = adjustedScoreForRow(
-    { ticker: "RELIANCE", v3_verdict: "TOP_PICK", v3_score_100: 70, sector: "Energy" },
+    { ticker: "RELIANCE", v4_verdict: "TOP_PICK", v4_score_100: 70, sector: "Energy" },
     makeRegime(),
   );
   // Oil & Gas is +3 impact, but worstSectorImpact picks MOST NEGATIVE.
@@ -228,8 +228,8 @@ console.log("riskLabMacroScorer: adjustedScoresForRows batch");
 {
   const rows = [
     makeRow(),
-    makeRow({ ticker: "DLF", sector: "Realty", v3_verdict: "STRONG", v3_score_100: 55 }),
-    makeRow({ ticker: "AVIATION1", sector: "Airlines", v3_verdict: "TOP_PICK", v3_score_100: 50 }),
+    makeRow({ ticker: "DLF", sector: "Realty", v4_verdict: "STRONG", v4_score_100: 55 }),
+    makeRow({ ticker: "AVIATION1", sector: "Airlines", v4_verdict: "TOP_PICK", v4_score_100: 50 }),
   ];
   const results = adjustedScoresForRows(rows, makeRegime());
   assert("batch returns 3 results", results.length === 3);

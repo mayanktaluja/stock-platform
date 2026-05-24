@@ -20,7 +20,7 @@ import {
   cacheStats,
 } from "./llmDisagreementCache.js";
 
-export const V3_FLOOR = 50;
+export const V3_FLOOR = 47;
 export const DEFAULT_CONCURRENCY = 4;
 
 // Limit how many fresh LLM calls per run so a one-off big calendar can't
@@ -46,7 +46,7 @@ async function _runWithConcurrency(items, fn, concurrency = DEFAULT_CONCURRENCY)
 }
 
 // Each row needs: ticker, predicted_verdict (must be BEAT for the LLM
-// path; non-BEAT shortcircuits to disagrees=false), v3_score, plus the
+// path; non-BEAT shortcircuits to disagrees=false), v4_score, plus the
 // substrate text (counter_thesis_text, risks, news, falsification_triggers,
 // quality_flags). The caller hydrates these from picks-latest + SWS deep.
 export async function classifyBatch(rows, opts = {}) {
@@ -88,7 +88,7 @@ export async function classifyBatch(rows, opts = {}) {
         return;
       }
 
-      const v3 = Number(row.v3_score ?? row.v3_score_100 ?? NaN);
+      const v3 = Number(row.v4_score ?? row.v4_score_100 ?? NaN);
       const belowFloor = Number.isFinite(v3) && v3 < v3Floor;
       if (belowFloor) {
         stats.below_v3_floor += 1;

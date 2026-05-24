@@ -35,8 +35,8 @@ const SCORE_THRESHOLD = 50;
 /**
  * Compute the imputation penalty for a single stock row.
  *
- * @param {object} v3Breakdown — stock.v3_breakdown from picks-latest.json
- * @param {number} v3Score100  — stock.v3_score_100
+ * @param {object} v3Breakdown — stock.v4_breakdown from picks-latest.json
+ * @param {number} v3Score100  — stock.v4_score_100
  * @returns {object} { pts, flags[], reason }
  */
 export function computeImputationPenalty(v3Breakdown, v3Score100) {
@@ -51,7 +51,7 @@ export function computeImputationPenalty(v3Breakdown, v3Score100) {
       type: "fv_imputed",
       severity: FV_PENALTY,
       evidence: `Fair-value upside imputed at neutral (+6 pts of ~12 max); v3 score ${score} carries data-fill optimism`,
-      source: "v3_breakdown.fv_imputed",
+      source: "v4_breakdown.fv_imputed",
     });
   }
 
@@ -60,7 +60,7 @@ export function computeImputationPenalty(v3Breakdown, v3Score100) {
       type: "momentum_imputed",
       severity: MOMENTUM_PENALTY,
       evidence: `Momentum percentiles imputed at neutral; v3 score ${score} not anchored on real price action`,
-      source: "v3_breakdown.momentum_imputed",
+      source: "v4_breakdown.momentum_imputed",
     });
   }
 

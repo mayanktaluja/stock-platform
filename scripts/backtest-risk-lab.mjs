@@ -83,7 +83,7 @@ function applyLabToResolvedPrediction(p) {
   const risks = deep?.overview?.risks || deep?.risks || [];
   const news = deep?.news || deep?.overview?.news || [];
 
-  // Synthesise a v3_breakdown-shaped object for the imputation penalty.
+  // Synthesise a v4_breakdown-shaped object for the imputation penalty.
   // We don't have the original breakdown for old snapshots, so we use
   // what's in score_breakdown if present and otherwise default to safe.
   const v3Breakdown = p.score_breakdown
@@ -98,7 +98,7 @@ function applyLabToResolvedPrediction(p) {
     original_score: Number(p.score_100 || 0),
     original_verdict: p.predicted_verdict,
     original_confidence: p.confidence_pct,
-    v3_breakdown: v3Breakdown,
+    v4_breakdown: v3Breakdown,
     sector: p.sector,
     counter_thesis: null, // historical snapshots don't include this; oh well
     risks,

@@ -14,7 +14,7 @@
 //   1. Can we normalise the ticker to an `.NS` key? If not → null.
 //   2. Is there a `fundamentals.json` snapshot for that key? If not → null.
 //   3. Does fundamentalsV2.scoreFundamentalsV2 produce a result? If not → null.
-//   4. Otherwise synthesise an SWS-shaped result (snowflake, v3 score, action
+//   4. Otherwise synthesise an SWS-shaped result (snowflake, v4 score, action
 //      band, v2_recommendation narrative) so the UI can render it.
 //
 // These tests exercise all four branches via the real fundamentals.json
@@ -112,9 +112,9 @@ it("ticker stripped of .NS, score/verdict/snowflake present", () => {
   assert.equal(typeof out.sws.score, "number");
   assert.ok(out.sws.score >= 0 && out.sws.score <= 100, `score must be 0..100, got ${out.sws.score}`);
   assert.equal(typeof out.sws.verdict, "string", "verdict surfaced from V2");
-  // v3 is the v2 score with a -10 conservative haircut (or null if v2 is null).
-  assert.equal(typeof out.sws.v3_score, "number");
-  assert.equal(out.sws.v3_score, Math.max(0, out.sws.v2_score - 10), "v3 = max(0, v2 - 10)");
+  // v4 is the v2 score with a -10 conservative haircut (or null if v2 is null).
+  assert.equal(typeof out.sws.v4_score, "number");
+  assert.equal(out.sws.v4_score, Math.max(0, out.sws.v2_score - 10), "v4 = max(0, v2 - 10)");
 });
 it("falls back to snapshot.name / snapshot.sector when caller omits them", () => {
   // Don't pass name/sector — module should read them from fundamentals.json.

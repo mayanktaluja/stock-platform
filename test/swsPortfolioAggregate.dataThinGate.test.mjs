@@ -19,7 +19,7 @@ import { buildTiers, _isSwsDataTooThinToReduce } from "../services/swsPortfolioA
 function makeHolding(overrides = {}) {
   const sws = {
     ticker: "TEST",
-    v3_score: 17,
+    v4_score: 17,
     upside_pct: 10,
     next_earnings_date: null,
     snowflake: { total: 0, valuation: 0, future_growth: 0, past_performance: 0, financial_health: 0, dividends: 0 },
@@ -107,7 +107,7 @@ test("buildTiers: TMCV-shaped snow=1 phantom pillar still routes to Tier D", () 
     symbol: "TMCV",
     action: "Reduction-50%",
     sws: {
-      v3_score: 18,
+      v4_score: 18,
       snowflake: { total: 1, valuation: 1, future_growth: 0, past_performance: 0, financial_health: 0, dividends: 0 },
       multiples: { pe: null, ps: null, pb: null, ev_ebitda: null },
       net_margin_pct: null,
@@ -160,7 +160,7 @@ test("buildTiers: genuinely weak holding (snow=4, real multiples) STAYS in Tier 
 test("buildTiers: data-thin HOLD does NOT trigger gate (gate scoped to reductions)", () => {
   const h = makeHolding({ symbol: "TMCVHOLD", action: "HOLD" });
   const r = buildTiers([h]);
-  // HOLD with v3=17 (< 25) lands in Tier D via the existing low-score watch
+  // HOLD with v4=17 (< 28) lands in Tier D via the existing low-score watch
   // rule, NOT via the new data-thin gate. Reason text differs.
   assert.equal(r.tierA.length, 0);
   assert.equal(r.tierD.length, 1);
@@ -205,7 +205,7 @@ test("buildTiers: mixed book — TMCV→D, real-weak→A, healthy-HOLD→C", () 
     symbol: "GOODCO",
     action: "HOLD",
     sws: {
-      v3_score: 55,
+      v4_score: 55,
       upside_pct: 8,
       snowflake: { total: 18, financial_health: 5, future_growth: 4, dividends: 4 },
       multiples: { pe: 18, ps: 2, pb: 3, ev_ebitda: 10 },

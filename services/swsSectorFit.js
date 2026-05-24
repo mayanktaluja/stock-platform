@@ -3,7 +3,7 @@
 // Turns the user's current sectorOverlay + picks-latest + (optional)
 // macroRegime into per-sector and per-stock fit decisions.
 //
-// Fit score is added to v3_score so a candidate filling a missing,
+// Fit score is added to v4_score so a candidate filling a missing,
 // tailwind sector outranks a higher-v3 candidate in an already-saturated
 // sector. This is the difference between "best stocks in the universe"
 // and "best add for *this* portfolio".
@@ -19,7 +19,7 @@
 
 import { normalizeSector, computeMacroDelta } from "../macroRegime.js";
 
-export const PERFECT_FIT_FLOOR = { v3: 45, snowflake_total: 16, upside_pct: 8 };
+export const PERFECT_FIT_FLOOR = { v4: 47, snowflake_total: 16, upside_pct: 8 };
 export const OVERWEIGHT_PCT_THRESHOLD = 20;
 export const UNDERWEIGHT_PCT_THRESHOLD = 6;
 export const TAILWIND_FV_PICK_COUNT_MIN = 3;
@@ -57,7 +57,7 @@ function aggregatePicksBySector(picks) {
     const canonical = normalizeSector(p?.sector);
     if (!canonical) continue;
     const upside = num(p.upside_pct, NaN);
-    const v3 = num(p.v3_score_100 ?? p.v3_score, NaN);
+    const v3 = num(p.v4_score_100 ?? p.v4_score, NaN);
     if (!Number.isFinite(upside) || !Number.isFinite(v3)) continue;
     if (!bySector.has(canonical)) {
       bySector.set(canonical, { count: 0, _upSum: 0, _v3Sum: 0, examples: [] });
@@ -241,7 +241,7 @@ export function buildPerfectFitReason(row, ctx, sectorFit) {
  *
  * Inputs:
  *   candidates — array of basket-row-shaped objects, each with at least
- *                { sector, v3_score, snowflake (or snowflake_total),
+ *                { sector, v4_score, snowflake (or snowflake_total),
  *                  upside_pct, source, ticker }. Pre-filtered to fresh
  *                picks only (holding rows skip the floor in classifyBasket).
  *   ctx        — buildSectorContext output
@@ -251,10 +251,10 @@ export function selectSectorGapPicks(candidates, ctx, { limit = 5 } = {}) {
   const eligible = [];
   for (const c of candidates) {
     if (c.source !== "fresh") continue;
-    const v3 = num(c.v3_score, 0);
+    const v4 = num(c.v4_score, 0);
     const snowTotal = num(c.snowflake_total ?? c.snowflake?.total, 0);
     const upside = num(c.upside_pct, NaN);
-    if (v3 < PERFECT_FIT_FLOOR.v3) continue;
+    if (v4 < PERFECT_FIT_FLOOR.v4) continue;
     if (snowTotal < PERFECT_FIT_FLOOR.snowflake_total) continue;
     if (!Number.isFinite(upside) || upside < PERFECT_FIT_FLOOR.upside_pct) continue;
 
@@ -263,7 +263,7 @@ export function selectSectorGapPicks(candidates, ctx, { limit = 5 } = {}) {
     eligible.push({
       row: c,
       fit,
-      perfectFitScore: v3 + fit.score,
+      perfectFitScore: v4 + fit.score,
     });
   }
 

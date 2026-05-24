@@ -28,7 +28,7 @@ const strongRow = () => ({
     average_daily_volume_30d: 1_000_000,
     last_close_inr: 96,
   },
-  v3_breakdown: {
+  v4_breakdown: {
     pts_future: 18,
     pts_valuation: 10,
     pts_mom_1y: 2,
@@ -87,7 +87,7 @@ it("hard reject when liquidity insufficient", () => {
 
 it("hard reject on GSM surveillance", () => {
   const row = strongRow();
-  row.v3_breakdown.surveillance = { list: "GSM" };
+  row.v4_breakdown.surveillance = { list: "GSM" };
   const r = scoreCandidate(row);
   assert.equal(r.gate_blocked, true);
   assert.match(r.gate_reasons.join(" "), /surveillance_gsm/);
@@ -182,8 +182,8 @@ it("story bonus fires on PLI + renewable tags", () => {
 it("verdict PASS for weak signals across the board", () => {
   const row = strongRow();
   row.overview.snowflake.financial_health = 3;
-  row.v3_breakdown.pts_future = 4;
-  row.v3_breakdown.pts_valuation = 4;
+  row.v4_breakdown.pts_future = 4;
+  row.v4_breakdown.pts_valuation = 4;
   row.overview.upside_pct = 5;
   row.yearly_history = [{ year: 2024, netIncome: 100 }, { year: 2025, netIncome: 95 }];
   row.macroRegime = { regime: "RATE_HIKE" };

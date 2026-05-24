@@ -7,7 +7,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { PATHS } from "./sws-config.mjs";
-import { relativeFvPoints, buildFvUpsideBenchmark } from "../services/scoring/fvUpsideRelative.js";
+import { computeV4Score, verdictV4FromScore } from "./swsScoringV4.mjs";
+import { buildFvUpsideBenchmark } from "../services/scoring/fvUpsideRelative.js";
 
 // Surveillance lookup is optional — gracefully degrades if module not available.
 // Loaded once at module init; the underlying snapshot is cached in surveillance.js.
@@ -26,8 +27,8 @@ const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinite(v) ? 
 // (UI, audit consumers, partner dashboards) can detect a model migration.
 // Bump PICKS_SCHEMA_VERSION on a breaking field rename; bump
 // PICKS_SCORING_VERSION when scoring math changes.
-export const PICKS_SCHEMA_VERSION = "picks-latest-v2";
-export const PICKS_SCORING_VERSION = "sws-v3-100pt-fvrel-2026-05";
+export const PICKS_SCHEMA_VERSION = "picks-latest-v3";
+export const PICKS_SCORING_VERSION = "sws-v4-100pt-2026-05";
 
 // 13 input fields the scoring engine looks at. Track which were populated
 // so we can flag thin-coverage names rather than silently scoring missing
@@ -62,8 +63,8 @@ function dataCompletenessPct(stock) {
 function buildPickCounterThesis(stock) {
   const ov = stock.overview || {};
   const sn = ov.snowflake || {};
-  const v3 = stock.v3_breakdown || {};
-  const verdict = stock.v3_verdict || "WATCH";
+  const v4 = stock.v4_breakdown || {};
+  const verdict = stock.v4_verdict || "WATCH";
   const isBull = verdict === "TOP_PICK" || verdict === "STRONG";
   const isBear = verdict === "AVOID";
 
@@ -71,8 +72,8 @@ function buildPickCounterThesis(stock) {
   if (isBull) {
     const risksCount = (ov.risks || []).length;
     if (risksCount >= 4) opposing.push(`${risksCount} flagged risks in SWS profile`);
-    if (v3.surveillance) opposing.push(`stock is on NSE ${v3.surveillance.list} surveillance`);
-    if (v3.fv_imputed) opposing.push(`fair-value upside imputed (no SWS analyst FV) — score may overstate price-vs-FV cushion`);
+    if (v4.surveillance) opposing.push(`stock is on NSE ${v4.surveillance.list} surveillance`);
+    if (v4.fv_imputed) opposing.push(`fair-value upside imputed (no SWS analyst FV) — score may overstate price-vs-FV cushion`);
     const valSnow = num(sn.valuation ?? sn.value, 6);
     if (valSnow <= 2) opposing.push(`valuation pillar weak (${valSnow}/6) despite overall ${verdict}`);
     if (num(ov.upside_pct, 0) < 0) opposing.push(`current price already above SWS analyst FV (${num(ov.upside_pct, 0).toFixed(1)}%)`);
@@ -108,7 +109,7 @@ function buildPickCounterThesis(stock) {
   } else if (isBear) {
     triggers.push("next quarterly result beats consensus by ≥ 10%");
     triggers.push("a new analyst PT is raised by ≥ 15%");
-    if (v3.surveillance) triggers.push(`NSE removes the ${v3.surveillance.list} surveillance flag`);
+    if (v4.surveillance) triggers.push(`NSE removes the ${v4.surveillance.list} surveillance flag`);
     else triggers.push("snowflake total rebounds above 22 on next refresh");
   } else {
     triggers.push("a material catalyst lands in the next 30 days (PT raise / beat / surveillance change)");
@@ -141,8 +142,8 @@ function buildPickAuditTrail(stock) {
       market_cap_inr: ov.market_cap_inr ?? null,
     },
     imputations: {
-      fv_imputed: stock.v3_breakdown?.fv_imputed || false,
-      momentum_imputed: stock.v3_breakdown?.momentum_imputed || false,
+      fv_imputed: stock.v4_breakdown?.fv_imputed || false,
+      momentum_imputed: stock.v4_breakdown?.momentum_imputed || false,
     },
     categories_assigned: stock.categories || [],
   };
@@ -223,13 +224,8 @@ export function verdictFromScore(score) {
 // Labels intentionally differ from v1's value-tier names because v3 is a
 // quality+momentum+valuation composite, not a pure valuation-tier score.
 
-export function verdictV3FromScore(score) {
-  if (score >= 60) return "TOP_PICK";
-  if (score >= 45) return "STRONG";
-  if (score >= 30) return "ACCEPTABLE";
-  if (score >= 22) return "WATCH";
-  return "AVOID";
-}
+// verdictV3FromScore REMOVED (2026-05 V3→V4 migration). Use verdictV4FromScore
+// (absolute cutoffs) from swsScoringV4.mjs.
 
 // PR 2.3 — `valuation_band` is a SEPARATE signal from the composite-score
 // verdict. Mirror of services/swsScoring.js::valuationBandFromUpside; keep
@@ -466,108 +462,14 @@ function _percentileRank(value, sorted) {
   return lo / sorted.length;
 }
 
-export function computeV3Score(stock, opts = {}) {
-  const ov = stock.overview || {};
-  const snow = ov.snowflake || {};
-  const universe = opts.universe || null;
-  const surveillance = opts.surveillanceFlag ?? _getSurveillanceFlag(stock.ticker);
-
-  // ---- SWS pillars (74 pts) ----
-  const v_health = num(snow.financial_health ?? snow.health, 0);
-  const v_future = num(snow.future ?? snow.future_growth, 0);
-  const v_valuation = num(snow.valuation ?? snow.value, 0);
-  const v_past = num(snow.past ?? snow.past_performance, 0);
-  const v_dividends = num(snow.dividends ?? snow.dividend, 0);
-  const pts_health = (v_health / 6) * 22;
-  const pts_future = (v_future / 6) * 20;
-  const pts_valuation = (v_valuation / 6) * 12;
-  const pts_past = (v_past / 6) * 12;
-  const pts_dividends = (v_dividends / 6) * 8;
-
-  // ---- FV upside (12 pts) — relative, magnitude-aware vs the universe
-  // benchmark (median/MAD of signed-log upside, micro-caps excluded) when
-  // present; else the legacy absolute band (graceful fallback, mirrors
-  // momentum's neutral-impute). ----
-  const upside = num(ov.upside_pct, null);
-  const fvBenchmark = opts.fvBenchmark || universe?.fvBenchmark || null;
-  let pts_fv_upside;
-  let fv_imputed = false;
-  if (fvBenchmark) {
-    const fv = relativeFvPoints(upside, fvBenchmark);
-    pts_fv_upside = fv.pts;
-    fv_imputed = fv.imputed;
-  } else if (upside == null) { pts_fv_upside = 6; fv_imputed = true; }
-  else if (upside >= 30) pts_fv_upside = 12;
-  else if (upside >= 15) pts_fv_upside = 9;
-  else if (upside >= 0) pts_fv_upside = 6;
-  else if (upside >= -10) pts_fv_upside = 3;
-  else pts_fv_upside = 0;
-
-  // ---- Momentum, universe-percentile (14 pts) ----
-  const r = ov.returns_pct || {};
-  const ret1y = num(r["1Y"], null);
-  const ret3m = num(r["3M"], null);
-  const ret1m = num(r["1M"], null);
-  const pct1y = universe ? _percentileRank(ret1y, universe.r1y) : null;
-  const pct3m = universe ? _percentileRank(ret3m, universe.r3m) : null;
-  const pct1m = universe ? _percentileRank(ret1m, universe.r1m) : null;
-  const pts_mom_1y = (pct1y ?? 0.5) * 8;
-  const pts_mom_3m = (pct3m ?? 0.5) * 4;
-  const pts_mom_1m = (pct1m ?? 0.5) * 2;
-  const momentum_imputed = !universe || pct1y == null || pct3m == null || pct1m == null;
-
-  const continuous = pts_health + pts_future + pts_valuation + pts_past + pts_dividends
-    + pts_fv_upside + pts_mom_1y + pts_mom_3m + pts_mom_1m;
-
-  // ---- Overlay penalties (capped at -15) ----
-  let pts_overlay = 0;
-  const overlay_reasons = [];
-  if (surveillance) {
-    if (surveillance.list === "GSM") {
-      pts_overlay -= 15;
-      overlay_reasons.push("GSM surveillance");
-    } else if (surveillance.list === "ASM") {
-      const drop = surveillance.timeframe === "shortterm" ? 12 : 10;
-      pts_overlay -= drop;
-      overlay_reasons.push(`ASM surveillance (${surveillance.timeframe || "longterm"})`);
-    }
-  }
-  if (ret1m != null && ret1m < -25 && v_health <= 2) {
-    pts_overlay -= 5;
-    overlay_reasons.push(`Falling knife: 1M ${ret1m.toFixed(1)}% with health ${v_health}/6`);
-  }
-  if (ret1m != null && ret1m > 30 && v_valuation <= 2) {
-    pts_overlay -= 3;
-    overlay_reasons.push(`Catalyst chase: 1M +${ret1m.toFixed(1)}% with valuation ${v_valuation}/6`);
-  }
-  pts_overlay = clamp(pts_overlay, -15, 0);
-
-  const v3_score_100 = clamp(Math.round((continuous + pts_overlay) * 10) / 10, 0, 100);
-
-  return {
-    v3_score_100,
-    v3_breakdown: {
-      pts_health: Math.round(pts_health * 10) / 10,
-      pts_future: Math.round(pts_future * 10) / 10,
-      pts_valuation: Math.round(pts_valuation * 10) / 10,
-      pts_past: Math.round(pts_past * 10) / 10,
-      pts_dividends: Math.round(pts_dividends * 10) / 10,
-      pts_fv_upside: Math.round(pts_fv_upside * 10) / 10,
-      fv_imputed,
-      pts_mom_1y: Math.round(pts_mom_1y * 10) / 10,
-      pts_mom_3m: Math.round(pts_mom_3m * 10) / 10,
-      pts_mom_1m: Math.round(pts_mom_1m * 10) / 10,
-      momentum_imputed,
-      pts_overlay,
-      overlay_reasons,
-      surveillance: surveillance ? { list: surveillance.list, timeframe: surveillance.timeframe } : null,
-    },
-  };
-}
+// computeV3Score REMOVED (2026-05 V3→V4 migration). computeV4Score
+// (swsScoringV4.mjs, imported above) is the platform's sole composite score.
+// The momentum helpers above (buildUniverseStats / _percentileRank) are shared
+// and reused by V4 unchanged.
 
 // ---------- Category filters ----------
 //
-// Categorisation is v3-aware: gates use stock.v3_verdict and the snowflake
+// Categorisation is v3-aware: gates use stock.v4_verdict and the snowflake
 // future-growth / health pillars rather than v1's verdict labels and the
 // forward-earnings-growth field (which is null for ~98% of the universe
 // because the SWS API capture has no forecast years).
@@ -581,7 +483,7 @@ export function computeV3Score(stock, opts = {}) {
 export function categoriseStock(stock) {
   const ov = stock.overview || {};
   const sn = ov.snowflake || {};
-  const v3Verdict = stock.v3_verdict || "WATCH";
+  const v4Verdict = stock.v4_verdict || "WATCH";
   const upsideRaw = num(ov.upside_pct, null);
   const upside = upsideRaw != null ? upsideRaw : 0;
   const hasUpside = upsideRaw != null;
@@ -602,7 +504,7 @@ export function categoriseStock(stock) {
   const cats = [];
 
   // Deep value: top-tier v3 + cheap valuation pillar + meaningful upside.
-  if (v3Verdict === "TOP_PICK" && valSnow >= 4 && hasUpside && upside >= 20) {
+  if (v4Verdict === "TOP_PICK" && valSnow >= 4 && hasUpside && upside >= 20) {
     cats.push("deep_value");
   }
 
@@ -610,7 +512,7 @@ export function categoriseStock(stock) {
   // futureSnow ≥ 4 stands in for the historical "5Y EPS growth" requirement —
   // it's the SWS analyst-derived future-growth pillar, populated for 99% of
   // the universe (vs <14% for the rewards-text regex this used to use).
-  if (["TOP_PICK", "STRONG"].includes(v3Verdict) && healthSnow >= 5 && futureSnow >= 4) {
+  if (["TOP_PICK", "STRONG"].includes(v4Verdict) && healthSnow >= 5 && futureSnow >= 4) {
     cats.push("quality_growth");
   }
 
@@ -618,7 +520,7 @@ export function categoriseStock(stock) {
   // Replaces the old fwdGrowth ≥ 8 requirement (forward earnings growth is
   // ~2% covered) with the future-growth pillar at ≥3.
   const positiveMomentum = (ret1y != null && ret1y > 0) || (ret3m != null && ret3m > 5);
-  if (["TOP_PICK", "STRONG", "ACCEPTABLE"].includes(v3Verdict) && positiveMomentum && hasUpside && upside >= 15 && futureSnow >= 3) {
+  if (["TOP_PICK", "STRONG", "ACCEPTABLE"].includes(v4Verdict) && positiveMomentum && hasUpside && upside >= 15 && futureSnow >= 3) {
     cats.push("midterm");
   }
 
@@ -656,7 +558,7 @@ export function categoriseStock(stock) {
   // SEBI-aligned advice cares about names a real book might hold/exit, not
   // 4,000 obscure ₹50cr listings. Backstop branch (snowTotal < 12 + risks ≥ 3)
   // bypasses the mcap gate so genuinely terrible large-caps still surface.
-  if ((v3Verdict === "AVOID" && mcap >= 5e9) || (snowTotal < 12 && risks >= 3)) cats.push("avoid");
+  if ((v4Verdict === "AVOID" && mcap >= 5e9) || (snowTotal < 12 && risks >= 3)) cats.push("avoid");
 
   return cats;
 }
@@ -677,13 +579,13 @@ export function scoreStock(stock, opts = {}) {
   const v2 = computeV2Score(stock);
   stock.v2_score_100 = v2.v2_score_100;
   stock.v2_breakdown = v2.v2_breakdown;
-  // v3 — independent scorecard built only from ≥50%-coverage factors.
-  const v3 = computeV3Score(stock, opts);
-  stock.v3_score_100 = v3.v3_score_100;
-  stock.v3_breakdown = v3.v3_breakdown;
-  stock.v3_verdict = verdictV3FromScore(v3.v3_score_100);
-  // Categorise AFTER v3 — categories key off v3_verdict (deep_value /
-  // quality_growth / midterm / avoid all switched to v3 logic).
+  // v4 — the platform's sole composite score. Verdict is ABSOLUTE (no bands),
+  // resolved directly here so every call site gets it.
+  const v4 = computeV4Score(stock, opts);
+  stock.v4_score_100 = v4.v4_score_100;
+  stock.v4_breakdown = v4.v4_breakdown;
+  stock.v4_verdict = verdictV4FromScore(v4.v4_score_100);
+  // Categorise AFTER v4 — categories key off v4_verdict.
   stock.categories = categoriseStock(stock);
   return stock;
 }
@@ -792,17 +694,16 @@ export function pickCardFields(stock) {
     score: stock.composite_score_100,
     v2_score: stock.v2_score_100,
     v2_breakdown: stock.v2_breakdown,
-    v3_score: stock.v3_score_100,
-    // Alias kept so the UI's existing `card.v3_score_100` reader resolves —
-    // the leaderboard cards and the detail modal both look up this exact name.
-    v3_score_100: stock.v3_score_100,
-    v3_breakdown: stock.v3_breakdown,
-    v3_verdict: stock.v3_verdict,
+    // v4 — the platform's sole composite score (absolute verdict).
+    v4_score: stock.v4_score_100,
+    v4_score_100: stock.v4_score_100,
+    v4_breakdown: stock.v4_breakdown,
+    v4_verdict: stock.v4_verdict,
     verdict: stock.verdict,
     // PR 2.3 — explicit aliases. Composite (multi-factor) and valuation
     // (price-vs-FV) are two SEPARATE signals; the UI keeps them as two
     // distinct badges so users never see them collapsed into one.
-    composite_verdict: stock.v3_verdict,
+    composite_verdict: stock.v4_verdict,
     valuation_band: valuationBandFromUpside(reconciled.upside_pct),
     snowflake_total: ov.snowflake_total,
     snowflake: ov.snowflake,
@@ -827,7 +728,7 @@ export function pickCardFields(stock) {
 }
 
 // Slim projection for the picks-tab global search index. ~3× smaller than
-// pickCardFields — drops v2_breakdown bulk, v3_breakdown, full snowflake
+// pickCardFields — drops v2_breakdown bulk, v4_breakdown, full snowflake
 // (renderPickCard only reads snowflake_total), and the upcoming-earnings-only
 // fields. Adds in_sections so the front-end can skip stocks already shown in
 // curated sections.
@@ -840,9 +741,9 @@ function slimUniverseEntry(stock, inSections) {
     sws_url: card.sws_url,
     score: card.score,
     v2_score: card.v2_score,
-    v3_score: card.v3_score,
-    v3_score_100: card.v3_score_100,
-    v3_verdict: card.v3_verdict,
+    v4_score: card.v4_score,
+    v4_score_100: card.v4_score_100,
+    v4_verdict: card.v4_verdict,
     composite_verdict: card.composite_verdict,
     valuation_band: card.valuation_band,
     verdict: card.verdict,
@@ -878,7 +779,7 @@ export function buildLeaderboard(scoredStocks) {
   const isPureBSEcode = (t) => typeof t === "string" && /^\d+$/.test(t);
   const ordered = [...scoredStocks]
     .filter((s) => !isPureBSEcode(s.ticker))
-    .sort((a, b) => (b.v3_score_100 || 0) - (a.v3_score_100 || 0));
+    .sort((a, b) => (b.v4_score_100 || 0) - (a.v4_score_100 || 0));
 
   // Hygiene gate for the universe-wide Top-30. Market cap ≥ ₹500cr (skip
   // illiquid micro-caps that need a different analysis frame); exclude GSM
@@ -920,9 +821,10 @@ export function buildLeaderboard(scoredStocks) {
   // theoretical max 86 when FV upside is at +12). Same hygiene gate as Top
   // 30. Ship 100 so the UI can expand past the inline cap of 30.
   const fundamentalsSum = (s) => {
-    const b = s.v3_breakdown || {};
+    const b = s.v4_breakdown || {};
+    // V4 pillar block (76: Health+Future+Valuation+Past, no dividend) + FV composite (12) = 88.
     return (b.pts_health || 0) + (b.pts_future || 0) + (b.pts_valuation || 0)
-         + (b.pts_past || 0) + (b.pts_dividends || 0) + (b.pts_fv_upside || 0);
+         + (b.pts_past || 0) + (b.pts_fv_total || 0);
   };
   const bestFundamentals = [...scoredStocks]
     .filter((s) => !isPureBSEcode(s.ticker))
@@ -964,10 +866,9 @@ export function runFullScoring() {
     }
   }
   const universe = buildUniverseStats(loaded);
-  // Relative FV-upside benchmark — median/MAD of signed-log upside over the
-  // universe with micro-caps (< ₹500cr) excluded. Attached to `universe` so it
-  // flows to computeV3Score via the existing opts plumbing; persisted into
-  // v3-universe-stats.json so on-demand scorers can load it.
+  // Relative FV-upside benchmark (PR #426) — median/MAD of signed-log upside
+  // over the universe, micro-caps (< ₹500cr) excluded. computeV4Score reads
+  // universe.fvBenchmark for the magnitude-aware analyst-upside leg.
   universe.fvBenchmark = buildFvUpsideBenchmark(
     loaded.map((s) => ({ upside_pct: s?.overview?.upside_pct, market_cap_inr: s?.overview?.market_cap_inr })),
     { microCapFloorInr: 5e9 },
@@ -1057,7 +958,6 @@ export function runFullScoring() {
     generated_at: new Date().toISOString(),
     universe_size: universe.r1m.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
-    fv_upside_benchmark: universe.fvBenchmark,
     momentum_coverage: coverage,
     excluded_for_momentum: excludedForMomentum,
     notes:
@@ -1094,14 +994,6 @@ export function rebuildUniverseStatsOnly() {
     } catch {}
   }
   const universe = buildUniverseStats(loaded);
-  // Relative FV-upside benchmark — median/MAD of signed-log upside over the
-  // universe with micro-caps (< ₹500cr) excluded. Attached to `universe` so it
-  // flows to computeV3Score via the existing opts plumbing; persisted into
-  // v3-universe-stats.json so on-demand scorers can load it.
-  universe.fvBenchmark = buildFvUpsideBenchmark(
-    loaded.map((s) => ({ upside_pct: s?.overview?.upside_pct, market_cap_inr: s?.overview?.market_cap_inr })),
-    { microCapFloorInr: 5e9 },
-  );
   const coverage = buildMomentumCoverageReport(loaded);
   const excludedForMomentum = collectExcludedForMomentum(loaded);
   // universe_size === r1m.length === r3m.length === r1y.length by construction.
@@ -1110,7 +1002,6 @@ export function rebuildUniverseStatsOnly() {
     generated_at: new Date().toISOString(),
     universe_size: universe.r1m.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
-    fv_upside_benchmark: universe.fvBenchmark,
     momentum_coverage: coverage,
     excluded_for_momentum: excludedForMomentum,
     notes:
@@ -1163,12 +1054,12 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       ticker: scored.ticker,
       composite_score_100: scored.composite_score_100,
       v2_score_100: scored.v2_score_100,
-      v3_score_100: scored.v3_score_100,
+      v4_score_100: scored.v4_score_100,
       verdict: scored.verdict,
       categories: scored.categories,
       breakdown_v1: scored.score_breakdown,
       breakdown_v2: scored.v2_breakdown,
-      breakdown_v3: scored.v3_breakdown,
+      breakdown_v4: scored.v4_breakdown,
     }, null, 2));
   } else {
     const out = runFullScoring();

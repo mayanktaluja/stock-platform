@@ -530,7 +530,7 @@
           benRow.appendChild(el("div", { style: { fontSize: "11px", color: "#cbd5e1" } }, labelLine));
           const stocks = (beneficiary.stock_candidates?.stocks || []).slice(0, 3);
           if (stocks.length > 0) {
-            const stockLine = stocks.map((s) => `${s.ticker} (v3 ${s.v3_score_100 || "?"})`).join(" · ");
+            const stockLine = stocks.map((s) => `${s.ticker} (v4 ${s.v4_score_100 || "?"})`).join(" · ");
             benRow.appendChild(el("div", { style: { fontSize: "10px", color: "var(--text-muted)", marginTop: "2px" } }, `pure plays: ${stockLine}`));
           }
           card.appendChild(benRow);

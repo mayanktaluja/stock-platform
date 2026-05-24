@@ -4,7 +4,7 @@
  * Combines all PRs 3-5 quality signals into a single per-stock verdict:
  *
  *   consecutive_miss        (PR 3) — SWS news[] parsed for prior Q miss
- *   imputation_inflation    (PR 4) — v3_breakdown fv/momentum_imputed
+ *   imputation_inflation    (PR 4) — v4_breakdown fv/momentum_imputed
  *   risk_text_classifier    (PR 4) — SWS risks[] regex against taxonomy
  *   counter_thesis_parser   (PR 5) — picks counter_thesis falsification triggers
  *   sector_quality_overlay  (PR 5) — sector-specific risk patterns
@@ -68,7 +68,7 @@ function deriveCombinedVerdict(qualityVerdict, originalVerdict) {
  *
  * @param {object} input — {
  *   ticker, original_score, original_verdict, original_confidence?,
- *   v3_breakdown, sector,
+ *   v4_breakdown, sector,
  *   counter_thesis,            // picks-latest row's counter_thesis
  *   risks,                     // SWS deep brief overview.risks[]
  *   news,                      // SWS deep brief news[]
@@ -100,7 +100,7 @@ export function computeQualityScore(input, opts = {}) {
     });
   }
 
-  const imputation = computeImputationPenalty(input?.v3_breakdown, originalScore);
+  const imputation = computeImputationPenalty(input?.v4_breakdown, originalScore);
   for (const f of imputation.flags) {
     flags.push(f);
   }

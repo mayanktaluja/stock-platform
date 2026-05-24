@@ -1,6 +1,6 @@
 // PR 6 — the "How this prediction was built" expander on each earnings card.
 //
-// Surfaces the top-3 component impacts, the SWS V3 breakdown bars, the
+// Surfaces the top-3 component impacts, the SWS V4 breakdown bars, the
 // LLM qualitative read (in a SEPARATELY-LABELLED block — never woven
 // into the deterministic rationale), and the version audit trail.
 //
@@ -22,7 +22,7 @@ const SAMPLE_EVENT = {
     score_100: 71,
     predictor_version: "earnings-predict-v2-2026-05",
     components_by_impact: [
-      { name: "v3_future_past", pts: 14, why: "V3 future 18/20 · past 11/12 (TOP_PICK)" },
+      { name: "v3_future_past", pts: 14, why: "V4 future 18/20 · past 11/16 (TOP_PICK)" },
       { name: "trajectory", pts: 9, why: "EPS YoY +22%" },
       { name: "runup", pts: -6, why: "pre-runup spike (priced-in risk)" },
     ],
@@ -34,7 +34,7 @@ const SAMPLE_EVENT = {
       v3_score_100: 72,
       v3_verdict: "TOP_PICK",
       source: "computed",
-      breakdown: { pts_future: 18, pts_past: 11, pts_fv_upside: 9, pts_overlay: -3 },
+      breakdown: { pts_future: 18, pts_past: 11, pts_fv_total: 9, pts_overlay: -3 },
     },
     llm_signal: {
       bias: "lean_beat",
@@ -48,7 +48,7 @@ const SAMPLE_EVENT = {
 };
 
 test.describe("Earnings card — prediction build expander (PR 6)", () => {
-  test("renderPredictionBuildExpander emits the V3 bars, AI block, and audit trail", async ({ page }) => {
+  test("renderPredictionBuildExpander emits the V4 bars, AI block, and audit trail", async ({ page }) => {
     await gotoApp(page);
     // earnings.js loads after app.js; wait for its debug export.
     await page.waitForFunction(
@@ -66,10 +66,10 @@ test.describe("Earnings card — prediction build expander (PR 6)", () => {
     expect(html).toContain("How this prediction was built");
     expect(html).toContain('onclick="event.stopPropagation()"'); // doesn't open the modal
     // Top drivers — component labels mapped to friendly names.
-    expect(html).toContain("V3 future + past");
+    expect(html).toContain("V4 future + past");
     expect(html).toContain("EPS YoY trajectory");
-    // V3 breakdown bars — labelled, ARIA progressbar roles.
-    expect(html).toContain("SWS V3 breakdown");
+    // V4 breakdown bars — labelled, ARIA progressbar roles.
+    expect(html).toContain("SWS V4 breakdown");
     expect(html).toContain("Future");
     expect(html).toContain("Past");
     expect(html).toContain('role="progressbar"');
@@ -108,7 +108,7 @@ test.describe("Earnings card — prediction build expander (PR 6)", () => {
     await expander.waitFor({ state: "visible", timeout: 10_000 });
     await expander.locator("summary").click();
     // The expander content is visible…
-    await expect(expander.locator("text=SWS V3 breakdown").first()).toBeVisible();
+    await expect(expander.locator("text=SWS V4 breakdown").first()).toBeVisible();
     // …and the stock-detail modal did NOT open. #swsModalBackdrop is a
     // static element that's always in the DOM — assert it stayed hidden
     // (stopPropagation kept the click off the card's open-modal handler).

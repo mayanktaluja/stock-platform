@@ -93,6 +93,7 @@ import { parsePortfolioFile, resolveUnmatchedLive, toIsoDate } from "./portfolio
 import { buildReport } from "./portfolioAnalyzer.js";
 import { scoreHolding as swsScoreHolding, loadV3Universe } from "./services/swsHoldingEngine.js";
 import { scoreStock as swsScoreStock, valuationBandFromUpside } from "./services/swsScoring.js";
+import { computeV4Score, verdictV4FromScore } from "./services/swsScoringV4.js";
 import { buildCalibration as buildTrackCalibration } from "./services/trackRecord/calibration.js";
 import { buildSymbolEarningsCalibration } from "./services/trackRecord/earningsCalibration.js";
 import { deriveGovernanceGate } from "./services/swsIndianRiskLayer.js";
@@ -7060,7 +7061,7 @@ function readJsonSafe(p, fallback = null) {
 // This function makes that invariant a single line at the call site.
 //
 // Back-fills:
-//   • composite_verdict ← v3_verdict   (PR 2.3 alias, renderer prefers it)
+//   • composite_verdict ← v4_verdict   (PR 2.3 alias, renderer prefers it)
 //   • valuation_band    ← upside_pct   (renders DISCOUNT/PREMIUM/… chip)
 //
 // Live-price overlay (issue 2.10): picks-latest.json is typically 12-24h old,
@@ -7117,8 +7118,8 @@ function stampMarketRows(data, market) {
 
 function enrichPickRow(it) {
   if (!it || !it.ticker) return;
-  if (it.composite_verdict == null && it.v3_verdict != null) {
-    it.composite_verdict = it.v3_verdict;
+  if (it.composite_verdict == null && it.v4_verdict != null) {
+    it.composite_verdict = it.v4_verdict;
   }
   if (it.valuation_band == null && typeof it.upside_pct === "number") {
     it.valuation_band = valuationBandFromUpside(it.upside_pct);
@@ -7404,6 +7405,9 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
     try {
       const universe = loadV3Universe();
       const scored = swsScoreStock({ ...deep }, { universe });
+      // v4 — the platform score; computed on-demand for the ~80% of stocks not
+      // in picks-latest.json. Verdict is absolute (no bands needed).
+      const v4 = computeV4Score({ ...deep }, { universe });
       const ov = deep.overview || {};
       card = {
         ticker,
@@ -7413,10 +7417,10 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
         verdict: scored.verdict,
         v2_score: scored.v2_score_100,
         v2_breakdown: scored.v2_breakdown,
-        v3_score: scored.v3_score_100,
-        v3_score_100: scored.v3_score_100,
-        v3_breakdown: scored.v3_breakdown,
-        v3_verdict: scored.v3_verdict,
+        v4_score: v4.v4_score_100,
+        v4_score_100: v4.v4_score_100,
+        v4_breakdown: v4.v4_breakdown,
+        v4_verdict: verdictV4FromScore(v4.v4_score_100),
         snowflake_total: ov.snowflake_total,
         current_price_inr: ov.current_price_inr,
         fair_value_inr: ov.fair_value_inr,
@@ -7434,8 +7438,8 @@ app.get("/api/sws-stock/:ticker", (req, res) => {
   // pickCardFields change. Mirrors the /api/sws-picks back-fill so the modal
   // can show composite_verdict + valuation_band even on stale snapshots.
   if (card) {
-    if (card.composite_verdict == null && card.v3_verdict != null) {
-      card.composite_verdict = card.v3_verdict;
+    if (card.composite_verdict == null && card.v4_verdict != null) {
+      card.composite_verdict = card.v4_verdict;
     }
     if (card.valuation_band == null) {
       const u = Number(card.upside_pct);

@@ -21,8 +21,6 @@ import {
   computeCompositeScore,
   verdictFromScore,
   computeV2Score,
-  computeV3Score,
-  verdictV3FromScore,
   pickCardFields,
   buildUniverseStats,
   buildMomentumCoverageReport,
@@ -30,6 +28,7 @@ import {
   PICKS_SCHEMA_VERSION,
   PICKS_SCORING_VERSION,
 } from "./sws-scoring.mjs";
+import { computeV4Score, verdictV4FromScore } from "./swsScoringV4.mjs";
 import { buildFvUpsideBenchmark } from "../services/scoring/fvUpsideRelative.js";
 
 const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinite(v) ? v : fallback);
@@ -50,7 +49,7 @@ export const SMALLCAP_CEILING_USD = 2_000_000_000; // $2B — standard US small-
 export function categoriseStockUS(stock) {
   const ov = stock.overview || {};
   const sn = ov.snowflake || {};
-  const v3Verdict = stock.v3_verdict || "WATCH";
+  const v4Verdict = stock.v4_verdict || "WATCH";
   const upsideRaw = num(ov.upside_pct, null);
   const upside = upsideRaw != null ? upsideRaw : 0;
   const hasUpside = upsideRaw != null;
@@ -69,10 +68,10 @@ export function categoriseStockUS(stock) {
 
   const cats = [];
 
-  if (v3Verdict === "TOP_PICK" && valSnow >= 4 && hasUpside && upside >= 20) cats.push("deep_value");
-  if (["TOP_PICK", "STRONG"].includes(v3Verdict) && healthSnow >= 5 && futureSnow >= 4) cats.push("quality_growth");
+  if (v4Verdict === "TOP_PICK" && valSnow >= 4 && hasUpside && upside >= 20) cats.push("deep_value");
+  if (["TOP_PICK", "STRONG"].includes(v4Verdict) && healthSnow >= 5 && futureSnow >= 4) cats.push("quality_growth");
   const positiveMomentum = (ret1y != null && ret1y > 0) || (ret3m != null && ret3m > 5);
-  if (["TOP_PICK", "STRONG", "ACCEPTABLE"].includes(v3Verdict) && positiveMomentum && hasUpside && upside >= 15 && futureSnow >= 3)
+  if (["TOP_PICK", "STRONG", "ACCEPTABLE"].includes(v4Verdict) && positiveMomentum && hasUpside && upside >= 15 && futureSnow >= 3)
     cats.push("midterm");
   if (divSnow >= 5 && divPayout < 70 && divYield >= 1.5 && (upside >= 0 || valSnow >= 4)) cats.push("dividend_aristocrats");
   if (mcap > 0 && mcap < SMALLCAP_CEILING_USD && snowTotal >= 22 && hasUpside && upside >= 15) cats.push("smallcap_gems");
@@ -101,10 +100,11 @@ export function scoreStockUS(stock, opts = {}) {
   stock.v2_score_100 = v2.v2_score_100;
   stock.v2_breakdown = v2.v2_breakdown;
 
-  const v3 = computeV3Score(stock, { ...opts, surveillanceFlag: false });
-  stock.v3_score_100 = v3.v3_score_100;
-  stock.v3_breakdown = v3.v3_breakdown;
-  stock.v3_verdict = verdictV3FromScore(v3.v3_score_100);
+  // v4 — the platform's sole composite score (surveillance off for US).
+  const v4 = computeV4Score(stock, { ...opts, surveillanceFlag: false });
+  stock.v4_score_100 = v4.v4_score_100;
+  stock.v4_breakdown = v4.v4_breakdown;
+  stock.v4_verdict = verdictV4FromScore(v4.v4_score_100);
 
   stock.categories = categoriseStockUS(stock);
   return stock;
@@ -130,9 +130,9 @@ function slimUniverseEntryUS(stock, inSections) {
     currency: card.currency,
     score: card.score,
     v2_score: card.v2_score,
-    v3_score: card.v3_score,
-    v3_score_100: card.v3_score_100,
-    v3_verdict: card.v3_verdict,
+    v4_score: card.v4_score,
+    v4_score_100: card.v4_score_100,
+    v4_verdict: card.v4_verdict,
     composite_verdict: card.composite_verdict,
     valuation_band: card.valuation_band,
     verdict: card.verdict,
@@ -152,7 +152,7 @@ function slimUniverseEntryUS(stock, inSections) {
 // pure-numeric (BSE) ticker filter, US card fields, and no `avoid` section
 // (matching the India tab's recent removal of the avoid list).
 export function buildLeaderboardUS(scoredStocks) {
-  const ordered = [...scoredStocks].sort((a, b) => (b.v3_score_100 || 0) - (a.v3_score_100 || 0));
+  const ordered = [...scoredStocks].sort((a, b) => (b.v4_score_100 || 0) - (a.v4_score_100 || 0));
   const hygiene = (s) => num(s.overview?.market_cap_inr, 0) >= MIN_MCAP_USD;
 
   const bestToBuy = ordered
@@ -177,14 +177,13 @@ export function buildLeaderboardUS(scoredStocks) {
   const top30 = ordered.filter(hygiene).slice(0, 30).map(usCardFields);
 
   const fundamentalsSum = (s) => {
-    const b = s.v3_breakdown || {};
+    const b = s.v4_breakdown || {};
     return (
       (b.pts_health || 0) +
       (b.pts_future || 0) +
       (b.pts_valuation || 0) +
       (b.pts_past || 0) +
-      (b.pts_dividends || 0) +
-      (b.pts_fv_upside || 0)
+      (b.pts_fv_total || 0)
     );
   };
   const bestFundamentals = ordered
@@ -223,9 +222,8 @@ export function runFullScoringUS() {
     }
   }
   const universe = buildUniverseStats(loaded);
-  // Relative FV-upside benchmark — the US $50M micro-cap floor (MIN_MCAP_USD)
-  // excludes shells / dead SPACs. Currency-neutral: the floor and market_cap_inr
-  // are both in native USD here.
+  // Relative FV-upside benchmark (PR #426/#431) — the US $50M floor excludes
+  // shells/dead SPACs. Currency-neutral: floor + market_cap_inr both native USD.
   universe.fvBenchmark = buildFvUpsideBenchmark(
     loaded.map((s) => ({ upside_pct: s?.overview?.upside_pct, market_cap_inr: s?.overview?.market_cap_inr })),
     { microCapFloorInr: MIN_MCAP_USD },
@@ -283,7 +281,6 @@ export function runFullScoringUS() {
     region: "US",
     universe_size: universe.r1m.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
-    fv_upside_benchmark: universe.fvBenchmark,
     momentum_coverage: coverage,
     excluded_for_momentum: excludedForMomentum,
     r1m: universe.r1m,
@@ -310,10 +307,10 @@ if (import.meta.url === `file://${process.argv[1]}`) {
           ticker: scored.ticker,
           currency: scored.currency,
           composite_score_100: scored.composite_score_100,
-          v3_score_100: scored.v3_score_100,
-          v3_verdict: scored.v3_verdict,
+          v4_score_100: scored.v4_score_100,
+          v4_verdict: scored.v4_verdict,
           categories: scored.categories,
-          breakdown_v3: scored.v3_breakdown,
+          breakdown_v4: scored.v4_breakdown,
         },
         null,
         2,

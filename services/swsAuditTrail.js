@@ -84,7 +84,7 @@ function _decisionPath({ holding, scored }) {
   const rec = sws.v2_recommendation || null;
   const path = [];
 
-  path.push(`SWS v3 score: ${num(sws.v3_score, null)?.toFixed?.(1) ?? "—"} (verdict: ${sws.v3_verdict || "—"})`);
+  path.push(`SWS v3 score: ${num(sws.v4_score, null)?.toFixed?.(1) ?? "—"} (verdict: ${sws.v4_verdict || "—"})`);
   path.push(`v1 SWS-only action: ${rec?.action_source === "guardrail" ? "(skipped — guardrail)" : holding.action || "—"}`);
 
   if (sws.crosscheck?.available) {
@@ -146,7 +146,7 @@ function _citations({ holding, scored }) {
   }
   if (sws.peer_substitute?.top_peer) {
     cites.push({
-      claim: `Peer substitute: ${sws.peer_substitute.top_peer.ticker} (v3 ${sws.peer_substitute.top_peer.v3_score})`,
+      claim: `Peer substitute: ${sws.peer_substitute.top_peer.ticker} (v3 ${sws.peer_substitute.top_peer.v4_score})`,
       source_file: "data/sws/picks-latest.json", json_path: `sections[*]`, value: sws.peer_substitute.top_peer.ticker,
     });
   }

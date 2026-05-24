@@ -2,7 +2,7 @@
 //
 // Given a ranked beneficiary sector, return the top N stocks tagged
 // in that sector from picks-latest.json, filtered by:
-//   - v3_score_100 >= 50 (fundamentals threshold)
+//   - v4_score_100 >= 47 (fundamentals threshold — V4 STRONG cutoff)
 //   - NOT in DEEP_OVERPRICE valuation band (don't chase fully-priced)
 //   - Conglomerate filter: exclude stocks tagged as diversified UNLESS
 //     they appear in the manual override file (data/macro-thesis-
@@ -23,7 +23,7 @@ const REPO_ROOT = path.resolve(__dirname, "..", "..");
 
 export const DEFAULT_PICKS_PATH = path.join(REPO_ROOT, "data", "sws", "picks-latest.json");
 export const DEFAULT_OVERRIDES_PATH = path.join(REPO_ROOT, "data", "macro-thesis-conglomerate-overrides.json");
-export const MIN_V3_SCORE = 50;
+export const MIN_V3_SCORE = 47;
 export const MAX_STOCKS_PER_SECTOR = 5;
 
 // Known diversified conglomerates that should NOT show up as "pure plays"
@@ -88,7 +88,7 @@ export function mapStocksToSector({
   const allRows = _flattenPicks(picksDoc);
   const matched = allRows.filter((r) => _sectorMatch(r, sectorBucket));
   const filtered = matched.filter((r) => {
-    const v3 = r.v3_score_100 ?? r.v3_score ?? null;
+    const v3 = r.v4_score_100 ?? r.v4_score ?? null;
     if (typeof v3 === "number" && v3 < minV3Score) return false;
     if (r.valuation_band === "DEEP_OVERPRICE") return false;
     if (KNOWN_CONGLOMERATES.has(r.ticker) && !whitelistForSector.has(r.ticker)) return false;
@@ -100,7 +100,7 @@ export function mapStocksToSector({
     ticker: r.ticker,
     name: r.name,
     sector: r.sector,
-    v3_score_100: r.v3_score_100 ?? r.v3_score ?? null,
+    v4_score_100: r.v4_score_100 ?? r.v4_score ?? null,
     composite_score: r.combined_score ?? r.score ?? null,
     valuation_band: r.valuation_band || null,
     upside_pct: r.upside_pct ?? r.upside_to_fv_pct ?? null,

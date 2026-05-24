@@ -81,9 +81,9 @@ check("non-USD listing currency is carried, not forced to USD", () => {
   assert.equal(cardOf(s).currency, "CAD");
 });
 
-check("surveillance is OFF (v2 + v3 breakdown surveillance null)", () => {
+check("surveillance is OFF (v2 + v4 breakdown surveillance null)", () => {
   const s = scoreStockUS(stock({ ticker: "X" }), { universe });
-  assert.equal(s.v3_breakdown.surveillance, null);
+  assert.equal(s.v4_breakdown.surveillance, null);
   assert.equal(s.v2_breakdown.surveillance, null);
 });
 
@@ -149,18 +149,21 @@ check("(a) unprofitable + null FV → imputed, finite score, no throw", () => {
     }),
     { universe },
   );
-  assert.ok(Number.isFinite(s.v3_score_100));
-  assert.equal(s.v3_breakdown.fv_imputed, true);
-  assert.equal(s.v3_breakdown.pts_fv_upside, 6);
+  assert.ok(Number.isFinite(s.v4_score_100));
+  assert.equal(s.v4_breakdown.fv_imputed, true);
+  // V4 renamed the FV sub-field pts_fv_upside → pts_fv_total. Both value
+  // sub-signals absent (no analyst upside, no industry P/E) → neutral 6/12.
+  assert.equal(s.v4_breakdown.pts_fv_total, 6);
 });
 
-check("(b) negative upside −45% → pts_fv_upside 0, card upside negative", () => {
+check("(b) negative upside −45% → pts_fv_total 0, card upside negative", () => {
   const s = scoreStockUS(
     stock({ ticker: "EXP", overview: { current_price_inr: 200, fair_value_inr: 110, upside_pct: -45 } }),
     { universe },
   );
-  assert.ok(Number.isFinite(s.v3_score_100));
-  assert.equal(s.v3_breakdown.pts_fv_upside, 0);
+  assert.ok(Number.isFinite(s.v4_score_100));
+  // upside ≤ −10 → analyst-upside sub fraction 0 (the only present sub) → 0/12.
+  assert.equal(s.v4_breakdown.pts_fv_total, 0);
   assert.ok(cardOf(s).upside_pct < 0);
 });
 
@@ -180,9 +183,11 @@ check("(d) 2 missing Snowflake axes → num→0, no throw", () => {
     stock({ ticker: "GAP", overview: { snowflake: { financial_health: 3, valuation: 4 }, snowflake_total: 7 } }),
     { universe },
   );
-  assert.ok(Number.isFinite(s.v3_score_100));
-  assert.equal(s.v3_breakdown.pts_future, 0);
-  assert.equal(s.v3_breakdown.pts_dividends, 0);
+  assert.ok(Number.isFinite(s.v4_score_100));
+  // Missing `future` axis → its pillar scores 0.
+  assert.equal(s.v4_breakdown.pts_future, 0);
+  // V4 dropped the dividend pillar entirely — there is no pts_dividends key.
+  assert.ok(!("pts_dividends" in s.v4_breakdown));
 });
 
 check("(e) Infinity / NaN inputs → clamped, finite scores, no throw", () => {
@@ -198,7 +203,7 @@ check("(e) Infinity / NaN inputs → clamped, finite scores, no throw", () => {
     }),
     { universe },
   );
-  assert.ok(Number.isFinite(s.v3_score_100));
+  assert.ok(Number.isFinite(s.v4_score_100));
   assert.ok(Number.isFinite(s.composite_score_100));
   // Infinity mcap → num()→0 → below hygiene floor → not in top30
   assert.ok(!buildLeaderboardUS([s]).top_ranked_30_v3.some((c) => c.ticker === "NAN"));
@@ -206,8 +211,8 @@ check("(e) Infinity / NaN inputs → clamped, finite scores, no throw", () => {
 
 check("(f) no universe → momentum imputed at p50", () => {
   const s = scoreStockUS(stock({ ticker: "NOUNI" }), {});
-  assert.equal(s.v3_breakdown.momentum_imputed, true);
-  assert.equal(s.v3_breakdown.pts_mom_1y, 4); // 0.5 × 8
+  assert.equal(s.v4_breakdown.momentum_imputed, true);
+  assert.equal(s.v4_breakdown.pts_mom_1y, 3.5); // 0.5 × 7 (V4 1Y momentum weight is 7, was 8 in V3)
 });
 
 check("(g) dotted ticker + negative P/B + USD → no throw, fields carried", () => {
@@ -215,7 +220,7 @@ check("(g) dotted ticker + negative P/B + USD → no throw, fields carried", () 
     stock({ ticker: "BRK.B", currency: "USD", overview: { multiples: { pe: null, pb: -3 } } }),
     { universe },
   );
-  assert.ok(Number.isFinite(s.v3_score_100));
+  assert.ok(Number.isFinite(s.v4_score_100));
   const card = cardOf(s);
   assert.equal(card.ticker, "BRK.B");
   assert.equal(card.currency, "USD");
@@ -223,6 +228,19 @@ check("(g) dotted ticker + negative P/B + USD → no throw, fields carried", () 
 
 check("categoriseStockUS tolerates an empty overview", () => {
   assert.doesNotThrow(() => categoriseStockUS({ ticker: "EMPTY", overview: {} }));
+});
+
+check("V4 surface — scoreStockUS emits finite v4 fields, no v3 residue, card carries v4", () => {
+  const s = scoreStockUS(
+    stock({ overview: { snowflake: { financial_health: 5, future: 4, valuation: 4, past: 4, dividends: 3 }, upside_pct: 12, returns_pct: { "1Y": 10, "3M": 3, "1M": 1 } } }),
+    { universe },
+  );
+  assert.ok(Number.isFinite(s.v4_score_100));
+  // V4 is the sole composite score — the V3 fields were deleted in the migration.
+  assert.ok(!("v3_score_100" in s) && !("v3_breakdown" in s) && !("v3_verdict" in s));
+  // V4 breakdown uses pts_fv_total; the old pts_fv_upside name is gone.
+  assert.ok("pts_fv_total" in s.v4_breakdown && !("pts_fv_upside" in s.v4_breakdown));
+  assert.equal(cardOf(s).v4_score_100, s.v4_score_100); // usCardFields spreads pickCardFields → v4 carried
 });
 
 console.log(`\n${pass} passed, ${fail} failed\n`);

@@ -15,18 +15,20 @@ function it(name, fn) {
   catch (e) { console.log("  ✗", name, "\n   ", e && e.message); fail += 1; }
 }
 
-// A well-formed v3_breakdown with the four pillars the predictor reads.
+// A well-formed v4_breakdown with the four pillars the predictor reads.
+// (V4 dropped the dividend pillar and renamed pts_fv_upside -> pts_fv_total;
+// hasUsableBreakdown gates on pts_future/pts_past/pts_fv_total/pts_overlay.)
 function goodBreakdown(over = {}) {
   return {
     pts_health: 15, pts_future: 14, pts_valuation: 7, pts_past: 8,
-    pts_dividends: 3, pts_fv_upside: 9, fv_imputed: false,
+    pts_fv_total: 9, fv_imputed: false,
     pts_mom_1y: 5, pts_mom_3m: 2, pts_mom_1m: 1, momentum_imputed: false,
     pts_overlay: 0, overlay_reasons: [], surveillance: null,
     ...over,
   };
 }
 
-// A synthetic SWS deep file — the shape computeV3Score reads.
+// A synthetic SWS deep file — the shape computeV4Score reads.
 function deepFile(over = {}) {
   return {
     ticker: "TESTCO",
@@ -41,9 +43,11 @@ function deepFile(over = {}) {
 
 console.log("[1] resolution priority");
 it("upcoming_earnings row wins (source: upcoming)", () => {
+  // INPUT rows carry v4_* fields (the adapter reads row.v4_score_100/
+  // v4_verdict/v4_breakdown); the RETURN keys stay v3_* (internal alias).
   const r = extractV3SignalsForEvent({
-    upcomingRow: { v3_score_100: 70, v3_verdict: "TOP_PICK", v3_breakdown: goodBreakdown() },
-    pickRow: { v3_score_100: 40, v3_verdict: "ACCEPTABLE", v3_breakdown: goodBreakdown({ pts_future: 2 }) },
+    upcomingRow: { v4_score_100: 70, v4_verdict: "TOP_PICK", v4_breakdown: goodBreakdown() },
+    pickRow: { v4_score_100: 40, v4_verdict: "ACCEPTABLE", v4_breakdown: goodBreakdown({ pts_future: 2 }) },
     swsDeep: deepFile(),
   });
   assert.equal(r.source, "upcoming");
@@ -53,7 +57,7 @@ it("upcoming_earnings row wins (source: upcoming)", () => {
 
 it("falls to any picks row when no upcoming row (source: picks)", () => {
   const r = extractV3SignalsForEvent({
-    pickRow: { v3_score_100: 55, v3_verdict: "STRONG", v3_breakdown: goodBreakdown() },
+    pickRow: { v4_score_100: 55, v4_verdict: "STRONG", v4_breakdown: goodBreakdown() },
     swsDeep: deepFile(),
   });
   assert.equal(r.source, "picks");
@@ -70,7 +74,7 @@ it("falls to inline computeV3Score when not in any picks section (source: comput
 console.log("[2] malformed breakdown falls through");
 it("pick row with missing pillars is skipped, computed path used instead", () => {
   const r = extractV3SignalsForEvent({
-    pickRow: { v3_score_100: 55, v3_breakdown: { pts_health: 10 } }, // missing future/past/fv/overlay
+    pickRow: { v4_score_100: 55, v4_breakdown: { pts_health: 10 } }, // missing future/past/fv/overlay
     swsDeep: deepFile(),
     universe: null,
   });
@@ -79,8 +83,8 @@ it("pick row with missing pillars is skipped, computed path used instead", () =>
 
 it("upcoming row with non-numeric pillar is skipped", () => {
   const r = extractV3SignalsForEvent({
-    upcomingRow: { v3_breakdown: goodBreakdown({ pts_future: "n/a" }) },
-    pickRow: { v3_score_100: 55, v3_verdict: "STRONG", v3_breakdown: goodBreakdown() },
+    upcomingRow: { v4_breakdown: goodBreakdown({ pts_future: "n/a" }) },
+    pickRow: { v4_score_100: 55, v4_verdict: "STRONG", v4_breakdown: goodBreakdown() },
   });
   assert.equal(r.source, "picks");
 });
@@ -98,9 +102,10 @@ console.log("[4] computed path internal consistency");
 it("breakdown pillars + overlay sum to within ±1 of v3_score_100", () => {
   const r = extractV3SignalsForEvent({ swsDeep: deepFile(), universe: null });
   const b = r.v3_breakdown;
+  // V4 breakdown: dividend pillar dropped, FV pillar is pts_fv_total.
   const sum =
-    b.pts_health + b.pts_future + b.pts_valuation + b.pts_past + b.pts_dividends +
-    b.pts_fv_upside + b.pts_mom_1y + b.pts_mom_3m + b.pts_mom_1m + b.pts_overlay;
+    b.pts_health + b.pts_future + b.pts_valuation + b.pts_past +
+    b.pts_fv_total + b.pts_mom_1y + b.pts_mom_3m + b.pts_mom_1m + b.pts_overlay;
   assert.ok(Math.abs(sum - r.v3_score_100) <= 1, `sum ${sum} vs score ${r.v3_score_100}`);
 });
 it("weak snowflake → low score; strong snowflake → high score", () => {

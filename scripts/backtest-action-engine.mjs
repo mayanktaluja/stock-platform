@@ -271,7 +271,7 @@ function runWithV4Flag(holdings, v4Enabled) {
       severityModel: result.severityModel,
       legacyAction: result.legacyAction,
       ladderRationale: result.ladderRationale,
-      _scoredV3: result.sws?.v3_score ?? null,
+      _scoredV3: result.sws?.v4_score ?? null,
       _scoredSnowTotal: result.sws?.snowflake_total ?? null,
       _scoredRisks: result.sws?.v2_breakdown?.risks_count ?? 0,
       _scoredSurv: result.sws?.surveillance ?? null,

@@ -22,7 +22,7 @@ for (const h of portfolio.stocks || []) {
   out.push({
     symbol: r.sws?.ticker || h.symbol,
     action: r.action,
-    v3: r.sws?.v3_score,
+    v3: r.sws?.v4_score,
     v2rec: r.sws?.v2_recommendation,
   });
 }

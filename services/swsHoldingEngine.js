@@ -1,12 +1,12 @@
 // Per-holding SWS scoring + action engine.
 //
 // Reads data/sws/deep/{TICKER}.json (mtime-cached), runs the SWS scorer to
-// derive composite + v2_score + v3_score + verdict, then maps to a portfolio
+// derive composite + v2_score + v4_score + verdict, then maps to a portfolio
 // action (EXIT / Reduction-50% / Reduction-25-33% / HOLD / Top-up-modest /
 // Top-up / STRONG Top-up) using portfolio-context modifiers (position_weight,
 // sector_weight, P&L %).
 //
-// Score driving the action engine: v3_score_100. v3 is the 50%-coverage-gated
+// Score driving the action engine: v4_score_100. v3 is the 50%-coverage-gated
 // scorecard (74 fundamentals · 14 momentum · ±15 safety overlay) that uses
 // every input we actually have data for and skips the sparse fields v1/v2
 // included as zeros. Thresholds in scoreBandAction are calibrated to v3's
@@ -250,43 +250,42 @@ export function evaluateHardOverrides({ scored, holding, snow, fiscal, position_
 //     decides whether it's a soft 25% trim, a 33%, or HOLD-after-severity
 //     when the factor stack adds up below the trim floor.
 //   • HOLD band shifts to v3 30-40 (was 22-40). Top-up bands unchanged.
-function scoreBandAction({ v3, snow, upside, position_weight, sector_weight, risks_count }) {
+function scoreBandAction({ v4, snow, upside, position_weight, sector_weight, risks_count }) {
   // scoreBandAction always emits LEGACY labels. The ladder-v2 promotion
   // runs as a post-stage on the FINAL action (after the conviction
-  // engine + position guardrails), in scoreHolding below — that's the
-  // only place where conviction proxy + the post-guardrail action are
-  // both known, so granular rung selection sees the full factor stack.
-  if (v3 < 14) return { action: "EXIT", band: "AVOID" };
+  // engine + position guardrails), in scoreHolding below.
+  //
+  // V4 RECALIBRATION (2026-05): V4 scores run lower than V3 (median ~37 vs
+  // higher), so the old absolute cutoffs (14/22/30/40/50/65) are remapped onto
+  // V4's distribution via its verdict bands (AVOID<28 · WATCH 28-37 ·
+  // ACCEPTABLE 37-47 · STRONG 47-59 · TOP_PICK≥59). EXIT stays the deep-AVOID
+  // floor (~bottom 10%) so trims don't balloon under the lower distribution.
+  if (v4 < 18) return { action: "EXIT", band: "AVOID" };
 
-  // Trim band — every v3<22 stock starts at Reduction-50% legacy and lets
-  // severity → rung pick the realised label. Position-weight no longer
-  // gates which legacy label we emit; severity has concentration baked in.
-  if (v3 < 22) return { action: "Reduction-50%", band: "WATCH" };
+  // Deep AVOID (rest of the bottom quartile) → Reduction-50%; severity → rung
+  // picks the realised label (concentration baked in).
+  if (v4 < 28) return { action: "Reduction-50%", band: "WATCH" };
 
-  // NEW band — v3 22-30 enters the trim path at Reduction-25-33% legacy.
-  // The severity model decides whether it lands at Red-25, Red-33, or even
-  // Red-50 for chunky/losing positions. Below the 0.10 severity floor it
-  // falls through to HOLD via the V3 promoter's null path.
-  if (v3 < 30) return { action: "Reduction-25-33%", band: "WATCH-MILD" };
+  // WATCH band (28-37) → Reduction-25-33%; below the 0.10 severity floor it
+  // falls through to HOLD via the promoter's null path.
+  if (v4 < 37) return { action: "Reduction-25-33%", band: "WATCH-MILD" };
 
-  if (v3 < 40) return { action: "HOLD", band: "ACCEPTABLE" };
+  // ACCEPTABLE band (37-47) → HOLD.
+  if (v4 < 47) return { action: "HOLD", band: "ACCEPTABLE" };
 
-  // PR 2.4 — every Top-up rung now requires a positive upside-to-AnalystFV.
-  // Previously the STRONG and TOP_PICK Top-up-modest paths fell through with
-  // no upside floor, so we'd recommend doubling down on already-overvalued
-  // names (SUZLON Top-up-100% on +15.6% upside but verdict OVERVALUED;
-  // HDFCBANK Top-up-25% on +13.4% upside; BSOFT/NAVNETEDUL fresh top-up at
-  // negative upside). When a Top-up rung's upside floor isn't met we fall
-  // through to HOLD instead of a different rung — never push capital into a
-  // position whose price is at or above estimated fair value.
-  if (v3 < 50) {
+  // PR 2.4 — every Top-up rung requires positive upside-to-AnalystFV; when a
+  // rung's upside floor isn't met we fall through to HOLD — never push capital
+  // into a position at/above estimated fair value.
+  // Low STRONG band (47-53) → Top-up-modest.
+  if (v4 < 53) {
     if (position_weight <= 8 && sector_weight <= 25 && upside >= 5) {
       return { action: "Top-up-modest", band: "ACCEPTABLE-PLUS" };
     }
     return { action: "HOLD", band: "ACCEPTABLE-PLUS" };
   }
 
-  if (v3 < 65) {
+  // High STRONG band (53-59) → Top-up.
+  if (v4 < 59) {
     if (upside >= 15 && risks_count === 0 && position_weight <= 6) {
       return { action: "Top-up", band: "STRONG" };
     }
@@ -296,9 +295,7 @@ function scoreBandAction({ v3, snow, upside, position_weight, sector_weight, ris
     return { action: "HOLD", band: "STRONG" };
   }
 
-  // v3 ≥ 65 (TOP_PICK band) — STRONG Top-up tightened from upside ≥ 10 to
-  // ≥ 15 so the most aggressive rung (Top-up-100% via ladder-v2) only fires
-  // on a clear discount.
+  // TOP_PICK band (≥59) — STRONG Top-up only on a clear discount.
   if (position_weight <= 5 && sector_weight <= 20 && upside >= 15) {
     return { action: "STRONG Top-up", band: "TOP_PICK" };
   }
@@ -522,7 +519,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
     reasons = hard.reasons;
   } else {
     const sb = scoreBandAction({
-      v3: num(scored.v3_score_100, 0),
+      v4: num(scored.v4_score_100, 0),
       snow,
       upside,
       position_weight,
@@ -577,7 +574,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
   const crosscheck = crosscheckHolding({
     ticker: scored.ticker || holding?.symbol || holding?.ticker,
     swsSnowflake: snow,
-    swsV3Score: num(scored.v3_score_100, null),
+    swsV4Score: num(scored.v4_score_100, null),
   });
 
   // Layer-3 (Indian-specific risk) and Layer-4 (catalyst) shadow attaches.
@@ -600,8 +597,8 @@ export function scoreHolding(holding, portfolioContext = {}) {
     try {
       v2recommendation = computeRecommendationV2({
         sws_action: action,
-        sws_v3: num(scored.v3_score_100, null),
-        sws_verdict: scored.v3_verdict,
+        sws_v4: num(scored.v4_score_100, null),
+        sws_verdict: scored.v4_verdict,
         crosscheck,
         catalyst,
         indianRisk,
@@ -654,7 +651,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
     : null;
   const promotion = promoteToLadderV2({
     legacyAction: finalAction,
-    v3: num(scored.v3_score_100, 0),
+    v4: num(scored.v4_score_100, 0),
     snow_total: snow?.total ?? 0,
     position_weight,
     sector_weight,
@@ -727,8 +724,8 @@ export function scoreHolding(holding, portfolioContext = {}) {
       sws_url: scored.sws_url,
       score: scored.composite_score_100,
       v2_score: scored.v2_score_100,
-      v3_score: scored.v3_score_100,
-      v3_verdict: scored.v3_verdict,
+      v4_score:scored.v4_score_100,
+      v4_verdict: scored.v4_verdict,
       verdict: scored.verdict,
       band,
       crosscheck,
@@ -756,13 +753,13 @@ export function scoreHolding(holding, portfolioContext = {}) {
       data_age_hours: dataFreshnessMs(scored) != null ? Math.round(dataFreshnessMs(scored) / 3600000) : null,
       breakdown: scored.score_breakdown,
       v2_breakdown: scored.v2_breakdown,
-      v3_breakdown: scored.v3_breakdown,
+      v4_breakdown: scored.v4_breakdown,
       v2_recommendation: v2recommendation,
       recommender_mode: getRecommenderMode(),
       peer_substitute: findPeerSubstitutes({
         ticker: scored.ticker,
         sector: scored.sector,
-        sws_v3: num(scored.v3_score_100, null),
+        sws_v4: num(scored.v4_score_100, null),
         market_cap_inr: num(ov.market_cap_inr, null),
         heldTickers: portfolioContext?.heldTickers,
       }),
@@ -794,7 +791,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
     reasons: finalReasons,
     timing,
     audit: buildAuditTrail({
-      holding: { ...holding, sws: { ticker: scored.ticker, snowflake: snow, fair_value_inr: reconciled.fair_value_inr, crosscheck, catalyst, indianRisk, peer_substitute: { top_peer: null }, v2_recommendation: v2recommendation, v3_score: num(scored.v3_score_100, null), v3_verdict: scored.v3_verdict }, action: finalAction },
+      holding: { ...holding, sws: { ticker: scored.ticker, snowflake: snow, fair_value_inr: reconciled.fair_value_inr, crosscheck, catalyst, indianRisk, peer_substitute: { top_peer: null }, v2_recommendation: v2recommendation, v4_score:num(scored.v4_score_100, null), v4_verdict: scored.v4_verdict }, action: finalAction },
       scored,
       recommenderMode: getRecommenderMode(),
     }),

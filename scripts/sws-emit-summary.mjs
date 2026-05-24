@@ -46,9 +46,9 @@ function summarise(picks) {
     const trending = items.filter((i) => i?.section_status?.trending).length;
     const top3 = items.slice(0, 3).map((c) => ({
       ticker: c.ticker,
-      v3: c.v3_score_100 ?? c.v3_score ?? null,
+      v3: c.v4_score_100 ?? c.v4_score ?? null,
       upside_pct: c.upside_pct ?? null,
-      verdict: c.v3_verdict ?? c.verdict ?? null,
+      verdict: c.v4_verdict ?? c.verdict ?? null,
     }));
     out.sections[section] = {
       count: items.length,

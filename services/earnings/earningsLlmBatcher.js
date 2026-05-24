@@ -57,14 +57,16 @@ const CACHE_TTL_DAYS = 90;
 // permanently freezes the cache at heuristic for that event.
 const FAILED_RETRY_MS = 24 * 60 * 60 * 1000;
 
-// V3 composite floor — only events whose underlying stock has a V3 100-pt
+// Composite floor — only events whose underlying stock has a V4 100-pt
 // composite score >= V3_COMPOSITE_FLOOR are sent to the (paid / rate-limited)
-// LLM. Stocks below the floor are platform-disliked on fundamentals; spending
-// scarce free-tier Gemini RPM / Groq TPD on them is wasted budget. They
-// still get a deterministic heuristic signal so the predictor's component 9
-// has something to score. Field: event.signals.v3.v3_score_100 (set by
-// signalAggregator.js via v3SignalAdapter). Null/missing → below floor.
-const V3_COMPOSITE_FLOOR = 50;
+// LLM. 47 = the V4 STRONG cutoff (~top 25%), recalibrated from the old V3 50
+// in the 2026-05 migration to keep the LLM budget tight on the lower V4
+// distribution (V4 median ~37). Stocks below the floor are platform-disliked
+// on fundamentals; spending scarce free-tier Gemini RPM / Groq TPD on them is
+// wasted budget. They still get a deterministic heuristic signal. Field:
+// event.signals.v3.v3_score_100 (the bus key is legacy; it carries the V4
+// score). Fail-closed: null/missing → below floor.
+const V3_COMPOSITE_FLOOR = 47;
 export function meetsLlmCompositeFloor(event, floor = V3_COMPOSITE_FLOOR) {
   const score = event?.signals?.v3?.v3_score_100;
   return typeof score === "number" && score >= floor;

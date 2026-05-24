@@ -34,7 +34,7 @@ function makeHolding(overrides = {}) {
     sws: {
       ticker: overrides.ticker || "TEST",
       sector: overrides.sector || "IT Services",
-      v3_score: sws.v3_score ?? 50,
+      v4_score: sws.v4_score ?? 50,
       snowflake_total: sws.snowflake_total ?? 15,
       upside_pct: sws.upside_pct ?? 0,
       surveillance: sws.surveillance ?? null,
@@ -44,8 +44,8 @@ function makeHolding(overrides = {}) {
   };
 }
 
-// Build N equal-weight, equal-sector holdings with custom v3 scores.
-function uniformHoldings(n, { v3 = 50, sector = "IT Services", upside = 0, action = "HOLD", pnl = 5 } = {}) {
+// Build N equal-weight, equal-sector holdings with custom v4 scores.
+function uniformHoldings(n, { v4 = 50, sector = "IT Services", upside = 0, action = "HOLD", pnl = 5 } = {}) {
   const w = 100 / n;
   return Array.from({ length: n }, (_, i) =>
     makeHolding({
@@ -54,29 +54,29 @@ function uniformHoldings(n, { v3 = 50, sector = "IT Services", upside = 0, actio
       sector,
       pnlPercent: pnl,
       action,
-      sws: { v3_score: v3, upside_pct: upside, snowflake_total: 15 },
+      sws: { v4_score: v4, upside_pct: upside, snowflake_total: 15 },
     })
   );
 }
 
-console.log("\nQuality component (weighted v3 → 0..25)\n");
+console.log("\nQuality component (weighted v4 → 0..25)\n");
 
 {
-  const holdings = uniformHoldings(5, { v3: 100, sector: "IT Services" });
+  const holdings = uniformHoldings(5, { v4: 100, sector: "IT Services" });
   const ph = computePortfolioHealth({}, holdings);
-  // avg v3=100 → 25 * cov(=1.0) = 25
-  assert("avg v3 100 → quality 25", Math.abs(ph.components.quality - 25) < 0.05, ph.components);
+  // avg v4=100 → 25 * cov(=1.0) = 25
+  assert("avg v4 100 → quality 25", Math.abs(ph.components.quality - 25) < 0.05, ph.components);
 }
 {
-  const holdings = uniformHoldings(5, { v3: 50 });
+  const holdings = uniformHoldings(5, { v4: 50 });
   const ph = computePortfolioHealth({}, holdings);
-  // avg v3=50 → 12.5 * 1.0 = 12.5
-  assert("avg v3 50 → quality 12.5", Math.abs(ph.components.quality - 12.5) < 0.05, ph.components);
+  // avg v4=50 → 12.5 * 1.0 = 12.5
+  assert("avg v4 50 → quality 12.5", Math.abs(ph.components.quality - 12.5) < 0.05, ph.components);
 }
 {
-  const holdings = uniformHoldings(5, { v3: 0 });
+  const holdings = uniformHoldings(5, { v4: 0 });
   const ph = computePortfolioHealth({}, holdings);
-  assert("avg v3 0 → quality 0", Math.abs(ph.components.quality - 0) < 0.05, ph.components);
+  assert("avg v4 0 → quality 0", Math.abs(ph.components.quality - 0) < 0.05, ph.components);
 }
 
 console.log("\nValuation component (weighted upside → 0..15)\n");
@@ -105,7 +105,7 @@ console.log("\nValuation component (weighted upside → 0..15)\n");
 console.log("\nDiversification component (HHI → 0..15)\n");
 
 {
-  const holdings = uniformHoldings(1, { v3: 50 });
+  const holdings = uniformHoldings(1, { v4: 50 });
   const ph = computePortfolioHealth({}, holdings);
   assert("1 sector → diversification 0", Math.abs(ph.components.diversification - 0) < 0.05, ph.components);
 }
@@ -249,7 +249,7 @@ console.log("\nVerdict mapping\n");
       positionWeight: 100 / 12,
       sector: ["IT Services", "Banking", "Pharma", "Energy", "FMCG", "Auto"][i % 6],
       pnlPercent: 12,
-      sws: { v3_score: 88, upside_pct: 22 },
+      sws: { v4_score: 88, upside_pct: 22 },
     })
   );
   const ph = computePortfolioHealth({}, holdings);
@@ -261,10 +261,10 @@ console.log("\nHard caps\n");
 {
   // top1=42% → cap 55
   const holdings = [
-    makeHolding({ ticker: "A", positionWeight: 42, sector: "IT Services", sws: { v3_score: 100, upside_pct: 30 } }),
-    makeHolding({ ticker: "B", positionWeight: 20, sector: "Banking", sws: { v3_score: 100, upside_pct: 30 } }),
-    makeHolding({ ticker: "C", positionWeight: 19, sector: "Pharma", sws: { v3_score: 100, upside_pct: 30 } }),
-    makeHolding({ ticker: "D", positionWeight: 19, sector: "Energy", sws: { v3_score: 100, upside_pct: 30 } }),
+    makeHolding({ ticker: "A", positionWeight: 42, sector: "IT Services", sws: { v4_score: 100, upside_pct: 30 } }),
+    makeHolding({ ticker: "B", positionWeight: 20, sector: "Banking", sws: { v4_score: 100, upside_pct: 30 } }),
+    makeHolding({ ticker: "C", positionWeight: 19, sector: "Pharma", sws: { v4_score: 100, upside_pct: 30 } }),
+    makeHolding({ ticker: "D", positionWeight: 19, sector: "Energy", sws: { v4_score: 100, upside_pct: 30 } }),
   ];
   const ph = computePortfolioHealth({}, holdings);
   assert(`top1>40 → score capped at 55 (got ${ph.score})`, ph.score <= 55, ph);
@@ -274,10 +274,10 @@ console.log("\nHard caps\n");
 {
   // GSM holding triggers cap 70
   const holdings = [
-    makeHolding({ ticker: "A", positionWeight: 6, sws: { v3_score: 95, upside_pct: 25, surveillance: { list: "GSM", stage: "II" } }, sector: "IT Services" }),
-    makeHolding({ ticker: "B", positionWeight: 30, sector: "Banking", sws: { v3_score: 95, upside_pct: 25 } }),
-    makeHolding({ ticker: "C", positionWeight: 30, sector: "Pharma", sws: { v3_score: 95, upside_pct: 25 } }),
-    makeHolding({ ticker: "D", positionWeight: 34, sector: "Energy", sws: { v3_score: 95, upside_pct: 25 } }),
+    makeHolding({ ticker: "A", positionWeight: 6, sws: { v4_score: 95, upside_pct: 25, surveillance: { list: "GSM", stage: "II" } }, sector: "IT Services" }),
+    makeHolding({ ticker: "B", positionWeight: 30, sector: "Banking", sws: { v4_score: 95, upside_pct: 25 } }),
+    makeHolding({ ticker: "C", positionWeight: 30, sector: "Pharma", sws: { v4_score: 95, upside_pct: 25 } }),
+    makeHolding({ ticker: "D", positionWeight: 34, sector: "Energy", sws: { v4_score: 95, upside_pct: 25 } }),
   ];
   const ph = computePortfolioHealth({}, holdings);
   assert(`GSM holding → score capped ≤ 70 (got ${ph.score})`, ph.score <= 70, ph);
@@ -285,7 +285,7 @@ console.log("\nHard caps\n");
 }
 {
   // Aggregate P&L < -25% → cap 70
-  const holdings = uniformHoldings(5, { v3: 90, upside: 25, pnl: -35, sector: "IT Services" });
+  const holdings = uniformHoldings(5, { v4: 90, upside: 25, pnl: -35, sector: "IT Services" });
   // sector=100% IT also triggers sector>55 cap
   const ph = computePortfolioHealth({}, holdings);
   assert(`agg P&L -35% → score capped ≤ 70 (got ${ph.score})`, ph.score <= 70, ph);
@@ -302,7 +302,7 @@ console.log("\nGrade & band mapping\n");
       positionWeight: 100 / 13,
       sector: ["IT Services", "Banking", "Pharma", "Energy", "FMCG", "Auto", "Metals"][i % 7],
       pnlPercent: 18,
-      sws: { v3_score: 92, upside_pct: 28 },
+      sws: { v4_score: 92, upside_pct: 28 },
     })
   );
   const ph = computePortfolioHealth({}, holdings);
@@ -314,7 +314,7 @@ console.log("\nGrade & band mapping\n");
     makeHolding({
       ticker: "A",
       positionWeight: 100,
-      sws: { v3_score: 10, upside_pct: -25 },
+      sws: { v4_score: 10, upside_pct: -25 },
       action: "EXIT",
       pnlPercent: -30,
     }),
@@ -329,14 +329,14 @@ console.log("\nDriver / drag ordering\n");
   // High quality + severe concentration: quality earns above mid (driver),
   // concentration earns 0 (drag).
   const holdings = [
-    makeHolding({ ticker: "A", positionWeight: 50, sector: "IT Services", sws: { v3_score: 90, upside_pct: 25 } }),
-    makeHolding({ ticker: "B", positionWeight: 25, sector: "Banking", sws: { v3_score: 90, upside_pct: 25 } }),
-    makeHolding({ ticker: "C", positionWeight: 15, sector: "Pharma", sws: { v3_score: 90, upside_pct: 25 } }),
-    makeHolding({ ticker: "D", positionWeight: 10, sector: "Energy", sws: { v3_score: 90, upside_pct: 25 } }),
+    makeHolding({ ticker: "A", positionWeight: 50, sector: "IT Services", sws: { v4_score: 90, upside_pct: 25 } }),
+    makeHolding({ ticker: "B", positionWeight: 25, sector: "Banking", sws: { v4_score: 90, upside_pct: 25 } }),
+    makeHolding({ ticker: "C", positionWeight: 15, sector: "Pharma", sws: { v4_score: 90, upside_pct: 25 } }),
+    makeHolding({ ticker: "D", positionWeight: 10, sector: "Energy", sws: { v4_score: 90, upside_pct: 25 } }),
   ];
   const ph = computePortfolioHealth({}, holdings);
   const firstDriver = ph.topDrivers[0]?.label || "";
-  assert("top driver is quality-related", /quality|v3/i.test(firstDriver), firstDriver);
+  assert("top driver is quality-related", /quality/i.test(firstDriver), firstDriver);
   const dragLabels = ph.topDrags.map((d) => d.label).join(" | ");
   assert("concentration appears in drags", /concentration|top-1|top-3/i.test(dragLabels), dragLabels);
 }
@@ -367,7 +367,7 @@ console.log("\nEdge cases\n");
 }
 {
   // NaN guards
-  const holdings = [makeHolding({ ticker: "A", positionWeight: NaN, sws: { v3_score: NaN, upside_pct: NaN } })];
+  const holdings = [makeHolding({ ticker: "A", positionWeight: NaN, sws: { v4_score: NaN, upside_pct: NaN } })];
   const ph = computePortfolioHealth({}, holdings);
   assert("NaN inputs → finite score", Number.isFinite(ph.score) && ph.score >= 0 && ph.score <= 100, ph);
 }
@@ -378,11 +378,11 @@ console.log("\nSEBI-style realistic fixtures\n");
   // 1. Typical Indian retail book — IT-heavy, 5 holdings, all FAIR_VALUE,
   //    all green, top-1=22%. Should land 55–75 (GOOD or NEEDS_ATTENTION).
   const holdings = [
-    makeHolding({ ticker: "A", positionWeight: 22, sector: "IT Services", sws: { v3_score: 55, upside_pct: 5 }, pnlPercent: 8 }),
-    makeHolding({ ticker: "B", positionWeight: 20, sector: "IT Services", sws: { v3_score: 50, upside_pct: 0 }, pnlPercent: 6 }),
-    makeHolding({ ticker: "C", positionWeight: 18, sector: "IT Services", sws: { v3_score: 60, upside_pct: 8 }, pnlPercent: 10 }),
-    makeHolding({ ticker: "D", positionWeight: 20, sector: "Banking", sws: { v3_score: 55, upside_pct: 4 }, pnlPercent: 5 }),
-    makeHolding({ ticker: "E", positionWeight: 20, sector: "FMCG", sws: { v3_score: 55, upside_pct: 6 }, pnlPercent: 7 }),
+    makeHolding({ ticker: "A", positionWeight: 22, sector: "IT Services", sws: { v4_score: 55, upside_pct: 5 }, pnlPercent: 8 }),
+    makeHolding({ ticker: "B", positionWeight: 20, sector: "IT Services", sws: { v4_score: 50, upside_pct: 0 }, pnlPercent: 6 }),
+    makeHolding({ ticker: "C", positionWeight: 18, sector: "IT Services", sws: { v4_score: 60, upside_pct: 8 }, pnlPercent: 10 }),
+    makeHolding({ ticker: "D", positionWeight: 20, sector: "Banking", sws: { v4_score: 55, upside_pct: 4 }, pnlPercent: 5 }),
+    makeHolding({ ticker: "E", positionWeight: 20, sector: "FMCG", sws: { v4_score: 55, upside_pct: 6 }, pnlPercent: 7 }),
   ];
   // Note: 60% IT sector triggers sector>55 cap (cap 70).
   const ph = computePortfolioHealth({}, holdings);
@@ -398,17 +398,17 @@ console.log("\nSEBI-style realistic fixtures\n");
   );
 }
 {
-  // 2. Healthy book — 8 holdings, 5+ sectors equal-ish, avg v3 80, avg
+  // 2. Healthy book — 8 holdings, 5+ sectors equal-ish, avg v4 80, avg
   //    upside +12%, top-1=14%, all green. Should land 70+.
   const holdings = [
-    makeHolding({ ticker: "A", positionWeight: 14, sector: "IT Services", sws: { v3_score: 82, upside_pct: 14 }, pnlPercent: 12 }),
-    makeHolding({ ticker: "B", positionWeight: 13, sector: "Banking", sws: { v3_score: 80, upside_pct: 12 }, pnlPercent: 10 }),
-    makeHolding({ ticker: "C", positionWeight: 13, sector: "Pharma", sws: { v3_score: 78, upside_pct: 10 }, pnlPercent: 8 }),
-    makeHolding({ ticker: "D", positionWeight: 12, sector: "Energy", sws: { v3_score: 80, upside_pct: 13 }, pnlPercent: 9 }),
-    makeHolding({ ticker: "E", positionWeight: 12, sector: "FMCG", sws: { v3_score: 80, upside_pct: 11 }, pnlPercent: 7 }),
-    makeHolding({ ticker: "F", positionWeight: 12, sector: "Auto", sws: { v3_score: 78, upside_pct: 10 }, pnlPercent: 6 }),
-    makeHolding({ ticker: "G", positionWeight: 12, sector: "Metals", sws: { v3_score: 82, upside_pct: 12 }, pnlPercent: 8 }),
-    makeHolding({ ticker: "H", positionWeight: 12, sector: "Telecom", sws: { v3_score: 80, upside_pct: 14 }, pnlPercent: 11 }),
+    makeHolding({ ticker: "A", positionWeight: 14, sector: "IT Services", sws: { v4_score: 82, upside_pct: 14 }, pnlPercent: 12 }),
+    makeHolding({ ticker: "B", positionWeight: 13, sector: "Banking", sws: { v4_score: 80, upside_pct: 12 }, pnlPercent: 10 }),
+    makeHolding({ ticker: "C", positionWeight: 13, sector: "Pharma", sws: { v4_score: 78, upside_pct: 10 }, pnlPercent: 8 }),
+    makeHolding({ ticker: "D", positionWeight: 12, sector: "Energy", sws: { v4_score: 80, upside_pct: 13 }, pnlPercent: 9 }),
+    makeHolding({ ticker: "E", positionWeight: 12, sector: "FMCG", sws: { v4_score: 80, upside_pct: 11 }, pnlPercent: 7 }),
+    makeHolding({ ticker: "F", positionWeight: 12, sector: "Auto", sws: { v4_score: 78, upside_pct: 10 }, pnlPercent: 6 }),
+    makeHolding({ ticker: "G", positionWeight: 12, sector: "Metals", sws: { v4_score: 82, upside_pct: 12 }, pnlPercent: 8 }),
+    makeHolding({ ticker: "H", positionWeight: 12, sector: "Telecom", sws: { v4_score: 80, upside_pct: 14 }, pnlPercent: 11 }),
   ];
   const ph = computePortfolioHealth({}, holdings);
   assert(
@@ -427,9 +427,9 @@ console.log("\nSEBI-style realistic fixtures\n");
   //    Caps: top1>40 (cap 55), aggPnL<-25 (cap 70), single-sector >55 (cap 70).
   //    Lowest cap is 55. Score must be ≤ 50.
   const holdings = [
-    makeHolding({ ticker: "A", positionWeight: 50, sector: "IT Services", sws: { v3_score: 35, upside_pct: -25 }, pnlPercent: -40 }),
-    makeHolding({ ticker: "B", positionWeight: 30, sector: "IT Services", sws: { v3_score: 30, upside_pct: -22 }, pnlPercent: -28 }),
-    makeHolding({ ticker: "C", positionWeight: 20, sector: "IT Services", sws: { v3_score: 35, upside_pct: -20 }, pnlPercent: -25 }),
+    makeHolding({ ticker: "A", positionWeight: 50, sector: "IT Services", sws: { v4_score: 35, upside_pct: -25 }, pnlPercent: -40 }),
+    makeHolding({ ticker: "B", positionWeight: 30, sector: "IT Services", sws: { v4_score: 30, upside_pct: -22 }, pnlPercent: -28 }),
+    makeHolding({ ticker: "C", positionWeight: 20, sector: "IT Services", sws: { v4_score: 35, upside_pct: -20 }, pnlPercent: -25 }),
   ];
   const ph = computePortfolioHealth({}, holdings);
   assert(`broken book → score ≤ 50 (got ${ph.score})`, ph.score <= 50, ph);
@@ -444,7 +444,7 @@ console.log("\nSEBI-style realistic fixtures\n");
   // 4. Single-holding book — diversification=0, top-1=100% triggers
   //    concentration cap, single sector >55% triggers sector cap.
   const holdings = [
-    makeHolding({ ticker: "A", positionWeight: 100, sector: "Banking", sws: { v3_score: 70, upside_pct: 15 }, pnlPercent: 8 }),
+    makeHolding({ ticker: "A", positionWeight: 100, sector: "Banking", sws: { v4_score: 70, upside_pct: 15 }, pnlPercent: 8 }),
   ];
   const ph = computePortfolioHealth({}, holdings);
   assert("single holding → diversification 0", ph.components.diversification === 0, ph.components);
@@ -454,11 +454,11 @@ console.log("\nSEBI-style realistic fixtures\n");
 {
   // 5. GSM surveillance on a 6%-weight holding → cap fires at 70.
   const holdings = [
-    makeHolding({ ticker: "GSM_A", positionWeight: 6, sector: "Pharma", sws: { v3_score: 50, upside_pct: 5, surveillance: { list: "GSM", stage: "II" } }, pnlPercent: 5 }),
-    makeHolding({ ticker: "B", positionWeight: 24, sector: "IT Services", sws: { v3_score: 80, upside_pct: 18 }, pnlPercent: 12 }),
-    makeHolding({ ticker: "C", positionWeight: 24, sector: "Banking", sws: { v3_score: 78, upside_pct: 14 }, pnlPercent: 10 }),
-    makeHolding({ ticker: "D", positionWeight: 23, sector: "FMCG", sws: { v3_score: 75, upside_pct: 12 }, pnlPercent: 8 }),
-    makeHolding({ ticker: "E", positionWeight: 23, sector: "Energy", sws: { v3_score: 75, upside_pct: 14 }, pnlPercent: 9 }),
+    makeHolding({ ticker: "GSM_A", positionWeight: 6, sector: "Pharma", sws: { v4_score: 50, upside_pct: 5, surveillance: { list: "GSM", stage: "II" } }, pnlPercent: 5 }),
+    makeHolding({ ticker: "B", positionWeight: 24, sector: "IT Services", sws: { v4_score: 80, upside_pct: 18 }, pnlPercent: 12 }),
+    makeHolding({ ticker: "C", positionWeight: 24, sector: "Banking", sws: { v4_score: 78, upside_pct: 14 }, pnlPercent: 10 }),
+    makeHolding({ ticker: "D", positionWeight: 23, sector: "FMCG", sws: { v4_score: 75, upside_pct: 12 }, pnlPercent: 8 }),
+    makeHolding({ ticker: "E", positionWeight: 23, sector: "Energy", sws: { v4_score: 75, upside_pct: 14 }, pnlPercent: 9 }),
   ];
   const ph = computePortfolioHealth({}, holdings);
   assert("GSM caps include gsm rule", ph.caps?.some((c) => c.rule === "gsm"), ph.caps);
@@ -470,7 +470,7 @@ console.log("\nSnapshot regression — locks the new earned-points formula\n");
 {
   // 8-holding fixture mirroring a realistic Indian retail book.
   // Components (with full coverage, no regime):
-  //  • avg v3 (value-weighted) ≈ 60 → quality 15.0
+  //  • avg v4 (value-weighted) ≈ 60 → quality 15.0
   //  • avg upside ≈ 11.6 → valuation ≈ 7.5 + (11.6/30)*7.5 ≈ 10.4
   //  • 4 sectors with top sector 30% (IT, A+F) → HHI ≈ 0.235 → div ≈ 11.5
   //  • top1=20 (in 18..25 band) → concentration 1
@@ -480,14 +480,14 @@ console.log("\nSnapshot regression — locks the new earned-points formula\n");
   // Sum ≈ 15 + 10.4 + 11.5 + 1 + 14 + 7 + 5 = 63.9 → ~64
   // No caps (top1=20, no GSM, no pledge, max sector 30%, agg P&L positive).
   const holdings = [
-    makeHolding({ ticker: "A", positionWeight: 20, sector: "IT Services",   sws: { v3_score: 70, upside_pct: 20 }, pnlPercent: 10 }),
-    makeHolding({ ticker: "B", positionWeight: 20, sector: "Banking",       sws: { v3_score: 65, upside_pct: 15 }, pnlPercent: 8 }),
-    makeHolding({ ticker: "C", positionWeight: 15, sector: "Pharma",        sws: { v3_score: 60, upside_pct: 10 }, pnlPercent: 6 }),
-    makeHolding({ ticker: "D", positionWeight: 15, sector: "Energy",        sws: { v3_score: 55, upside_pct: 12 }, pnlPercent: 4 }),
-    makeHolding({ ticker: "E", positionWeight: 10, sector: "FMCG",          sws: { v3_score: 50, upside_pct: 8 },  pnlPercent: -3 }),
-    makeHolding({ ticker: "F", positionWeight: 10, sector: "IT Services",   sws: { v3_score: 60, upside_pct: 5 },  pnlPercent: -5 }),
-    makeHolding({ ticker: "G", positionWeight: 5,  sector: "Pharma",        sws: { v3_score: 55, upside_pct: 15 }, pnlPercent: 2, action: "Reduction-50%" }),
-    makeHolding({ ticker: "H", positionWeight: 5,  sector: "Banking",       sws: { v3_score: 65, upside_pct: 18 }, pnlPercent: 7 }),
+    makeHolding({ ticker: "A", positionWeight: 20, sector: "IT Services",   sws: { v4_score: 70, upside_pct: 20 }, pnlPercent: 10 }),
+    makeHolding({ ticker: "B", positionWeight: 20, sector: "Banking",       sws: { v4_score: 65, upside_pct: 15 }, pnlPercent: 8 }),
+    makeHolding({ ticker: "C", positionWeight: 15, sector: "Pharma",        sws: { v4_score: 60, upside_pct: 10 }, pnlPercent: 6 }),
+    makeHolding({ ticker: "D", positionWeight: 15, sector: "Energy",        sws: { v4_score: 55, upside_pct: 12 }, pnlPercent: 4 }),
+    makeHolding({ ticker: "E", positionWeight: 10, sector: "FMCG",          sws: { v4_score: 50, upside_pct: 8 },  pnlPercent: -3 }),
+    makeHolding({ ticker: "F", positionWeight: 10, sector: "IT Services",   sws: { v4_score: 60, upside_pct: 5 },  pnlPercent: -5 }),
+    makeHolding({ ticker: "G", positionWeight: 5,  sector: "Pharma",        sws: { v4_score: 55, upside_pct: 15 }, pnlPercent: 2, action: "Reduction-50%" }),
+    makeHolding({ ticker: "H", positionWeight: 5,  sector: "Banking",       sws: { v4_score: 65, upside_pct: 18 }, pnlPercent: 7 }),
   ];
   const ph = computePortfolioHealth({}, holdings);
   // Realistic mid-tier book — must NOT hit 100, must land 55–75.

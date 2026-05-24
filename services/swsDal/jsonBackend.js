@@ -29,6 +29,7 @@ const PICKS_LATEST_PATH = path.join(DATA_DIR, "picks-latest.json");
 const SCORED_UNIVERSE_PATH = path.join(DATA_DIR, "sws-scored-universe.json");
 const LAST_REFRESH_PATH = path.join(DATA_DIR, "last-refresh.json");
 const V3_UNIVERSE_PATH = path.join(DATA_DIR, "v3-universe-stats.json");
+const V4_UNIVERSE_PATH = path.join(DATA_DIR, "v4-universe-stats.json");
 
 let _runtimeDeepDir = DEEP_DIR;
 let _deepExtracted = false;
@@ -78,6 +79,7 @@ const readPicks = mtimeCached(PICKS_LATEST_PATH, readJson);
 const readScoredUniverseRaw = mtimeCached(SCORED_UNIVERSE_PATH, readJson);
 const readLastRefresh = mtimeCached(LAST_REFRESH_PATH, readJson);
 const readV3UniverseRaw = mtimeCached(V3_UNIVERSE_PATH, readJson);
+const readV4UniverseRaw = mtimeCached(V4_UNIVERSE_PATH, readJson);
 
 const readDeepByKey = mtimeCachedByKey(
   (key) => (key ? path.join(ensureDeepDir(), `${key}.json`) : null),
@@ -195,6 +197,14 @@ export function getV3UniverseStats() {
   const raw = readV3UniverseRaw();
   if (!raw) return null;
   return { r1m: raw.r1m || [], r3m: raw.r3m || [], r1y: raw.r1y || [] };
+}
+
+// V4 rank-based verdict band cutoffs, persisted by the scorer to a dedicated
+// file (kept out of v3-universe-stats.json so the metadata-only v3 rebuild
+// can't wipe them). Returns null when V4 hasn't been scored yet.
+export function getV4VerdictBands() {
+  const raw = readV4UniverseRaw();
+  return raw?.verdict_bands || null;
 }
 
 // Shard progress files live under data/sws/progress-api-{1,2,3}.json.

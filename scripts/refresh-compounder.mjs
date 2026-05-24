@@ -94,7 +94,7 @@ function composeEntry(scoredRow, deep) {
     current_price_inr: scoredRow.current_price_inr,
     fair_value_inr: scoredRow.fair_value_inr,
     upside_pct: scoredRow.upside_pct,
-    fv_reconcile_reason: scoredRow.fv_reconcile_reason || scoredRow.v3_breakdown?.fv_imputed
+    fv_reconcile_reason: scoredRow.fv_reconcile_reason || scoredRow.v4_breakdown?.fv_imputed
       ? "fv_imputed"
       : null,
   };
