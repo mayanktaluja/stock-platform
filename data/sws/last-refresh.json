@@ -1,48 +1,46 @@
 {
-  "started_at": "2026-05-22T11:01:29.000Z",
-  "finished_at": "2026-05-22T16:13:59.656Z",
-  "pipeline": "api",
-  "duration_seconds": 18465,
+  "started_at": "2026-05-24T14:00:25.722Z",
+  "finished_at": "2026-05-24T14:03:12.258Z",
+  "pipeline": "manual_jsll_groww_pe_hotfix",
+  "duration_seconds": 167,
   "shards_failed": 0,
-  "scrape_skipped": false,
+  "scrape_skipped": true,
   "scored_count": 5560,
   "sections_count": {
     "top_ranked_30_v3": 30,
     "best_to_buy_now": 25,
-    "deep_value": 90,
-    "quality_growth": 230,
+    "deep_value": 84,
+    "quality_growth": 227,
     "best_fundamentals": 100,
     "midterm": 187,
     "dividend_aristocrats": 19,
     "smallcap_gems": 12,
-    "upcoming_earnings": 683,
-    "avoid": 1213
+    "insider_buying": 0,
+    "upcoming_earnings": 653,
+    "avoid": 1259
   },
-  "per_shard_progress": {
-    "1": {
-      "done_count": 72056,
-      "next_local_index": 1818,
-      "today_count": 1942,
-      "last_ticker": "541338"
-    },
-    "2": {
-      "done_count": 68780,
-      "next_local_index": 1818,
-      "today_count": 1819,
-      "last_ticker": "HONASA"
-    },
-    "3": {
-      "done_count": 70383,
-      "next_local_index": 1819,
-      "today_count": 1889,
-      "last_ticker": "ZYDUSWELL"
-    }
-  },
+  "per_shard_progress": null,
   "news_populated_count": 5437,
-  "news_items_total": 36879,
+  "news_items_total": 36885,
   "rewards_populated_count": 4625,
   "risks_populated_count": 5224,
+  "groww_pe_cache": {
+    "fetched_at": "2026-05-24T13:55:03.203Z",
+    "expires_at": "2026-05-31T13:55:03.203Z",
+    "status": "fresh",
+    "age_days": 0.01,
+    "coverage": {
+      "target_count": 5455,
+      "screener_records_count": 4465,
+      "screener_total_records": 4997,
+      "mapped_count": 3976,
+      "fetched_count": 3976,
+      "usable_count": 2990,
+      "coverage_pct": 54.81
+    }
+  },
   "deep_files_scanned": 5560,
-  "stamping_status": "success",
-  "pipeline_status": "success"
+  "stamping_status": "not_run_manual_hotfix",
+  "pipeline_status": "success",
+  "manual_note": "JSLL-only reparse/rescore to apply Groww/Refinitiv P/E benchmark cache while full SWS scrape was already running."
 }
