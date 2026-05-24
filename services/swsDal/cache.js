@@ -43,7 +43,7 @@ export function mtimeCachedByKey(filePathOf, loader) {
       return null;
     }
     const cached = store.get(key);
-    if (cached && cached.mtimeMs === stat.mtimeMs) return cached.data;
+    if (cached && cached.filePath === fp && cached.mtimeMs === stat.mtimeMs) return cached.data;
     let data;
     try {
       data = loader(fp);
@@ -51,7 +51,7 @@ export function mtimeCachedByKey(filePathOf, loader) {
       return null;
     }
     if (data == null) return null;
-    store.set(key, { mtimeMs: stat.mtimeMs, data });
+    store.set(key, { filePath: fp, mtimeMs: stat.mtimeMs, data });
     return data;
   };
 }

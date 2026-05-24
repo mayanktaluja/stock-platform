@@ -12,9 +12,9 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { mtimeCached, mtimeCachedByKey } from "./swsDal/cache.js";
+import { makeDeepFileResolver } from "./swsDal/deepTarball.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
@@ -50,42 +50,16 @@ function normaliseTickerKey(ticker) {
   return String(ticker).trim().toUpperCase();
 }
 
-// Local/nightly: data/sws-us/deep is populated → use it directly. Prod: dir is
-// empty → extract per-ticker from the tarball into /tmp on demand.
-let _deepDirHasFiles = null;
-function deepDirHasFiles() {
-  if (_deepDirHasFiles !== null) return _deepDirHasFiles;
-  try {
-    _deepDirHasFiles = fs.readdirSync(DEEP_DIR).some((f) => f.endsWith(".json"));
-  } catch {
-    _deepDirHasFiles = false;
-  }
-  return _deepDirHasFiles;
-}
+// Local/nightly: data/sws-us/deep is populated. Prod: the Vercel bundle ships
+// deep-us.tar.gz, extracted per-ticker into /tmp. When both exist, prefer the
+// newer tarball so a stale loose file cannot beat the deployed packed payload.
+const resolveDeepFile = makeDeepFileResolver({
+  deepDir: DEEP_DIR,
+  tarballPath: DEEP_TARBALL,
+  extractBase: DEEP_EXTRACT_BASE,
+});
 
-const _extractedTickers = new Set();
-function extractOneFromTarball(key) {
-  if (!fs.existsSync(DEEP_TARBALL)) return null;
-  const member = `deep/${key}.json`;
-  const outPath = path.join(DEEP_EXTRACT_BASE, member);
-  if (_extractedTickers.has(key) && fs.existsSync(outPath)) return outPath; // already extracted; no re-exec
-  try {
-    fs.mkdirSync(DEEP_EXTRACT_BASE, { recursive: true });
-    execSync(`tar -xzf "${DEEP_TARBALL}" -C "${DEEP_EXTRACT_BASE}" "${member}"`, {
-      stdio: ["ignore", "ignore", "pipe"],
-    });
-    _extractedTickers.add(key);
-    return fs.existsSync(outPath) ? outPath : null;
-  } catch {
-    return null;
-  }
-}
-
-const readDeepByKey = mtimeCachedByKey((key) => {
-  if (!key) return null;
-  if (deepDirHasFiles()) return path.join(DEEP_DIR, `${key}.json`);
-  return extractOneFromTarball(key);
-}, readJson);
+const readDeepByKey = mtimeCachedByKey(resolveDeepFile, readJson);
 
 export function getUsPicksLatest() {
   return readPicks();

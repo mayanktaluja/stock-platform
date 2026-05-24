@@ -252,6 +252,50 @@ check("pickCardFields exposes verdict + score aliases", () => {
   assert.ok(card.counter_thesis && card.audit_trail);
 });
 
+check("pickCardFields emits compact finite returns_pct for card horizons only", () => {
+  const card = pickCardFields({
+    ticker: "RET", name: "Returns Ltd", sector: "Tech",
+    composite_score_100: 60, v2_score_100: 58, v4_score_100: 55, v4_verdict: "STRONG", verdict: "FAIR_VALUE",
+    overview: {
+      upside_pct: 12,
+      returns_pct: {
+        "1D": -1.25,
+        "7D": 3,
+        "1M": 8.5,
+        "3M": 12,
+        "1Y": 44.4,
+        "5Y": 90,
+        nullish: null,
+        nan: NaN,
+        infinite: Infinity,
+      },
+    },
+  });
+  assert.deepEqual(card.returns_pct, {
+    "1D": -1.25,
+    "7D": 3,
+    "1M": 8.5,
+    "3M": 12,
+    "1Y": 44.4,
+  });
+});
+
+check("pickCardFields drops invalid returns_pct values", () => {
+  const card = pickCardFields({
+    ticker: "BADRET",
+    overview: {
+      returns_pct: {
+        "1D": NaN,
+        "7D": Infinity,
+        "1M": -Infinity,
+        "3M": null,
+        "1Y": undefined,
+      },
+    },
+  });
+  assert.deepEqual(card.returns_pct, {});
+});
+
 console.log("\ncategoriseStock — branches not in swsCategorise.test.mjs\n");
 
 check("deep_value requires TOP_PICK + valSnow>=4 + upside>=20", () => {

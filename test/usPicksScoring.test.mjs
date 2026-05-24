@@ -20,6 +20,7 @@ import {
   scoreStockUS,
   buildLeaderboardUS,
   categoriseStockUS,
+  usCardFields,
   MIN_MCAP_USD,
   SMALLCAP_CEILING_USD,
 } from "../scripts/sws-scoring-us.mjs";
@@ -241,6 +242,52 @@ check("V4 surface — scoreStockUS emits finite v4 fields, no v3 residue, card c
   // V4 breakdown uses pts_fv_total; the old pts_fv_upside name is gone.
   assert.ok("pts_fv_total" in s.v4_breakdown && !("pts_fv_upside" in s.v4_breakdown));
   assert.equal(cardOf(s).v4_score_100, s.v4_score_100); // usCardFields spreads pickCardFields → v4 carried
+});
+
+check("usCardFields emits compact finite returns_pct for 1D/7D/1M/3M/1Y", () => {
+  const card = usCardFields(
+    stock({
+      ticker: "USRET",
+      overview: {
+        returns_pct: {
+          "1D": -0.5,
+          "7D": 2.25,
+          "1M": 6,
+          "3M": 13.5,
+          "1Y": 28,
+          "5Y": 80,
+          bad_null: null,
+          bad_nan: NaN,
+          bad_inf: Infinity,
+        },
+      },
+    }),
+  );
+  assert.deepEqual(card.returns_pct, {
+    "1D": -0.5,
+    "7D": 2.25,
+    "1M": 6,
+    "3M": 13.5,
+    "1Y": 28,
+  });
+});
+
+check("usCardFields drops NaN/Infinity/null returns_pct values", () => {
+  const card = usCardFields(
+    stock({
+      ticker: "USBADRET",
+      overview: {
+        returns_pct: {
+          "1D": NaN,
+          "7D": Infinity,
+          "1M": -Infinity,
+          "3M": null,
+          "1Y": undefined,
+        },
+      },
+    }),
+  );
+  assert.deepEqual(card.returns_pct, {});
 });
 
 console.log(`\n${pass} passed, ${fail} failed\n`);
