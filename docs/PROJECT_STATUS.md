@@ -67,6 +67,9 @@ portfolio analyzer.
 - **#390** — US/KR/TW Picks at 1:1 parity with India (rich modal, dropdown,
   collapse). **#393** — bundle regional deep tarballs into the Vercel function
   (Vercel ~15k file cap). **#404** — card fallback for region modal header/snowflake.
+- **This PR** — US/KR/TW stock modals now render Total Returns from full deep
+  briefs or compact card fallback data, and the regional DAL prefers fresher
+  packed deep tarballs with a Node extraction fallback when shell `tar` fails.
 
 ### New experimental surfaces (May 2026)
 - **#347** — Sector Outlook tab (SWS news themes × macro regime; no named picks v1).
@@ -76,7 +79,7 @@ portfolio analyzer.
   promoter-transaction feed.
 
 ### Auth & navigation (May 2026)
-- **This PR** — Flatten privileged navigation: US/KR/TW Picks, Risk Lab, and
+- **#458** — Flatten privileged navigation: US/KR/TW Picks, Risk Lab, and
   Sector Outlook stay visible in the main tab bar for signed-in users; only
   Users remains owner-admin-only. Admin authority is now hard-coded to
   `mthaluja11@gmail.com` via `computeIsAdmin()` rather than `ADMIN_EMAILS`.

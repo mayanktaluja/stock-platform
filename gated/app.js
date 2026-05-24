@@ -12237,6 +12237,47 @@ const INDIA_MODAL_OPTS = {
   sectionNavFn: "navigateToPicksSection",
 };
 
+const MODAL_RETURN_KEYS = ["1D", "7D", "1M", "3M", "1Y"];
+
+function normaliseModalReturns(data, ov, card) {
+  const out = {};
+  const setFromBucket = (bucket) => {
+    if (!bucket || typeof bucket !== "object") return;
+    for (const key of MODAL_RETURN_KEYS) {
+      if (out[key] != null) continue;
+      const v = Number(bucket[key]);
+      if (Number.isFinite(v)) out[key] = v;
+    }
+  };
+  const setFromAudit = (audit) => {
+    const inputs = audit && audit.inputs_used;
+    if (!inputs || typeof inputs !== "object") return;
+    const aliases = {
+      "1D": ["returns_1d", "return_1d"],
+      "7D": ["returns_7d", "return_7d"],
+      "1M": ["returns_1m", "return_1m"],
+      "3M": ["returns_3m", "return_3m"],
+      "1Y": ["returns_1y", "return_1y"],
+    };
+    for (const key of MODAL_RETURN_KEYS) {
+      if (out[key] != null) continue;
+      for (const alias of aliases[key]) {
+        const v = Number(inputs[alias]);
+        if (Number.isFinite(v)) {
+          out[key] = v;
+          break;
+        }
+      }
+    }
+  };
+
+  setFromBucket(ov && ov.returns_pct);
+  setFromBucket(card && card.returns_pct);
+  setFromBucket(data && data.returns_pct);
+  setFromAudit(card && card.audit_trail);
+  return out;
+}
+
 // Region-parametrised modal core. India → renderSwsModal wrapper (INDIA_MODAL_OPTS,
 // byte-identical output); US/KR/TW pass their own opts (currency, modal title id,
 // watchlist suffix, section-nav handler). Single source of truth so every market's
@@ -12281,7 +12322,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const survBadge = surveillance ? `<span class="sws-surveillance-badge" title="NSE ${surveillance.list} surveillance flag (${surveillance.timeframe || "—"})">${surveillance.list}</span>` : "";
   const fresh = pickFreshnessPill(deep && deep.parsed_at);
   const sn = ov.snowflake || {};
-  const ret = ov.returns_pct || {};
+  const ret = normaliseModalReturns(data, ov, card_);
   const mult = ov.multiples || {};
   // US/KR/TW deep brief is lazily extracted from a per-region tarball on prod and
   // can be absent; fall back to the picks-card fields so the header + snowflake

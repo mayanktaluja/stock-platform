@@ -21,6 +21,17 @@ const REGIONS = {
   tw: { label: "Taiwan", symbol: "NT$", forbidden: ["₹", "₩"], universeLabels: ["Taiwan 50", "Taiwan Mid-Cap 100", "TPEx 50"], enabledIndex: null },
 };
 
+async function expectTotalReturnsHasPercentValues(bodyLocator) {
+  const returnsSection = bodyLocator
+    .locator("h4")
+    .filter({ hasText: /^Total returns$/i })
+    .locator("xpath=..");
+  await expect(returnsSection).toBeVisible();
+  const returnsText = await returnsSection.innerText();
+  expect(returnsText).toMatch(/[+-]\d+(?:\.\d+)?%/);
+  return returnsText;
+}
+
 for (const [code, cfg] of Object.entries(REGIONS)) {
   const dom = `${code}Picks`;
   const HAS_FIXTURE = fs.existsSync(picksPath(code));
@@ -83,6 +94,7 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       expect(txt).toMatch(/Snowflake/i);
       expect(txt).toMatch(/Score breakdown/i);
       expect(txt).toMatch(/Total returns/i);
+      await expectTotalReturnsHasPercentValues(page.locator(`#${code}ModalBody`));
       await page.evaluate((c) => window.closeRegionModal(c), code);
       await expect(modal).not.toHaveClass(/open/);
     });
