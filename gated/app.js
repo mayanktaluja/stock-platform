@@ -12639,10 +12639,10 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
 
     ${barsHtml ? `
     <div class="sws-modal-section">
-      <h4>Score breakdown — ${hasV3 ? "v3 multi-factor blend" : "v2 fundamentals composite"} (out of 100)</h4>
+      <h4>Score breakdown — ${v4bd ? "v4 quality-value blend" : "v2 fundamentals composite"} (out of 100)</h4>
       ${barsHtml}
-      ${hasV3 ? `
-        <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v3 = 5 SWS pillars (74) + AnalystConsensus FV upside + universe-percentile momentum (14) − safety overlay (max −15). Only inputs with ≥50% universe coverage are scored; 30% of stocks lack a fair-value estimate and get a neutral 6/12 on FV upside (flagged as fv_imputed in the breakdown).</div>
+      ${v4bd ? `
+        <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v4 = 4 SWS pillars (Health 22 + Future 20 + Valuation 18 + Past 16 = 76, dividend dropped) + a coverage-renormalised fair-value composite (relative analyst upside + P/E-vs-industry, 12) + universe-percentile momentum (12) − safety overlay (max −15). Only inputs with ≥50% universe coverage are scored; stocks lacking a fair value get a neutral 6/12 on the FV composite (flagged fv_imputed in the breakdown).</div>
         <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">Score evolution: <strong>v1</strong> ${card_.score?.toFixed(1) || "—"} (fund only) → <strong>v2</strong> ${card_.v2_score?.toFixed(1) || "—"} (+ catalyst/risk) → <strong>v4</strong> ${card_.v4_score_100?.toFixed(1) || "—"} (quality-value reweight + momentum).</div>
       ` : `
         <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">v2 = fundamentals (max 100) + catalyst (max +5) − risk overlay (max −15), clamped 0-100.</div>
