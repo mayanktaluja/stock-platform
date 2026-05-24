@@ -1,10 +1,10 @@
 /**
  * OAuth redirect host regression.
  *
- * The branded Vercel alias and the legacy gamma alias are separate browser
- * cookie jars. If login starts on one host but Google calls back to the other,
- * the signed oauth-state cookie is absent and the callback fails with
- * oauth-state-missing-or-expired.
+ * The branded Vercel alias is the only production callback host. Login must
+ * derive a branded redirect_uri on the branded host, allowed alternate hosts
+ * must not replay that state, and removed/unknown hosts must be rejected
+ * instead of resurrecting a stale alias.
  *
  * Run with: node test/oauthRedirectHost.test.mjs
  */
@@ -17,7 +17,7 @@ process.env.VERCEL = "1";
 process.env.STARBHAI_SESSION_SECRET = "a".repeat(64);
 process.env.GOOGLE_CLIENT_ID = "32306903038-test.apps.googleusercontent.com";
 process.env.GOOGLE_CLIENT_SECRET = "test-secret";
-process.env.GOOGLE_OAUTH_REDIRECT_URI = "https://stock-platform-gamma.vercel.app/api/auth/google/callback";
+process.env.GOOGLE_OAUTH_REDIRECT_URI = "https://starbhai-stock-platform.vercel.app/api/auth/google/callback";
 
 const { default: app } = await import(`../server.js?oauth-host-test=${Date.now()}`);
 
@@ -101,7 +101,7 @@ try {
   );
 
   const crossHost = await request(
-    "stock-platform-gamma.vercel.app",
+    "localhost:3000",
     `/api/auth/google/callback?state=${encodeURIComponent(brandedState)}&code=fake`,
     { Cookie: brandedCookie },
   );
@@ -112,20 +112,18 @@ try {
   );
 
   const gamma = await request("stock-platform-gamma.vercel.app", "/api/auth/google");
-  assert("gamma host returns OAuth redirect", gamma.res.statusCode === 302, gamma.res.statusCode);
+  assert("removed gamma host is rejected at OAuth start", gamma.res.statusCode === 400, gamma.res.statusCode);
   assert(
-    "gamma host redirects Google back to gamma callback",
-    redirectTarget(gamma.res.headers.location) ===
-      "https://stock-platform-gamma.vercel.app/api/auth/google/callback",
-    gamma.res.headers.location,
+    "removed gamma host does not produce a Google redirect",
+    gamma.body.includes('"oauth-host-not-allowed"') && !gamma.res.headers.location,
+    { body: gamma.body, location: gamma.res.headers.location },
   );
 
   const unknown = await request("stock-platform-random-preview.vercel.app", "/api/auth/google");
   assert(
-    "unknown host falls back to configured redirect URI",
-    redirectTarget(unknown.res.headers.location) ===
-      "https://stock-platform-gamma.vercel.app/api/auth/google/callback",
-    unknown.res.headers.location,
+    "unknown host is rejected at OAuth start",
+    unknown.res.statusCode === 400 && unknown.body.includes('"oauth-host-not-allowed"'),
+    { status: unknown.res.statusCode, body: unknown.body },
   );
 } finally {
   server.close();

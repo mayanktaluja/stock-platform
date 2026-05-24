@@ -327,16 +327,15 @@ const macroHistory = [];
 // but CORS-open is still belt-and-braces wrong: it advertises the API as
 // usable from anywhere.
 //
-// Allowlist covers: the branded Vercel alias, the existing -gamma alias
-// kept for backwards compatibility, Vercel preview URLs under the same
-// project (rotated per push), localhost for dev (3000) and Playwright (4011).
-// starbhai.com is intentionally NOT listed — it points at the WordPress site.
+// Allowlist covers: the branded Vercel alias, Vercel preview URLs under the
+// same project (rotated per push), localhost for dev (3000) and Playwright
+// (4011). starbhai.com is intentionally NOT listed; this platform uses only
+// the branded .vercel.app hostname.
 //
 // Set CORS_ALLOWED_ORIGINS=foo.com,bar.com to add extras at runtime
 // without a deploy (used by integration tunnels e.g. ngrok).
 const CORS_ALLOWLIST = [
   "https://starbhai-stock-platform.vercel.app",
-  "https://stock-platform-gamma.vercel.app",
   "http://localhost:3000",
   "http://localhost:4011",
   ...(process.env.CORS_ALLOWED_ORIGINS || "")
@@ -552,7 +551,6 @@ const AUTH_ENABLED = !!(SESSION_SECRET && GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECR
 const OAUTH_CALLBACK_PATH = "/api/auth/google/callback";
 const OAUTH_REDIRECT_HOSTS = new Set([
   "starbhai-stock-platform.vercel.app",
-  "stock-platform-gamma.vercel.app",
   "localhost:3000",
   "localhost:3013",
   "localhost:4011",
@@ -707,7 +705,7 @@ function oauthOriginForHost(host) {
 
 function oauthRedirectUriForRequest(req) {
   const origin = oauthOriginForHost(oauthRequestHost(req));
-  if (!origin) return GOOGLE_OAUTH_REDIRECT_URI;
+  if (!origin) return null;
   return `${origin}${OAUTH_CALLBACK_PATH}`;
 }
 
@@ -737,6 +735,9 @@ app.get("/api/auth/google", (req, res) => {
   const challenge = createHash("sha256").update(verifier).digest("base64url");
   const returnTo = safeReturnTo(req.query.returnTo);
   const redirectUri = oauthRedirectUriForRequest(req);
+  if (!redirectUri) {
+    return res.status(400).json({ error: "oauth-host-not-allowed" });
+  }
 
   const stateToken = signOAuthState({ state, verifier, returnTo, redirectUri });
   setOAuthCookie(res, stateToken);
@@ -776,7 +777,12 @@ app.get("/api/auth/google/callback", async (req, res) => {
       return res.status(400).json({ error: "state-mismatch" });
     }
     const redirectUri = oauth.redirectUri || GOOGLE_OAUTH_REDIRECT_URI;
-    if (redirectUri !== oauthRedirectUriForRequest(req)) {
+    const currentRedirectUri = oauthRedirectUriForRequest(req);
+    if (!currentRedirectUri) {
+      clearOAuthCookie(res);
+      return res.status(400).json({ error: "oauth-host-not-allowed" });
+    }
+    if (redirectUri !== currentRedirectUri) {
       clearOAuthCookie(res);
       return res.status(400).json({ error: "oauth-redirect-uri-mismatch" });
     }

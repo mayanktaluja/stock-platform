@@ -24,8 +24,8 @@
         launchctl load \
            ~/Library/LaunchAgents/com.starbhai.picks-fv-drift-probe.plist
 
-      To target a remote host (e.g. -gamma) set PROBE_BASE_URL +
-      PROBE_COOKIE in the EnvironmentVariables block below.
+      To target production set PROBE_BASE_URL=https://starbhai-stock-platform.vercel.app
+      plus PROBE_COOKIE in the EnvironmentVariables block below.
     -->
     <key>ProgramArguments</key>
     <array>

@@ -37,13 +37,11 @@ test.describe("CORS origin allowlist", () => {
     );
   });
 
-  test("legacy gamma Vercel alias remains allowlisted", async ({ request }) => {
+  test("removed gamma Vercel alias is not allowlisted", async ({ request }) => {
     const r = await request.get("/api/sws-picks", {
       headers: { Origin: "https://stock-platform-gamma.vercel.app" },
     });
-    expect(r.headers()["access-control-allow-origin"]).toBe(
-      "https://stock-platform-gamma.vercel.app",
-    );
+    expect(r.headers()["access-control-allow-origin"]).toBeFalsy();
   });
 
   test("Vercel preview pattern is allowlisted", async ({ request }) => {
