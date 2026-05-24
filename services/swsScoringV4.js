@@ -24,7 +24,10 @@
 
 // Self-contained primitives (duplicated from swsScoring.js's exports) so this
 // module has NO import dependency on swsScoring.js — avoids a circular import
-// now that swsScoring.js::scoreStock imports computeV4Score from here.
+// now that swsScoring.js::scoreStock imports computeV4Score from here. The
+// fvUpsideRelative import below is PURE (no imports of its own) — no cycle.
+import { relativeFvPoints } from "./scoring/fvUpsideRelative.js";
+
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinite(v) ? v : fallback);
 function _percentileRank(value, sorted) {
@@ -51,20 +54,29 @@ export const V4_SCORING_VERSION = "sws-v4-100pt-2026-05";
 // universe) can't compress the block to a constant for everyone, and a small-cap
 // missing analyst upside isn't docked for data it simply lacks. Both subs
 // absent -> neutral 6/12.
-export function _fvCompositeV4(ov) {
+export function _fvCompositeV4(ov, fvBenchmark = null) {
   ov = ov || {};
   const subs = []; // { weight, fraction in [0,1] }
   let fv_max_inflation_haircut = false;
 
   // --- Analyst-upside sub (weight 8) ---
+  // Relative, magnitude-aware upside (adopts PR #426): score the upside against
+  // the universe benchmark (median/MAD of signed-log upside, micro-caps
+  // excluded) so +150% still beats +35% instead of both pinning the old
+  // absolute band's ceiling. Falls back to the legacy absolute band when no
+  // benchmark is supplied (single-stock on-demand before it is built).
   const upside = num(ov.upside_pct, null);
   if (upside != null) {
     let frac;
-    if (upside >= 30) frac = 1.0;
-    else if (upside >= 15) frac = 0.75;
-    else if (upside >= 0) frac = 0.5;
-    else if (upside >= -10) frac = 0.25;
-    else frac = 0;
+    if (fvBenchmark && !fvBenchmark.degenerate && fvBenchmark.robust_sigma > 0) {
+      frac = relativeFvPoints(upside, fvBenchmark, { maxPts: 12 }).pts / 12;
+    } else {
+      if (upside >= 30) frac = 1.0;
+      else if (upside >= 15) frac = 0.75;
+      else if (upside >= 0) frac = 0.5;
+      else if (upside >= -10) frac = 0.25;
+      else frac = 0;
+    }
     // MAX-inflation guard: if the "consensus" FV is really the analyst-range
     // MAX with few analysts, the upside is likely one outlier target rather
     // than a true consensus — haircut one bucket (0.25).
@@ -127,7 +139,8 @@ export function computeV4Score(stock, opts = {}) {
   const pts_valuation = (v_valuation / 6) * 18;
   const pts_past = (v_past / 6) * 16;
 
-  const fv = _fvCompositeV4(ov);
+  const fvBenchmark = opts.fvBenchmark || universe?.fvBenchmark || null;
+  const fv = _fvCompositeV4(ov, fvBenchmark);
   const pts_fv_total = fv.pts_fv_total;
 
   const r = ov.returns_pct || {};

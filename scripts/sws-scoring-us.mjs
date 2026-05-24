@@ -29,6 +29,7 @@ import {
   PICKS_SCORING_VERSION,
 } from "./sws-scoring.mjs";
 import { computeV4Score, verdictV4FromScore } from "./swsScoringV4.mjs";
+import { buildFvUpsideBenchmark } from "../services/scoring/fvUpsideRelative.js";
 
 const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinite(v) ? v : fallback);
 
@@ -221,6 +222,12 @@ export function runFullScoringUS() {
     }
   }
   const universe = buildUniverseStats(loaded);
+  // Relative FV-upside benchmark (PR #426/#431) — the US $50M floor excludes
+  // shells/dead SPACs. Currency-neutral: floor + market_cap_inr both native USD.
+  universe.fvBenchmark = buildFvUpsideBenchmark(
+    loaded.map((s) => ({ upside_pct: s?.overview?.upside_pct, market_cap_inr: s?.overview?.market_cap_inr })),
+    { microCapFloorInr: MIN_MCAP_USD },
+  );
 
   const scored = [];
   for (const stock of loaded) {

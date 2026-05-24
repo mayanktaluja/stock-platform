@@ -8,6 +8,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { PATHS } from "./sws-config.mjs";
 import { computeV4Score, verdictV4FromScore } from "./swsScoringV4.mjs";
+import { buildFvUpsideBenchmark } from "../services/scoring/fvUpsideRelative.js";
 
 // Surveillance lookup is optional — gracefully degrades if module not available.
 // Loaded once at module init; the underlying snapshot is cached in surveillance.js.
@@ -865,6 +866,13 @@ export function runFullScoring() {
     }
   }
   const universe = buildUniverseStats(loaded);
+  // Relative FV-upside benchmark (PR #426) — median/MAD of signed-log upside
+  // over the universe, micro-caps (< ₹500cr) excluded. computeV4Score reads
+  // universe.fvBenchmark for the magnitude-aware analyst-upside leg.
+  universe.fvBenchmark = buildFvUpsideBenchmark(
+    loaded.map((s) => ({ upside_pct: s?.overview?.upside_pct, market_cap_inr: s?.overview?.market_cap_inr })),
+    { microCapFloorInr: 5e9 },
+  );
 
   const scored = [];
   for (const stock of loaded) {

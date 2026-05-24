@@ -25,6 +25,7 @@ import {
   V4_SCORING_VERSION,
 } from "../services/swsScoringV4.js";
 import { computeV4Score as computeV4ScoreViaScript } from "../scripts/swsScoringV4.mjs";
+import { buildFvUpsideBenchmark } from "../services/scoring/fvUpsideRelative.js";
 import { buildUniverseStats } from "../services/swsScoring.js";
 import { scoreStock as scoreStockIndia } from "../scripts/sws-scoring.mjs";
 
@@ -92,6 +93,33 @@ check("guard does NOT fire when analyst count is high", () => {
   const fv = _fvCompositeV4({ upside_pct: 30, fair_value_inr: 155, fair_value_range_inr: { min: 100, max: 155, count: 30 } });
   assert.equal(fv.pts_fv_total, 12);
   assert.equal(fv.fv_max_inflation_haircut, false);
+});
+
+console.log("\nrelative FV-upside — adopts #426 universe benchmark (magnitude-aware)\n");
+const _bmRows = [5, 8, 10, 12, 14, 18, 25, 40, 80, 150].map((u) => ({ upside_pct: u, market_cap_inr: 1e10 }));
+check("WITH benchmark: magnitude preserved (+150% beats +35%; absolute saturates both at 12)", () => {
+  const bm = buildFvUpsideBenchmark(_bmRows, { microCapFloorInr: 5e9 });
+  assert.equal(bm.degenerate, false);
+  const hi = _fvCompositeV4({ upside_pct: 150 }, bm).pts_fv_total;
+  const mid = _fvCompositeV4({ upside_pct: 35 }, bm).pts_fv_total;
+  assert.ok(hi > mid, `relative must preserve magnitude: 150%→${hi} should beat 35%→${mid}`);
+  assert.equal(_fvCompositeV4({ upside_pct: 150 }).pts_fv_total, 12); // absolute fallback saturates
+  assert.equal(_fvCompositeV4({ upside_pct: 35 }).pts_fv_total, 12);
+});
+check("below-median upside scores below above-median (relative)", () => {
+  const bm = buildFvUpsideBenchmark(_bmRows, { microCapFloorInr: 5e9 });
+  assert.ok(_fvCompositeV4({ upside_pct: 2 }, bm).pts_fv_total < _fvCompositeV4({ upside_pct: 60 }, bm).pts_fv_total);
+});
+check("no benchmark → absolute-band fallback unchanged (graceful on-demand path)", () => {
+  assert.equal(_fvCompositeV4({ upside_pct: 30 }).pts_fv_total, 12);
+  assert.equal(_fvCompositeV4({ upside_pct: 20 }).pts_fv_total, 9);
+});
+check("computeV4Score threads universe.fvBenchmark (relative < saturated absolute at +35%)", () => {
+  const bm = buildFvUpsideBenchmark(_bmRows, { microCapFloorInr: 5e9 });
+  const stock = () => mk({ financial_health: 5 }, { upside_pct: 35 });
+  const relFv = computeV4Score(stock(), { surveillanceFlag: null, universe: { fvBenchmark: bm } }).v4_breakdown.pts_fv_total;
+  const absFv = computeV4Score(stock(), { surveillanceFlag: null }).v4_breakdown.pts_fv_total;
+  assert.ok(relFv < absFv, `threaded relative FV (${relFv}) should sit below the saturated absolute (${absFv})`);
 });
 
 console.log("\nmomentum 7/3/2 + imputation\n");
