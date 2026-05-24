@@ -71,12 +71,14 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Build US Picks e2e fixture
-        # us-picks.spec serves a deterministic picks fixture; stock-detail-modal
-        # uses the committed India picks-latest.json (no fixture needed).
-        run: node test/e2e/helpers/build-us-picks-fixture.mjs
-
-      - name: Modal-render e2e (India stock-detail + US Picks modal)
-        # The Playwright config auto-starts `node server.js` on :4011 with auth
-        # disabled (reuseExistingServer:false under CI).
-        run: npx playwright test stock-detail-modal us-picks
+      - name: Modal-render e2e (India stock-detail)
+        # Runs stock-detail-modal.spec — the hardened "silent renderer failure"
+        # guard (asserts .sws-modal-hero + ≥1 .sws-modal-section) against the
+        # committed India picks-latest.json. It exercises the SHARED
+        # renderSwsModalCore, so a render-time throw (the hasV3 class) fails here
+        # for EVERY region's modal. Scoped to this one spec on purpose: it needs
+        # no fixture build and is deterministic in CI, whereas us-picks.spec's
+        # /Rewards/ assertion depends on US deep-brief fixture content a fresh CI
+        # build lacks. The Playwright config auto-starts node server.js on :4011,
+        # auth off (reuseExistingServer:false under CI).
+        run: npx playwright test stock-detail-modal
