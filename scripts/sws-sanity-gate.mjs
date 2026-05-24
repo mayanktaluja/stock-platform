@@ -21,9 +21,9 @@
  *   data/sws/_sanity/_latest.json       — copy of the latest report
  *
  * Phase 1 policy: existing gate's BLOCK checks keep BLOCK severity AND
- * keep their existing thresholds. NEW checks introduced by this gate
- * are WARN-only — they surface in email + PR body for ~1 week, then
- * individual checks get flipped to BLOCK once thresholds are calibrated.
+ * keep their existing thresholds. Most new checks start WARN-only for
+ * calibration. Exception: Groww/Refinitiv P/E cache coverage has a conditional
+ * BLOCK floor because stale SWS industry P/E can materially distort FV scores.
  *
  * Threshold-split note: MIN_SCORED_COUNT and MIN_NEWS_POPULATED preserve
  * the existing inline-gate values (5000 / 1000) as BLOCK. Tighter values
@@ -51,6 +51,7 @@ const SCORED = path.join(ROOT, "sws-scored-universe.json");
 const UNIVERSE = path.join(ROOT, "universe.json");
 const DEEP_DIR = path.join(ROOT, "deep");
 const FAILED = path.join(ROOT, "failed.json");
+const GROWW_PE_CACHE = path.join(ROOT, "groww-pe-latest.json");
 const MACRO_REGIME = path.join("data", "macroRegime.json");
 
 // --------------------------- thresholds ---------------------------------
@@ -99,6 +100,9 @@ const MIN_FRESH_PCT          = 95;
 const STALE_WARN_PCT         = 5;
 const FAILED_LOG_MAX         = 100;
 const FAILED_RETRY_TOLERANCE = 10;      // tickers in failed.json still not refreshed
+export const GROWW_PE_WARN_COVERAGE_PCT = 85;
+export const GROWW_PE_BLOCK_COVERAGE_PCT = 70;
+export const GROWW_PE_STALE_GRACE_DAYS = 21;
 
 // L3
 const SANE = {
@@ -143,6 +147,40 @@ function readJson(file) {
   if (!existsSync(file)) return null;
   try { return JSON.parse(readFileSync(file, "utf-8")); }
   catch { return null; }
+}
+
+function growwPeCacheStats() {
+  const cache = readJson(GROWW_PE_CACHE);
+  if (!cache) {
+    return {
+      present: false,
+      coveragePct: 0,
+      ageDays: null,
+      targetCount: 0,
+      usableCount: 0,
+      staleFallbackUsable: false,
+    };
+  }
+  const cov = cache.coverage || {};
+  const targetCount = Number(cov.target_count ?? 0);
+  const usableCount = Number(cov.usable_count ?? 0);
+  const coveragePct = Number.isFinite(Number(cov.coverage_pct))
+    ? Number(cov.coverage_pct)
+    : (targetCount > 0 ? (usableCount / targetCount) * 100 : 0);
+  const fetchedMs = Date.parse(cache.fetched_at || "");
+  const ageDays = Number.isFinite(fetchedMs)
+    ? (Date.now() - fetchedMs) / 86400000
+    : null;
+  return {
+    present: true,
+    fetchedAt: cache.fetched_at || null,
+    expiresAt: cache.expires_at || null,
+    coveragePct,
+    targetCount,
+    usableCount,
+    ageDays,
+    staleFallbackUsable: ageDays != null && ageDays <= GROWW_PE_STALE_GRACE_DAYS && usableCount > 0,
+  };
 }
 
 function isInsane(value, range) {
@@ -289,6 +327,39 @@ function layer1(lr, picks) {
 
 function layer2(lr) {
   const layer = "L2_coverage_audit";
+
+  const groww = growwPeCacheStats();
+  record(layer, "groww_pe_cache_present", WARN,
+    groww.present,
+    { reason: groww.present ? undefined : "groww-pe-latest.json missing" });
+  record(layer, "groww_pe_coverage_warn", WARN,
+    groww.coveragePct >= GROWW_PE_WARN_COVERAGE_PCT,
+    {
+      coverage_pct: +groww.coveragePct.toFixed(2),
+      warn_at: GROWW_PE_WARN_COVERAGE_PCT,
+      usable_count: groww.usableCount,
+      target_count: groww.targetCount,
+      fetched_at: groww.fetchedAt || null,
+      age_days: groww.ageDays == null ? null : +groww.ageDays.toFixed(2),
+    });
+  record(layer, "groww_pe_coverage_block_floor", BLOCK,
+    groww.coveragePct >= GROWW_PE_BLOCK_COVERAGE_PCT || groww.staleFallbackUsable,
+    {
+      coverage_pct: +groww.coveragePct.toFixed(2),
+      block_at: GROWW_PE_BLOCK_COVERAGE_PCT,
+      stale_grace_days: GROWW_PE_STALE_GRACE_DAYS,
+      stale_fallback_usable: groww.staleFallbackUsable,
+      usable_count: groww.usableCount,
+      target_count: groww.targetCount,
+      fetched_at: groww.fetchedAt || null,
+      age_days: groww.ageDays == null ? null : +groww.ageDays.toFixed(2),
+    });
+  record(layer, "groww_pe_cache_grace_age", WARN,
+    groww.ageDays != null && groww.ageDays <= GROWW_PE_STALE_GRACE_DAYS,
+    {
+      age_days: groww.ageDays == null ? null : +groww.ageDays.toFixed(2),
+      stale_grace_days: GROWW_PE_STALE_GRACE_DAYS,
+    });
 
   const universe = readJson(UNIVERSE);
   if (!universe || !Array.isArray(universe)) {

@@ -156,5 +156,14 @@ assert(
   null,
 );
 
+const growwPeIdx = refreshApi.indexOf("node scripts/groww-pe-refresh.mjs");
+const parserIdx = refreshApi.indexOf("node scripts/sws-api-parser.mjs --dest deep");
+const scoringIdx = refreshApi.indexOf("node scripts/sws-scoring.mjs");
+assert(
+  "sws-refresh-api.sh refreshes Groww P/E cache before parser/scoring",
+  growwPeIdx > -1 && parserIdx > growwPeIdx && scoringIdx > parserIdx,
+  { growwPeIdx, parserIdx, scoringIdx },
+);
+
 console.log(`\n  ${pass} passed, ${fail} failed\n`);
 process.exit(fail === 0 ? 0 : 1);

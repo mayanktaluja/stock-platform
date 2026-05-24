@@ -21,7 +21,13 @@ import { tmpdir } from "os";
 import { dirname, join, resolve } from "path";
 import { fileURLToPath } from "url";
 
-import { PICKS_MAX_AGE_HOURS, PICKS_LR_CONSISTENCY_SLACK_SEC } from "../scripts/sws-sanity-gate.mjs";
+import {
+  PICKS_MAX_AGE_HOURS,
+  PICKS_LR_CONSISTENCY_SLACK_SEC,
+  GROWW_PE_WARN_COVERAGE_PCT,
+  GROWW_PE_BLOCK_COVERAGE_PCT,
+  GROWW_PE_STALE_GRACE_DAYS,
+} from "../scripts/sws-sanity-gate.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "..");
@@ -103,6 +109,27 @@ function buildFixture(ageHours, opts = {}) {
   if (includeStarted) lr.started_at = new Date(startedAtMs).toISOString();
   writeFileSync(join(root, "last-refresh.json"), JSON.stringify(lr));
 
+  const growwOpt = opts.growwPeCache === undefined
+    ? { coveragePct: 90, ageDays: 1, targetCount: 1000 }
+    : opts.growwPeCache;
+  if (growwOpt) {
+    const targetCount = growwOpt.targetCount ?? 1000;
+    const usableCount = growwOpt.usableCount ?? Math.round(targetCount * (growwOpt.coveragePct ?? 90) / 100);
+    const fetchedAtMs = nowMs - (growwOpt.ageDays ?? 1) * 86400000;
+    writeFileSync(join(root, "groww-pe-latest.json"), JSON.stringify({
+      schema_version: "groww-pe-v1",
+      source: "groww_refinitiv",
+      fetched_at: new Date(fetchedAtMs).toISOString(),
+      expires_at: new Date(fetchedAtMs + 7 * 86400000).toISOString(),
+      coverage: {
+        target_count: targetCount,
+        usable_count: usableCount,
+        coverage_pct: growwOpt.coveragePct ?? (usableCount / targetCount) * 100,
+      },
+      by_ticker: { JSLL: { peRatio: 39.58, industryPe: 45.3 } },
+    }));
+  }
+
   writeFileSync(join(root, "universe.json"), "[]");
   writeFileSync(join(root, "sws-scored-universe.json"), "[]");
   return root;
@@ -119,9 +146,13 @@ function runGateAndGetFindings(ageHours, opts = {}) {
     const reportPath = join(root, "_sanity", "_latest.json");
     const report = JSON.parse(readFileSync(reportPath, "utf-8"));
     const l1 = report.layers.L1_run_integrity?.checks || [];
+    const l2 = report.layers.L2_coverage_audit?.checks || [];
     return {
       picksRecent: l1.find((c) => c.name === "picks_recent"),
       consistency: l1.find((c) => c.name === "picks_matches_last_refresh"),
+      growwWarn: l2.find((c) => c.name === "groww_pe_coverage_warn"),
+      growwBlock: l2.find((c) => c.name === "groww_pe_coverage_block_floor"),
+      growwGrace: l2.find((c) => c.name === "groww_pe_cache_grace_age"),
     };
   } finally {
     try { rmSync(root, { recursive: true, force: true }); } catch {}
@@ -302,6 +333,59 @@ assert(
   "shard-retry: scanned_at near finished_at → consistent",
   retryFinal && retryFinal.ok === true,
   retryFinal,
+);
+
+// ============================================================================
+// Groww/Refinitiv P/E cache coverage checks
+// ============================================================================
+
+console.log("\nGroww/Refinitiv P/E cache gate\n");
+
+assert(
+  "Groww coverage thresholds exported",
+  GROWW_PE_WARN_COVERAGE_PCT === 85 &&
+    GROWW_PE_BLOCK_COVERAGE_PCT === 70 &&
+    GROWW_PE_STALE_GRACE_DAYS === 21,
+  { GROWW_PE_WARN_COVERAGE_PCT, GROWW_PE_BLOCK_COVERAGE_PCT, GROWW_PE_STALE_GRACE_DAYS },
+);
+
+const growwBelowWarn = runGateAndGetFindings(1.0, {
+  growwPeCache: { coveragePct: 84.9, ageDays: 1 },
+});
+assert(
+  "Groww 84.9% fresh cache: WARN fails below 85%",
+  growwBelowWarn.growwWarn && growwBelowWarn.growwWarn.ok === false && growwBelowWarn.growwWarn.severity === "WARN",
+  growwBelowWarn.growwWarn,
+);
+assert(
+  "Groww 84.9% fresh cache: BLOCK floor passes",
+  growwBelowWarn.growwBlock && growwBelowWarn.growwBlock.ok === true,
+  growwBelowWarn.growwBlock,
+);
+
+const growwBelowBlockButFresh = runGateAndGetFindings(1.0, {
+  growwPeCache: { coveragePct: 69.9, ageDays: 1 },
+});
+assert(
+  "Groww 69.9% fresh cache: BLOCK passes because stale fallback is usable",
+  growwBelowBlockButFresh.growwBlock && growwBelowBlockButFresh.growwBlock.ok === true,
+  growwBelowBlockButFresh.growwBlock,
+);
+
+const growwBelowBlockAncient = runGateAndGetFindings(1.0, {
+  growwPeCache: { coveragePct: 69.9, ageDays: 21.1 },
+});
+assert(
+  "Groww 69.9% ancient cache: BLOCK fails after 21d stale grace",
+  growwBelowBlockAncient.growwBlock && growwBelowBlockAncient.growwBlock.ok === false && growwBelowBlockAncient.growwBlock.severity === "BLOCK",
+  growwBelowBlockAncient.growwBlock,
+);
+
+const growwMissing = runGateAndGetFindings(1.0, { growwPeCache: null });
+assert(
+  "Groww missing cache: BLOCK floor fails because no stale fallback exists",
+  growwMissing.growwBlock && growwMissing.growwBlock.ok === false,
+  growwMissing.growwBlock,
 );
 
 // ============================================================================
