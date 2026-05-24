@@ -8,7 +8,7 @@ import {
   DEFAULT_MICRO_CAP_FLOOR_INR,
   MAX_PTS,
 } from "../services/scoring/fvUpsideRelative.js";
-import { computeV3Score } from "../services/swsScoring.js";
+import { computeV4Score } from "../services/swsScoringV4.js";
 
 let ok = 0, fail = 0;
 function it(name, fn) {
@@ -166,19 +166,19 @@ it("benchmark built from rows scores its own median name ≈ neutral", () => {
   approx(relativeFvPoints(18, b).pts, MAX_PTS / 2, 1e-6); // 18 is the median upside
 });
 
-console.log("\ncomputeV3Score integration (live wiring)");
+console.log("\ncomputeV4Score integration (live wiring)");
 it("uses the relative transform when a benchmark is supplied", () => {
   const ov = { upside_pct: 50, market_cap_inr: BIG, snowflake: {}, returns_pct: {} };
-  const r = computeV3Score({ ticker: "T", overview: ov }, { fvBenchmark: BENCH });
+  const r = computeV4Score({ ticker: "T", overview: ov }, { fvBenchmark: BENCH });
   // +50% relative is well below the legacy band's flat 12, and above neutral 6
-  assert.ok(r.v3_breakdown.pts_fv_upside > 6 && r.v3_breakdown.pts_fv_upside < 12,
-    `relative pts_fv_upside should be in (6,12), got ${r.v3_breakdown.pts_fv_upside}`);
-  assert.equal(r.v3_breakdown.fv_imputed, false);
+  assert.ok(r.v4_breakdown.pts_fv_total > 6 && r.v4_breakdown.pts_fv_total < 12,
+    `relative pts_fv_total should be in (6,12), got ${r.v4_breakdown.pts_fv_total}`);
+  assert.equal(r.v4_breakdown.fv_imputed, false);
 });
 it("falls back to the legacy absolute band when no benchmark is supplied", () => {
   const ov = { upside_pct: 50, market_cap_inr: BIG, snowflake: {}, returns_pct: {} };
-  const r = computeV3Score({ ticker: "T", overview: ov }, {});
-  assert.equal(r.v3_breakdown.pts_fv_upside, 12); // +50% → legacy band max
+  const r = computeV4Score({ ticker: "T", overview: ov }, {});
+  assert.equal(r.v4_breakdown.pts_fv_total, 12); // +50% -> legacy band max
 });
 
 console.log(`\n=== ${ok} passed, ${fail} failed ===`);

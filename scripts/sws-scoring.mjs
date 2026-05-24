@@ -958,6 +958,7 @@ export function runFullScoring() {
     generated_at: new Date().toISOString(),
     universe_size: universe.r1m.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
+    fv_benchmark: universe.fvBenchmark,
     momentum_coverage: coverage,
     excluded_for_momentum: excludedForMomentum,
     notes:
@@ -994,6 +995,10 @@ export function rebuildUniverseStatsOnly() {
     } catch {}
   }
   const universe = buildUniverseStats(loaded);
+  universe.fvBenchmark = buildFvUpsideBenchmark(
+    loaded.map((s) => ({ upside_pct: s?.overview?.upside_pct, market_cap_inr: s?.overview?.market_cap_inr })),
+    { microCapFloorInr: 5e9 },
+  );
   const coverage = buildMomentumCoverageReport(loaded);
   const excludedForMomentum = collectExcludedForMomentum(loaded);
   // universe_size === r1m.length === r3m.length === r1y.length by construction.
@@ -1002,6 +1007,7 @@ export function rebuildUniverseStatsOnly() {
     generated_at: new Date().toISOString(),
     universe_size: universe.r1m.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
+    fv_benchmark: universe.fvBenchmark,
     momentum_coverage: coverage,
     excluded_for_momentum: excludedForMomentum,
     notes:

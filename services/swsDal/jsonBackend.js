@@ -196,7 +196,12 @@ export async function getSnapshotFvMap(tickers) {
 export function getV3UniverseStats() {
   const raw = readV3UniverseRaw();
   if (!raw) return null;
-  return { r1m: raw.r1m || [], r3m: raw.r3m || [], r1y: raw.r1y || [] };
+  return {
+    r1m: raw.r1m || [],
+    r3m: raw.r3m || [],
+    r1y: raw.r1y || [],
+    fvBenchmark: raw.fv_benchmark || raw.fvBenchmark || null,
+  };
 }
 
 // V4 rank-based verdict band cutoffs, persisted by the scorer to a dedicated

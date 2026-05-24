@@ -121,6 +121,29 @@ check("computeV4Score threads universe.fvBenchmark (relative < saturated absolut
   const absFv = computeV4Score(stock(), { surveillanceFlag: null }).v4_breakdown.pts_fv_total;
   assert.ok(relFv < absFv, `threaded relative FV (${relFv}) should sit below the saturated absolute (${absFv})`);
 });
+const JSLL_FV_BENCH = { median_slog: 2.0422336508053425, robust_sigma: 3.785644883188037, degenerate: false };
+check("JSLL-like: high upside + expensive P/E can land near 5/12", () => {
+  const fv = _fvCompositeV4({
+    upside_pct: 84.68641785302039,
+    multiples: { pe: 37.94520670342898 },
+    industry_benchmarks: { pe: 22.616750576 },
+  }, JSLL_FV_BENCH);
+  assert.equal(fv.pts_fv_total, 5);
+  assert.equal(fv.pts_fv_pe_effective, 0);
+  assert.equal(fv.fv_pe_bucket, "expensive");
+  assert.equal(fv.fv_benchmark_used, true);
+});
+check("IMFA-like: missing P/E renormalises over upside only, so it can beat JSLL FV", () => {
+  const jsll = _fvCompositeV4({
+    upside_pct: 84.68641785302039,
+    multiples: { pe: 37.94520670342898 },
+    industry_benchmarks: { pe: 22.616750576 },
+  }, JSLL_FV_BENCH);
+  const imfa = _fvCompositeV4({ upside_pct: 29.698068448227737 }, JSLL_FV_BENCH);
+  assert.equal(imfa.pts_fv_total, 6.9);
+  assert.ok(imfa.pts_fv_total > jsll.pts_fv_total);
+  assert.equal(imfa.fv_subsignals_present, 1);
+});
 
 console.log("\nmomentum 7/3/2 + imputation\n");
 check("no universe → momentum imputed at 0.5 (3.5/1.5/1.0), flagged", () => {

@@ -281,6 +281,7 @@ export function runFullScoringUS() {
     region: "US",
     universe_size: universe.r1m.length,
     counts: { r1m: universe.r1m.length, r3m: universe.r3m.length, r1y: universe.r1y.length },
+    fv_benchmark: universe.fvBenchmark,
     momentum_coverage: coverage,
     excluded_for_momentum: excludedForMomentum,
     r1m: universe.r1m,

@@ -56,8 +56,11 @@ export const V4_SCORING_VERSION = "sws-v4-100pt-2026-05";
 // absent -> neutral 6/12.
 export function _fvCompositeV4(ov, fvBenchmark = null) {
   ov = ov || {};
-  const subs = []; // { weight, fraction in [0,1] }
+  const subs = []; // { key, weight, fraction in [0,1] }
   let fv_max_inflation_haircut = false;
+  let fv_benchmark_used = false;
+  let fv_upside_relative_pts = null;
+  let fv_upside_rz = null;
 
   // --- Analyst-upside sub (weight 8) ---
   // Relative, magnitude-aware upside (adopts PR #426): score the upside against
@@ -69,13 +72,18 @@ export function _fvCompositeV4(ov, fvBenchmark = null) {
   if (upside != null) {
     let frac;
     if (fvBenchmark && !fvBenchmark.degenerate && fvBenchmark.robust_sigma > 0) {
-      frac = relativeFvPoints(upside, fvBenchmark, { maxPts: 12 }).pts / 12;
+      const rel = relativeFvPoints(upside, fvBenchmark, { maxPts: 12 });
+      frac = rel.pts / 12;
+      fv_benchmark_used = true;
+      fv_upside_relative_pts = rel.pts;
+      fv_upside_rz = rel.rz;
     } else {
       if (upside >= 30) frac = 1.0;
       else if (upside >= 15) frac = 0.75;
       else if (upside >= 0) frac = 0.5;
       else if (upside >= -10) frac = 0.25;
       else frac = 0;
+      fv_upside_relative_pts = 12 * frac;
     }
     // MAX-inflation guard: if the "consensus" FV is really the analyst-range
     // MAX with few analysts, the upside is likely one outlier target rather
@@ -89,22 +97,34 @@ export function _fvCompositeV4(ov, fvBenchmark = null) {
       frac = Math.max(0, frac - 0.25);
       fv_max_inflation_haircut = true;
     }
-    subs.push({ weight: 8, fraction: frac });
+    subs.push({ key: "upside", weight: 8, fraction: frac });
   }
 
   // --- Relative-P/E sub (weight 4) — cheap vs industry benchmark ---
   const pe = num(ov.multiples?.pe, null);
   const indPe = num(ov.industry_benchmarks?.pe, null);
+  let fv_pe_ratio = null;
+  let fv_pe_bucket = null;
   if (pe != null && pe > 0 && indPe != null && indPe > 0) {
     const ratio = pe / indPe;
     let frac;
-    if (ratio <= 0.8) frac = 1.0;      // meaningfully cheaper than industry
-    else if (ratio <= 1.2) frac = 0.5; // in-line
-    else frac = 0;                     // expensive
-    subs.push({ weight: 4, fraction: frac });
+    if (ratio <= 0.8) {
+      frac = 1.0;      // meaningfully cheaper than industry
+      fv_pe_bucket = "cheap";
+    } else if (ratio <= 1.2) {
+      frac = 0.5; // in-line
+      fv_pe_bucket = "inline";
+    } else {
+      frac = 0;                     // expensive
+      fv_pe_bucket = "expensive";
+    }
+    fv_pe_ratio = ratio;
+    subs.push({ key: "pe", weight: 4, fraction: frac });
   }
 
   let pts_fv_total, fv_imputed;
+  let pts_fv_upside_effective = null;
+  let pts_fv_pe_effective = null;
   if (subs.length === 0) {
     pts_fv_total = 6; // no value signal at all -> neutral
     fv_imputed = true;
@@ -112,14 +132,28 @@ export function _fvCompositeV4(ov, fvBenchmark = null) {
     const wsum = subs.reduce((a, s) => a + s.weight, 0);
     const fsum = subs.reduce((a, s) => a + s.weight * s.fraction, 0);
     pts_fv_total = 12 * (fsum / wsum);
+    const upsideSub = subs.find((s) => s.key === "upside");
+    const peSub = subs.find((s) => s.key === "pe");
+    if (upsideSub) pts_fv_upside_effective = 12 * ((upsideSub.weight * upsideSub.fraction) / wsum);
+    if (peSub) pts_fv_pe_effective = 12 * ((peSub.weight * peSub.fraction) / wsum);
     fv_imputed = false;
   }
 
+  const r1 = (v) => v == null || !Number.isFinite(v) ? null : Math.round(v * 10) / 10;
+  const r3 = (v) => v == null || !Number.isFinite(v) ? null : Math.round(v * 1000) / 1000;
+
   return {
-    pts_fv_total: Math.round(pts_fv_total * 10) / 10,
+    pts_fv_total: r1(pts_fv_total),
     fv_imputed,
     fv_max_inflation_haircut,
     fv_subsignals_present: subs.length,
+    fv_benchmark_used,
+    pts_fv_upside_effective: r1(pts_fv_upside_effective),
+    pts_fv_pe_effective: r1(pts_fv_pe_effective),
+    fv_upside_relative_pts: r1(fv_upside_relative_pts),
+    fv_upside_rz: r3(fv_upside_rz),
+    fv_pe_ratio: r3(fv_pe_ratio),
+    fv_pe_bucket,
   };
 }
 
@@ -202,6 +236,13 @@ export function computeV4Score(stock, opts = {}) {
       fv_imputed: fv.fv_imputed,
       fv_max_inflation_haircut: fv.fv_max_inflation_haircut,
       fv_subsignals_present: fv.fv_subsignals_present,
+      fv_benchmark_used: fv.fv_benchmark_used,
+      pts_fv_upside_effective: fv.pts_fv_upside_effective,
+      pts_fv_pe_effective: fv.pts_fv_pe_effective,
+      fv_upside_relative_pts: fv.fv_upside_relative_pts,
+      fv_upside_rz: fv.fv_upside_rz,
+      fv_pe_ratio: fv.fv_pe_ratio,
+      fv_pe_bucket: fv.fv_pe_bucket,
       pts_mom_1y: Math.round(pts_mom_1y * 10) / 10,
       pts_mom_3m: Math.round(pts_mom_3m * 10) / 10,
       pts_mom_1m: Math.round(pts_mom_1m * 10) / 10,
