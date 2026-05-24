@@ -3,7 +3,7 @@
   "name": "Finolex Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-finpipe/finolex-industries-shares",
-  "parsed_at": "2026-05-22T15:40:13.906Z",
+  "parsed_at": "2026-05-24T14:11:11.278Z",
   "company_id": "FF933323-11C8-4FCC-ACB0-AB7EB37AC0E8",
   "classification_status": "Active",
   "overview": {
@@ -21,22 +21,30 @@
     },
     "snowflake_total": 13,
     "current_price_inr": 173.11,
-    "market_cap_inr": 104593980169,
-    "market_cap_usd": 121655406953.353,
+    "market_cap_inr": 107036320094,
+    "market_cap_usd": 123377158243.857,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 618313905,
     "fair_value_inr": 200.57143,
     "fair_value_range_inr": {
-      "min": 80.334247,
+      "min": 80.28042,
       "max": 200.63,
       "count": 12
     },
     "upside_pct": 15.863572295072483,
     "multiples": {
-      "pe": 21.30627228826363,
-      "ps": 2.633706845236896,
+      "pe": 21.37,
+      "ps": 2.695205674982877,
       "pb": null,
       "ev_ebitda": null
+    },
+    "multiples_meta": {
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
+      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_basis": "trailing_ttm",
+      "pe_source_url": "https://groww.in/stocks/finolex-industries-ltd"
     },
     "rewards": [
       "Trading below our calculated fair Price-To-Earnings ratio",
@@ -141,8 +149,8 @@
           "divAmount": 2,
           "divAmountListingCurrency": 2,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Annual",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 2,
           "annualizedDividendListingCurrency": 2,
           "annualizedYield": 1.1789106733
@@ -154,8 +162,8 @@
           "divAmount": 2,
           "divAmountListingCurrency": 2,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Annual",
           "annualizedDividend": 2,
           "annualizedDividendListingCurrency": 2,
           "annualizedYield": 1.1789106733
@@ -218,9 +226,73 @@
     "dividend_yield_pct": 1.1396041363,
     "net_margin_pct": 12.649822730752186,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 30.251114573,
-      "net_income_margin_1y": 0.09570960652,
-      "pe": 19.134973953
+      "future_revenue_growth_3y": 32.762724863,
+      "net_income_margin_1y": 0.09543917391,
+      "pe": 39.75406581907038
+    },
+    "industry_benchmarks_meta": {
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_basis": "provider_per_stock_benchmark",
+      "pe_industry_name": "Plastic products",
+      "pe_industry_id": 48,
+      "pe_source_url": "https://groww.in/stocks/finolex-industries-ltd"
+    },
+    "pe_benchmark_source": {
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
+      "company_pe": 21.37,
+      "industry_pe": 39.75406581907038,
+      "industry_name": "Plastic products",
+      "industry_id": 48,
+      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "url": "https://groww.in/stocks/finolex-industries-ltd",
+      "search_id": "finolex-industries-ltd"
+    },
+    "pe_benchmark_audit": {
+      "groww_refinitiv": {
+        "company_pe": 21.37,
+        "industry_pe": 39.75406581907038,
+        "industry_name": "Plastic products",
+        "industry_id": 48,
+        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "url": "https://groww.in/stocks/finolex-industries-ltd"
+      },
+      "sws_statement": {
+        "company_pe": 21.3,
+        "industry_pe": 21.9,
+        "industry_name": "Indian Chemicals",
+        "description": "FINPIPE is good value based on its Price-To-Earnings Ratio (21.3x) compared to the Indian Chemicals industry average (21.9x).",
+        "title": "Price-To-Earnings vs Industry",
+        "name": "IsGoodValueComparingPreferredMultipleToIndustry"
+      },
+      "sws_industry_api": {
+        "industry_pe": 21.944898387,
+        "industry_code": "2020000",
+        "type": "median_profitable",
+        "count": 303,
+        "source": {
+          "type": "country",
+          "country": "IN",
+          "industry": 2020000,
+          "name": "India"
+        }
+      },
+      "internal_median": {
+        "industry_pe": 21.05,
+        "sample_count": 296,
+        "industry_code": "2020000",
+        "industry_name": "Materials"
+      },
+      "sws_primary_industry": {
+        "industry_pe": 19.27182584,
+        "industry_name": "Materials",
+        "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
+      },
+      "sws_computed": {
+        "company_pe": 21.30627228826363
+      }
     },
     "earnings_growth_yoy_pct": -37.20610477107108,
     "forward_earnings_growth_pct": null,
@@ -235,7 +307,7 @@
       "1M": -2.7963389297546124,
       "3M": -8.836694928642885,
       "6M": -5.311235094628586,
-      "1Y": -11.56125472565648,
+      "1Y": -22.549326652051352,
       "5Y": null
     },
     "next_earnings_date": "2026-05-26",
@@ -440,8 +512,8 @@
         "divAmount": 2,
         "divAmountListingCurrency": 2,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Annual",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 2,
         "annualizedDividendListingCurrency": 2,
         "annualizedYield": 1.1789106733
@@ -453,8 +525,8 @@
         "divAmount": 2,
         "divAmountListingCurrency": 2,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Annual",
         "annualizedDividend": 2,
         "annualizedDividendListingCurrency": 2,
         "annualizedYield": 1.1789106733

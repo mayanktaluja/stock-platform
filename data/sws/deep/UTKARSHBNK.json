@@ -3,7 +3,7 @@
   "name": "Utkarsh Small Finance Bank Limited",
   "sector": "Banks",
   "sws_url": "https://simplywall.st/stocks/in/banks/nse-utkarshbnk/utkarsh-small-finance-bank-shares",
-  "parsed_at": "2026-05-22T15:46:54.723Z",
+  "parsed_at": "2026-05-24T14:19:40.677Z",
   "company_id": "445C9DC4-3A34-4877-91B8-45F36A7AD85C",
   "classification_status": "Active",
   "overview": {
@@ -22,7 +22,7 @@
     "snowflake_total": 13,
     "current_price_inr": 13.21,
     "market_cap_inr": 23507507865,
-    "market_cap_usd": 121655406953.353,
+    "market_cap_usd": 123377158243.857,
     "market_cap_band": "micro2",
     "shares_outstanding": 1779523684,
     "fair_value_inr": 25.5,
@@ -38,11 +38,19 @@
       "pb": null,
       "ev_ebitda": null
     },
+    "multiples_meta": {
+      "pe_source": "degraded",
+      "pe_source_label": "No usable P/E benchmark",
+      "pe_source_text": null,
+      "pe_as_of": null,
+      "pe_basis": "trailing_ttm",
+      "pe_source_url": null
+    },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Book ratio",
       "Trading at good value vs. industry average Price-To-Book ratio",
       "Earnings are forecast to grow 92.3% per year",
-      "Trading at 33.1% below our estimate of its fair value"
+      "Trading at 32.9% below our estimate of its fair value"
     ],
     "risks": [
       "Shareholders have been substantially diluted in the past year"
@@ -72,9 +80,68 @@
     "dividend_yield_pct": null,
     "net_margin_pct": 1.3211537054001628e-8,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 0.2708650594,
-      "net_income_margin_1y": 0.3177821454,
-      "pe": 10.968718155
+      "future_revenue_growth_3y": 0.2733894682,
+      "net_income_margin_1y": 0.317409376
+    },
+    "industry_benchmarks_meta": {
+      "pe_source": "degraded",
+      "pe_source_label": "No usable P/E benchmark",
+      "pe_as_of": null,
+      "pe_basis": "provider_per_stock_benchmark",
+      "pe_industry_name": null,
+      "pe_industry_id": null,
+      "pe_source_url": null
+    },
+    "pe_benchmark_source": {
+      "provider": "degraded",
+      "label": "No usable P/E benchmark",
+      "company_pe": null,
+      "industry_pe": null,
+      "reason": "groww_sws_and_internal_benchmarks_missing"
+    },
+    "pe_benchmark_audit": {
+      "groww_refinitiv": {
+        "company_pe": null,
+        "industry_pe": 13.201131047130747,
+        "industry_name": "Banks",
+        "industry_id": 6,
+        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "url": "https://groww.in/stocks/utkarsh-small-finance-bank-ltd"
+      },
+      "sws_statement": {
+        "company_pe": null,
+        "industry_pe": 1.2,
+        "industry_name": "Indian Banks",
+        "description": "UTKARSHBNK is good value based on its Price-To-Book Ratio (0.8x) compared to the Indian Banks industry average (1.2x).",
+        "title": "Price-To-Book vs Industry",
+        "name": "IsGoodValueComparingPreferredMultipleToIndustry"
+      },
+      "sws_industry_api": {
+        "industry_pe": 11.244494081,
+        "industry_code": "7011000",
+        "type": "median_profitable",
+        "count": 39,
+        "source": {
+          "type": "country",
+          "country": "IN",
+          "industry": 7011000,
+          "name": "India"
+        }
+      },
+      "internal_median": {
+        "industry_pe": 11.149999999999999,
+        "sample_count": 40,
+        "industry_code": "7011000",
+        "industry_name": "Banks"
+      },
+      "sws_primary_industry": {
+        "industry_pe": 10.994162263,
+        "industry_name": "Banks",
+        "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
+      },
+      "sws_computed": {
+        "company_pe": null
+      }
     },
     "earnings_growth_yoy_pct": -99.99999994456437,
     "forward_earnings_growth_pct": null,
@@ -283,16 +350,6 @@
       "date": "2025-11-28T11:38:03.000Z",
       "title": "Now 21% undervalued after recent price drop",
       "body": "Over the last 90 days, the stock has fallen 22% to ₹16.31. The fair value is estimated to be ₹20.57, however this is not to be taken as a buy recommendation but rather should be used as a guide only. Revenue has been flat over the last 3 years. Meanwhile, the company became loss making. Revenue is forecast to grow by 230% in a year. Earnings are forecast to grow by 54% in the next year.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "3143f976-ad12-488e-b113-3416db1f88b1",
-      "type": "brief",
-      "date": "2025-11-24T17:28:38.000Z",
-      "title": "New major risk - Shareholder dilution",
-      "body": "The company's shareholders have been substantially diluted in the past year. Increase in shares outstanding: 62% This is considered a major risk. Shareholder dilution occurs when there is an increase in the number of shares on issue that is not proportionally distributed between all shareholders. Often due to the company raising equity capital or some options being converted into stock. All else being equal, if there are more shares outstanding then each existing share will be entitled to a lower proportion of the company's total earnings, thus reducing earnings per share (EPS). While dilution might not always result in lower EPS (like if the company is using the capital to fund an EPS accretive acquisition) in a lot cases it does, along with lower dividends per share and less voting power",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

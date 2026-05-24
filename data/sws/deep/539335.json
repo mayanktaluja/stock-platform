@@ -3,7 +3,7 @@
   "name": "Callista Industries Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-539335/callista-industries-shares",
-  "parsed_at": "2026-05-22T15:42:30.630Z",
+  "parsed_at": "2026-05-24T14:16:03.503Z",
   "company_id": "4AA5CE1E-FA87-45B6-9C8A-2C6AB93ECDE9",
   "classification_status": "Active",
   "overview": {
@@ -22,7 +22,7 @@
     "snowflake_total": 2,
     "current_price_inr": 154.9,
     "market_cap_inr": 471916515.26681906,
-    "market_cap_usd": 121655406953.353,
+    "market_cap_usd": 123377158243.857,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fair_value_inr": null,
@@ -38,11 +38,19 @@
       "pb": null,
       "ev_ebitda": null
     },
+    "multiples_meta": {
+      "pe_source": "degraded",
+      "pe_source_label": "No usable P/E benchmark",
+      "pe_source_text": null,
+      "pe_as_of": null,
+      "pe_basis": "trailing_ttm",
+      "pe_source_url": null
+    },
     "rewards": [],
     "risks": [
       "Makes less than USD$1m in revenue (₹1M)",
       "Earnings have declined by 65% per year over past 5 years",
-      "Does not have a meaningful market cap (₹463M)",
+      "Does not have a meaningful market cap (₹472M)",
       "Negative shareholders equity"
     ],
     "dividend": {
@@ -56,6 +64,62 @@
     "dividend_yield_pct": null,
     "net_margin_pct": null,
     "industry_benchmarks": null,
+    "industry_benchmarks_meta": {
+      "pe_source": "degraded",
+      "pe_source_label": "No usable P/E benchmark",
+      "pe_as_of": null,
+      "pe_basis": "provider_per_stock_benchmark",
+      "pe_industry_name": null,
+      "pe_industry_id": null,
+      "pe_source_url": null
+    },
+    "pe_benchmark_source": {
+      "provider": "degraded",
+      "label": "No usable P/E benchmark",
+      "company_pe": null,
+      "industry_pe": null,
+      "reason": "groww_sws_and_internal_benchmarks_missing"
+    },
+    "pe_benchmark_audit": {
+      "groww_refinitiv": {
+        "company_pe": null,
+        "industry_pe": 74.71695232760163,
+        "industry_name": "Trading",
+        "industry_id": 64,
+        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "url": "https://groww.in/stocks/chpl-industries-ltd"
+      },
+      "sws_statement": {
+        "company_pe": null,
+        "industry_pe": 1.2,
+        "industry_name": "Indian Retail Distributors",
+        "description": "539335 has negative equity and a Price-To-Book Ratio (-54.9x) compared to the Indian Retail Distributors industry average (1.2x).",
+        "title": "Price-To-Book vs Industry",
+        "name": "IsGoodValueComparingPreferredMultipleToIndustry"
+      },
+      "sws_industry_api": {
+        "industry_pe": 25.348366834,
+        "industry_code": "4410000",
+        "type": "median_profitable",
+        "count": 71,
+        "source": {
+          "type": "country",
+          "country": "IN",
+          "industry": 4410000,
+          "name": "India"
+        }
+      },
+      "internal_median": {
+        "industry_pe": 18.6,
+        "sample_count": 64,
+        "industry_code": "4410000",
+        "industry_name": "Retail"
+      },
+      "sws_primary_industry": null,
+      "sws_computed": {
+        "company_pe": null
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
@@ -73,7 +137,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 0,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -172,6 +236,16 @@
   ],
   "news": [
     {
+      "id": "0dcbcc40-aeef-4307-9d7d-0417580f596c",
+      "type": "event",
+      "date": "2026-05-22T12:44:00.000Z",
+      "title": "Callista Industries Limited to Report Q4, 2026 Results on May 28, 2026",
+      "body": "Callista Industries Limited announced that they will report Q4, 2026 results on May 28, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
       "id": "4d8d4c3b-2e69-4a5f-bb63-e11722668526",
       "type": "event",
       "date": "2026-02-07T10:28:00.000Z",
@@ -190,16 +264,6 @@
       "keyDevTypeId": "16",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "24625dd0-7765-41cb-bb25-0e8bcd435e47",
-      "type": "brief",
-      "date": "2025-11-24T07:37:20.000Z",
-      "title": "New major risk - Negative shareholders equity",
-      "body": "The company has negative equity. Total equity: -₹8.6m This is considered a major risk. Being in negative equity means that the company's liabilities exceed its assets, meaning it owes more to creditors than it has in owned assets. While this doesn't mean the company is about to collapse, in the long-term, this is unsustainable. The company may have issues meeting financial obligations, is at risk of becoming insolvent and may have difficulty raising capital, especially more debt, if needed. Currently, the following risks have been identified for the company: Major Risks Negative equity (-₹8.6m). Earnings have declined by 58% per year over the past 5 years. Revenue is less than US$1m. Market cap is less than US$10m (₹217.8m market cap, or US$2.43m).",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/539335.json"

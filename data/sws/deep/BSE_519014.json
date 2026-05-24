@@ -3,7 +3,7 @@
   "name": "Prashant India Ltd.",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-519014/prashant-india-shares",
-  "parsed_at": "2026-05-22T14:14:14.837Z",
+  "parsed_at": "2026-05-24T12:54:56.799Z",
   "company_id": "6B26EBA9-1577-4750-BFB6-64B44606670D",
   "classification_status": "Active",
   "overview": {
@@ -22,7 +22,7 @@
     "snowflake_total": 7,
     "current_price_inr": 21,
     "market_cap_inr": 88944304.03528468,
-    "market_cap_usd": 121655406953.353,
+    "market_cap_usd": 123377158243.857,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fair_value_inr": 831.621456,
@@ -33,10 +33,18 @@
     },
     "upside_pct": 3860.1021714285716,
     "multiples": {
-      "pe": null,
+      "pe": 1.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
+    },
+    "multiples_meta": {
+      "pe_source": "sws_statement",
+      "pe_source_label": "SWS visible statement",
+      "pe_source_text": null,
+      "pe_as_of": null,
+      "pe_basis": "trailing_ttm",
+      "pe_source_url": null
     },
     "rewards": [
       "Became profitable this year",
@@ -49,7 +57,6 @@
       "High level of [[non-cash earnings]]",
       "Does not have a meaningful market cap (₹89M)",
       "Negative shareholders equity",
-      "Highly volatile share price over past 3 months",
       "Makes less than USD$1m in revenue (₹360K)"
     ],
     "dividend": {
@@ -62,7 +69,58 @@
     },
     "dividend_yield_pct": null,
     "net_margin_pct": null,
-    "industry_benchmarks": null,
+    "industry_benchmarks": {
+      "pe": 18.8
+    },
+    "industry_benchmarks_meta": {
+      "pe_source": "sws_statement",
+      "pe_source_label": "SWS visible statement",
+      "pe_as_of": null,
+      "pe_basis": "provider_per_stock_benchmark",
+      "pe_industry_name": "Indian Luxury",
+      "pe_industry_id": null,
+      "pe_source_url": null
+    },
+    "pe_benchmark_source": {
+      "provider": "sws_statement",
+      "label": "SWS visible statement",
+      "company_pe": 1.2,
+      "industry_pe": 18.8,
+      "industry_name": "Indian Luxury"
+    },
+    "pe_benchmark_audit": {
+      "groww_refinitiv": null,
+      "sws_statement": {
+        "company_pe": 1.2,
+        "industry_pe": 18.8,
+        "industry_name": "Indian Luxury",
+        "description": "519014 is good value based on its Price-To-Earnings Ratio (1.2x) compared to the Indian Luxury industry average (18.8x).",
+        "title": "Price-To-Earnings vs Industry",
+        "name": "IsGoodValueComparingPreferredMultipleToIndustry"
+      },
+      "sws_industry_api": {
+        "industry_pe": 18.2217651,
+        "industry_code": "4130000",
+        "type": "median_profitable",
+        "count": 296,
+        "source": {
+          "type": "country",
+          "country": "IN",
+          "industry": 4130000,
+          "name": "India"
+        }
+      },
+      "internal_median": {
+        "industry_pe": 16.5,
+        "sample_count": 295,
+        "industry_code": "4130000",
+        "industry_name": "Consumer Durables"
+      },
+      "sws_primary_industry": null,
+      "sws_computed": {
+        "company_pe": null
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
@@ -80,7 +138,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 0,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -169,6 +227,16 @@
   ],
   "news": [
     {
+      "id": "b2e4ccc0-238d-4830-a183-8c03034ce4a6",
+      "type": "event",
+      "date": "2026-05-22T12:42:00.000Z",
+      "title": "Prashant India Ltd. to Report Q4, 2026 Results on May 30, 2026",
+      "body": "Prashant India Ltd. announced that they will report Q4, 2026 results at 12:15 PM, Indian Standard Time on May 30, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
       "id": "4227afad-7ed4-4d94-b4ab-e87c9601e097",
       "type": "brief",
       "date": "2026-02-13T11:49:07.000Z",
@@ -187,16 +255,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "caf20d35-ea25-4201-8b4c-dcf70b7280f5",
-      "type": "brief",
-      "date": "2025-11-24T08:17:02.000Z",
-      "title": "New minor risk - Financial position",
-      "body": "The company has negative equity. Total equity: -₹232m This is considered a minor risk. Being in negative equity means that the company's liabilities exceed its assets, meaning it owes more to creditors than it has in owned assets. While this doesn't mean the company is about to collapse, in the long-term, this is unsustainable. The company may have issues meeting financial obligations, is at risk of becoming insolvent and may have difficulty raising capital, especially more debt, if needed. It should be noted that some of the negative equity could be due to large buybacks of stock, which is not as much of a risk as a company with overwhelming debt, but likewise is not sustainable in the long-term. Currently, the following risks have been identified for the company: Major Risks Shares are h",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/BSE_519014.json"
