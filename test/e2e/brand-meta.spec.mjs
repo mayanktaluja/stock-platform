@@ -14,7 +14,7 @@ import { test, expect } from "@playwright/test";
 const SHARED_OG = {
   "og:type": /^(website|article)$/,
   "og:site_name": "Starbhai",
-  "og:image": "https://stock-platform-gamma.vercel.app/og-image.jpg",
+  "og:image": "https://stocks.starbhai.com/og-image.jpg",
   "og:image:width": "1200",
   "og:image:height": "630",
   "og:image:type": "image/jpeg",
@@ -22,7 +22,7 @@ const SHARED_OG = {
 
 const SHARED_TWITTER = {
   "twitter:card": "summary_large_image",
-  "twitter:image": "https://stock-platform-gamma.vercel.app/og-image.jpg",
+  "twitter:image": "https://stocks.starbhai.com/og-image.jpg",
 };
 
 const SHARED_THEME = {
@@ -36,31 +36,36 @@ const PAGES = [
   {
     name: "main app shell",
     url: "/index.html",
-    expectOgUrl: "https://stock-platform-gamma.vercel.app/",
-    expectOgTitle: /Starbhai/,
+    expectTitle: "SWS Picks — Starbhai · Stock Intelligence",
+    expectOgUrl: "https://stocks.starbhai.com/",
+    expectOgTitle: /Starbhai · Stock Intelligence/,
   },
   {
     name: "login (signed-out)",
     url: "/login.html",
-    expectOgUrl: "https://stock-platform-gamma.vercel.app/login.html",
-    expectOgTitle: /Starbhai/,
+    expectTitle: "Starbhai · Stock Intelligence",
+    expectOgUrl: "https://stocks.starbhai.com/login.html",
+    expectOgTitle: /Starbhai · Stock Intelligence/,
   },
   {
     name: "methodology",
     url: "/methodology",
-    expectOgUrl: "https://stock-platform-gamma.vercel.app/methodology.html",
+    expectTitle: "Methodology — Starbhai · Stock Intelligence",
+    expectOgUrl: "https://stocks.starbhai.com/methodology.html",
     expectOgTitle: /Methodology/,
   },
   {
     name: "charter",
     url: "/legal/charter",
-    expectOgUrl: "https://stock-platform-gamma.vercel.app/legal/charter",
+    expectTitle: "Investor Charter — Starbhai · Stock Intelligence",
+    expectOgUrl: "https://stocks.starbhai.com/legal/charter",
     expectOgTitle: /Charter/,
   },
   {
     name: "grievance",
     url: "/legal/grievance",
-    expectOgUrl: "https://stock-platform-gamma.vercel.app/legal/grievance",
+    expectTitle: "Grievance Procedure — Starbhai · Stock Intelligence",
+    expectOgUrl: "https://stocks.starbhai.com/legal/grievance",
     expectOgTitle: /Grievance/,
   },
 ];
@@ -89,6 +94,7 @@ test.describe("PR #1 brand metadata", () => {
       await page.goto(p.url, { waitUntil: "domcontentloaded" });
 
       // Per-page assertions
+      expect(await page.title()).toBe(p.expectTitle);
       expect(await getMeta(page, "property", "og:url")).toBe(p.expectOgUrl);
       expect(await getMeta(page, "property", "og:title")).toMatch(
         p.expectOgTitle,

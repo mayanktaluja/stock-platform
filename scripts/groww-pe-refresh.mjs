@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 /**
- * Weekly Groww/Refinitiv P/E cache for the SWS FV relative-P/E leg.
+ * Groww/Refinitiv stock fundamentals cache for the SWS India pipeline.
  *
  * Groww's stock pages expose Refinitiv-backed fundamentals in __NEXT_DATA__:
- *   props.pageProps.stockData.header / stockData.stats
+ *   props.pageProps.stockData.{header,stats,priceData,financialStatementV2,...}
  *
- * The SWS nightly calls this script before parsing raw SWS API payloads. The
- * script is TTL-gated by default, so twice-daily SWS runs reuse the last good
- * Groww snapshot unless it is older than --max-age-days.
+ * The SWS nightly calls this script before parsing raw SWS API payloads. It
+ * writes the canonical rich cache plus a legacy groww-pe-latest.json alias
+ * from the same network pass so the relative-P/E scorer cannot diverge during
+ * migration.
  */
 
 import fs from "node:fs";
@@ -17,8 +18,11 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
 
-export const DEFAULT_CACHE_PATH = path.join(REPO_ROOT, "data/sws/groww-pe-latest.json");
-export const DEFAULT_FAILURE_PATH = path.join(REPO_ROOT, "data/sws/groww-pe-failed.json");
+export const DEFAULT_STOCK_CACHE_PATH = path.join(REPO_ROOT, "data/sws/groww-stock-latest.json");
+export const DEFAULT_PE_CACHE_PATH = path.join(REPO_ROOT, "data/sws/groww-pe-latest.json");
+export const DEFAULT_CACHE_PATH = DEFAULT_STOCK_CACHE_PATH;
+export const DEFAULT_FAILURE_PATH = path.join(REPO_ROOT, "data/sws/groww-stock-failed.json");
+export const DEFAULT_PE_FAILURE_PATH = path.join(REPO_ROOT, "data/sws/groww-pe-failed.json");
 const DEFAULT_UNIVERSE_PATH = path.join(REPO_ROOT, "data/sws/universe.json");
 const BASE_URL = "https://groww.in";
 const FILTER_URL = `${BASE_URL}/stocks/filter`;
@@ -50,6 +54,33 @@ function sanePe(value) {
   return n != null && n > 0 && n < 500 ? n : null;
 }
 
+function saneNumber(value, { min = -Infinity, max = Infinity, inclusiveMin = true } = {}) {
+  const n = asNumber(value);
+  if (n == null) return null;
+  if (inclusiveMin ? n < min : n <= min) return null;
+  if (n > max) return null;
+  return n;
+}
+
+function marketCapCrToInr(value) {
+  const n = saneNumber(value, { min: 0, inclusiveMin: false });
+  return n == null ? null : Math.round(n * 1e7);
+}
+
+function percentRatio(value) {
+  const n = saneNumber(value, { min: 0, max: 100 });
+  return n == null ? null : n;
+}
+
+function debtRatioToPct(value) {
+  const n = saneNumber(value, { min: 0, max: 20 });
+  return n == null ? null : n * 100;
+}
+
+function ratio(value, max = 1000) {
+  return saneNumber(value, { min: 0, max });
+}
+
 export function normalizeTicker(value) {
   if (value == null) return null;
   const t = String(value).trim().toUpperCase();
@@ -72,14 +103,124 @@ function extractNextData(html) {
   }
 }
 
+function pickLiveQuote(pageProps, header) {
+  const live = pageProps?.livePriceData || {};
+  const keys = [
+    header?.nseScriptCode,
+    header?.bseScriptCode,
+    header?.nseTradingSymbol,
+    header?.bseTradingSymbol,
+  ].map(normalizeTicker).filter(Boolean);
+  for (const key of keys) {
+    const quote = live[key];
+    if (quote && typeof quote === "object") return quote;
+  }
+  return null;
+}
+
+function pickPriceData(stockData, header) {
+  const hasNse = !!header?.nseScriptCode;
+  const hasBse = !!header?.bseScriptCode;
+  if (hasNse && stockData?.priceData?.nse) return stockData.priceData.nse;
+  if (hasBse && stockData?.priceData?.bse) return stockData.priceData.bse;
+  return stockData?.priceData?.nse || stockData?.priceData?.bse || null;
+}
+
+function latestShareholding(pattern) {
+  if (!pattern || typeof pattern !== "object") return null;
+  const entries = Object.entries(pattern)
+    .map(([label, value]) => ({ label, value }))
+    .filter((entry) => entry.value && typeof entry.value === "object");
+  if (!entries.length) return null;
+  const latest = entries[entries.length - 1];
+  const row = latest.value;
+  const promoterPct =
+    asNumber(row.promoters?.individual?.percent) +
+    asNumber(row.promoters?.government?.percent) +
+    asNumber(row.promoters?.corporation?.percent);
+  const insurancePct = asNumber(row.otherDomesticInstitutions?.insurance?.percent);
+  const otherDomesticPct = asNumber(row.otherDomesticInstitutions?.otherFirms?.percent);
+  return {
+    period: latest.label,
+    promoter_pct: Number.isFinite(promoterPct) ? promoterPct : null,
+    mutual_fund_pct: asNumber(row.mutualFunds?.percent),
+    fii_pct: asNumber(row.foreignInstitutions?.percent),
+    insurance_pct: insurancePct,
+    other_domestic_institution_pct: otherDomesticPct,
+    retail_pct: asNumber(row.retailAndOthers?.percent),
+  };
+}
+
+function shapeFinancials(stockData) {
+  const v2 = stockData?.financialStatementV2 || {};
+  const primary = v2.CONSOLIDATED || v2.STANDALONE || stockData?.financialStatement || null;
+  if (!Array.isArray(primary)) return null;
+  const out = {
+    basis: v2.CONSOLIDATED ? "CONSOLIDATED" : (v2.STANDALONE ? "STANDALONE" : "UNKNOWN"),
+    yearly: {},
+    quarterly: {},
+  };
+  for (const row of primary) {
+    const title = String(row?.title || "").trim().toLowerCase().replace(/\s+/g, "_");
+    if (!title) continue;
+    if (row.yearly && typeof row.yearly === "object") out.yearly[title] = row.yearly;
+    if (row.quarterly && typeof row.quarterly === "object") out.quarterly[title] = row.quarterly;
+  }
+  return out;
+}
+
+function shapeNews(newsData) {
+  const rows = Array.isArray(newsData) ? newsData : [];
+  return rows.slice(0, 2).map((n) => ({
+    id: n.id != null ? String(n.id) : null,
+    title: typeof n.title === "string" ? n.title.slice(0, 320) : null,
+    url: n.url || null,
+    source: n.source || null,
+    published_at: toIso(n.pubDate) || null,
+  })).filter((n) => n.title || n.summary);
+}
+
+function shapeEvents(eventsData) {
+  const rows = Array.isArray(eventsData) ? eventsData : [];
+  return rows.slice(0, 5).map((e) => ({
+    title: e.eventTitle || null,
+    type: e.corporateEventFilter || e.eventTitle || null,
+    status: e.eventType || null,
+    primary_date: toIso(e.primaryDate) || null,
+    announcement_date: toIso(e.announcementDate) || null,
+    ex_date: toIso(e.exDate) || null,
+    record_date: toIso(e.recordDate) || null,
+    value: e.eventDetail?.value || null,
+  })).filter((e) => e.title || e.type);
+}
+
+function shapePeers(similarAssets) {
+  const rows = Array.isArray(similarAssets?.peerList) ? similarAssets.peerList : [];
+  return rows.slice(0, 3).map((p) => ({
+    ticker: normalizeTicker(p.companyHeader?.nseScriptCode || p.companyHeader?.bseScriptCode),
+    name: p.companyHeader?.displayName || p.companyHeader?.shortName || null,
+    searchId: p.companyHeader?.searchId || null,
+    market_cap_inr: marketCapCrToInr(p.marketCap),
+    pe: sanePe(p.peRatio),
+    pb: ratio(p.pbRatio, 100),
+  })).filter((p) => p.ticker || p.name);
+}
+
 export function parseGrowwNextData(html, url = null, fetchedAt = new Date().toISOString()) {
   const next = extractNextData(html);
-  const stockData = next?.props?.pageProps?.stockData;
+  const pageProps = next?.props?.pageProps || {};
+  const stockData = pageProps.stockData;
   const header = stockData?.header || {};
   const stats = stockData?.stats || {};
+  const quote = pickLiveQuote(pageProps, header);
+  const priceData = pickPriceData(stockData, header);
   const peRatio = sanePe(stats.peRatio);
   const industryPe = sanePe(stats.industryPe ?? stats.sectorPe);
   const sectorPe = sanePe(stats.sectorPe);
+  const currentPriceInr = saneNumber(quote?.ltp ?? quote?.close, { min: 0, inclusiveMin: false });
+  const yearLow = saneNumber(quote?.yearLowPrice ?? priceData?.yearLowPrice, { min: 0, inclusiveMin: false });
+  const yearHigh = saneNumber(quote?.yearHighPrice ?? priceData?.yearHighPrice, { min: 0, inclusiveMin: false });
+  const shareholding = latestShareholding(stockData?.shareHoldingPattern);
 
   return {
     searchId: header.searchId || null,
@@ -89,10 +230,58 @@ export function parseGrowwNextData(html, url = null, fetchedAt = new Date().toIS
     industryName: header.industryName || null,
     nseScriptCode: header.nseScriptCode || null,
     bseScriptCode: header.bseScriptCode != null ? String(header.bseScriptCode) : null,
+    name: header.displayName || header.shortName || stockData?.details?.fullName || null,
+    details: stockData?.details ? {
+      fullName: stockData.details.fullName || null,
+      parentCompany: stockData.details.parentCompany || null,
+      headquarters: stockData.details.headquarters || null,
+      ceo: stockData.details.ceo || null,
+      managingDirector: stockData.details.managingDirector || null,
+      foundedYear: stockData.details.foundedYear ?? null,
+      websiteUrl: stockData.details.websiteUrl || null,
+    } : null,
+    currentPriceInr,
+    previousCloseInr: saneNumber(quote?.close, { min: 0, inclusiveMin: false }),
+    dayChangePct: saneNumber(quote?.dayChangePerc, { min: -100, max: 1000 }),
+    volume: saneNumber(quote?.volume, { min: 0 }),
+    marketCapInr: marketCapCrToInr(stats.marketCap),
+    marketCapCr: saneNumber(stats.marketCap, { min: 0, inclusiveMin: false }),
+    fiftyTwoWeek: (yearLow != null || yearHigh != null) ? { low: yearLow, high: yearHigh } : null,
     peRatio,
     epsTtm: asNumber(stats.epsTtm),
+    pbRatio: ratio(stats.pbRatio, 100),
+    psRatio: ratio(stats.priceToSales, 100),
+    evToEbitda: ratio(stats.evToEbitda, 500),
+    evToSales: ratio(stats.evToSales, 500),
+    pegRatio: saneNumber(stats.pegRatio, { min: -500, max: 500 }),
+    bookValue: saneNumber(stats.bookValue),
+    faceValue: saneNumber(stats.faceValue, { min: 0 }),
     industryPe,
     sectorPe,
+    sectorPb: ratio(stats.sectorPb, 100),
+    sectorRoePct: percentRatio(stats.sectorRoe),
+    sectorRocePct: percentRatio(stats.sectorRoce),
+    dividendYieldPct: percentRatio(stats.dividendYieldInPercent ?? stats.divYield),
+    roePct: percentRatio(stats.roe ?? stats.returnOnEquity),
+    roaPct: percentRatio(stats.returnOnAssets),
+    rocePct: null,
+    roicPct: percentRatio(stats.roic),
+    netMarginPct: percentRatio(stats.netProfitMargin),
+    operatingMarginPct: percentRatio(stats.operatingProfitMargin),
+    debtToEquityPct: debtRatioToPct(stats.debtToEquity),
+    debtToAssetPct: percentRatio(stats.debtToAsset != null ? Number(stats.debtToAsset) * 100 : null),
+    currentRatio: ratio(stats.currentRatio),
+    quickRatio: ratio(stats.quickRatio),
+    cashRatio: ratio(stats.cashRatio),
+    earningsYieldPct: percentRatio(stats.earningsYield),
+    pePremiumVsSector: saneNumber(stats.pePremiumVsSector, { min: -100, max: 1000 }),
+    pbPremiumVsSector: saneNumber(stats.pbPremiumVsSector, { min: -100, max: 1000 }),
+    divYieldVsSector: saneNumber(stats.divYieldVsSector, { min: -100, max: 1000 }),
+    shareholding,
+    financials: shapeFinancials(stockData),
+    news: shapeNews(pageProps.newsData),
+    events: shapeEvents(pageProps.eventsData),
+    peers: shapePeers(stockData?.similarAssets),
     fetchedAt,
     url: url || (header.searchId ? `${BASE_URL}/stocks/${header.searchId}` : null),
   };
@@ -139,7 +328,7 @@ function readJson(file) {
 function writeJsonAtomic(file, payload) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   const tmp = `${file}.tmp-${process.pid}`;
-  fs.writeFileSync(tmp, JSON.stringify(payload, null, 2));
+  fs.writeFileSync(tmp, JSON.stringify(payload));
   fs.renameSync(tmp, file);
 }
 
@@ -170,24 +359,30 @@ export function buildTickerMap(records) {
 function parseArgs(argv) {
   const opts = {
     out: DEFAULT_CACHE_PATH,
+    peOut: DEFAULT_PE_CACHE_PATH,
     failureOut: DEFAULT_FAILURE_PATH,
+    peFailureOut: DEFAULT_PE_FAILURE_PATH,
     universe: DEFAULT_UNIVERSE_PATH,
-    maxAgeDays: 7,
-    staleGraceDays: 21,
+    maxAgeDays: 1,
+    staleGraceDays: 3,
     concurrency: 6,
     retries: 2,
     timeoutMs: 15000,
     minCoveragePct: 70,
     force: false,
     dryRun: false,
+    validateOnly: false,
     tickers: [],
   };
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (arg === "--force") opts.force = true;
+    else if (arg === "--validate-only") opts.validateOnly = true;
     else if (arg === "--dry-run") opts.dryRun = true;
     else if (arg === "--out") opts.out = path.resolve(argv[++i]);
+    else if (arg === "--pe-out") opts.peOut = path.resolve(argv[++i]);
     else if (arg === "--failure-out") opts.failureOut = path.resolve(argv[++i]);
+    else if (arg === "--pe-failure-out") opts.peFailureOut = path.resolve(argv[++i]);
     else if (arg === "--universe") opts.universe = path.resolve(argv[++i]);
     else if (arg === "--max-age-days") opts.maxAgeDays = Number(argv[++i]);
     else if (arg === "--stale-grace-days") opts.staleGraceDays = Number(argv[++i]);
@@ -268,14 +463,14 @@ async function refreshCache(opts) {
     : [...new Set(loadUniverseTickers(opts.universe))];
   if (!targetTickers.length) throw new Error(`no tickers found in ${opts.universe}`);
 
-  console.log(`[groww-pe] target tickers=${targetTickers.length}`);
-  console.log("[groww-pe] loading Groww screener map...");
+  console.log(`[groww-stock] target tickers=${targetTickers.length}`);
+  console.log("[groww-stock] loading Groww screener map...");
   const { records, totalRecords } = await fetchScreenerRecords({
     timeoutMs: opts.timeoutMs,
     retries: opts.retries,
   });
   const tickerMap = buildTickerMap(records);
-  console.log(`[groww-pe] screener records=${records.length}${totalRecords != null ? `/${totalRecords}` : ""}, ticker keys=${tickerMap.size}`);
+  console.log(`[groww-stock] screener records=${records.length}${totalRecords != null ? `/${totalRecords}` : ""}, ticker keys=${tickerMap.size}`);
 
   const unmapped = [];
   const targets = [];
@@ -309,11 +504,15 @@ async function refreshCache(opts) {
   }
 
   const usableCount = Object.values(byTicker)
+    .filter((entry) => entry?.currentPriceInr != null || entry?.marketCapInr != null || sanePe(entry?.peRatio) != null)
+    .length;
+  const peUsableCount = Object.values(byTicker)
     .filter((entry) => sanePe(entry.peRatio) != null && sanePe(entry.industryPe) != null)
     .length;
   const coveragePct = targetTickers.length ? (usableCount / targetTickers.length) * 100 : 0;
+  const peCoveragePct = targetTickers.length ? (peUsableCount / targetTickers.length) * 100 : 0;
   const cache = {
-    schema_version: "groww-pe-v1",
+    schema_version: "groww-stock-v1",
     source: "groww_refinitiv",
     fetched_at: fetchedAt,
     expires_at: new Date(now.getTime() + daysToMs(opts.maxAgeDays)).toISOString(),
@@ -327,6 +526,8 @@ async function refreshCache(opts) {
       fetched_count: Object.keys(byTicker).length,
       usable_count: usableCount,
       coverage_pct: Math.round(coveragePct * 100) / 100,
+      pe_usable_count: peUsableCount,
+      pe_coverage_pct: Math.round(peCoveragePct * 100) / 100,
     },
     by_ticker: byTicker,
     missing: {
@@ -338,26 +539,105 @@ async function refreshCache(opts) {
   return cache;
 }
 
+function buildPeAliasCache(cache) {
+  const byTicker = {};
+  const source = cache?.by_ticker || {};
+  let usableCount = 0;
+  for (const [ticker, entry] of Object.entries(source)) {
+    byTicker[ticker] = {
+      searchId: entry.searchId || null,
+      growwCompanyId: entry.growwCompanyId || null,
+      isin: entry.isin || null,
+      industryId: entry.industryId ?? null,
+      industryName: entry.industryName || null,
+      nseScriptCode: entry.nseScriptCode || null,
+      bseScriptCode: entry.bseScriptCode != null ? String(entry.bseScriptCode) : null,
+      peRatio: sanePe(entry.peRatio),
+      epsTtm: asNumber(entry.epsTtm),
+      industryPe: sanePe(entry.industryPe),
+      sectorPe: sanePe(entry.sectorPe),
+      fetchedAt: entry.fetchedAt || cache.fetched_at || null,
+      url: entry.url || null,
+    };
+    if (byTicker[ticker].peRatio != null && byTicker[ticker].industryPe != null) usableCount++;
+  }
+  const targetCount = Number(cache?.coverage?.target_count ?? Object.keys(source).length);
+  return {
+    schema_version: "groww-pe-v1",
+    source: cache?.source || "groww_refinitiv",
+    fetched_at: cache?.fetched_at || null,
+    expires_at: cache?.expires_at || null,
+    max_age_days: cache?.max_age_days ?? null,
+    stale_grace_days: cache?.stale_grace_days ?? null,
+    coverage: {
+      target_count: targetCount,
+      screener_records_count: cache?.coverage?.screener_records_count ?? null,
+      screener_total_records: cache?.coverage?.screener_total_records ?? null,
+      mapped_count: cache?.coverage?.mapped_count ?? null,
+      fetched_count: cache?.coverage?.fetched_count ?? Object.keys(source).length,
+      usable_count: usableCount,
+      coverage_pct: targetCount > 0 ? Math.round((usableCount / targetCount) * 10000) / 100 : 0,
+    },
+    by_ticker: byTicker,
+    missing: cache?.missing || { unmapped: [], fetch_failed: [] },
+  };
+}
+
 function writeFailureReport(file, report) {
   try {
     writeJsonAtomic(file, {
-      schema_version: "groww-pe-failure-v1",
+      schema_version: "groww-stock-failure-v1",
       source: "groww_refinitiv",
       generated_at: new Date().toISOString(),
       ...report,
     });
   } catch (err) {
-    console.warn(`[groww-pe] failed to write failure report: ${err.message}`);
+    console.warn(`[groww-stock] failed to write failure report: ${err.message}`);
   }
+}
+
+function writeFailureReports(opts, report) {
+  writeFailureReport(opts.failureOut, report);
+  if (opts.peFailureOut) {
+    writeFailureReport(opts.peFailureOut, {
+      ...report,
+      schema_note: "legacy groww-pe alias report; canonical report is groww-stock-failed.json",
+    });
+  }
+}
+
+function writeCacheOutputs(opts, cache) {
+  writeJsonAtomic(opts.out, cache);
+  if (opts.peOut) writeJsonAtomic(opts.peOut, buildPeAliasCache(cache));
 }
 
 async function main() {
   const opts = parseArgs(process.argv.slice(2));
   const existing = readJson(opts.out);
 
+  if (opts.validateOnly) {
+    if (!isCacheUsable(existing, new Date(), opts.staleGraceDays)) {
+      writeFailureReports(opts, {
+        status: "validate_failed_no_usable_cache",
+        previous_cache_fetched_at: existing?.fetched_at || null,
+      });
+      throw new Error(`Groww stock cache missing or older than ${opts.staleGraceDays}d stale grace`);
+    }
+    const cov = existing.coverage || {};
+    if (opts.peOut && !opts.dryRun) writeJsonAtomic(opts.peOut, buildPeAliasCache(existing));
+    writeFailureReports(opts, {
+      status: "validate_ok",
+      coverage: cov,
+      previous_cache_fetched_at: existing?.fetched_at || null,
+    });
+    console.log(`[groww-stock] cache usable (${existing.fetched_at}); usable=${cov.usable_count ?? "?"}/${cov.target_count ?? "?"}, coverage=${cov.coverage_pct ?? "?"}%`);
+    return;
+  }
+
   if (!opts.force && isCacheFresh(existing, new Date(), opts.maxAgeDays)) {
     const cov = existing.coverage || {};
-    console.log(`[groww-pe] cache fresh (${existing.fetched_at}); usable=${cov.usable_count ?? "?"}/${cov.target_count ?? "?"}, coverage=${cov.coverage_pct ?? "?"}%`);
+    if (opts.peOut && !opts.dryRun) writeJsonAtomic(opts.peOut, buildPeAliasCache(existing));
+    console.log(`[groww-stock] cache fresh (${existing.fetched_at}); usable=${cov.usable_count ?? "?"}/${cov.target_count ?? "?"}, coverage=${cov.coverage_pct ?? "?"}%`);
     return;
   }
 
@@ -366,13 +646,14 @@ async function main() {
     cache = await refreshCache(opts);
   } catch (err) {
     const usableExisting = isCacheUsable(existing, new Date(), opts.staleGraceDays);
-    writeFailureReport(opts.failureOut, {
+    writeFailureReports(opts, {
       status: usableExisting ? "refresh_failed_using_stale_cache" : "refresh_failed_no_usable_cache",
       error: err?.message || String(err),
       previous_cache_fetched_at: existing?.fetched_at || null,
     });
     if (usableExisting) {
-      console.warn(`[groww-pe] refresh failed (${err.message}); using stale cache from ${existing.fetched_at}`);
+      if (opts.peOut && !opts.dryRun) writeJsonAtomic(opts.peOut, buildPeAliasCache(existing));
+      console.warn(`[groww-stock] refresh failed (${err.message}); using stale cache from ${existing.fetched_at}`);
       return;
     }
     throw err;
@@ -381,17 +662,18 @@ async function main() {
   const coveragePct = Number(cache.coverage?.coverage_pct ?? 0);
   const previousUsable = isCacheUsable(existing, new Date(), opts.staleGraceDays);
   if (coveragePct < opts.minCoveragePct && previousUsable) {
-    writeFailureReport(opts.failureOut, {
+    writeFailureReports(opts, {
       status: "coverage_below_floor_using_stale_cache",
       coverage: cache.coverage,
       previous_cache_fetched_at: existing?.fetched_at || null,
       missing: cache.missing,
     });
-    console.warn(`[groww-pe] coverage ${coveragePct}% below ${opts.minCoveragePct}%; keeping stale cache from ${existing.fetched_at}`);
+    if (opts.peOut && !opts.dryRun) writeJsonAtomic(opts.peOut, buildPeAliasCache(existing));
+    console.warn(`[groww-stock] coverage ${coveragePct}% below ${opts.minCoveragePct}%; keeping stale cache from ${existing.fetched_at}`);
     return;
   }
   if (coveragePct < opts.minCoveragePct) {
-    writeFailureReport(opts.failureOut, {
+    writeFailureReports(opts, {
       status: "coverage_below_floor_no_usable_cache",
       coverage: cache.coverage,
       missing: cache.missing,
@@ -400,10 +682,10 @@ async function main() {
   }
 
   if (opts.dryRun) {
-    console.log(`[groww-pe] dry-run: would write ${opts.out}`);
+    console.log(`[groww-stock] dry-run: would write ${opts.out}`);
   } else {
-    writeJsonAtomic(opts.out, cache);
-    writeFailureReport(opts.failureOut, {
+    writeCacheOutputs(opts, cache);
+    writeFailureReports(opts, {
       status: "ok",
       coverage: cache.coverage,
       missing: {
@@ -414,12 +696,12 @@ async function main() {
       },
     });
   }
-  console.log(`[groww-pe] cache ${opts.dryRun ? "validated" : "written"}: usable=${cache.coverage.usable_count}/${cache.coverage.target_count}, coverage=${cache.coverage.coverage_pct}%`);
+  console.log(`[groww-stock] cache ${opts.dryRun ? "validated" : "written"}: usable=${cache.coverage.usable_count}/${cache.coverage.target_count}, coverage=${cache.coverage.coverage_pct}%, pe=${cache.coverage.pe_coverage_pct}%`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch((err) => {
-    console.error(`[groww-pe] ERROR: ${err?.stack || err?.message || err}`);
+    console.error(`[groww-stock] ERROR: ${err?.stack || err?.message || err}`);
     process.exit(1);
   });
 }

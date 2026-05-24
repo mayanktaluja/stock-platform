@@ -16,7 +16,8 @@ drift more than one major PR behind.
 
 ## Where we are right now
 
-The platform is **in production**, live at
+The platform is **in production**, with the branded canonical link planned as
+[stocks.starbhai.com](https://stocks.starbhai.com) and the legacy fallback at
 [stock-platform-gamma.vercel.app](https://stock-platform-gamma.vercel.app),
 serving a single-tenant Indian equity research workflow. Auth, the SWS picks
 pipeline, portfolio analyzer, earnings watch, risk lab, and macro thesis are
@@ -137,8 +138,9 @@ portfolio analyzer.
   renamed to `test/personalUseGate.test.mjs`; the `&&` chain dies there. Fix the path.
 - **Auto-refresh PRs flood the repo** — `chore(macro|sws): auto-refresh ...` open every
   few hours. They commit data files, not code.
-- **`starbhai.com` is NOT this platform** — it 301s to a separate WordPress site. Always
-  link the `-gamma.vercel.app` alias.
+- **`starbhai.com` is NOT this platform** — it 301s to a separate WordPress site.
+  Link `stocks.starbhai.com` for the platform; the `-gamma.vercel.app` alias remains
+  live as a fallback during rollout.
 
 ## Roadmap items (not yet started)
 
@@ -146,8 +148,9 @@ portfolio analyzer.
   the same global portfolio. Next iteration of the auth shipped in early May.
 - **Mobile layout pass.** SPA is desktop-first; mobile is tolerable but not
   loved.
-- **Custom domain.** Either map `starbhai.com` to Vercel (breaks the WordPress
-  site) or buy a new domain. Currently using `-gamma.vercel.app`.
+- **Custom domain rollout.** `stocks.starbhai.com` is the selected platform
+  subdomain so the WordPress apex can remain untouched. Keep the `-gamma.vercel.app`
+  alias alive until DNS/OAuth verification is complete.
 - **Screener.in ingestion** for 10y fundamentals. SWS only exposes 5 rows
   of `fiscal.yearly_history` and no ROCE — any Marcellus-replica-style
   10y-quality filter blocks on this.

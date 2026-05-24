@@ -979,6 +979,10 @@ CHANGED_FILES=$(git status --short \
   data/sws/last-refresh.json \
   data/sws/sws-scored-universe.json \
   data/sws/v3-universe-stats.json \
+  data/sws/groww-stock-latest.json \
+  data/sws/groww-stock-failed.json \
+  data/sws/groww-pe-latest.json \
+  data/sws/groww-pe-failed.json \
   data/sws/nse-event-calendar.json \
   data/nse-index-constituents.json \
   data/catalysts/ \
@@ -1026,6 +1030,10 @@ git add data/sws/deep/ \
         data/sws/last-refresh.json \
         data/sws/sws-scored-universe.json \
         data/sws/v3-universe-stats.json \
+        data/sws/groww-stock-latest.json \
+        data/sws/groww-stock-failed.json \
+        data/sws/groww-pe-latest.json \
+        data/sws/groww-pe-failed.json \
         data/sws/universe.json \
         data/sws/universe-meta.json \
         data/sws/nse-event-calendar.json \

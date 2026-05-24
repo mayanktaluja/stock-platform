@@ -16,9 +16,10 @@ generates SEBI-RA-style narratives, predicts earnings reactions, and runs
 backtests to validate every signal it surfaces.
 
 Primary user: the repo owner (handle `starbhai`). Secondary users: a small
-allow-list of signed-in Google OAuth accounts. Production lives at
-**https://stock-platform-gamma.vercel.app** (the stable Vercel alias;
-`starbhai.com` is a separate WordPress site and should not be linked).
+allow-list of signed-in Google OAuth accounts. Production canonical is
+**https://stocks.starbhai.com** with **https://stock-platform-gamma.vercel.app**
+retained as the stable legacy Vercel alias; `starbhai.com` is a separate
+WordPress site and should not be linked as the platform.
 
 ## Stack
 

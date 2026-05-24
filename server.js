@@ -23,6 +23,11 @@ import { loadHitRateSummary } from "./services/earnings/hitRateSummary.js";
 import { loadCompounderLatest, loadCompounderPaperTrades } from "./services/compounder/compounderService.js";
 import { loadEdgeLatest, loadEdgePaperTrades } from "./services/earningsEdge/edgeService.js";
 import { createAdminGate } from "./services/auth/adminGate.js";
+import {
+  PLATFORM_ORIGINS,
+  selectOAuthRedirectUri,
+  isAllowedOAuthRedirectUri,
+} from "./services/auth/oauthRedirect.js";
 import { narrateCandidate, buildStrategyExplainer } from "./services/multibagger/rationaleNarrator.js";
 
 // External-API circuit breaker for /api/sector-heatmap (Yahoo Finance batch
@@ -327,17 +332,16 @@ const macroHistory = [];
 // but CORS-open is still belt-and-braces wrong: it advertises the API as
 // usable from anywhere.
 //
-// Allowlist covers: the canonical Vercel alias (-gamma), Vercel preview
-// URLs under the same project (rotated per push), localhost for dev (3000)
-// and Playwright (4011). Custom domain (starbhai.com) is intentionally NOT
-// listed yet — see CLAUDE.md note that starbhai.com points at the WP site.
+// Allowlist covers: the canonical branded link (stocks.starbhai.com), the
+// legacy Vercel alias (-gamma), Vercel preview URLs under the same project
+// (rotated per push), localhost for dev (3000) and Playwright (4011). The
+// apex starbhai.com stays intentionally unlisted because it points at the
+// separate WordPress site.
 //
 // Set CORS_ALLOWED_ORIGINS=foo.com,bar.com to add extras at runtime
 // without a deploy (used by integration tunnels e.g. ngrok).
 const CORS_ALLOWLIST = [
-  "https://stock-platform-gamma.vercel.app",
-  "http://localhost:3000",
-  "http://localhost:4011",
+  ...PLATFORM_ORIGINS,
   ...(process.env.CORS_ALLOWED_ORIGINS || "")
     .split(",")
     .map((s) => s.trim())
@@ -532,8 +536,9 @@ app.use("/api/stock/", stockDetailLimiter);
 
 // ── Auth gate (Google OAuth) ──
 //
-// When STARBHAI_SESSION_SECRET, GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET
-// are all set, the entire UI + API is locked behind "Continue with Google".
+// When STARBHAI_SESSION_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET and
+// GOOGLE_OAUTH_REDIRECT_URI are all set, the entire UI + API is locked behind
+// "Continue with Google".
 // Sessions are HMAC-signed cookies carrying the Google `sub` (no DB on
 // the hot path; user records live in Vercel KV / users.json — see
 // userStorage.js). When any env var is unset (local dev), the gate is
@@ -634,8 +639,14 @@ function signSession(sub) {
 function verifySession(token) {
   return verifyPayload(SESSION_PREFIX, token, SESSION_TTL_MS);
 }
-function signOAuthState({ state, verifier, returnTo }) {
-  return signPayload(OAUTH_PREFIX, { state, verifier, returnTo: returnTo || "/", ts: Date.now() });
+function signOAuthState({ state, verifier, returnTo, redirectUri }) {
+  return signPayload(OAUTH_PREFIX, {
+    state,
+    verifier,
+    returnTo: returnTo || "/",
+    redirectUri,
+    ts: Date.now(),
+  });
 }
 function verifyOAuthState(token) {
   return verifyPayload(OAUTH_PREFIX, token, OAUTH_TTL_MS);
@@ -705,11 +716,20 @@ app.get("/api/auth/google", (req, res) => {
   const verifier = randomBytes(32).toString("base64url");
   const challenge = createHash("sha256").update(verifier).digest("base64url");
   const returnTo = safeReturnTo(req.query.returnTo);
+  const redirectUri = selectOAuthRedirectUri(
+    req,
+    GOOGLE_OAUTH_REDIRECT_URI,
+    process.env.VERCEL ? "https" : "http",
+  );
+  if (!isAllowedOAuthRedirectUri(redirectUri, GOOGLE_OAUTH_REDIRECT_URI)) {
+    return res.status(500).json({ error: "auth-redirect-not-allowed" });
+  }
 
-  const stateToken = signOAuthState({ state, verifier, returnTo });
+  const stateToken = signOAuthState({ state, verifier, returnTo, redirectUri });
   setOAuthCookie(res, stateToken);
 
   const url = oauthClient.generateAuthUrl({
+    redirect_uri: redirectUri,
     access_type: "online",
     scope: ["openid", "email", "profile"],
     state,
@@ -742,11 +762,14 @@ app.get("/api/auth/google/callback", async (req, res) => {
       clearOAuthCookie(res);
       return res.status(400).json({ error: "state-mismatch" });
     }
+    const redirectUri = isAllowedOAuthRedirectUri(oauth.redirectUri, GOOGLE_OAUTH_REDIRECT_URI)
+      ? oauth.redirectUri
+      : GOOGLE_OAUTH_REDIRECT_URI;
 
     const { tokens } = await oauthClient.getToken({
       code,
       codeVerifier: oauth.verifier,
-      redirect_uri: GOOGLE_OAUTH_REDIRECT_URI,
+      redirect_uri: redirectUri,
     });
     if (!tokens || !tokens.id_token) {
       clearOAuthCookie(res);
@@ -4834,7 +4857,7 @@ app.post("/api/track/snapshot", express.json(), async (req, res) => {
  * log with arbitrary entries.
  *
  * Usage:
- *   curl -X POST https://stock-platform-gamma.vercel.app/api/track/migrate \
+ *   curl -X POST https://stocks.starbhai.com/api/track/migrate \
  *     -H 'Authorization: Bearer XXX' \
  *     -H 'Content-Type: application/json' \
  *     --data @.paper-trades-export.json
@@ -6891,7 +6914,7 @@ app.get("/", (req, res) => {
 // Only listen when running directly (not on Vercel)
 if (!process.env.VERCEL) {
   app.listen(PORT, async () => {
-    console.log(`\n  Starbhai · Indian Stock Intelligence`);
+    console.log(`\n  Starbhai · Stock Intelligence`);
     console.log(`  ========================================`);
     console.log(`  Running on: http://localhost:${PORT}`);
     console.log(`  Market Status: ${isMarketOpen() ? "OPEN" : "CLOSED"}`);

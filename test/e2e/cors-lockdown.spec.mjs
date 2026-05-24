@@ -37,6 +37,15 @@ test.describe("CORS origin allowlist", () => {
     );
   });
 
+  test("branded stocks.starbhai.com origin is allowlisted", async ({ request }) => {
+    const r = await request.get("/api/sws-picks", {
+      headers: { Origin: "https://stocks.starbhai.com" },
+    });
+    expect(r.headers()["access-control-allow-origin"]).toBe(
+      "https://stocks.starbhai.com",
+    );
+  });
+
   test("Vercel preview pattern is allowlisted", async ({ request }) => {
     const r = await request.get("/api/sws-picks", {
       headers: {

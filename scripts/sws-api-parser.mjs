@@ -37,6 +37,7 @@ const REPO_ROOT = path.resolve(__dirname, "..");
 const SRC_DIR = path.join(REPO_ROOT, "data/sws/deep-api");
 const DEFAULT_DEST = path.join(REPO_ROOT, "data/sws/deep-api-parsed");
 const NSE_CALENDAR_PATH = path.join(REPO_ROOT, "data/sws/nse-event-calendar.json");
+const GROWW_STOCK_PATH = process.env.SWS_GROWW_STOCK_CACHE || path.join(REPO_ROOT, "data/sws/groww-stock-latest.json");
 const GROWW_PE_PATH = process.env.SWS_GROWW_PE_CACHE || path.join(REPO_ROOT, "data/sws/groww-pe-latest.json");
 
 // Load the NSE corporate-actions calendar produced by
@@ -644,6 +645,46 @@ export function loadGrowwPeCache(file = GROWW_PE_PATH) {
   }
 }
 
+export function loadGrowwStockCache(file = GROWW_STOCK_PATH) {
+  try {
+    const cache = JSON.parse(fs.readFileSync(file, "utf-8"));
+    const map = new Map();
+    for (const [ticker, entry] of Object.entries(cache.by_ticker || {})) {
+      const key = normalizeTicker(ticker);
+      if (key) map.set(key, entry);
+      const nse = normalizeTicker(entry?.nseScriptCode);
+      const bse = normalizeTicker(entry?.bseScriptCode);
+      if (nse && !map.has(nse)) map.set(nse, entry);
+      if (bse && !map.has(bse)) map.set(bse, entry);
+    }
+    return { cache, map };
+  } catch {
+    return { cache: null, map: new Map() };
+  }
+}
+
+function finiteNumber(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : null;
+}
+
+function growwFinite(entry, key, { min = -Infinity, max = Infinity, inclusiveMin = true } = {}) {
+  const n = finiteNumber(entry?.[key]);
+  if (n == null) return null;
+  if (inclusiveMin ? n < min : n <= min) return null;
+  if (n > max) return null;
+  return n;
+}
+
+function setSource(sourceMap, key, provider, value, meta = {}) {
+  sourceMap[key] = {
+    provider,
+    value,
+    fetched_at: meta.fetched_at || null,
+    url: meta.url || null,
+  };
+}
+
 function resolvePeBenchmark({
   ticker,
   api,
@@ -948,7 +989,7 @@ function recentNewsCount(news, days = 30) {
   const cutoff = Date.now() - days * 86400 * 1000;
   let n = 0;
   for (const item of news) {
-    const t = Date.parse(item.date);
+    const t = Date.parse(item.date || item.published_at);
     if (Number.isFinite(t) && t >= cutoff) n++;
   }
   return n;
@@ -966,27 +1007,41 @@ function recentNewsCount(news, days = 30) {
 export function parseStock(api, opts = {}) {
   const sectorMap = opts.sectorMap || null;
   const nseCalendar = opts.nseCalendar || null;
+  const growwStockMap = opts.growwStockMap || null;
   const growwPeMap = opts.growwPeMap || null;
   const internalIndustryPeMap = opts.internalIndustryPeMap || null;
   const company = api?.graphql?.CompanySummary?.Company || {};
   const info = extractInfo(api);
   const sf = extractSnowflake(api);
   const sfTotal = snowflakeTotal(sf);
-  const price = extractCurrentPrice(api);
   const fv = extractAnalystFairValue(api);
   const fvRange = extractFairValueRange(api);
-  const upsidePct = price && fv && price > 0 ? ((fv - price) / price) * 100 : null;
   const { rewards, risks } = extractRewardsRisks(api);
   const fiscal = extractFiscalData(api);
   const insiderPct = extractInsiderOwnershipPct(api);
-  const dividendInfo = extractDividendInfo(api);
-  const marketCap = extractMarketCap(api);
+  const swsDividendInfo = extractDividendInfo(api);
+  const swsPrice = extractCurrentPrice(api);
+  const swsMarketCap = extractMarketCap(api);
   const news = extractNews(api);
   const ticker = api.ticker || info.ticker_symbol;
   const tickerKey = normalizeTicker(ticker);
   const swsMultiples = extractMultiples(api);
   const swsIndustryBenchmarks = extractIndustryBenchmarks(api) || {};
-  const growwEntry = tickerKey && growwPeMap?.get ? growwPeMap.get(tickerKey) : null;
+  const growwStockEntry = tickerKey && growwStockMap?.get ? growwStockMap.get(tickerKey) : null;
+  const growwPeEntry = tickerKey && growwPeMap?.get ? growwPeMap.get(tickerKey) : null;
+  const growwEntry = growwStockEntry || growwPeEntry;
+  const growwMeta = growwStockEntry ? {
+    fetched_at: growwStockEntry.fetchedAt || growwStockEntry.fetched_at || null,
+    url: growwStockEntry.url || null,
+  } : {};
+  const sourceMap = {};
+  const growwPrice = growwFinite(growwStockEntry, "currentPriceInr", { min: 0, inclusiveMin: false });
+  const price = growwPrice ?? swsPrice;
+  if (growwPrice != null) setSource(sourceMap, "current_price_inr", "groww_refinitiv", price, growwMeta);
+  const growwMarketCap = growwFinite(growwStockEntry, "marketCapInr", { min: 0, inclusiveMin: false });
+  const marketCap = growwMarketCap ?? swsMarketCap;
+  if (growwMarketCap != null) setSource(sourceMap, "market_cap_inr", "groww_refinitiv", marketCap, growwMeta);
+  const upsidePct = price && fv && price > 0 ? ((fv - price) / price) * 100 : null;
   const peResolution = resolvePeBenchmark({
     ticker: tickerKey,
     api,
@@ -996,11 +1051,64 @@ export function parseStock(api, opts = {}) {
     internalIndustryPeMap,
     sectorMap,
   });
-  const multiples = { ...swsMultiples, pe: peResolution.company_pe ?? null };
+  const multiples = {
+    ...swsMultiples,
+    pe: peResolution.company_pe ?? null,
+    pb: growwFinite(growwStockEntry, "pbRatio", { min: 0, max: 100 }) ?? swsMultiples.pb ?? null,
+    ps: growwFinite(growwStockEntry, "psRatio", { min: 0, max: 100 }) ?? swsMultiples.ps ?? null,
+    ev_ebitda: growwFinite(growwStockEntry, "evToEbitda", { min: 0, max: 500 }) ?? swsMultiples.ev_ebitda ?? null,
+  };
+  const peg = growwFinite(growwStockEntry, "pegRatio", { min: -500, max: 500 });
+  if (peg != null) multiples.peg = peg;
+  for (const [field, sourceValue, swsValue] of [
+    ["multiples.pe", peResolution.source.provider === "groww_refinitiv" ? multiples.pe : null, swsMultiples.pe],
+    ["multiples.pb", growwStockEntry ? multiples.pb : null, swsMultiples.pb],
+    ["multiples.ps", growwStockEntry ? multiples.ps : null, swsMultiples.ps],
+    ["multiples.ev_ebitda", growwStockEntry ? multiples.ev_ebitda : null, swsMultiples.ev_ebitda],
+    ["multiples.peg", growwStockEntry ? multiples.peg : null, null],
+  ]) {
+    if (sourceValue != null) setSource(sourceMap, field, "groww_refinitiv", sourceValue, growwMeta);
+  }
   const industryBenchmarks = { ...swsIndustryBenchmarks };
   if (peResolution.industry_pe != null) industryBenchmarks.pe = peResolution.industry_pe;
   else delete industryBenchmarks.pe;
+  const sectorPe = growwFinite(growwStockEntry, "sectorPe", { min: 0, max: 500 });
+  if (sectorPe != null) {
+    industryBenchmarks.sector_pe = sectorPe;
+    setSource(sourceMap, "industry_benchmarks.sector_pe", "groww_refinitiv", sectorPe, growwMeta);
+  }
   const industryBenchmarksOrNull = Object.keys(industryBenchmarks).length ? industryBenchmarks : null;
+  const dividendInfo = { ...swsDividendInfo };
+  const growwDividendYield = growwFinite(growwStockEntry, "dividendYieldPct", { min: 0, max: 50 });
+  if (growwDividendYield != null) {
+    dividendInfo.yield_pct = growwDividendYield;
+    setSource(sourceMap, "dividend.yield_pct", "groww_refinitiv", growwDividendYield, growwMeta);
+  }
+  const fiftyTwoWeek = growwStockEntry?.fiftyTwoWeek?.low != null || growwStockEntry?.fiftyTwoWeek?.high != null
+    ? {
+        low: growwFinite(growwStockEntry.fiftyTwoWeek, "low", { min: 0, inclusiveMin: false }),
+        high: growwFinite(growwStockEntry.fiftyTwoWeek, "high", { min: 0, inclusiveMin: false }),
+      }
+    : null;
+  if (fiftyTwoWeek) setSource(sourceMap, "fifty_two_week", "groww_refinitiv", fiftyTwoWeek, growwMeta);
+  for (const [field, value] of [
+    ["latest_eps", growwFinite(growwStockEntry, "epsTtm", { min: 0.01, max: 1e6 })],
+    ["book_value", growwFinite(growwStockEntry, "bookValue", { min: -1e9, max: 1e9 })],
+    ["face_value", growwFinite(growwStockEntry, "faceValue", { min: 0, max: 1e6 })],
+    ["sector_pe", sectorPe],
+    ["roe_pct", growwFinite(growwStockEntry, "roePct", { min: -200, max: 500 })],
+    ["roa_pct", growwFinite(growwStockEntry, "roaPct", { min: -200, max: 500 })],
+    ["roic_pct", growwFinite(growwStockEntry, "roicPct", { min: -200, max: 500 })],
+    ["net_margin_pct", growwFinite(growwStockEntry, "netMarginPct", { min: -200, max: 200 })],
+    ["operating_margin_pct", growwFinite(growwStockEntry, "operatingMarginPct", { min: -200, max: 200 })],
+    ["debt_to_equity_pct", growwFinite(growwStockEntry, "debtToEquityPct", { min: 0, max: 2000 })],
+    ["debt_to_asset_pct", growwFinite(growwStockEntry, "debtToAssetPct", { min: 0, max: 100 })],
+    ["current_ratio", growwFinite(growwStockEntry, "currentRatio", { min: 0, max: 1000 })],
+    ["quick_ratio", growwFinite(growwStockEntry, "quickRatio", { min: 0, max: 1000 })],
+    ["cash_ratio", growwFinite(growwStockEntry, "cashRatio", { min: 0, max: 1000 })],
+  ]) {
+    if (value != null) setSource(sourceMap, field, "groww_refinitiv", value, growwMeta);
+  }
 
   const out = {
     ticker,
@@ -1010,6 +1118,14 @@ export function parseStock(api, opts = {}) {
     parsed_at: api.fetchedAt || new Date().toISOString(),
     company_id: company.id,
     classification_status: company.classificationStatus,
+    groww_source: growwStockEntry ? {
+      provider: "groww_refinitiv",
+      fetched_at: growwMeta.fetched_at,
+      url: growwMeta.url,
+      search_id: growwStockEntry.searchId || null,
+      company_id: growwStockEntry.growwCompanyId || null,
+      isin: growwStockEntry.isin || null,
+    } : null,
 
     overview: {
       snowflake: sf,
@@ -1019,6 +1135,7 @@ export function parseStock(api, opts = {}) {
       market_cap_usd: extractMarketCapUSD(api),
       market_cap_band: extractMarketCapBand(api),
       shares_outstanding: extractSharesOutstanding(api),
+      fifty_two_week: fiftyTwoWeek,
       fair_value_inr: fv,
       fair_value_range_inr: fvRange,
       upside_pct: upsidePct,
@@ -1037,7 +1154,6 @@ export function parseStock(api, opts = {}) {
       risks,
       dividend: dividendInfo, // ov.dividend.yield_pct etc — what scoring reads
       dividend_yield_pct: dividendInfo.yield_pct, // legacy alias
-      net_margin_pct: fiscal?.net_margin_pct ?? null,
       // Sector-level peer benchmarks (P/E, 1Y net margin, 3Y future revenue
       // growth) shipped by SWS alongside primaryIndustry. Stored as fractions
       // (e.g. 0.32 not 32%) — renderers format on display.
@@ -1053,6 +1169,7 @@ export function parseStock(api, opts = {}) {
       },
       pe_benchmark_source: peResolution.source,
       pe_benchmark_audit: peResolution.audit,
+      source_map: sourceMap,
       // PAST YoY earnings growth (latest reported FY vs prior FY). The SWS
       // capture's yearlyTimeSeries holds only reported years, so this cannot
       // be "forward". v1's pts_growth used to read forward_earnings_growth_pct
@@ -1064,8 +1181,23 @@ export function parseStock(api, opts = {}) {
       revenue_growth_pct: fiscal?.revenue_growth_pct ?? null,
       latest_revenue: fiscal?.latest_revenue ?? null,
       latest_net_income: fiscal?.latest_net_income ?? null,
-      latest_eps: fiscal?.latest_eps ?? null,
+      latest_eps: growwFinite(growwStockEntry, "epsTtm", { min: 0.01, max: 1e6 }) ?? fiscal?.latest_eps ?? null,
       most_recent_reported_date: fiscal?.most_recent_reported_date ?? null,
+      pb: multiples.pb ?? null,
+      ps: multiples.ps ?? null,
+      book_value: growwFinite(growwStockEntry, "bookValue", { min: -1e9, max: 1e9 }),
+      face_value: growwFinite(growwStockEntry, "faceValue", { min: 0, max: 1e6 }),
+      sector_pe: sectorPe,
+      roe_pct: growwFinite(growwStockEntry, "roePct", { min: -200, max: 500 }),
+      roa_pct: growwFinite(growwStockEntry, "roaPct", { min: -200, max: 500 }),
+      roic_pct: growwFinite(growwStockEntry, "roicPct", { min: -200, max: 500 }),
+      net_margin_pct: growwFinite(growwStockEntry, "netMarginPct", { min: -200, max: 200 }) ?? fiscal?.net_margin_pct ?? null,
+      operating_margin_pct: growwFinite(growwStockEntry, "operatingMarginPct", { min: -200, max: 200 }),
+      debt_to_equity_pct: growwFinite(growwStockEntry, "debtToEquityPct", { min: 0, max: 2000 }),
+      debt_to_asset_pct: growwFinite(growwStockEntry, "debtToAssetPct", { min: 0, max: 100 }),
+      current_ratio: growwFinite(growwStockEntry, "currentRatio", { min: 0, max: 1000 }),
+      quick_ratio: growwFinite(growwStockEntry, "quickRatio", { min: 0, max: 1000 }),
+      cash_ratio: growwFinite(growwStockEntry, "cashRatio", { min: 0, max: 1000 }),
       returns_pct: extractReturnsPct(api),
       // Fields still requiring extra captures:
       // NSE corporate-actions calendar lookup. Date is ISO YYYY-MM-DD when
@@ -1077,7 +1209,7 @@ export function parseStock(api, opts = {}) {
       // on out.news (top-level) — this scalar is the cheap signal for the
       // scoring/UI layer to badge a stock as "fresh news this month" without
       // pulling the full array.
-      recent_news_count: recentNewsCount(news, 30),
+      recent_news_count: Math.max(recentNewsCount(news, 30), recentNewsCount(growwStockEntry?.news, 30)),
       // last_quarter_result (beat/miss/inline) requires post-result analyst
       // commentary which neither the SWS capture nor the NSE feed surfaces.
       // Left null until a separate result-tracker pipeline lands.
@@ -1088,17 +1220,47 @@ export function parseStock(api, opts = {}) {
       top_holders: extractTopHolders(api),
       insider_ownership_pct: insiderPct,
       insider_activity: null,
+      promoter_pct: growwFinite(growwStockEntry?.shareholding, "promoter_pct", { min: 0, max: 100 }),
+      fii_pct: growwFinite(growwStockEntry?.shareholding, "fii_pct", { min: 0, max: 100 }),
+      mutual_fund_pct: growwFinite(growwStockEntry?.shareholding, "mutual_fund_pct", { min: 0, max: 100 }),
+      insurance_pct: growwFinite(growwStockEntry?.shareholding, "insurance_pct", { min: 0, max: 100 }),
+      other_domestic_institution_pct: growwFinite(growwStockEntry?.shareholding, "other_domestic_institution_pct", { min: 0, max: 100 }),
+      retail_pct: growwFinite(growwStockEntry?.shareholding, "retail_pct", { min: 0, max: 100 }),
+      groww_period: growwStockEntry?.shareholding?.period || null,
     },
     dividend: dividendInfo,
     fiscal: fiscal,
+    financials: growwStockEntry?.financials ? { groww: growwStockEntry.financials } : null,
+    past_performance: growwStockEntry ? {
+      roe_pct: growwFinite(growwStockEntry, "roePct", { min: -200, max: 500 }),
+      roa_pct: growwFinite(growwStockEntry, "roaPct", { min: -200, max: 500 }),
+      roic_pct: growwFinite(growwStockEntry, "roicPct", { min: -200, max: 500 }),
+      net_margin_pct: growwFinite(growwStockEntry, "netMarginPct", { min: -200, max: 200 }),
+      operating_margin_pct: growwFinite(growwStockEntry, "operatingMarginPct", { min: -200, max: 200 }),
+      source: "groww_refinitiv",
+    } : null,
+    financial_health: growwStockEntry ? {
+      debt_to_equity_pct: growwFinite(growwStockEntry, "debtToEquityPct", { min: 0, max: 2000 }),
+      debt_to_asset_pct: growwFinite(growwStockEntry, "debtToAssetPct", { min: 0, max: 100 }),
+      current_ratio: growwFinite(growwStockEntry, "currentRatio", { min: 0, max: 1000 }),
+      quick_ratio: growwFinite(growwStockEntry, "quickRatio", { min: 0, max: 1000 }),
+      cash_ratio: growwFinite(growwStockEntry, "cashRatio", { min: 0, max: 1000 }),
+      source: "groww_refinitiv",
+    } : null,
+    events: growwStockEntry?.events?.length ? { groww: growwStockEntry.events } : null,
+    groww: growwStockEntry ? {
+      source: "groww_refinitiv",
+      fetched_at: growwMeta.fetched_at,
+      url: growwMeta.url,
+      news: Array.isArray(growwStockEntry.news) ? growwStockEntry.news : [],
+      events: Array.isArray(growwStockEntry.events) ? growwStockEntry.events : [],
+      peers: Array.isArray(growwStockEntry.peers) ? growwStockEntry.peers : [],
+      details: growwStockEntry.details || null,
+    } : null,
 
-    // Note: tab-specific blocks (valuation/future_growth/past_performance/
-    // financial_health/management) used to pass through raw API objects here.
-    // They were never read by services/* or hydrated with the fields the
-    // frontend modal expects (roe_pct, debt_cover_pct, etc.) — they only
-    // bloated each deep JSON by ~30 KB. Removed to keep the deploy bundle
-    // under Vercel's serverless size limit. Re-add as targeted extractors
-    // (specific scalar fields) when downstream code actually reads them.
+    // Note: old raw tab-specific SWS blocks were removed because they bloated
+    // each deep JSON by ~30 KB. The small past_performance/financial_health
+    // blocks above now carry only targeted Groww scalar fields the modal reads.
     indices: [info.exchange_symbol || info.exchange_symbol_filtered].filter(Boolean),
 
     // SWS news/activity items (Brief + Event), sorted DESC by date, capped at
@@ -1147,6 +1309,13 @@ async function main() {
   console.log(`[parser]   ${sectorMap.size} unique sector codes mapped`);
 
   const growwPe = loadGrowwPeCache(GROWW_PE_PATH);
+  const growwStock = loadGrowwStockCache(GROWW_STOCK_PATH);
+  if (growwStock.cache) {
+    const cov = growwStock.cache.coverage || {};
+    console.log(`[parser]   Groww stock cache: ${growwStock.map.size} ticker keys, usable=${cov.usable_count ?? "?"}/${cov.target_count ?? "?"}, fetched ${growwStock.cache.fetched_at || "unknown"}`);
+  } else {
+    console.log(`[parser]   Groww stock cache: not loaded (canonical Groww fields will fall back to SWS/fundamentals)`);
+  }
   if (growwPe.cache) {
     const cov = growwPe.cache.coverage || {};
     console.log(`[parser]   Groww/Refinitiv P/E cache: ${growwPe.map.size} ticker keys, usable=${cov.usable_count ?? "?"}/${cov.target_count ?? "?"}, fetched ${growwPe.cache.fetched_at || "unknown"}`);
@@ -1180,6 +1349,7 @@ async function main() {
       const parsed = parseStock(api, {
         sectorMap,
         nseCalendar: nseCal?.map || null,
+        growwStockMap: growwStock.map,
         growwPeMap: growwPe.map,
         internalIndustryPeMap,
       });
