@@ -14,7 +14,7 @@ import { test, expect } from "@playwright/test";
 const SHARED_OG = {
   "og:type": /^(website|article)$/,
   "og:site_name": "Starbhai",
-  "og:image": "https://stock-platform-gamma.vercel.app/og-image.jpg",
+  "og:image": "https://starbhai-stock-platform.vercel.app/og-image.jpg",
   "og:image:width": "1200",
   "og:image:height": "630",
   "og:image:type": "image/jpeg",
@@ -22,7 +22,7 @@ const SHARED_OG = {
 
 const SHARED_TWITTER = {
   "twitter:card": "summary_large_image",
-  "twitter:image": "https://stock-platform-gamma.vercel.app/og-image.jpg",
+  "twitter:image": "https://starbhai-stock-platform.vercel.app/og-image.jpg",
 };
 
 const SHARED_THEME = {
@@ -36,31 +36,31 @@ const PAGES = [
   {
     name: "main app shell",
     url: "/index.html",
-    expectOgUrl: "https://stock-platform-gamma.vercel.app/",
+    expectOgUrl: "https://starbhai-stock-platform.vercel.app/",
     expectOgTitle: /Starbhai/,
   },
   {
     name: "login (signed-out)",
     url: "/login.html",
-    expectOgUrl: "https://stock-platform-gamma.vercel.app/login.html",
+    expectOgUrl: "https://starbhai-stock-platform.vercel.app/login.html",
     expectOgTitle: /Starbhai/,
   },
   {
     name: "methodology",
     url: "/methodology",
-    expectOgUrl: "https://stock-platform-gamma.vercel.app/methodology.html",
+    expectOgUrl: "https://starbhai-stock-platform.vercel.app/methodology.html",
     expectOgTitle: /Methodology/,
   },
   {
     name: "charter",
     url: "/legal/charter",
-    expectOgUrl: "https://stock-platform-gamma.vercel.app/legal/charter",
+    expectOgUrl: "https://starbhai-stock-platform.vercel.app/legal/charter",
     expectOgTitle: /Charter/,
   },
   {
     name: "grievance",
     url: "/legal/grievance",
-    expectOgUrl: "https://stock-platform-gamma.vercel.app/legal/grievance",
+    expectOgUrl: "https://starbhai-stock-platform.vercel.app/legal/grievance",
     expectOgTitle: /Grievance/,
   },
 ];

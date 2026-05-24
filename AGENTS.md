@@ -17,7 +17,7 @@ backtests to validate every signal it surfaces.
 
 Primary user: the repo owner (handle `starbhai`). Secondary users: a small
 allow-list of signed-in Google OAuth accounts. Production lives at
-**https://stock-platform-gamma.vercel.app** (the stable Vercel alias;
+**https://starbhai-stock-platform.vercel.app** (the stable Vercel alias;
 `starbhai.com` is a separate WordPress site and should not be linked).
 
 ## Stack

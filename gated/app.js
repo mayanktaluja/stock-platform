@@ -1,5 +1,5 @@
 /**
- * Starbhai · Stock Intelligence — Frontend Application
+ * Starbhai Stock Platform — Frontend Application
  */
 
 // State
@@ -2774,7 +2774,7 @@ async function switchTab(tab) {
     liveHeading.textContent = `Starbhai — ${config.label}`;
   }
   if (config.label) {
-    document.title = `${config.label} — Starbhai · Stock Intelligence`;
+    document.title = `${config.label} — Starbhai Stock Platform`;
   }
 
   try {
