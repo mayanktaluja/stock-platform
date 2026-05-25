@@ -12,7 +12,7 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 
 import * as dal from "../services/swsDal/index.js";
-import { makeDeepFileResolver } from "../services/swsDal/deepTarball.js";
+import { extractTarballWithNode, makeDeepFileResolver } from "../services/swsDal/deepTarball.js";
 import { makeFakeBackend } from "../services/swsDal/test-fixtures.js";
 
 function makeTarballFixture(tmp, ticker, payload) {
@@ -102,6 +102,19 @@ test("deep tarball resolver falls back to Node extraction when shell tar fails",
     const fp = resolver("RET");
     assert.ok(fp, "expected tarball extraction path");
     assert.equal(JSON.parse(fs.readFileSync(fp, "utf8")).overview.returns_pct["1D"], 1);
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
+test("deep tarball full extraction falls back to Node without shell tar", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "sws-dal-tar-"));
+  try {
+    const tarball = makeTarballFixture(tmp, "RET", { ticker: "RET", overview: { returns_pct: { "1D": 1 } } });
+    const extractBase = path.join(tmp, "extract-all");
+    assert.equal(extractTarballWithNode({ tarballPath: tarball, extractBase }), true);
+    const fp = path.join(extractBase, "deep", "RET.json");
+    assert.equal(JSON.parse(fs.readFileSync(fp, "utf8")).ticker, "RET");
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
   }

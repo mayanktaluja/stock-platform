@@ -48,6 +48,35 @@ function extractMemberWithNode(tarballPath, member, outPath) {
   return false;
 }
 
+export function extractTarballWithNode({ tarballPath, extractBase }) {
+  if (!fs.existsSync(tarballPath)) return false;
+  const tar = zlib.gunzipSync(fs.readFileSync(tarballPath));
+  let extracted = 0;
+  fs.mkdirSync(extractBase, { recursive: true });
+
+  for (let offset = 0; offset + 512 <= tar.length;) {
+    const name = readTarString(tar, offset, 100);
+    if (!name) break;
+    const prefix = readTarString(tar, offset + 345, 155);
+    const fullName = prefix ? `${prefix}/${name}` : name;
+    const sizeRaw = readTarString(tar, offset + 124, 12).replace(/\0/g, "").trim();
+    const size = parseInt(sizeRaw || "0", 8) || 0;
+    const dataStart = offset + 512;
+    const dataEnd = dataStart + size;
+
+    if (safeTarMember(fullName)) {
+      const outPath = path.join(extractBase, fullName);
+      fs.mkdirSync(path.dirname(outPath), { recursive: true });
+      fs.writeFileSync(outPath, tar.subarray(dataStart, dataEnd));
+      extracted++;
+    }
+
+    offset = dataStart + Math.ceil(size / 512) * 512;
+  }
+
+  return extracted > 0;
+}
+
 export function extractMemberFromTarball({
   tarballPath,
   extractBase,
