@@ -121,6 +121,13 @@ function requiredBundledFiles() {
   );
 }
 
+const REQUIRED_ROOT_FIXTURES = [
+  "fundamentals.json",
+  "fundamentalsHistory.json",
+  "governance.json",
+  "surveillance.json",
+];
+
 console.log("\nvercel.json includeFiles — India deep tarball + regional picks must be bundled\n");
 
 const patterns = loadIncludePatterns();
@@ -199,6 +206,15 @@ check("India deep tarball + EVERY committed regional picks-latest.json is in inc
     missing,
     [],
     `Not bundled into the Vercel function (India modal/leaderboards will be blank on prod):\n    ${missing.join("\n    ")}\n  Add the artifact to vercel.json includeFiles.`,
+  );
+});
+
+check("root runtime fixtures used by health/scoring are in includeFiles", () => {
+  const missing = REQUIRED_ROOT_FIXTURES.filter((f) => !isCovered(f));
+  assert.deepEqual(
+    missing,
+    [],
+    `Root runtime fixture(s) missing from the Vercel function bundle:\n    ${missing.join("\n    ")}`,
   );
 });
 
