@@ -36,6 +36,13 @@ test.describe("/api/sws-picks Fair-Value consistency vs /api/sws-stock/:t", () =
     expect(body._meta.fv_drift_count).toBeGreaterThanOrEqual(0);
     expect(typeof body._meta.missing_deep_count).toBe("number");
     expect(Array.isArray(body._meta.missing_deep_sample)).toBe(true);
+    const servedRows = Object.values(body.sections || {}).reduce(
+      (sum, items) => sum + (Array.isArray(items) ? items.length : 0),
+      0,
+    );
+    if (Number(body.scored_count) > 0) {
+      expect(servedRows, "India Market must not render 0 rows when scored_count is positive").toBeGreaterThan(0);
+    }
   });
 
   test("served cards always resolve through /api/sws-stock/:ticker", async ({ request }) => {
@@ -55,7 +62,7 @@ test.describe("/api/sws-picks Fair-Value consistency vs /api/sws-stock/:t", () =
         sampled.push({ ticker: it.ticker, section: sectionKey });
       }
     }
-    if (sampled.length === 0) return;
+    expect(sampled.length, "India picks response must expose at least one card when sections are present").toBeGreaterThan(0);
 
     const missing = [];
     for (const item of sampled) {
