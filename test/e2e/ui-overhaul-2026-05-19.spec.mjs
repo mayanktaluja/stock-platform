@@ -23,7 +23,7 @@ test.describe("UI/UX overhaul 2026-05-19", () => {
     // sr-only #liveTabHeading h1 is in the DOM (visible to AT, hidden visually)
     const h1 = page.locator("h1#liveTabHeading");
     await expect(h1).toHaveCount(1);
-    await expect(h1).toHaveText(/STARBHAI/);
+    await expect(h1).toHaveText(/Starbhai/);
 
     // Every tab role=tab points to a tab-content role=tabpanel
     const tabs = await page.locator('#mainTabs [role="tab"]').all();
@@ -39,9 +39,27 @@ test.describe("UI/UX overhaul 2026-05-19", () => {
 
   test("h1 text updates on tab switch", async ({ page }) => {
     await gotoApp(page);
-    await expect(page.locator("h1#liveTabHeading")).toHaveText(/SWS Picks/);
+    await expect(page.locator("h1#liveTabHeading")).toHaveText(/India Market/);
     await switchTab(page, "track");
     await expect(page.locator("h1#liveTabHeading")).toHaveText(/Track Record/);
+  });
+
+  test("market tabs use market naming and update the title", async ({ page }) => {
+    await gotoApp(page);
+
+    const tabLabels = await page.locator("#mainTabs [role='tab']").evaluateAll((tabs) =>
+      tabs.map((tab) => tab.textContent.trim()),
+    );
+    expect(tabLabels).toEqual(expect.arrayContaining([
+      "India Market",
+      "US Market",
+      "Korea Market",
+      "Taiwan Market",
+    ]));
+
+    await page.evaluate(() => { void window.switchTab("usPicks"); });
+    await expect(page.locator("#usPicksTab")).toBeVisible({ timeout: 10_000 });
+    await expect.poll(() => page.title()).toContain("US Market");
   });
 
   test("header search has accessible label", async ({ page }) => {
