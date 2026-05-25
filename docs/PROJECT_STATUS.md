@@ -75,8 +75,12 @@ portfolio analyzer.
   India + US pipelines frozen.** Numeric tickers dot-suffixed (005930.KS /
   2330.TW); 4-market co-run guard on the one shared SWS account.
 - **#390** — US/KR/TW Markets at 1:1 parity with India (rich modal, dropdown,
-  collapse). **#393** — bundle regional deep tarballs into the Vercel function
-  (Vercel ~15k file cap). **#404** — card fallback for region modal header/snowflake.
+  collapse). **#393 / #404** — regional deep briefs are packed as tarballs for
+  local/DAL use, but the catch-all Vercel lambda serves compact card fallback
+  data to avoid bundle-size/file-count risk.
+- **This PR** — US/KR/TW stock-detail APIs now normalize `returns_pct` from
+  deep briefs, card rows, or audit-trail aliases, and enriched card data carries
+  1D / 7D / 1M / 3M / 1Y total returns for modal fallback rendering.
 - **This PR** — US/KR/TW stock modals now render Total Returns from full deep
   briefs or compact card fallback data, and the regional DAL prefers fresher
   packed deep tarballs with a Node extraction fallback when shell `tar` fails.
@@ -170,7 +174,9 @@ portfolio analyzer.
   universe band is loaded at runtime.
 - **Vercel KV is dead for the picks/fundamentals READ path** (#195) but still backs
   user-scoped *writes* (watchlist, portfolio, track) via `userStorage.js`.
-- **Regional deep briefs ship as `deep-{us,kr,tw}.tar.gz`** (#393) — Vercel ~15k file cap.
+- **Regional deep briefs are packed as `deep-{us,kr,tw}.tar.gz`** (#393), but the
+  catch-all Vercel lambda must stay on compact `picks-latest.json` fallback data
+  for regional modals to avoid bundle-size/file-count risk.
 - **9× backtest scripts are forks**, not a shared library — propagate fixes by hand.
 - **Auto-refresh PRs flood the repo** — `chore(macro|sws): auto-refresh ...` open every
   few hours. They commit data files, not code.

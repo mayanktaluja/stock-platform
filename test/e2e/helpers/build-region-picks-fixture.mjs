@@ -26,6 +26,24 @@ import {
 } from "../../../services/swsMarketFundamentals.js";
 
 const TOKEN_BY_SUFFIX = { ".KS": "kose", ".KQ": "kosdaq", ".TW": "twse", ".TWO": "tpex" };
+const DEFAULT_RETURNS = { "1D": 0.8, "7D": 2.1, "1M": 3, "3M": 8, "1Y": 20, "5Y": 90 };
+
+function fixtureReturns(returnsPct) {
+  return { ...DEFAULT_RETURNS, ...(returnsPct || {}) };
+}
+
+function withIsolatedDeepDir(deepDir, fn) {
+  const backupDir = `${deepDir}.fixture-backup-${process.pid}`;
+  if (fs.existsSync(backupDir)) fs.rmSync(backupDir, { recursive: true, force: true });
+  if (fs.existsSync(deepDir)) fs.renameSync(deepDir, backupDir);
+  fs.mkdirSync(deepDir, { recursive: true });
+  try {
+    return fn();
+  } finally {
+    fs.rmSync(deepDir, { recursive: true, force: true });
+    if (fs.existsSync(backupDir)) fs.renameSync(backupDir, deepDir);
+  }
+}
 
 function makeDeep(o, region) {
   const sn = o.snowflake || { financial_health: 4, future: 4, valuation: 4, past: 4, dividends: 3 };
@@ -64,7 +82,7 @@ function makeDeep(o, region) {
       upside_pct: upside,
       market_cap_inr: o.mcap,
       net_margin_pct: o.netMargin ?? 12,
-      returns_pct: o.returns || { "1M": 3, "3M": 8, "1Y": 20, "5Y": 90 },
+      returns_pct: fixtureReturns(o.returns),
       multiples: o.multiples || { pe: 18, pb: 2, ps: 3, ev_ebitda: 12 },
       dividend: o.dividend || { yield_pct: 0.6, payout_pct: 20 },
       rewards: o.rewards || [],
@@ -207,14 +225,15 @@ function main() {
   }
   const region = getRegion(code);
   const cfg = makeRegionConfig(code);
-  fs.mkdirSync(cfg.PATHS.deepDir, { recursive: true });
   const stocks = STOCKS_BY_REGION[code];
-  for (const spec of stocks) {
-    const deep = makeDeep(spec, region);
-    fs.writeFileSync(path.join(cfg.PATHS.deepDir, `${spec.ticker}.json`), JSON.stringify(deep, null, 2));
-  }
-  writeFallbackFundamentals(stocks, region, cfg.PATHS.dataDir);
-  const out = runFullScoringRegion(code);
+  const out = withIsolatedDeepDir(cfg.PATHS.deepDir, () => {
+    for (const spec of stocks) {
+      const deep = makeDeep(spec, region);
+      fs.writeFileSync(path.join(cfg.PATHS.deepDir, `${spec.ticker}.json`), JSON.stringify(deep, null, 2));
+    }
+    writeFallbackFundamentals(stocks, region, cfg.PATHS.dataDir);
+    return runFullScoringRegion(code);
+  });
   console.log(`[${code}-fixture] wrote ${stocks.length} synthetic deep stocks → scored ${out.scored_count}`);
   console.log(`[${code}-fixture] wrote ${MARKET_FUNDAMENTALS_FILE} fallback metrics`);
   for (const [k, v] of Object.entries(out.sections)) console.log(`  ${k}: ${v.length}`);

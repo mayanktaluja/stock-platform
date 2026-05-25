@@ -15,6 +15,15 @@ const HAS_FIXTURE = fs.existsSync(
   path.join(__dirname, "..", "..", "data", "sws-us", "picks-latest.json"),
 );
 
+function expectFiniteReturnsPayload(body) {
+  expect(body.returns_pct).toBeTruthy();
+  expect(body.card?.returns_pct).toBeTruthy();
+  for (const key of ["1D", "7D", "1M", "3M", "1Y"]) {
+    expect(Number.isFinite(body.returns_pct[key]), `${key} top-level return`).toBe(true);
+    expect(Number.isFinite(body.card.returns_pct[key]), `${key} card return`).toBe(true);
+  }
+}
+
 test.describe("US Picks API", () => {
   test.skip(!HAS_FIXTURE, "no data/sws-us/picks-latest.json fixture present");
 
@@ -46,6 +55,7 @@ test.describe("US Picks API", () => {
     const sb = await s.json();
     expect(sb.ticker).toBe(ticker);
     expect(sb.currency).toBe("USD");
+    expectFiniteReturnsPayload(sb);
     if (sb.fundamentals_fallback) {
       expect(sb.fundamentals_fallback).toMatchObject({
         source: "yahoo-finance2",
