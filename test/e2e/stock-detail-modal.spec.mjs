@@ -60,7 +60,7 @@ test.describe("Stock detail modal (SWS)", () => {
     await expect(backdrop).not.toHaveClass(/open/, { timeout: 5_000 });
   });
 
-  test("Groww-backed quick stats render from cached nightly data when available", async ({ page, request }) => {
+  test("cached quick stats render ownership metrics when available", async ({ page, request }) => {
     await gotoApp(page, { tab: "picks" });
     await waitForPicksLoaded(page);
 
@@ -68,12 +68,14 @@ test.describe("Stock detail modal (SWS)", () => {
       cards.map((card) => card.getAttribute("data-ticker")).filter(Boolean).slice(0, 40)
     );
     let target = null;
+    let sourceDate = null;
     for (const ticker of tickers) {
       const res = await request.get(`/api/sws-stock/${encodeURIComponent(ticker)}`);
       if (!res.ok()) continue;
       const data = await res.json();
       if (data?.deep?.groww_source && data?.deep?.overview?.source_map?.current_price_inr) {
         target = ticker;
+        sourceDate = String(data.deep.groww_source.fetched_at || "").slice(0, 10);
         break;
       }
     }
@@ -82,7 +84,10 @@ test.describe("Stock detail modal (SWS)", () => {
     await page.locator(`.sws-pick-card[data-ticker="${target}"]`).first().click();
     const body = page.locator("#swsModalBody");
     await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
-    await expect(body).toContainText("Groww/Refinitiv", { timeout: 5_000 });
+    await expect(body).toContainText(/Quick stats\s+SWS/, { timeout: 5_000 });
+    if (sourceDate) {
+      await expect(body).toContainText(sourceDate, { timeout: 5_000 });
+    }
     await expect(body).toContainText("Promoter %", { timeout: 5_000 });
   });
 });
