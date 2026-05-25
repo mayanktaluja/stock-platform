@@ -95,6 +95,11 @@ portfolio analyzer.
   info-icon sizing fix.
 
 ### Pipeline / infra reliability (May 2026)
+- **This PR** — `sws-nightly.sh` now re-execs itself from a temporary stable
+  copy before any branch checkout. This prevents Bash from reading a rewritten
+  working-tree script mid-run, which caused the 2026-05-25 post-news step to
+  jump into a duplicate SWS scrape after the first scrape/PDF/news had already
+  completed.
 - **This PR** — NSE Surveillance (ASM/GSM) freshness hardening: root
   `surveillance.json` is bundled into Vercel, runtime snapshot selection picks
   the best populated/fresh value across KV/cache and disk, and zero-row NSE

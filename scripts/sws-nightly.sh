@@ -33,6 +33,21 @@
 #   7  sanity gate failed (data committed but NOT pushed)
 #   8  commit, push, or PR creation failed
 
+# This script checks out branches while it runs. Bash reads script files
+# incrementally, so executing directly from the working tree can jump to the
+# wrong byte offset if a checkout rewrites this file mid-run. Exec a stable
+# temp copy first; child commands still run from REPO_DIR below.
+if [ -z "${SWS_NIGHTLY_STABLE_COPY:-}" ]; then
+  STABLE_COPY="${TMPDIR:-/tmp}/sws-nightly.$$.sh"
+  if ! cp "${BASH_SOURCE[0]}" "${STABLE_COPY}"; then
+    echo "[nightly] cannot create stable script copy at ${STABLE_COPY}" >&2
+    exit 5
+  fi
+  chmod 700 "${STABLE_COPY}" 2>/dev/null || true
+  export SWS_NIGHTLY_STABLE_COPY="${STABLE_COPY}"
+  exec bash "${STABLE_COPY}" "$@"
+fi
+
 set -uo pipefail
 
 REPO_DIR="/Users/mayanktaluja/code/stock-platform"
@@ -83,6 +98,7 @@ slack_notify_on_exit() {
       ":warning: SWS nightly (sws-nightly.sh) failed at $(ts) with exit code ${rc} — see ${LOG_PATH}" \
       >/dev/null 2>&1 || true
   fi
+  [ -n "${SWS_NIGHTLY_STABLE_COPY:-}" ] && rm -f "${SWS_NIGHTLY_STABLE_COPY}" 2>/dev/null || true
 }
 trap slack_notify_on_exit EXIT
 
@@ -336,6 +352,7 @@ if [ ${DRY_RUN} -eq 1 ]; then
   echo "[nightly] DRY RUN — skipping scrape, sanity gate, commit, PR"
   send_mail "✅ SWS nightly DRY RUN OK" "Dry run completed at $(ts). Pre-flight + git sync OK. The real run would now invoke sws-refresh-api.sh."
   echo "[nightly] DRY RUN done in $(($(date +%s) - START_EPOCH))s"
+  [ -n "${SWS_NIGHTLY_STABLE_COPY:-}" ] && rm -f "${SWS_NIGHTLY_STABLE_COPY}" 2>/dev/null || true
   trap - EXIT  # dry-run success — don't fire Slack failure trap
   exit 0
 fi
@@ -1058,6 +1075,7 @@ CHANGED_FILES=$(git status --short \
 if [ "${CHANGED_FILES}" -eq 0 ]; then
   echo "[nightly] no SWS data changes detected — nothing to commit"
   send_mail "ℹ️ SWS nightly — no data changes" "Pipeline ran clean but no files changed. Likely SWS upstream returned identical data, or scrape was skipped."
+  [ -n "${SWS_NIGHTLY_STABLE_COPY:-}" ] && rm -f "${SWS_NIGHTLY_STABLE_COPY}" 2>/dev/null || true
   trap - EXIT  # clean no-op exit — don't fire Slack failure trap
   exit 0
 fi
@@ -1247,6 +1265,7 @@ if [ "${AUTO_MERGE}" = "1" ]; then
       send_mail "⚠️ SWS nightly — PR open but unmerged" "PR ${PR_URL} created but auto-merge failed. Manual review/merge required.
 
 $(tail -30 ${LOG})"
+      [ -n "${SWS_NIGHTLY_STABLE_COPY:-}" ] && rm -f "${SWS_NIGHTLY_STABLE_COPY}" 2>/dev/null || true
       trap - EXIT  # warning, but commit/push succeeded — don't fire Slack failure trap
       exit 0
     }
@@ -1288,5 +1307,6 @@ echo "[nightly] DONE in ${ELAPSED}s ($(ts))"
 # Successful run — clear the Slack failure trap so the final `exit 0` doesn't
 # fire it. Mid-script `exit N` paths (panic flag, battery, sanity gate, push
 # failure, etc.) still trigger the trap by design.
+[ -n "${SWS_NIGHTLY_STABLE_COPY:-}" ] && rm -f "${SWS_NIGHTLY_STABLE_COPY}" 2>/dev/null || true
 trap - EXIT
 exit 0
