@@ -86,7 +86,7 @@ portfolio analyzer.
 - **#458** — Flatten privileged navigation: US/KR/TW Markets, Risk Lab, and
   Sector Outlook stay visible in the main tab bar for signed-in users; only
   Users remains owner-admin-only. Admin authority is now hard-coded to
-  `mthaluja11@gmail.com` via `computeIsAdmin()` rather than `ADMIN_EMAILS`.
+  `mtaluja11@gmail.com` via `computeIsAdmin()` rather than `ADMIN_EMAILS`.
 - **#395** — Two-tier access: `ADMIN_EMAILS` live allowlist; personal-use folded
   into the admin tier. (Direction still settling — see Active themes.)
 - **#361** — "More" dropdown for privileged tabs. **#370** — Avoid List section
@@ -124,7 +124,7 @@ portfolio analyzer.
   recovering the XIRR/Sharpe gap via `scripts/sws-backtest-weight-sweep.mjs` is
   the active work. `data/sws/predictor-weights-v1.json` is the rollback anchor.
 - **Auth model settling.** Two-tier (#395) shipped, and owner admin is now
-  centralized in `computeIsAdmin()` as `mthaluja11@gmail.com` while public
+  centralized in `computeIsAdmin()` as `mtaluja11@gmail.com` while public
   research tabs stay visible to signed-in users. Per-user data namespacing
   remains the eventual goal. **Verify `server.js` + `services/auth/` before
   touching auth.**

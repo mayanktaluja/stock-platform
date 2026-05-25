@@ -9,7 +9,7 @@ import { gotoApp } from "./helpers/app.mjs";
 
 const ADMIN_ME = {
   userId: "e2e-owner",
-  email: "mthaluja11@gmail.com",
+  email: "mtaluja11@gmail.com",
   name: "Owner",
   picture: "",
   isAdmin: true,
@@ -54,6 +54,15 @@ test.describe("Main tab visibility", () => {
     for (const id of PUBLIC_MAIN_TABS) {
       await expect(page.locator(`#${id}`)).toBeVisible();
     }
+  });
+
+  test("admin: singular #tab=user deep link opens the Users tab", async ({ page }) => {
+    await mockAdmin(page);
+    await page.goto("/index.html#tab=user", { waitUntil: "domcontentloaded" });
+
+    await expect(page.locator("#usersTabBtn")).toBeVisible({ timeout: 10_000 });
+    await expect(page.locator("#usersTab")).toBeVisible({ timeout: 10_000 });
+    await expect(page.locator("#usersTabBtn")).toHaveClass(/active/);
   });
 
   test("clicking a promoted public tab activates its main-bar button", async ({ page }) => {

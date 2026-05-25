@@ -67,11 +67,11 @@ console.log("\nadminGate — computeIsAdmin");
 
 process.env.ADMIN_EMAILS = "mtaluja11@gmail.com, co@example.com";
 
-assert("hard-coded owner email passes", computeIsAdmin("mthaluja11@gmail.com") === true);
-assert("case-insensitive match", computeIsAdmin("MTHALUJA11@GMAIL.COM") === true);
-assert("whitespace-tolerant owner email passes", computeIsAdmin("  mthaluja11@gmail.com  ") === true);
+assert("hard-coded owner email passes", computeIsAdmin("mtaluja11@gmail.com") === true);
+assert("case-insensitive match", computeIsAdmin("MTALUJA11@GMAIL.COM") === true);
+assert("whitespace-tolerant owner email passes", computeIsAdmin("  mtaluja11@gmail.com  ") === true);
 assert("ADMIN_EMAILS does not grant admin", computeIsAdmin("co@example.com") === false);
-assert("old misspelled owner email fails", computeIsAdmin("mtaluja11@gmail.com") === false);
+assert("old misspelled owner email fails", computeIsAdmin("mthaluja11@gmail.com") === false);
 assert("non-allowlisted fails", computeIsAdmin("random@x.com") === false);
 assert("empty email fails", computeIsAdmin("") === false);
 assert("null email fails", computeIsAdmin(null) === false);
@@ -80,7 +80,7 @@ assert("undefined email fails", computeIsAdmin(undefined) === false);
 console.log("\nadminGate — computeIsAdmin ignores env mutation");
 
 process.env.ADMIN_EMAILS = "";
-assert("empty ADMIN_EMAILS does not revoke the owner", computeIsAdmin("mthaluja11@gmail.com") === true);
+assert("empty ADMIN_EMAILS does not revoke the owner", computeIsAdmin("mtaluja11@gmail.com") === true);
 process.env.ADMIN_EMAILS = "co@example.com";
 assert("mutated ADMIN_EMAILS still does not grant co-admin", computeIsAdmin("co@example.com") === false);
 
@@ -120,7 +120,7 @@ const mwProd = createAdminGate({ authEnabled: true });
 {
   // Authenticated sub with no matching user record (FileUserStorage has no
   // users.json in CI) → computeIsAdmin(null) is false → 404 stealth (not 403).
-  process.env.ADMIN_EMAILS = "mthaluja11@gmail.com";
+  process.env.ADMIN_EMAILS = "mtaluja11@gmail.com";
   const { res, nextCalled } = await runMiddleware(mwProd, { user: { sub: "no-such-user" } });
   assert(
     "prod mode: authenticated non-admin → 404",
