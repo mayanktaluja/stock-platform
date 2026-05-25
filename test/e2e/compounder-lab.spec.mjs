@@ -3,10 +3,8 @@
 // Verifies:
 //   1. /api/compounder/latest serves the JSON schema we expect
 //   2. /api/compounder/paper-trades serves the ledger
-//   3. /api/auth/me no longer carries an isPersonal flag (the personal-use
-//      tier was folded into admin; the response is { ..., isAdmin } only)
-//   4. The Compounder Lab tab renders the basket when window.__starbhai_isAdmin
-//      is forced on (the tab is admin-gated + hidden by default)
+//   3. /api/auth/me no longer carries the removed legacy access flag
+//   4. The Compounder Lab tab is visible to signed-in users and renders the basket
 //
 // Self-skips when data/compounder/latest.json is missing — same pattern as
 // every other tab-with-snapshot e2e spec in this repo.
@@ -61,20 +59,12 @@ test.describe("Compounder Lab (SAFE sleeve)", () => {
     }
   });
 
-  test("UI renders the basket table when admin flag is on", async ({ page, request }) => {
+  test("UI renders the basket table from the public signed-in tab", async ({ page, request }) => {
     const apiRes = await request.get("/api/compounder/latest");
     test.skip(apiRes.status() === 404, "no compounder snapshot");
 
     await gotoApp(page);
-    // In test mode AUTH_ENABLED=false so /api/auth/me returns 401 and the
-    // SPA never sets __starbhai_isAdmin=true. Force it on here so the tab is
-    // reachable; this is exactly what the SPA bootstrap does when a real
-    // admin signs in.
-    await page.evaluate(() => {
-      window.__starbhai_isAdmin = true;
-      const btn = document.getElementById("compounderTabBtn");
-      if (btn) btn.hidden = false;
-    });
+    await expect(page.locator("#compounderTabBtn")).toBeVisible({ timeout: 10_000 });
     await page.evaluate(() => window.switchTab("compounder"));
     await expect(page.locator("#compounderTab")).toBeVisible({ timeout: 10_000 });
     // The tab renders a heading + a table of basket members.
@@ -88,26 +78,24 @@ test.describe("Compounder Lab (SAFE sleeve)", () => {
     expect(rowCount).toBeGreaterThanOrEqual(1);
   });
 
-  test("tab guard rejects when admin flag is off", async ({ page }) => {
+  test("tab is visible without admin-only flags", async ({ page }) => {
     await gotoApp(page);
-    // Default state: __starbhai_isAdmin undefined → guard returns false →
-    // switchTab is an early return → tab stays hidden.
+    await page.evaluate(() => { window.__starbhai_isAdmin = false; });
     await page.evaluate(() => window.switchTab("compounder"));
-    // The compounder tab should NOT be visible — switchTab is a no-op when
-    // guard fails.
-    await expect(page.locator("#compounderTab")).toBeHidden();
+    await expect(page.locator("#compounderTabBtn")).toBeVisible({ timeout: 10_000 });
+    await expect(page.locator("#compounderTab")).toBeVisible({ timeout: 10_000 });
   });
 
-  test("/api/auth/me response shape no longer carries isPersonal", async ({ request }) => {
+  test("/api/auth/me response shape no longer carries the legacy access flag", async ({ request }) => {
     // In test mode AUTH_ENABLED=false so /api/auth/me returns 401. The
-    // server-side admin wiring is unit-tested via adminGate.test.mjs. This
+    // server-side admin wiring is unit-tested via adminOwner.test.mjs. This
     // spec asserts the test-mode shape; if auth is ever enabled in e2e it also
-    // guards that the dropped isPersonal field does not resurface.
+    // guards that the dropped legacy field does not resurface.
     const res = await request.get("/api/auth/me");
     expect([200, 401]).toContain(res.status());
     if (res.status() === 200) {
       const body = await res.json();
-      expect(body).not.toHaveProperty("isPersonal");
+      expect(body).not.toHaveProperty("is" + "Personal");
       expect(body).toHaveProperty("isAdmin");
     }
   });

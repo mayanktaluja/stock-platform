@@ -20,12 +20,8 @@ test.describe("5x Lab — trajectory + overview", () => {
     }
   });
 
-  test("/api/multibagger/overview returns expected schema OR 404 for non-admin users", async ({ request }) => {
+  test("/api/multibagger/overview returns expected schema", async ({ request }) => {
     const res = await request.get("/api/multibagger/overview");
-    if (res.status() === 404) {
-      // Non-admin user — expected in CI where the caller isn't in ADMIN_EMAILS.
-      test.skip(true, "not an admin account (expected in CI)");
-    }
     expect(res.ok()).toBe(true);
     const body = await res.json();
     expect(body.schema_version).toBe("multibagger-overview-v1");
@@ -43,23 +39,15 @@ test.describe("5x Lab — trajectory + overview", () => {
     }
   });
 
-  test("tab is gated behind admin flag (button hidden by default)", async ({ page }) => {
+  test("tab is visible by default", async ({ page }) => {
     await gotoApp(page);
     const btn = page.locator("#multibaggerLabTabBtn");
-    // Default: hidden attribute set on the element.
-    await expect(btn).toBeHidden({ timeout: 5000 });
+    await expect(btn).toBeVisible({ timeout: 5000 });
   });
 
-  test("trajectory section renders when forced visible", async ({ page }) => {
+  test("trajectory section renders from the public signed-in tab", async ({ page }) => {
     if (!fs.existsSync(SCORES_PATH)) test.skip(true, "no scores snapshot");
     await gotoApp(page);
-
-    // Force the personal-use flag so the tab is reachable.
-    await page.evaluate(() => {
-      window.__starbhai_isAdmin = true;
-      const btn = document.getElementById("multibaggerLabTabBtn");
-      if (btn) btn.hidden = false;
-    });
 
     // Click the tab and wait for content.
     await page.evaluate(() => window.switchTab && window.switchTab("multibaggerLab"));
@@ -71,7 +59,7 @@ test.describe("5x Lab — trajectory + overview", () => {
       const r = await fetch("/api/multibagger/overview");
       return r.ok;
     });
-    if (!apiOk) test.skip(true, "API not personal-gated open in this env");
+    if (!apiOk) test.skip(true, "multibagger API unavailable in this env");
 
     // Trajectory pill must be present.
     const trajectoryPill = page.locator("[data-test='multibagger-current-value']");
@@ -82,11 +70,6 @@ test.describe("5x Lab — trajectory + overview", () => {
 
   test("honest footer with backtest-not-validated language is present", async ({ page }) => {
     await gotoApp(page);
-    await page.evaluate(() => {
-      window.__starbhai_isAdmin = true;
-      const btn = document.getElementById("multibaggerLabTabBtn");
-      if (btn) btn.hidden = false;
-    });
     await page.evaluate(() => window.switchTab && window.switchTab("multibaggerLab"));
     const footer = page.locator("#multibaggerLabBacktestStatus");
     await expect(footer).toBeAttached({ timeout: 5000 });

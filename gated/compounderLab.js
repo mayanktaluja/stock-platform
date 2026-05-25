@@ -3,8 +3,8 @@
 // Renders the quality-quintile basket from data/compounder/latest.json with
 // per-stock click-through to the shared SWS modal.
 //
-// Personal-use only — server returns 404 to non-allowlisted users so this
-// loader will simply fail-quietly for anyone outside the allowlist.
+// Signed-in read surface. If the backing snapshot is missing, this loader
+// degrades into a short empty state.
 
 (function () {
   const FMT_PCT = (n) =>
@@ -105,7 +105,7 @@
         fetch("/api/compounder/paper-trades"),
       ]);
       if (latestRes.status === 404) {
-        el.innerHTML = '<div style="padding:32px; text-align:center; color:var(--text-muted);">Compounder Lab is personal-use only.</div>';
+        el.innerHTML = '<div style="padding:32px; text-align:center; color:var(--text-muted);">Compounder Lab data is not available yet.</div>';
         return;
       }
       if (!latestRes.ok) throw new Error(`HTTP ${latestRes.status}`);
