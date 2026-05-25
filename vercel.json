@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "framework": null,
   "regions": ["bom1"],
   "rewrites": [
     { "source": "/api/:path*", "destination": "/api/index.js" },
@@ -7,11 +8,6 @@
   ],
   "functions": {
     "api/index.js": {
-      "memory": 1024,
-      "maxDuration": 60,
-      "includeFiles": "{gated/**,data/*.json,data/sws*/*.json,data/sws*/*.tar.gz,data/sws/_sanity/**,data/catalysts/**,data/coverage/**,services/swsDal/**,db/**,fundamentals.json,fundamentalsHistory.json,governance.json}"
-    },
-    "server.js": {
       "memory": 1024,
       "maxDuration": 60,
       "includeFiles": "{gated/**,data/*.json,data/sws*/*.json,data/sws*/*.tar.gz,data/sws/_sanity/**,data/catalysts/**,data/coverage/**,services/swsDal/**,db/**,fundamentals.json,fundamentalsHistory.json,governance.json}"
