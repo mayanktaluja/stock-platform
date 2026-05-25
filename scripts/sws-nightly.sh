@@ -766,8 +766,8 @@ else
   fi
 fi
 
-echo "[nightly] running refresh-earnings.mjs (depends on the above)..."
-if with_timeout 600 node scripts/refresh-earnings.mjs 2>&1 | sed 's/^/[earnings] /'; then
+echo "[nightly] running refresh-earnings.mjs --window 60 --past-window-days 14 (depends on the above)..."
+if with_timeout 600 node scripts/refresh-earnings.mjs --window 60 --past-window-days 14 2>&1 | sed 's/^/[earnings] /'; then
   aux_status "earnings-watch-latest.json" "OK"
 else
   echo "[nightly] refresh-earnings.mjs failed — non-fatal; tab stays on prior snapshot"
