@@ -2450,7 +2450,7 @@ function renderMacroBanner(regime) {
     const quotaUntil = regime?.quotaLimitedUntil ?? null;
 
     let bannerTitle = "&#9888; Macro classifier degraded";
-    let bannerReasoning = `${escapeHtml(reasoning || "Macro feed unavailable.")} Picks below are running without macro tilt &mdash; treat sector recommendations as best-effort until the classifier recovers.`;
+    let bannerReasoning = `${escapeHtml(reasoning || "Macro feed unavailable.")} Market views below are running without macro tilt &mdash; treat sector recommendations as best-effort until the classifier recovers.`;
 
     if (quotaUntil && quotaUntil > Date.now()) {
       const resumeStr = new Date(quotaUntil).toLocaleString("en-IN", {
@@ -2612,7 +2612,7 @@ const TAB_CONFIG = {
     label: "Portfolio Analyzer",
     enter: () => { initPortfolioAnalyzer(); loadAnalyzerOnTabOpen(); },
   },
-  picks:     { elId: "picksTab",     label: "SWS Picks",           enter: () => loadPicks() },
+  picks:     { elId: "picksTab",     label: "India Market",        enter: () => loadPicks() },
   watchlist: { elId: "watchlistTab", label: "Watchlist",           enter: () => loadWatchlist() },
   // Defence-in-depth: server enforces admin via 403 on /api/admin/users,
   // but bail in the loader too so a non-admin who somehow forces the URL
@@ -2623,26 +2623,26 @@ const TAB_CONFIG = {
     guard: () => !!window.__starbhai_isAdmin,
     enter: () => loadUsersList(),
   },
-  // US Picks — SWS-sourced US-equity leaderboard. Open to every signed-in user
-  // (parity with the India SWS Picks tab); the global session gate is the only
+  // US Market — SWS-sourced US-equity leaderboard. Open to every signed-in user
+  // (parity with the India Market tab); the global session gate is the only
   // auth requirement — /api/us-* carries no per-route admin check.
   usPicks: {
     elId: "usPicksTab",
-    label: "US Picks",
+    label: "US Market",
     guard: () => true,
     enter: () => loadUSPicks(),
   },
-  // Korea / Taiwan Picks — SWS leaderboards, registry-driven render path. Open to
+  // Korea / Taiwan Market — SWS leaderboards, registry-driven render path. Open to
   // every signed-in user, same as US; only the global session gate applies.
   krPicks: {
     elId: "krPicksTab",
-    label: "Korea Picks",
+    label: "Korea Market",
     guard: () => true,
     enter: () => loadRegionPicks("kr"),
   },
   twPicks: {
     elId: "twPicksTab",
-    label: "Taiwan Picks",
+    label: "Taiwan Market",
     guard: () => true,
     enter: () => loadRegionPicks("tw"),
   },
@@ -4334,7 +4334,7 @@ async function loadTrackRecord(forceBust = false) {
           <div class="empty-icon">&#128202;</div>
           <div class="empty-text">${escapeHtml(data.message)}</div>
           <div style="font-size:11px;color:var(--text-muted);margin-top:8px;">
-            Snapshots are captured automatically when the SWS Picks pipeline runs.
+            Snapshots are captured automatically when the India Market pipeline runs.
           </div>
         </div>`;
       return;
@@ -5135,7 +5135,7 @@ async function loadWatchlist() {
           <div class="empty-icon">&#9734;</div>
           <div class="empty-text">Your watchlist is empty.</div>
           <div style="font-size:12px; color:var(--text-muted); margin-top:8px;">
-            Tap the ☆ icon on any stock card (SWS Picks, scanners, or detail pages) to start tracking it here.
+            Tap the ☆ icon on any stock card (India Market, scanners, or detail pages) to start tracking it here.
           </div>
         </div>`;
       return;
@@ -10556,7 +10556,7 @@ function pickMatchesSearch(it, q) {
   return hay.includes(q);
 }
 
-// Builds the freshness banner shown under the SWS Picks header. Surfaces
+// Builds the freshness banner shown under the India Market header. Surfaces
 // (a) the last full-pipeline-finish stamp from last-refresh.json,
 // (b) live "refresh in progress" indicator if any shard last_run_at is recent,
 // (c) a stale warning when the data is older than 3 days (the user's target
@@ -10699,7 +10699,7 @@ function togglePicksExpandAll(sectionKey, ev) {
   if (currentPicksData) renderPicks(currentPicksData);
 }
 
-// Click handler for a section header in the SWS Picks tab. Toggles the
+// Click handler for a section header in the India Market tab. Toggles the
 // .collapsed class and persists.
 function togglePicksSection(headerEl, ev) {
   if (ev) {
@@ -10733,7 +10733,7 @@ function jumpToPicksSection(sectionKey) {
 
 // UI/UX overhaul 2026-05-19 — modal section-chip handler. Used by the
 // "In sections: 💎 Deep Value …" banner inside the SWS detail modal:
-// clicking a chip closes the modal, switches to the SWS Picks tab if
+// clicking a chip closes the modal, switches to the India Market tab if
 // needed, and scrolls to + expands the section that holds this stock.
 // Closes audit Pain Point #10 ("section chips are inert").
 window.navigateToPicksSection = async function navigateToPicksSection(sectionKey) {
@@ -11232,7 +11232,7 @@ function renderPickCard(s, sectionKey, rank = null) {
 
 
 // ==================== US PICKS ====================
-// Mirror of the SWS Picks tab for US-listed stocks (data/sws-us/ pipeline).
+// Mirror of the India Market tab for US-listed stocks (data/sws-us/ pipeline).
 // Fully isolated render path — own loader / renderer / card / modal + a
 // currency-aware money formatter — so the India picks code (renderPickCard,
 // openSwsModal, formatINR) is never touched. Cards carry a `currency` field;
@@ -11301,12 +11301,12 @@ async function loadUSPicks() {
   const container = document.getElementById("usPicksContainer");
   const meta = document.getElementById("usPicksMeta");
   if (!container) return;
-  container.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading US picks…</div></div>`;
+  container.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading US Market…</div></div>`;
   try {
     const res = await fetch("/api/us-picks");
     if (res.status === 404) {
       currentUSPicksData = null;
-      container.innerHTML = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No US picks yet. Run <code>/sws-refresh-us</code> (or the seed scrape) to populate the US universe — the tab fills in as stocks are scored.</div>`;
+      container.innerHTML = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No US Market data yet. Run <code>/sws-refresh-us</code> (or the seed scrape) to populate the US universe — the tab fills in as stocks are scored.</div>`;
       if (meta) meta.textContent = "No data yet";
       return;
     }
@@ -11321,7 +11321,7 @@ async function loadUSPicks() {
     }
     pollUSScanStatus();
   } catch (e) {
-    container.innerHTML = `<div style="color:var(--red);padding:24px;">Failed to load US picks: ${escapeHtml(String((e && e.message) || e))}</div>`;
+    container.innerHTML = `<div style="color:var(--red);padding:24px;">Failed to load US Market: ${escapeHtml(String((e && e.message) || e))}</div>`;
   }
 }
 
@@ -11572,7 +11572,7 @@ async function pollUSScanStatus() {
         banner.style.background = "rgba(0,180,100,0.1)";
         banner.style.border = "1px solid var(--green)";
         banner.style.color = "var(--green)";
-        banner.innerHTML = `🟢 US scan in progress · ${lines || "starting…"} · Total ${s.total_done}`;
+        banner.innerHTML = `🟢 US Market scan in progress · ${lines || "starting…"} · Total ${s.total_done}`;
       } else {
         banner.style.display = "none";
       }
@@ -11661,12 +11661,13 @@ async function loadRegionPicks(code) {
   const container = document.getElementById(dom + "Container");
   const meta = document.getElementById(dom + "Meta");
   if (!container || !ui) return;
-  container.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading ${escapeHtml(ui.label)} picks…</div></div>`;
+  const marketLabel = `${ui.label} Market`;
+  container.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading ${escapeHtml(marketLabel)}…</div></div>`;
   try {
     const res = await fetch(`/api/${code}-picks`);
     if (res.status === 404) {
       _rp(code).data = null;
-      container.innerHTML = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No ${escapeHtml(ui.label)} picks yet. Run <code>/${escapeHtml(ui.skill)}</code> (or the seed scrape) to populate the universe — the tab fills in as stocks are scored.</div>`;
+      container.innerHTML = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No ${escapeHtml(marketLabel)} data yet. Run <code>/${escapeHtml(ui.skill)}</code> (or the seed scrape) to populate the universe — the tab fills in as stocks are scored.</div>`;
       if (meta) meta.textContent = "No data yet";
       return;
     }
@@ -11681,7 +11682,7 @@ async function loadRegionPicks(code) {
     }
     pollRegionScanStatus(code);
   } catch (e) {
-    container.innerHTML = `<div style="color:var(--red);padding:24px;">Failed to load ${escapeHtml(ui.label)} picks: ${escapeHtml(String((e && e.message) || e))}</div>`;
+    container.innerHTML = `<div style="color:var(--red);padding:24px;">Failed to load ${escapeHtml(marketLabel)}: ${escapeHtml(String((e && e.message) || e))}</div>`;
   }
 }
 
@@ -11834,7 +11835,7 @@ async function pollRegionScanStatus(code) {
         banner.style.background = "rgba(0,180,100,0.1)";
         banner.style.border = "1px solid var(--green)";
         banner.style.color = "var(--green)";
-        banner.innerHTML = `🟢 ${escapeHtml(ui.label)} scan in progress · ${lines || "starting…"} · Total ${s.total_done}`;
+        banner.innerHTML = `🟢 ${escapeHtml(ui.label)} Market scan in progress · ${lines || "starting…"} · Total ${s.total_done}`;
       } else {
         banner.style.display = "none";
       }
@@ -11940,7 +11941,7 @@ async function pollPicksStatus() {
 let swsModalCurrentTicker = null;
 let swsModalLastFocus = null;
 // Per-ticker scroll positions so re-opening a modal (after closing, or after
-// switching sections on the SWS Picks chip-nav) restores where the user left
+// switching sections on the India Market chip-nav) restores where the user left
 // off instead of snapping back to the top. Bounded to ~50 tickers — beyond
 // that we drop the oldest entry, since this is purely a UX nicety.
 const swsModalScrollMemory = new Map();
@@ -12726,7 +12727,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     const keysToRender = (buyListMemberships.length ? buyListMemberships : memberships)
       .filter((k) => sectionLabelByKey[k]);
     // UI/UX overhaul 2026-05-19 — chips are now clickable buttons that
-    // close the modal and switch to the SWS Picks tab, scrolled to the
+    // close the modal and switch to the India Market tab, scrolled to the
     // section that holds this stock. Previously they were inert spans
     // (audit Pain Point #10). The data-section key is the same key used
     // by the chip-nav scroller so the existing scrollToPicksSection
@@ -12739,7 +12740,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
       // India wires chips to navigateToPicksSection; markets without a section
       // scroller yet (US/KR/TW pre-PR3) get inert chips — same look, no nav.
       if (opts.sectionNavFn) {
-        return `<button type="button" class="sws-modal-section-chip is-clickable" data-section-key="${safeKey}" onclick="${opts.sectionNavFn}('${safeKey.replace(/'/g, "\\'")}')" title="Open SWS Picks → ${safeDisplay}">${safeDisplay}</button>`;
+        return `<button type="button" class="sws-modal-section-chip is-clickable" data-section-key="${safeKey}" onclick="${opts.sectionNavFn}('${safeKey.replace(/'/g, "\\'")}')" title="Open India Market → ${safeDisplay}">${safeDisplay}</button>`;
       }
       return `<span class="sws-modal-section-chip" data-section-key="${safeKey}">${safeDisplay}</span>`;
     }).join("");
@@ -12842,14 +12843,14 @@ function escapeAttr(s) {
 //
 // openStockDetailModal(symbolOrTicker, sourceTab) is the single entry point
 // for every clickable stock surface across the platform (scanner cards,
-// search, watchlist, portfolio, MF overlap, etc.). The SWS Picks tab is
+// search, watchlist, portfolio, MF overlap, etc.). The India Market tab is
 // untouched — it still calls openSwsModal() directly.
 //
 // Two-stage progressive paint:
 //   Stage 0 — instant skeleton + spinner (before any fetch)
 //   Stage 1 — /api/sws-stock/:ticker (~20ms local file). If 200, we render
 //             the full SWS modal (reusing renderSwsModal + the lazy live
-//             overlay) — same UX as SWS Picks.
+//             overlay) — same UX as India Market.
 //   Stage 1' — If /api/sws-stock 404s (ticker outside SWS scrape universe,
 //              common for small-caps), we fall through to the live-only
 //              render path which uses /api/stock/:symbol alone.
@@ -12920,7 +12921,7 @@ async function openStockDetailModal(symbolOrTicker, sourceTab) {
   if (swsModalCurrentTicker !== ticker) return; // user clicked another card
 
   if (swsData) {
-    // SWS-rich path: identical to SWS Picks UX. renderSwsModal paints the
+    // SWS-rich path: identical to India Market UX. renderSwsModal paints the
     // full hero/snowflake/valuation/rewards-risks/news view.
     body.innerHTML = renderSwsModal(swsData);
   } else {

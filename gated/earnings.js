@@ -52,7 +52,7 @@
 
   // Per-date collapsed state for the calendar — persisted across reloads
   // so a user who collapsed e.g. May 30 doesn't see it re-expand the next
-  // time they open the tab. Mirrors the SWS Picks collapse pattern in
+  // time they open the tab. Mirrors the India Market collapse pattern in
   // app.js without sharing the helper (earnings.js is an isolated IIFE).
   const EARNINGS_COLLAPSED_KEY = "earningsCollapsedDates";
 

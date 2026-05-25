@@ -249,7 +249,7 @@ PROJECT_STATUS):
 | Tier | Mechanism | Gates |
 |---|---|---|
 | **Public** | session-gate exempt list | `/`, `/login.html`, `/healthz`, `/api/auth/*`, `/api/logout`, `/api/macro/regime/health`, all `/api/cron/*`, `/api/track/migrate` + `/api/track/snapshot-sws-now` (own `MACRO_OVERRIDE_TOKEN` gate) |
-| **Signed-in** | session gate (any valid Google session) | Everything not listed elsewhere. India SWS Picks, Earnings Watch, Risk Lab, Macro, Sector Outlook, News, Track Record, Portfolio Analyzer. `requireSignedInRead` also guards US/KR/TW read routes (opened from admin-only in the parity work). |
+| **Signed-in** | session gate (any valid Google session) | Everything not listed elsewhere. India Market, Earnings Watch, Risk Lab, Macro, Sector Outlook, News, Track Record, Portfolio Analyzer. `requireSignedInRead` also guards US/KR/TW read routes (opened from admin-only in the parity work). |
 | **Admin** | in-handler `isAdmin` check (reads user record); `ADMIN_EMAILS` env allowlist (#395) | `/api/admin/*`; SWS write/refresh routes via `requireAdminForSwsRefresh` (`/api/sws-refresh/*`, `/api/sws-scan/initial-start`). |
 | **Personal** | `createPersonalUseGate` (`services/auth/personalUseGate.js`) — email allowlist | Experimental sleeves: `/api/compounder/*`, `/api/earnings-edge/*`, `/api/multibagger/*`. |
 
@@ -276,11 +276,11 @@ mutation routes noted. Backing modules in the right column.
 | **Market data** | `GET /api/market`, `/api/market-calendar`, `/api/market-verdict`, `/api/sector-heatmap`, `/api/fii-dii` | `nse.js`, `fundamentals.js`, `services/externalApiBreaker.js` |
 | **News / catalysts** | `GET /api/news/market`, `GET /api/catalysts/today` | `stockNews.js`, `sentiment.js`, `services/catalystsService.js` |
 | **Macro regime** | `GET /api/macro/regime`, `/api/macro/regime/health` (public), `/api/macro/override` (token) | `macroRegime.js`, `services/macroRegimeStorage.js` |
-| **India SWS Picks** | `GET /api/sws-picks`, `/api/sws-universe`, `/api/sws-stock/:ticker`, `/api/sws-scan/status`, `/api/sws-pdf/latest` | `services/swsDal/`, `data/sws/` |
+| **India Market** | `GET /api/sws-picks`, `/api/sws-universe`, `/api/sws-stock/:ticker`, `/api/sws-scan/status`, `/api/sws-pdf/latest` | `services/swsDal/`, `data/sws/` |
 | **SWS refresh** (admin-write) | `POST /api/sws-refresh/{quick,earnings,full}`, `/api/sws-scan/initial-start` | writes `data/sws/refresh-requested.json`; launchd/skills pick it up |
-| **US Picks** | `GET /api/us-picks`, `/api/us-stock/:ticker`, `/api/us-scan/status` | `services/usPicksDal.js`, `data/sws-us/` |
-| **Korea Picks** | `GET /api/kr-picks`, `/api/kr-stock/:ticker`, `/api/kr-scan/status` | `services/regionPicksDal.js` (`makeRegionPicksDal("kr")`) |
-| **Taiwan Picks** | `GET /api/tw-picks`, `/api/tw-stock/:ticker`, `/api/tw-scan/status` | `services/regionPicksDal.js` (`makeRegionPicksDal("tw")`) |
+| **US Market** | `GET /api/us-picks`, `/api/us-stock/:ticker`, `/api/us-scan/status` | `services/usPicksDal.js`, `data/sws-us/` |
+| **Korea Market** | `GET /api/kr-picks`, `/api/kr-stock/:ticker`, `/api/kr-scan/status` | `services/regionPicksDal.js` (`makeRegionPicksDal("kr")`) |
+| **Taiwan Market** | `GET /api/tw-picks`, `/api/tw-stock/:ticker`, `/api/tw-scan/status` | `services/regionPicksDal.js` (`makeRegionPicksDal("tw")`) |
 | **Portfolio Analyzer** | `POST /api/portfolio/analyze` (multer upload), `/analyze/rerun`, `GET /api/portfolio/stance/:symbol`, `POST /api/portfolio/optimize` | `swsPortfolioAggregate.js`, `swsHoldingEngine.js`, `portfolioIntelligence.js`, `xirrOptimizer.js` |
 | **Portfolio (basic)** | `GET/POST /api/portfolio`, `GET/POST/DELETE /api/risk-profile` | `portfolioParser.js`, `userStorage.js` |
 | **Earnings Watch** | `GET /api/earnings/upcoming[/stats]`, `/api/earnings/:symbol`, `/api/earnings/{calibration,backtest}`, `/api/audit/earnings/:symbol/:date` | `services/earnings/earningsWatchService.js`, `earningsHistoryArchive.js`, `hitRateSummary.js` |
@@ -324,14 +324,14 @@ document embedding every tab panel as a hidden `<div>` (`display:none`, toggled 
 > `// ===`): init+telemetry, auth header menu (`auth.init()` sets `window.__starbhai_isAdmin` /
 > `__starbhai_isPersonal`), snapshot/LLM health banners, glossary tooltips, market data, search,
 > stock detail, dashboard, tabs (`TAB_CONFIG` + `switchTab()` + `LABS_MENU_TABS` "More" dropdown),
-> Users, Portfolio, Market News, Track Record, Watchlist, price chart, Portfolio Analyzer, SWS
-> Picks, US Picks, the SWS deep-brief modal, the action-list modal, the universal stock modal, and
+> Users, Portfolio, Market News, Track Record, Watchlist, price chart, Portfolio Analyzer,
+> India Market, US Market, the SWS deep-brief modal, the action-list modal, the universal stock modal, and
 > the hash router (`#tab=<name>`).
 
-**Tab visibility:** the tab bar has ~9 markup tabs; privileged tabs (US/KR/TW Picks, 5x Lab,
-Compounder, Earnings Edge, Users) are `hidden` and unhidden on boot by `auth.init()` based on
-`isAdmin`/`isPersonal`. They live behind a **"More" dropdown** (`LABS_MENU_TABS`, #361). Risk Lab and
-Sector Outlook are visible but locally toggleable via `localStorage`.
+**Tab visibility:** the tab bar keeps India/US/Korea/Taiwan Markets in the main row for signed-in
+users. Users remains owner-admin-only, while personal-use sleeves stay hidden until the signed-in
+account is allowlisted. Risk Lab and Sector Outlook are visible but locally toggleable via
+`localStorage`.
 
 **Client-side caches (the "why am I seeing stale data" list):**
 
@@ -665,8 +665,8 @@ picks so their hit-rate is judged separately before any promotion.
 
 | Path | Holds | Serves |
 |---|---|---|
-| `data/sws/` | India `picks-latest`, `sws-scored-universe`, `v3-universe-stats`, `deep/*` (~5.5k), `deep.tar.gz`, `universe*`, `news-latest`, `_sanity/` | India Picks (primary) |
-| `data/sws-us/` · `data/sws-kr/` · `data/sws-tw/` | per-region `picks-latest`, `deep/*`, `deep-<code>.tar.gz`, `universe`, `<code>-index-constituents` | US / KR / TW Picks |
+| `data/sws/` | India `picks-latest`, `sws-scored-universe`, `v3-universe-stats`, `deep/*` (~5.5k), `deep.tar.gz`, `universe*`, `news-latest`, `_sanity/` | India Market (primary) |
+| `data/sws-us/` · `data/sws-kr/` · `data/sws-tw/` | per-region `picks-latest`, `deep/*`, `deep-<code>.tar.gz`, `universe`, `<code>-index-constituents` | US / KR / TW Markets |
 | `data/catalysts/` | `events-latest`, `nse-announcements-rolling`, `nse-bulk-block-rolling`, `earnings-watch-latest`+`-stats`, `earnings-history/<date>`, `llm-signal-cache`, `dividends-upcoming`, `earnings-health`, `predictor-weights-v1` | Earnings Watch, dividends |
 | `data/macroRegime.json` | current regime + severity + provider + `generatedAt` | macro banner (all tabs) |
 | `data/macro-headlines/`, `data/macroRegime-history/` | headline archive, regime snapshots | macro history (single-writer) |
