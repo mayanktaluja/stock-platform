@@ -7737,6 +7737,7 @@ app.get("/api/us-stock/:ticker", async (req, res) => {
     ticker,
     deep: deep || null,
     card: card || null,
+    fundamentals_fallback: usPicksDal.getUsFundamentalsFallback(ticker),
     in_sections: sectionMemberships,
     currency: (deep && deep.currency) || (card && card.currency) || "USD",
   });
@@ -7855,6 +7856,7 @@ function registerRegionPicksRoutes(app, dal) {
       ticker,
       deep: deep || null,
       card: card || null,
+      fundamentals_fallback: dal.getFundamentalsFallback(ticker),
       in_sections: sectionMemberships,
       currency: (deep && deep.currency) || (card && card.currency) || dal.currencyIso,
     });

@@ -12476,14 +12476,36 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const sourceMap = ov.source_map || {};
   const growwSource = (deep && deep.groww_source) || (deep && deep.groww) || null;
   const quickStatsHasGroww = Object.values(sourceMap).some((s) => s && s.provider === "groww_refinitiv");
-  const quickStatsSourceText = quickStatsHasGroww
-    ? `Groww/Refinitiv${growwSource?.fetched_at ? ` · ${String(growwSource.fetched_at).slice(0, 10)}` : ""}`
-    : "SWS snapshot";
+  const hasYahooFallback = fb && fb.source === "yahoo-finance2";
+  const hasSwsQuickMetrics = Boolean(deep && (
+    Object.keys(mult || {}).length ||
+    ov.latest_eps != null ||
+    ov.latest_revenue != null ||
+    ov.latest_net_income != null ||
+    ov.roe_pct != null ||
+    ov.roa_pct != null ||
+    ov.debt_to_equity_pct != null ||
+    ov.current_ratio != null ||
+    ov.net_margin_pct != null ||
+    ov.dividend ||
+    Object.keys(pastPerf || {}).length ||
+    Object.keys(finHealth || {}).length ||
+    Object.keys(ownership || {}).length
+  ));
+  const quickStatsSourceDate = hasYahooFallback
+    ? fb.fetched_at
+    : (quickStatsHasGroww ? growwSource?.fetched_at : null);
+  const quickStatsSourceText = hasYahooFallback
+    ? `${hasSwsQuickMetrics ? "SWS + Yahoo" : "Yahoo fallback"}${quickStatsSourceDate ? ` · ${String(quickStatsSourceDate).slice(0, 10)}` : ""}`
+    : `SWS${quickStatsSourceDate ? ` · ${String(quickStatsSourceDate).slice(0, 10)}` : ""}`;
   const sane = (v, lo, hi) => (v == null || !Number.isFinite(Number(v)) || Number(v) < lo || Number(v) > hi) ? null : Number(v);
   const pickVal = (...vals) => { for (const v of vals) { if (v != null && Number.isFinite(Number(v))) return Number(v); } return null; };
   const peVal = pickVal(sane(mult.pe, -500, 500), sane(fb.pe, -500, 500));
+  const forwardPeVal = pickVal(sane(mult.forward_pe, -500, 500), sane(fb.forward_pe, -500, 500));
   const pbVal = pickVal(sane(mult.pb, 0, 100), sane(fb.pb, 0, 100));
   const psVal = pickVal(sane(mult.ps, 0, 100), sane(fb.ps, 0, 100));
+  const evEbitdaVal = pickVal(sane(mult.ev_ebitda, -500, 500), sane(fb.ev_ebitda, -500, 500));
+  const pegVal = pickVal(sane(mult.peg_ratio, -500, 500), sane(fb.peg_ratio, -500, 500));
   // EPS: parser writes overview.latest_eps (rarely populated — SWS yearly
   // time series usually returns eps:null). Fall back to net_income / shares
   // when those are present, matching the same derivation extractMultiples()
@@ -12494,49 +12516,101 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     : null;
   const epsVal = pickVal(sane(ov.latest_eps, 0.01, 1e6), sane(derivedEps, 0.01, 1e6), sane(fb.eps, 0.01, 1e6));
   const roeVal = pickVal(sane(ov.roe_pct, -200, 500), sane(pastPerf.roe_pct, -200, 500), sane(fb.roe_pct, -200, 500));
-  const roaVal = pickVal(sane(ov.roa_pct, -200, 500), sane(pastPerf.roa_pct, -200, 500));
-  const roicVal = pickVal(sane(ov.roic_pct, -200, 500), sane(pastPerf.roic_pct, -200, 500));
+  const roaVal = pickVal(sane(ov.roa_pct, -200, 500), sane(pastPerf.roa_pct, -200, 500), sane(fb.roa_pct, -200, 500));
+  const roicVal = pickVal(sane(ov.roic_pct, -200, 500), sane(pastPerf.roic_pct, -200, 500), sane(fb.roic_pct, -200, 500));
   const roceVal = pickVal(sane(pastPerf.roce_pct, -200, 500), sane(fb.roce_pct, -200, 500));
   const deVal = pickVal(sane(ov.debt_to_equity_pct, 0, 2000), sane(fb.debt_to_equity_pct, 0, 2000));
-  const currentRatioVal = sane(ov.current_ratio ?? finHealth.current_ratio, 0, 1000);
+  const currentRatioVal = pickVal(sane(ov.current_ratio ?? finHealth.current_ratio, 0, 1000), sane(fb.current_ratio, 0, 1000));
   const quickRatioVal = sane(ov.quick_ratio ?? finHealth.quick_ratio, 0, 1000);
   const cashRatioVal = sane(ov.cash_ratio ?? finHealth.cash_ratio, 0, 1000);
   const intCoverVal = pickVal(finHealth.interest_cover_x, fb.interest_cover_x);
   const netMarginVal = pickVal(sane(ov.net_margin_pct, -200, 200), sane(fb.net_margin_pct, -200, 200));
-  const operatingMarginVal = sane(ov.operating_margin_pct ?? pastPerf.operating_margin_pct, -200, 200);
+  const grossMarginVal = pickVal(sane(ov.gross_margin_pct ?? pastPerf.gross_margin_pct, -200, 200), sane(fb.gross_margin_pct, -200, 200));
+  const operatingMarginVal = pickVal(sane(ov.operating_margin_pct ?? pastPerf.operating_margin_pct, -200, 200), sane(fb.operating_margin_pct, -200, 200));
+  const revenueVal = pickVal(sane(ov.latest_revenue, -1e18, 1e18), sane(fb.latest_revenue, -1e18, 1e18));
+  const netIncomeVal = pickVal(sane(ov.latest_net_income, -1e18, 1e18), sane(fb.latest_net_income, -1e18, 1e18));
+  const revenueGrowthVal = pickVal(sane(ov.revenue_growth_pct, -500, 1000), sane(fb.revenue_growth_pct, -500, 1000));
+  const earningsGrowthVal = pickVal(sane(ov.earnings_growth_yoy_pct, -500, 1000), sane(fb.earnings_growth_yoy_pct, -500, 1000));
   const divYieldVal = pickVal(sane(ov.dividend?.yield_pct, 0, 30), sane(fb.dividend_yield_pct, 0, 30));
   const payoutVal = pickVal(sane(ov.dividend?.payout_pct, 0, 200), sane(fb.payout_pct, 0, 200));
-  const betaVal = sane(ov.beta, -10, 10);
+  const annualDivVal = pickVal(sane(ov.dividend?.annualized_dividend ?? ov.dividend?.annual_dividend, -1e9, 1e9), sane(fb.annual_dividend, -1e9, 1e9));
+  const betaVal = pickVal(sane(ov.beta, -10, 10), sane(fb.beta, -10, 10));
   const debtCoverVal = sane(finHealth.debt_cover_pct, 0, 1e6);
+  const totalDebtVal = pickVal(sane(finHealth.total_debt, -1e18, 1e18), sane(fb.total_debt, -1e18, 1e18));
+  const netCashVal = pickVal(sane(finHealth.net_cash, -1e18, 1e18), sane(fb.net_cash, -1e18, 1e18));
   // Parser key: ownership.insider_ownership_pct. The legacy modal read
   // ownership.insider_pct, which never existed in the API-parser output.
   const insiderVal = sane(ownership.insider_ownership_pct ?? ownership.insider_pct, 0, 100);
   const promoterVal = sane(ownership.promoter_pct, 0, 100);
+  const holderPct = (h) => sane(
+    h?.ownership_pct ?? h?.percent_held ?? h?.percentHeld ?? h?.pct ?? h?.percent ?? h?.percentage,
+    0,
+    100,
+  );
+  const topHolderVals = Array.isArray(ownership.top_holders)
+    ? ownership.top_holders.map(holderPct).filter((v) => v != null)
+    : [];
+  const largestHolderVal = topHolderVals.length ? topHolderVals[0] : null;
+  const top5HolderVal = topHolderVals.length ? topHolderVals.slice(0, 5).reduce((a, b) => a + b, 0) : null;
   const ceoTenureVal = sane(mgmt.ceo_tenure_years, 0, 100);
-  const stats = [
-    ["P/E", peVal != null ? `${peVal.toFixed(1)}x` : null],
-    ["P/B", pbVal != null ? `${pbVal.toFixed(2)}x` : null],
-    ["P/S", psVal != null ? `${psVal.toFixed(1)}x` : null],
-    ["EPS", epsVal != null ? fmtPerShareMoney(epsVal, cur) : null],
-    ["ROE", roeVal != null ? `${roeVal.toFixed(1)}%` : null],
-    ["ROA", roaVal != null ? `${roaVal.toFixed(1)}%` : null],
-    ["ROIC", roicVal != null ? `${roicVal.toFixed(1)}%` : null],
-    ["ROCE", roceVal != null ? `${roceVal.toFixed(1)}%` : null],
-    ["D/E", deVal != null ? `${deVal.toFixed(1)}%` : null],
-    ["Current ratio", currentRatioVal != null ? `${currentRatioVal.toFixed(2)}x` : null],
-    ["Quick ratio", quickRatioVal != null ? `${quickRatioVal.toFixed(2)}x` : null],
-    ["Cash ratio", cashRatioVal != null ? `${cashRatioVal.toFixed(2)}x` : null],
-    ["Debt cover", debtCoverVal != null ? `${debtCoverVal.toFixed(1)}%` : null],
-    ["Interest cover", intCoverVal != null ? `${intCoverVal.toFixed(1)}x` : null],
-    ["Net margin", netMarginVal != null ? `${netMarginVal.toFixed(1)}%` : null],
-    ["Operating margin", operatingMarginVal != null ? `${operatingMarginVal.toFixed(1)}%` : null],
-    ["Beta", betaVal != null ? betaVal.toFixed(2) : null],
-    ["Div yield", divYieldVal != null ? `${divYieldVal.toFixed(2)}%` : null,],
-    ["Payout", payoutVal != null ? `${payoutVal.toFixed(0)}%` : null],
-    ["Promoter %", promoterVal != null ? `${promoterVal.toFixed(1)}%` : null],
-    ["Insider %", insiderVal != null ? `${insiderVal.toFixed(1)}%` : null],
-    ["CEO tenure", ceoTenureVal != null ? `${ceoTenureVal.toFixed(1)} yr` : null],
-  ];
+  const metricGroups = [
+    {
+      label: "Valuation",
+      cells: [
+        ["P/E", peVal != null ? `${peVal.toFixed(1)}x` : null],
+        ["Forward P/E", forwardPeVal != null ? `${forwardPeVal.toFixed(1)}x` : null],
+        ["P/B", pbVal != null ? `${pbVal.toFixed(2)}x` : null],
+        ["P/S", psVal != null ? `${psVal.toFixed(1)}x` : null],
+        ["EV/EBITDA", evEbitdaVal != null ? `${evEbitdaVal.toFixed(1)}x` : null],
+        ["PEG", pegVal != null ? pegVal.toFixed(2) : null],
+        ["EPS", epsVal != null ? fmtPerShareMoney(epsVal, cur) : null],
+      ],
+    },
+    {
+      label: "Profitability / growth",
+      cells: [
+        ["Revenue", revenueVal != null ? fmtInr(revenueVal) : null],
+        ["Net income", netIncomeVal != null ? fmtInr(netIncomeVal) : null],
+        ["Revenue growth", revenueGrowthVal != null ? `${revenueGrowthVal.toFixed(1)}%` : null],
+        ["Earnings growth", earningsGrowthVal != null ? `${earningsGrowthVal.toFixed(1)}%` : null],
+        ["Gross margin", grossMarginVal != null ? `${grossMarginVal.toFixed(1)}%` : null],
+        ["Operating margin", operatingMarginVal != null ? `${operatingMarginVal.toFixed(1)}%` : null],
+        ["Net margin", netMarginVal != null ? `${netMarginVal.toFixed(1)}%` : null],
+        ["ROE", roeVal != null ? `${roeVal.toFixed(1)}%` : null],
+        ["ROA", roaVal != null ? `${roaVal.toFixed(1)}%` : null],
+        ["ROIC", roicVal != null ? `${roicVal.toFixed(1)}%` : null],
+        ["ROCE", roceVal != null ? `${roceVal.toFixed(1)}%` : null],
+      ],
+    },
+    {
+      label: "Balance sheet / risk",
+      cells: [
+        ["D/E", deVal != null ? `${deVal.toFixed(1)}%` : null],
+        ["Current ratio", currentRatioVal != null ? `${currentRatioVal.toFixed(2)}x` : null],
+        ["Quick ratio", quickRatioVal != null ? `${quickRatioVal.toFixed(2)}x` : null],
+        ["Cash ratio", cashRatioVal != null ? `${cashRatioVal.toFixed(2)}x` : null],
+        ["Debt cover", debtCoverVal != null ? `${debtCoverVal.toFixed(1)}%` : null],
+        ["Interest cover", intCoverVal != null ? `${intCoverVal.toFixed(1)}x` : null],
+        ["Beta", betaVal != null ? betaVal.toFixed(2) : null],
+        ["Total debt", totalDebtVal != null ? fmtInr(totalDebtVal) : null],
+        ["Net cash", netCashVal != null ? fmtInr(netCashVal) : null],
+      ],
+    },
+    {
+      label: "Dividends / ownership",
+      cells: [
+        ["Div yield", divYieldVal != null ? `${divYieldVal.toFixed(2)}%` : null],
+        ["Payout", payoutVal != null ? `${payoutVal.toFixed(0)}%` : null],
+        ["Annual dividend", annualDivVal != null ? fmtPerShareMoney(annualDivVal, cur) : null],
+        ["Largest holder", largestHolderVal != null ? `${largestHolderVal.toFixed(1)}%` : null],
+        ["Top 5 holders", top5HolderVal != null ? `${top5HolderVal.toFixed(1)}%` : null],
+        ["Promoter %", promoterVal != null ? `${promoterVal.toFixed(1)}%` : null],
+        ["Insider %", insiderVal != null ? `${insiderVal.toFixed(1)}%` : null],
+        ["CEO tenure", ceoTenureVal != null ? `${ceoTenureVal.toFixed(1)} yr` : null],
+      ],
+    },
+  ].map((group) => ({ ...group, cells: group.cells.filter(([, v]) => v != null) }))
+    .filter((group) => group.cells.length);
 
   // Returns strip
   const retsHtml = `
@@ -12720,13 +12794,16 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     ${benchHtml}
 
     ${(() => {
-      const visibleStats = stats.filter(([, v]) => v != null);
-      if (!visibleStats.length) return "";
+      if (!metricGroups.length) return "";
       return `<div class="sws-modal-section">
       <h4>Quick stats <span style="font-size:10px;color:var(--text-muted);font-weight:500;">${escapeHtml(quickStatsSourceText)}</span></h4>
-      <div class="sws-modal-grid">
-        ${visibleStats.map(([l, v]) => `<div class="sws-stat-cell"><div class="stat-label">${l}</div><div class="stat-value">${v}</div></div>`).join("")}
-      </div>
+      ${metricGroups.map((group) => `
+        <div style="margin-top:10px;">
+          <div style="font-size:10px;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0;margin-bottom:6px;">${escapeHtml(group.label)}</div>
+          <div class="sws-modal-grid">
+            ${group.cells.map(([l, v]) => `<div class="sws-stat-cell"><div class="stat-label">${l}</div><div class="stat-value">${v}</div></div>`).join("")}
+          </div>
+        </div>`).join("")}
     </div>`;
     })()}
 

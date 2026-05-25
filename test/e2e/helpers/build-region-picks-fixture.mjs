@@ -20,6 +20,10 @@ import path from "node:path";
 import { makeRegionConfig } from "../../../scripts/sws-config-region.mjs";
 import { getRegion } from "../../../scripts/sws-regions.mjs";
 import { runFullScoringRegion } from "../../../scripts/sws-scoring-region.mjs";
+import {
+  MARKET_FUNDAMENTALS_FILE,
+  MARKET_FUNDAMENTALS_SCHEMA_VERSION,
+} from "../../../services/swsMarketFundamentals.js";
 
 const TOKEN_BY_SUFFIX = { ".KS": "kose", ".KQ": "kosdaq", ".TW": "twse", ".TWO": "tpex" };
 
@@ -136,6 +140,64 @@ const STOCKS_BY_REGION = {
   ],
 };
 
+function makeFallbackFundamentals(spec, region) {
+  const isKr = region.code === "kr";
+  return {
+    source: "yahoo-finance2",
+    ticker: spec.ticker,
+    yahoo_symbol: spec.ticker,
+    fetched_at: new Date().toISOString(),
+    pe: isKr ? 14.8 : 19.6,
+    forward_pe: isKr ? 11.2 : 15.4,
+    pb: isKr ? 1.62 : 5.31,
+    ps: isKr ? 2.4 : 7.1,
+    ev_ebitda: isKr ? 8.9 : 12.8,
+    peg_ratio: isKr ? 1.2 : 1.5,
+    eps: isKr ? 7250 : 36.5,
+    roe_pct: isKr ? 24.8 : 31.6,
+    roa_pct: isKr ? 12.4 : 16.1,
+    debt_to_equity_pct: isKr ? 31.5 : 18.4,
+    current_ratio: isKr ? 1.84 : 2.51,
+    interest_cover_x: isKr ? 18.6 : 42.3,
+    net_margin_pct: isKr ? 18.7 : 43.2,
+    gross_margin_pct: isKr ? 39.6 : 57.9,
+    operating_margin_pct: isKr ? 24.9 : 49.1,
+    revenue_growth_pct: isKr ? 9.8 : 12.6,
+    earnings_growth_yoy_pct: isKr ? 14.2 : 18.9,
+    beta: isKr ? 1.18 : 1.26,
+    dividend_yield_pct: isKr ? 1.84 : 1.06,
+    payout_pct: isKr ? 27.0 : 32.0,
+    annual_dividend: isKr ? 1400 : 12.5,
+    latest_revenue: isKr ? 1.2e14 : 2.2e12,
+    latest_net_income: isKr ? 2.2e13 : 9.5e11,
+    total_debt: isKr ? 2.4e13 : 4.1e11,
+    total_cash: isKr ? 8.1e13 : 1.1e12,
+    net_cash: isKr ? 5.7e13 : 6.9e11,
+    week52_low_inr: isKr ? 55000 : 480,
+    week52_high_inr: isKr ? 96000 : 880,
+  };
+}
+
+function writeFallbackFundamentals(stocks, region, dataDir) {
+  const records = {};
+  for (const spec of stocks) records[spec.ticker] = makeFallbackFundamentals(spec, region);
+  fs.writeFileSync(path.join(dataDir, MARKET_FUNDAMENTALS_FILE), JSON.stringify({
+    schema_version: MARKET_FUNDAMENTALS_SCHEMA_VERSION,
+    generatedAt: new Date().toISOString(),
+    region: region.code.toUpperCase(),
+    currency: region.currencyIso,
+    source: "yahoo-finance2",
+    scope: "picks",
+    ttl_days: 7,
+    requested: stocks.length,
+    refreshed: stocks.length,
+    skipped: 0,
+    failed: 0,
+    stocks: records,
+    failures: {},
+  }, null, 2));
+}
+
 function main() {
   const args = process.argv.slice(2);
   const code = args.indexOf("--region") >= 0 ? args[args.indexOf("--region") + 1] : null;
@@ -151,8 +213,10 @@ function main() {
     const deep = makeDeep(spec, region);
     fs.writeFileSync(path.join(cfg.PATHS.deepDir, `${spec.ticker}.json`), JSON.stringify(deep, null, 2));
   }
+  writeFallbackFundamentals(stocks, region, cfg.PATHS.dataDir);
   const out = runFullScoringRegion(code);
   console.log(`[${code}-fixture] wrote ${stocks.length} synthetic deep stocks → scored ${out.scored_count}`);
+  console.log(`[${code}-fixture] wrote ${MARKET_FUNDAMENTALS_FILE} fallback metrics`);
   for (const [k, v] of Object.entries(out.sections)) console.log(`  ${k}: ${v.length}`);
 }
 

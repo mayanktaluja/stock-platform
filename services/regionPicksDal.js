@@ -17,6 +17,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { mtimeCached, mtimeCachedByKey } from "./swsDal/cache.js";
 import { makeDeepFileResolver } from "./swsDal/deepTarball.js";
+import {
+  MARKET_FUNDAMENTALS_FILE,
+  createMarketFundamentalsFallbackReader,
+} from "./swsMarketFundamentals.js";
 import { getRegion } from "../scripts/sws-regions.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -33,6 +37,7 @@ export function makeRegionPicksDal(code) {
   const SCORED_UNIVERSE_PATH = path.join(DATA_DIR, "sws-scored-universe.json");
   const LAST_REFRESH_PATH = path.join(DATA_DIR, "last-refresh.json");
   const V3_UNIVERSE_PATH = path.join(DATA_DIR, "v3-universe-stats.json");
+  const FUNDAMENTALS_LATEST_PATH = path.join(DATA_DIR, MARKET_FUNDAMENTALS_FILE);
 
   const readJson = (fp) => JSON.parse(fs.readFileSync(fp, "utf-8"));
 
@@ -40,6 +45,7 @@ export function makeRegionPicksDal(code) {
   const readScoredUniverse = mtimeCached(SCORED_UNIVERSE_PATH, readJson);
   const readLastRefresh = mtimeCached(LAST_REFRESH_PATH, readJson);
   const readV3 = mtimeCached(V3_UNIVERSE_PATH, readJson);
+  const readFundamentalsFallback = createMarketFundamentalsFallbackReader(FUNDAMENTALS_LATEST_PATH);
 
   // KR/TW canonical keys are uppercase + dotted (005930.KS / 2330.TW). Uppercase
   // + trim, keep the dot — no .NS/.BO/.KS stripping (the key IS the suffix).
@@ -105,6 +111,10 @@ export function makeRegionPicksDal(code) {
     getStockByTicker: (ticker) => {
       const key = normaliseTickerKey(ticker);
       return key ? readDeepByKey(key) : null;
+    },
+    getFundamentalsFallback: (ticker) => {
+      const key = normaliseTickerKey(ticker);
+      return key ? readFundamentalsFallback(key) : null;
     },
     getUniverseIndex,
     getShardProgressApi: (n) => readProgressApi(n),

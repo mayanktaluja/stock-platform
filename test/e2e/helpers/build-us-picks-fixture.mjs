@@ -18,6 +18,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { PATHS } from "../../../scripts/sws-config-us.mjs";
 import { runFullScoringUS } from "../../../scripts/sws-scoring-us.mjs";
+import {
+  MARKET_FUNDAMENTALS_FILE,
+  MARKET_FUNDAMENTALS_SCHEMA_VERSION,
+} from "../../../services/swsMarketFundamentals.js";
 
 // Build a parser-shaped deep stock. snowflake_total is derived; upside is
 // derived from price/FV when both are present (mirrors the parser).
@@ -109,14 +113,73 @@ const STOCKS = [
     returns: { "1M": 6, "3M": 14, "1Y": 45, "5Y": 400 }, rewards: ["Earnings are forecast to grow 22% per year"] },
 ];
 
+function makeFallbackFundamentals(spec) {
+  return {
+    source: "yahoo-finance2",
+    ticker: spec.ticker,
+    yahoo_symbol: spec.ticker === "BRK.B" ? "BRK-B" : spec.ticker,
+    fetched_at: new Date().toISOString(),
+    pe: 31.2,
+    forward_pe: 24.6,
+    pb: 6.4,
+    ps: 7.8,
+    ev_ebitda: 18.4,
+    peg_ratio: 1.91,
+    eps: 7.25,
+    roe_pct: 28.4,
+    roa_pct: 13.7,
+    debt_to_equity_pct: 42.0,
+    current_ratio: 2.15,
+    interest_cover_x: 14.8,
+    net_margin_pct: 21.5,
+    gross_margin_pct: 45.6,
+    operating_margin_pct: 29.7,
+    revenue_growth_pct: 8.9,
+    earnings_growth_yoy_pct: 12.4,
+    beta: 1.26,
+    dividend_yield_pct: 0.72,
+    payout_pct: 18.0,
+    annual_dividend: 1.04,
+    latest_revenue: 1.2e11,
+    latest_net_income: 2.6e10,
+    total_debt: 9.0e10,
+    total_cash: 6.0e10,
+    net_cash: -3.0e10,
+    week52_low_inr: 180,
+    week52_high_inr: 260,
+  };
+}
+
+function writeFallbackFundamentals(stocks) {
+  const records = {};
+  for (const spec of stocks) records[spec.ticker] = makeFallbackFundamentals(spec);
+  fs.writeFileSync(path.join(PATHS.dataDir, MARKET_FUNDAMENTALS_FILE), JSON.stringify({
+    schema_version: MARKET_FUNDAMENTALS_SCHEMA_VERSION,
+    generatedAt: new Date().toISOString(),
+    region: "US",
+    currency: "USD",
+    source: "yahoo-finance2",
+    scope: "picks",
+    ttl_days: 7,
+    requested: stocks.length,
+    refreshed: stocks.length,
+    skipped: 0,
+    failed: 0,
+    stocks: records,
+    failures: {},
+  }, null, 2));
+}
+
 function main() {
   fs.mkdirSync(PATHS.deepDir, { recursive: true });
   for (const spec of STOCKS) {
     const deep = makeDeep(spec);
     fs.writeFileSync(path.join(PATHS.deepDir, `${spec.ticker}.json`), JSON.stringify(deep, null, 2));
   }
+  writeFallbackFundamentals(STOCKS);
   const out = runFullScoringUS();
   console.log(`[us-fixture] wrote ${STOCKS.length} synthetic deep stocks → scored ${out.scored_count}`);
+  console.log(`[us-fixture] wrote ${MARKET_FUNDAMENTALS_FILE} fallback metrics`);
   console.log(`[us-fixture] picks-latest.json sections:`);
   for (const [k, v] of Object.entries(out.sections)) console.log(`  ${k}: ${v.length}`);
 }

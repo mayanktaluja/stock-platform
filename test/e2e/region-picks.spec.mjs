@@ -17,8 +17,22 @@ const picksPath = (code) => path.join(__dirname, "..", "..", "data", `sws-${code
 // Per region: the symbol that MUST appear and the symbols that MUST NOT (a USD/INR
 // leak). KRW has no "$"; TWD is "NT$" so we forbid ₹ + ₩ (not a bare "$").
 const REGIONS = {
-  kr: { label: "Korea", symbol: "₩", forbidden: ["₹", "$"], universeLabels: ["KOSPI 200", "KOSDAQ 150", "KRX 300"], enabledIndex: "kospi200" },
-  tw: { label: "Taiwan", symbol: "NT$", forbidden: ["₹", "₩"], universeLabels: ["Taiwan 50", "Taiwan Mid-Cap 100", "TPEx 50"], enabledIndex: null },
+  kr: {
+    label: "Korea",
+    symbol: "₩",
+    forbidden: ["₹", "$"],
+    universeLabels: ["KOSPI 200", "KOSDAQ 150", "KRX 300"],
+    enabledIndex: "kospi200",
+    quick: ["Forward P/E", "11.2x", "EPS", "₩7250.00", "ROE", "24.8%", "D/E", "31.5%", "Current ratio", "1.84x", "Gross margin", "39.6%", "Beta", "1.18"],
+  },
+  tw: {
+    label: "Taiwan",
+    symbol: "NT$",
+    forbidden: ["₹", "₩"],
+    universeLabels: ["Taiwan 50", "Taiwan Mid-Cap 100", "TPEx 50"],
+    enabledIndex: null,
+    quick: ["Forward P/E", "15.4x", "EPS", "NT$36.50", "ROE", "31.6%", "D/E", "18.4%", "Current ratio", "2.51x", "Gross margin", "57.9%", "Beta", "1.26"],
+  },
 };
 
 async function expectTotalReturnsHasPercentValues(bodyLocator) {
@@ -30,6 +44,15 @@ async function expectTotalReturnsHasPercentValues(bodyLocator) {
   const returnsText = await returnsSection.innerText();
   expect(returnsText).toMatch(/[+-]\d+(?:\.\d+)?%/);
   return returnsText;
+}
+
+async function quickStatsText(bodyLocator) {
+  const section = bodyLocator
+    .locator("h4")
+    .filter({ hasText: /Quick stats/i })
+    .locator("xpath=..");
+  await expect(section).toBeVisible();
+  return section.innerText();
 }
 
 for (const [code, cfg] of Object.entries(REGIONS)) {
@@ -94,6 +117,12 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       expect(txt).toMatch(/Snowflake/i);
       expect(txt).toMatch(/Score breakdown/i);
       expect(txt).toMatch(/Total returns/i);
+      const quick = await quickStatsText(page.locator(`#${code}ModalBody`));
+      if (/SWS \+ Yahoo|Yahoo fallback/i.test(quick)) {
+        for (const value of cfg.quick) expect(quick.toLowerCase()).toContain(value.toLowerCase());
+      } else {
+        expect(quick).toContain("SWS");
+      }
       await expectTotalReturnsHasPercentValues(page.locator(`#${code}ModalBody`));
       await page.evaluate((c) => window.closeRegionModal(c), code);
       await expect(modal).not.toHaveClass(/open/);
