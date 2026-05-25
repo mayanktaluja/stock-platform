@@ -75,6 +75,14 @@ function loadFunctionConfig(pathname) {
   return (vercel.functions || {})[pathname];
 }
 
+function loadVercelIgnorePatterns() {
+  const raw = fs.readFileSync(path.join(REPO_ROOT, ".vercelignore"), "utf-8");
+  return raw
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith("#"));
+}
+
 // Split the brace-list into individual patterns. None of the patterns contain a
 // comma, so a plain split is safe; tolerate an un-braced single pattern too.
 function loadIncludePatterns() {
@@ -100,6 +108,9 @@ const patterns = loadIncludePatterns();
 const regexes = patterns.map(globToRegExp);
 const required = requiredBundledFiles();
 const isCovered = (file) => regexes.some((re) => re.test(file));
+const ignoredPatterns = loadVercelIgnorePatterns();
+const ignoredRegexes = ignoredPatterns.map(globToRegExp);
+const isIgnored = (file) => ignoredRegexes.some((re) => re.test(file));
 
 check("includeFiles stays within Vercel's 256-char schema limit", () => {
   const raw = loadIncludeFilesRaw();
@@ -114,6 +125,21 @@ check("framework auto-detection stays disabled so Vercel builds only api/index.j
   const vercel = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "vercel.json"), "utf-8"));
   assert.equal(vercel.framework, null);
   assert.equal(loadFunctionConfig("server.js"), undefined);
+});
+
+check(".vercelignore excludes loose SWS deep trees but not packed tarballs", () => {
+  for (const pattern of [
+    "data/sws/deep/**",
+    "data/sws-us/deep/**",
+    "data/sws-kr/deep/**",
+    "data/sws-tw/deep/**",
+  ]) {
+    assert.ok(ignoredPatterns.includes(pattern), `${pattern} must be excluded from Vercel source uploads`);
+  }
+  assert.ok(isIgnored("data/sws/deep/20MICRONS.json"), "loose India deep files must not be uploaded to Vercel");
+  assert.ok(isIgnored("data/sws-us/deep/AAPL.json"), "loose US deep files must not be uploaded to Vercel");
+  assert.ok(!isIgnored("data/sws/deep.tar.gz"), "India deep tarball must remain deployable");
+  assert.ok(!isIgnored("data/sws-us/deep-us.tar.gz"), "US deep tarball must remain deployable");
 });
 
 check("discovery sanity: found the India + US deep tarballs (else git/glob is broken)", () => {

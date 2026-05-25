@@ -6,3 +6,12 @@
 .paper-trades.json
 .env
 .env.local
+
+# SWS deep briefs are committed as thousands of loose local working files, but
+# prod serves them from the packed deep*.tar.gz artifacts via lazy extraction.
+data/sws/deep/**
+data/sws-us/deep/**
+data/sws-kr/deep/**
+data/sws-tw/deep/**
+data/sws*/deep-api/**
+data/sws*/deep-parsed/**
