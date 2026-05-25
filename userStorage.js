@@ -22,7 +22,7 @@ const USERS_PATH = path.join(__dirname, "users.json");
 
 const userKey = (sub) => `user:${sub}`;
 const USER_KEY_PREFIX = "user:";
-const ADMIN_EMAIL = "mthaluja11@gmail.com";
+const ADMIN_EMAIL = "mtaluja11@gmail.com";
 
 // Cap on per-user login history. We store the most recent N events inline on
 // the user record so the admin drill-down can show "every visit" without an

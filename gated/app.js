@@ -2695,7 +2695,12 @@ const TAB_CONFIG = {
   },
 };
 
+function normalizeTabId(tab) {
+  return tab === "user" ? "users" : tab;
+}
+
 async function switchTab(tab) {
+  tab = normalizeTabId(tab);
   // Fall through to picks for unknown tabs — preserves the pre-PR5
   // default behaviour that boot uses when no hash is present.
   if (!TAB_CONFIG[tab]) tab = "picks";
@@ -13085,7 +13090,7 @@ function parseHash() {
     if (eq < 0) continue;
     const k = decodeURIComponent(pair.slice(0, eq));
     const v = decodeURIComponent(pair.slice(eq + 1));
-    if (k) out[k] = v;
+    if (k) out[k] = k === "tab" ? normalizeTabId(v) : v;
   }
   return out;
 }
@@ -13116,6 +13121,7 @@ const _origSwitchTab = window.switchTab;
 // history entry the wrapper's writeHash() would otherwise push.
 window.__enterTab = _origSwitchTab;
 window.switchTab = async function switchTabRouterWrap(tab) {
+  tab = normalizeTabId(tab);
   await _origSwitchTab(tab);
   // Preserve existing modal symbol in the URL if it's still open
   const current = parseHash();
