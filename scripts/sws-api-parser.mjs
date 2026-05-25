@@ -105,7 +105,12 @@ function priceSeries(api) {
   // collapsed every return calculation toward 0%. Sort ascending so the
   // rest of the file can rely on [length-1] being the freshest point.
   const data = Array.isArray(api?.rest?.price?.data) ? api.rest.price.data : [];
-  return [...data].sort((a, b) => (a.date || 0) - (b.date || 0));
+  const dateTs = (value) => {
+    if (typeof value === "number" && Number.isFinite(value)) return value;
+    const t = new Date(value).getTime();
+    return Number.isFinite(t) ? t : 0;
+  };
+  return [...data].sort((a, b) => dateTs(a.date) - dateTs(b.date));
 }
 
 function extractCurrentPrice(api) {
@@ -125,29 +130,26 @@ function extractReturnsPct(api) {
   const lastDate = last?.date;
   if (!lastPrice || !lastDate) return null;
   const lastTs = new Date(lastDate).getTime();
-  const findClosestN_Days = (days) => {
+  const findBaselineN_Days = (days) => {
     const targetTs = lastTs - days * 86400 * 1000;
     let best = null;
-    let bestDiff = Infinity;
     for (const p of series) {
       if (!p.date || !p.close) continue;
       const t = new Date(p.date).getTime();
-      const diff = Math.abs(t - targetTs);
-      if (diff < bestDiff) {
-        bestDiff = diff;
+      if (t <= targetTs) {
         best = p;
       }
     }
-    return best;
+    return best || series.find((p) => p?.date && p?.close) || null;
   };
   const ret = (days) => {
-    const p = findClosestN_Days(days);
+    const p = findBaselineN_Days(days);
     if (!p?.close || p.close <= 0) return null;
     return ((lastPrice - p.close) / p.close) * 100;
   };
-  // findClosestN_Days snaps to the nearest available trading day, so ret(1)
-  // and ret(7) gracefully handle weekends/holidays — they'll pick the prior
-  // trading day's close.
+  // findBaselineN_Days snaps to the latest available trading day at or before
+  // the target lookback date. That prevents weekend/holiday targets from
+  // accidentally choosing the current bar and emitting a false 0% 1D return.
   const r1d = ret(1);
   const r7d = ret(7);
   const r1m = ret(30);
@@ -1036,8 +1038,15 @@ export function parseStock(api, opts = {}) {
   } : {};
   const sourceMap = {};
   const growwPrice = growwFinite(growwStockEntry, "currentPriceInr", { min: 0, inclusiveMin: false });
-  const price = growwPrice ?? swsPrice;
-  if (growwPrice != null) setSource(sourceMap, "current_price_inr", "groww_refinitiv", price, growwMeta);
+  const price = swsPrice ?? growwPrice;
+  if (swsPrice != null) {
+    setSource(sourceMap, "current_price_inr", "sws_price", price, {
+      fetched_at: api.fetchedAt || null,
+      url: api.canonicalUrl ? `https://simplywall.st${api.canonicalUrl}` : null,
+    });
+  } else if (growwPrice != null) {
+    setSource(sourceMap, "current_price_inr", "groww_refinitiv", price, growwMeta);
+  }
   const growwMarketCap = growwFinite(growwStockEntry, "marketCapInr", { min: 0, inclusiveMin: false });
   const marketCap = growwMarketCap ?? swsMarketCap;
   if (growwMarketCap != null) setSource(sourceMap, "market_cap_inr", "groww_refinitiv", marketCap, growwMeta);
