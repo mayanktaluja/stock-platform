@@ -4549,6 +4549,7 @@ const ACTIVE_TRACK_TYPES = new Set([
   "sws_best_buynow",
   "sws_deep_value",
   "sws_quality_growth",
+  "sws_best_fundamentals",
   "sws_midterm",
   "sws_dividend_aristocrats",
   "sws_smallcap_gems",
@@ -4574,6 +4575,149 @@ const DISCONTINUED_TRACK_TYPES = new Set([
  * of history (200+ unique symbols).
  */
 const trackCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
+
+const SECTION_PERFORMANCE_MODULE_PATH = "./services/trackRecord/sectionPerformance.js";
+const SECTION_PERFORMANCE_STORAGE_MODULE_PATH = "./services/trackRecord/sectionPerformanceStorage.js";
+let _sectionPerformanceModulePromise = null;
+let _sectionPerformanceStorageModulePromise = null;
+
+async function loadSectionPerformanceModule() {
+  if (!_sectionPerformanceModulePromise) {
+    _sectionPerformanceModulePromise = import(SECTION_PERFORMANCE_MODULE_PATH).catch((err) => {
+      const missingTarget =
+        err?.code === "ERR_MODULE_NOT_FOUND" &&
+        String(err.message || "").includes("sectionPerformance.js");
+      if (missingTarget) return null;
+      throw err;
+    });
+  }
+  return _sectionPerformanceModulePromise;
+}
+
+async function loadSectionPerformanceStorageModule() {
+  if (!_sectionPerformanceStorageModulePromise) {
+    _sectionPerformanceStorageModulePromise = import(SECTION_PERFORMANCE_STORAGE_MODULE_PATH).catch((err) => {
+      const missingTarget =
+        err?.code === "ERR_MODULE_NOT_FOUND" &&
+        String(err.message || "").includes("sectionPerformanceStorage.js");
+      if (missingTarget) return null;
+      throw err;
+    });
+  }
+  return _sectionPerformanceStorageModulePromise;
+}
+
+function parseSectionPerformanceWindows(raw) {
+  const values = String(raw || "7d,30d")
+    .split(",")
+    .map((w) => w.trim())
+    .filter(Boolean);
+  const invalid = values.find((w) => !["7d", "30d"].includes(w));
+  if (invalid) {
+    const err = new Error(`Invalid section-performance window: ${invalid}`);
+    err.statusCode = 400;
+    throw err;
+  }
+  return [...new Set(values)];
+}
+
+function sectionPerformanceUnavailable(operation, windows = ["7d", "30d"]) {
+  return {
+    available: false,
+    operation,
+    windows,
+    message: "services/trackRecord/sectionPerformance.js is not available yet",
+    integrationPoints: {
+      read: ["getSectionPerformancePayload", "readAllSectionPerformanceRows + buildSectionPerformancePayload"],
+      snapshot: ["snapshotSectionPerformanceFromPicks", "buildDailySectionCohortRows + upsertSectionPerformanceRows"],
+      resolve: ["resolveStoredSectionPerformance"],
+    },
+  };
+}
+
+function readCurrentSwsPicksForSectionPerformance() {
+  const picksPath = path.join(__dirname, "data", "sws", "picks-latest.json");
+  if (!fs.existsSync(picksPath)) return null;
+  try {
+    return JSON.parse(fs.readFileSync(picksPath, "utf-8"));
+  } catch (err) {
+    console.warn("[trackRecord:sectionPerformance] failed to read current SWS picks:", err.message);
+    return null;
+  }
+}
+
+async function readSectionPerformanceSafe({ windows }) {
+  const mod = await loadSectionPerformanceModule();
+  const fn = mod?.getSectionPerformancePayload;
+  if (fn) return fn({ windows, picksData: readCurrentSwsPicksForSectionPerformance() });
+
+  const storage = await loadSectionPerformanceStorageModule();
+  const sectionPerformanceStore = storage?.getSectionPerformanceStorage?.();
+  const readRows = storage?.readAllSectionPerformanceRows || sectionPerformanceStore?.readAll?.bind(sectionPerformanceStore);
+  if (mod?.buildSectionPerformancePayload && readRows) {
+    const rows = await readRows();
+    const latestDate = rows[0]?.dateKey || null;
+    const latestRows = latestDate ? rows.filter((row) => row.dateKey === latestDate) : [];
+    return {
+      available: true,
+      ...mod.buildSectionPerformancePayload(latestRows, { timeframes: windows, mode: "latest_cohort" }),
+      storedRowCount: rows.length,
+    };
+  }
+
+  const picksData = readCurrentSwsPicksForSectionPerformance();
+  if (mod?.buildDailySectionCohortRows && mod?.buildSectionPerformancePayload && picksData) {
+    const rows = mod.buildDailySectionCohortRows(picksData, { snapshotAt: picksData.scanned_at });
+    return {
+      available: true,
+      transient: true,
+      ...mod.buildSectionPerformancePayload(rows, { timeframes: windows, mode: "current_picks_transient" }),
+    };
+  }
+
+  return sectionPerformanceUnavailable("read", windows);
+}
+
+async function snapshotSectionPerformanceSafe(context = {}) {
+  try {
+    const mod = await loadSectionPerformanceModule();
+    const fn = mod?.snapshotSectionPerformanceFromPicks;
+    const picksData = context.picksData || readCurrentSwsPicksForSectionPerformance();
+    if (!picksData) return { available: true, operation: "snapshot", rows: 0, skipped: "no_sws_picks" };
+    if (fn) {
+      const snapshotContext = { ...context };
+      if (!context.picksData && picksData.scanned_at) snapshotContext.snapshotAt = picksData.scanned_at;
+      return fn(picksData, snapshotContext);
+    }
+    const storage = await loadSectionPerformanceStorageModule();
+    const sectionPerformanceStore = storage?.getSectionPerformanceStorage?.();
+    const upsertRows = storage?.upsertSectionPerformanceRows || sectionPerformanceStore?.upsert?.bind(sectionPerformanceStore);
+    if (mod?.buildDailySectionCohortRows && upsertRows) {
+      const rows = mod.buildDailySectionCohortRows(picksData, {
+        snapshotAt: context.snapshotAt || picksData.scanned_at,
+      });
+      const result = await upsertRows(rows);
+      return { available: true, operation: "snapshot", rows: rows.length, ...result };
+    }
+    return sectionPerformanceUnavailable("snapshot", context.windows);
+  } catch (err) {
+    console.warn("[trackRecord:sectionPerformance] snapshot failed:", err.message);
+    return { available: true, operation: "snapshot", error: err.message };
+  }
+}
+
+async function resolveSectionPerformanceSafe(context = {}) {
+  try {
+    const mod = await loadSectionPerformanceModule();
+    const fn = mod?.resolveStoredSectionPerformance;
+    if (!fn) return sectionPerformanceUnavailable("resolve", context.windows);
+    const snapshotContext = { ...context };
+    return fn(snapshotContext);
+  } catch (err) {
+    console.warn("[trackRecord:sectionPerformance] resolve failed:", err.message);
+    return { available: true, operation: "resolve", error: err.message };
+  }
+}
 
 /**
  * GET /api/track/history
@@ -4959,6 +5103,12 @@ app.post("/api/track/snapshot-sws-now", async (req, res) => {
       niftyPrice,
       rationale: "Manual snapshot via /api/track/snapshot-sws-now",
     });
+    const sectionPerformance = await snapshotSectionPerformanceSafe({
+      source: "snapshot-sws-now",
+      snapshotAt: picks.scanned_at,
+      picksData: picks,
+      trackResult: result,
+    });
     // Bust the track-history cache so the UI sees the new entries on next load
     trackCache.flushAll();
     res.json({
@@ -4966,10 +5116,43 @@ app.post("/api/track/snapshot-sws-now", async (req, res) => {
       sections: Object.keys(SWS_SECTION_TO_TYPE).filter((k) => Array.isArray(picks.sections?.[k]) && picks.sections[k].length).length,
       niftyPrice,
       ...result,
+      sectionPerformance,
     });
   } catch (err) {
     console.error("[PAPERTRADES] /api/track/snapshot-sws-now failed:", err.message);
     res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * GET /api/track/section-performance?windows=7d,30d
+ *
+ * Thin wiring endpoint for the India Market credibility banner. The storage
+ * and math live in services/trackRecord/sectionPerformance.js when Worker 1
+ * lands; until then this endpoint returns explicit integration metadata
+ * instead of breaking server startup.
+ */
+app.get("/api/track/section-performance", async (req, res) => {
+  try {
+    const windows = parseSectionPerformanceWindows(req.query.windows);
+    const cacheKey = `track_section_performance_${windows.join("_")}`;
+    if (!req.query.bust) {
+      const cached = trackCache.get(cacheKey);
+      if (cached) { res.set("X-Cache", "HIT"); return res.json(cached); }
+    }
+    const payload = await readSectionPerformanceSafe({ windows });
+    const response = {
+      ...payload,
+      windows: payload?.windows || windows,
+      lastComputedAt: payload?.lastComputedAt || new Date().toISOString(),
+    };
+    trackCache.set(cacheKey, response);
+    res.set("X-Cache", "MISS");
+    res.json(response);
+  } catch (err) {
+    const status = err.statusCode || 500;
+    console.error("[PAPERTRADES] /api/track/section-performance failed:", err.message);
+    res.status(status).json({ error: err.message });
   }
 });
 
@@ -5061,8 +5244,13 @@ app.all("/api/cron/snapshot-track-record", async (req, res) => {
       regime: macroRegimeCache.get(MACRO_CACHE_KEY) || defaultCalmRegime(),
       rationale: "Daily Track Record snapshot (cron)",
     });
+    const sectionPerformance = await snapshotSectionPerformanceSafe({
+      source: "snapshot-track-record",
+      snapshotAt: result.snapshotAt,
+      trackResult: result,
+    });
     trackCache.flushAll();
-    res.json(result);
+    res.json({ ...result, sectionPerformance });
   } catch (err) {
     console.error("[PAPERTRADES] /api/cron/snapshot-track-record failed:", err.message);
     res.status(500).json({ error: err.message });
@@ -5086,8 +5274,13 @@ app.all("/api/cron/resolve-forward-returns", async (req, res) => {
   }
   try {
     const result = await resolveOpenHorizons({ todayIso: new Date().toISOString() });
+    const sectionPerformance = await resolveSectionPerformanceSafe({
+      source: "resolve-forward-returns",
+      todayIso: result.todayIso,
+      forwardReturnsResult: result,
+    });
     trackCache.flushAll();
-    res.json(result);
+    res.json({ ...result, sectionPerformance });
   } catch (err) {
     console.error("[PAPERTRADES] /api/cron/resolve-forward-returns failed:", err.message);
     res.status(500).json({ error: err.message });

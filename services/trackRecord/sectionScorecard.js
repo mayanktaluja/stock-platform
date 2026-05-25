@@ -147,6 +147,7 @@ export const SECTION_LABELS = {
   sws_best_buynow: "SWS — Best to Buy Now",
   sws_deep_value: "SWS — Deep Value",
   sws_quality_growth: "SWS — Quality Growth",
+  sws_best_fundamentals: "SWS — Best Fundamentals",
   sws_dividend_aristocrats: "SWS — Dividend Aristocrats",
   sws_smallcap_gems: "SWS — Small-Cap Gems",
   sws_insider_buying: "SWS — Insider Buying",

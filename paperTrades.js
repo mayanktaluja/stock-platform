@@ -27,7 +27,7 @@ import { classifyCapBand } from "./services/trackRecord/capBandClassifier.js";
 
 // ──────────────────── Section registry (V2 — multi-source) ────────────────────
 //
-// Every section the Track Record covers, side-tagged. The first 10 keys are
+// Every section the Track Record covers, side-tagged. The first block is
 // SWS picks (already auto-snapshotted by snapshotAndCloseSwsPicks); the rest
 // are scanner + earnings sections owned by services/trackRecord/sectionSnapshotter.js.
 // `side` decides return-sign convention used in computeReturns.
@@ -38,6 +38,7 @@ export const ALL_SECTION_TYPES = {
   sws_best_buynow: "LONG",
   sws_deep_value: "LONG",
   sws_quality_growth: "LONG",
+  sws_best_fundamentals: "LONG",
   sws_dividend_aristocrats: "LONG",
   sws_smallcap_gems: "LONG",
   sws_insider_buying: "LONG",
@@ -355,6 +356,7 @@ export const SWS_SECTION_TO_TYPE = {
   best_to_buy_now: "sws_best_buynow",
   deep_value: "sws_deep_value",
   quality_growth: "sws_quality_growth",
+  best_fundamentals: "sws_best_fundamentals",
   midterm: "sws_midterm",
   dividend_aristocrats: "sws_dividend_aristocrats",
   smallcap_gems: "sws_smallcap_gems",
