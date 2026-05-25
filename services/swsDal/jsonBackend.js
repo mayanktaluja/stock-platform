@@ -12,7 +12,7 @@ import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 import { mtimeCached, mtimeCachedByKey } from "./cache.js";
-import { makeDeepFileResolver } from "./deepTarball.js";
+import { extractTarballWithNode } from "./deepTarball.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
@@ -34,12 +34,6 @@ const V4_UNIVERSE_PATH = path.join(DATA_DIR, "v4-universe-stats.json");
 
 let _runtimeDeepDir = DEEP_DIR;
 let _deepExtracted = false;
-
-const resolveDeepFile = makeDeepFileResolver({
-  deepDir: DEEP_DIR,
-  tarballPath: DEEP_TARBALL,
-  extractBase: DEEP_EXTRACT_BASE,
-});
 
 // Resolve the runtime deep/ path. In local dev + nightly env the disk
 // directory exists with 5,517 ticker JSONs — used as-is. On Vercel the
@@ -68,7 +62,16 @@ function ensureDeepDir() {
       _runtimeDeepDir = path.join(DEEP_EXTRACT_BASE, "deep");
       console.log(`[swsDal/jsonBackend] extracted deep tarball to ${_runtimeDeepDir}`);
     } catch (err) {
-      console.warn(`[swsDal/jsonBackend] tarball extract failed: ${err.message}`);
+      try {
+        if (extractTarballWithNode({ tarballPath: DEEP_TARBALL, extractBase: DEEP_EXTRACT_BASE })) {
+          _runtimeDeepDir = path.join(DEEP_EXTRACT_BASE, "deep");
+          console.log(`[swsDal/jsonBackend] extracted deep tarball with Node fallback to ${_runtimeDeepDir}`);
+        } else {
+          console.warn(`[swsDal/jsonBackend] tarball extract failed: ${err.message}`);
+        }
+      } catch (fallbackErr) {
+        console.warn(`[swsDal/jsonBackend] tarball extract failed: ${err.message}; Node fallback failed: ${fallbackErr.message}`);
+      }
     }
   }
   _deepExtracted = true;
@@ -89,7 +92,7 @@ const readV3UniverseRaw = mtimeCached(V3_UNIVERSE_PATH, readJson);
 const readV4UniverseRaw = mtimeCached(V4_UNIVERSE_PATH, readJson);
 
 const readDeepByKey = mtimeCachedByKey(
-  (key) => resolveDeepFile(key),
+  (key) => (key ? path.join(ensureDeepDir(), `${key}.json`) : null),
   readJson,
 );
 
