@@ -40,6 +40,7 @@ const ACTIVE_TRACK_TYPES = new Set([
   "sws_best_buynow",
   "sws_deep_value",
   "sws_quality_growth",
+  "sws_best_fundamentals",
   "sws_midterm",
   "sws_dividend_aristocrats",
   "sws_smallcap_gems",
@@ -71,11 +72,12 @@ function applyByTypeFilter(byType) {
 // ──── byType allowlist drops discontinued + orphans ────
 {
   const fixture = {
-    // 4 active SWS types
+    // 5 active SWS types
     sws_top30_v3: { count: 12, avgReturn: 4.2 },
     sws_best_buynow: { count: 8, avgReturn: 3.1 },
     sws_deep_value: { count: 5, avgReturn: 5.6 },
     sws_quality_growth: { count: 7, avgReturn: 2.9 },
+    sws_best_fundamentals: { count: 6, avgReturn: 3.6 },
     // 3 discontinued types (all 3 from the spec)
     buynow_nifty100: { count: 30, avgReturn: 50.4 },
     smallcap_buynow: { count: 22, avgReturn: 48.7 },
@@ -87,14 +89,14 @@ function applyByTypeFilter(byType) {
   const keys = Object.keys(filtered).sort();
 
   assert(
-    "exactly 4 keys remain after filter",
-    keys.length === 4,
+    "exactly 5 keys remain after filter",
+    keys.length === 5,
     keys.length,
   );
   assert(
-    "remaining keys are exactly the 4 active SWS types",
+    "remaining keys are exactly the active SWS types in this fixture",
     JSON.stringify(keys) ===
-      JSON.stringify(["sws_best_buynow", "sws_deep_value", "sws_quality_growth", "sws_top30_v3"]),
+      JSON.stringify(["sws_best_buynow", "sws_best_fundamentals", "sws_deep_value", "sws_quality_growth", "sws_top30_v3"]),
     keys,
   );
   assert(
@@ -160,8 +162,8 @@ function applyByTypeFilter(byType) {
     overlap,
   );
   assert(
-    "ACTIVE_TRACK_TYPES has exactly 15 entries (pin against accidental drift)",
-    ACTIVE_TRACK_TYPES.size === 15,
+    "ACTIVE_TRACK_TYPES has exactly 16 entries (pin against accidental drift)",
+    ACTIVE_TRACK_TYPES.size === 16,
     ACTIVE_TRACK_TYPES.size,
   );
   assert(
