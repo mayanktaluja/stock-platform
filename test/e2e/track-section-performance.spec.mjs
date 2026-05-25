@@ -60,9 +60,16 @@ test.describe("India Market credibility banner and section alpha", () => {
     await expect(banner).toContainText(/Track Record Spotlight/i);
     await expect(banner).toContainText(/Nifty 500/i);
     await expect(banner).toContainText(/Methodology/i);
-    await expect(banner).toContainText(/7d/i);
-    await expect(banner).toContainText(/30d/i);
+    await expect(banner.getByRole("button", { name: /^7d\b/i })).toHaveCount(0);
+    await expect(banner.getByRole("button", { name: /^30d\b/i })).toHaveCount(0);
     await expect(banner).not.toContainText(/Latest available track sample \(/i);
+    expect(await page.evaluate(() => typeof window.__picksCredibilitySelect)).toBe("undefined");
+    if (best?.window) {
+      const selected = banner.locator('[data-testid="picks-credibility-selected-window"]');
+      await expect(selected).toHaveCount(1);
+      await expect(selected).toContainText(best.window);
+      await expect(selected).toContainText(best.cohortLabel || `top ${best.requestedCohortSize || 10}`);
+    }
     if (hasPositiveAlpha) {
       await expect(banner).toContainText(/top (3|5|10|20|\d+ available)/i);
       await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toContainText(/[+-]\d/);
@@ -93,6 +100,83 @@ test.describe("India Market credibility banner and section alpha", () => {
     });
     expect(order.status).toBeLessThan(order.banner);
     expect(order.banner).toBeLessThan(order.filters);
+  });
+
+  test("India Market spotlight auto-selects the higher-alpha timeframe", async ({ page, request }) => {
+    const picks = await request.get("/api/sws-picks");
+    test.skip(picks.status() === 404, "no SWS scan committed yet — credibility banner has no sample source");
+
+    await page.route("**/api/track/section-performance?**", async (route) => {
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          schema_version: "sws-section-performance-v1",
+          mode: "latest_available",
+          generatedAt: "2026-05-25T00:00:00.000Z",
+          bestOverall: {
+            window: "30d",
+            sampleStatus: "latest_available",
+            label: "SWS - Upcoming Earnings",
+            cohortLabel: "top 3",
+            requestedCohortSize: 3,
+            actualCohortSize: 3,
+            eligibleForBanner: true,
+            alphaPct: 5,
+            sectionReturnPct: 8.1,
+            benchmarkReturnPct: 3.1,
+            outperformed: true,
+          },
+          windows: [
+            {
+              window: "7d",
+              sampleStatus: "latest_available",
+              benchmarkReturnPct: 3.1,
+              bestSection: {
+                label: "SWS - Best to Buy Now",
+                cohortLabel: "top 5",
+                requestedCohortSize: 5,
+                actualCohortSize: 5,
+                eligibleForBanner: true,
+                alphaPct: 3.7,
+                sectionReturnPct: 6.8,
+                benchmarkReturnPct: 3.1,
+                outperformed: true,
+              },
+              sections: [],
+            },
+            {
+              window: "30d",
+              sampleStatus: "latest_available",
+              benchmarkReturnPct: 3.1,
+              bestSection: {
+                label: "SWS - Upcoming Earnings",
+                cohortLabel: "top 3",
+                requestedCohortSize: 3,
+                actualCohortSize: 3,
+                eligibleForBanner: true,
+                alphaPct: 5,
+                sectionReturnPct: 8.1,
+                benchmarkReturnPct: 3.1,
+                outperformed: true,
+              },
+              sections: [],
+            },
+          ],
+        }),
+      });
+    });
+
+    await gotoApp(page, { tab: "picks" });
+    await waitForPicksLoaded(page);
+
+    const banner = page.locator("#picksCredibilityBanner");
+    await expect(banner).toBeVisible({ timeout: 20_000 });
+    await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/Latest Upcoming Earnings top 3 sample shows \+5\.0% alpha vs Nifty 500/i);
+    await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toContainText("+5.0%");
+    await expect(banner.locator('[data-testid="picks-credibility-selected-window"]')).toHaveText(/30d · Upcoming Earnings top 3 \+5\.0%/);
+    await expect(banner.getByRole("button", { name: /^7d\b/i })).toHaveCount(0);
+    await expect(banner.getByRole("button", { name: /^30d\b/i })).toHaveCount(0);
+    expect(await page.evaluate(() => typeof window.__picksCredibilitySelect)).toBe("undefined");
   });
 
   test("India Market uses neutral banner copy when no section has positive alpha", async ({ page, request }) => {

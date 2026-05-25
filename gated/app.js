@@ -5079,17 +5079,12 @@ function renderPicksCredibilityBanner(payload) {
   const statusText = _spotlightLabel(windowPayload);
   const cohortText = _cohortLabel(best);
   const evidence = copy.evidence || `Equal-weight ${cohortText}: ${_fmtSignedPct(sectionReturn)} vs Nifty 500 ${_fmtSignedPct(benchmark)}.${copy.evidenceSuffix || ""}`;
-  const chipHtml = ["7d", "30d"].map((w) => {
-    const wp = _sectionPerformanceWindow(payload, w);
-    const b = wp?.bestSection;
-    const active = w === best?.window;
-    const bg = active ? "rgba(224,176,96,0.16)" : "rgba(255,255,255,0.04)";
-    const border = active ? "rgba(224,176,96,0.45)" : "var(--border)";
-    return `<button type="button" onclick="window.__picksCredibilitySelect && window.__picksCredibilitySelect('${w}')"
-      style="border:1px solid ${border};background:${bg};color:var(--text-primary);border-radius:6px;padding:5px 8px;font-size:11px;cursor:pointer;white-space:nowrap;">
-      <strong>${w}</strong>${b ? ` · ${escapeHtml(_plainSectionLabel(b.label))} ${escapeHtml(_cohortLabel(b))} ${_fmtSignedPct(b.alphaPct)}` : " · pending"}
-    </button>`;
-  }).join("");
+  const selectedWindow = best?.window || windowPayload?.window || null;
+  const selectedWindowText = selectedWindow && Number.isFinite(alpha)
+    ? `${selectedWindow} · ${label} ${cohortText} ${_fmtSignedPct(alpha)}`
+    : selectedWindow
+      ? `${selectedWindow} · ${label} ${cohortText}`
+      : null;
   host.style.display = "block";
   host.innerHTML = `
     <div style="border:1px solid rgba(224,176,96,0.28);background:linear-gradient(135deg, rgba(224,176,96,0.12), rgba(46,204,113,0.06) 48%, rgba(96,165,250,0.05));border-radius:8px;padding:15px 16px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;">
@@ -5109,20 +5104,10 @@ function renderPicksCredibilityBanner(payload) {
       </div>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end;">
         ${copy.showAlpha ? `<div data-testid="picks-credibility-alpha" style="font-size:24px;font-weight:900;line-height:1;color:${alphaColor};">${_fmtSignedPct(alpha)}</div>` : ""}
-        <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
-          ${chipHtml}
-        </div>
+        ${selectedWindowText ? `<div data-testid="picks-credibility-selected-window" style="border:1px solid rgba(224,176,96,0.45);background:rgba(224,176,96,0.14);color:var(--text-primary);border-radius:6px;padding:5px 8px;font-size:11px;font-weight:800;white-space:nowrap;">${escapeHtml(selectedWindowText)}</div>` : ""}
       </div>
     </div>`;
 }
-
-window.__picksCredibilitySelect = function(windowKey) {
-  if (!_trackSectionPerformanceCache) return;
-  const wp = _sectionPerformanceWindow(_trackSectionPerformanceCache, windowKey);
-  if (!wp?.bestSection) return;
-  const payload = { ..._trackSectionPerformanceCache, bestOverall: { ...wp.bestSection, window: windowKey, sampleStatus: wp.sampleStatus } };
-  renderPicksCredibilityBanner(payload);
-};
 
 async function loadPicksCredibilityBanner(forceBust = false) {
   const host = document.getElementById("picksCredibilityBanner");
