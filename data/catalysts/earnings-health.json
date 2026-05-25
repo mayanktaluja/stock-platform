@@ -1,39 +1,39 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-05-25T00:54:03.328Z",
+  "generated_at": "2026-05-25T17:56:07.055Z",
   "resolved": {
-    "count": 256,
+    "count": 305,
     "delta_vs_prior": 0,
-    "prior_count": 256
+    "prior_count": 305
   },
   "llm_providers": {
-    "groq": 60,
-    "gemini": 39,
-    "heuristic": 594,
-    "none": 17,
-    "total": 710
+    "groq": 1,
+    "gemini": 8,
+    "heuristic": 601,
+    "none": 18,
+    "total": 628
   },
   "llm_offline": false,
-  "llm_heuristic_share_pct": 17,
+  "llm_heuristic_share_pct": 68,
   "llm_stats": {
-    "total": 710,
-    "classified": 693,
-    "cache_hits": 232,
-    "llm_calls": 19,
-    "heuristic": 381,
+    "total": 628,
+    "classified": 610,
+    "cache_hits": 52,
+    "llm_calls": 22,
+    "heuristic": 550,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 312,
-    "composite_floor": 50,
+    "below_v3_floor": 386,
+    "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
   },
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 24,
+    "days_in_current_state": 27,
     "current_resolved": 0,
-    "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (256 across all versions)",
+    "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (305 across all versions)",
     "detail": {
       "resolved_required": 30,
       "bucket_60_64_hit_rate_required": 55,
@@ -45,10 +45,10 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v4": 11
+    "earnings-history-v4": 12
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 710
+    "earnings-predict-v3-2026-05": 628
   },
   "restatements": {
     "count": 0,
@@ -61,66 +61,62 @@
     "examples": []
   },
   "insufficient_data": {
-    "count_total": 43,
-    "count_7d": 19,
-    "count_30d": 43,
+    "count_total": 45,
+    "count_7d": 21,
+    "count_30d": 45,
     "count_prior_30d": 0,
     "trend_pct_30d_vs_prior": 100
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-05-25T00:39:18.782Z",
+    "generated_at": "2026-05-25T17:55:40.909Z",
     "age_hours": 0,
-    "classifier_provider": "heuristic",
-    "regime": "WAR_ESCALATION",
+    "classifier_provider": "gemini",
+    "regime": "WAR_DE_ESCALATION",
     "stale": false,
     "alert": null
   },
   "picks_snapshot_fv_drift": {
     "pipeline": null,
-    "runtime_24h": {
-      "samples": 4,
-      "max_drift_count": 0,
-      "latest_ts": "2026-05-25T00:41:45.575Z",
-      "latest_drift_count": 0
-    },
+    "runtime_24h": null,
     "alert": null
   },
-  "history_files": 11,
+  "history_files": 12,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-05-25T00:54:03.359Z",
-    "resolved_count": 256,
-    "unresolved_count": 1231,
+    "generated_at": "2026-05-25T17:56:07.104Z",
+    "resolved_count": 305,
+    "unresolved_count": 1234,
     "strict": {
-      "hit_rate_pct": 35.5,
-      "ci_low_pct": 29.7,
+      "hit_rate_pct": 35.7,
+      "ci_low_pct": 30.5,
       "ci_high_pct": 41,
-      "sample_size": 256
+      "sample_size": 305
     },
     "lenient": {
-      "hit_rate_pct": 83.9,
-      "ci_low_pct": 78.8,
-      "ci_high_pct": 88.2,
-      "sample_size": 255
+      "hit_rate_pct": 82.6,
+      "ci_low_pct": 78.3,
+      "ci_high_pct": 86.8,
+      "sample_size": 304
     },
     "catastrophic": {
-      "rate_pct": 16.1,
-      "ci_low_pct": 11.8,
-      "ci_high_pct": 20.4,
-      "sample_size": 255
+      "rate_pct": 17.4,
+      "ci_low_pct": 13.5,
+      "ci_high_pct": 21.4,
+      "sample_size": 304
     },
     "rolling_30": {
       "window": 30,
-      "catastrophic_count": 5,
-      "catastrophic_rate_pct": 16.7
+      "catastrophic_count": 8,
+      "catastrophic_rate_pct": 26.7
     },
     "catastrophic_alert": true,
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "INSUFFICIENT_DATA predictions trending UP: 43 in last 30d vs 0 prior 30d (+100%) — predictor coverage may be degrading",
-    "Catastrophic rate alert: rolling-30 16.7% (5/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
+    "LLM heuristic share (above V3 floor): 164/242 = 68% (threshold 20%; 386 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
+    "INSUFFICIENT_DATA predictions trending UP: 45 in last 30d vs 0 prior 30d (+100%) — predictor coverage may be degrading",
+    "Catastrophic rate alert: rolling-30 26.7% (8/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
 }
