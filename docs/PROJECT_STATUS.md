@@ -55,8 +55,8 @@ portfolio analyzer.
 - **#438** — Fix stock-modal crash (`undefined hasV3` in score-breakdown).
 - **#439** — CI modal-render e2e job to catch `renderSwsModalCore` regressions.
 
-### Multi-region Picks (May 2026)
-- **#379 / #386** — US Picks tab + first full US scrape (~5,448 names), as a
+### Multi-region Markets (May 2026)
+- **#379 / #386** — US Market tab + first full US scrape (~5,448 names), as a
   fully isolated `data/sws-us/` fork (US scorer/parser import India's, never edit).
 - **#383 / #391 / #408** — **Region registry** (`scripts/sws-regions.mjs`):
   config/universe/scrape/parse/score/DAL + `registerRegionPicksRoutes` factory +
@@ -64,7 +64,7 @@ portfolio analyzer.
   (~2,339) scraped and live, in ₩ / NT$. **KR/TW are registry config, not forks;
   India + US pipelines frozen.** Numeric tickers dot-suffixed (005930.KS /
   2330.TW); 4-market co-run guard on the one shared SWS account.
-- **#390** — US/KR/TW Picks at 1:1 parity with India (rich modal, dropdown,
+- **#390** — US/KR/TW Markets at 1:1 parity with India (rich modal, dropdown,
   collapse). **#393** — bundle regional deep tarballs into the Vercel function
   (Vercel ~15k file cap). **#404** — card fallback for region modal header/snowflake.
 - **This PR** — US/KR/TW stock modals now render Total Returns from full deep
@@ -83,14 +83,14 @@ portfolio analyzer.
   promoter-transaction feed.
 
 ### Auth & navigation (May 2026)
-- **#458** — Flatten privileged navigation: US/KR/TW Picks, Risk Lab, and
+- **#458** — Flatten privileged navigation: US/KR/TW Markets, Risk Lab, and
   Sector Outlook stay visible in the main tab bar for signed-in users; only
   Users remains owner-admin-only. Admin authority is now hard-coded to
   `mthaluja11@gmail.com` via `computeIsAdmin()` rather than `ADMIN_EMAILS`.
 - **#395** — Two-tier access: `ADMIN_EMAILS` live allowlist; personal-use folded
   into the admin tier. (Direction still settling — see Active themes.)
 - **#361** — "More" dropdown for privileged tabs. **#370** — Avoid List section
-  removed from Picks. **#360** — density toggle removed. **#380** — mobile
+  removed from India Market. **#360** — density toggle removed. **#380** — mobile
   info-icon sizing fix.
 
 ### Pipeline / infra reliability (May 2026)

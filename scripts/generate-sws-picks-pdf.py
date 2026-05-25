@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-SWS Picks PDF Generator
+India Market PDF Generator
 Reads data/sws/picks-latest.json + per-stock JSONs in data/sws/deep/,
 emits reports/sws-picks/Top-50-Buy-Now-{YYYY-MM-DD}.pdf.
 
@@ -147,7 +147,7 @@ def _format_news_date(iso):
 
 def cover_page(picks):
     items = []
-    items.append(Paragraph("SWS Top 50 — Buy Now", H1))
+    items.append(Paragraph("India Market Top 50 — Buy Now", H1))
     items.append(Paragraph("Categorised picks from Simply Wall Street deep-scan", META))
     items.append(Spacer(1, 8))
     items.append(HRFlowable(width="100%", thickness=0.5, color=MUTED))
@@ -514,7 +514,7 @@ def main():
         out_path, pagesize=A4,
         topMargin=18 * mm, bottomMargin=18 * mm,
         leftMargin=18 * mm, rightMargin=18 * mm,
-        title="SWS Top 50 — Buy Now", author="stock-platform",
+        title="India Market Top 50 — Buy Now", author="stock-platform",
     )
 
     story = []
