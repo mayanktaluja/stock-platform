@@ -3,9 +3,17 @@
   "name": "Tata Elxsi Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-tataelxsi/tata-elxsi-shares",
-  "parsed_at": "2026-05-24T14:01:30.143Z",
+  "parsed_at": "2026-05-24T23:14:24.339Z",
   "company_id": "96073312-1626-4D4F-82F2-336A0D65CEB9",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/tata-elxsi-ltd",
+    "search_id": "tata-elxsi-ltd",
+    "company_id": "GSTK500408",
+    "isin": "INE670A01012"
+  },
   "overview": {
     "snowflake": {
       "valuation": 1,
@@ -21,28 +29,33 @@
     },
     "snowflake_total": 19,
     "current_price_inr": 4311.1,
-    "market_cap_inr": 268568844322.176,
+    "market_cap_inr": 268464400000,
     "market_cap_usd": 123377158243.857,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 3945,
+      "high": 6735
+    },
     "fair_value_inr": 4315.718438,
     "fair_value_range_inr": {
-      "min": 1186.096784,
+      "min": 1186.099384,
       "max": 4315.718438,
       "count": 20
     },
     "upside_pct": 0.10712899260048511,
     "multiples": {
       "pe": 42.72,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 7.15,
+      "pb": 8.83,
+      "ev_ebitda": 26.94,
+      "peg": -44.620524576271464
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/tata-elxsi-ltd"
     },
@@ -53,7 +66,7 @@
     ],
     "risks": [],
     "dividend": {
-      "yield_pct": 1.3984551956,
+      "yield_pct": 1.74,
       "payout_pct": null,
       "annualized_dividend": 75,
       "listing_currency": "INR",
@@ -117,8 +130,8 @@
           "divAmount": 24,
           "divAmountListingCurrency": 24,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Annual",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 24,
           "annualizedDividendListingCurrency": 24,
           "annualizedYield": 0.4085726734
@@ -130,8 +143,8 @@
           "divAmount": 24,
           "divAmountListingCurrency": 24,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Annual",
           "annualizedDividend": 24,
           "annualizedDividendListingCurrency": 24,
           "annualizedYield": 0.4085726734
@@ -204,15 +217,15 @@
       ],
       "payment_count": 11
     },
-    "dividend_yield_pct": 1.3984551956,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 1.74,
     "industry_benchmarks": {
-      "pe": 21.41038809716583
+      "pe": 21.41038809716583,
+      "sector_pe": 21.41038809716583
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "IT - Software",
       "pe_industry_id": 34,
@@ -225,7 +238,7 @@
       "industry_pe": 21.41038809716583,
       "industry_name": "IT - Software",
       "industry_id": 34,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/tata-elxsi-ltd",
       "search_id": "tata-elxsi-ltd"
     },
@@ -235,7 +248,7 @@
         "industry_pe": 21.41038809716583,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/tata-elxsi-ltd"
       },
       "sws_statement": {
@@ -247,10 +260,10 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 26.673099641,
+        "industry_pe": 24.970878784,
         "industry_code": "8040000",
         "type": "median_profitable",
-        "count": 58,
+        "count": 57,
         "source": {
           "type": "country",
           "country": "IN",
@@ -269,13 +282,177 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 4311.1,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 268464400000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 42.72,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 8.83,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 7.15,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 26.94,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": -44.620524576271464,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 21.41038809716583,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 1.74,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 3945,
+          "high": 6735
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 100.88,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 488.2036308,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 10,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 21.41038809716583,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 22.8892,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 17.129416990112404,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 46.493581657825445,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 18.064522997162946,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 24.88782196294266,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 5.34,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 4.095352980663917,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 4.2497,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 3.920989709243187,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 2.204309171851676,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 100.88,
     "most_recent_reported_date": null,
+    "pb": 8.83,
+    "ps": 7.15,
+    "book_value": 488.2036308,
+    "face_value": 10,
+    "sector_pe": 21.41038809716583,
+    "roe_pct": 22.8892,
+    "roa_pct": 17.129416990112404,
+    "roic_pct": 46.493581657825445,
+    "net_margin_pct": 18.064522997162946,
+    "operating_margin_pct": 24.88782196294266,
+    "debt_to_equity_pct": 5.34,
+    "debt_to_asset_pct": 4.095352980663917,
+    "current_ratio": 4.2497,
+    "quick_ratio": 3.920989709243187,
+    "cash_ratio": 2.204309171851676,
     "returns_pct": {
       "1D": 2.2144770846670117,
       "7D": 4.496315687415164,
@@ -394,10 +571,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 43.9011,
+    "fii_pct": 11.0859,
+    "mutual_fund_pct": 1.1696,
+    "insurance_pct": 10.218499999999999,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 33.624900000000025,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 1.3984551956,
+    "yield_pct": 1.74,
     "payout_pct": null,
     "annualized_dividend": 75,
     "listing_currency": "INR",
@@ -461,8 +645,8 @@
         "divAmount": 24,
         "divAmountListingCurrency": 24,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Annual",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 24,
         "annualizedDividendListingCurrency": 24,
         "annualizedYield": 0.4085726734
@@ -474,8 +658,8 @@
         "divAmount": 24,
         "divAmountListingCurrency": 24,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Annual",
         "annualizedDividend": 24,
         "annualizedDividendListingCurrency": 24,
         "annualizedYield": 0.4085726734
@@ -549,6 +733,228 @@
     "payment_count": 11
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {
+        "revenue": {
+          "2011": 419.7746,
+          "2012": 542.9124,
+          "2013": 626.5108,
+          "2014": 787.329,
+          "2015": 852.7467
+        },
+        "profit": {
+          "2011": 32.5167,
+          "2012": 38.705,
+          "2013": 22.3737,
+          "2014": 72.2619,
+          "2015": 102.0209
+        },
+        "net_worth": {
+          "2011": 182.3671,
+          "2012": 191.9796,
+          "2013": 195.1732,
+          "2014": 235.7109,
+          "2015": 283.4275
+        }
+      },
+      "quarterly": {
+        "revenue": {
+          "Mar '14": 211.77,
+          "Jun '14": 192.97,
+          "Sep '14": 207.2,
+          "Dec '14": 221.82000000000002,
+          "Mar '15": 230.77
+        },
+        "profit": {
+          "Mar '14": 21.85,
+          "Jun '14": 20.79,
+          "Sep '14": 23.64,
+          "Dec '14": 27.76,
+          "Mar '15": 29.83
+        }
+      }
+    }
+  },
+  "past_performance": {
+    "roe_pct": 22.8892,
+    "roa_pct": 17.129416990112404,
+    "roic_pct": 46.493581657825445,
+    "net_margin_pct": 18.064522997162946,
+    "operating_margin_pct": 24.88782196294266,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 5.34,
+    "debt_to_asset_pct": 4.095352980663917,
+    "current_ratio": 4.2497,
+    "quick_ratio": 3.920989709243187,
+    "cash_ratio": 2.204309171851676,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2024-06-24T18:30:00.000Z",
+        "announcement_date": "2024-04-22T18:30:00.000Z",
+        "ex_date": "2024-06-24T18:30:00.000Z",
+        "record_date": "2024-06-25T18:30:00.000Z",
+        "value": "₹70.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-06-10T18:30:00.000Z",
+        "announcement_date": "2025-04-16T18:30:00.000Z",
+        "ex_date": "2025-06-10T18:30:00.000Z",
+        "record_date": "2025-06-10T18:30:00.000Z",
+        "value": "₹75.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2025-04-16T18:30:00.000Z",
+        "announcement_date": "2025-04-16T18:30:00.000Z",
+        "ex_date": "2025-06-10T18:30:00.000Z",
+        "record_date": "2025-06-10T18:30:00.000Z",
+        "value": "₹75.00"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-07-09T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-08T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/tata-elxsi-ltd",
+    "news": [
+      {
+        "id": "635388",
+        "title": "Tata Elxsi notifies shareholders of unclaimed dividends from FY 2018-19 to be transferred to IEPF by Aug 2026.\nShareholders must update KYC, PAN, and bank details by Aug 16, 2026, to claim dividends and avoid transfer to IEPF.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=76ecdc14-7f5e-4718-b249-f0f7a5ed5eb4.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-09T15:00:57.000Z"
+      },
+      {
+        "id": "602712",
+        "title": "Tata Elxsi appoints Nalin Rana as CFO in a corporate announcement.\nThe disclaimer states no Business Standard journalist was involved in content creation.",
+        "url": "https://www.business-standard.com/markets/capital-market-news/tata-elxsi-appoints-nalin-rana-as-cfo-126042700163_1.html",
+        "source": "Business Standard",
+        "published_at": "2026-04-27T04:01:07.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2024-06-24T18:30:00.000Z",
+        "announcement_date": "2024-04-22T18:30:00.000Z",
+        "ex_date": "2024-06-24T18:30:00.000Z",
+        "record_date": "2024-06-25T18:30:00.000Z",
+        "value": "₹70.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-06-10T18:30:00.000Z",
+        "announcement_date": "2025-04-16T18:30:00.000Z",
+        "ex_date": "2025-06-10T18:30:00.000Z",
+        "record_date": "2025-06-10T18:30:00.000Z",
+        "value": "₹75.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2025-04-16T18:30:00.000Z",
+        "announcement_date": "2025-04-16T18:30:00.000Z",
+        "ex_date": "2025-06-10T18:30:00.000Z",
+        "record_date": "2025-06-10T18:30:00.000Z",
+        "value": "₹75.00"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-07-09T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-08T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "INFY",
+        "name": "Infosys",
+        "searchId": "infosys-ltd",
+        "market_cap_inr": 4762965700000,
+        "pe": 16.16,
+        "pb": 5.41
+      },
+      {
+        "ticker": "TECHM",
+        "name": "Tech Mahindra",
+        "searchId": "tech-mahindra-ltd",
+        "market_cap_inr": 1393298800000,
+        "pe": 28.99,
+        "pb": 4.7
+      },
+      {
+        "ticker": "OFSS",
+        "name": "Oracle Financial Services Software",
+        "searchId": "oracle-financial-services-software-ltd",
+        "market_cap_inr": 829287700000,
+        "pe": 31.42,
+        "pb": 10.6
+      }
+    ],
+    "details": {
+      "fullName": "Tata Elxsi",
+      "parentCompany": "Tata Elxsi Limited",
+      "headquarters": "BANGALORE",
+      "ceo": "Manoj Raghavan",
+      "managingDirector": "Manoj Raghavan",
+      "foundedYear": 1989,
+      "websiteUrl": "https://www.tataelxsi.com/"
+    }
+  },
   "indices": [
     "NSEI"
   ],

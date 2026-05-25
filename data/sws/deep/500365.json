@@ -6,6 +6,14 @@
   "parsed_at": "2026-05-21T20:36:32.823Z",
   "company_id": "4DD7E821-D954-4E3A-9384-E963529FFFDE",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/rmg-alloy-steel-ltd",
+    "search_id": "rmg-alloy-steel-ltd",
+    "company_id": "GSTK500365",
+    "isin": "INE731F01037"
+  },
   "overview": {
     "snowflake": {
       "valuation": 2,
@@ -20,29 +28,34 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 42.19,
-    "market_cap_inr": 27955576660.669632,
+    "current_price_inr": 43.06,
+    "market_cap_inr": 28445900000,
     "market_cap_usd": 121304781320.862,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 36.25,
+      "high": 47.2
+    },
     "fair_value_inr": 82.966913,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 96.65065892391564,
+    "upside_pct": 92.67745703669299,
     "multiples": {
       "pe": 126.26,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 3.22,
+      "pb": 6.23,
+      "ev_ebitda": 30.11,
+      "peg": 0
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
     },
@@ -52,22 +65,22 @@
     ],
     "risks": [],
     "dividend": {
-      "yield_pct": null,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": null,
       "listing_currency": "INR",
       "recent_payments": [],
       "payment_count": 0
     },
-    "dividend_yield_pct": null,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 24.858261272856254
+      "pe": 24.858261272856254,
+      "sector_pe": 24.858261272856254
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Steel",
       "pe_industry_id": 57,
@@ -80,7 +93,7 @@
       "industry_pe": 24.858261272856254,
       "industry_name": "Steel",
       "industry_id": 57,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/rmg-alloy-steel-ltd",
       "search_id": "rmg-alloy-steel-ltd"
     },
@@ -90,7 +103,7 @@
         "industry_pe": 24.858261272856254,
         "industry_name": "Steel",
         "industry_id": 57,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
       },
       "sws_statement": {
@@ -114,8 +127,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.1,
-        "sample_count": 196,
+        "industry_pe": 21.2,
+        "sample_count": 193,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
@@ -124,13 +137,177 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 43.06,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 28445900000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 126.26,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 6.23,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 3.22,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 30.11,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 24.858261272856254,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 36.25,
+          "high": 47.2
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 0.34,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 6.8901144,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 6,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 24.858261272856254,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 4.9656,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 2.6030543116316456,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 10.181760194329662,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 2.5581132927104493,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 7.3211464680659,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 7.6899999999999995,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 4.0291652313698485,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 1.5563,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.7936325652991915,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.02924719622742933,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rmg-alloy-steel-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 0.34,
     "most_recent_reported_date": null,
+    "pb": 6.23,
+    "ps": 3.22,
+    "book_value": 6.8901144,
+    "face_value": 6,
+    "sector_pe": 24.858261272856254,
+    "roe_pct": 4.9656,
+    "roa_pct": 2.6030543116316456,
+    "roic_pct": 10.181760194329662,
+    "net_margin_pct": 2.5581132927104493,
+    "operating_margin_pct": 7.3211464680659,
+    "debt_to_equity_pct": 7.6899999999999995,
+    "debt_to_asset_pct": 4.0291652313698485,
+    "current_ratio": 1.5563,
+    "quick_ratio": 0.7936325652991915,
+    "cash_ratio": 0.02924719622742933,
     "returns_pct": {
       "1D": 0.5481410867492775,
       "7D": -2.9891929179121735,
@@ -141,7 +318,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -209,10 +386,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 55.1661,
+    "fii_pct": 1.3094,
+    "mutual_fund_pct": 0.0025,
+    "insurance_pct": 0.00009999999999999983,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 43.52190000000001,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": null,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": null,
     "listing_currency": "INR",
@@ -220,6 +404,191 @@
     "payment_count": 0
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {},
+      "quarterly": {}
+    }
+  },
+  "past_performance": {
+    "roe_pct": 4.9656,
+    "roa_pct": 2.6030543116316456,
+    "roic_pct": 10.181760194329662,
+    "net_margin_pct": 2.5581132927104493,
+    "operating_margin_pct": 7.3211464680659,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 7.6899999999999995,
+    "debt_to_asset_pct": 4.0291652313698485,
+    "current_ratio": 1.5563,
+    "quick_ratio": 0.7936325652991915,
+    "cash_ratio": 0.02924719622742933,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Rights",
+        "type": "RIGHTS",
+        "status": "Ex date",
+        "primary_date": "2025-02-27T18:30:00.000Z",
+        "announcement_date": "2025-02-23T18:30:00.000Z",
+        "ex_date": "2025-02-27T18:30:00.000Z",
+        "record_date": "2025-02-28T18:30:00.000Z",
+        "value": "1:4"
+      },
+      {
+        "title": "Rights",
+        "type": "RIGHTS",
+        "status": "Announced",
+        "primary_date": "2025-02-23T18:30:00.000Z",
+        "announcement_date": "2025-02-23T18:30:00.000Z",
+        "ex_date": "2025-02-27T18:30:00.000Z",
+        "record_date": "2025-02-28T18:30:00.000Z",
+        "value": "1:4"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-07-21T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-26T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-01-22T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/rmg-alloy-steel-ltd",
+    "news": [
+      {
+        "id": "837678250880067072",
+        "title": "Welspun FY26 revenue grew 21%, operating EBITDA up 52%, reported EBITDA up 16%.\nAdded 43 new customers, sales volume grew 37%, renewable electricity usage at 58%.",
+        "url": "https://sqst.in/sKYCd",
+        "source": "ScoutQuest",
+        "published_at": "2026-04-30T13:14:18.000Z"
+      },
+      {
+        "id": "837666527796191616",
+        "title": "Welspun Specialty Solutions reports FY26 revenue of ₹88,620L, net profit at ₹2,267L.\nMs. Dipti Modi appointed as Company Secretary effective April 30, 2026.",
+        "url": "https://sqst.in/uZR7D",
+        "source": "ScoutQuest",
+        "published_at": "2026-04-30T12:27:43.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Rights",
+        "type": "RIGHTS",
+        "status": "Ex date",
+        "primary_date": "2025-02-27T18:30:00.000Z",
+        "announcement_date": "2025-02-23T18:30:00.000Z",
+        "ex_date": "2025-02-27T18:30:00.000Z",
+        "record_date": "2025-02-28T18:30:00.000Z",
+        "value": "1:4"
+      },
+      {
+        "title": "Rights",
+        "type": "RIGHTS",
+        "status": "Announced",
+        "primary_date": "2025-02-23T18:30:00.000Z",
+        "announcement_date": "2025-02-23T18:30:00.000Z",
+        "ex_date": "2025-02-27T18:30:00.000Z",
+        "record_date": "2025-02-28T18:30:00.000Z",
+        "value": "1:4"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-07-21T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-26T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-01-22T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "POCL",
+        "name": "Pondy Oxides & Chemicals",
+        "searchId": "pondy-oxides-chemicals-ltd",
+        "market_cap_inr": 45252800000,
+        "pe": 40.79,
+        "pb": 6.59
+      },
+      {
+        "ticker": "SINDHUTRAD",
+        "name": "Sindhu Trade Links",
+        "searchId": "sindhu-trade-links-ltd",
+        "market_cap_inr": 41755400000,
+        "pe": null,
+        "pb": 2.54
+      },
+      {
+        "ticker": "KSL",
+        "name": "Kalyani Steels",
+        "searchId": "kalyani-steels-ltd",
+        "market_cap_inr": 36094500000,
+        "pe": 14,
+        "pb": 1.71
+      }
+    ],
+    "details": {
+      "fullName": "Welspun Specialty Solutions",
+      "parentCompany": "Welspun Specialty Solutions",
+      "headquarters": "MUMBAI",
+      "ceo": "Anuj Burakia",
+      "managingDirector": "Mr. Anuj Burakia",
+      "foundedYear": 1980,
+      "websiteUrl": "https://www.welspunspecialty.com/index.php"
+    }
+  },
   "indices": [
     "BSE"
   ],

@@ -6,6 +6,14 @@
   "parsed_at": "2026-05-24T12:00:51.457Z",
   "company_id": "E36C5699-B756-421A-9438-8F6A3054937C",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/affle-india-ltd",
+    "search_id": "affle-india-ltd",
+    "company_id": "GSTK542752",
+    "isin": "INE00WC01027"
+  },
   "overview": {
     "snowflake": {
       "valuation": 2,
@@ -21,10 +29,14 @@
     },
     "snowflake_total": 15,
     "current_price_inr": 1431.2,
-    "market_cap_inr": 201302633710,
+    "market_cap_inr": 201719000000,
     "market_cap_usd": 123377158243.857,
     "market_cap_band": "medium5",
     "shares_outstanding": 140653042,
+    "fifty_two_week": {
+      "low": 1251.3,
+      "high": 2185.9
+    },
     "fair_value_inr": 1612.87356,
     "fair_value_range_inr": {
       "min": 990.014498,
@@ -34,15 +46,16 @@
     "upside_pct": 12.693792621576296,
     "multiples": {
       "pe": 44.34,
-      "ps": 7.780765168524995,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 7.44,
+      "pb": 5.52,
+      "ev_ebitda": 36.85,
+      "peg": 2.0936594323873114
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/affle-india-ltd"
     },
@@ -54,24 +67,24 @@
     ],
     "risks": [],
     "dividend": {
-      "yield_pct": null,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": null,
       "listing_currency": "INR",
       "recent_payments": [],
       "payment_count": 0
     },
-    "dividend_yield_pct": null,
-    "net_margin_pct": 16.945148449104682,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "future_revenue_growth_3y": 0.5631878286,
       "net_income_margin_1y": 0.1065873202,
-      "pe": 19.240887337479148
+      "pe": 19.240887337479148,
+      "sector_pe": 19.240887337479148
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "IT - Software",
       "pe_industry_id": 34,
@@ -84,7 +97,7 @@
       "industry_pe": 19.240887337479148,
       "industry_name": "IT - Software",
       "industry_id": 34,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/affle-india-ltd",
       "search_id": "affle-india-ltd"
     },
@@ -94,7 +107,7 @@
         "industry_pe": 19.240887337479148,
         "industry_name": "IT - Software",
         "industry_id": 34,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/affle-india-ltd"
       },
       "sws_statement": {
@@ -132,13 +145,177 @@
         "company_pe": 45.917362081012406
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 1431.2,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 201719000000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 44.34,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 5.52,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 7.44,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 36.85,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": 2.0936594323873114,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 19.240887337479148,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 1251.3,
+          "high": 2185.9
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 32.31,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 259.3993643,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 2,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 19.240887337479148,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 12.4541,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 10.287029937871623,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 20.545331682050065,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 16.788038282810014,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 25.405361512709877,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0.41000000000000003,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0.3349549586225458,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 3.6534,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 3.5929817874935344,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 1.7614542781694933,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affle-india-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": 14.804291524056678,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": 14.158490372888416,
     "latest_revenue": 25871830000,
     "latest_net_income": 4384020000,
-    "latest_eps": null,
+    "latest_eps": 32.31,
     "most_recent_reported_date": "2026-05-04",
+    "pb": 5.52,
+    "ps": 7.44,
+    "book_value": 259.3993643,
+    "face_value": 2,
+    "sector_pe": 19.240887337479148,
+    "roe_pct": 12.4541,
+    "roa_pct": 10.287029937871623,
+    "roic_pct": 20.545331682050065,
+    "net_margin_pct": 16.788038282810014,
+    "operating_margin_pct": 25.405361512709877,
+    "debt_to_equity_pct": 0.41000000000000003,
+    "debt_to_asset_pct": 0.3349549586225458,
+    "current_ratio": 3.6534,
+    "quick_ratio": 3.5929817874935344,
+    "cash_ratio": 1.7614542781694933,
     "returns_pct": {
       "1D": -0.7627236166967134,
       "7D": -3.1074402545528312,
@@ -257,10 +434,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 54.9209,
+    "fii_pct": 18.819699999999997,
+    "mutual_fund_pct": 13.7141,
+    "insurance_pct": 4.190199999999999,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 8.355099999999991,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": null,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": null,
     "listing_currency": "INR",
@@ -309,6 +493,208 @@
         "eps": null
       }
     ]
+  },
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {
+        "revenue": {
+          "2021": 558.31,
+          "2022": 1153.331,
+          "2023": 1488.28,
+          "2024": 1900.015,
+          "2025": 2360.073
+        },
+        "profit": {
+          "2021": 135.037,
+          "2022": 214.692,
+          "2023": 245.466,
+          "2024": 297.263,
+          "2025": 381.869
+        },
+        "net_worth": {
+          "2021": 359.182,
+          "2022": 1179.353,
+          "2023": 1467.166,
+          "2024": 2498.04,
+          "2025": 2946.457
+        }
+      },
+      "quarterly": {
+        "revenue": {
+          "Mar '25": 621.16,
+          "Jun '25": 637.91,
+          "Sep '25": 669,
+          "Dec '25": 735,
+          "Mar '26": 745.65
+        },
+        "profit": {
+          "Mar '25": 103.07,
+          "Jun '25": 105.5,
+          "Sep '25": 110.51,
+          "Dec '25": 119.32,
+          "Mar '26": 119.51
+        }
+      }
+    }
+  },
+  "past_performance": {
+    "roe_pct": 12.4541,
+    "roa_pct": 10.287029937871623,
+    "roic_pct": 20.545331682050065,
+    "net_margin_pct": 16.788038282810014,
+    "operating_margin_pct": 25.405361512709877,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 0.41000000000000003,
+    "debt_to_asset_pct": 0.3349549586225458,
+    "current_ratio": 3.6534,
+    "quick_ratio": 3.5929817874935344,
+    "cash_ratio": 1.7614542781694933,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-07-25T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-31T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-01-30T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-08T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/affle-india-ltd",
+    "news": [
+      {
+        "id": "659259",
+        "title": "Affle 3i Ltd reported Q4 FY2026 revenue of INR 7.24 billion, a 20.3% YoY growth, marking its 13th consecutive quarter of topline growth.\nFY2026 revenue stood at INR 27.1 billion, growing 19.5% YoY, with EBITDA rising 26.3% to INR 6.1 billion, driven by AI-powered platforms and verticalized strategies.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=2af8a5a5-dec8-48c0-bcc6-b206d91bfa69.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-18T14:43:32.000Z"
+      },
+      {
+        "id": "637158",
+        "title": "Affle 3i shares surged 10.5% post strong Q4FY26 results; PAT rose 16% YoY.\nRevenue grew 20.3% YoY to ₹724.4 crore, with EBITDA margin slightly up at 22.3%.",
+        "url": "https://www.business-standard.com/markets/news/affle-3i-zooms-11-percent-on-posting-healthy-q4-performance-pat-up-16-percent-yoy-126051100453_1.html",
+        "source": "Business Standard",
+        "published_at": "2026-05-11T07:01:12.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-07-25T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-31T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-01-30T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-08T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "BCG",
+        "name": "Brightcom Group",
+        "searchId": "brightcom-group-ltd",
+        "market_cap_inr": 21349600000,
+        "pe": 2.44,
+        "pb": 0.23
+      },
+      {
+        "ticker": "SIGNPOST",
+        "name": "Signpost India",
+        "searchId": "signpost-india-ltd",
+        "market_cap_inr": 15529900000,
+        "pe": 31.01,
+        "pb": 6.19
+      },
+      {
+        "ticker": "543831",
+        "name": "Bright Outdoor Media",
+        "searchId": "bright-outdoor-media-ltd",
+        "market_cap_inr": 8445600000,
+        "pe": 35.12,
+        "pb": 4.61
+      }
+    ],
+    "details": {
+      "fullName": "Affle 3i Limited",
+      "parentCompany": "Affle 3i Limited",
+      "headquarters": "GURGAON",
+      "ceo": "Anuj Khanna Sohum",
+      "managingDirector": "ANUJ KHANNA SOHUM",
+      "foundedYear": 1994,
+      "websiteUrl": "https://affle.com/"
+    }
   },
   "indices": [
     "NSEI"

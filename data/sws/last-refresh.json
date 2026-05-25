@@ -1,8 +1,8 @@
 {
-  "started_at": "2026-05-24T11:00:17.000Z",
-  "finished_at": "2026-05-24T14:52:10.390Z",
-  "pipeline": "api_postscrape_resume",
-  "duration_seconds": 13913,
+  "started_at": "2026-05-24T20:30:11.000Z",
+  "finished_at": "2026-05-25T00:00:59.823Z",
+  "pipeline": "api",
+  "duration_seconds": 12342,
   "shards_failed": 0,
   "scrape_skipped": false,
   "scored_count": 5561,
@@ -12,57 +12,58 @@
     "deep_value": 98,
     "quality_growth": 228,
     "best_fundamentals": 100,
-    "midterm": 192,
-    "dividend_aristocrats": 19,
+    "midterm": 194,
+    "dividend_aristocrats": 20,
     "smallcap_gems": 12,
-    "insider_buying": 0,
-    "upcoming_earnings": 699,
-    "avoid": 1257
+    "upcoming_earnings": 602,
+    "avoid": 1260
   },
   "per_shard_progress": {
     "1": {
-      "shard_id": 1,
+      "done_count": 77500,
       "next_local_index": 1818,
-      "done_count": 75685,
-      "today_count": 1811,
-      "today_date": "2026-05-24",
-      "started_at": "2026-04-28T09:30:38.240Z",
-      "last_ticker": "541338",
-      "last_run_at": "2026-05-24T14:39:56.402Z",
-      "last_duration_ms": 1746
+      "today_count": 3626,
+      "last_ticker": "541338"
     },
     "2": {
-      "shard_id": 2,
+      "done_count": 74217,
       "next_local_index": 1818,
-      "done_count": 72415,
-      "today_count": 1817,
-      "today_date": "2026-05-24",
-      "started_at": "2026-04-28T09:30:55.036Z",
-      "last_ticker": "HONASA",
-      "last_run_at": "2026-05-24T14:41:49.029Z",
-      "last_duration_ms": 1216
+      "today_count": 3619,
+      "last_ticker": "HONASA"
     },
     "3": {
-      "shard_id": 3,
+      "done_count": 75815,
       "next_local_index": 1819,
-      "done_count": 74014,
-      "today_count": 1813,
-      "today_date": "2026-05-24",
-      "started_at": "2026-04-28T09:31:10.334Z",
-      "last_ticker": "ZYDUSWELL",
-      "last_run_at": "2026-05-24T14:39:22.985Z",
-      "last_duration_ms": 1491
+      "today_count": 3614,
+      "last_ticker": "ZYDUSWELL"
     }
   },
-  "news_populated_count": 5459,
-  "news_items_total": 37597,
-  "rewards_populated_count": 4623,
-  "risks_populated_count": 5234,
-  "groww_pe_cache": {
-    "fetched_at": "2026-05-24T13:55:03.203Z",
-    "expires_at": "2026-05-31T13:55:03.203Z",
+  "news_populated_count": 5457,
+  "news_items_total": 37600,
+  "rewards_populated_count": 4617,
+  "risks_populated_count": 5233,
+  "groww_stock_cache": {
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "expires_at": "2026-05-25T18:33:37.371Z",
     "status": "fresh",
-    "age_days": 0.04,
+    "age_days": 0.23,
+    "coverage": {
+      "target_count": 5455,
+      "screener_records_count": 4465,
+      "screener_total_records": 4997,
+      "mapped_count": 3976,
+      "fetched_count": 3976,
+      "usable_count": 3976,
+      "coverage_pct": 72.89,
+      "pe_usable_count": 2990,
+      "pe_coverage_pct": 54.81
+    }
+  },
+  "groww_pe_cache": {
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "expires_at": "2026-05-25T18:33:37.371Z",
+    "status": "fresh",
+    "age_days": 0.23,
     "coverage": {
       "target_count": 5455,
       "screener_records_count": 4465,
@@ -73,8 +74,135 @@
       "coverage_pct": 54.81
     }
   },
+  "endpoint_timing": {
+    "graphql:CompanySummary": {
+      "count": 5418,
+      "failures": 0,
+      "bytes": 12000654,
+      "total_ms": 2093962,
+      "p50_ms": 326,
+      "p95_ms": 573,
+      "parser_consumed": true
+    },
+    "graphql:getNarrativeValuation": {
+      "count": 5418,
+      "failures": 1,
+      "bytes": 14290161,
+      "total_ms": 2266712,
+      "p50_ms": 360,
+      "p95_ms": 615,
+      "parser_consumed": true
+    },
+    "graphql:CompanyNarrativesWithHistogram": {
+      "count": 5418,
+      "failures": 3,
+      "bytes": 13767445,
+      "total_ms": 2458631,
+      "p50_ms": 388,
+      "p95_ms": 682,
+      "parser_consumed": true
+    },
+    "graphql:getCompanyTimeSeries": {
+      "count": 5418,
+      "failures": 1,
+      "bytes": 145906895,
+      "total_ms": 2173438,
+      "p50_ms": 342,
+      "p95_ms": 567,
+      "parser_consumed": false
+    },
+    "graphql:getCompanyDividends": {
+      "count": 5418,
+      "failures": 3,
+      "bytes": 6282019,
+      "total_ms": 2861546,
+      "p50_ms": 463,
+      "p95_ms": 723,
+      "parser_consumed": true
+    },
+    "graphql:getCompanyPeers": {
+      "count": 5418,
+      "failures": 6,
+      "bytes": 27016704,
+      "total_ms": 2250243,
+      "p50_ms": 350,
+      "p95_ms": 615,
+      "parser_consumed": true
+    },
+    "graphql:NarrativeValuationHistory": {
+      "count": 5418,
+      "failures": 0,
+      "bytes": 28245264,
+      "total_ms": 2541663,
+      "p50_ms": 400,
+      "p95_ms": 734,
+      "parser_consumed": true
+    },
+    "rest:ownership": {
+      "count": 5418,
+      "failures": 1,
+      "bytes": 32910320,
+      "total_ms": 2093274,
+      "p50_ms": 354,
+      "p95_ms": 601,
+      "parser_consumed": true
+    },
+    "rest:industry": {
+      "count": 5418,
+      "failures": 1,
+      "bytes": 312554976,
+      "total_ms": 3221216,
+      "p50_ms": 649,
+      "p95_ms": 988,
+      "parser_consumed": true
+    },
+    "rest:statements": {
+      "count": 5418,
+      "failures": 2,
+      "bytes": 384313081,
+      "total_ms": 1787290,
+      "p50_ms": 90,
+      "p95_ms": 1067,
+      "parser_consumed": true
+    },
+    "rest:price": {
+      "count": 5418,
+      "failures": 1,
+      "bytes": 41833831,
+      "total_ms": 2769939,
+      "p50_ms": 467,
+      "p95_ms": 684,
+      "parser_consumed": true
+    },
+    "rest:estimates": {
+      "count": 5418,
+      "failures": 1,
+      "bytes": 6278276,
+      "total_ms": 2128638,
+      "p50_ms": 343,
+      "p95_ms": 567,
+      "parser_consumed": false
+    },
+    "rest:dashboard_company": {
+      "count": 5418,
+      "failures": 1,
+      "bytes": 325284278,
+      "total_ms": 2992975,
+      "p50_ms": 504,
+      "p95_ms": 776,
+      "parser_consumed": true
+    },
+    "rest:competitors": {
+      "count": 5418,
+      "failures": 1,
+      "bytes": 9578541,
+      "total_ms": 2996613,
+      "p50_ms": 505,
+      "p95_ms": 782,
+      "parser_consumed": false
+    }
+  },
   "deep_files_scanned": 5561,
   "stamping_status": "success",
-  "pipeline_status": "success_postscrape_resume",
-  "manual_note": "Post-scrape resume after sws-refresh-api.sh shell error occurred after all 3 shards completed with 0 failures."
+  "pipeline_status": "success"
 }

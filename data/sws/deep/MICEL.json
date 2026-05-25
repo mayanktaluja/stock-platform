@@ -6,6 +6,14 @@
   "parsed_at": "2026-05-24T12:03:30.199Z",
   "company_id": "DBA4B6F0-AA32-44C2-BC8A-A7BAC0FF4208",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/mic-electronics-ltd",
+    "search_id": "mic-electronics-ltd",
+    "company_id": "GSTK532850",
+    "isin": "INE287C01037"
+  },
   "overview": {
     "snowflake": {
       "valuation": 0,
@@ -21,10 +29,14 @@
     },
     "snowflake_total": 6,
     "current_price_inr": 43.2,
-    "market_cap_inr": 10411700138.202196,
+    "market_cap_inr": 10423800000,
     "market_cap_usd": 123377158243.857,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 29.97,
+      "high": 82.97
+    },
     "fair_value_inr": 28.829371,
     "fair_value_range_inr": {
       "min": 19.41,
@@ -34,15 +46,16 @@
     "upside_pct": -33.26534490740742,
     "multiples": {
       "pe": 104.67,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 5.46,
+      "pb": 4.82,
+      "ev_ebitda": 67.48,
+      "peg": -1.5207844537815125
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/mic-electronics-ltd"
     },
@@ -51,22 +64,22 @@
       "Highly volatile share price over past 3 months"
     ],
     "dividend": {
-      "yield_pct": null,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": null,
       "listing_currency": "INR",
       "recent_payments": [],
       "payment_count": 0
     },
-    "dividend_yield_pct": null,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 50.063055479526334
+      "pe": 50.063055479526334,
+      "sector_pe": 50.063055479526334
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Consumer Durables",
       "pe_industry_id": 17,
@@ -79,7 +92,7 @@
       "industry_pe": 50.063055479526334,
       "industry_name": "Consumer Durables",
       "industry_id": 17,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/mic-electronics-ltd",
       "search_id": "mic-electronics-ltd"
     },
@@ -89,7 +102,7 @@
         "industry_pe": 50.063055479526334,
         "industry_name": "Consumer Durables",
         "industry_id": 17,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/mic-electronics-ltd"
       },
       "sws_statement": {
@@ -113,7 +126,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.799999999999997,
+        "industry_pe": 16.15,
         "sample_count": 16,
         "industry_code": "8210000",
         "industry_name": "Semiconductors"
@@ -123,6 +136,149 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 43.2,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 10423800000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 104.67,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 4.82,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 5.46,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 67.48,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": -1.5207844537815125,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 50.063055479526334,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 29.97,
+          "high": 82.97
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 8.9714498,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 2,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 50.063055479526334,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 13.862061725803066,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 20.44,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 12.477763659466328,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 2.6392,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 1.6856355765446678,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.08618654073199528,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mic-electronics-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
@@ -130,6 +286,21 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
+    "pb": 4.82,
+    "ps": 5.46,
+    "book_value": 8.9714498,
+    "face_value": 2,
+    "sector_pe": 50.063055479526334,
+    "roe_pct": 0,
+    "roa_pct": 0,
+    "roic_pct": 0,
+    "net_margin_pct": 0,
+    "operating_margin_pct": 13.862061725803066,
+    "debt_to_equity_pct": 20.44,
+    "debt_to_asset_pct": 12.477763659466328,
+    "current_ratio": 2.6392,
+    "quick_ratio": 1.6856355765446678,
+    "cash_ratio": 0.08618654073199528,
     "returns_pct": {
       "1D": -0.27700831024930156,
       "7D": -2.658855340243352,
@@ -140,7 +311,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 0,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -193,10 +364,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 51.6977,
+    "fii_pct": 1.8379,
+    "mutual_fund_pct": 0,
+    "insurance_pct": 0.0008,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 46.46359999999999,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": null,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": null,
     "listing_currency": "INR",
@@ -204,6 +382,208 @@
     "payment_count": 0
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {
+        "revenue": {
+          "2021": 4.2324,
+          "2022": 46.2528,
+          "2023": 24.8515,
+          "2024": 56.5661,
+          "2025": 96.0036
+        },
+        "profit": {
+          "2021": -5.4165,
+          "2022": 3.014,
+          "2023": 0.2628,
+          "2024": 61.8388,
+          "2025": 9.8312
+        },
+        "net_worth": {
+          "2021": 5.007,
+          "2022": 63.7745,
+          "2023": 64.0221,
+          "2024": 121.962,
+          "2025": 222.593
+        }
+      },
+      "quarterly": {
+        "revenue": {
+          "Mar '25": 45.160000000000004,
+          "Jun '25": 11.75,
+          "Sep '25": 38.42,
+          "Dec '25": 90.38000000000001,
+          "Mar '26": 51.14
+        },
+        "profit": {
+          "Mar '25": 3.57,
+          "Jun '25": 1.67,
+          "Sep '25": 2.17,
+          "Dec '25": 1.88,
+          "Mar '26": -18.35
+        }
+      }
+    }
+  },
+  "past_performance": {
+    "roe_pct": 0,
+    "roa_pct": 0,
+    "roic_pct": 0,
+    "net_margin_pct": 0,
+    "operating_margin_pct": 13.862061725803066,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 20.44,
+    "debt_to_asset_pct": 12.477763659466328,
+    "current_ratio": 2.6392,
+    "quick_ratio": 1.6856355765446678,
+    "cash_ratio": 0.08618654073199528,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-07-03T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-14T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-01-30T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-04-24T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/mic-electronics-ltd",
+    "news": [
+      {
+        "id": "997866125379492352",
+        "title": "MIC Electronics saw 1,210,241 shares traded at a weighted avg price of 57.2.\nKEYA VIMAL SALOT executed a buy trade in MIC Electronics.",
+        "url": "https://www.nseindia.com/report-detail/display-bulk-and-block-deals",
+        "source": "NSE Bulk Trades",
+        "published_at": "2026-05-08T15:30:22.000Z"
+      },
+      {
+        "id": "2995055674823440384",
+        "title": "MIC Electronics Ltd saw a sell transaction of 1,346,896 shares at ₹55.62.",
+        "url": "https://www.nseindia.com/report-detail/display-bulk-and-block-deals",
+        "source": "NSE Bulk Trades",
+        "published_at": "2026-05-08T15:30:22.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-07-03T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-14T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-01-30T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-04-24T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "GVPIL",
+        "name": "GE Power India",
+        "searchId": "ge-power-india-ltd",
+        "market_cap_inr": 49173500000,
+        "pe": 19.46,
+        "pb": 8.44
+      },
+      {
+        "ticker": "KSHINTL",
+        "name": "KSH International",
+        "searchId": "ksh-international-ltd",
+        "market_cap_inr": 48218300000,
+        "pe": 51.27,
+        "pb": 6.26
+      },
+      {
+        "ticker": "PITTIENG",
+        "name": "Pitti Engineering",
+        "searchId": "pitti-engineering-ltd",
+        "market_cap_inr": 35364200000,
+        "pe": 30.02,
+        "pb": 3.58
+      }
+    ],
+    "details": {
+      "fullName": "MIC Electronics",
+      "parentCompany": "MIC Electronics Limited",
+      "headquarters": "HYDERABAD",
+      "ceo": "Mr. Rakshith Mathur",
+      "managingDirector": "Mr. Rakshith Mathur",
+      "foundedYear": 1988,
+      "websiteUrl": "http://www.micelectronics.com/"
+    }
+  },
   "indices": [
     "NSEI"
   ],

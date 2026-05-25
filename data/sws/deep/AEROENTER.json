@@ -1,11 +1,19 @@
 {
   "ticker": "AEROENTER",
   "name": "Aeroflex Enterprises Limited",
-  "sector": "Materials",
+  "sector": null,
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-aeroenter/aeroflex-enterprises-shares",
-  "parsed_at": "2026-05-24T12:00:19.914Z",
+  "parsed_at": "2026-05-24T21:26:41.048Z",
   "company_id": "6BCCF86C-5890-49D2-BCDE-9B99138375B9",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/sat-industries-ltd",
+    "search_id": "sat-industries-ltd",
+    "company_id": "GSTK511076",
+    "isin": "INE065D01027"
+  },
   "overview": {
     "snowflake": {
       "valuation": 2,
@@ -21,10 +29,14 @@
     },
     "snowflake_total": 14,
     "current_price_inr": 99.02,
-    "market_cap_inr": 11197677080.3047,
+    "market_cap_inr": 11178500000,
     "market_cap_usd": 123377158243.857,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 62.2,
+      "high": 114.8
+    },
     "fair_value_inr": 3.465512,
     "fair_value_range_inr": {
       "min": null,
@@ -34,30 +46,23 @@
     "upside_pct": -96.50018986063421,
     "multiples": {
       "pe": 13.09,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 1.6,
+      "pb": 1.35,
+      "ev_ebitda": 5.73,
+      "peg": -0.24320864991233196
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/sat-industries-ltd"
     },
-    "rewards": [
-      "Price-To-Earnings ratio (17.4x) is below the Indian market (23.2x)",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Earnings grew by 20.9% over the past year"
-    ],
-    "risks": [
-      "Highly volatile share price over past 3 months",
-      "Dividend of 0.3% is not well covered by free cash flows"
-    ],
+    "rewards": [],
+    "risks": [],
     "dividend": {
-      "yield_pct": 0.3601562455,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": 0.3,
       "listing_currency": "INR",
@@ -130,15 +135,15 @@
       ],
       "payment_count": 5
     },
-    "dividend_yield_pct": 0.3601562455,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 27.3031394312147
+      "pe": 27.3031394312147,
+      "sector_pe": 27.3031394312147
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Steel",
       "pe_industry_id": 57,
@@ -151,7 +156,7 @@
       "industry_pe": 27.3031394312147,
       "industry_name": "Steel",
       "industry_id": 57,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/sat-industries-ltd",
       "search_id": "sat-industries-ltd"
     },
@@ -161,38 +166,164 @@
         "industry_pe": 27.3031394312147,
         "industry_name": "Steel",
         "industry_id": 57,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/sat-industries-ltd"
       },
-      "sws_statement": {
-        "company_pe": 17.4,
-        "industry_pe": 22.6,
-        "industry_name": "Indian Metals and Mining",
-        "description": "AEROENTER is good value based on its Price-To-Earnings Ratio (17.4x) compared to the Indian Metals and Mining industry average (22.6x).",
-        "title": "Price-To-Earnings vs Industry",
-        "name": "IsGoodValueComparingPreferredMultipleToIndustry"
-      },
-      "sws_industry_api": {
-        "industry_pe": 22.600644988,
-        "industry_code": "2050000",
-        "type": "median_profitable",
-        "count": 190,
-        "source": {
-          "type": "country",
-          "country": "IN",
-          "industry": 2050000,
-          "name": "India"
-        }
-      },
-      "internal_median": {
-        "industry_pe": 21.1,
-        "sample_count": 196,
-        "industry_code": "2050000",
-        "industry_name": "Materials"
-      },
+      "sws_statement": null,
+      "sws_industry_api": null,
+      "internal_median": null,
       "sws_primary_industry": null,
       "sws_computed": {
         "company_pe": null
+      }
+    },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 99.02,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 11178500000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 13.09,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 1.35,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 1.6,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 5.73,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": -0.24320864991233196,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 27.3031394312147,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 62.2,
+          "high": 114.8
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 7.55,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 73.1111111,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 2,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 27.3031394312147,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 7.768,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 5.621263378295365,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 14.225860038709232,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 9.310290471891435,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 21.328976971468695,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 4.91,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 3.5118836466832213,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 5.0876,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 3.2822388878726905,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.8904944820437779,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/sat-industries-ltd"
       }
     },
     "earnings_growth_yoy_pct": null,
@@ -200,75 +331,43 @@
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 7.55,
     "most_recent_reported_date": null,
-    "returns_pct": {
-      "1D": 0.9584013050570939,
-      "7D": -2.673481423235698,
-      "1M": 8.87300714678394,
-      "3M": 25.96361786032311,
-      "6M": 17.65684410646388,
-      "1Y": 18.27520305781175,
-      "5Y": null
-    },
+    "pb": 1.35,
+    "ps": 1.6,
+    "book_value": 73.1111111,
+    "face_value": 2,
+    "sector_pe": 27.3031394312147,
+    "roe_pct": 7.768,
+    "roa_pct": 5.621263378295365,
+    "roic_pct": 14.225860038709232,
+    "net_margin_pct": 9.310290471891435,
+    "operating_margin_pct": 21.328976971468695,
+    "debt_to_equity_pct": 4.91,
+    "debt_to_asset_pct": 3.5118836466832213,
+    "current_ratio": 5.0876,
+    "quick_ratio": 3.2822388878726905,
+    "cash_ratio": 0.8904944820437779,
+    "returns_pct": null,
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
-    "top_holders": [
-      {
-        "pct": 44.95291,
-        "shares": 50835000,
-        "is_insider": null
-      },
-      {
-        "pct": 6.63218,
-        "shares": 7500000,
-        "is_insider": null
-      },
-      {
-        "pct": 4.51099,
-        "shares": 5101255,
-        "is_insider": null
-      },
-      {
-        "pct": 4.49662,
-        "shares": 5085000,
-        "is_insider": null
-      },
-      {
-        "pct": 3.34799,
-        "shares": 3786070,
-        "is_insider": null
-      },
-      {
-        "pct": 1.41889,
-        "shares": 1604550,
-        "is_insider": null
-      },
-      {
-        "pct": 1.32644,
-        "shares": 1500000,
-        "is_insider": null
-      },
-      {
-        "pct": 1.22916,
-        "shares": 1390000,
-        "is_insider": null
-      },
-      {
-        "pct": 0.00049,
-        "shares": 550,
-        "is_insider": null
-      }
-    ],
+    "top_holders": [],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 51.5851,
+    "fii_pct": 0.5406,
+    "mutual_fund_pct": 0,
+    "insurance_pct": 0.0615,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 47.81280000000001,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 0.3601562455,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": 0.3,
     "listing_currency": "INR",
@@ -342,120 +441,231 @@
     "payment_count": 5
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {
+        "revenue": {
+          "2021": 205.0966,
+          "2022": 351.4822,
+          "2023": 481.7815,
+          "2024": 778.4216,
+          "2025": 606.0875
+        },
+        "profit": {
+          "2021": 9.4366,
+          "2022": 38.7065,
+          "2023": 45.0588,
+          "2024": 274.2246,
+          "2025": 80.7319
+        },
+        "net_worth": {
+          "2021": 171.1683,
+          "2022": 211.685,
+          "2023": 307.5188,
+          "2024": 720.6676,
+          "2025": 823.0561
+        }
+      },
+      "quarterly": {
+        "revenue": {
+          "Mar '25": 166.59,
+          "Jun '25": 142.04,
+          "Sep '25": 180.39,
+          "Dec '25": 196.42999999999998,
+          "Mar '26": 207.24
+        },
+        "profit": {
+          "Mar '25": 18.5,
+          "Jun '25": 14.42,
+          "Sep '25": 20.44,
+          "Dec '25": 24.81,
+          "Mar '26": 25.67
+        }
+      }
+    }
+  },
+  "past_performance": {
+    "roe_pct": 7.768,
+    "roa_pct": 5.621263378295365,
+    "roic_pct": 14.225860038709232,
+    "net_margin_pct": 9.310290471891435,
+    "operating_margin_pct": 21.328976971468695,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 4.91,
+    "debt_to_asset_pct": 3.5118836466832213,
+    "current_ratio": 5.0876,
+    "quick_ratio": 3.2822388878726905,
+    "cash_ratio": 0.8904944820437779,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2024-07-11T18:30:00.000Z",
+        "announcement_date": "2024-05-08T18:30:00.000Z",
+        "ex_date": "2024-07-11T18:30:00.000Z",
+        "record_date": "2024-07-11T18:30:00.000Z",
+        "value": "₹0.15"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-09-07T18:30:00.000Z",
+        "announcement_date": "2025-05-23T18:30:00.000Z",
+        "ex_date": "2025-09-07T18:30:00.000Z",
+        "record_date": "2025-09-08T18:30:00.000Z",
+        "value": "₹0.30"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2025-05-23T18:30:00.000Z",
+        "announcement_date": "2025-05-23T18:30:00.000Z",
+        "ex_date": "2025-09-07T18:30:00.000Z",
+        "record_date": "2025-09-08T18:30:00.000Z",
+        "value": "₹0.30"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-11T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-12T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/sat-industries-ltd",
+    "news": [
+      {
+        "id": "842399921106913536",
+        "title": "Aeroflex FY26 revenue of ₹726.1 Cr grew 19.8% YoY, EBITDA ₹149.8 Cr, margin 20.6%.\nPAT at ₹85.3 Cr, margin 11.7%. Sold 68% MRO stake for ₹227.4 Cr.",
+        "url": "https://sqst.in/UxR0x",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-13T13:56:32.000Z"
+      },
+      {
+        "id": "645576",
+        "title": "Aeroflex Enterprises' Q4 EBITDA rose to ₹358M from ₹189M YoY.\nQ4 EBITDA margin declined to 17.3% from 20.6% YoY.",
+        "url": null,
+        "source": "Livesquawk",
+        "published_at": "2026-05-13T13:22:20.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2024-07-11T18:30:00.000Z",
+        "announcement_date": "2024-05-08T18:30:00.000Z",
+        "ex_date": "2024-07-11T18:30:00.000Z",
+        "record_date": "2024-07-11T18:30:00.000Z",
+        "value": "₹0.15"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-09-07T18:30:00.000Z",
+        "announcement_date": "2025-05-23T18:30:00.000Z",
+        "ex_date": "2025-09-07T18:30:00.000Z",
+        "record_date": "2025-09-08T18:30:00.000Z",
+        "value": "₹0.30"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2025-05-23T18:30:00.000Z",
+        "announcement_date": "2025-05-23T18:30:00.000Z",
+        "ex_date": "2025-09-07T18:30:00.000Z",
+        "record_date": "2025-09-08T18:30:00.000Z",
+        "value": "₹0.30"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-11T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-12T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "526433",
+        "name": "ASM Technologies",
+        "searchId": "asm-technologies-ltd",
+        "market_cap_inr": 47872700000,
+        "pe": 78.8,
+        "pb": 15.59
+      },
+      {
+        "ticker": "ANUP",
+        "name": "Anup Engineering",
+        "searchId": "anveshan-heavy-engineering-ltd",
+        "market_cap_inr": 39595200000,
+        "pe": 34.32,
+        "pb": 6.22
+      },
+      {
+        "ticker": "GREAVESCOT",
+        "name": "Greaves Cotton",
+        "searchId": "greaves-cotton-ltd",
+        "market_cap_inr": 39462000000,
+        "pe": 112.19,
+        "pb": 2.76
+      }
+    ],
+    "details": {
+      "fullName": "Aeroflex Enterprises",
+      "parentCompany": "Aeroflex Enterprises",
+      "headquarters": "MUMBAI",
+      "ceo": "NA",
+      "managingDirector": "Asad Daud",
+      "foundedYear": 1984,
+      "websiteUrl": "https://www.satgroup.in/"
+    }
+  },
   "indices": [
     "NSEI"
   ],
-  "news": [
-    {
-      "id": "f1f737b5-16f0-4ec7-91ea-31b1730d89a6",
-      "type": "brief",
-      "date": "2026-05-15T11:28:47.000Z",
-      "title": "Full year 2026 earnings released: EPS: ₹5.68 (vs ₹4.70 in FY 2025)",
-      "body": "Full year 2026 results: EPS: ₹5.68 (up from ₹4.70 in FY 2025). Revenue: ₹7.26b (up 22% from FY 2025). Net income: ₹642.2m (up 21% from FY 2025). Profit margin: 8.8% (down from 8.9% in FY 2025). The decrease in margin was driven by higher expenses. Over the last 3 years on average, earnings per share has fallen by 37% per year but the company’s share price has increased by 11% per year, which means it is well ahead of earnings.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "95105f05-1671-4c6a-905e-49e6bbf92833",
-      "type": "brief",
-      "date": "2026-05-07T16:46:38.000Z",
-      "title": "Now 21% overvalued after recent price rise",
-      "body": "Over the last 90 days, the stock has risen 40% to ₹111. The fair value is estimated to be ₹91.61, however this is not to be taken as a sell recommendation but rather should be used as a guide only. Revenue has grown by 12% over the last 3 years. Earnings per share has declined by 22%.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "21a8b654-6a2d-4d27-8c57-530f38bcb933",
-      "type": "event",
-      "date": "2026-05-07T12:21:00.000Z",
-      "title": "Aeroflex Enterprises Limited to Report Q4, 2026 Results on May 13, 2026",
-      "body": "Aeroflex Enterprises Limited announced that they will report Q4, 2026 results at 9:15 AM, Indian Standard Time on May 13, 2026",
-      "keyDevTypeId": "55",
-      "source_url": null,
-      "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "be689a2b-27d3-4606-8462-4b5a856e7607",
-      "type": "brief",
-      "date": "2026-04-07T11:27:48.000Z",
-      "title": "Investor sentiment improves as stock rises 16%",
-      "body": "After last week's 16% share price gain to ₹75.41, the stock trades at a trailing P/E ratio of 16.6x. Average trailing P/E is 20x in the Metals and Mining industry in India. Total returns to shareholders of 19% over the past three years.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "4a8b5c2e-1a4d-4514-83e5-1bdce70087f5",
-      "type": "brief",
-      "date": "2026-03-19T11:29:02.000Z",
-      "title": "Now 22% undervalued after recent price drop",
-      "body": "Over the last 90 days, the stock has fallen 12% to ₹74.06. The fair value is estimated to be ₹95.51, however this is not to be taken as a buy recommendation but rather should be used as a guide only. Revenue has grown by 12% over the last 3 years. Earnings per share has declined by 22%.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "2d9ed87c-21be-4bf3-b481-07c2eb4731a9",
-      "type": "brief",
-      "date": "2026-03-18T17:02:26.000Z",
-      "title": "New minor risk - Share price stability",
-      "body": "The company's share price has been volatile over the past 3 months. It is more volatile than 75% of Indian stocks, typically moving 8.5% a week. This is considered a minor risk. Share price volatility indicates the stock is highly sensitive to market conditions or economic conditions rather than being sensitive to its own business performance, which may also be inconsistent. It also increases the risk of potential losses in the short term as the stock tends to have larger drops in price more frequently than other stocks. Currently, the following risks have been identified for the company: Minor Risks Unstable dividend paying track record with dividend experiencing an annual drop of over 20% in the past. Share price has been volatile over the past 3 months (8.5% average weekly change). Mark",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "f9f5a99d-dfed-48a0-a7be-154299276485",
-      "type": "brief",
-      "date": "2026-03-02T11:38:13.000Z",
-      "title": "Now 20% undervalued after recent price drop",
-      "body": "Over the last 90 days, the stock has fallen 11% to ₹75.49. The fair value is estimated to be ₹94.73, however this is not to be taken as a buy recommendation but rather should be used as a guide only. Revenue has grown by 12% over the last 3 years. Earnings per share has declined by 22%.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "c9bd828d-0ae5-4db9-978e-e52b7f6a1c3c",
-      "type": "brief",
-      "date": "2026-02-14T21:30:06.000Z",
-      "title": "Third quarter 2026 earnings released: EPS: ₹1.42 (vs ₹1.93 in 3Q 2025)",
-      "body": "Third quarter 2026 results: EPS: ₹1.42. Revenue: ₹1.96b (up 25% from 3Q 2025). Net income: ₹160.4m (up 14% from 3Q 2025). Profit margin: 8.2% (down from 8.9% in 3Q 2025). The decrease in margin was driven by higher expenses.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "7e928983-395d-4b1a-9992-6a4c688cf148",
-      "type": "event",
-      "date": "2026-02-05T12:32:00.000Z",
-      "title": "Aeroflex Enterprises Limited to Report Q3, 2026 Results on Feb 12, 2026",
-      "body": "Aeroflex Enterprises Limited announced that they will report Q3, 2026 results on Feb 12, 2026",
-      "keyDevTypeId": "55",
-      "source_url": null,
-      "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "2a92df5a-3f9c-4d1f-aa53-4577716f12ca",
-      "type": "brief",
-      "date": "2025-12-23T11:42:10.000Z",
-      "title": "Investor sentiment improves as stock rises 15%",
-      "body": "After last week's 15% share price gain to ₹92.33, the stock trades at a trailing P/E ratio of 21.2x. Average trailing P/E is 22x in the Metals and Mining industry in India. Total returns to shareholders of 32% over the past three years.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "393987f2-6556-4514-9298-4a017054140f",
-      "type": "brief",
-      "date": "2025-12-08T18:41:34.000Z",
-      "title": "New minor risk - Market cap size",
-      "body": "The company's market capitalization is less than US$100m. Market cap: ₹8.95b (US$99.4m) This is considered a minor risk. Companies with a small market capitalization are most likely businesses that have not yet released a product to market or are simply a very small company without a wide reach. Either way, risk is elevated with these companies because there is a chance the product may not come to fruition or the company's addressable market or demand may not be as large as expected. In addition, if the company's size is the main factor, it is less likely to have many investors and analysts following it and scrutinizing its performance and outlook. Currently, the following risks have been identified for the company: Minor Risks Unstable dividend paying track record with dividend experienci",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    }
-  ],
+  "news": [],
   "_api_raw_path": "data/sws/deep-api/AEROENTER.json"
 }

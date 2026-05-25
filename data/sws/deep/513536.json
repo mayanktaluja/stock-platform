@@ -6,6 +6,14 @@
   "parsed_at": "2026-05-21T21:27:45.492Z",
   "company_id": "625BC627-6FB9-453B-90E8-CFAC18BA54CA",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/gujarat-natural-resources-ltd",
+    "search_id": "gujarat-natural-resources-ltd",
+    "company_id": "GSTK513536",
+    "isin": "INE207H01018"
+  },
   "overview": {
     "snowflake": {
       "valuation": 0,
@@ -20,11 +28,15 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 96.28,
-    "market_cap_inr": 14769606407.620924,
+    "current_price_inr": 96.04,
+    "market_cap_inr": 12317700000,
     "market_cap_usd": 121304781320.862,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 91.75,
+      "high": 105.05
+    },
     "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
@@ -34,15 +46,16 @@
     "upside_pct": null,
     "multiples": {
       "pe": 168.3,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 52.13,
+      "pb": 6.8,
+      "ev_ebitda": 81.6,
+      "peg": 0
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
     },
@@ -54,7 +67,7 @@
       "Does not have meaningful revenue (₹237M)"
     ],
     "dividend": {
-      "yield_pct": 0.3365122867,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": 0.1,
       "listing_currency": "INR",
@@ -75,15 +88,15 @@
       ],
       "payment_count": 1
     },
-    "dividend_yield_pct": 0.3365122867,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 10.110975638921392
+      "pe": 10.110975638921392,
+      "sector_pe": 10.110975638921392
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Crude Oil & Natural Gas",
       "pe_industry_id": 19,
@@ -96,7 +109,7 @@
       "industry_pe": 10.110975638921392,
       "industry_name": "Crude Oil & Natural Gas",
       "industry_id": 19,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/gujarat-natural-resources-ltd",
       "search_id": "gujarat-natural-resources-ltd"
     },
@@ -106,7 +119,7 @@
         "industry_pe": 10.110975638921392,
         "industry_name": "Crude Oil & Natural Gas",
         "industry_id": 19,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
       },
       "sws_statement": {
@@ -140,13 +153,177 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 96.04,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 12317700000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 168.3,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 6.8,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 52.13,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 81.6,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 10.110975638921392,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 91.75,
+          "high": 105.05
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 0.57,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 14.1030935,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 10,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 10.110975638921392,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0.8776,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 3.4144963029246926,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 5.731270438774436,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 30.655391120507403,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 63.720930232558146,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 4.97,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 4.2386850656996184,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 5.2981,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 3.5341045073793382,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.3498205025927403,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/gujarat-natural-resources-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 0.57,
     "most_recent_reported_date": null,
+    "pb": 6.8,
+    "ps": 52.13,
+    "book_value": 14.1030935,
+    "face_value": 10,
+    "sector_pe": 10.110975638921392,
+    "roe_pct": 0.8776,
+    "roa_pct": 3.4144963029246926,
+    "roic_pct": 5.731270438774436,
+    "net_margin_pct": 30.655391120507403,
+    "operating_margin_pct": 63.720930232558146,
+    "debt_to_equity_pct": 4.97,
+    "debt_to_asset_pct": 4.2386850656996184,
+    "current_ratio": 5.2981,
+    "quick_ratio": 3.5341045073793382,
+    "cash_ratio": 0.3498205025927403,
     "returns_pct": {
       "1D": 0.3962460896767418,
       "7D": -1.2006157003591602,
@@ -265,10 +442,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 2.3099,
+    "fii_pct": 0.2531,
+    "mutual_fund_pct": 0,
+    "insurance_pct": 0,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 97.437,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 0.3365122867,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": 0.1,
     "listing_currency": "INR",
@@ -290,6 +474,228 @@
     "payment_count": 1
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {
+        "revenue": {
+          "2021": 9.1644468,
+          "2022": 9.4619,
+          "2023": 14.333,
+          "2024": 27.7037,
+          "2025": 22.8349
+        },
+        "profit": {
+          "2021": -4.192729,
+          "2022": -4.0948,
+          "2023": -6.1996,
+          "2024": -3.8804,
+          "2025": -3.7603
+        },
+        "net_worth": {
+          "2021": 105.8628522,
+          "2022": 117.9526,
+          "2023": 113.0486,
+          "2024": 109.0968,
+          "2025": 153.3365
+        }
+      },
+      "quarterly": {
+        "revenue": {
+          "Dec '24": 4.47,
+          "Mar '25": 6.859999999999999,
+          "Jun '25": 6.73,
+          "Sep '25": 9.97,
+          "Dec '25": 9.33
+        },
+        "profit": {
+          "Dec '24": -2.59,
+          "Mar '25": -1.59,
+          "Jun '25": 1.93,
+          "Sep '25": 3.84,
+          "Dec '25": 3.07
+        }
+      }
+    }
+  },
+  "past_performance": {
+    "roe_pct": 0.8776,
+    "roa_pct": 3.4144963029246926,
+    "roic_pct": 5.731270438774436,
+    "net_margin_pct": 30.655391120507403,
+    "operating_margin_pct": 63.720930232558146,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 4.97,
+    "debt_to_asset_pct": 4.2386850656996184,
+    "current_ratio": 5.2981,
+    "quick_ratio": 3.5341045073793382,
+    "cash_ratio": 0.3498205025927403,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Rights",
+        "type": "RIGHTS",
+        "status": "Ex date",
+        "primary_date": "2024-12-02T18:30:00.000Z",
+        "announcement_date": "2024-11-27T18:30:00.000Z",
+        "ex_date": "2024-12-02T18:30:00.000Z",
+        "record_date": "2024-12-02T18:30:00.000Z",
+        "value": "3:5"
+      },
+      {
+        "title": "Rights",
+        "type": "RIGHTS",
+        "status": "Announced",
+        "primary_date": "2024-11-27T18:30:00.000Z",
+        "announcement_date": "2024-11-27T18:30:00.000Z",
+        "ex_date": "2024-12-02T18:30:00.000Z",
+        "record_date": "2024-12-02T18:30:00.000Z",
+        "value": "3:5"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-11T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-13T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-13T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/gujarat-natural-resources-ltd",
+    "news": [
+      {
+        "id": "670238",
+        "title": "Gujarat Natural Resources Ltd's board to meet on 30/05/2026 to review audited financial results.\nTrading window remains closed for insiders, reopening 48 hours post financial results declaration.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=0c1024f8-327a-492b-9440-647b292876f3.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-21T13:09:46.000Z"
+      },
+      {
+        "id": "530963",
+        "title": "Gujarat Natural Resources Ltd announces Independent Directors' meeting on 23/03/2026.\nAgenda includes reviewing non-independent directors, chairperson, and board information flow quality.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=93be5d19-b0d1-47c2-9801-0e8c034d6f71.pdf",
+        "source": "BSE",
+        "published_at": "2026-03-18T13:34:43.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Rights",
+        "type": "RIGHTS",
+        "status": "Ex date",
+        "primary_date": "2024-12-02T18:30:00.000Z",
+        "announcement_date": "2024-11-27T18:30:00.000Z",
+        "ex_date": "2024-12-02T18:30:00.000Z",
+        "record_date": "2024-12-02T18:30:00.000Z",
+        "value": "3:5"
+      },
+      {
+        "title": "Rights",
+        "type": "RIGHTS",
+        "status": "Announced",
+        "primary_date": "2024-11-27T18:30:00.000Z",
+        "announcement_date": "2024-11-27T18:30:00.000Z",
+        "ex_date": "2024-12-02T18:30:00.000Z",
+        "record_date": "2024-12-02T18:30:00.000Z",
+        "value": "3:5"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-11T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-13T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-13T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "DEEPINDS",
+        "name": "Deep Industries",
+        "searchId": "deep-industries-ltd-363",
+        "market_cap_inr": 30003200000,
+        "pe": 15.23,
+        "pb": 1.5
+      },
+      {
+        "ticker": "ANTELOPUS",
+        "name": "Antelopus Selan Energy",
+        "searchId": "selan-exploration-technology-ltd",
+        "market_cap_inr": 24525700000,
+        "pe": 27.37,
+        "pb": 3.74
+      },
+      {
+        "ticker": "PRABHA",
+        "name": "Prabha Energy Ltd",
+        "searchId": "prabha-energy-ltd",
+        "market_cap_inr": 22192400000,
+        "pe": null,
+        "pb": 5.11
+      }
+    ],
+    "details": {
+      "fullName": "Gujarat Natural Resources",
+      "parentCompany": "Gujarat Natural Resources",
+      "headquarters": "AHMEDABAD",
+      "ceo": "Mr. Shalin Shah",
+      "managingDirector": "Mr. Shalin Shah",
+      "foundedYear": 1991,
+      "websiteUrl": "http://gnrl.in/"
+    }
+  },
   "indices": [
     "BSE"
   ],

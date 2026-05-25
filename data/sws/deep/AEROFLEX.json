@@ -6,6 +6,14 @@
   "parsed_at": "2026-05-24T12:00:24.449Z",
   "company_id": "AB6F5386-75A8-4C4E-B18F-49D72671A23E",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/aeroflex-industries-ltd",
+    "search_id": "aeroflex-industries-ltd",
+    "company_id": "GSTK543972",
+    "isin": "INE024001021"
+  },
   "overview": {
     "snowflake": {
       "valuation": 0,
@@ -21,10 +29,14 @@
     },
     "snowflake_total": 11,
     "current_price_inr": 403.05,
-    "market_cap_inr": 53335916238.224724,
+    "market_cap_inr": 53395500000,
     "market_cap_usd": 123377158243.857,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 158,
+      "high": 458.7
+    },
     "fair_value_inr": 410,
     "fair_value_range_inr": {
       "min": 11.531875,
@@ -34,15 +46,16 @@
     "upside_pct": 1.7243518173923802,
     "multiples": {
       "pe": 96.07,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 12.07,
+      "pb": 11.94,
+      "ev_ebitda": 26.46,
+      "peg": 1.6309554216867477
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/aeroflex-industries-ltd"
     },
@@ -54,7 +67,7 @@
       "Highly volatile share price over past 3 months"
     ],
     "dividend": {
-      "yield_pct": 0.1525525507,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": 0.3,
       "listing_currency": "INR",
@@ -88,15 +101,15 @@
       ],
       "payment_count": 2
     },
-    "dividend_yield_pct": 0.1525525507,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 27.3031394312147
+      "pe": 27.3031394312147,
+      "sector_pe": 27.3031394312147
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Steel",
       "pe_industry_id": 57,
@@ -109,7 +122,7 @@
       "industry_pe": 27.3031394312147,
       "industry_name": "Steel",
       "industry_id": 57,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/aeroflex-industries-ltd",
       "search_id": "aeroflex-industries-ltd"
     },
@@ -119,7 +132,7 @@
         "industry_pe": 27.3031394312147,
         "industry_name": "Steel",
         "industry_id": 57,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/aeroflex-industries-ltd"
       },
       "sws_statement": {
@@ -143,8 +156,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.1,
-        "sample_count": 196,
+        "industry_pe": 21.2,
+        "sample_count": 193,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
@@ -153,13 +166,177 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 403.05,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 53395500000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 96.07,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 11.94,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 12.07,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 26.46,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": 1.6309554216867477,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 27.3031394312147,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 158,
+          "high": 458.7
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 4.2,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 33.7998603,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 2,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 27.3031394312147,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 12.4146,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 9.827970691302964,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 16.504155715708098,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 12.565338402009369,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 22.876926210033265,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 1.9900000000000002,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 1.5733956320130262,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 2.9894,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 2.1587029175322914,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.6291211272694428,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/aeroflex-industries-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 4.2,
     "most_recent_reported_date": null,
+    "pb": 11.94,
+    "ps": 12.07,
+    "book_value": 33.7998603,
+    "face_value": 2,
+    "sector_pe": 27.3031394312147,
+    "roe_pct": 12.4146,
+    "roa_pct": 9.827970691302964,
+    "roic_pct": 16.504155715708098,
+    "net_margin_pct": 12.565338402009369,
+    "operating_margin_pct": 22.876926210033265,
+    "debt_to_equity_pct": 1.9900000000000002,
+    "debt_to_asset_pct": 1.5733956320130262,
+    "current_ratio": 2.9894,
+    "quick_ratio": 2.1587029175322914,
+    "cash_ratio": 0.6291211272694428,
     "returns_pct": {
       "1D": 6.079747335175687,
       "7D": 8.682755831198593,
@@ -238,10 +415,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 65.4698,
+    "fii_pct": 1.4953999999999998,
+    "mutual_fund_pct": 2.1169,
+    "insurance_pct": 1.681,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 29.236899999999984,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 0.1525525507,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": 0.3,
     "listing_currency": "INR",
@@ -276,6 +460,228 @@
     "payment_count": 2
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {
+        "revenue": {
+          "2021": 144.835,
+          "2022": 240.992,
+          "2023": 269.5,
+          "2024": 321.7505,
+          "2025": 378.7624
+        },
+        "profit": {
+          "2021": 6.011,
+          "2022": 27.506,
+          "2023": 30.1521,
+          "2024": 41.734,
+          "2025": 52.5076
+        },
+        "net_worth": {
+          "2021": 58.717,
+          "2022": 86.223,
+          "2023": 114.093,
+          "2024": 293.1498,
+          "2025": 342.4162
+        }
+      },
+      "quarterly": {
+        "revenue": {
+          "Mar '25": 91.81,
+          "Jun '25": 84.66,
+          "Sep '25": 111.05000000000001,
+          "Dec '25": 121.12,
+          "Mar '26": 126.46000000000001
+        },
+        "profit": {
+          "Mar '25": 11.23,
+          "Jun '25": 7.17,
+          "Sep '25": 14.23,
+          "Dec '25": 16.49,
+          "Mar '26": 17.64
+        }
+      }
+    }
+  },
+  "past_performance": {
+    "roe_pct": 12.4146,
+    "roa_pct": 9.827970691302964,
+    "roic_pct": 16.504155715708098,
+    "net_margin_pct": 12.565338402009369,
+    "operating_margin_pct": 22.876926210033265,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 1.9900000000000002,
+    "debt_to_asset_pct": 1.5733956320130262,
+    "current_ratio": 2.9894,
+    "quick_ratio": 2.1587029175322914,
+    "cash_ratio": 0.6291211272694428,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2024-06-27T18:30:00.000Z",
+        "announcement_date": "2024-05-05T18:30:00.000Z",
+        "ex_date": "2024-06-27T18:30:00.000Z",
+        "record_date": "2024-06-27T18:30:00.000Z",
+        "value": "₹0.25"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-07-28T18:30:00.000Z",
+        "announcement_date": "2025-04-29T18:30:00.000Z",
+        "ex_date": "2025-07-28T18:30:00.000Z",
+        "record_date": "2025-07-28T18:30:00.000Z",
+        "value": "₹0.30"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2025-04-29T18:30:00.000Z",
+        "announcement_date": "2025-04-29T18:30:00.000Z",
+        "ex_date": "2025-07-28T18:30:00.000Z",
+        "record_date": "2025-07-28T18:30:00.000Z",
+        "value": "₹0.30"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-07-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/aeroflex-industries-ltd",
+    "news": [
+      {
+        "id": "2106149381",
+        "title": "Aeroflex Industries to attend 360 ONE Capital's 16th Annual Investor Conference on May 29, 2026.\nFY26 sales of 617 skids earned INR 21.2 crore; FY27 targets 35% growth, 23% EBITDA margin.",
+        "url": "https://scanx.trade/stock-market-news/companies/aeroflex-industries-to-attend-investor-meet-on-may-29/40915253",
+        "source": "ScanX",
+        "published_at": "2026-05-21T18:30:00.000Z"
+      },
+      {
+        "id": "841638150693587712",
+        "title": "Aeroflex Industries achieved record FY26 performance; total income rose 17% YoY to INR443.3 crore.\nBoard recommended a final dividend of INR0.40/share; skid assemblies now contribute 5% of revenue.",
+        "url": "https://sqst.in/PyYti",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-11T11:29:32.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2024-06-27T18:30:00.000Z",
+        "announcement_date": "2024-05-05T18:30:00.000Z",
+        "ex_date": "2024-06-27T18:30:00.000Z",
+        "record_date": "2024-06-27T18:30:00.000Z",
+        "value": "₹0.25"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-07-28T18:30:00.000Z",
+        "announcement_date": "2025-04-29T18:30:00.000Z",
+        "ex_date": "2025-07-28T18:30:00.000Z",
+        "record_date": "2025-07-28T18:30:00.000Z",
+        "value": "₹0.30"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2025-04-29T18:30:00.000Z",
+        "announcement_date": "2025-04-29T18:30:00.000Z",
+        "ex_date": "2025-07-28T18:30:00.000Z",
+        "record_date": "2025-07-28T18:30:00.000Z",
+        "value": "₹0.30"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-07-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "LMW",
+        "name": "LMW",
+        "searchId": "lakshmi-machine-works-ltd",
+        "market_cap_inr": 151118500000,
+        "pe": 115.6,
+        "pb": 5.27
+      },
+      {
+        "ticker": "USHAMART",
+        "name": "Usha Martin",
+        "searchId": "usha-martin-ltd",
+        "market_cap_inr": 141826800000,
+        "pe": 30.42,
+        "pb": 4.3
+      },
+      {
+        "ticker": "AZAD",
+        "name": "Azad Engineering",
+        "searchId": "azad-engineering-ltd",
+        "market_cap_inr": 131708000000,
+        "pe": 98.62,
+        "pb": 8.61
+      }
+    ],
+    "details": {
+      "fullName": "Aeroflex Industries",
+      "parentCompany": "Aeroflex Industries",
+      "headquarters": "NAVI MUMBAI",
+      "ceo": "Asad Daud",
+      "managingDirector": "Asad Daud",
+      "foundedYear": 1993,
+      "websiteUrl": "http://www.aeroflexindia.com/"
+    }
+  },
   "indices": [
     "NSEI"
   ],
