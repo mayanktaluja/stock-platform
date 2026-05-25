@@ -6,9 +6,24 @@
 
 import test from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { execFileSync } from "node:child_process";
 
 import * as dal from "../services/swsDal/index.js";
+import { makeDeepFileResolver } from "../services/swsDal/deepTarball.js";
 import { makeFakeBackend } from "../services/swsDal/test-fixtures.js";
+
+function makeTarballFixture(tmp, ticker, payload) {
+  const src = path.join(tmp, "src");
+  const deep = path.join(src, "deep");
+  fs.mkdirSync(deep, { recursive: true });
+  fs.writeFileSync(path.join(deep, `${ticker}.json`), JSON.stringify(payload));
+  const tarball = path.join(tmp, "deep-test.tar.gz");
+  execFileSync("tar", ["-czf", tarball, "-C", src, `deep/${ticker}.json`]);
+  return tarball;
+}
 
 test("DAL exports a stable surface", () => {
   const expected = [
@@ -72,6 +87,52 @@ test("getStockByTicker returns null for unknown tickers", () => {
   assert.equal(dal.getStockByTicker("NOT_A_REAL_TICKER_XYZ"), null);
   assert.equal(dal.getStockByTicker(""), null);
   assert.equal(dal.getStockByTicker(null), null);
+});
+
+test("deep tarball resolver falls back to Node extraction when shell tar fails", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "sws-dal-tar-"));
+  try {
+    const tarball = makeTarballFixture(tmp, "RET", { ticker: "RET", overview: { returns_pct: { "1D": 1 } } });
+    const resolver = makeDeepFileResolver({
+      deepDir: path.join(tmp, "loose"),
+      tarballPath: tarball,
+      extractBase: path.join(tmp, "extract"),
+      tarCommand: "tar-command-that-does-not-exist",
+    });
+    const fp = resolver("RET");
+    assert.ok(fp, "expected tarball extraction path");
+    assert.equal(JSON.parse(fs.readFileSync(fp, "utf8")).overview.returns_pct["1D"], 1);
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
+test("deep tarball resolver prefers newer tarball over stale loose deep file", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "sws-dal-tar-"));
+  try {
+    const looseDir = path.join(tmp, "loose");
+    fs.mkdirSync(looseDir, { recursive: true });
+    const loosePath = path.join(looseDir, "RET.json");
+    fs.writeFileSync(loosePath, JSON.stringify({ ticker: "RET", source: "loose-old" }));
+    const oldDate = new Date("2026-05-20T00:00:00Z");
+    fs.utimesSync(loosePath, oldDate, oldDate);
+
+    const tarball = makeTarballFixture(tmp, "RET", { ticker: "RET", source: "tar-new" });
+    const newDate = new Date("2026-05-21T00:00:00Z");
+    fs.utimesSync(tarball, newDate, newDate);
+
+    const resolver = makeDeepFileResolver({
+      deepDir: looseDir,
+      tarballPath: tarball,
+      extractBase: path.join(tmp, "extract"),
+      tarCommand: "tar-command-that-does-not-exist",
+    });
+    const fp = resolver("RET");
+    assert.ok(fp.includes(path.join("extract", "deep")), `expected extracted tar path, got ${fp}`);
+    assert.equal(JSON.parse(fs.readFileSync(fp, "utf8")).source, "tar-new");
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
 });
 
 test("getSectorMomentum returns shape { map, scanned }", () => {

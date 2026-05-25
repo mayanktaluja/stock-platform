@@ -28,13 +28,20 @@ test.describe("CORS origin allowlist", () => {
     expect(r.headers()["access-control-allow-origin"]).toBe("http://localhost:4011");
   });
 
-  test("canonical Vercel alias is allowlisted", async ({ request }) => {
+  test("branded Vercel alias is allowlisted", async ({ request }) => {
+    const r = await request.get("/api/sws-picks", {
+      headers: { Origin: "https://starbhai-stock-platform.vercel.app" },
+    });
+    expect(r.headers()["access-control-allow-origin"]).toBe(
+      "https://starbhai-stock-platform.vercel.app",
+    );
+  });
+
+  test("removed gamma Vercel alias is not allowlisted", async ({ request }) => {
     const r = await request.get("/api/sws-picks", {
       headers: { Origin: "https://stock-platform-gamma.vercel.app" },
     });
-    expect(r.headers()["access-control-allow-origin"]).toBe(
-      "https://stock-platform-gamma.vercel.app",
-    );
+    expect(r.headers()["access-control-allow-origin"]).toBeFalsy();
   });
 
   test("Vercel preview pattern is allowlisted", async ({ request }) => {

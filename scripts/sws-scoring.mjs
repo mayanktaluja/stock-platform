@@ -149,6 +149,17 @@ function buildPickAuditTrail(stock) {
   };
 }
 
+const PICK_RETURN_KEYS = ["1D", "7D", "1M", "3M", "1Y"];
+
+export function compactReturnsPct(returnsPct = {}) {
+  const out = {};
+  for (const key of PICK_RETURN_KEYS) {
+    const v = returnsPct?.[key];
+    if (typeof v === "number" && Number.isFinite(v)) out[key] = v;
+  }
+  return out;
+}
+
 export function computeCompositeScore(stock) {
   const ov = stock.overview || {};
   const snowTotal = num(ov.snowflake_total, 0); // 0-30
@@ -712,6 +723,7 @@ export function pickCardFields(stock) {
     upside_pct: reconciled.upside_pct,
     fv_reconcile_reason: reconciled.fv_reconcile_reason,
     market_cap_inr: ov.market_cap_inr,
+    returns_pct: compactReturnsPct(ov.returns_pct),
     next_earnings_date: ov.next_earnings_date,
     last_quarter_result: ov.last_quarter_result,
     one_line: shortReason(stock, reconciled),

@@ -28,6 +28,17 @@ async function openUSPicks(page) {
   );
 }
 
+async function expectTotalReturnsHasPercentValues(bodyLocator) {
+  const returnsSection = bodyLocator
+    .locator("h4")
+    .filter({ hasText: /^Total returns$/i })
+    .locator("xpath=..");
+  await expect(returnsSection).toBeVisible();
+  const returnsText = await returnsSection.innerText();
+  expect(returnsText).toMatch(/[+-]\d+(?:\.\d+)?%/);
+  return returnsText;
+}
+
 test.describe("US Picks tab", () => {
   test.skip(!HAS_FIXTURE, "no data/sws-us/picks-latest.json fixture present");
 
@@ -68,6 +79,7 @@ test.describe("US Picks tab", () => {
     // their presence proves the US tab now renders via the shared renderSwsModalCore.
     expect(txt).toMatch(/Score breakdown/i);
     expect(txt).toMatch(/Total returns/i);
+    await expectTotalReturnsHasPercentValues(page.locator("#usModalBody"));
     expect(txt).toMatch(/Snowflake/i);
     expect(txt).toMatch(/Quick stats/i);
     // The reported bug left the header blank (Price —, Mcap —) because the modal
@@ -100,6 +112,7 @@ test.describe("US Picks tab", () => {
             },
             snowflake: { valuation: 3, future_growth: 4, past_performance: 6, financial_health: 5, dividends: 2 },
             snowflake_total: 20,
+            returns_pct: { "1D": 1.2, "7D": -2.3, "1M": 3.4, "3M": -4.5, "1Y": 12.6 },
           },
           in_sections: ["top_ranked_30_v3"],
           currency: "USD",
@@ -118,6 +131,9 @@ test.describe("US Picks tab", () => {
     // Snowflake hex falls back to card.snowflake (20/30 here).
     expect(txt).toMatch(/Snowflake/i);
     expect(txt).toContain("20/30");
+    const returnsText = await expectTotalReturnsHasPercentValues(page.locator("#usModalBody"));
+    for (const label of ["1D", "7D", "1M", "3M", "1Y"]) expect(returnsText).toContain(label);
+    for (const value of ["+1.2%", "-2.3%", "+3.4%", "-4.5%", "+12.6%"]) expect(returnsText).toContain(value);
     await page.evaluate(() => window.closeUSModal());
     await expect(modal).not.toHaveClass(/open/);
   });

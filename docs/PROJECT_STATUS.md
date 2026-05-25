@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-05-24**
+**Last updated: 2026-05-25**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -17,7 +17,7 @@ drift more than one major PR behind.
 ## Where we are right now
 
 The platform is **in production**, live at
-[stock-platform-gamma.vercel.app](https://stock-platform-gamma.vercel.app),
+[starbhai-stock-platform.vercel.app](https://starbhai-stock-platform.vercel.app),
 serving a single-tenant Indian equity research workflow. Auth, the SWS picks
 pipeline, portfolio analyzer, earnings watch, risk lab, and macro thesis are
 all shipped — plus US / Korea / Taiwan picks tabs, Sector Outlook, a 5x Lab,
@@ -34,6 +34,12 @@ harness) shipped in #337 — a separate experimental surface from the main
 portfolio analyzer.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### Branded Vercel URL (May 2026)
+- **Vercel-only platform link** — the canonical public link is
+  `https://starbhai-stock-platform.vercel.app`. This keeps the platform on
+  Vercel-managed DNS/CDN and keeps `starbhai.com` completely out of the stock
+  platform setup.
 
 ### V4 composite score — V3 deleted (May 2026)
 - **#437** — **V4 is now the sole SWS composite score; V3 is deleted.** New
@@ -61,6 +67,9 @@ portfolio analyzer.
 - **#390** — US/KR/TW Picks at 1:1 parity with India (rich modal, dropdown,
   collapse). **#393** — bundle regional deep tarballs into the Vercel function
   (Vercel ~15k file cap). **#404** — card fallback for region modal header/snowflake.
+- **This PR** — US/KR/TW stock modals now render Total Returns from full deep
+  briefs or compact card fallback data, and the regional DAL prefers fresher
+  packed deep tarballs with a Node extraction fallback when shell `tar` fails.
 
 ### New experimental surfaces (May 2026)
 - **#347** — Sector Outlook tab (SWS news themes × macro regime; no named picks v1).
@@ -70,7 +79,7 @@ portfolio analyzer.
   promoter-transaction feed.
 
 ### Auth & navigation (May 2026)
-- **This PR** — Flatten privileged navigation: US/KR/TW Picks, Risk Lab, and
+- **#458** — Flatten privileged navigation: US/KR/TW Picks, Risk Lab, and
   Sector Outlook stay visible in the main tab bar for signed-in users; only
   Users remains owner-admin-only. Admin authority is now hard-coded to
   `mthaluja11@gmail.com` via `computeIsAdmin()` rather than `ADMIN_EMAILS`.
@@ -140,8 +149,9 @@ portfolio analyzer.
 - **9× backtest scripts are forks**, not a shared library — propagate fixes by hand.
 - **Auto-refresh PRs flood the repo** — `chore(macro|sws): auto-refresh ...` open every
   few hours. They commit data files, not code.
-- **`starbhai.com` is NOT this platform** — it 301s to a separate WordPress site. Always
-  link the `-gamma.vercel.app` alias.
+- **`starbhai.com` is out of scope for this platform** — do not configure it in
+  Vercel, OAuth, CORS, metadata, or shared app links. Always link
+  `https://starbhai-stock-platform.vercel.app`.
 
 ## Roadmap items (not yet started)
 
@@ -149,8 +159,8 @@ portfolio analyzer.
   the same global portfolio. Next iteration of the auth shipped in early May.
 - **Mobile layout pass.** SPA is desktop-first; mobile is tolerable but not
   loved.
-- **Custom domain.** Either map `starbhai.com` to Vercel (breaks the WordPress
-  site) or buy a new domain. Currently using `-gamma.vercel.app`.
+- **Custom domain.** Deferred. The current branded link is Vercel-managed:
+  `https://starbhai-stock-platform.vercel.app`.
 - **Screener.in ingestion** for 10y fundamentals. SWS only exposes 5 rows
   of `fiscal.yearly_history` and no ROCE — any Marcellus-replica-style
   10y-quality filter blocks on this.

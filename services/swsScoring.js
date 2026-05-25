@@ -148,6 +148,17 @@ export function buildPickAuditTrail(stock) {
   };
 }
 
+const PICK_RETURN_KEYS = ["1D", "7D", "1M", "3M", "1Y"];
+
+export function compactReturnsPct(returnsPct = {}) {
+  const out = {};
+  for (const key of PICK_RETURN_KEYS) {
+    const v = returnsPct?.[key];
+    if (typeof v === "number" && Number.isFinite(v)) out[key] = v;
+  }
+  return out;
+}
+
 // Insider counter mirrors scripts/sws-scoring.mjs production behavior so the
 // portfolio analyzer and the picks-latest scorer stay numerically identical.
 export function _countInsiderBuys(stock) {
@@ -431,6 +442,7 @@ export function pickCardFields(stock) {
     fair_value_inr: ov.fair_value_inr,
     upside_pct: ov.upside_pct,
     market_cap_inr: ov.market_cap_inr,
+    returns_pct: compactReturnsPct(ov.returns_pct),
     next_earnings_date: ov.next_earnings_date,
     last_quarter_result: ov.last_quarter_result,
     one_line: shortReason(stock),

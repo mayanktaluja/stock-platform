@@ -646,20 +646,14 @@ This compounds issue 2.9 — without a staleness banner the user
 never knows the underlying data is 19 days old.
 ```
 
-### N.6 — `starbhai.com` is NOT the Vercel deployment
+### N.6 — `starbhai.com` is out of scope for the platform
 
 ```
-https://starbhai.com 301-redirects to https://www.starbhai.com,
-which is a separate WordPress site. The actual stock-platform
-deployment is at https://stock-platform-gamma.vercel.app (and
-the latest deployment URL like
+Do not configure starbhai.com as a stock-platform host. The actual
+stock-platform deployment is at https://starbhai-stock-platform.vercel.app
+(and the latest deployment URL like
 stock-platform-mwjw1ryiz-mtaluja11-3604s-projects.vercel.app).
 
-Anyone bookmarking starbhai.com or sharing the link gets the
-WordPress page, not the platform.
-
-Action: either point starbhai.com at the Vercel deployment via
-a custom-domain config in Vercel, OR update README / CLAUDE.md
-to reflect that the prod URL is the .vercel.app alias.
+Action: keep Vercel, OAuth, CORS, metadata, README, and CLAUDE.md pointed
+at the branded .vercel.app alias.
 ```
-

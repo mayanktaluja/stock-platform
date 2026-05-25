@@ -327,15 +327,15 @@ const macroHistory = [];
 // but CORS-open is still belt-and-braces wrong: it advertises the API as
 // usable from anywhere.
 //
-// Allowlist covers: the canonical Vercel alias (-gamma), Vercel preview
-// URLs under the same project (rotated per push), localhost for dev (3000)
-// and Playwright (4011). Custom domain (starbhai.com) is intentionally NOT
-// listed yet — see CLAUDE.md note that starbhai.com points at the WP site.
+// Allowlist covers: the branded Vercel alias, Vercel preview URLs under the
+// same project (rotated per push), localhost for dev (3000) and Playwright
+// (4011). starbhai.com is intentionally NOT listed; this platform uses only
+// the branded .vercel.app hostname.
 //
 // Set CORS_ALLOWED_ORIGINS=foo.com,bar.com to add extras at runtime
 // without a deploy (used by integration tunnels e.g. ngrok).
 const CORS_ALLOWLIST = [
-  "https://stock-platform-gamma.vercel.app",
+  "https://starbhai-stock-platform.vercel.app",
   "http://localhost:3000",
   "http://localhost:4011",
   ...(process.env.CORS_ALLOWED_ORIGINS || "")
@@ -548,6 +548,13 @@ const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || "";
 const GOOGLE_OAUTH_REDIRECT_URI = process.env.GOOGLE_OAUTH_REDIRECT_URI || "";
 const AUTH_ENABLED = !!(SESSION_SECRET && GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET && GOOGLE_OAUTH_REDIRECT_URI);
+const OAUTH_CALLBACK_PATH = "/api/auth/google/callback";
+const OAUTH_REDIRECT_HOSTS = new Set([
+  "starbhai-stock-platform.vercel.app",
+  "localhost:3000",
+  "localhost:3013",
+  "localhost:4011",
+]);
 
 // P3.5 (2026-05-16) — Session-secret strength check.
 //
@@ -634,8 +641,14 @@ function signSession(sub) {
 function verifySession(token) {
   return verifyPayload(SESSION_PREFIX, token, SESSION_TTL_MS);
 }
-function signOAuthState({ state, verifier, returnTo }) {
-  return signPayload(OAUTH_PREFIX, { state, verifier, returnTo: returnTo || "/", ts: Date.now() });
+function signOAuthState({ state, verifier, returnTo, redirectUri }) {
+  return signPayload(OAUTH_PREFIX, {
+    state,
+    verifier,
+    returnTo: returnTo || "/",
+    redirectUri: redirectUri || GOOGLE_OAUTH_REDIRECT_URI,
+    ts: Date.now(),
+  });
 }
 function verifyOAuthState(token) {
   return verifyPayload(OAUTH_PREFIX, token, OAUTH_TTL_MS);
@@ -680,6 +693,22 @@ function clearOAuthCookie(res) {
   res.setHeader("Set-Cookie", buildCookie(OAUTH_COOKIE, "", 0));
 }
 
+function oauthRequestHost(req) {
+  return String(req.headers.host || "").split(",")[0].trim().toLowerCase();
+}
+
+function oauthOriginForHost(host) {
+  if (!OAUTH_REDIRECT_HOSTS.has(host)) return null;
+  const protocol = host.startsWith("localhost:") ? "http" : "https";
+  return `${protocol}://${host}`;
+}
+
+function oauthRedirectUriForRequest(req) {
+  const origin = oauthOriginForHost(oauthRequestHost(req));
+  if (!origin) return null;
+  return `${origin}${OAUTH_CALLBACK_PATH}`;
+}
+
 // Same-origin path validator — defends /api/auth/google?returnTo=...
 // against open-redirect abuse. Only same-origin paths starting with a
 // single "/" are accepted.
@@ -705,8 +734,12 @@ app.get("/api/auth/google", (req, res) => {
   const verifier = randomBytes(32).toString("base64url");
   const challenge = createHash("sha256").update(verifier).digest("base64url");
   const returnTo = safeReturnTo(req.query.returnTo);
+  const redirectUri = oauthRedirectUriForRequest(req);
+  if (!redirectUri) {
+    return res.status(400).json({ error: "oauth-host-not-allowed" });
+  }
 
-  const stateToken = signOAuthState({ state, verifier, returnTo });
+  const stateToken = signOAuthState({ state, verifier, returnTo, redirectUri });
   setOAuthCookie(res, stateToken);
 
   const url = oauthClient.generateAuthUrl({
@@ -716,6 +749,7 @@ app.get("/api/auth/google", (req, res) => {
     code_challenge: challenge,
     code_challenge_method: "S256",
     prompt: "select_account",
+    redirect_uri: redirectUri,
   });
   res.redirect(302, url);
 });
@@ -742,11 +776,21 @@ app.get("/api/auth/google/callback", async (req, res) => {
       clearOAuthCookie(res);
       return res.status(400).json({ error: "state-mismatch" });
     }
+    const redirectUri = oauth.redirectUri || GOOGLE_OAUTH_REDIRECT_URI;
+    const currentRedirectUri = oauthRedirectUriForRequest(req);
+    if (!currentRedirectUri) {
+      clearOAuthCookie(res);
+      return res.status(400).json({ error: "oauth-host-not-allowed" });
+    }
+    if (redirectUri !== currentRedirectUri) {
+      clearOAuthCookie(res);
+      return res.status(400).json({ error: "oauth-redirect-uri-mismatch" });
+    }
 
     const { tokens } = await oauthClient.getToken({
       code,
       codeVerifier: oauth.verifier,
-      redirect_uri: GOOGLE_OAUTH_REDIRECT_URI,
+      redirect_uri: redirectUri,
     });
     if (!tokens || !tokens.id_token) {
       clearOAuthCookie(res);
@@ -4832,7 +4876,7 @@ app.post("/api/track/snapshot", express.json(), async (req, res) => {
  * log with arbitrary entries.
  *
  * Usage:
- *   curl -X POST https://stock-platform-gamma.vercel.app/api/track/migrate \
+ *   curl -X POST https://starbhai-stock-platform.vercel.app/api/track/migrate \
  *     -H 'Authorization: Bearer XXX' \
  *     -H 'Content-Type: application/json' \
  *     --data @.paper-trades-export.json
@@ -6889,7 +6933,7 @@ app.get("/", (req, res) => {
 // Only listen when running directly (not on Vercel)
 if (!process.env.VERCEL) {
   app.listen(PORT, async () => {
-    console.log(`\n  Starbhai · Indian Stock Intelligence`);
+    console.log(`\n  Starbhai Stock Platform`);
     console.log(`  ========================================`);
     console.log(`  Running on: http://localhost:${PORT}`);
     console.log(`  Market Status: ${isMarketOpen() ? "OPEN" : "CLOSED"}`);

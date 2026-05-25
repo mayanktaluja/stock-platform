@@ -25,19 +25,18 @@ foreground commits → ship).
 
 ## Production URL
 
-**The platform lives at `https://stock-platform-gamma.vercel.app`** — the Vercel
+**The platform lives at `https://starbhai-stock-platform.vercel.app`** — the Vercel
 alias for `mtaluja11-3604s-projects/stock-platform`. The latest deployment URL
 (`stock-platform-<hash>-mtaluja11-3604s-projects.vercel.app`) is also active
-but rotates per push; the `-gamma` alias is the stable canonical entry point.
+but rotates per push. The old `stock-platform-gamma.vercel.app` alias has been
+retired and must not be used in docs, OAuth callbacks, CORS, or metadata.
 
-`https://starbhai.com` is **NOT** this platform — it 301-redirects to
-`https://www.starbhai.com` which is a separate WordPress site under the same
-owner. Anyone bookmarking starbhai.com gets the wrong destination. Either
-configure starbhai.com as a Vercel custom domain or use the .vercel.app URL
-in all documentation and shared links.
+`https://starbhai.com` is out of scope for this platform. Do not configure it in
+Vercel, OAuth, CORS, metadata, or shared app links. Use the branded `.vercel.app`
+URL in documentation and shared links.
 
 All production tests, perf comparisons, and external links should target the
-`-gamma.vercel.app` URL until the custom-domain split is resolved.
+`starbhai-stock-platform.vercel.app` URL.
 
 ## MCP Tools: code-review-graph
 
