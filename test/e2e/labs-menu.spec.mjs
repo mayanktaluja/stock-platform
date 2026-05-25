@@ -16,6 +16,9 @@ const ADMIN_ME = {
 };
 
 const PUBLIC_MAIN_TABS = [
+  "picksTabBtn",
+  "analyzerTabBtn",
+  "earningsTabBtn",
   "usPicksTabBtn",
   "krPicksTabBtn",
   "twPicksTabBtn",

@@ -148,7 +148,7 @@ def _format_news_date(iso):
 def cover_page(picks):
     items = []
     items.append(Paragraph("India Market Top 50 — Buy Now", H1))
-    items.append(Paragraph("Categorised picks from Simply Wall Street deep-scan", META))
+    items.append(Paragraph("Categorised India Market picks from Simply Wall Street deep-scan", META))
     items.append(Spacer(1, 8))
     items.append(HRFlowable(width="100%", thickness=0.5, color=MUTED))
     items.append(Spacer(1, 12))

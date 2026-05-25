@@ -524,9 +524,11 @@ function requireApiKey(req, res, next) {
   return res.status(401).json({ error: "Unauthorized. Provide X-API-Key header." });
 }
 
-// Apply to sensitive routes (portfolio, watchlist, track writes)
-app.use("/api/portfolio", requireApiKey);
-app.use("/api/watchlist", requireApiKey);
+// Do not mount requireApiKey broadly on /api/portfolio or /api/watchlist:
+// these are first-party browser routes protected by the session auth gate
+// below. A broad API-key middleware blocks same-origin SPA fetches in prod
+// when STARBHAI_API_KEY is set because the browser deliberately does not
+// attach a secret x-api-key header.
 app.use("/api/stock/", stockDetailLimiter);
 
 // ── Auth gate (Google OAuth) ──
@@ -7285,6 +7287,19 @@ app.get("/api/sws-universe", async (req, res) => {
 // payload on every call, including ~1208-item "avoid" section. Mobile +
 // slow-network users paid the full 7 MB even when asking for top 10.
 const SWS_PICKS_MAX_LIMIT = 200;
+
+function filterPicksWithDeepData(items, counter) {
+  if (!Array.isArray(items)) return [];
+  return items.filter((it) => {
+    const ticker = it?.ticker;
+    if (!ticker) return false;
+    if (swsDal.getStockByTicker(ticker)) return true;
+    counter.count += 1;
+    if (counter.sample.length < 12) counter.sample.push(String(ticker));
+    return false;
+  });
+}
+
 app.get("/api/sws-picks", async (req, res) => {
   const raw = swsDal.getPicksLatest();
   if (!raw) return res.status(404).json({ error: "no_picks_yet", hint: "Run /sws-scan-shard 1/2/3 in Claude to start the initial scan." });
@@ -7295,9 +7310,12 @@ app.get("/api/sws-picks", async (req, res) => {
   // portfolio aggregate). The SWS pipeline still computes + snapshots `avoid`
   // for the Track Record short-side tracker, which reads picks-latest.json
   // directly — not this route — so that tracker is unaffected.
-  const data = raw.sections && raw.sections.avoid
-    ? { ...raw, sections: (() => { const { avoid, ...rest } = raw.sections; return rest; })() }
-    : raw;
+  const data = {
+    ...raw,
+    sections: raw.sections
+      ? (() => { const { avoid, ...rest } = raw.sections; return { ...rest }; })()
+      : raw.sections,
+  };
   const limitRaw = req.query.limit;
   const limit = limitRaw != null
     ? Math.min(Math.max(parseInt(limitRaw, 10) || 0, 0), SWS_PICKS_MAX_LIMIT)
@@ -7307,6 +7325,7 @@ app.get("/api/sws-picks", async (req, res) => {
     : null;
   const driftCounter = { count: 0 };
   const driftTimeoutFlag = { timedOut: false, errored: false };
+  const missingDeepCounter = { count: 0, sample: [] };
   if (data.sections) {
     // PR 2.7 — pure-numeric BSE codes were leaking into Avoid + Deep Value
     // alongside NSE symbols. Filter them at the response boundary so the fix
@@ -7337,6 +7356,7 @@ app.get("/api/sws-picks", async (req, res) => {
       // reads (it computes counts from .length).
       let filtered = items.filter((it) => it && it.ticker && !isPureBSEcode(it.ticker));
       if (key === "dividend_aristocrats") filtered = filtered.filter(passesDividendGate);
+      filtered = filterPicksWithDeepData(filtered, missingDeepCounter);
       data.sections[key] = filtered;
       applyPicksFvDriftGuard(filtered, snapMap, driftCounter);
       for (const it of filtered) {
@@ -7355,6 +7375,8 @@ app.get("/api/sws-picks", async (req, res) => {
     fv_drift_count: driftCounter.count,
     fv_drift_timeout: !!driftTimeoutFlag.timedOut,
     fv_drift_errored: !!driftTimeoutFlag.errored,
+    missing_deep_count: missingDeepCounter.count,
+    missing_deep_sample: missingDeepCounter.sample,
   };
   // Server-side pagination + section filter — applied AFTER drift guard so
   // the per-row enrichment + drift counter reflect the full underlying
