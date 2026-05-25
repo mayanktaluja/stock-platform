@@ -216,6 +216,12 @@ Every signal that ships should have a backtest harness. Conventions:
 - **Squash-merge** is the default. Conventional commit subjects: `<type>(<scope>): <description>`.
 - **Small focused PRs.** Each PR adds 1–3 e2e specs when it changes a UI surface.
 - **Test gate.** Don't push if `npm test` is red. Don't use `--no-verify` to skip pre-commit hooks.
+- **Push/merge flow.** When explicitly authorized to push or merge this repo,
+  use local `git` plus authenticated `gh` CLI directly (`git push`,
+  `gh pr create`, `gh pr merge --squash`). Do not try Codex GitHub connector
+  PR creation/merge first for `stock-platform`; it has returned
+  `403 Resource not accessible by integration`. After merge, verify actual PR
+  state with `gh pr view` / `gh pr list`.
 - **Never create new planning docs in the repo.** Plans live elsewhere (in
   Claude's case, `~/.claude/plans/`). The only repo-level project context
   files are this one, [CLAUDE.md](CLAUDE.md), and
