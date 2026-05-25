@@ -32,9 +32,9 @@
  *                 writes to KV under `surveillance:snapshot`.
  *
  * Failure mode: ALWAYS defensive. A fetch failure never throws to the
- * caller — the getter returns the last-known snapshot (KV → disk → empty).
- * An empty snapshot means "no stocks flagged" which is the safe default
- * for the UI, but a stale-data warning is surfaced in diagnostics.
+ * caller — the getter returns the freshest last-known snapshot (KV or disk,
+ * then empty). An empty snapshot means "no stocks flagged" which is the safe
+ * default for the UI, but a stale-data warning is surfaced in diagnostics.
  */
 
 import { readFileSync, existsSync, writeFileSync } from "fs";
@@ -71,6 +71,62 @@ function toNseKey(sym) {
   const s = String(sym).trim().toUpperCase();
   if (!s) return null;
   return s.endsWith(".NS") ? s : `${s}.NS`;
+}
+
+// ==================== SNAPSHOT SELECTION ====================
+
+function emptySnapshot() {
+  return {
+    fetchedAt: null,
+    source: "empty",
+    flagged: {},
+    counts: { ASM: 0, GSM: 0 },
+  };
+}
+
+function snapshotTime(snapshot) {
+  if (!snapshot?.fetchedAt) return null;
+  const ts = new Date(snapshot.fetchedAt).getTime();
+  return Number.isFinite(ts) ? ts : null;
+}
+
+function flaggedCount(snapshot) {
+  return Object.keys(snapshot?.flagged || {}).length;
+}
+
+function readDiskSnapshot() {
+  if (!existsSync(SURVEILLANCE_PATH)) return null;
+  try {
+    const raw = readFileSync(SURVEILLANCE_PATH, "utf8");
+    const snapshot = JSON.parse(raw);
+    if (!snapshot || typeof snapshot !== "object" || !snapshot.flagged) return null;
+    return { snapshot, source: "disk" };
+  } catch (err) {
+    console.warn("[SURVEILLANCE] disk read failed:", err.message);
+    return null;
+  }
+}
+
+function preferredSnapshot(a, b) {
+  if (!a) return b;
+  if (!b) return a;
+
+  const aCount = flaggedCount(a.snapshot);
+  const bCount = flaggedCount(b.snapshot);
+  if ((aCount === 0 && bCount > 0) || (bCount === 0 && aCount > 0)) {
+    return aCount > bCount ? a : b;
+  }
+
+  const aTime = snapshotTime(a.snapshot);
+  const bTime = snapshotTime(b.snapshot);
+  if (aTime != null && bTime != null && aTime !== bTime) {
+    return aTime > bTime ? a : b;
+  }
+  if (aTime != null && bTime == null) return a;
+  if (bTime != null && aTime == null) return b;
+
+  if (aCount !== bCount) return aCount > bCount ? a : b;
+  return a;
 }
 
 // ==================== FETCHERS ====================
@@ -184,6 +240,25 @@ export async function buildSurveillance() {
  * fundamentals pipeline so we have one persistence pattern to reason about.
  */
 export async function saveSurveillance(snapshot) {
+  if (flaggedCount(snapshot) === 0) {
+    const existing = getSurveillance();
+    const existingTotal = flaggedCount(existing);
+    if (existingTotal > 0) {
+      const priorDate = existing?.fetchedAt || "unknown";
+      console.warn(
+        `[SURVEILLANCE] refusing to overwrite last-good snapshot with zero rows; ` +
+        `preserving ${existingTotal} entries from ${priorDate}.`
+      );
+      return {
+        skipped: true,
+        reason: "zero_rows_preserved_existing",
+        fetched: 0,
+        existingCount: existingTotal,
+        priorDate,
+      };
+    }
+  }
+
   const kv = await getKVClient();
   if (kv) {
     await kv.set(KV_SURVEILLANCE_KEY, snapshot);
@@ -228,23 +303,15 @@ export async function primeSurveillanceFromKV() {
  * Call primeSurveillanceFromKV() at server startup for production use.
  */
 export function getSurveillance() {
-  if (_cached) return _cached;
-  if (existsSync(SURVEILLANCE_PATH)) {
-    try {
-      const raw = readFileSync(SURVEILLANCE_PATH, "utf8");
-      _cached = JSON.parse(raw);
-      _cachedSource = "disk";
-      return _cached;
-    } catch (err) {
-      console.warn("[SURVEILLANCE] disk read failed:", err.message);
-    }
+  const cached = _cached ? { snapshot: _cached, source: _cachedSource || _cached.source || "cache" } : null;
+  const disk = readDiskSnapshot();
+  const chosen = preferredSnapshot(cached, disk);
+  if (chosen) {
+    _cached = chosen.snapshot;
+    _cachedSource = chosen.source;
+    return _cached;
   }
-  return {
-    fetchedAt: null,
-    source: "empty",
-    flagged: {},
-    counts: { ASM: 0, GSM: 0 },
-  };
+  return emptySnapshot();
 }
 
 /**
@@ -267,15 +334,39 @@ export function getSurveillanceFlag(symbol) {
  */
 export function getSurveillanceStatus() {
   const snap = getSurveillance();
+  const total = flaggedCount(snap);
   if (!snap.fetchedAt) {
-    return { age_hours: null, source: snap.source, stale: true, counts: snap.counts };
+    return {
+      fetchedAt: null,
+      age_hours: null,
+      source: snap.source,
+      stale: true,
+      counts: snap.counts,
+      total,
+    };
   }
   const ageMs = Date.now() - new Date(snap.fetchedAt).getTime();
   const age_hours = +(ageMs / 3_600_000).toFixed(1);
   return {
+    fetchedAt: snap.fetchedAt,
     age_hours,
     source: _cachedSource || snap.source,
     stale: age_hours > 36,
     counts: snap.counts || { ASM: 0, GSM: 0 },
+    total,
   };
+}
+
+/**
+ * TEST-ONLY: reset or seed the in-memory cache so tests can exercise
+ * disk-vs-KV precedence without touching remote KV.
+ */
+export function _resetSurveillanceCacheForTests() {
+  _cached = null;
+  _cachedSource = null;
+}
+
+export function _setSurveillanceCacheForTests(snapshot, source = "test") {
+  _cached = snapshot;
+  _cachedSource = source;
 }
