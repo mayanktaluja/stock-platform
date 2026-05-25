@@ -70,6 +70,11 @@ function loadIncludeFilesRaw() {
   return entry.includeFiles;
 }
 
+function loadFunctionConfig(pathname) {
+  const vercel = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "vercel.json"), "utf-8"));
+  return (vercel.functions || {})[pathname];
+}
+
 // Split the brace-list into individual patterns. None of the patterns contain a
 // comma, so a plain split is safe; tolerate an un-braced single pattern too.
 function loadIncludePatterns() {
@@ -103,6 +108,13 @@ check("includeFiles stays within Vercel's 256-char schema limit", () => {
     `includeFiles is ${raw.length} chars; Vercel's vercel.json schema rejects >256. ` +
       `Consolidate patterns (e.g. data/sws*/*.json + data/sws*/*.tar.gz instead of one pair per region).`,
   );
+});
+
+check("server.js auto-detected Express function uses the same trimmed includeFiles", () => {
+  const apiEntry = loadFunctionConfig("api/index.js");
+  const serverEntry = loadFunctionConfig("server.js");
+  assert.ok(serverEntry && typeof serverEntry.includeFiles === "string", "vercel.json functions['server.js'].includeFiles must be a string");
+  assert.equal(serverEntry.includeFiles, apiEntry.includeFiles);
 });
 
 check("discovery sanity: found the India + US deep tarballs (else git/glob is broken)", () => {
