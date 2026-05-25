@@ -101,6 +101,7 @@ import * as swsDal from "./services/swsDal/index.js";
 import { filterPicksWithDeepDataFailOpen } from "./services/swsPicksResponse.js";
 import * as usPicksDal from "./services/usPicksDal.js";
 import { makeRegionPicksDal } from "./services/regionPicksDal.js";
+import { enrichMarketCardReturns, normaliseMarketReturns } from "./services/marketReturnNormalizer.js";
 import { loadIndexConstituentsFromFile, stampIndexFlags } from "./services/indexConstituents.js";
 import {
   MARKET_INDEX_KEYS,
@@ -7954,13 +7955,16 @@ app.get("/api/us-stock/:ticker", async (req, res) => {
     if (idx) card = idx.get(ticker) || null;
   }
   if (!deep && !card) return res.status(404).json({ error: "no_us_data", ticker });
+  const returnsPct = normaliseMarketReturns({ deep, card });
+  const responseCard = enrichMarketCardReturns(card, returnsPct);
   res.json({
     ticker,
     deep: deep || null,
-    card: card || null,
+    card: responseCard || null,
+    returns_pct: returnsPct,
     fundamentals_fallback: usPicksDal.getUsFundamentalsFallback(ticker),
     in_sections: sectionMemberships,
-    currency: (deep && deep.currency) || (card && card.currency) || "USD",
+    currency: (deep && deep.currency) || (responseCard && responseCard.currency) || "USD",
   });
 });
 
@@ -8073,13 +8077,16 @@ function registerRegionPicksRoutes(app, dal) {
       if (idx) card = idx.get(ticker) || null;
     }
     if (!deep && !card) return res.status(404).json({ error: `no_${prefix}_data`, ticker });
+    const returnsPct = normaliseMarketReturns({ deep, card });
+    const responseCard = enrichMarketCardReturns(card, returnsPct);
     res.json({
       ticker,
       deep: deep || null,
-      card: card || null,
+      card: responseCard || null,
+      returns_pct: returnsPct,
       fundamentals_fallback: dal.getFundamentalsFallback(ticker),
       in_sections: sectionMemberships,
-      currency: (deep && deep.currency) || (card && card.currency) || dal.currencyIso,
+      currency: (deep && deep.currency) || (responseCard && responseCard.currency) || dal.currencyIso,
     });
   });
 

@@ -130,6 +130,61 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       await expect(modal).not.toHaveClass(/open/);
     });
 
+    test("modal falls back to picks-card returns when the deep brief is unavailable", async ({ page }) => {
+      await openRegionTab(page);
+      const ticker = code === "kr" ? "005930.KS" : "2330.TW";
+      const currency = code === "kr" ? "KRW" : "TWD";
+      await page.route(`**/api/${code}-stock/**`, (route) =>
+        route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            ticker,
+            deep: null,
+            card: {
+              ticker,
+              name: code === "kr" ? "Samsung Electronics" : "Taiwan Semiconductor",
+              sector: "semiconductors",
+              currency,
+              current_price_inr: code === "kr" ? 70000 : 600,
+              fair_value_inr: code === "kr" ? 92000 : 760,
+              upside_pct: 31.4,
+              market_cap_inr: code === "kr" ? 4.0e14 : 1.5e13,
+              v4_score_100: 78,
+              v4_verdict: "TOP_PICK",
+              composite_verdict: "TOP_PICK",
+              v4_breakdown: {
+                pts_health: 18, pts_future: 16, pts_valuation: 14, pts_past: 12,
+                pts_fv_total: 8, pts_mom_1y: 6, pts_mom_3m: 3, pts_mom_1m: 1, pts_overlay: 0,
+              },
+              snowflake: { valuation: 5, future_growth: 4, past_performance: 6, financial_health: 6, dividends: 3 },
+              snowflake_total: 24,
+              returns_pct: { "1D": 1.2, "7D": -2.3, "1M": 3.4, "3M": -4.5, "1Y": 12.6 },
+            },
+            returns_pct: { "1D": 1.2, "7D": -2.3, "1M": 3.4, "3M": -4.5, "1Y": 12.6 },
+            fundamentals_fallback: null,
+            in_sections: ["top_ranked_30_v3"],
+            currency,
+          }),
+        }),
+      );
+      await page.evaluate(({ c, t }) => window.openRegionModal(c, t), { c: code, t: ticker });
+      const modal = page.locator(`#${code}ModalBackdrop`);
+      await expect(modal).toHaveClass(/open/, { timeout: 10_000 });
+      const hero = await page.locator(`#${code}ModalBody .sws-modal-hero`).innerText();
+      expect(hero).toContain(cfg.symbol);
+      expect(hero).not.toMatch(/Price\s*—/);
+      expect(hero).not.toMatch(/Fair value\s*—/);
+      const txt = await page.locator(`#${code}ModalBody`).innerText();
+      expect(txt).toMatch(/Snowflake/i);
+      expect(txt).toContain("24/30");
+      const returnsText = await expectTotalReturnsHasPercentValues(page.locator(`#${code}ModalBody`));
+      for (const label of ["1D", "7D", "1M", "3M", "1Y"]) expect(returnsText).toContain(label);
+      for (const value of ["+1.2%", "-2.3%", "+3.4%", "-4.5%", "+12.6%"]) expect(returnsText).toContain(value);
+      await page.evaluate((c) => window.closeRegionModal(c), code);
+      await expect(modal).not.toHaveClass(/open/);
+    });
+
     test("collapsible sections: chip-nav + Expand/Collapse-all toggle the accordion", async ({ page }) => {
       await openRegionTab(page);
       await expect(page.locator(`#${dom}Container .sws-pick-chipnav`)).toBeVisible();

@@ -14,6 +14,15 @@ const picksPath = (code) => path.join(__dirname, "..", "..", "data", `sws-${code
 
 const REGIONS = { kr: { region: "KR", currency: "KRW" }, tw: { region: "TW", currency: "TWD" } };
 
+function expectFiniteReturnsPayload(body) {
+  expect(body.returns_pct).toBeTruthy();
+  expect(body.card?.returns_pct).toBeTruthy();
+  for (const key of ["1D", "7D", "1M", "3M", "1Y"]) {
+    expect(Number.isFinite(body.returns_pct[key]), `${key} top-level return`).toBe(true);
+    expect(Number.isFinite(body.card.returns_pct[key]), `${key} card return`).toBe(true);
+  }
+}
+
 for (const [code, cfg] of Object.entries(REGIONS)) {
   const HAS_FIXTURE = fs.existsSync(picksPath(code));
 
@@ -48,6 +57,7 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       const sb = await s.json();
       expect(sb.ticker).toBe(ticker);
       expect(sb.currency).toBe(cfg.currency);
+      expectFiniteReturnsPayload(sb);
       if (sb.fundamentals_fallback) {
         expect(sb.fundamentals_fallback).toMatchObject({
           source: "yahoo-finance2",

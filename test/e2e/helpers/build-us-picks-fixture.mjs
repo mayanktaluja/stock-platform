@@ -23,6 +23,25 @@ import {
   MARKET_FUNDAMENTALS_SCHEMA_VERSION,
 } from "../../../services/swsMarketFundamentals.js";
 
+const DEFAULT_RETURNS = { "1D": 0.8, "7D": 2.1, "1M": 3, "3M": 8, "1Y": 20, "5Y": 90 };
+
+function fixtureReturns(returnsPct) {
+  return { ...DEFAULT_RETURNS, ...(returnsPct || {}) };
+}
+
+function withIsolatedDeepDir(fn) {
+  const backupDir = `${PATHS.deepDir}.fixture-backup-${process.pid}`;
+  if (fs.existsSync(backupDir)) fs.rmSync(backupDir, { recursive: true, force: true });
+  if (fs.existsSync(PATHS.deepDir)) fs.renameSync(PATHS.deepDir, backupDir);
+  fs.mkdirSync(PATHS.deepDir, { recursive: true });
+  try {
+    return fn();
+  } finally {
+    fs.rmSync(PATHS.deepDir, { recursive: true, force: true });
+    if (fs.existsSync(backupDir)) fs.renameSync(backupDir, PATHS.deepDir);
+  }
+}
+
 // Build a parser-shaped deep stock. snowflake_total is derived; upside is
 // derived from price/FV when both are present (mirrors the parser).
 function makeDeep(o) {
@@ -60,7 +79,7 @@ function makeDeep(o) {
       upside_pct: upside,
       market_cap_inr: o.mcap,
       net_margin_pct: o.netMargin ?? 12,
-      returns_pct: o.returns || { "1M": 3, "3M": 8, "1Y": 20, "5Y": 90 },
+      returns_pct: fixtureReturns(o.returns),
       multiples: o.multiples || { pe: 24, pb: 5, ps: 6, ev_ebitda: 18 },
       dividend: o.dividend || { yield_pct: 0.6, payout_pct: 20 },
       rewards: o.rewards || [],
@@ -171,13 +190,14 @@ function writeFallbackFundamentals(stocks) {
 }
 
 function main() {
-  fs.mkdirSync(PATHS.deepDir, { recursive: true });
-  for (const spec of STOCKS) {
-    const deep = makeDeep(spec);
-    fs.writeFileSync(path.join(PATHS.deepDir, `${spec.ticker}.json`), JSON.stringify(deep, null, 2));
-  }
-  writeFallbackFundamentals(STOCKS);
-  const out = runFullScoringUS();
+  const out = withIsolatedDeepDir(() => {
+    for (const spec of STOCKS) {
+      const deep = makeDeep(spec);
+      fs.writeFileSync(path.join(PATHS.deepDir, `${spec.ticker}.json`), JSON.stringify(deep, null, 2));
+    }
+    writeFallbackFundamentals(STOCKS);
+    return runFullScoringUS();
+  });
   console.log(`[us-fixture] wrote ${STOCKS.length} synthetic deep stocks → scored ${out.scored_count}`);
   console.log(`[us-fixture] wrote ${MARKET_FUNDAMENTALS_FILE} fallback metrics`);
   console.log(`[us-fixture] picks-latest.json sections:`);
