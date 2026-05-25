@@ -3,9 +3,17 @@
   "name": "Hitech Corporation Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-hitechcorp/hitech-shares",
-  "parsed_at": "2026-05-24T14:40:55.138Z",
+  "parsed_at": "2026-05-24T23:51:35.184Z",
   "company_id": "969FCCE1-5CBA-42A7-B9D8-0CADDDDEDD81",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/hitech-corporation-ltd",
+    "search_id": "hitech-corporation-ltd",
+    "company_id": "GSTK526217",
+    "isin": "INE120D01012"
+  },
   "overview": {
     "snowflake": {
       "valuation": 1,
@@ -21,10 +29,14 @@
     },
     "snowflake_total": 13,
     "current_price_inr": 167.87,
-    "market_cap_inr": 2883284767.2301173,
+    "market_cap_inr": 2876900000,
     "market_cap_usd": 123377158243.857,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 112,
+      "high": 223.44
+    },
     "fair_value_inr": 16.370746,
     "fair_value_range_inr": {
       "min": null,
@@ -34,22 +46,23 @@
     "upside_pct": -90.24796211354024,
     "multiples": {
       "pe": 18.95,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 0.45,
+      "pb": 1.03,
+      "ev_ebitda": 6.61,
+      "peg": -2.6393911392405065
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/hitech-corporation-ltd"
     },
     "rewards": [
       "Earnings grew by 70% over the past year",
-      "Price-To-Earnings ratio (18.9x) is below the Indian market (23.2x)",
-      "Trading at good value vs. peer average Price-To-Earnings ratio"
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (18.9x) is below the Indian market (23.4x)"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
@@ -59,7 +72,7 @@
       "Does not have a meaningful market cap (₹3B)"
     ],
     "dividend": {
-      "yield_pct": 0.5960468229,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": 1,
       "listing_currency": "INR",
@@ -184,15 +197,15 @@
       ],
       "payment_count": 9
     },
-    "dividend_yield_pct": 0.5960468229,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.648491785773274
+      "pe": 22.648491785773274,
+      "sector_pe": 22.648491785773274
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Packaging",
       "pe_industry_id": 42,
@@ -205,7 +218,7 @@
       "industry_pe": 22.648491785773274,
       "industry_name": "Packaging",
       "industry_id": 42,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/hitech-corporation-ltd",
       "search_id": "hitech-corporation-ltd"
     },
@@ -215,22 +228,22 @@
         "industry_pe": 22.648491785773274,
         "industry_name": "Packaging",
         "industry_id": 42,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/hitech-corporation-ltd"
       },
       "sws_statement": {
         "company_pe": 18.9,
-        "industry_pe": 16.4,
+        "industry_pe": 17,
         "industry_name": "Indian Packaging",
-        "description": "HITECHCORP is expensive based on its Price-To-Earnings Ratio (18.9x) compared to the Indian Packaging industry average (16.4x).",
+        "description": "HITECHCORP is expensive based on its Price-To-Earnings Ratio (18.9x) compared to the Indian Packaging industry average (17x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 16.40655163,
+        "industry_pe": 17.029830198,
         "industry_code": "2040000",
         "type": "median_profitable",
-        "count": 81,
+        "count": 82,
         "source": {
           "type": "country",
           "country": "IN",
@@ -239,7 +252,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.8,
+        "industry_pe": 16,
         "sample_count": 85,
         "industry_code": "2040000",
         "industry_name": "Materials"
@@ -249,13 +262,177 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 167.87,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 2876900000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 18.95,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 1.03,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 0.45,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 6.61,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": -2.6393911392405065,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 22.648491785773274,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 112,
+          "high": 223.44
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 8.84,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 162.0039358,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 10,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 22.648491785773274,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 4.3634,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 3.512920114845466,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 7.6508872191049875,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 2.598376014990631,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 12.100249843847598,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 47.48,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 27.890136801216016,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 2.7955,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.6242469319449611,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.03369282261063593,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hitech-corporation-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 8.84,
     "most_recent_reported_date": null,
+    "pb": 1.03,
+    "ps": 0.45,
+    "book_value": 162.0039358,
+    "face_value": 10,
+    "sector_pe": 22.648491785773274,
+    "roe_pct": 4.3634,
+    "roa_pct": 3.512920114845466,
+    "roic_pct": 7.6508872191049875,
+    "net_margin_pct": 2.598376014990631,
+    "operating_margin_pct": 12.100249843847598,
+    "debt_to_equity_pct": 47.48,
+    "debt_to_asset_pct": 27.890136801216016,
+    "current_ratio": 2.7955,
+    "quick_ratio": 0.6242469319449611,
+    "cash_ratio": 0.03369282261063593,
     "returns_pct": {
       "1D": -0.6980183377698946,
       "7D": 24.634345534189624,
@@ -344,10 +521,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 74.4336,
+    "fii_pct": 0,
+    "mutual_fund_pct": 0,
+    "insurance_pct": 0.0437,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 25.522700000000007,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 0.5960468229,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": 1,
     "listing_currency": "INR",
@@ -473,6 +657,216 @@
     "payment_count": 9
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {
+        "revenue": {
+          "2025": 564.9242
+        },
+        "profit": {
+          "2025": 8.9367
+        },
+        "net_worth": {
+          "2025": 270.6953
+        }
+      },
+      "quarterly": {
+        "revenue": {
+          "Mar '25": 150.54999999999998,
+          "Jun '25": 165.31,
+          "Sep '25": 164.85999999999999,
+          "Dec '25": 145.59,
+          "Mar '26": 168.91
+        },
+        "profit": {
+          "Mar '25": 1.01,
+          "Jun '25": 4.75,
+          "Sep '25": 4.17,
+          "Dec '25": -2.62,
+          "Mar '26": 8.89
+        }
+      }
+    }
+  },
+  "past_performance": {
+    "roe_pct": 4.3634,
+    "roa_pct": 3.512920114845466,
+    "roic_pct": 7.6508872191049875,
+    "net_margin_pct": 2.598376014990631,
+    "operating_margin_pct": 12.100249843847598,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 47.48,
+    "debt_to_asset_pct": 27.890136801216016,
+    "current_ratio": 2.7955,
+    "quick_ratio": 0.6242469319449611,
+    "cash_ratio": 0.03369282261063593,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2024-07-18T18:30:00.000Z",
+        "announcement_date": "2024-05-15T18:30:00.000Z",
+        "ex_date": "2024-07-18T18:30:00.000Z",
+        "record_date": "2024-07-18T18:30:00.000Z",
+        "value": "₹1.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-07-17T18:30:00.000Z",
+        "announcement_date": "2025-05-25T18:30:00.000Z",
+        "ex_date": "2025-07-17T18:30:00.000Z",
+        "record_date": "2025-07-17T18:30:00.000Z",
+        "value": "₹1.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2025-05-25T18:30:00.000Z",
+        "announcement_date": "2025-05-25T18:30:00.000Z",
+        "ex_date": "2025-07-17T18:30:00.000Z",
+        "record_date": "2025-07-17T18:30:00.000Z",
+        "value": "₹1.00"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-07T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-09T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/hitech-corporation-ltd",
+    "news": [
+      {
+        "id": "2605218378784",
+        "title": "Hitech Corporation reports strong Q4 FY26 turnaround with record revenue and profit margins.\nThe packaging micro-cap saw revenue growth, margin expansion, and profitability improvements.",
+        "url": "https://www.marketsmojo.com/news/stocks-in-action/hitech-corporation-ltd-reports-strong-quarterly-turnaround-with-record-revenue-and-profit-margins-4002964",
+        "source": "Marketsmojo",
+        "published_at": "2026-05-21T05:30:12.000Z"
+      },
+      {
+        "id": "260211151930956",
+        "title": "Hitech Corporation Ltd reported 17.9% revenue growth to ₹145.1 crore in latest results.\nThe company posted a net loss of ₹2.6 crore with declining margins, signaling operational challenges.",
+        "url": "https://www.marketsmojo.com/news/result-analysis/are-hitech-corporation-ltd-latest-results-good-or-bad-3833525",
+        "source": "Marketsmojo",
+        "published_at": "2026-02-11T14:15:53.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2024-07-18T18:30:00.000Z",
+        "announcement_date": "2024-05-15T18:30:00.000Z",
+        "ex_date": "2024-07-18T18:30:00.000Z",
+        "record_date": "2024-07-18T18:30:00.000Z",
+        "value": "₹1.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-07-17T18:30:00.000Z",
+        "announcement_date": "2025-05-25T18:30:00.000Z",
+        "ex_date": "2025-07-17T18:30:00.000Z",
+        "record_date": "2025-07-17T18:30:00.000Z",
+        "value": "₹1.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2025-05-25T18:30:00.000Z",
+        "announcement_date": "2025-05-25T18:30:00.000Z",
+        "ex_date": "2025-07-17T18:30:00.000Z",
+        "record_date": "2025-07-17T18:30:00.000Z",
+        "value": "₹1.00"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-07T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-09T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "AGI",
+        "name": "AGI Greenpac",
+        "searchId": "hsil-ltd",
+        "market_cap_inr": 37602100000,
+        "pe": 10.69,
+        "pb": 1.56
+      },
+      {
+        "ticker": "JINDALPOLY",
+        "name": "Jindal Poly Films",
+        "searchId": "jindal-poly-films-ltd",
+        "market_cap_inr": 30626400000,
+        "pe": 19.52,
+        "pb": 0.49
+      },
+      {
+        "ticker": "POLYPLEX",
+        "name": "Polyplex Corporation",
+        "searchId": "polyplex-corporation-ltd",
+        "market_cap_inr": 30194800000,
+        "pe": null,
+        "pb": 0.75
+      }
+    ],
+    "details": {
+      "fullName": "Hitech Corporation",
+      "parentCompany": "Hitech Corporation",
+      "headquarters": "MUMBAI",
+      "ceo": "Ashok Goyal",
+      "managingDirector": "Shri. Malav Dani",
+      "foundedYear": null,
+      "websiteUrl": "https://www.hitechgroup.com/hightech_group_wp_files/"
+    }
+  },
   "indices": [
     "NSEI"
   ],

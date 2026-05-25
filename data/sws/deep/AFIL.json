@@ -6,6 +6,14 @@
   "parsed_at": "2026-05-24T12:01:00.644Z",
   "company_id": "61BA00BC-C785-4AFB-B3FC-9C7766233F96",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/akme-fintrade-india-ltd",
+    "search_id": "akme-fintrade-india-ltd",
+    "company_id": "GSTK544200",
+    "isin": "INE916Y01027"
+  },
   "overview": {
     "snowflake": {
       "valuation": 2,
@@ -21,10 +29,14 @@
     },
     "snowflake_total": 8,
     "current_price_inr": 9.18,
-    "market_cap_inr": 4203981126.951799,
+    "market_cap_inr": 3874900000,
     "market_cap_usd": 123377158243.857,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 3.92,
+      "high": 10.1
+    },
     "fair_value_inr": 0.922325,
     "fair_value_range_inr": {
       "min": null,
@@ -34,15 +46,16 @@
     "upside_pct": -89.95288671023964,
     "multiples": {
       "pe": 9.17,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 2.69,
+      "pb": 0.91,
+      "ev_ebitda": 6.38,
+      "peg": 0.25329896907216487
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/akme-fintrade-india-ltd"
     },
@@ -59,22 +72,22 @@
       "High level of [[non-cash earnings]]"
     ],
     "dividend": {
-      "yield_pct": null,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": null,
       "listing_currency": "INR",
       "recent_payments": [],
       "payment_count": 0
     },
-    "dividend_yield_pct": null,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.74789650623654
+      "pe": 22.74789650623654,
+      "sector_pe": 22.74789650623654
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -87,7 +100,7 @@
       "industry_pe": 22.74789650623654,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/akme-fintrade-india-ltd",
       "search_id": "akme-fintrade-india-ltd"
     },
@@ -97,7 +110,7 @@
         "industry_pe": 22.74789650623654,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
       },
       "sws_statement": {
@@ -131,13 +144,177 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 9.18,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 3874900000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 9.17,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 0.91,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 2.69,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 6.38,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": 0.25329896907216487,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 22.74789650623654,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 3.92,
+          "high": 10.1
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 0.99,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 9.9326312,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 1,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 22.74789650623654,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 9.9845,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 4.528572498902911,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 10.444836003607923,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 29.04909028492963,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 76.4984552008239,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 118.75,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 53.877275792312886,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 21.8512,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 21.842767295597483,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 15.522012578616351,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/akme-fintrade-india-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 0.99,
     "most_recent_reported_date": null,
+    "pb": 0.91,
+    "ps": 2.69,
+    "book_value": 9.9326312,
+    "face_value": 1,
+    "sector_pe": 22.74789650623654,
+    "roe_pct": 9.9845,
+    "roa_pct": 4.528572498902911,
+    "roic_pct": 10.444836003607923,
+    "net_margin_pct": 29.04909028492963,
+    "operating_margin_pct": 76.4984552008239,
+    "debt_to_equity_pct": 118.75,
+    "debt_to_asset_pct": 53.877275792312886,
+    "current_ratio": 21.8512,
+    "quick_ratio": 21.842767295597483,
+    "cash_ratio": 15.522012578616351,
     "returns_pct": {
       "1D": 2.1134593993325863,
       "7D": 2.45535714285713,
@@ -256,10 +433,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 39.5307,
+    "fii_pct": 0.6177,
+    "mutual_fund_pct": 0,
+    "insurance_pct": 1.9531,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 57.898499999999984,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": null,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": null,
     "listing_currency": "INR",
@@ -267,6 +451,191 @@
     "payment_count": 0
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {},
+      "quarterly": {}
+    }
+  },
+  "past_performance": {
+    "roe_pct": 9.9845,
+    "roa_pct": 4.528572498902911,
+    "roic_pct": 10.444836003607923,
+    "net_margin_pct": 29.04909028492963,
+    "operating_margin_pct": 76.4984552008239,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 118.75,
+    "debt_to_asset_pct": 53.877275792312886,
+    "current_ratio": 21.8512,
+    "quick_ratio": 21.842767295597483,
+    "cash_ratio": 15.522012578616351,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Split",
+        "type": "SPLIT",
+        "status": "Ex date",
+        "primary_date": "2025-04-16T18:30:00.000Z",
+        "announcement_date": "2025-02-06T18:30:00.000Z",
+        "ex_date": "2025-04-16T18:30:00.000Z",
+        "record_date": "2025-04-17T18:30:00.000Z",
+        "value": "1:10"
+      },
+      {
+        "title": "Split",
+        "type": "SPLIT",
+        "status": "Announced",
+        "primary_date": "2025-02-06T18:30:00.000Z",
+        "announcement_date": "2025-02-06T18:30:00.000Z",
+        "ex_date": "2025-04-16T18:30:00.000Z",
+        "record_date": "2025-04-17T18:30:00.000Z",
+        "value": "1:10"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-12T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-12T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-05T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/akme-fintrade-india-ltd",
+    "news": [
+      {
+        "id": "668473",
+        "title": "Akme Fintrade (India) Ltd secures in-principle approval to issue 12.25 crore warrants on a preferential basis.\nApproval from NSE and BSE is subject to compliance with SEBI, RBI, and other statutory regulations.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=949281e2-69a4-44d3-a7c8-5a12a45a7ce2.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-21T07:51:36.000Z"
+      },
+      {
+        "id": "840129257392489728",
+        "title": "Akme Fintrade FY26 PAT rose 27.4% to ₹42.3 Cr; AUM grew 48.5% to ₹918.6 Cr.\nRecord disbursements at ₹503.9 Cr; Vehicle finance AUM increased 128% YoY.",
+        "url": "https://sqst.in/IysEV",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-07T07:33:43.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Split",
+        "type": "SPLIT",
+        "status": "Ex date",
+        "primary_date": "2025-04-16T18:30:00.000Z",
+        "announcement_date": "2025-02-06T18:30:00.000Z",
+        "ex_date": "2025-04-16T18:30:00.000Z",
+        "record_date": "2025-04-17T18:30:00.000Z",
+        "value": "1:10"
+      },
+      {
+        "title": "Split",
+        "type": "SPLIT",
+        "status": "Announced",
+        "primary_date": "2025-02-06T18:30:00.000Z",
+        "announcement_date": "2025-02-06T18:30:00.000Z",
+        "ex_date": "2025-04-16T18:30:00.000Z",
+        "record_date": "2025-04-17T18:30:00.000Z",
+        "value": "1:10"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-12T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-12T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-05T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "KIRLOSIND",
+        "name": "Kirloskar Industries",
+        "searchId": "kirloskar-industries-ltd",
+        "market_cap_inr": 32612700000,
+        "pe": 9.22,
+        "pb": 0.53
+      },
+      {
+        "ticker": "BLIL",
+        "name": "Balmer Lawrie Investments",
+        "searchId": "balmer-lawrie-investments-ltd",
+        "market_cap_inr": 16033100000,
+        "pe": 5.77,
+        "pb": 1.11
+      },
+      {
+        "ticker": "507912",
+        "name": "Gyftr",
+        "searchId": "lkp-finance-ltd",
+        "market_cap_inr": 14171100000,
+        "pe": null,
+        "pb": 3
+      }
+    ],
+    "details": {
+      "fullName": "Akme Fintrade (India) Ltd",
+      "parentCompany": "Akme Fintrade (India) Ltd",
+      "headquarters": null,
+      "ceo": "Mr. Akash Jain",
+      "managingDirector": "Mr. Akash Jain",
+      "foundedYear": 1996,
+      "websiteUrl": null
+    }
+  },
   "indices": [
     "NSEI"
   ],

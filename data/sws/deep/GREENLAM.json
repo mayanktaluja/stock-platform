@@ -3,9 +3,17 @@
   "name": "Greenlam Industries Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-greenlam/greenlam-industries-shares",
-  "parsed_at": "2026-05-24T14:28:52.896Z",
+  "parsed_at": "2026-05-24T23:39:04.488Z",
   "company_id": "A061B753-2152-469F-9B8F-84B109FF9E2B",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/greenlam-industries-ltd",
+    "search_id": "greenlam-industries-ltd",
+    "company_id": "GSTK538979",
+    "isin": "INE544R01021"
+  },
   "overview": {
     "snowflake": {
       "valuation": 0,
@@ -21,10 +29,14 @@
     },
     "snowflake_total": 11,
     "current_price_inr": 237.23,
-    "market_cap_inr": 60528689345,
+    "market_cap_inr": 60163800000,
     "market_cap_usd": 123377158243.857,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 255147702,
+    "fifty_two_week": {
+      "low": 197.59,
+      "high": 279.4
+    },
     "fair_value_inr": 297,
     "fair_value_range_inr": {
       "min": 114.70011,
@@ -34,29 +46,28 @@
     "upside_pct": 25.1949584791131,
     "multiples": {
       "pe": 357.27,
-      "ps": 2.108866606682461,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 2.11,
+      "pb": 5.29,
+      "ev_ebitda": 25.16,
+      "peg": -1.150987469287469
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/greenlam-industries-ltd"
     },
     "rewards": [
-      "Trading at good value vs. peer average Price-To-Sales ratio",
-      "Trading below our calculated fair Price-To-Sales ratio",
-      "Earnings are forecast to grow 82.19% per year"
+      "Earnings are forecast to grow 61.16% per year"
     ],
     "risks": [
       "Interest payments are not well covered by earnings",
-      "Profit margins (0.7%) are lower than last year (4.3%)"
+      "Profit margins (1.8%) are lower than last year (2.7%)"
     ],
     "dividend": {
-      "yield_pct": 0.1667964279,
+      "yield_pct": 0.17,
       "payout_pct": 54.05671652542373,
       "annualized_dividend": 0.4,
       "listing_currency": "INR",
@@ -194,17 +205,17 @@
       ],
       "payment_count": 10
     },
-    "dividend_yield_pct": 0.1667964279,
-    "net_margin_pct": 0.6577938819594453,
+    "dividend_yield_pct": 0.17,
     "industry_benchmarks": {
       "future_revenue_growth_3y": 0.639013805,
       "net_income_margin_1y": 0.07751640883,
-      "pe": 44.746278631751636
+      "pe": 44.746278631751636,
+      "sector_pe": 44.746278631751636
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Plywood Boards/Laminates",
       "pe_industry_id": 86,
@@ -217,7 +228,7 @@
       "industry_pe": 44.746278631751636,
       "industry_name": "Plywood Boards/Laminates",
       "industry_id": 86,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/greenlam-industries-ltd",
       "search_id": "greenlam-industries-ltd"
     },
@@ -227,15 +238,15 @@
         "industry_pe": 44.746278631751636,
         "industry_name": "Plywood Boards/Laminates",
         "industry_id": 86,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/greenlam-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": null,
-        "industry_pe": 1.1,
+        "company_pe": 107.6,
+        "industry_pe": 28.5,
         "industry_name": "Indian Building",
-        "description": "GREENLAM is expensive based on its Price-To-Sales Ratio (2.1x) compared to the Indian Building industry average (1.1x).",
-        "title": "Price-To-Sales vs Industry",
+        "description": "GREENLAM is expensive based on its Price-To-Earnings Ratio (107.6x) compared to the Indian Building industry average (28.5x).",
+        "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
@@ -251,7 +262,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.2,
+        "industry_pe": 25.4,
         "sample_count": 53,
         "industry_code": "3030000",
         "industry_name": "Capital Goods"
@@ -265,13 +276,177 @@
         "company_pe": 320.5968715331568
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 237.23,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 60163800000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 357.27,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 5.29,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 2.11,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 25.16,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": -1.150987469287469,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 44.746278631751636,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0.17,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 197.59,
+          "high": 279.4
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 0.66,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 44.5449738,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 1,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 44.746278631751636,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 4.7708,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 1.7905290698835608,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 5.271730936338881,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 1.7658761424519382,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 10.735437020695452,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 98.4,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 38.62702803464552,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 1.929,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.4644692329693957,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.06309238492568374,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/greenlam-industries-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": -72.90859520734682,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": 11.709621926253435,
     "latest_revenue": 28702000000,
     "latest_net_income": 188800000,
-    "latest_eps": null,
+    "latest_eps": 0.66,
     "most_recent_reported_date": "2026-04-21",
+    "pb": 5.29,
+    "ps": 2.11,
+    "book_value": 44.5449738,
+    "face_value": 1,
+    "sector_pe": 44.746278631751636,
+    "roe_pct": 4.7708,
+    "roa_pct": 1.7905290698835608,
+    "roic_pct": 5.271730936338881,
+    "net_margin_pct": 1.7658761424519382,
+    "operating_margin_pct": 10.735437020695452,
+    "debt_to_equity_pct": 98.4,
+    "debt_to_asset_pct": 38.62702803464552,
+    "current_ratio": 1.929,
+    "quick_ratio": 0.4644692329693957,
+    "cash_ratio": 0.06309238492568374,
     "returns_pct": {
       "1D": 1.601781660884826,
       "7D": 1.7281303602058324,
@@ -390,10 +565,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 50.9848,
+    "fii_pct": 1.7776,
+    "mutual_fund_pct": 11.2848,
+    "insurance_pct": 2.6834999999999987,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 33.2693,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 0.1667964279,
+    "yield_pct": 0.17,
     "payout_pct": 54.05671652542373,
     "annualized_dividend": 0.4,
     "listing_currency": "INR",
@@ -573,6 +755,228 @@
         "eps": null
       }
     ]
+  },
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {
+        "revenue": {
+          "2021": 1207.1498,
+          "2022": 1710.6987,
+          "2023": 2043.912,
+          "2024": 2327.99,
+          "2025": 2580.33
+        },
+        "profit": {
+          "2021": 73.6845,
+          "2022": 90.5823,
+          "2023": 128.5083,
+          "2024": 138.01,
+          "2025": 68.35
+        },
+        "net_worth": {
+          "2021": 573.9387,
+          "2022": 655.0525,
+          "2023": 958.2405,
+          "2024": 1076.86,
+          "2025": 1125.25
+        }
+      },
+      "quarterly": {
+        "revenue": {
+          "Mar '25": 681.77,
+          "Jun '25": 676.24,
+          "Sep '25": 809.48,
+          "Dec '25": 708.91,
+          "Mar '26": 859.6999999999999
+        },
+        "profit": {
+          "Mar '25": 1.47,
+          "Jun '25": -15.71,
+          "Sep '25": 31.77,
+          "Dec '25": -0.59,
+          "Mar '26": 40.55
+        }
+      }
+    }
+  },
+  "past_performance": {
+    "roe_pct": 4.7708,
+    "roa_pct": 1.7905290698835608,
+    "roic_pct": 5.271730936338881,
+    "net_margin_pct": 1.7658761424519382,
+    "operating_margin_pct": 10.735437020695452,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 98.4,
+    "debt_to_asset_pct": 38.62702803464552,
+    "current_ratio": 1.929,
+    "quick_ratio": 0.4644692329693957,
+    "cash_ratio": 0.06309238492568374,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2024-06-20T18:30:00.000Z",
+        "announcement_date": "2024-05-27T18:30:00.000Z",
+        "ex_date": "2024-06-20T18:30:00.000Z",
+        "record_date": "2024-06-20T18:30:00.000Z",
+        "value": "₹1.65"
+      },
+      {
+        "title": "Bonus",
+        "type": "BONUS",
+        "status": "Ex date",
+        "primary_date": "2025-03-20T18:30:00.000Z",
+        "announcement_date": "2025-03-11T18:30:00.000Z",
+        "ex_date": "2025-03-20T18:30:00.000Z",
+        "record_date": "2025-03-20T18:30:00.000Z",
+        "value": "1:1"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-06-19T18:30:00.000Z",
+        "announcement_date": "2025-05-29T18:30:00.000Z",
+        "ex_date": "2025-06-19T18:30:00.000Z",
+        "record_date": "2025-06-19T18:30:00.000Z",
+        "value": "₹0.40"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2024-05-27T18:30:00.000Z",
+        "announcement_date": "2024-05-27T18:30:00.000Z",
+        "ex_date": "2024-06-20T18:30:00.000Z",
+        "record_date": "2024-06-20T18:30:00.000Z",
+        "value": "₹1.65"
+      },
+      {
+        "title": "Bonus",
+        "type": "BONUS",
+        "status": "Announced",
+        "primary_date": "2025-03-11T18:30:00.000Z",
+        "announcement_date": "2025-03-11T18:30:00.000Z",
+        "ex_date": "2025-03-20T18:30:00.000Z",
+        "record_date": "2025-03-20T18:30:00.000Z",
+        "value": "1:1"
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/greenlam-industries-ltd",
+    "news": [
+      {
+        "id": "845928788102899840",
+        "title": "Greenlam Industries released Q4 and FY26 presentation highlighting financial and operational performance.\nThe report includes data on revenue, EBITDA, PAT, debt, and returns, showcasing growth and project completions.",
+        "url": "https://sqst.in/eHHWx",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-23T07:38:59.000Z"
+      },
+      {
+        "id": "845667034177365888",
+        "title": "Greenlam Industries Q4 revenue rises 25.8% YoY to ₹857.7 crore; EBITDA up 57.1%.\nFY26 revenue grows 18.6% YoY to ₹3,046.1 crore; net profit falls 18.1% YoY to ₹56 crore.",
+        "url": "https://sqst.in/AzfKI",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-22T14:18:52.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2024-06-20T18:30:00.000Z",
+        "announcement_date": "2024-05-27T18:30:00.000Z",
+        "ex_date": "2024-06-20T18:30:00.000Z",
+        "record_date": "2024-06-20T18:30:00.000Z",
+        "value": "₹1.65"
+      },
+      {
+        "title": "Bonus",
+        "type": "BONUS",
+        "status": "Ex date",
+        "primary_date": "2025-03-20T18:30:00.000Z",
+        "announcement_date": "2025-03-11T18:30:00.000Z",
+        "ex_date": "2025-03-20T18:30:00.000Z",
+        "record_date": "2025-03-20T18:30:00.000Z",
+        "value": "1:1"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-06-19T18:30:00.000Z",
+        "announcement_date": "2025-05-29T18:30:00.000Z",
+        "ex_date": "2025-06-19T18:30:00.000Z",
+        "record_date": "2025-06-19T18:30:00.000Z",
+        "value": "₹0.40"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2024-05-27T18:30:00.000Z",
+        "announcement_date": "2024-05-27T18:30:00.000Z",
+        "ex_date": "2024-06-20T18:30:00.000Z",
+        "record_date": "2024-06-20T18:30:00.000Z",
+        "value": "₹1.65"
+      },
+      {
+        "title": "Bonus",
+        "type": "BONUS",
+        "status": "Announced",
+        "primary_date": "2025-03-11T18:30:00.000Z",
+        "announcement_date": "2025-03-11T18:30:00.000Z",
+        "ex_date": "2025-03-20T18:30:00.000Z",
+        "record_date": "2025-03-20T18:30:00.000Z",
+        "value": "1:1"
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "CENTURYPLY",
+        "name": "Century Plyboards (India)",
+        "searchId": "century-plyboards-india-ltd",
+        "market_cap_inr": 170129000000,
+        "pe": 70.25,
+        "pb": 6.9
+      },
+      {
+        "ticker": "STYLAMIND",
+        "name": "Stylam Industries",
+        "searchId": "stylam-industries-ltd",
+        "market_cap_inr": 46744400000,
+        "pe": 31.19,
+        "pb": 5.79
+      },
+      {
+        "ticker": "RESPONIND",
+        "name": "Responsive Industries",
+        "searchId": "responsive-industries-ltd",
+        "market_cap_inr": 44163700000,
+        "pe": 24.54,
+        "pb": 3
+      }
+    ],
+    "details": {
+      "fullName": "Greenlam Industries",
+      "parentCompany": "Greenlam Industries Limited",
+      "headquarters": "NEW DELHI",
+      "ceo": "Saurabh Mittal",
+      "managingDirector": "Mr. Saurabh Mittal",
+      "foundedYear": 2013,
+      "websiteUrl": "https://www.greenlam.co.in/"
+    }
   },
   "indices": [
     "NSEI"

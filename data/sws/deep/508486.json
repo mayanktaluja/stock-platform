@@ -6,6 +6,14 @@
   "parsed_at": "2026-05-21T21:02:03.664Z",
   "company_id": "D3459C55-DD31-4747-8376-5CE686782E5E",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/hawkins-cookers-ltd",
+    "search_id": "hawkins-cookers-ltd",
+    "company_id": "GSTK508486",
+    "isin": "INE979B01015"
+  },
   "overview": {
     "snowflake": {
       "valuation": 2,
@@ -20,29 +28,34 @@
       "dividend": 4
     },
     "snowflake_total": 16,
-    "current_price_inr": 7196.55,
-    "market_cap_inr": 38054029450.16546,
+    "current_price_inr": 7200.5,
+    "market_cap_inr": 38088000000,
     "market_cap_usd": 121304781320.862,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 7109,
+      "high": 7614.5
+    },
     "fair_value_inr": 1926.109933,
     "fair_value_range_inr": {
       "min": 1926.109933,
       "max": 12452445.68,
       "count": 4
     },
-    "upside_pct": -73.23564856771648,
+    "upside_pct": -73.25033076869663,
     "multiples": {
       "pe": 30.28,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 3.19,
+      "pb": 10.23,
+      "ev_ebitda": 21.72,
+      "peg": 7.525890196078425
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/hawkins-cookers-ltd"
     },
@@ -56,7 +69,7 @@
       "Dividend of 1.81% is not well covered by free cash flows"
     ],
     "dividend": {
-      "yield_pct": 1.6018800372,
+      "yield_pct": 1.81,
       "payout_pct": null,
       "annualized_dividend": 130,
       "listing_currency": "INR",
@@ -194,15 +207,15 @@
       ],
       "payment_count": 10
     },
-    "dividend_yield_pct": 1.6018800372,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 1.81,
     "industry_benchmarks": {
-      "pe": 59.627955716846344
+      "pe": 59.627955716846344,
+      "sector_pe": 59.627955716846344
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Consumer Durables",
       "pe_industry_id": 17,
@@ -215,7 +228,7 @@
       "industry_pe": 59.627955716846344,
       "industry_name": "Consumer Durables",
       "industry_id": 17,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/hawkins-cookers-ltd",
       "search_id": "hawkins-cookers-ltd"
     },
@@ -225,7 +238,7 @@
         "industry_pe": 59.627955716846344,
         "industry_name": "Consumer Durables",
         "industry_id": 17,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/hawkins-cookers-ltd"
       },
       "sws_statement": {
@@ -249,7 +262,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36.6,
+        "industry_pe": 36,
         "sample_count": 56,
         "industry_code": "4110000",
         "industry_name": "Consumer Durables"
@@ -259,13 +272,177 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 7200.5,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 38088000000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 30.28,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 10.23,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 3.19,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 21.72,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": 7.525890196078425,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 59.627955716846344,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 1.81,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 7109,
+          "high": 7614.5
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 237.75,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 703.5916824,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 10,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 59.627955716846344,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 30.4809,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 19.968880491561215,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 53.1121871452778,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 10.532089502244256,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 15.579151872445903,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 16.2,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 9.570836574948794,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 2.6514,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 1.3516392369144803,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.8335443314270747,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hawkins-cookers-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 237.75,
     "most_recent_reported_date": null,
+    "pb": 10.23,
+    "ps": 3.19,
+    "book_value": 703.5916824,
+    "face_value": 10,
+    "sector_pe": 59.627955716846344,
+    "roe_pct": 30.4809,
+    "roa_pct": 19.968880491561215,
+    "roic_pct": 53.1121871452778,
+    "net_margin_pct": 10.532089502244256,
+    "operating_margin_pct": 15.579151872445903,
+    "debt_to_equity_pct": 16.2,
+    "debt_to_asset_pct": 9.570836574948794,
+    "current_ratio": 2.6514,
+    "quick_ratio": 1.3516392369144803,
+    "cash_ratio": 0.8335443314270747,
     "returns_pct": {
       "1D": -0.09509398339672175,
       "7D": 0.07787566315994916,
@@ -374,10 +551,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 56.0333,
+    "fii_pct": 2.7421,
+    "mutual_fund_pct": 12.6078,
+    "insurance_pct": 3.203000000000001,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 25.41380000000001,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 1.6018800372,
+    "yield_pct": 1.81,
     "payout_pct": null,
     "annualized_dividend": 130,
     "listing_currency": "INR",
@@ -516,6 +700,191 @@
     "payment_count": 10
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {},
+      "quarterly": {}
+    }
+  },
+  "past_performance": {
+    "roe_pct": 30.4809,
+    "roa_pct": 19.968880491561215,
+    "roic_pct": 53.1121871452778,
+    "net_margin_pct": 10.532089502244256,
+    "operating_margin_pct": 15.579151872445903,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 16.2,
+    "debt_to_asset_pct": 9.570836574948794,
+    "current_ratio": 2.6514,
+    "quick_ratio": 1.3516392369144803,
+    "cash_ratio": 0.8335443314270747,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2024-07-28T18:30:00.000Z",
+        "announcement_date": "2024-05-28T18:30:00.000Z",
+        "ex_date": "2024-07-28T18:30:00.000Z",
+        "record_date": "2024-07-29T18:30:00.000Z",
+        "value": "₹120.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-07-29T18:30:00.000Z",
+        "announcement_date": "2025-05-27T18:30:00.000Z",
+        "ex_date": "2025-07-29T18:30:00.000Z",
+        "record_date": "2025-07-29T18:30:00.000Z",
+        "value": "₹130.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2024-05-28T18:30:00.000Z",
+        "announcement_date": "2024-05-28T18:30:00.000Z",
+        "ex_date": "2024-07-28T18:30:00.000Z",
+        "record_date": "2024-07-29T18:30:00.000Z",
+        "value": "₹120.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2025-05-27T18:30:00.000Z",
+        "announcement_date": "2025-05-27T18:30:00.000Z",
+        "ex_date": "2025-07-29T18:30:00.000Z",
+        "record_date": "2025-07-29T18:30:00.000Z",
+        "value": "₹130.00"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-05T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/hawkins-cookers-ltd",
+    "news": [
+      {
+        "id": "632857",
+        "title": "Hawkins Cookers Ltd's board meeting on May 28, 2026, to approve FY26 audited results.\nBoard may recommend a dividend for FY26 during the meeting.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=4e14d476-123b-4082-b6b2-1e9edd3b96d5.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-08T10:07:28.000Z"
+      },
+      {
+        "id": "804315307461580288",
+        "title": "Hawkins Cookers released unaudited Q3 and 9M FY25 results, board-approved and audit-reviewed.\nKitchenware operations saw no significant labor code impact; revenue, expenses, and PAT detailed.",
+        "url": "https://sqst.in/HEjVZ",
+        "source": "ScoutQuest",
+        "published_at": "2026-01-28T11:41:52.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2024-07-28T18:30:00.000Z",
+        "announcement_date": "2024-05-28T18:30:00.000Z",
+        "ex_date": "2024-07-28T18:30:00.000Z",
+        "record_date": "2024-07-29T18:30:00.000Z",
+        "value": "₹120.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-07-29T18:30:00.000Z",
+        "announcement_date": "2025-05-27T18:30:00.000Z",
+        "ex_date": "2025-07-29T18:30:00.000Z",
+        "record_date": "2025-07-29T18:30:00.000Z",
+        "value": "₹130.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2024-05-28T18:30:00.000Z",
+        "announcement_date": "2024-05-28T18:30:00.000Z",
+        "ex_date": "2024-07-28T18:30:00.000Z",
+        "record_date": "2024-07-29T18:30:00.000Z",
+        "value": "₹120.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2025-05-27T18:30:00.000Z",
+        "announcement_date": "2025-05-27T18:30:00.000Z",
+        "ex_date": "2025-07-29T18:30:00.000Z",
+        "record_date": "2025-07-29T18:30:00.000Z",
+        "value": "₹130.00"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-05T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "SYMPHONY",
+        "name": "Symphony",
+        "searchId": "symphony-ltd",
+        "market_cap_inr": 48818500000,
+        "pe": 33.67,
+        "pb": 8.96
+      },
+      {
+        "ticker": "IFBIND",
+        "name": "IFB Industries",
+        "searchId": "ifb-industries-ltd",
+        "market_cap_inr": 42556100000,
+        "pe": 35.53,
+        "pb": 4.61
+      },
+      {
+        "ticker": "ORIENTELEC",
+        "name": "Orient Electric",
+        "searchId": "orient-electric-ltd",
+        "market_cap_inr": 39163300000,
+        "pe": 40.88,
+        "pb": 5.15
+      }
+    ],
+    "details": {
+      "fullName": "Hawkins Cookers",
+      "parentCompany": "Hawkins Cookers",
+      "headquarters": "MUMBAI",
+      "ceo": "Subhadip Dutta Choudhury",
+      "managingDirector": "Subhadip Dutta Choudhury",
+      "foundedYear": 1959,
+      "websiteUrl": "https://www.hawkinscookers.com/"
+    }
+  },
   "indices": [
     "BSE"
   ],

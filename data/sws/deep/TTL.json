@@ -3,9 +3,17 @@
   "name": "T.T. Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-ttl/tt-shares",
-  "parsed_at": "2026-05-24T14:12:41.294Z",
+  "parsed_at": "2026-05-24T23:27:51.404Z",
   "company_id": "AB11CBB6-4374-4C6B-9C5C-71BB6CFE9352",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/tt-ltd",
+    "search_id": "tt-ltd",
+    "company_id": "GSTK514142",
+    "isin": "INE592B01024"
+  },
   "overview": {
     "snowflake": {
       "valuation": 1,
@@ -21,10 +29,14 @@
     },
     "snowflake_total": 7,
     "current_price_inr": 7.71,
-    "market_cap_inr": 1991577464.9433186,
+    "market_cap_inr": 1989000000,
     "market_cap_usd": 123377158243.857,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 6.42,
+      "high": 16.25
+    },
     "fair_value_inr": 0.521918,
     "fair_value_range_inr": {
       "min": null,
@@ -34,9 +46,10 @@
     "upside_pct": -93.23063553826199,
     "multiples": {
       "pe": null,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 1.04,
+      "pb": 1.79,
+      "ev_ebitda": 18.78,
+      "peg": -0.8312969543147208
     },
     "multiples_meta": {
       "pe_source": "degraded",
@@ -56,7 +69,7 @@
       "Does not have a meaningful market cap (₹2B)"
     ],
     "dividend": {
-      "yield_pct": 0.5552900582,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": 0.05,
       "listing_currency": "INR",
@@ -103,9 +116,10 @@
       ],
       "payment_count": 3
     },
-    "dividend_yield_pct": 0.5552900582,
-    "net_margin_pct": null,
-    "industry_benchmarks": null,
+    "dividend_yield_pct": 0,
+    "industry_benchmarks": {
+      "sector_pe": 53.672860099337726
+    },
     "industry_benchmarks_meta": {
       "pe_source": "degraded",
       "pe_source_label": "No usable P/E benchmark",
@@ -128,7 +142,7 @@
         "industry_pe": 53.672860099337726,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/tt-ltd"
       },
       "sws_statement": {
@@ -140,7 +154,7 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.2217651,
+        "industry_pe": 18.188196269,
         "industry_code": "4130000",
         "type": "median_profitable",
         "count": 296,
@@ -162,13 +176,171 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 7.71,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 1989000000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 1.79,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 1.04,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 18.78,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": -0.8312969543147208,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 53.672860099337726,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 6.42,
+          "high": 16.25
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 0.01,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 4.3078467,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 1,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 53.672860099337726,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0.2325,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0.1320829480914014,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0.47524812016678,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0.156641604010025,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 6.949665831244777,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 63.73,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 35.1076476026945,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 6.992,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 1.035326086956522,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.01046195652173913,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/tt-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 0.01,
     "most_recent_reported_date": null,
+    "pb": 1.79,
+    "ps": 1.04,
+    "book_value": 4.3078467,
+    "face_value": 1,
+    "sector_pe": 53.672860099337726,
+    "roe_pct": 0.2325,
+    "roa_pct": 0.1320829480914014,
+    "roic_pct": 0.47524812016678,
+    "net_margin_pct": 0.156641604010025,
+    "operating_margin_pct": 6.949665831244777,
+    "debt_to_equity_pct": 63.73,
+    "debt_to_asset_pct": 35.1076476026945,
+    "current_ratio": 6.992,
+    "quick_ratio": 1.035326086956522,
+    "cash_ratio": 0.01046195652173913,
     "returns_pct": {
       "1D": 3.489932885906037,
       "7D": -1.783439490445856,
@@ -272,10 +444,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 51.0226,
+    "fii_pct": 0,
+    "mutual_fund_pct": 0,
+    "insurance_pct": 0.0015,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 48.97590000000001,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 0.5552900582,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": 0.05,
     "listing_currency": "INR",
@@ -323,6 +502,191 @@
     "payment_count": 3
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {},
+      "quarterly": {}
+    }
+  },
+  "past_performance": {
+    "roe_pct": 0.2325,
+    "roa_pct": 0.1320829480914014,
+    "roic_pct": 0.47524812016678,
+    "net_margin_pct": 0.156641604010025,
+    "operating_margin_pct": 6.949665831244777,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 63.73,
+    "debt_to_asset_pct": 35.1076476026945,
+    "current_ratio": 6.992,
+    "quick_ratio": 1.035326086956522,
+    "cash_ratio": 0.01046195652173913,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Split",
+        "type": "SPLIT",
+        "status": "Ex date",
+        "primary_date": "2025-02-11T18:30:00.000Z",
+        "announcement_date": "2024-12-15T18:30:00.000Z",
+        "ex_date": "2025-02-11T18:30:00.000Z",
+        "record_date": "2025-02-11T18:30:00.000Z",
+        "value": "1:10"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-09-16T18:30:00.000Z",
+        "announcement_date": "2025-05-20T18:30:00.000Z",
+        "ex_date": "2025-09-16T18:30:00.000Z",
+        "record_date": "2025-09-16T18:30:00.000Z",
+        "value": "₹0.05"
+      },
+      {
+        "title": "Rights",
+        "type": "RIGHTS",
+        "status": "Ex date",
+        "primary_date": "2025-07-03T18:30:00.000Z",
+        "announcement_date": "2025-06-17T18:30:00.000Z",
+        "ex_date": "2025-07-03T18:30:00.000Z",
+        "record_date": "2025-07-03T18:30:00.000Z",
+        "value": "4:27"
+      },
+      {
+        "title": "Split",
+        "type": "SPLIT",
+        "status": "Announced",
+        "primary_date": "2024-12-15T18:30:00.000Z",
+        "announcement_date": "2024-12-15T18:30:00.000Z",
+        "ex_date": "2025-02-11T18:30:00.000Z",
+        "record_date": "2025-02-11T18:30:00.000Z",
+        "value": "1:10"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2025-05-20T18:30:00.000Z",
+        "announcement_date": "2025-05-20T18:30:00.000Z",
+        "ex_date": "2025-09-16T18:30:00.000Z",
+        "record_date": "2025-09-16T18:30:00.000Z",
+        "value": "₹0.05"
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/tt-ltd",
+    "news": [
+      {
+        "id": "2605229005964",
+        "title": "T T Ltd reported Q4 FY26 net profit of 0.69 crores, recovering from a 1 crore loss.\nStock is down 44% YoY, trading at 7.60, below major moving averages.",
+        "url": "https://www.marketsmojo.com/news/result-analysis/t-t-ltd-q4-fy26-recovery-amid-persistent-margin-pressures-4005105",
+        "source": "Marketsmojo",
+        "published_at": "2026-05-22T04:16:42.000Z"
+      },
+      {
+        "id": "845270848610133120",
+        "title": "T T Ltd-$ approves FY25-26 audited financials, appoints new internal auditor.\nBoard approves a 99.9%-owned subsidiary; AGM set for Sept 16, 2026.",
+        "url": "https://sqst.in/nY8aa",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-21T12:04:34.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Split",
+        "type": "SPLIT",
+        "status": "Ex date",
+        "primary_date": "2025-02-11T18:30:00.000Z",
+        "announcement_date": "2024-12-15T18:30:00.000Z",
+        "ex_date": "2025-02-11T18:30:00.000Z",
+        "record_date": "2025-02-11T18:30:00.000Z",
+        "value": "1:10"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-09-16T18:30:00.000Z",
+        "announcement_date": "2025-05-20T18:30:00.000Z",
+        "ex_date": "2025-09-16T18:30:00.000Z",
+        "record_date": "2025-09-16T18:30:00.000Z",
+        "value": "₹0.05"
+      },
+      {
+        "title": "Rights",
+        "type": "RIGHTS",
+        "status": "Ex date",
+        "primary_date": "2025-07-03T18:30:00.000Z",
+        "announcement_date": "2025-06-17T18:30:00.000Z",
+        "ex_date": "2025-07-03T18:30:00.000Z",
+        "record_date": "2025-07-03T18:30:00.000Z",
+        "value": "4:27"
+      },
+      {
+        "title": "Split",
+        "type": "SPLIT",
+        "status": "Announced",
+        "primary_date": "2024-12-15T18:30:00.000Z",
+        "announcement_date": "2024-12-15T18:30:00.000Z",
+        "ex_date": "2025-02-11T18:30:00.000Z",
+        "record_date": "2025-02-11T18:30:00.000Z",
+        "value": "1:10"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2025-05-20T18:30:00.000Z",
+        "announcement_date": "2025-05-20T18:30:00.000Z",
+        "ex_date": "2025-09-16T18:30:00.000Z",
+        "record_date": "2025-09-16T18:30:00.000Z",
+        "value": "₹0.05"
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "SANATHAN",
+        "name": "Sanathan Textiles",
+        "searchId": "sanathan-textiles-ltd",
+        "market_cap_inr": 34420000000,
+        "pe": 44.52,
+        "pb": 1.84
+      },
+      {
+        "ticker": "NITINSPIN",
+        "name": "Nitin Spinners",
+        "searchId": "nitin-spinners-ltd",
+        "market_cap_inr": 28025700000,
+        "pe": 15.79,
+        "pb": 1.91
+      },
+      {
+        "ticker": "GANECOS",
+        "name": "Ganesha Ecosphere",
+        "searchId": "ganesha-ecosphere-ltd",
+        "market_cap_inr": 25558000000,
+        "pe": 66.89,
+        "pb": 2
+      }
+    ],
+    "details": {
+      "fullName": "T T",
+      "parentCompany": "T T",
+      "headquarters": "NEW DELHI",
+      "ceo": "Shri Sanjay Kumar Jain",
+      "managingDirector": "Shri Sanjay Kumar Jain",
+      "foundedYear": 1978,
+      "websiteUrl": "http://www.tttextiles.com/"
+    }
+  },
   "indices": [
     "NSEI"
   ],

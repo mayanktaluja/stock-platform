@@ -6,6 +6,14 @@
   "parsed_at": "2026-05-21T21:13:28.740Z",
   "company_id": "04C5E437-D824-430A-8468-36ED83E88EE9",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/scan-steels-ltd",
+    "search_id": "scan-steels-ltd",
+    "company_id": "GSTK511672",
+    "isin": "INE099G01011"
+  },
   "overview": {
     "snowflake": {
       "valuation": 2,
@@ -20,29 +28,34 @@
       "dividend": 0
     },
     "snowflake_total": 10,
-    "current_price_inr": 38.81,
-    "market_cap_inr": 2357573358.5352726,
+    "current_price_inr": 38.87,
+    "market_cap_inr": 2367300000,
     "market_cap_usd": 121304781320.862,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 32,
+      "high": 41.65
+    },
     "fair_value_inr": 7.181121,
     "fair_value_range_inr": {
       "min": 21.18,
       "max": 21.18,
       "count": 1
     },
-    "upside_pct": -81.49672507085802,
+    "upside_pct": -81.5252868536146,
     "multiples": {
       "pe": 11.95,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 0.28,
+      "pb": 0.53,
+      "ev_ebitda": 5,
+      "peg": -8.619074999999992
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/scan-steels-ltd"
     },
@@ -56,22 +69,22 @@
       "Earnings have declined by 21.9% per year over past 5 years"
     ],
     "dividend": {
-      "yield_pct": null,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": null,
       "listing_currency": "INR",
       "recent_payments": [],
       "payment_count": 0
     },
-    "dividend_yield_pct": null,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 24.858261272856254
+      "pe": 24.858261272856254,
+      "sector_pe": 24.858261272856254
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Steel",
       "pe_industry_id": 57,
@@ -84,7 +97,7 @@
       "industry_pe": 24.858261272856254,
       "industry_name": "Steel",
       "industry_id": 57,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/scan-steels-ltd",
       "search_id": "scan-steels-ltd"
     },
@@ -94,7 +107,7 @@
         "industry_pe": 24.858261272856254,
         "industry_name": "Steel",
         "industry_id": 57,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/scan-steels-ltd"
       },
       "sws_statement": {
@@ -118,8 +131,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.1,
-        "sample_count": 196,
+        "industry_pe": 21.2,
+        "sample_count": 193,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
@@ -128,13 +141,177 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 38.87,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 2367300000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 11.95,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 0.53,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 0.28,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 5,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": -8.619074999999992,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 24.858261272856254,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 32,
+          "high": 41.65
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 3.26,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 72.9747863,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 10,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 24.858261272856254,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 4.4894,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 3.2920442264527385,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 5.138664259764771,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 2.3620356452651916,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 6.050628683224775,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 16.25,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 11.91952780779782,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 4.1655,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.4785939968404424,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.035624012638230645,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/scan-steels-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 3.26,
     "most_recent_reported_date": null,
+    "pb": 0.53,
+    "ps": 0.28,
+    "book_value": 72.9747863,
+    "face_value": 10,
+    "sector_pe": 24.858261272856254,
+    "roe_pct": 4.4894,
+    "roa_pct": 3.2920442264527385,
+    "roic_pct": 5.138664259764771,
+    "net_margin_pct": 2.3620356452651916,
+    "operating_margin_pct": 6.050628683224775,
+    "debt_to_equity_pct": 16.25,
+    "debt_to_asset_pct": 11.91952780779782,
+    "current_ratio": 4.1655,
+    "quick_ratio": 0.4785939968404424,
+    "cash_ratio": 0.035624012638230645,
     "returns_pct": {
       "1D": 0.38799793067771776,
       "7D": -0.4871794871794814,
@@ -233,10 +410,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 48.8893,
+    "fii_pct": 2.0477,
+    "mutual_fund_pct": 0,
+    "insurance_pct": 0,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 49.062999999999995,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": null,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": null,
     "listing_currency": "INR",
@@ -244,6 +428,199 @@
     "payment_count": 0
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {
+        "revenue": {
+          "2023": 1096.7752,
+          "2024": 967.4305
+        },
+        "profit": {
+          "2023": 15.319,
+          "2024": 21.0544
+        },
+        "net_worth": {
+          "2023": 365.978,
+          "2024": 402.9212
+        }
+      },
+      "quarterly": {
+        "revenue": {
+          "Mar '25": 242.54,
+          "Jun '25": 232.05,
+          "Sep '25": 133.02,
+          "Dec '25": 191.63,
+          "Mar '26": 283.18
+        },
+        "profit": {
+          "Mar '25": 3.58,
+          "Jun '25": 10.5,
+          "Sep '25": -0.25,
+          "Dec '25": 3.1,
+          "Mar '26": 6.91
+        }
+      }
+    }
+  },
+  "past_performance": {
+    "roe_pct": 4.4894,
+    "roa_pct": 3.2920442264527385,
+    "roic_pct": 5.138664259764771,
+    "net_margin_pct": 2.3620356452651916,
+    "operating_margin_pct": 6.050628683224775,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 16.25,
+    "debt_to_asset_pct": 11.91952780779782,
+    "current_ratio": 4.1655,
+    "quick_ratio": 0.4785939968404424,
+    "cash_ratio": 0.035624012638230645,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-07T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-30T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-04T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-14T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/scan-steels-ltd",
+    "news": [
+      {
+        "id": "2605164561054",
+        "title": "Scan Steels Q4 FY26 profit surged 125.6% QoQ to 7.85 crores, up 65.6% YoY.\nStock fell 5.5% to 36.86 on May 15, reflecting concerns over weak fundamentals.",
+        "url": "https://www.marketsmojo.com/news/result-analysis/scan-steels-q4-fy26-strong-profit-rebound-masks-underlying-challenges-3994164",
+        "source": "Marketsmojo",
+        "published_at": "2026-05-16T04:16:00.000Z"
+      },
+      {
+        "id": "843114446407164544",
+        "title": "Scan Steels' Q4FY26 PAT margin rose to 2.8%, cash flow from ops up 5x to Rs 371Mn.\nOngoing Rs 600Mn capex to double billet capacity by Dec 2026; Rs 1000Mn pipe mill by FY28 Q2.",
+        "url": "https://sqst.in/y70lc",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-15T13:15:48.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-07T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-30T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-04T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly & Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-14T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "POCL",
+        "name": "Pondy Oxides & Chemicals",
+        "searchId": "pondy-oxides-chemicals-ltd",
+        "market_cap_inr": 45252800000,
+        "pe": 40.79,
+        "pb": 6.59
+      },
+      {
+        "ticker": "KSL",
+        "name": "Kalyani Steels",
+        "searchId": "kalyani-steels-ltd",
+        "market_cap_inr": 36094500000,
+        "pe": 14,
+        "pb": 1.71
+      },
+      {
+        "ticker": "VSSL",
+        "name": "Vardhman Special Steels",
+        "searchId": "vardhman-special-steels-ltd",
+        "market_cap_inr": 26177600000,
+        "pe": 28.12,
+        "pb": 2.21
+      }
+    ],
+    "details": {
+      "fullName": "Scan Steels",
+      "parentCompany": "Scan Steels",
+      "headquarters": "BHUBANESHWAR",
+      "ceo": "NA",
+      "managingDirector": "Rajesh Gadodia",
+      "foundedYear": 1994,
+      "websiteUrl": "https://scansteels.com/"
+    }
+  },
   "indices": [
     "BSE"
   ],

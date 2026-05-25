@@ -6,6 +6,14 @@
   "parsed_at": "2026-05-24T12:01:04.377Z",
   "company_id": "FBD5F4BB-89E1-49FF-8E0E-BD5FFC593B7D",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/abans-holdings-ltd",
+    "search_id": "abans-holdings-ltd",
+    "company_id": "GSTK543712",
+    "isin": "INE00ZE01026"
+  },
   "overview": {
     "snowflake": {
       "valuation": 2,
@@ -21,10 +29,14 @@
     },
     "snowflake_total": 9,
     "current_price_inr": 201.17,
-    "market_cap_inr": 10217995898.660912,
+    "market_cap_inr": 10218000000,
     "market_cap_usd": 123377158243.857,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 194.41,
+      "high": 269.5
+    },
     "fair_value_inr": 48.548666,
     "fair_value_range_inr": {
       "min": null,
@@ -34,15 +46,16 @@
     "upside_pct": -75.86684595118557,
     "multiples": {
       "pe": 9.72,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 0.04,
+      "pb": 0.82,
+      "ev_ebitda": 7.33,
+      "peg": 0.42817534246575356
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/abans-holdings-ltd"
     },
@@ -55,22 +68,22 @@
       "Profit margins (0.4%) are lower than last year (3.1%)"
     ],
     "dividend": {
-      "yield_pct": null,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": null,
       "listing_currency": "INR",
       "recent_payments": [],
       "payment_count": 0
     },
-    "dividend_yield_pct": null,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 18.400881901895076
+      "pe": 18.400881901895076,
+      "sector_pe": 18.400881901895076
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Finance",
       "pe_industry_id": 26,
@@ -83,7 +96,7 @@
       "industry_pe": 18.400881901895076,
       "industry_name": "Finance",
       "industry_id": 26,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/abans-holdings-ltd",
       "search_id": "abans-holdings-ltd"
     },
@@ -93,7 +106,7 @@
         "industry_pe": 18.400881901895076,
         "industry_name": "Finance",
         "industry_id": 26,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/abans-holdings-ltd"
       },
       "sws_statement": {
@@ -127,13 +140,177 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 201.17,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 10218000000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 9.72,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 0.82,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 0.04,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 7.33,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": 0.42817534246575356,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 18.400881901895076,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 194.41,
+          "high": 269.5
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 20.7,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 246.0993652,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 2,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 18.400881901895076,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 7.7056,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 3.3136115028722783,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 10.18965142014126,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0.4025763549391978,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0.6849189121871185,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 59.5,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 25.585291183653812,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 3.7781,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 1.9515894424147233,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.4152695735309182,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/abans-holdings-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 20.7,
     "most_recent_reported_date": null,
+    "pb": 0.82,
+    "ps": 0.04,
+    "book_value": 246.0993652,
+    "face_value": 2,
+    "sector_pe": 18.400881901895076,
+    "roe_pct": 7.7056,
+    "roa_pct": 3.3136115028722783,
+    "roic_pct": 10.18965142014126,
+    "net_margin_pct": 0.4025763549391978,
+    "operating_margin_pct": 0.6849189121871185,
+    "debt_to_equity_pct": 59.5,
+    "debt_to_asset_pct": 25.585291183653812,
+    "current_ratio": 3.7781,
+    "quick_ratio": 1.9515894424147233,
+    "cash_ratio": 0.4152695735309182,
     "returns_pct": {
       "1D": -0.03975155279503727,
       "7D": -0.14394917105133548,
@@ -217,10 +394,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 71.3597,
+    "fii_pct": 19.0214,
+    "mutual_fund_pct": 0,
+    "insurance_pct": 0,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 9.618899999999993,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": null,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": null,
     "listing_currency": "INR",
@@ -228,6 +412,208 @@
     "payment_count": 0
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {
+        "revenue": {
+          "2021": 1331.3651,
+          "2022": 646.2346,
+          "2023": 1164.027,
+          "2024": 1380.3913,
+          "2025": 3283.1431
+        },
+        "profit": {
+          "2021": 45.7957,
+          "2022": 61.8404,
+          "2023": 70.2937,
+          "2024": 89.2434,
+          "2025": 108.5106
+        },
+        "net_worth": {
+          "2021": 660.08,
+          "2022": 735.665,
+          "2023": 904.3893,
+          "2024": 1012.6465,
+          "2025": 1164.5944
+        }
+      },
+      "quarterly": {
+        "revenue": {
+          "Mar '25": 1064.3700000000001,
+          "Jun '25": 1895.55,
+          "Sep '25": 6833.200000000001,
+          "Dec '25": 6496.009999999999,
+          "Mar '26": 8709.210000000001
+        },
+        "profit": {
+          "Mar '25": 30,
+          "Jun '25": 32.69,
+          "Sep '25": 41.85,
+          "Dec '25": 34.31,
+          "Mar '26": -3.69
+        }
+      }
+    }
+  },
+  "past_performance": {
+    "roe_pct": 7.7056,
+    "roa_pct": 3.3136115028722783,
+    "roic_pct": 10.18965142014126,
+    "net_margin_pct": 0.4025763549391978,
+    "operating_margin_pct": 0.6849189121871185,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 59.5,
+    "debt_to_asset_pct": 25.585291183653812,
+    "current_ratio": 3.7781,
+    "quick_ratio": 1.9515894424147233,
+    "cash_ratio": 0.4152695735309182,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-06T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-10T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-08T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-14T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/abans-holdings-ltd",
+    "news": [
+      {
+        "id": "843183606290016640",
+        "title": "Abans Financial appoints new Non-Executive Director from May 15, 2026, and new CFO from May 16, 2026.\nRegistered office shifted in Mumbai; internal reorganization of senior management roles announced.",
+        "url": "https://sqst.in/gHPoz",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-15T17:50:37.000Z"
+      },
+      {
+        "id": "637138",
+        "title": "Abans Financial Services to hold a board meeting on May 15, 2026, for Q4 and FY26 results.\nTrading window to remain closed from April 1 to May 17, 2026, as per insider trading norms.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=897ee4dd-1645-4daa-b25a-f4208627eb07.pdf",
+        "source": "BSE",
+        "published_at": "2026-05-11T07:07:10.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-06T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-10T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-08T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-14T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "KIRLOSIND",
+        "name": "Kirloskar Industries",
+        "searchId": "kirloskar-industries-ltd",
+        "market_cap_inr": 32612700000,
+        "pe": 9.22,
+        "pb": 0.53
+      },
+      {
+        "ticker": "BLIL",
+        "name": "Balmer Lawrie Investments",
+        "searchId": "balmer-lawrie-investments-ltd",
+        "market_cap_inr": 16033100000,
+        "pe": 5.77,
+        "pb": 1.11
+      },
+      {
+        "ticker": "507912",
+        "name": "Gyftr",
+        "searchId": "lkp-finance-ltd",
+        "market_cap_inr": 14171100000,
+        "pe": null,
+        "pb": 3
+      }
+    ],
+    "details": {
+      "fullName": "Abans Financial Services",
+      "parentCompany": "Abans Financial Services",
+      "headquarters": "MUMBAI",
+      "ceo": "Chintan Mehta",
+      "managingDirector": "Abhishek Bansal",
+      "foundedYear": 2009,
+      "websiteUrl": "https://abansholdings.com/"
+    }
+  },
   "indices": [
     "NSEI"
   ],

@@ -6,6 +6,14 @@
   "parsed_at": "2026-05-24T12:58:50.386Z",
   "company_id": "0C1D514A-B4B4-45E9-8375-6377400E9563",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/prism-johnson-ltd",
+    "search_id": "prism-johnson-ltd",
+    "company_id": "GSTK500338",
+    "isin": "INE010A01011"
+  },
   "overview": {
     "snowflake": {
       "valuation": 1,
@@ -21,10 +29,14 @@
     },
     "snowflake_total": 9,
     "current_price_inr": 118.8,
-    "market_cap_inr": 59798757298.74569,
+    "market_cap_inr": 59774000000,
     "market_cap_usd": 123377158243.857,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 117.32,
+      "high": 176
+    },
     "fair_value_inr": 141.059368,
     "fair_value_range_inr": {
       "min": null,
@@ -34,15 +46,16 @@
     "upside_pct": 18.73684175084176,
     "multiples": {
       "pe": 197.92,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 0.82,
+      "pb": 3.91,
+      "ev_ebitda": 11.31,
+      "peg": -1.1832112068965517
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/prism-johnson-ltd"
     },
@@ -55,7 +68,7 @@
       "Earnings are forecast to decline by an average of 10.6% per year for the next 3 years"
     ],
     "dividend": {
-      "yield_pct": 1.2082520919,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": 1,
       "listing_currency": "INR",
@@ -89,15 +102,15 @@
       ],
       "payment_count": 2
     },
-    "dividend_yield_pct": 1.2082520919,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 32.991094760617976
+      "pe": 32.991094760617976,
+      "sector_pe": 32.991094760617976
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Cement",
       "pe_industry_id": 11,
@@ -110,7 +123,7 @@
       "industry_pe": 32.991094760617976,
       "industry_name": "Cement",
       "industry_id": 11,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/prism-johnson-ltd",
       "search_id": "prism-johnson-ltd"
     },
@@ -120,7 +133,7 @@
         "industry_pe": 32.991094760617976,
         "industry_name": "Cement",
         "industry_id": 11,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/prism-johnson-ltd"
       },
       "sws_statement": {
@@ -154,13 +167,177 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 118.8,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 59774000000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 197.92,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 3.91,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 0.82,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 11.31,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": -1.1832112068965517,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 32.991094760617976,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 117.32,
+          "high": 176
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 0.6,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 30.3599809,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 10,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 32.991094760617976,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 4.9115,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0.7686076418910258,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 2.997557005785065,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0.746421850188526,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 10.347663591009564,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 92.99,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 19.380340773026184,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 1.7485,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 1.2679197754580296,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.22834967490626706,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/prism-johnson-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 0.6,
     "most_recent_reported_date": null,
+    "pb": 3.91,
+    "ps": 0.82,
+    "book_value": 30.3599809,
+    "face_value": 10,
+    "sector_pe": 32.991094760617976,
+    "roe_pct": 4.9115,
+    "roa_pct": 0.7686076418910258,
+    "roic_pct": 2.997557005785065,
+    "net_margin_pct": 0.746421850188526,
+    "operating_margin_pct": 10.347663591009564,
+    "debt_to_equity_pct": 92.99,
+    "debt_to_asset_pct": 19.380340773026184,
+    "current_ratio": 1.7485,
+    "quick_ratio": 1.2679197754580296,
+    "cash_ratio": 0.22834967490626706,
     "returns_pct": {
       "1D": 0.8232198930662811,
       "7D": -6.706455159415742,
@@ -279,10 +456,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 74.87360000000001,
+    "fii_pct": 3.5526,
+    "mutual_fund_pct": 5.9915,
+    "insurance_pct": 0.05399999999999938,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 15.528299999999977,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 1.2082520919,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": 1,
     "listing_currency": "INR",
@@ -317,6 +501,228 @@
     "payment_count": 2
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {
+        "revenue": {
+          "2021": 5625.29,
+          "2022": 6399.12,
+          "2023": 7394.99,
+          "2024": 7461.16,
+          "2025": 7438.38
+        },
+        "profit": {
+          "2021": 140.34,
+          "2022": 43.95,
+          "2023": -157.73,
+          "2024": 161.93,
+          "2025": 45.11
+        },
+        "net_worth": {
+          "2021": 1523.94,
+          "2022": 1595.54,
+          "2023": 1462.76,
+          "2024": 1643.43,
+          "2025": 1768.06
+        }
+      },
+      "quarterly": {
+        "revenue": {
+          "Mar '25": 1972.99,
+          "Jun '25": 1929.92,
+          "Sep '25": 1865.4699999999998,
+          "Dec '25": 1759.8100000000002,
+          "Mar '26": 2120.47
+        },
+        "profit": {
+          "Mar '25": 121.01,
+          "Jun '25": -5.56,
+          "Sep '25": 1.59,
+          "Dec '25": 49.93,
+          "Mar '26": -15.95
+        }
+      }
+    }
+  },
+  "past_performance": {
+    "roe_pct": 4.9115,
+    "roa_pct": 0.7686076418910258,
+    "roic_pct": 2.997557005785065,
+    "net_margin_pct": 0.746421850188526,
+    "operating_margin_pct": 10.347663591009564,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 92.99,
+    "debt_to_asset_pct": 19.380340773026184,
+    "current_ratio": 1.7485,
+    "quick_ratio": 1.2679197754580296,
+    "cash_ratio": 0.22834967490626706,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-06T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-30T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-06T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-05T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-13T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/prism-johnson-ltd",
+    "news": [
+      {
+        "id": "2605143514858",
+        "title": "Prism Johnson's Q4 FY26 profit plunged 95% YoY to ₹6.4 crore despite a 7.7% rise in sales.\nThe sharp profit decline reflects severe margin compression and operational challenges.",
+        "url": "https://www.marketsmojo.com/news/result-analysis/prism-johnson-q4-fy26-profit-plunges-95-despite-revenue-growth-margin-pressures-mount-3991807",
+        "source": "Marketsmojo",
+        "published_at": "2026-05-14T15:18:41.000Z"
+      },
+      {
+        "id": "647839",
+        "title": "Prism Johnson's Q4 revenue rose 7.7% YoY to 21B rupees from 19.5B.",
+        "url": null,
+        "source": "Livesquawk",
+        "published_at": "2026-05-14T08:19:10.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-06T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-30T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-06T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-05T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Annual Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-13T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "RATNAMANI",
+        "name": "Ratnamani Metals & Tubes",
+        "searchId": "ratnamani-metals-tubes-ltd",
+        "market_cap_inr": 178496300000,
+        "pe": 33.4,
+        "pb": 4.34
+      },
+      {
+        "ticker": "CENTURYPLY",
+        "name": "Century Plyboards (India)",
+        "searchId": "century-plyboards-india-ltd",
+        "market_cap_inr": 170129000000,
+        "pe": 70.25,
+        "pb": 6.9
+      },
+      {
+        "ticker": "JINDALSAW",
+        "name": "Jindal SAW",
+        "searchId": "jindal-saw-ltd",
+        "market_cap_inr": 140723800000,
+        "pe": 15.21,
+        "pb": 1.12
+      }
+    ],
+    "details": {
+      "fullName": "Prism Johnson",
+      "parentCompany": "Prism Johnson",
+      "headquarters": "MUMBAI",
+      "ceo": "Vijay Aggarwal",
+      "managingDirector": "Vijay Aggarwal",
+      "foundedYear": 1992,
+      "websiteUrl": "https://www.prismjohnson.in/"
+    }
+  },
   "indices": [
     "NSEI"
   ],

@@ -6,6 +6,14 @@
   "parsed_at": "2026-05-24T12:03:20.775Z",
   "company_id": "C0038800-F896-424C-97AE-16BFCD813744",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd",
+    "search_id": "mahalaxmi-rubtech-ltd",
+    "company_id": "GSTK514450",
+    "isin": "INE112D01035"
+  },
   "overview": {
     "snowflake": {
       "valuation": 2,
@@ -21,10 +29,14 @@
     },
     "snowflake_total": 14,
     "current_price_inr": 173.6,
-    "market_cap_inr": 1843679656.3065085,
+    "market_cap_inr": 1837300000,
     "market_cap_usd": 123377158243.857,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 153.15,
+      "high": 270.68
+    },
     "fair_value_inr": 141.774086,
     "fair_value_range_inr": {
       "min": null,
@@ -34,15 +46,16 @@
     "upside_pct": -18.332899769585246,
     "multiples": {
       "pe": 8.76,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 1.75,
+      "pb": 2.32,
+      "ev_ebitda": 7.91,
+      "peg": 0.262918853974122
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
     },
@@ -56,7 +69,7 @@
       "Does not have a meaningful market cap (₹2B)"
     ],
     "dividend": {
-      "yield_pct": null,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": null,
       "listing_currency": "INR",
@@ -77,15 +90,15 @@
       ],
       "payment_count": 1
     },
-    "dividend_yield_pct": null,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 53.672860099337726
+      "pe": 53.672860099337726,
+      "sector_pe": 53.672860099337726
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Textiles",
       "pe_industry_id": 62,
@@ -98,7 +111,7 @@
       "industry_pe": 53.672860099337726,
       "industry_name": "Textiles",
       "industry_id": 62,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd",
       "search_id": "mahalaxmi-rubtech-ltd"
     },
@@ -108,7 +121,7 @@
         "industry_pe": 53.672860099337726,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
       },
       "sws_statement": {
@@ -142,13 +155,177 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 173.6,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 1837300000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 8.76,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 2.32,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 1.75,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 7.91,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": 0.262918853974122,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 53.672860099337726,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 153.15,
+          "high": 270.68
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 19.74,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 74.4366554,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 10,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 53.672860099337726,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 25.7321,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 18.67818651465218,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 37.798758823873946,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 19.918313069908812,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 30.71808510638298,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 18.77,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 13.209227754520352,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 4.4022,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 2.04321608040201,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 1.237185929648241,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 19.74,
     "most_recent_reported_date": null,
+    "pb": 2.32,
+    "ps": 1.75,
+    "book_value": 74.4366554,
+    "face_value": 10,
+    "sector_pe": 53.672860099337726,
+    "roe_pct": 25.7321,
+    "roa_pct": 18.67818651465218,
+    "roic_pct": 37.798758823873946,
+    "net_margin_pct": 19.918313069908812,
+    "operating_margin_pct": 30.71808510638298,
+    "debt_to_equity_pct": 18.77,
+    "debt_to_asset_pct": 13.209227754520352,
+    "current_ratio": 4.4022,
+    "quick_ratio": 2.04321608040201,
+    "cash_ratio": 1.237185929648241,
     "returns_pct": {
       "1D": 0.9243648625079957,
       "7D": -1.35803170634696,
@@ -247,10 +424,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 64.8024,
+    "fii_pct": 0.0942,
+    "mutual_fund_pct": 0.0744,
+    "insurance_pct": 0.0012000000000000066,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 35.027799999999985,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": null,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": null,
     "listing_currency": "INR",
@@ -272,6 +456,208 @@
     "payment_count": 1
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {
+        "revenue": {
+          "2019": 188.018953,
+          "2020": 183.3598676,
+          "2021": 141.1395,
+          "2022": 202.1537,
+          "2023": 273.1389
+        },
+        "profit": {
+          "2019": 4.9601491,
+          "2020": 4.598414,
+          "2021": 6.0742,
+          "2022": 7.2881,
+          "2023": 8.4433
+        },
+        "net_worth": {
+          "2019": 83.1898552,
+          "2020": 88.1239185,
+          "2021": 94.2631,
+          "2022": 78.6706,
+          "2023": 87.3158
+        }
+      },
+      "quarterly": {
+        "revenue": {
+          "Dec '22": 66.91,
+          "Mar '23": 76.33000000000001,
+          "Jun '23": 66.3,
+          "Sep '23": 72.01,
+          "Dec '23": 75.53
+        },
+        "profit": {
+          "Dec '22": 2.11,
+          "Mar '23": 2.47,
+          "Jun '23": 1.57,
+          "Sep '23": 2.81,
+          "Dec '23": 2.26
+        }
+      }
+    }
+  },
+  "past_performance": {
+    "roe_pct": 25.7321,
+    "roa_pct": 18.67818651465218,
+    "roic_pct": 37.798758823873946,
+    "net_margin_pct": 19.918313069908812,
+    "operating_margin_pct": 30.71808510638298,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 18.77,
+    "debt_to_asset_pct": 13.209227754520352,
+    "current_ratio": 4.4022,
+    "quick_ratio": 2.04321608040201,
+    "cash_ratio": 1.237185929648241,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-11T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-12T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-11T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/mahalaxmi-rubtech-ltd",
+    "news": [
+      {
+        "id": "550958",
+        "title": "Mahalaxmi Rubtech Ltd announces completion of Mrs. Sangita Shingi's tenure as Independent Director.\nHer second consecutive 5-year term ends on March 31, 2026, as per SEBI regulations.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=202416b7-051c-465e-af6f-d33c26e41767.pdf",
+        "source": "BSE",
+        "published_at": "2026-03-31T12:55:23.000Z"
+      },
+      {
+        "id": "6225665578088324096",
+        "title": "Mahalaxmi Rubtech saw 180,000 shares traded at an avg price of 164.4.\nMONEYLEADER FINANCE INDIA PRIVATE LIMITED executed the BUY transaction.",
+        "url": "https://www.nseindia.com/report-detail/display-bulk-and-block-deals",
+        "source": "NSE Bulk Trades",
+        "published_at": "2026-03-10T15:31:40.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-11T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-12T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-11T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-05-27T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "PDSL",
+        "name": "PDS Limited",
+        "searchId": "pds-multinational-fashions-ltd",
+        "market_cap_inr": 40749500000,
+        "pe": 22.94,
+        "pb": 2.31
+      },
+      {
+        "ticker": "RAYMOND",
+        "name": "Raymond",
+        "searchId": "raymond-ltd",
+        "market_cap_inr": 36755400000,
+        "pe": 0.69,
+        "pb": 1.29
+      },
+      {
+        "ticker": "SIYSIL",
+        "name": "Siyaram Silk Mills",
+        "searchId": "siyaram-silk-mills-ltd",
+        "market_cap_inr": 27002000000,
+        "pe": 11.69,
+        "pb": 1.85
+      }
+    ],
+    "details": {
+      "fullName": "Mahalaxmi Rubtech Ltd",
+      "parentCompany": "Mahalaxmi Rubtech Ltd",
+      "headquarters": "AHMEDABAD",
+      "ceo": "Shri Rahul J. Parekh",
+      "managingDirector": "Shri Rahul J. Parekh",
+      "foundedYear": 1991,
+      "websiteUrl": "https://mrtglobal.com/"
+    }
+  },
   "indices": [
     "NSEI"
   ],

@@ -6,6 +6,14 @@
   "parsed_at": "2026-05-24T12:01:29.782Z",
   "company_id": "69B8E191-4133-4515-BCBD-4F0B4487632E",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/hsil-ltd",
+    "search_id": "hsil-ltd",
+    "company_id": "GSTK500187",
+    "isin": "INE415A01038"
+  },
   "overview": {
     "snowflake": {
       "valuation": 2,
@@ -21,10 +29,14 @@
     },
     "snowflake_total": 15,
     "current_price_inr": 580.35,
-    "market_cap_inr": 37547123174.40599,
+    "market_cap_inr": 37602100000,
     "market_cap_usd": 123377158243.857,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 465,
+      "high": 1009
+    },
     "fair_value_inr": 1518.117647,
     "fair_value_range_inr": {
       "min": 513.179582,
@@ -34,15 +46,16 @@
     "upside_pct": 161.58656793314378,
     "multiples": {
       "pe": 10.69,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 1.41,
+      "pb": 1.56,
+      "ev_ebitda": 7.28,
+      "peg": 0.036114200298953666
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/hsil-ltd"
     },
@@ -57,7 +70,7 @@
       "Highly volatile share price over past 3 months"
     ],
     "dividend": {
-      "yield_pct": 0.9627581192,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": 7,
       "listing_currency": "INR",
@@ -208,15 +221,15 @@
       ],
       "payment_count": 11
     },
-    "dividend_yield_pct": 0.9627581192,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 22.648491785773274
+      "pe": 22.648491785773274,
+      "sector_pe": 22.648491785773274
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Packaging",
       "pe_industry_id": 42,
@@ -229,7 +242,7 @@
       "industry_pe": 22.648491785773274,
       "industry_name": "Packaging",
       "industry_id": 42,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/hsil-ltd",
       "search_id": "hsil-ltd"
     },
@@ -239,7 +252,7 @@
         "industry_pe": 22.648491785773274,
         "industry_name": "Packaging",
         "industry_id": 42,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/hsil-ltd"
       },
       "sws_statement": {
@@ -263,7 +276,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.8,
+        "industry_pe": 16,
         "sample_count": 85,
         "industry_code": "2040000",
         "industry_name": "Materials"
@@ -273,13 +286,177 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 580.35,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 37602100000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 10.69,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 1.56,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 1.41,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 7.28,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": 0.036114200298953666,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 22.648491785773274,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 465,
+          "high": 1009
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 54.35,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 372.0938064,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 2,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 22.648491785773274,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 14.6078,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 10.007375337097944,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 14.720772591211965,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 13.337985682769796,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 25.692224573409568,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 10.01,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 6.785310130109955,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 1.7562,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.8841817141923359,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.11600893319170956,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/hsil-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 54.35,
     "most_recent_reported_date": null,
+    "pb": 1.56,
+    "ps": 1.41,
+    "book_value": 372.0938064,
+    "face_value": 2,
+    "sector_pe": 22.648491785773274,
+    "roe_pct": 14.6078,
+    "roa_pct": 10.007375337097944,
+    "roic_pct": 14.720772591211965,
+    "net_margin_pct": 13.337985682769796,
+    "operating_margin_pct": 25.692224573409568,
+    "debt_to_equity_pct": 10.01,
+    "debt_to_asset_pct": 6.785310130109955,
+    "current_ratio": 1.7562,
+    "quick_ratio": 0.8841817141923359,
+    "cash_ratio": 0.11600893319170956,
     "returns_pct": {
       "1D": -0.6845212629417301,
       "7D": 0.14667817083693233,
@@ -398,10 +575,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 60.3932,
+    "fii_pct": 6.7851,
+    "mutual_fund_pct": 1.1974,
+    "insurance_pct": 0.8395999999999999,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 30.784699999999994,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 0.9627581192,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": 7,
     "listing_currency": "INR",
@@ -553,6 +737,228 @@
     "payment_count": 11
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {
+        "revenue": {
+          "2016": 1993.453,
+          "2017": 2079.3683,
+          "2018": 2262.4588,
+          "2019": 2742.2562,
+          "2025": 2603.6132
+        },
+        "profit": {
+          "2016": 108.4948,
+          "2017": 100.2929,
+          "2018": 74.1002,
+          "2019": 70.0453,
+          "2025": 322.4106
+        },
+        "net_worth": {
+          "2016": 1386.4948,
+          "2017": 1446.527,
+          "2018": 1487.4684,
+          "2019": 1512.8124,
+          "2025": 2097.7259
+        }
+      },
+      "quarterly": {
+        "revenue": {
+          "Mar '25": 742.0600000000001,
+          "Jun '25": 721.16,
+          "Sep '25": 606.2900000000001,
+          "Dec '25": 637.3000000000001,
+          "Mar '26": 795.68
+        },
+        "profit": {
+          "Mar '25": 96.61,
+          "Jun '25": 88.85,
+          "Sep '25": 75.98,
+          "Dec '25": 71.45,
+          "Mar '26": 115.38
+        }
+      }
+    }
+  },
+  "past_performance": {
+    "roe_pct": 14.6078,
+    "roa_pct": 10.007375337097944,
+    "roic_pct": 14.720772591211965,
+    "net_margin_pct": 13.337985682769796,
+    "operating_margin_pct": 25.692224573409568,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 10.01,
+    "debt_to_asset_pct": 6.785310130109955,
+    "current_ratio": 1.7562,
+    "quick_ratio": 0.8841817141923359,
+    "cash_ratio": 0.11600893319170956,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2024-09-10T18:30:00.000Z",
+        "announcement_date": "2024-04-29T18:30:00.000Z",
+        "ex_date": "2024-09-10T18:30:00.000Z",
+        "record_date": "2024-09-11T18:30:00.000Z",
+        "value": "₹6.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-08-21T18:30:00.000Z",
+        "announcement_date": "2025-05-13T18:30:00.000Z",
+        "ex_date": "2025-08-21T18:30:00.000Z",
+        "record_date": "2025-08-21T18:30:00.000Z",
+        "value": "₹7.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2025-05-13T18:30:00.000Z",
+        "announcement_date": "2025-05-13T18:30:00.000Z",
+        "ex_date": "2025-08-21T18:30:00.000Z",
+        "record_date": "2025-08-21T18:30:00.000Z",
+        "value": "₹7.00"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-07-20T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-17T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/hsil-ltd",
+    "news": [
+      {
+        "id": "625810",
+        "title": "AGI Greenpac's CEO discusses stable margins despite cost pressures in Q4.\nFull interview available on ET NOW; insights into earnings shared by CEO Rajesh Khosla.",
+        "url": "https://x.com/ETNOWlive/status/2051910468852433244",
+        "source": "ET NOW",
+        "published_at": "2026-05-06T06:22:33.000Z"
+      },
+      {
+        "id": "625815",
+        "title": "AGI Greenpac's Rajesh Khosla reports sharp inventory decline; packaging inventory now at 40–45 days.\nHe discusses industrial production, margins, and aluminium can plant commissioning in UP.",
+        "url": "https://x.com/ETNOWlive/status/2051905784385323299",
+        "source": "ET NOW",
+        "published_at": "2026-05-06T06:03:56.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2024-09-10T18:30:00.000Z",
+        "announcement_date": "2024-04-29T18:30:00.000Z",
+        "ex_date": "2024-09-10T18:30:00.000Z",
+        "record_date": "2024-09-11T18:30:00.000Z",
+        "value": "₹6.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Ex date",
+        "primary_date": "2025-08-21T18:30:00.000Z",
+        "announcement_date": "2025-05-13T18:30:00.000Z",
+        "ex_date": "2025-08-21T18:30:00.000Z",
+        "record_date": "2025-08-21T18:30:00.000Z",
+        "value": "₹7.00"
+      },
+      {
+        "title": "Dividend",
+        "type": "DIVIDEND",
+        "status": "Announced",
+        "primary_date": "2025-05-13T18:30:00.000Z",
+        "announcement_date": "2025-05-13T18:30:00.000Z",
+        "ex_date": "2025-08-21T18:30:00.000Z",
+        "record_date": "2025-08-21T18:30:00.000Z",
+        "value": "₹7.00"
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-07-20T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-10-17T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "JINDALPOLY",
+        "name": "Jindal Poly Films",
+        "searchId": "jindal-poly-films-ltd",
+        "market_cap_inr": 30626400000,
+        "pe": 19.52,
+        "pb": 0.49
+      },
+      {
+        "ticker": "POLYPLEX",
+        "name": "Polyplex Corporation",
+        "searchId": "polyplex-corporation-ltd",
+        "market_cap_inr": 30194800000,
+        "pe": null,
+        "pb": 0.75
+      },
+      {
+        "ticker": "UFLEX",
+        "name": "Uflex",
+        "searchId": "uflex-ltd",
+        "market_cap_inr": 29964200000,
+        "pe": 10.35,
+        "pb": 0.39
+      }
+    ],
+    "details": {
+      "fullName": "Agi Greenpac",
+      "parentCompany": "Agi Greenpac",
+      "headquarters": "GURGAON",
+      "ceo": "Mr. Rajesh Khosla",
+      "managingDirector": "Mr. Rajesh Khosla",
+      "foundedYear": 1960,
+      "websiteUrl": "https://www.hsilgroup.com/"
+    }
+  },
   "indices": [
     "NSEI"
   ],

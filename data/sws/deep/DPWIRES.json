@@ -3,9 +3,17 @@
   "name": "D.P. Wires Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-dpwires/dp-wires-shares",
-  "parsed_at": "2026-05-24T13:53:20.405Z",
+  "parsed_at": "2026-05-24T23:08:17.430Z",
   "company_id": "1832B24E-BCBE-4BF7-927C-3D34BCD96341",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/dp-wires-ltd",
+    "search_id": "dp-wires-ltd",
+    "company_id": "GSTK543962",
+    "isin": "INE864X01013"
+  },
   "overview": {
     "snowflake": {
       "valuation": 4,
@@ -21,35 +29,40 @@
     },
     "snowflake_total": 11,
     "current_price_inr": 171.54,
-    "market_cap_inr": 2658946038.583114,
+    "market_cap_inr": 2651400000,
     "market_cap_usd": 123377158243.857,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fair_value_inr": 365.567303,
+    "fifty_two_week": {
+      "low": 125.02,
+      "high": 306.95
+    },
+    "fair_value_inr": 365.01634,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 113.10907251952898,
+    "upside_pct": 112.7878862072986,
     "multiples": {
       "pe": 11.94,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 0.43,
+      "pb": 1.07,
+      "ev_ebitda": 9.26,
+      "peg": -0.3499051648351648
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/dp-wires-ltd"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at 53.3% below our estimate of its fair value"
+      "Trading at 53% below our estimate of its fair value"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
@@ -58,7 +71,7 @@
       "Does not have a meaningful market cap (₹3B)"
     ],
     "dividend": {
-      "yield_pct": 0.1958674779,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": 1.05,
       "listing_currency": "INR",
@@ -92,15 +105,15 @@
       ],
       "payment_count": 2
     },
-    "dividend_yield_pct": 0.1958674779,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 24.858261272856254
+      "pe": 24.858261272856254,
+      "sector_pe": 24.858261272856254
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Steel",
       "pe_industry_id": 57,
@@ -113,7 +126,7 @@
       "industry_pe": 24.858261272856254,
       "industry_name": "Steel",
       "industry_id": 57,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/dp-wires-ltd",
       "search_id": "dp-wires-ltd"
     },
@@ -123,19 +136,19 @@
         "industry_pe": 24.858261272856254,
         "industry_name": "Steel",
         "industry_id": 57,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/dp-wires-ltd"
       },
       "sws_statement": {
         "company_pe": 21.8,
-        "industry_pe": 22.6,
+        "industry_pe": 22.5,
         "industry_name": "Indian Metals and Mining",
-        "description": "DPWIRES is good value based on its Price-To-Earnings Ratio (21.8x) compared to the Indian Metals and Mining industry average (22.6x).",
+        "description": "DPWIRES is good value based on its Price-To-Earnings Ratio (21.8x) compared to the Indian Metals and Mining industry average (22.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.600644988,
+        "industry_pe": 22.503170331,
         "industry_code": "2050000",
         "type": "median_profitable",
         "count": 190,
@@ -147,8 +160,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.1,
-        "sample_count": 196,
+        "industry_pe": 21.2,
+        "sample_count": 193,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
@@ -157,13 +170,177 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 171.54,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 2651400000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 11.94,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 1.07,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 0.43,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 9.26,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": -0.3499051648351648,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 24.858261272856254,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 125.02,
+          "high": 306.95
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 14.33,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 160.2668569,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 10,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 24.858261272856254,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 7.3369,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 4.4667640613586554,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 5.266814450192535,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 2.5023017902813303,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 4.401023017902813,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0.86,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0.799853907962016,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 6.9399,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 5.407444668008049,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.2359154929577465,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/dp-wires-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 14.33,
     "most_recent_reported_date": null,
+    "pb": 1.07,
+    "ps": 0.43,
+    "book_value": 160.2668569,
+    "face_value": 10,
+    "sector_pe": 24.858261272856254,
+    "roe_pct": 7.3369,
+    "roa_pct": 4.4667640613586554,
+    "roic_pct": 5.266814450192535,
+    "net_margin_pct": 2.5023017902813303,
+    "operating_margin_pct": 4.401023017902813,
+    "debt_to_equity_pct": 0.86,
+    "debt_to_asset_pct": 0.799853907962016,
+    "current_ratio": 6.9399,
+    "quick_ratio": 5.407444668008049,
+    "cash_ratio": 0.2359154929577465,
     "returns_pct": {
       "1D": 1.4549325762952325,
       "7D": -3.3359630339231465,
@@ -237,10 +414,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 74.7791,
+    "fii_pct": 0.0148,
+    "mutual_fund_pct": 0,
+    "insurance_pct": 0.0271,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 25.179,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": 0.1958674779,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": 1.05,
     "listing_currency": "INR",
@@ -275,6 +459,131 @@
     "payment_count": 2
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {},
+      "quarterly": {}
+    }
+  },
+  "past_performance": {
+    "roe_pct": 7.3369,
+    "roa_pct": 4.4667640613586554,
+    "roic_pct": 5.266814450192535,
+    "net_margin_pct": 2.5023017902813303,
+    "operating_margin_pct": 4.401023017902813,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 0.86,
+    "debt_to_asset_pct": 0.799853907962016,
+    "current_ratio": 6.9399,
+    "quick_ratio": 5.407444668008049,
+    "cash_ratio": 0.2359154929577465,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-13T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-13T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/dp-wires-ltd",
+    "news": [
+      {
+        "id": "552904",
+        "title": "D.P. Wires Ltd conducted an EGM on March 31, 2026, to vote on material related-party transactions.\nBoth resolutions for transactions with Kataria Plastics and DP Kataria Pvt Ltd were approved with requisite majority.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=1c02480c-4248-4cd1-8f6e-6c274e7b6c4a.pdf",
+        "source": "BSE",
+        "published_at": "2026-04-01T12:38:10.000Z"
+      },
+      {
+        "id": "518195",
+        "title": "D.P. Wires Ltd announced its Extraordinary General Meeting on March 31, 2026.\nKey agenda includes material related party transactions with Kataria Plastics and DP Kataria Pvt Ltd.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=3b38a53d-3ded-4891-9ff0-db51fc4fe7c7.pdf",
+        "source": "BSE",
+        "published_at": "2026-03-05T13:03:48.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-13T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-13T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "526433",
+        "name": "ASM Technologies",
+        "searchId": "asm-technologies-ltd",
+        "market_cap_inr": 47872700000,
+        "pe": 78.8,
+        "pb": 15.59
+      },
+      {
+        "ticker": "ANUP",
+        "name": "Anup Engineering",
+        "searchId": "anveshan-heavy-engineering-ltd",
+        "market_cap_inr": 39595200000,
+        "pe": 34.32,
+        "pb": 6.22
+      },
+      {
+        "ticker": "GREAVESCOT",
+        "name": "Greaves Cotton",
+        "searchId": "greaves-cotton-ltd",
+        "market_cap_inr": 39462000000,
+        "pe": 112.19,
+        "pb": 2.76
+      }
+    ],
+    "details": {
+      "fullName": null,
+      "parentCompany": null,
+      "headquarters": null,
+      "ceo": "Mr. Praveen Kataria",
+      "managingDirector": "Praveen Kataria",
+      "foundedYear": 1998,
+      "websiteUrl": null
+    }
+  },
   "indices": [
     "NSEI"
   ],

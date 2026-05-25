@@ -6,6 +6,14 @@
   "parsed_at": "2026-05-24T12:03:45.985Z",
   "company_id": "763864F2-12A4-4079-8BFF-F1334D91ED98",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/midwest-ltd",
+    "search_id": "midwest-ltd",
+    "company_id": "GSTK544587",
+    "isin": "INE0XAD01024"
+  },
   "overview": {
     "snowflake": {
       "valuation": 2,
@@ -21,10 +29,14 @@
     },
     "snowflake_total": 11,
     "current_price_inr": 1316.8,
-    "market_cap_inr": 47615486862.7008,
+    "market_cap_inr": 47591200000,
     "market_cap_usd": 123377158243.857,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 1048.5,
+      "high": 1859.9
+    },
     "fair_value_inr": 1220,
     "fair_value_range_inr": {
       "min": null,
@@ -34,15 +46,16 @@
     "upside_pct": -7.351154313487239,
     "multiples": {
       "pe": 40.36,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 7.21,
+      "pb": 5.47,
+      "ev_ebitda": 0,
+      "peg": 0
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/midwest-ltd"
     },
@@ -52,22 +65,22 @@
     ],
     "risks": [],
     "dividend": {
-      "yield_pct": null,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": null,
       "listing_currency": "INR",
       "recent_payments": [],
       "payment_count": 0
     },
-    "dividend_yield_pct": null,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 50.063055479526334
+      "pe": 50.063055479526334,
+      "sector_pe": 50.063055479526334
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Consumer Durables",
       "pe_industry_id": 17,
@@ -80,7 +93,7 @@
       "industry_pe": 50.063055479526334,
       "industry_name": "Consumer Durables",
       "industry_id": 17,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/midwest-ltd",
       "search_id": "midwest-ltd"
     },
@@ -90,7 +103,7 @@
         "industry_pe": 50.063055479526334,
         "industry_name": "Consumer Durables",
         "industry_id": 17,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/midwest-ltd"
       },
       "sws_statement": {
@@ -124,13 +137,177 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 1316.8,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 47591200000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 40.36,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 5.47,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 7.21,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 50.063055479526334,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 1048.5,
+          "high": 1859.9
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 32.61,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 240.4425592,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 5,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 50.063055479526334,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 16.6706,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 10.760774169707608,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 14.818293602529781,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 17.648217451250737,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 30.96165209618036,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 34.74,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 21.62132200101621,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 2.5763,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 1.627445283749758,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.1725740848343986,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/midwest-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 32.61,
     "most_recent_reported_date": null,
+    "pb": 5.47,
+    "ps": 7.21,
+    "book_value": 240.4425592,
+    "face_value": 5,
+    "sector_pe": 50.063055479526334,
+    "roe_pct": 16.6706,
+    "roa_pct": 10.760774169707608,
+    "roic_pct": 14.818293602529781,
+    "net_margin_pct": 17.648217451250737,
+    "operating_margin_pct": 30.96165209618036,
+    "debt_to_equity_pct": 34.74,
+    "debt_to_asset_pct": 21.62132200101621,
+    "current_ratio": 2.5763,
+    "quick_ratio": 1.627445283749758,
+    "cash_ratio": 0.1725740848343986,
     "returns_pct": {
       "1D": -2.067529376766321,
       "7D": -1.0371261085224677,
@@ -244,10 +421,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 77.1292,
+    "fii_pct": 4.3776,
+    "mutual_fund_pct": 6.401,
+    "insurance_pct": 7.3827,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 4.7095000000000145,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": null,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": null,
     "listing_currency": "INR",
@@ -255,6 +439,168 @@
     "payment_count": 0
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {
+        "revenue": {
+          "2021": 393.8847,
+          "2022": 539.483,
+          "2023": 522.233,
+          "2024": 603.33,
+          "2025": 643.142
+        },
+        "profit": {
+          "2021": 60.2146,
+          "2022": 67.093,
+          "2023": 54.436,
+          "2024": 100.324,
+          "2025": 133.299
+        },
+        "net_worth": {
+          "2021": 282.7599,
+          "2022": 352.246,
+          "2023": 411.873,
+          "2024": 499.073,
+          "2025": 632.402
+        }
+      },
+      "quarterly": {
+        "revenue": {
+          "Sep '24": 145.45000000000002,
+          "Dec '24": 122.96000000000001,
+          "Jun '25": 146.47,
+          "Sep '25": 160.75,
+          "Dec '25": 134.13000000000002
+        },
+        "profit": {
+          "Sep '24": 15.43,
+          "Dec '24": 14.51,
+          "Jun '25": 24.38,
+          "Sep '25": 27.71,
+          "Dec '25": 17.36
+        }
+      }
+    }
+  },
+  "past_performance": {
+    "roe_pct": 16.6706,
+    "roa_pct": 10.760774169707608,
+    "roic_pct": 14.818293602529781,
+    "net_margin_pct": 17.648217451250737,
+    "operating_margin_pct": 30.96165209618036,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 34.74,
+    "debt_to_asset_pct": 21.62132200101621,
+    "current_ratio": 2.5763,
+    "quick_ratio": 1.627445283749758,
+    "cash_ratio": 0.1725740848343986,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-11T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-11T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/midwest-ltd",
+    "news": [
+      {
+        "id": "839832491079173632",
+        "title": "Midwest Ltd chosen as lead partner by Kerala Minerals for monazite tailings project.\nProject includes rare earth processing, tech development, and pilot plant commissioning in 6 months.",
+        "url": "https://sqst.in/shareMessage?msgId=839832491079173692",
+        "source": "ScoutQuest",
+        "published_at": "2026-05-06T11:54:29.000Z"
+      },
+      {
+        "id": "260225161272756",
+        "title": "Midwest CEO Ramachandra emphasized R&D incentives for India's high-end manufacturing.\nCentral government is addressing R&D gaps, as discussed at a Business Standard session.",
+        "url": "https://www.business-standard.com/specials/bs-events/r-d-linked-incentives-to-drive-india-s-high-end-manufacturing-push-126022501241_1.html",
+        "source": "Business Standard",
+        "published_at": "2026-02-25T15:40:46.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-11T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-11T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "531281",
+        "name": "Marble City India",
+        "searchId": "pg-industry-ltd",
+        "market_cap_inr": 2449500000,
+        "pe": 29,
+        "pb": 3.22
+      },
+      {
+        "ticker": "513528",
+        "name": "Glittek Granites",
+        "searchId": "glittek-granites-ltd",
+        "market_cap_inr": 1103300000,
+        "pe": 4.48,
+        "pb": 10.38
+      },
+      {
+        "ticker": "523483",
+        "name": "Pacific Industries",
+        "searchId": "pacific-industries-ltd",
+        "market_cap_inr": 978400000,
+        "pe": 24.86,
+        "pb": 0.22
+      }
+    ],
+    "details": {
+      "fullName": "MIDWEST Limited",
+      "parentCompany": "MIDWEST Limited",
+      "headquarters": null,
+      "ceo": null,
+      "managingDirector": "Kollareddy Ramachandra",
+      "foundedYear": 1981,
+      "websiteUrl": null
+    }
+  },
   "indices": [
     "NSEI"
   ],

@@ -6,6 +6,14 @@
   "parsed_at": "2026-05-21T22:54:06.952Z",
   "company_id": "1E07AF52-442E-49A5-A479-D2FE6C4BE2CE",
   "classification_status": "Active",
+  "groww_source": {
+    "provider": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/srk-industries-ltd",
+    "search_id": "srk-industries-ltd",
+    "company_id": "GSTK531307",
+    "isin": "INE951M01037"
+  },
   "overview": {
     "snowflake": {
       "valuation": 0,
@@ -20,11 +28,15 @@
       "dividend": 0
     },
     "snowflake_total": 8,
-    "current_price_inr": 20.74,
-    "market_cap_inr": 2513984379.8652573,
+    "current_price_inr": 20.61,
+    "market_cap_inr": 2484900000,
     "market_cap_usd": 121304781320.862,
     "market_cap_band": null,
     "shares_outstanding": null,
+    "fifty_two_week": {
+      "low": 15.25,
+      "high": 21.3
+    },
     "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
@@ -34,15 +46,16 @@
     "upside_pct": null,
     "multiples": {
       "pe": 32.03,
-      "ps": null,
-      "pb": null,
-      "ev_ebitda": null
+      "ps": 2,
+      "pb": 2.27,
+      "ev_ebitda": 19.86,
+      "peg": 1.8125999999999984
     },
     "multiples_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
       "pe_source_text": "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv.",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/srk-industries-ltd"
     },
@@ -53,22 +66,22 @@
       "Does not have a meaningful market cap (₹3B)"
     ],
     "dividend": {
-      "yield_pct": null,
+      "yield_pct": 0,
       "payout_pct": null,
       "annualized_dividend": null,
       "listing_currency": "INR",
       "recent_payments": [],
       "payment_count": 0
     },
-    "dividend_yield_pct": null,
-    "net_margin_pct": null,
+    "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "pe": 31.6218471625948
+      "pe": 31.6218471625948,
+      "sector_pe": 31.6218471625948
     },
     "industry_benchmarks_meta": {
       "pe_source": "groww_refinitiv",
       "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T13:55:03.203Z",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
       "pe_industry_name": "Realty",
       "pe_industry_id": 51,
@@ -81,7 +94,7 @@
       "industry_pe": 31.6218471625948,
       "industry_name": "Realty",
       "industry_id": 51,
-      "fetched_at": "2026-05-24T13:55:03.203Z",
+      "fetched_at": "2026-05-24T18:33:37.371Z",
       "url": "https://groww.in/stocks/srk-industries-ltd",
       "search_id": "srk-industries-ltd"
     },
@@ -91,7 +104,7 @@
         "industry_pe": 31.6218471625948,
         "industry_name": "Realty",
         "industry_id": 51,
-        "fetched_at": "2026-05-24T13:55:03.203Z",
+        "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/srk-industries-ltd"
       },
       "sws_statement": {
@@ -115,7 +128,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.6,
+        "industry_pe": 18.35,
         "sample_count": 64,
         "industry_code": "4410000",
         "industry_name": "Retail"
@@ -125,13 +138,177 @@
         "company_pe": null
       }
     },
+    "source_map": {
+      "current_price_inr": {
+        "provider": "groww_refinitiv",
+        "value": 20.61,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "market_cap_inr": {
+        "provider": "groww_refinitiv",
+        "value": 2484900000,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "multiples.pe": {
+        "provider": "groww_refinitiv",
+        "value": 32.03,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "multiples.pb": {
+        "provider": "groww_refinitiv",
+        "value": 2.27,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "multiples.ps": {
+        "provider": "groww_refinitiv",
+        "value": 2,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "multiples.ev_ebitda": {
+        "provider": "groww_refinitiv",
+        "value": 19.86,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "multiples.peg": {
+        "provider": "groww_refinitiv",
+        "value": 1.8125999999999984,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "industry_benchmarks.sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 31.6218471625948,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "dividend.yield_pct": {
+        "provider": "groww_refinitiv",
+        "value": 0,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "fifty_two_week": {
+        "provider": "groww_refinitiv",
+        "value": {
+          "low": 15.25,
+          "high": 21.3
+        },
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "latest_eps": {
+        "provider": "groww_refinitiv",
+        "value": 0.64,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "book_value": {
+        "provider": "groww_refinitiv",
+        "value": 9.0165644,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "face_value": {
+        "provider": "groww_refinitiv",
+        "value": 5,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "sector_pe": {
+        "provider": "groww_refinitiv",
+        "value": 31.6218471625948,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "roe_pct": {
+        "provider": "groww_refinitiv",
+        "value": 7.526,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "roa_pct": {
+        "provider": "groww_refinitiv",
+        "value": 5.229376393486927,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "roic_pct": {
+        "provider": "groww_refinitiv",
+        "value": 7.637720177440123,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "net_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 6.186555830868834,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "operating_margin_pct": {
+        "provider": "groww_refinitiv",
+        "value": 12.333146830788905,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "debt_to_equity_pct": {
+        "provider": "groww_refinitiv",
+        "value": 7.3,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "debt_to_asset_pct": {
+        "provider": "groww_refinitiv",
+        "value": 5.391527599486522,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "current_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 7.643,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "quick_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 3.1864303178484112,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      },
+      "cash_ratio": {
+        "provider": "groww_refinitiv",
+        "value": 0.009168704156479218,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/srk-industries-ltd"
+      }
+    },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
     "revenue_growth_pct": null,
     "latest_revenue": null,
     "latest_net_income": null,
-    "latest_eps": null,
+    "latest_eps": 0.64,
     "most_recent_reported_date": null,
+    "pb": 2.27,
+    "ps": 2,
+    "book_value": 9.0165644,
+    "face_value": 5,
+    "sector_pe": 31.6218471625948,
+    "roe_pct": 7.526,
+    "roa_pct": 5.229376393486927,
+    "roic_pct": 7.637720177440123,
+    "net_margin_pct": 6.186555830868834,
+    "operating_margin_pct": 12.333146830788905,
+    "debt_to_equity_pct": 7.3,
+    "debt_to_asset_pct": 5.391527599486522,
+    "current_ratio": 7.643,
+    "quick_ratio": 3.1864303178484112,
+    "cash_ratio": 0.009168704156479218,
     "returns_pct": {
       "1D": 0.09652509652509447,
       "7D": 8.871391076115472,
@@ -210,10 +387,17 @@
       }
     ],
     "insider_ownership_pct": null,
-    "insider_activity": null
+    "insider_activity": null,
+    "promoter_pct": 70.7996,
+    "fii_pct": 0,
+    "mutual_fund_pct": 0,
+    "insurance_pct": 0,
+    "other_domestic_institution_pct": 0,
+    "retail_pct": 29.200400000000002,
+    "groww_period": "Mar '26"
   },
   "dividend": {
-    "yield_pct": null,
+    "yield_pct": 0,
     "payout_pct": null,
     "annualized_dividend": null,
     "listing_currency": "INR",
@@ -221,6 +405,188 @@
     "payment_count": 0
   },
   "fiscal": null,
+  "financials": {
+    "groww": {
+      "basis": "CONSOLIDATED",
+      "yearly": {
+        "revenue": {
+          "2021": 11.9936,
+          "2022": 84.8469,
+          "2023": 157.845,
+          "2024": 99.1551,
+          "2025": 116.2403
+        },
+        "profit": {
+          "2021": 0.9981,
+          "2022": 4.2363,
+          "2023": 13.7561,
+          "2024": 5.7651,
+          "2025": 6.8455
+        },
+        "net_worth": {
+          "2021": 56.8013,
+          "2022": 78.7738,
+          "2023": 92.5544,
+          "2024": 98.3451,
+          "2025": 105.3073
+        }
+      },
+      "quarterly": {
+        "revenue": {
+          "Dec '24": 32.95,
+          "Mar '25": 31.330000000000002,
+          "Jun '25": 24.84,
+          "Sep '25": 38.11,
+          "Dec '25": 34.519999999999996
+        },
+        "profit": {
+          "Dec '24": 2.23,
+          "Mar '25": 2.01,
+          "Jun '25": 1.45,
+          "Sep '25": 2.54,
+          "Dec '25": 1.74
+        }
+      }
+    }
+  },
+  "past_performance": {
+    "roe_pct": 7.526,
+    "roa_pct": 5.229376393486927,
+    "roic_pct": 7.637720177440123,
+    "net_margin_pct": 6.186555830868834,
+    "operating_margin_pct": 12.333146830788905,
+    "source": "groww_refinitiv"
+  },
+  "financial_health": {
+    "debt_to_equity_pct": 7.3,
+    "debt_to_asset_pct": 5.391527599486522,
+    "current_ratio": 7.643,
+    "quick_ratio": 3.1864303178484112,
+    "cash_ratio": 0.009168704156479218,
+    "source": "groww_refinitiv"
+  },
+  "events": {
+    "groww": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-11T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-12T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-12T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ]
+  },
+  "groww": {
+    "source": "groww_refinitiv",
+    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "url": "https://groww.in/stocks/srk-industries-ltd",
+    "news": [
+      {
+        "id": "474107",
+        "title": "RRIL Ltd's Board meeting on Feb 13, 2026, will review Q3 and nine-month financial results.\nTrading window closure for directors and employees continues until 48 hours post-results declaration.",
+        "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=ffa15d98-f86c-446e-875f-0d47546274fd.pdf",
+        "source": "BSE",
+        "published_at": "2026-02-05T13:29:04.000Z"
+      },
+      {
+        "id": "792672342519072768",
+        "title": "RRIL Ltd acquired a 50% stake in Sumati Spintex Pvt Ltd, making it an associate company.\nThe acquisition involved shares from existing shareholders and its wholly-owned subsidiary.",
+        "url": "https://sqst.in/shareMessage?msgId=792672342519072812",
+        "source": "ScoutQuest",
+        "published_at": "2025-12-27T08:36:53.000Z"
+      }
+    ],
+    "events": [
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-08-11T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2025-11-12T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      },
+      {
+        "title": "Quarterly Result",
+        "type": "RESULTS",
+        "status": "Release date",
+        "primary_date": "2026-02-12T18:30:00.000Z",
+        "announcement_date": null,
+        "ex_date": null,
+        "record_date": null,
+        "value": null
+      }
+    ],
+    "peers": [
+      {
+        "ticker": "PDSL",
+        "name": "PDS Limited",
+        "searchId": "pds-multinational-fashions-ltd",
+        "market_cap_inr": 40749500000,
+        "pe": 22.94,
+        "pb": 2.31
+      },
+      {
+        "ticker": "RAYMOND",
+        "name": "Raymond",
+        "searchId": "raymond-ltd",
+        "market_cap_inr": 36755400000,
+        "pe": 0.69,
+        "pb": 1.29
+      },
+      {
+        "ticker": "SIYSIL",
+        "name": "Siyaram Silk Mills",
+        "searchId": "siyaram-silk-mills-ltd",
+        "market_cap_inr": 27002000000,
+        "pe": 11.69,
+        "pb": 1.85
+      }
+    ],
+    "details": {
+      "fullName": "RRIL Limited",
+      "parentCompany": "RRIL Limited",
+      "headquarters": "MUMBAI",
+      "ceo": "Mr. Ratanchand D. Jain",
+      "managingDirector": "Mr. Ratanchand D. Jain",
+      "foundedYear": 1991,
+      "websiteUrl": "http://srkindltd.co.in/"
+    }
+  },
   "indices": [
     "BSE"
   ],
