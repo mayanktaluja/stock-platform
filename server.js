@@ -98,6 +98,7 @@ import { buildSymbolEarningsCalibration } from "./services/trackRecord/earningsC
 import { deriveGovernanceGate } from "./services/swsIndianRiskLayer.js";
 import { dedupeByBareSymbol } from "./services/searchDedup.js";
 import * as swsDal from "./services/swsDal/index.js";
+import { filterPicksWithDeepDataFailOpen } from "./services/swsPicksResponse.js";
 import * as usPicksDal from "./services/usPicksDal.js";
 import { makeRegionPicksDal } from "./services/regionPicksDal.js";
 import { loadIndexConstituentsFromFile, stampIndexFlags } from "./services/indexConstituents.js";
@@ -7288,18 +7289,6 @@ app.get("/api/sws-universe", async (req, res) => {
 // slow-network users paid the full 7 MB even when asking for top 10.
 const SWS_PICKS_MAX_LIMIT = 200;
 
-function filterPicksWithDeepData(items, counter) {
-  if (!Array.isArray(items)) return [];
-  return items.filter((it) => {
-    const ticker = it?.ticker;
-    if (!ticker) return false;
-    if (swsDal.getStockByTicker(ticker)) return true;
-    counter.count += 1;
-    if (counter.sample.length < 12) counter.sample.push(String(ticker));
-    return false;
-  });
-}
-
 app.get("/api/sws-picks", async (req, res) => {
   const raw = swsDal.getPicksLatest();
   if (!raw) return res.status(404).json({ error: "no_picks_yet", hint: "Run /sws-scan-shard 1/2/3 in Claude to start the initial scan." });
@@ -7325,7 +7314,7 @@ app.get("/api/sws-picks", async (req, res) => {
     : null;
   const driftCounter = { count: 0 };
   const driftTimeoutFlag = { timedOut: false, errored: false };
-  const missingDeepCounter = { count: 0, sample: [] };
+  const missingDeepCounter = { count: 0, sample: [], failOpenSections: [] };
   if (data.sections) {
     // PR 2.7 — pure-numeric BSE codes were leaking into Avoid + Deep Value
     // alongside NSE symbols. Filter them at the response boundary so the fix
@@ -7356,7 +7345,12 @@ app.get("/api/sws-picks", async (req, res) => {
       // reads (it computes counts from .length).
       let filtered = items.filter((it) => it && it.ticker && !isPureBSEcode(it.ticker));
       if (key === "dividend_aristocrats") filtered = filtered.filter(passesDividendGate);
-      filtered = filterPicksWithDeepData(filtered, missingDeepCounter);
+      filtered = filterPicksWithDeepDataFailOpen(
+        key,
+        filtered,
+        (ticker) => swsDal.getStockByTicker(ticker),
+        missingDeepCounter,
+      );
       data.sections[key] = filtered;
       applyPicksFvDriftGuard(filtered, snapMap, driftCounter);
       for (const it of filtered) {
@@ -7377,6 +7371,7 @@ app.get("/api/sws-picks", async (req, res) => {
     fv_drift_errored: !!driftTimeoutFlag.errored,
     missing_deep_count: missingDeepCounter.count,
     missing_deep_sample: missingDeepCounter.sample,
+    missing_deep_fail_open_sections: missingDeepCounter.failOpenSections,
   };
   // Server-side pagination + section filter — applied AFTER drift guard so
   // the per-row enrichment + drift counter reflect the full underlying
