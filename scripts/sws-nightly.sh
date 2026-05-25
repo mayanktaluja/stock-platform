@@ -340,25 +340,32 @@ if [ ${DRY_RUN} -eq 1 ]; then
   exit 0
 fi
 
-# ---- 3. Run scrape pipeline ----
-
+# ---- 3. Parallel primary data refresh branches ----
+#
+# Two independent data-source branches start together, then join at one
+# barrier before any downstream compute:
+#
+#   SWS primary branch:
+#     sws-refresh-api.sh (SWS scrape shards → SWS-side NSE cache →
+#     Groww/Refinitiv cache → parse → score → stamp/PDF), then the
+#     lightweight SWS news enrichment.
+#
+#   NSE catalyst branch:
+#     refresh-catalysts.mjs + refresh-nse-corporate.mjs, which feed the
+#     Earnings Watch calendar and announcement/deal signals.
+#
+# SWS remains fatal. NSE catalyst failures remain non-fatal and are surfaced
+# through aux_status, matching the old serial behavior. The barrier always
+# waits for both branches before any exit, so a failed SWS scrape cannot leave
+# a background NSE refresh orphaned or mid-write.
+#
 # SWS_AUTO_PR=0: suppress the inner script's own auto-PR. If left enabled,
 # sws-refresh-api.sh would commit the data on its own branch and switch the
 # working tree back to main, leaving stale picks-latest.json on disk and
 # tripping our scanned_recent sanity check below. Nightly handles its own
 # branch + commit + PR + auto-merge after the gate.
-echo "[nightly] running scripts/sws-refresh-api.sh (SWS_AUTO_PR=0; nightly creates the PR)..."
-if ! SWS_AUTO_PR=0 bash scripts/sws-refresh-api.sh; then
-  echo "[nightly] sws-refresh-api.sh failed (exit $?)"
-  send_mail "🚨 SWS nightly — scrape pipeline failed" "scripts/sws-refresh-api.sh exited non-zero at $(ts).
-
-Last 50 lines:
-$(tail -50 data/sws/refresh-api.log 2>/dev/null)"
-  exit 6
-fi
-
-# ---- 3b. News refresh (~3 min, lightweight, NON-FATAL) ----
 #
+# News refresh (~3 min, lightweight, NON-FATAL):
 # Captures SWS Brief + Event activity for picks ∪ portfolio ∪ watchlist
 # (~300 stocks). Augments data/sws/deep/<TICKER>.json with a `news[]` array
 # and writes data/sws/news-latest.json for the PDF + dashboard.
@@ -368,11 +375,7 @@ fi
 # scrape. We log the failure and continue to the sanity gate as if news
 # wasn't run (the PDF and dashboard both render gracefully when news is
 # absent or stale).
-echo "[nightly] running news refresh (sws-news-scrape.mjs)..."
-if ! node scripts/sws-news-scrape.mjs 2>&1 | sed 's/^/[news] /'; then
-  echo "[nightly] news refresh failed — non-fatal, continuing to sanity gate"
-fi
-
+#
 # ---- 3c. Catalysts + fundamentals + earnings refresh chain (non-fatal) ----
 #
 # Moved BEFORE the sanity gate so a scrape sanity failure cannot block
@@ -435,21 +438,81 @@ aux_status() {
   printf 'STEP3C: %s %s %s\n' "$1" "$2" "${3:-}" >> "${AUX_STATUS_FILE}"
 }
 
-echo "[nightly] running catalysts + fundamentals + earnings refresh chain..."
+run_sws_primary_branch() {
+  echo "[nightly] running scripts/sws-refresh-api.sh (SWS_AUTO_PR=0; nightly creates the PR)..."
+  SWS_AUTO_PR=0 bash scripts/sws-refresh-api.sh
+  local sws_rc=$?
+  if [ "${sws_rc}" -ne 0 ]; then
+    echo "[nightly] sws-refresh-api.sh failed (exit ${sws_rc})"
+    return "${sws_rc}"
+  fi
 
-if with_timeout 600 node scripts/refresh-catalysts.mjs 2>&1 | sed 's/^/[catalysts] /'; then
-  aux_status "events-latest.json" "OK"
+  echo "[nightly] running news refresh (sws-news-scrape.mjs)..."
+  if ! node scripts/sws-news-scrape.mjs 2>&1 | sed 's/^/[news] /'; then
+    echo "[nightly] news refresh failed — non-fatal, continuing to sanity gate"
+  fi
+
+  return 0
+}
+
+run_nse_catalyst_branch() {
+  echo "[nightly] running NSE catalyst refresh branch..."
+
+  if with_timeout 600 node scripts/refresh-catalysts.mjs 2>&1 | sed 's/^/[catalysts] /'; then
+    aux_status "events-latest.json" "OK"
+  else
+    echo "[nightly] refresh-catalysts.mjs failed — non-fatal, continuing"
+    aux_status "events-latest.json" "FAILED"
+  fi
+
+  if with_timeout 600 node scripts/refresh-nse-corporate.mjs 2>&1 | sed 's/^/[nse-corp] /'; then
+    aux_status "nse-announcements-rolling.json" "OK"
+  else
+    echo "[nightly] refresh-nse-corporate.mjs failed — non-fatal, continuing"
+    aux_status "nse-announcements-rolling.json" "FAILED"
+  fi
+
+  return 0
+}
+
+SWS_BRANCH_LOG="data/sws/sws-nightly-sws-branch.log"
+NSE_BRANCH_LOG="data/sws/sws-nightly-nse-catalyst-branch.log"
+: > "${SWS_BRANCH_LOG}"
+: > "${NSE_BRANCH_LOG}"
+
+echo "[nightly] starting SWS/Groww primary branch and NSE catalyst branch in parallel..."
+run_sws_primary_branch > >(tee -a "${SWS_BRANCH_LOG}" | sed 's/^/[sws-branch] /') 2>&1 &
+SWS_BRANCH_PID=$!
+run_nse_catalyst_branch > >(tee -a "${NSE_BRANCH_LOG}" | sed 's/^/[nse-branch] /') 2>&1 &
+NSE_BRANCH_PID=$!
+
+SWS_BRANCH_RC=0
+NSE_BRANCH_RC=0
+if wait "${SWS_BRANCH_PID}"; then
+  SWS_BRANCH_RC=0
 else
-  echo "[nightly] refresh-catalysts.mjs failed — non-fatal, continuing"
-  aux_status "events-latest.json" "FAILED"
+  SWS_BRANCH_RC=$?
+fi
+if wait "${NSE_BRANCH_PID}"; then
+  NSE_BRANCH_RC=0
+else
+  NSE_BRANCH_RC=$?
 fi
 
-if with_timeout 600 node scripts/refresh-nse-corporate.mjs 2>&1 | sed 's/^/[nse-corp] /'; then
-  aux_status "nse-announcements-rolling.json" "OK"
-else
-  echo "[nightly] refresh-nse-corporate.mjs failed — non-fatal, continuing"
-  aux_status "nse-announcements-rolling.json" "FAILED"
+echo "[nightly] parallel refresh barrier complete: sws_rc=${SWS_BRANCH_RC}, nse_rc=${NSE_BRANCH_RC}"
+
+if [ "${SWS_BRANCH_RC}" -ne 0 ]; then
+  send_mail "🚨 SWS nightly — scrape pipeline failed" "scripts/sws-refresh-api.sh exited non-zero at $(ts).
+
+The NSE catalyst branch was allowed to finish before exit so no background
+refresh was orphaned.
+
+Last 50 lines:
+$(tail -50 data/sws/refresh-api.log 2>/dev/null)"
+  exit 6
 fi
+
+echo "[nightly] running remaining catalysts + fundamentals + earnings refresh chain..."
 
 if with_timeout 120 node scripts/refresh-dividends.mjs 2>&1 | sed 's/^/[dividends] /'; then
   aux_status "dividends-upcoming.json" "OK"
