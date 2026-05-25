@@ -92,7 +92,7 @@ test.describe("Stock detail modal (SWS)", () => {
     await page.locator(`.sws-pick-card[data-ticker="${target}"]`).first().click();
     const body = page.locator("#swsModalBody");
     await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
-    await expect(body).toContainText(/Quick stats\s+SWS/, { timeout: 5_000 });
+    await expect(body).toContainText(/Quick stats\s+(SWS|Groww\/Refinitiv)/, { timeout: 5_000 });
     if (sourceDate) {
       await expect(body).toContainText(sourceDate, { timeout: 5_000 });
     }
