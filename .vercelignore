@@ -6,3 +6,8 @@
 .paper-trades.json
 .env
 .env.local
+
+# India deep briefs are packed into data/sws/deep.tar.gz for Vercel. Uploading
+# the 5k+ loose JSON files bloats the function trace and can push the Lambda
+# over provider bundle limits.
+data/sws/deep/*.json
