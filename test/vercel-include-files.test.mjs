@@ -75,6 +75,12 @@ function loadFunctionConfig(pathname) {
   return (vercel.functions || {})[pathname];
 }
 
+function loadExcludeFilesRaw() {
+  const entry = loadFunctionConfig("api/index.js");
+  assert.ok(entry && typeof entry.excludeFiles === "string", "vercel.json functions['api/index.js'].excludeFiles must be a string");
+  return entry.excludeFiles;
+}
+
 function loadVercelIgnorePatterns() {
   const raw = fs.readFileSync(path.join(REPO_ROOT, ".vercelignore"), "utf-8");
   return raw
@@ -95,6 +101,10 @@ function loadIncludePatterns() {
   return splitBraceGlob(loadIncludeFilesRaw());
 }
 
+function loadExcludePatterns() {
+  return splitBraceGlob(loadExcludeFilesRaw());
+}
+
 // The committed (git-tracked) artifacts the prod runtime must be able to read:
 // every region's deep tarball + its picks-latest.json. Discovered from git so a
 // new region is covered automatically the moment its files are committed.
@@ -110,8 +120,11 @@ console.log("\nvercel.json includeFiles — regional deep tarballs + picks must 
 
 const patterns = loadIncludePatterns();
 const regexes = patterns.map(globToRegExp);
+const excludePatterns = loadExcludePatterns();
+const excludeRegexes = excludePatterns.map(globToRegExp);
 const required = requiredBundledFiles();
 const isCovered = (file) => regexes.some((re) => re.test(file));
+const isExcluded = (file) => excludeRegexes.some((re) => re.test(file));
 const ignoredPatterns = loadVercelIgnorePatterns();
 const ignoredRegexes = ignoredPatterns.map(globToRegExp);
 const isIgnored = (file) => ignoredRegexes.some((re) => re.test(file));
@@ -129,6 +142,17 @@ check("framework auto-detection stays disabled so Vercel builds only api/index.j
   const vercel = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "vercel.json"), "utf-8"));
   assert.equal(vercel.framework, null);
   assert.equal(loadFunctionConfig("server.js"), undefined);
+});
+
+check("excludeFiles trims non-runtime trace bloat without hiding packed deep briefs", () => {
+  const raw = loadExcludeFilesRaw();
+  assert.ok(
+    raw.length <= 256,
+    `excludeFiles is ${raw.length} chars; keep the brace-list compact enough for Vercel's schema.`,
+  );
+  assert.ok(!isExcluded("data/sws/deep.tar.gz"), "India deep.tar.gz must stay bundled for lazy /tmp extraction");
+  assert.ok(!isExcluded("data/sws-us/deep-us.tar.gz"), "regional packed deep tarballs must stay bundled");
+  assert.ok(isExcluded("test/e2e/stock-detail-modal.spec.mjs"), "tests should not be traced into the production Lambda");
 });
 
 check(".vercelignore excludes loose SWS deep trees but not packed tarballs", () => {
