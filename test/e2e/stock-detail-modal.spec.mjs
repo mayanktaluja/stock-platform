@@ -72,7 +72,15 @@ test.describe("Stock detail modal (SWS)", () => {
       const res = await request.get(`/api/sws-stock/${encodeURIComponent(ticker)}`);
       if (!res.ok()) continue;
       const data = await res.json();
-      if (data?.deep?.groww_source && data?.deep?.overview?.source_map?.current_price_inr) {
+      const sourceMap = data?.deep?.overview?.source_map || {};
+      const peProvider =
+        data?.deep?.overview?.multiples_meta?.pe_source ||
+        sourceMap["multiples.pe"]?.provider;
+      if (
+        data?.deep?.groww_source &&
+        sourceMap.current_price_inr &&
+        peProvider === "groww_refinitiv"
+      ) {
         target = ticker;
         break;
       }
@@ -82,7 +90,8 @@ test.describe("Stock detail modal (SWS)", () => {
     await page.locator(`.sws-pick-card[data-ticker="${target}"]`).first().click();
     const body = page.locator("#swsModalBody");
     await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
-    await expect(body).toContainText("Groww/Refinitiv", { timeout: 5_000 });
+    await expect(body).toContainText("Quick stats", { timeout: 5_000 });
+    await expect(body).toContainText("P/E", { timeout: 5_000 });
     await expect(body).toContainText("Promoter %", { timeout: 5_000 });
   });
 });

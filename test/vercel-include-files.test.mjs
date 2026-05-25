@@ -110,11 +110,10 @@ check("includeFiles stays within Vercel's 256-char schema limit", () => {
   );
 });
 
-check("server.js auto-detected Express function uses the same trimmed includeFiles", () => {
-  const apiEntry = loadFunctionConfig("api/index.js");
-  const serverEntry = loadFunctionConfig("server.js");
-  assert.ok(serverEntry && typeof serverEntry.includeFiles === "string", "vercel.json functions['server.js'].includeFiles must be a string");
-  assert.equal(serverEntry.includeFiles, apiEntry.includeFiles);
+check("framework auto-detection stays disabled so Vercel builds only api/index.js", () => {
+  const vercel = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "vercel.json"), "utf-8"));
+  assert.equal(vercel.framework, null);
+  assert.equal(loadFunctionConfig("server.js"), undefined);
 });
 
 check("discovery sanity: found the India + US deep tarballs (else git/glob is broken)", () => {
