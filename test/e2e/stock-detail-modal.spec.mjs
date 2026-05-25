@@ -60,7 +60,7 @@ test.describe("Stock detail modal (SWS)", () => {
     await expect(backdrop).not.toHaveClass(/open/, { timeout: 5_000 });
   });
 
-  test("Groww-backed quick stats render from cached nightly data when available", async ({ page, request }) => {
+  test("cached quick stats render when available", async ({ page, request }) => {
     await gotoApp(page, { tab: "picks" });
     await waitForPicksLoaded(page);
 
@@ -77,12 +77,12 @@ test.describe("Stock detail modal (SWS)", () => {
         break;
       }
     }
-    test.skip(!target, "No Groww-backed SWS pick fixture available in the current data snapshot.");
+    test.skip(!target, "No cached quick-stats SWS pick fixture available in the current data snapshot.");
 
     await page.locator(`.sws-pick-card[data-ticker="${target}"]`).first().click();
     const body = page.locator("#swsModalBody");
     await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
-    await expect(body).toContainText("Groww/Refinitiv", { timeout: 5_000 });
+    await expect(body).toContainText(/Quick stats\s+(?:SWS(?: \+ Yahoo)?|Yahoo fallback)/, { timeout: 5_000 });
     await expect(body).toContainText("Promoter %", { timeout: 5_000 });
   });
 });
