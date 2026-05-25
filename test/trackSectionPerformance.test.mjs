@@ -5,13 +5,16 @@
  */
 
 import {
+  SECTION_PERFORMANCE_COHORT_SIZES,
   SWS_SECTION_PERFORMANCE_REGISTRY,
   buildDailySectionCohortRows,
+  buildSectionPerformanceApiPayload,
   buildSectionPerformancePayload,
   buildStoredResolvedSectionPerformancePayload,
   computeEqualWeightSectionReturn,
   computeSectionPerformanceForTimeframe,
   getSectionRegistryByType,
+  normalizeSectionPerformanceCohorts,
   selectBestOverall,
 } from "../services/trackRecord/sectionPerformance.js";
 
@@ -64,7 +67,7 @@ console.log("trackRecord/sectionPerformance.js regression\n");
   );
 }
 
-// ──── 2. Daily cohort rows cap each section at top 10 ────
+// ──── 2. Daily cohort rows create official 3/5/10/20 cohorts ────
 {
   const rows = buildDailySectionCohortRows({
     scanned_at: "2026-05-25T10:00:00.000Z",
@@ -73,10 +76,17 @@ console.log("trackRecord/sectionPerformance.js regression\n");
       best_fundamentals: numberedPicks("BF", 12, 1, 2),
     },
   });
-  const row = rows.find((r) => r.type === "sws_best_fundamentals");
-  assert("cohort row exists for Best Fundamentals", !!row, row);
-  assert("top-10 cap is enforced", row.constituents.length === 10, row.constituents.length);
-  assert("rank 10 is BF10, not BF11", row.constituents[9].ticker === "BF10", row.constituents[9]);
+  const bfRows = rows.filter((r) => r.type === "sws_best_fundamentals");
+  const sizes = bfRows.map((r) => r.requested_cohort_size).sort((a, b) => a - b);
+  const top20 = bfRows.find((r) => r.requested_cohort_size === 20);
+  const top10 = bfRows.find((r) => r.requested_cohort_size === 10);
+  assert("cohort rows exist for all official sizes", JSON.stringify(sizes) === JSON.stringify(SECTION_PERFORMANCE_COHORT_SIZES), sizes);
+  assert("top-10 cap is still available", top10.constituents.length === 10, top10.constituents.length);
+  assert("rank 10 is BF10, not BF11", top10.constituents[9].ticker === "BF10", top10.constituents[9]);
+  assert("partial top-20 uses all available names", top20.constituents.length === 12 && top20.actual_cohort_size === 12, top20);
+  assert("partial top-20 label is honest", top20.cohort_label === "top 12 available", top20.cohort_label);
+  assert("row id includes cohort size", top10.id.endsWith("|top10") && top20.id.endsWith("|top20"), { top10: top10.id, top20: top20.id });
+  assert("service API helpers default omitted cohorts to legacy top-10", JSON.stringify(normalizeSectionPerformanceCohorts()) === JSON.stringify([10]), normalizeSectionPerformanceCohorts());
 }
 
 // ──── 3. Equal-weight calculation uses only available returns ────
@@ -102,8 +112,8 @@ console.log("trackRecord/sectionPerformance.js regression\n");
   const payload = buildSectionPerformancePayload(rows, {
     benchmarkReturnsByTimeframe: { "7d": 1.5, "30d": 5 },
   });
-  const buy = payload.sections.find((s) => s.type === "sws_best_buynow");
-  const qg = payload.sections.find((s) => s.type === "sws_quality_growth");
+  const buy = payload.sections.find((s) => s.type === "sws_best_buynow" && s.requested_cohort_size === 10);
+  const qg = payload.sections.find((s) => s.type === "sws_quality_growth" && s.requested_cohort_size === 10);
   assert(
     "both 7d rows carry the exact same benchmark return",
     buy.performance_by_timeframe["7d"].benchmark_return_pct === 1.5 &&
@@ -151,7 +161,7 @@ console.log("trackRecord/sectionPerformance.js regression\n");
       ],
     },
   });
-  const row = rows.find((r) => r.type === "sws_best_buynow");
+  const row = rows.find((r) => r.type === "sws_best_buynow" && r.requested_cohort_size === 3);
   const perf = computeSectionPerformanceForTimeframe(row, "7d", null);
   assert("row flags missing prices", row.data_quality_flags.some((f) => f.startsWith("missing_prices")), row.data_quality_flags);
   assert("performance flags missing 7d return", perf.data_quality_flags.some((f) => f.startsWith("missing_returns_7d")), perf.data_quality_flags);
@@ -172,11 +182,75 @@ console.log("trackRecord/sectionPerformance.js regression\n");
     benchmarkReturnsByTimeframe: { "7d": 2, "30d": 4 },
   });
   const best = selectBestOverall(payload.sections);
-  assert("bestOverall returns the highest alpha across 7d/30d", best.type === "sws_best_buynow" && best.timeframe === "30d", best);
+  assert("bestOverall returns the highest alpha across 7d/30d/cohorts", best.type === "sws_best_buynow" && best.timeframe === "30d", best);
   assert("payload includes bestOverall", payload.bestOverall.type === best.type && payload.bestOverall.timeframe === best.timeframe, payload.bestOverall);
 }
 
-// ──── 8. Stored matured cohorts win over latest trailing fallback ────
+// ──── 8. API bestOverall can choose across cohort sizes with eligibility guardrails ────
+{
+  const rows = buildDailySectionCohortRows({
+    scanned_at: "2026-05-25T10:00:00.000Z",
+    sections: {
+      best_to_buy_now: numberedPicks("BUY", 20, 10, 5),
+      quality_growth: numberedPicks("QG", 20, 3, 4),
+    },
+  });
+  const payload = buildSectionPerformanceApiPayload(rows, {
+    windows: ["7d"],
+    cohorts: [3, 5, 10, 20],
+    sampleStatus: "latest_available",
+    benchmarkReturnsByTimeframe: { "7d": 1 },
+  });
+  assert("API exposes requested cohort sizes", JSON.stringify(payload.cohorts) === JSON.stringify([3, 5, 10, 20]), payload.cohorts);
+  assert("bestOverall includes cohort metadata", payload.bestOverall.requestedCohortSize === 20 && payload.bestOverall.cohortLabel === "top 20", payload.bestOverall);
+  assert("bestOverall winner is banner eligible", payload.bestOverall.eligibleForBanner === true && payload.bestOverall.outperformed === true, payload.bestOverall);
+}
+
+// ──── 9. Ineligible positive cohorts do not create a brag claim ────
+{
+  const rows = buildDailySectionCohortRows({
+    scanned_at: "2026-05-25T10:00:00.000Z",
+    sections: {
+      smallcap_gems: [pick("ONLY1", 40, 0)],
+    },
+  }, { cohorts: [3] });
+  const payload = buildSectionPerformanceApiPayload(rows, {
+    windows: ["7d"],
+    cohorts: [3],
+    sampleStatus: "latest_available",
+    benchmarkReturnsByTimeframe: { "7d": 1 },
+  });
+  assert("ineligible positive cohort can be best relative but not outperformed", payload.bestOverall.alphaPct === 39 && payload.bestOverall.outperformed === false, payload.bestOverall);
+  assert("ineligible positive cohort is flagged", payload.bestOverall.eligibleForBanner === false, payload.bestOverall);
+}
+
+// ──── 10. Duplicate partial cohorts cannot win over the smaller equivalent set ────
+{
+  const rows = buildDailySectionCohortRows({
+    scanned_at: "2026-05-25T10:00:00.000Z",
+    sections: {
+      smallcap_gems: numberedPicks("SM", 3, 20, 0),
+    },
+  });
+  const payload = buildSectionPerformanceApiPayload(rows, {
+    windows: ["7d"],
+    cohorts: [3, 5, 10, 20],
+    sampleStatus: "latest_available",
+    benchmarkReturnsByTimeframe: { "7d": 1 },
+  });
+  const smallcapRows = payload.windows[0].sections.filter((s) => s.type === "sws_smallcap_gems");
+  const top3 = smallcapRows.find((s) => s.requestedCohortSize === 3);
+  const duplicates = smallcapRows.filter((s) => s.requestedCohortSize > 3);
+  assert("smallest equivalent actual cohort remains eligible", top3?.eligibleForBanner === true, top3);
+  assert(
+    "larger duplicate actual cohorts are not banner eligible",
+    duplicates.length === 3 && duplicates.every((s) => s.eligibleForBanner === false && s.qualityFlags.some((f) => f === "duplicate_actual_cohort:top_3")),
+    duplicates,
+  );
+  assert("bestOverall uses the smallest equivalent cohort label", payload.bestOverall.requestedCohortSize === 3, payload.bestOverall);
+}
+
+// ──── 11. Stored matured cohorts win over latest trailing fallback ────
 {
   const startRows = buildDailySectionCohortRows({
     scanned_at: "2026-05-01T10:00:00.000Z",
@@ -184,16 +258,17 @@ console.log("trackRecord/sectionPerformance.js regression\n");
       best_to_buy_now: pricedPicks("BUY", [100, 100]),
       quality_growth: pricedPicks("QG", [100, 100]),
     },
-  }, { topN: 2, dateKey: "2026-05-01" });
+  }, { cohorts: [3], dateKey: "2026-05-01" });
   const exitRows = buildDailySectionCohortRows({
     scanned_at: "2026-05-08T10:00:00.000Z",
     sections: {
       best_to_buy_now: pricedPicks("BUY", [103, 103]),
       quality_growth: pricedPicks("QG", [110, 110]),
     },
-  }, { topN: 2, dateKey: "2026-05-08" });
+  }, { cohorts: [3], dateKey: "2026-05-08" });
   const payload = await buildStoredResolvedSectionPerformancePayload([...startRows, ...exitRows], {
     windows: ["7d"],
+    cohorts: [3],
     benchmarkSeries: [
       { date: "2026-05-01", nav: 100 },
       { date: "2026-05-08", nav: 101 },
@@ -205,6 +280,24 @@ console.log("trackRecord/sectionPerformance.js regression\n");
   assert("stored matured window uses the original date and exit date", win.fromDate === "2026-05-01" && win.toDate === "2026-05-08", win);
   assert("resolved sections share one benchmark return", benchmarks.size === 1 && benchmarks.has(1), win.sections);
   assert("bestOverall comes from resolved forward returns", payload.bestOverall.type === "sws_quality_growth" && payload.bestOverall.alphaPct === 9, payload.bestOverall);
+}
+
+// ──── 12. Legacy top-10 row dedupes against official top-10 row ────
+{
+  const official = buildDailySectionCohortRows({
+    scanned_at: "2026-05-01T10:00:00.000Z",
+    sections: { best_to_buy_now: pricedPicks("BUY", [100, 100, 100, 100, 100, 100, 100, 100, 100, 100]) },
+  }, { cohorts: [10], dateKey: "2026-05-01" });
+  const officialBuy = official.find((r) => r.type === "sws_best_buynow");
+  const legacy = { ...officialBuy, id: "2026-05-01|sws_best_buynow", requested_cohort_size: undefined, actual_cohort_size: undefined, cohort_label: undefined };
+  const payload = buildSectionPerformanceApiPayload([legacy, officialBuy], {
+    windows: ["7d"],
+    cohorts: [10],
+    sampleStatus: "latest_available",
+    benchmarkReturnsByTimeframe: { "7d": 0 },
+  });
+  const rows = payload.windows[0].sections.filter((s) => s.type === "sws_best_buynow");
+  assert("legacy and official top-10 rows render once", rows.length === 1 && rows[0].requestedCohortSize === 10, rows);
 }
 
 console.log(`\n${pass} pass, ${fail} fail`);

@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-05-25**
+**Last updated: 2026-05-26**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -34,6 +34,16 @@ harness) shipped in #337 — a separate experimental surface from the main
 portfolio analyzer.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### Track Record credibility spotlight (May 2026)
+- **This PR** — India Market section track record now stores daily SWS cohorts
+  for official Top 3 / Top 5 / Top 10 / Top 20 samples per section, keeps a
+  shared Nifty 500 benchmark per timeframe, preserves legacy top-10 API
+  behavior when `cohorts` is omitted, and lets the homepage spotlight choose
+  the strongest eligible 7d/30d proof point with explicit cohort labeling.
+  Duplicate partial cohorts cannot win under a misleading larger label; Track
+  Record now exposes Best / Top 3 / Top 5 / Top 10 / Top 20 controls as the
+  audit view.
 
 ### Branded Vercel URL (May 2026)
 - **Vercel-only platform link** — the canonical public link is

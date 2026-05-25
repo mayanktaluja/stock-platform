@@ -4621,11 +4621,26 @@ function parseSectionPerformanceWindows(raw) {
   return [...new Set(values)];
 }
 
-function sectionPerformanceUnavailable(operation, windows = ["7d", "30d"]) {
+function parseSectionPerformanceCohorts(raw) {
+  const values = String(raw || "10")
+    .split(",")
+    .map((c) => c.trim())
+    .filter(Boolean);
+  const invalid = values.find((c) => !["3", "5", "10", "20"].includes(c));
+  if (invalid) {
+    const err = new Error(`Invalid section-performance cohort: ${invalid}`);
+    err.statusCode = 400;
+    throw err;
+  }
+  return [...new Set(values.map((c) => Number.parseInt(c, 10)))].sort((a, b) => a - b);
+}
+
+function sectionPerformanceUnavailable(operation, windows = ["7d", "30d"], cohorts = [10]) {
   return {
     available: false,
     operation,
     windows,
+    cohorts,
     message: "services/trackRecord/sectionPerformance.js is not available yet",
     integrationPoints: {
       read: ["getSectionPerformancePayload", "readAllSectionPerformanceRows + buildSectionPerformancePayload"],
@@ -4646,10 +4661,10 @@ function readCurrentSwsPicksForSectionPerformance() {
   }
 }
 
-async function readSectionPerformanceSafe({ windows }) {
+async function readSectionPerformanceSafe({ windows, cohorts }) {
   const mod = await loadSectionPerformanceModule();
   const fn = mod?.getSectionPerformancePayload;
-  if (fn) return fn({ windows, picksData: readCurrentSwsPicksForSectionPerformance() });
+  if (fn) return fn({ windows, cohorts, picksData: readCurrentSwsPicksForSectionPerformance() });
 
   const storage = await loadSectionPerformanceStorageModule();
   const sectionPerformanceStore = storage?.getSectionPerformanceStorage?.();
@@ -4660,22 +4675,22 @@ async function readSectionPerformanceSafe({ windows }) {
     const latestRows = latestDate ? rows.filter((row) => row.dateKey === latestDate) : [];
     return {
       available: true,
-      ...mod.buildSectionPerformancePayload(latestRows, { timeframes: windows, mode: "latest_cohort" }),
+      ...mod.buildSectionPerformancePayload(latestRows, { timeframes: windows, cohorts, mode: "latest_cohort" }),
       storedRowCount: rows.length,
     };
   }
 
   const picksData = readCurrentSwsPicksForSectionPerformance();
   if (mod?.buildDailySectionCohortRows && mod?.buildSectionPerformancePayload && picksData) {
-    const rows = mod.buildDailySectionCohortRows(picksData, { snapshotAt: picksData.scanned_at });
+    const rows = mod.buildDailySectionCohortRows(picksData, { snapshotAt: picksData.scanned_at, cohorts });
     return {
       available: true,
       transient: true,
-      ...mod.buildSectionPerformancePayload(rows, { timeframes: windows, mode: "current_picks_transient" }),
+      ...mod.buildSectionPerformancePayload(rows, { timeframes: windows, cohorts, mode: "current_picks_transient" }),
     };
   }
 
-  return sectionPerformanceUnavailable("read", windows);
+  return sectionPerformanceUnavailable("read", windows, cohorts);
 }
 
 async function snapshotSectionPerformanceSafe(context = {}) {
@@ -5135,15 +5150,17 @@ app.post("/api/track/snapshot-sws-now", async (req, res) => {
 app.get("/api/track/section-performance", async (req, res) => {
   try {
     const windows = parseSectionPerformanceWindows(req.query.windows);
-    const cacheKey = `track_section_performance_${windows.join("_")}`;
+    const cohorts = parseSectionPerformanceCohorts(req.query.cohorts);
+    const cacheKey = `track_section_performance_${windows.join("_")}_${cohorts.join("_")}`;
     if (!req.query.bust) {
       const cached = trackCache.get(cacheKey);
       if (cached) { res.set("X-Cache", "HIT"); return res.json(cached); }
     }
-    const payload = await readSectionPerformanceSafe({ windows });
+    const payload = await readSectionPerformanceSafe({ windows, cohorts });
     const response = {
       ...payload,
       windows: payload?.windows || windows,
+      cohorts: payload?.cohorts || cohorts,
       lastComputedAt: payload?.lastComputedAt || new Date().toISOString(),
     };
     trackCache.set(cacheKey, response);
