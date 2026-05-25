@@ -4585,15 +4585,25 @@
             <div class="section-icon buynow"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 8-5 5-4-4-4 4"/></svg></div>
             <div>
               <div class="section-name">Section Alpha vs Nifty 500</div>
-              <div class="section-desc">Equal-weight top 10 from each India Market section, compared with one shared Nifty 500 TRI proxy per timeframe.</div>
+              <div class="section-desc">Equal-weight top 3/5/10/20 cohorts from each India Market section, compared with one shared Nifty 500 TRI proxy per timeframe.</div>
             </div>
           </div>
-          <div id="trackSectionPerformanceWindowTabs" style="display:flex; gap:6px;" aria-label="Section alpha timeframe">
-            <button class="refresh-btn" type="button" data-window="7d" onclick="window.__trackSetSectionPerformanceWindow && window.__trackSetSectionPerformanceWindow('7d')" style="font-size:11px;">7d</button>
-            <button class="refresh-btn" type="button" data-window="30d" onclick="window.__trackSetSectionPerformanceWindow && window.__trackSetSectionPerformanceWindow('30d')" style="font-size:11px;">30d</button>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;">
+            <div id="trackSectionPerformanceWindowTabs" style="display:flex; gap:6px;" aria-label="Section alpha timeframe">
+              <button class="refresh-btn" type="button" data-window="7d" onclick="window.__trackSetSectionPerformanceWindow && window.__trackSetSectionPerformanceWindow('7d')" style="font-size:11px;">7d</button>
+              <button class="refresh-btn" type="button" data-window="30d" onclick="window.__trackSetSectionPerformanceWindow && window.__trackSetSectionPerformanceWindow('30d')" style="font-size:11px;">30d</button>
+            </div>
+            <div id="trackSectionPerformanceCohortTabs" style="display:flex; gap:6px; flex-wrap:wrap;" aria-label="Section alpha cohort">
+              <button class="refresh-btn" type="button" data-cohort="best" onclick="window.__trackSetSectionPerformanceCohort && window.__trackSetSectionPerformanceCohort('best')" style="font-size:11px;">Best</button>
+              <button class="refresh-btn" type="button" data-cohort="3" onclick="window.__trackSetSectionPerformanceCohort && window.__trackSetSectionPerformanceCohort('3')" style="font-size:11px;">Top 3</button>
+              <button class="refresh-btn" type="button" data-cohort="5" onclick="window.__trackSetSectionPerformanceCohort && window.__trackSetSectionPerformanceCohort('5')" style="font-size:11px;">Top 5</button>
+              <button class="refresh-btn" type="button" data-cohort="10" onclick="window.__trackSetSectionPerformanceCohort && window.__trackSetSectionPerformanceCohort('10')" style="font-size:11px;">Top 10</button>
+              <button class="refresh-btn" type="button" data-cohort="20" onclick="window.__trackSetSectionPerformanceCohort && window.__trackSetSectionPerformanceCohort('20')" style="font-size:11px;">Top 20</button>
+            </div>
           </div>
         </div>
         <div id="trackSectionPerformanceSummary" style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;"></div>
+        <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Methodology: each daily SWS snapshot stores official top 3, 5, 10, and 20 cohorts per section. The India Market spotlight may surface the strongest eligible cohort, labelled explicitly to avoid hidden cherry-picking.</div>
         <div id="trackSectionPerformanceGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:10px;">
           <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading 7d/30d section alpha…</div></div>
         </div>

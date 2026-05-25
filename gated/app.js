@@ -4963,11 +4963,19 @@ async function loadTrackSections(forceBust = false) {
 
 let _trackSectionPerformanceCache = null;
 let _trackSectionPerformanceWindow = "7d";
+let _trackSectionPerformanceCohort = "best";
+const TRACK_SECTION_COHORTS = [3, 5, 10, 20];
 
 function _fmtSignedPct(value, decimals = 1) {
   const n = Number(value);
   if (!Number.isFinite(n)) return "—";
   return `${n >= 0 ? "+" : ""}${n.toFixed(decimals)}%`;
+}
+
+function _fmtPct(value, decimals = 0) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return "—";
+  return `${n.toFixed(decimals)}%`;
 }
 
 function _plainSectionLabel(label) {
@@ -4996,6 +5004,10 @@ function _sectionPerformanceDays(windowKey) {
   return windowKey === "30d" ? "30 days" : "7 days";
 }
 
+function _cohortLabel(row) {
+  return row?.cohortLabel || (row?.requestedCohortSize ? `top ${row.requestedCohortSize}` : "top 10");
+}
+
 function _spotlightLabel(windowPayload) {
   if (windowPayload?.sampleStatus === "latest_available") return "Track Record Spotlight · latest available sample";
   return "Track Record Spotlight";
@@ -5020,8 +5032,8 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   if (!hasPositiveAlpha) {
     return {
       tone: "neutral",
-      headline: "No section is currently ahead of Nifty 500",
-      evidence: `${label} is the strongest relative section in the current track sample, but it has not produced positive alpha.`,
+      headline: "No eligible section cohort is currently ahead of Nifty 500",
+      evidence: `${label} ${_cohortLabel(best)} is the strongest relative cohort in the current track sample, but it is not eligible for a positive-alpha claim.`,
       showAlpha: false,
     };
   }
@@ -5029,7 +5041,7 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   if (isResolved) {
     return {
       tone: "positive",
-      headline: `${label} top 10 beat Nifty 500 by ${_fmtSignedPct(alpha)} over ${windowText}`,
+      headline: `${label} ${_cohortLabel(best)} beat Nifty 500 by ${_fmtSignedPct(alpha)} over ${windowText}`,
       evidenceSuffix: "",
       showAlpha: true,
     };
@@ -5038,7 +5050,7 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   if (isLatestSample) {
     return {
       tone: "positive",
-      headline: `Latest ${label} sample shows ${_fmtSignedPct(alpha)} alpha vs Nifty 500`,
+      headline: `Latest ${label} ${_cohortLabel(best)} sample shows ${_fmtSignedPct(alpha)} alpha vs Nifty 500`,
       evidenceSuffix: " Closed-window cohorts will replace this as history matures.",
       showAlpha: true,
     };
@@ -5046,7 +5058,7 @@ function _credibilityBannerCopy(best, windowPayload, label) {
 
   return {
     tone: "neutral",
-    headline: `${label} is the strongest section in the current track sample`,
+    headline: `${label} ${_cohortLabel(best)} is the strongest cohort in the current track sample`,
     evidence: "Closed-window 7d/30d evidence is still maturing.",
     showAlpha: false,
   };
@@ -5065,7 +5077,8 @@ function renderPicksCredibilityBanner(payload) {
   const copy = _credibilityBannerCopy(best, windowPayload, label);
   const alphaColor = copy.tone === "positive" ? "var(--green)" : "var(--gold)";
   const statusText = _spotlightLabel(windowPayload);
-  const evidence = copy.evidence || `Equal-weight top 10: ${_fmtSignedPct(sectionReturn)} vs Nifty 500 ${_fmtSignedPct(benchmark)}.${copy.evidenceSuffix || ""}`;
+  const cohortText = _cohortLabel(best);
+  const evidence = copy.evidence || `Equal-weight ${cohortText}: ${_fmtSignedPct(sectionReturn)} vs Nifty 500 ${_fmtSignedPct(benchmark)}.${copy.evidenceSuffix || ""}`;
   const chipHtml = ["7d", "30d"].map((w) => {
     const wp = _sectionPerformanceWindow(payload, w);
     const b = wp?.bestSection;
@@ -5074,7 +5087,7 @@ function renderPicksCredibilityBanner(payload) {
     const border = active ? "rgba(224,176,96,0.45)" : "var(--border)";
     return `<button type="button" onclick="window.__picksCredibilitySelect && window.__picksCredibilitySelect('${w}')"
       style="border:1px solid ${border};background:${bg};color:var(--text-primary);border-radius:6px;padding:5px 8px;font-size:11px;cursor:pointer;white-space:nowrap;">
-      <strong>${w}</strong>${b ? ` · ${escapeHtml(_plainSectionLabel(b.label))} ${_fmtSignedPct(b.alphaPct)}` : " · pending"}
+      <strong>${w}</strong>${b ? ` · ${escapeHtml(_plainSectionLabel(b.label))} ${escapeHtml(_cohortLabel(b))} ${_fmtSignedPct(b.alphaPct)}` : " · pending"}
     </button>`;
   }).join("");
   host.style.display = "block";
@@ -5115,7 +5128,7 @@ async function loadPicksCredibilityBanner(forceBust = false) {
   const host = document.getElementById("picksCredibilityBanner");
   if (!host) return;
   try {
-    const url = `/api/track/section-performance?windows=7d,30d${forceBust ? "&bust=1" : ""}`;
+    const url = `/api/track/section-performance?windows=7d,30d&cohorts=3,5,10,20${forceBust ? "&bust=1" : ""}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const payload = await res.json();
@@ -5139,31 +5152,71 @@ function renderTrackSectionPerformance() {
     btn.style.background = active ? "rgba(224,176,96,0.16)" : "";
     btn.style.borderColor = active ? "rgba(224,176,96,0.45)" : "";
   });
+  const cohortTabs = document.querySelectorAll("#trackSectionPerformanceCohortTabs button[data-cohort]");
+  cohortTabs.forEach((btn) => {
+    const active = btn.getAttribute("data-cohort") === _trackSectionPerformanceCohort;
+    btn.style.background = active ? "rgba(224,176,96,0.16)" : "";
+    btn.style.borderColor = active ? "rgba(224,176,96,0.45)" : "";
+    btn.setAttribute("aria-pressed", active ? "true" : "false");
+  });
   if (!windowPayload || !Array.isArray(windowPayload.sections) || windowPayload.sections.length === 0) {
     if (summary) summary.textContent = `${_trackSectionPerformanceWindow} section alpha is waiting for enough track history.`;
     grid.innerHTML = `<div class="empty-state"><div class="empty-text">No ${escapeHtml(_trackSectionPerformanceWindow)} section-performance sample yet.</div></div>`;
     return;
   }
+  const rowsForView = (() => {
+    const sections = [...windowPayload.sections];
+    if (_trackSectionPerformanceCohort !== "best") {
+      const requested = Number(_trackSectionPerformanceCohort);
+      return sections.filter((s) => Number(s.requestedCohortSize) === requested);
+    }
+    const bySection = new Map();
+    for (const row of sections) {
+      const key = row.sectionKey || row.type || row.label;
+      const existing = bySection.get(key);
+      if (!existing) {
+        bySection.set(key, row);
+        continue;
+      }
+      const existingEligible = existing.eligibleForBanner === true ? 1 : 0;
+      const rowEligible = row.eligibleForBanner === true ? 1 : 0;
+      if (rowEligible !== existingEligible) {
+        if (rowEligible > existingEligible) bySection.set(key, row);
+        continue;
+      }
+      const alphaDiff = (Number(row.alphaPct) || -Infinity) - (Number(existing.alphaPct) || -Infinity);
+      if (alphaDiff > 0) bySection.set(key, row);
+      else if (alphaDiff === 0 && Number(row.requestedCohortSize || 99) < Number(existing.requestedCohortSize || 99)) bySection.set(key, row);
+    }
+    return [...bySection.values()].sort((a, b) => (b.alphaPct ?? -Infinity) - (a.alphaPct ?? -Infinity));
+  })();
   const sampleLabel = _sampleCopy(windowPayload);
   if (summary) {
-    summary.innerHTML = `${escapeHtml(sampleLabel)} · shared benchmark: <strong style="color:var(--text-primary);">Nifty 500 ${_fmtSignedPct(windowPayload.benchmarkReturnPct)}</strong>`;
+    const viewLabel = _trackSectionPerformanceCohort === "best" ? "best observed cohort per section (eligible rows prioritized)" : `top ${_trackSectionPerformanceCohort} cohorts`;
+    summary.innerHTML = `${escapeHtml(sampleLabel)} · ${escapeHtml(viewLabel)} · shared benchmark: <strong style="color:var(--text-primary);">Nifty 500 ${_fmtSignedPct(windowPayload.benchmarkReturnPct)}</strong>`;
   }
-  grid.innerHTML = windowPayload.sections.map((s, idx) => {
+  if (rowsForView.length === 0) {
+    grid.innerHTML = `<div class="empty-state"><div class="empty-text">No ${escapeHtml(_trackSectionPerformanceCohort)} cohort rows for ${escapeHtml(_trackSectionPerformanceWindow)}.</div></div>`;
+    return;
+  }
+  grid.innerHTML = rowsForView.map((s, idx) => {
     const alpha = Number(s.alphaPct);
     const colors = signedColorFor(alpha);
     const name = _plainSectionLabel(s.label);
     const side = s.side === "SHORT" ? "SHORT" : "LONG";
     const border = idx === 0 ? "rgba(224,176,96,0.42)" : "var(--border)";
+    const cohort = _cohortLabel(s);
     return `<div data-testid="track-section-performance-row" style="border:1px solid ${border};background:var(--panel);border-radius:8px;padding:12px;min-height:118px;">
       <div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start;">
         <div style="font-size:13px;font-weight:800;color:var(--text-primary);line-height:1.25;">${escapeHtml(name)}</div>
         <span style="font-size:9px;font-weight:800;letter-spacing:0.06em;color:${side === "SHORT" ? "#fca5a5" : "#86efac"};">${side}</span>
       </div>
+      <div data-testid="track-section-cohort-label" style="font-size:10px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:0.06em;margin-top:7px;">${escapeHtml(cohort)}</div>
       <div style="font-size:24px;font-weight:900;color:${colors.color};margin-top:8px;line-height:1;" data-testid="track-section-alpha">${_fmtSignedPct(alpha)}</div>
       <div style="font-size:11px;color:var(--text-muted);margin-top:7px;line-height:1.45;">
-        Top 10 ${_fmtSignedPct(s.sectionReturnPct)} · Nifty 500 ${_fmtSignedPct(s.benchmarkReturnPct)}
+        ${escapeHtml(cohort)} ${_fmtSignedPct(s.sectionReturnPct)} · Nifty 500 ${_fmtSignedPct(s.benchmarkReturnPct)}
       </div>
-      <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">n=${s.sampleSize || 0} · ${escapeHtml(s.fromDate || "—")} to ${escapeHtml(s.toDate || "—")}</div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">n=${s.sampleSize || 0} · coverage ${_fmtPct(s.coveragePct, 0)} · ${escapeHtml(s.status || windowPayload.sampleStatus || "—")} · ${escapeHtml(s.fromDate || "—")} to ${escapeHtml(s.toDate || "—")}</div>
     </div>`;
   }).join("");
 }
@@ -5173,13 +5226,18 @@ window.__trackSetSectionPerformanceWindow = function(windowKey) {
   renderTrackSectionPerformance();
 };
 
+window.__trackSetSectionPerformanceCohort = function(cohortKey) {
+  _trackSectionPerformanceCohort = TRACK_SECTION_COHORTS.includes(Number(cohortKey)) ? String(Number(cohortKey)) : "best";
+  renderTrackSectionPerformance();
+};
+
 async function loadTrackSectionPerformance(forceBust = false) {
   const grid = document.getElementById("trackSectionPerformanceGrid");
   if (grid) {
     grid.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading 7d/30d section alpha…</div></div>`;
   }
   try {
-    const url = `/api/track/section-performance?windows=7d,30d${forceBust ? "&bust=1" : ""}`;
+    const url = `/api/track/section-performance?windows=7d,30d&cohorts=3,5,10,20${forceBust ? "&bust=1" : ""}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     _trackSectionPerformanceCache = await res.json();

@@ -99,6 +99,24 @@ const storage = new FileSectionPerformanceStorage({ path: storagePath });
   assert("factory backend=file returns FileSectionPerformanceStorage", forced instanceof FileSectionPerformanceStorage, forced?.name);
 }
 
+// ──── 6. official cohort-sized ids coexist by date/type ────
+{
+  const cohortStorage = new FileSectionPerformanceStorage({ path: path.join(tmpDir, "cohorts.jsonl") });
+  const result = await cohortStorage.upsert([
+    row("2026-05-27|sws_best_buynow|top3", "2026-05-27", { requested_cohort_size: 3 }),
+    row("2026-05-27|sws_best_buynow|top5", "2026-05-27", { requested_cohort_size: 5 }),
+    row("2026-05-27|sws_best_buynow|top10", "2026-05-27", { requested_cohort_size: 10 }),
+    row("2026-05-27|sws_best_buynow|top20", "2026-05-27", { requested_cohort_size: 20 }),
+  ]);
+  assert("four cohort ids coexist for one date/type", result.written === 4 && result.updated === 0, result);
+  const update = await cohortStorage.upsert([
+    row("2026-05-27|sws_best_buynow|top5", "2026-05-27", { requested_cohort_size: 5, marker: "updated-top5" }),
+  ]);
+  const rows = await cohortStorage.readByDateKey("2026-05-27");
+  const top5 = rows.find((r) => r.id.endsWith("|top5"));
+  assert("duplicate same cohort id upserts only that cohort", update.updated === 1 && rows.length === 4 && top5.marker === "updated-top5", { update, rows });
+}
+
 await storage.clear();
 fs.rmSync(tmpDir, { recursive: true, force: true });
 

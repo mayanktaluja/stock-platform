@@ -16,6 +16,7 @@ import {
 
 export const SECTION_PERFORMANCE_SCHEMA_VERSION = "sws-section-performance-v1";
 export const SECTION_PERFORMANCE_TOP_N = 10;
+export const SECTION_PERFORMANCE_COHORT_SIZES = [3, 5, 10, 20];
 export const SECTION_PERFORMANCE_TIMEFRAMES = ["7d", "30d"];
 export const DEFAULT_SECTION_BENCHMARK_PROXY = "nifty500_tri";
 
@@ -171,8 +172,68 @@ function uniqueFlags(flags) {
   return [...new Set(flags.filter(Boolean))];
 }
 
-export function sectionPerformanceRowId(dateKey, type) {
-  return `${dateKey}|${type}`;
+export function normalizeSectionPerformanceCohorts(cohorts, fallback = [SECTION_PERFORMANCE_TOP_N]) {
+  if (cohorts == null || (typeof cohorts === "string" && cohorts.trim() === "") || (Array.isArray(cohorts) && cohorts.length === 0)) {
+    return [...new Set(fallback)].sort((a, b) => a - b);
+  }
+  const raw = Array.isArray(cohorts) ? cohorts : String(cohorts).split(",");
+  const out = raw
+    .map((c) => Number.parseInt(String(c || "").trim(), 10))
+    .filter((c) => SECTION_PERFORMANCE_COHORT_SIZES.includes(c));
+  return out.length ? [...new Set(out)].sort((a, b) => a - b) : [...new Set(fallback)].sort((a, b) => a - b);
+}
+
+export function sectionPerformanceRowId(dateKey, type, cohortSize = SECTION_PERFORMANCE_TOP_N) {
+  return `${dateKey}|${type}|top${cohortSize}`;
+}
+
+function getRequestedCohortSize(row) {
+  const n = num(row?.requested_cohort_size ?? row?.requestedCohortSize ?? row?.top_n);
+  return n && n > 0 ? n : SECTION_PERFORMANCE_TOP_N;
+}
+
+function cohortLabel(requestedCohortSize, actualCohortSize) {
+  return actualCohortSize < requestedCohortSize
+    ? `top ${actualCohortSize} available`
+    : `top ${requestedCohortSize}`;
+}
+
+function cohortKeyForConstituents(constituents) {
+  return (Array.isArray(constituents) ? constituents : [])
+    .map((c) => c?.symbol || canonicalSymbol(c?.ticker) || c?.ticker)
+    .filter(Boolean)
+    .join("|");
+}
+
+function normalizeCohortRow(row) {
+  const requestedCohortSize = getRequestedCohortSize(row);
+  const actualCohortSize = num(row?.actual_cohort_size ?? row?.actualCohortSize) ?? (Array.isArray(row?.constituents) ? row.constituents.length : 0);
+  return {
+    ...row,
+    top_n: requestedCohortSize,
+    requested_cohort_size: requestedCohortSize,
+    actual_cohort_size: actualCohortSize,
+    cohort_label: row?.cohort_label || row?.cohortLabel || cohortLabel(requestedCohortSize, actualCohortSize),
+    cohort_key: row?.cohort_key || row?.cohortKey || cohortKeyForConstituents(row?.constituents),
+  };
+}
+
+function isOfficialCohortRow(row) {
+  const requested = getRequestedCohortSize(row);
+  return row?.id === sectionPerformanceRowId(row?.dateKey, row?.type, requested);
+}
+
+function dedupeRowsByCohort(rows) {
+  const byKey = new Map();
+  for (const raw of Array.isArray(rows) ? rows : []) {
+    const row = normalizeCohortRow(raw);
+    const key = `${row.dateKey || ""}|${row.type || ""}|${row.requested_cohort_size}`;
+    const existing = byKey.get(key);
+    if (!existing || (isOfficialCohortRow(row) && !isOfficialCohortRow(existing))) {
+      byKey.set(key, row);
+    }
+  }
+  return [...byKey.values()];
 }
 
 export function getSectionRegistryByType() {
@@ -210,49 +271,62 @@ export function buildSectionConstituent(rawPick, rank) {
 export function buildDailySectionCohortRows(picksData, opts = {}) {
   const snapshotAt = opts.snapshotAt || picksData?.scanned_at || new Date().toISOString();
   const dateKey = opts.dateKey || dateKeyFromIso(snapshotAt);
-  const topN = Number.isFinite(opts.topN) ? opts.topN : SECTION_PERFORMANCE_TOP_N;
+  const cohortSizes = normalizeSectionPerformanceCohorts(
+    opts.cohorts ?? opts.cohortSizes ?? opts.topN,
+    SECTION_PERFORMANCE_COHORT_SIZES
+  );
   const benchmarkProxy = opts.benchmarkProxy || DEFAULT_SECTION_BENCHMARK_PROXY;
   const rows = [];
 
   for (const section of Object.values(SWS_SECTION_PERFORMANCE_REGISTRY)) {
     const rawItems = picksData?.sections?.[section.sectionKey];
-    const flags = [];
-    if (!Array.isArray(rawItems) || rawItems.length === 0) {
-      flags.push("empty_section");
-    }
-    const constituents = (Array.isArray(rawItems) ? rawItems : [])
-      .slice(0, topN)
-      .map((item, idx) => buildSectionConstituent(item, idx + 1));
+    const items = Array.isArray(rawItems) ? rawItems : [];
 
-    if (constituents.length > 0 && constituents.length < topN) {
-      flags.push(qualityFlag("partial_top10", constituents.length));
-    }
-    const missingPriceCount = constituents.filter((c) => c.price_inr == null).length;
-    if (missingPriceCount > 0) flags.push(qualityFlag("missing_prices", missingPriceCount));
-    for (const tf of SECTION_PERFORMANCE_TIMEFRAMES) {
-      const missing = constituents.filter((c) => c.returns_pct?.[tf] == null).length;
-      if (missing > 0) flags.push(qualityFlag(`missing_returns_${tf}`, missing));
-    }
+    for (const requestedCohortSize of cohortSizes) {
+      const flags = [];
+      if (items.length === 0) flags.push("empty_section");
+      const actualCohortSize = Math.min(items.length, requestedCohortSize);
+      const cohortLabel = actualCohortSize < requestedCohortSize
+        ? `top ${actualCohortSize} available`
+        : `top ${requestedCohortSize}`;
+      const constituents = items
+        .slice(0, requestedCohortSize)
+        .map((item, idx) => buildSectionConstituent(item, idx + 1));
 
-    rows.push({
-      schema_version: SECTION_PERFORMANCE_SCHEMA_VERSION,
-      id: sectionPerformanceRowId(dateKey, section.type),
-      dateKey,
-      snapshotAt,
-      sectionKey: section.sectionKey,
-      type: section.type,
-      label: section.label,
-      side: section.side,
-      top_n: topN,
-      benchmark_proxy: benchmarkProxy,
-      source: {
-        scanned_at: picksData?.scanned_at || null,
-        scoring_version: picksData?.scoring_version || null,
-        schema_version: picksData?.schema_version || null,
-      },
-      constituents,
-      data_quality_flags: uniqueFlags(flags),
-    });
+      if (constituents.length > 0 && constituents.length < requestedCohortSize) {
+        flags.push(qualityFlag(`partial_top${requestedCohortSize}`, constituents.length));
+      }
+      const missingPriceCount = constituents.filter((c) => c.price_inr == null).length;
+      if (missingPriceCount > 0) flags.push(qualityFlag("missing_prices", missingPriceCount));
+      for (const tf of SECTION_PERFORMANCE_TIMEFRAMES) {
+        const missing = constituents.filter((c) => c.returns_pct?.[tf] == null).length;
+        if (missing > 0) flags.push(qualityFlag(`missing_returns_${tf}`, missing));
+      }
+
+      rows.push({
+        schema_version: SECTION_PERFORMANCE_SCHEMA_VERSION,
+        id: sectionPerformanceRowId(dateKey, section.type, requestedCohortSize),
+        dateKey,
+        snapshotAt,
+        sectionKey: section.sectionKey,
+        type: section.type,
+        label: section.label,
+        side: section.side,
+        top_n: requestedCohortSize,
+        requested_cohort_size: requestedCohortSize,
+        actual_cohort_size: actualCohortSize,
+        cohort_label: cohortLabel,
+        cohort_key: constituents.map((c) => c.symbol || c.ticker).filter(Boolean).join("|"),
+        benchmark_proxy: benchmarkProxy,
+        source: {
+          scanned_at: picksData?.scanned_at || null,
+          scoring_version: picksData?.scoring_version || null,
+          schema_version: picksData?.schema_version || null,
+        },
+        constituents,
+        data_quality_flags: uniqueFlags(flags),
+      });
+    }
   }
 
   return rows;
@@ -314,16 +388,17 @@ export function computeEqualWeightSectionReturn(constituents, timeframe, side = 
 }
 
 export function computeSectionPerformanceForTimeframe(row, timeframe, benchmarkReturnPct) {
+  const cohortRow = normalizeCohortRow(row);
   const benchmark = num(benchmarkReturnPct);
-  const side = row?.side || "LONG";
-  const sectionReturn = computeEqualWeightSectionReturn(row?.constituents, timeframe, side);
-  const flags = [...(row?.data_quality_flags || [])];
+  const side = cohortRow?.side || "LONG";
+  const sectionReturn = computeEqualWeightSectionReturn(cohortRow?.constituents, timeframe, side);
+  const flags = [...(cohortRow?.data_quality_flags || [])];
   if (!SECTION_PERFORMANCE_TIMEFRAMES.includes(timeframe)) flags.push("unsupported_timeframe");
   if (sectionReturn.n_constituents === 0) flags.push("empty_section");
   if (sectionReturn.missing_return_count > 0) {
     flags.push(qualityFlag(`missing_returns_${timeframe}`, sectionReturn.missing_return_count));
   }
-  if (sectionReturn.n_with_return > 0 && sectionReturn.n_with_return < Math.min(row?.top_n || SECTION_PERFORMANCE_TOP_N, sectionReturn.n_constituents || SECTION_PERFORMANCE_TOP_N)) {
+  if (sectionReturn.n_with_return > 0 && sectionReturn.n_with_return < Math.min(cohortRow.top_n || SECTION_PERFORMANCE_TOP_N, sectionReturn.n_constituents || SECTION_PERFORMANCE_TOP_N)) {
     flags.push("partial_return_coverage");
   }
   if (benchmark == null) flags.push(`missing_benchmark_${timeframe}`);
@@ -337,11 +412,15 @@ export function computeSectionPerformanceForTimeframe(row, timeframe, benchmarkR
 
   return {
     timeframe,
-    type: row?.type || null,
-    sectionKey: row?.sectionKey || null,
-    label: row?.label || null,
+    type: cohortRow?.type || null,
+    sectionKey: cohortRow?.sectionKey || null,
+    label: cohortRow?.label || null,
     side,
-    benchmark_proxy: row?.benchmark_proxy || DEFAULT_SECTION_BENCHMARK_PROXY,
+    requested_cohort_size: cohortRow.requested_cohort_size,
+    actual_cohort_size: cohortRow.actual_cohort_size,
+    cohort_label: cohortRow.cohort_label,
+    cohort_key: cohortRow.cohort_key,
+    benchmark_proxy: cohortRow?.benchmark_proxy || DEFAULT_SECTION_BENCHMARK_PROXY,
     benchmark_return_pct: round2(benchmark),
     underlying_return_pct: sectionReturn.underlying_return_pct,
     return_pct: sectionReturn.return_pct,
@@ -358,12 +437,13 @@ export function computeSectionPerformanceForTimeframe(row, timeframe, benchmarkR
 }
 
 export function computeSectionPerformance(row, benchmarkReturnsByTimeframe = {}, timeframes = SECTION_PERFORMANCE_TIMEFRAMES) {
+  const cohortRow = normalizeCohortRow(row);
   const performance = {};
   for (const tf of timeframes) {
-    performance[tf] = computeSectionPerformanceForTimeframe(row, tf, benchmarkReturnsByTimeframe?.[tf]);
+    performance[tf] = computeSectionPerformanceForTimeframe(cohortRow, tf, benchmarkReturnsByTimeframe?.[tf]);
   }
   return {
-    ...row,
+    ...cohortRow,
     performance_by_timeframe: performance,
   };
 }
@@ -380,6 +460,10 @@ export function selectBestOverall(sections, timeframes = SECTION_PERFORMANCE_TIM
         sectionKey: section.sectionKey || perf.sectionKey || null,
         label: section.label || perf.label || null,
         side: section.side || perf.side || null,
+        requested_cohort_size: section.requested_cohort_size || perf.requested_cohort_size || SECTION_PERFORMANCE_TOP_N,
+        actual_cohort_size: section.actual_cohort_size || perf.actual_cohort_size || perf.n_constituents || 0,
+        cohort_label: section.cohort_label || perf.cohort_label || null,
+        cohort_key: section.cohort_key || perf.cohort_key || null,
         alpha_pct: perf.alpha_pct,
         return_pct: perf.return_pct,
         underlying_return_pct: perf.underlying_return_pct,
@@ -397,7 +481,7 @@ export function selectBestOverall(sections, timeframes = SECTION_PERFORMANCE_TIM
 export function buildSectionPerformancePayload(rows, opts = {}) {
   const timeframes = opts.timeframes || SECTION_PERFORMANCE_TIMEFRAMES;
   const benchmarkReturnsByTimeframe = opts.benchmarkReturnsByTimeframe || opts.benchmarkReturns || {};
-  const sections = (Array.isArray(rows) ? rows : [])
+  const sections = dedupeRowsByCohort(rows)
     .map((row) => computeSectionPerformance(row, benchmarkReturnsByTimeframe, timeframes));
   return {
     schema_version: SECTION_PERFORMANCE_SCHEMA_VERSION,
@@ -405,6 +489,7 @@ export function buildSectionPerformancePayload(rows, opts = {}) {
     dateKey: opts.dateKey || rows?.[0]?.dateKey || null,
     snapshotAt: opts.snapshotAt || rows?.[0]?.snapshotAt || null,
     timeframes,
+    cohorts: [...new Set(sections.map((s) => s.requested_cohort_size).filter(Boolean))].sort((a, b) => a - b),
     benchmark: {
       proxy: opts.benchmarkProxy || rows?.[0]?.benchmark_proxy || DEFAULT_SECTION_BENCHMARK_PROXY,
       returns_pct: Object.fromEntries(
@@ -443,13 +528,30 @@ export async function getLatestBenchmarkReturns(windows = SECTION_PERFORMANCE_TI
 function toWindowSection(section, timeframe, sampleStatus, dates = {}) {
   const perf = section?.performance_by_timeframe?.[timeframe];
   if (!perf) return null;
+  const requestedCohortSize = section.requested_cohort_size || perf.requested_cohort_size || SECTION_PERFORMANCE_TOP_N;
+  const actualCohortSize = section.actual_cohort_size || perf.actual_cohort_size || perf.n_constituents || 0;
+  const label = section.cohort_label || perf.cohort_label || cohortLabel(requestedCohortSize, actualCohortSize);
+  const coveragePct = perf.coverage_pct;
+  const eligibleForBanner =
+    perf.beat_benchmark === true &&
+    Number.isFinite(perf.alpha_pct) &&
+    perf.alpha_pct > 0 &&
+    (perf.n_with_return || 0) >= 3 &&
+    Number.isFinite(coveragePct) &&
+    coveragePct >= 80;
   return {
     type: section.type,
     sectionKey: section.sectionKey,
     label: section.label,
     side: section.side,
+    requestedCohortSize,
+    actualCohortSize,
+    cohortLabel: label,
+    cohortKey: section.cohort_key || perf.cohort_key || cohortKeyForConstituents(section.constituents),
+    eligibleForBanner,
     sampleSize: perf.n_with_return ?? section.constituents?.length ?? 0,
-    weighting: "equal_top10",
+    coveragePct,
+    weighting: `equal_${label.replace(/\s+/g, "_")}`,
     fromDate: dates.fromDate || section.dateKey || null,
     toDate: dates.toDate || null,
     sectionReturnPct: perf.return_pct,
@@ -459,7 +561,7 @@ function toWindowSection(section, timeframe, sampleStatus, dates = {}) {
     outperformed: perf.beat_benchmark === true,
     status: sampleStatus,
     qualityFlags: perf.data_quality_flags || [],
-    constituents: (section.constituents || []).slice(0, section.top_n || SECTION_PERFORMANCE_TOP_N).map((c) => ({
+    constituents: (section.constituents || []).slice(0, requestedCohortSize).map((c) => ({
       rank: c.rank,
       ticker: c.ticker,
       symbol: c.symbol,
@@ -471,30 +573,66 @@ function toWindowSection(section, timeframe, sampleStatus, dates = {}) {
   };
 }
 
+function markDuplicateCohortEligibility(sections) {
+  const byActualSet = new Map();
+  for (const row of sections) {
+    const sectionKey = row.sectionKey || row.type || row.label || "";
+    const cohortKey = row.cohortKey || "";
+    const key = `${sectionKey}|${cohortKey}`;
+    const requested = Number(row.requestedCohortSize || SECTION_PERFORMANCE_TOP_N);
+    const existing = byActualSet.get(key);
+    if (!existing || requested < existing) byActualSet.set(key, requested);
+  }
+  return sections.map((row) => {
+    const sectionKey = row.sectionKey || row.type || row.label || "";
+    const cohortKey = row.cohortKey || "";
+    const minRequested = byActualSet.get(`${sectionKey}|${cohortKey}`);
+    const requested = Number(row.requestedCohortSize || SECTION_PERFORMANCE_TOP_N);
+    if (!minRequested || requested <= minRequested) return row;
+    return {
+      ...row,
+      eligibleForBanner: false,
+      qualityFlags: uniqueFlags([...(row.qualityFlags || []), `duplicate_actual_cohort:top_${minRequested}`]),
+    };
+  });
+}
+
+function candidateSort(a, b) {
+  const alphaDiff = (b.alphaPct ?? -Infinity) - (a.alphaPct ?? -Infinity);
+  if (alphaDiff !== 0) return alphaDiff;
+  const aExact = a.requestedCohortSize === a.actualCohortSize ? 1 : 0;
+  const bExact = b.requestedCohortSize === b.actualCohortSize ? 1 : 0;
+  if (aExact !== bExact) return bExact - aExact;
+  return (a.requestedCohortSize || SECTION_PERFORMANCE_TOP_N) - (b.requestedCohortSize || SECTION_PERFORMANCE_TOP_N);
+}
+
 function chooseBestWindowSection(sections) {
   const viable = sections.filter((s) => Number.isFinite(s?.alphaPct));
   if (viable.length === 0) return null;
-  const positives = viable.filter((s) => s.alphaPct > 0);
-  const pool = positives.length ? positives : viable;
-  const best = [...pool].sort((a, b) => b.alphaPct - a.alphaPct)[0];
-  return { ...best, outperformed: best.alphaPct > 0 };
+  const eligiblePositive = viable.filter((s) => s.eligibleForBanner === true && s.alphaPct > 0);
+  const pool = eligiblePositive.length ? eligiblePositive : viable;
+  const best = [...pool].sort(candidateSort)[0];
+  return { ...best, outperformed: eligiblePositive.length > 0 && best.eligibleForBanner === true && best.alphaPct > 0 };
 }
 
 export function buildSectionPerformanceApiPayload(rows, opts = {}) {
   const windows = normalizeSectionPerformanceWindows(opts.windows || opts.timeframes);
+  const cohorts = normalizeSectionPerformanceCohorts(opts.cohorts ?? opts.cohortSizes);
   const sampleStatus = opts.sampleStatus || opts.mode || "latest_available";
   const benchmarkReturnsByTimeframe = opts.benchmarkReturnsByTimeframe || {};
-  const base = buildSectionPerformancePayload(rows, {
+  const cohortSet = new Set(cohorts);
+  const filteredRows = dedupeRowsByCohort(rows).filter((row) => cohortSet.has(row.requested_cohort_size));
+  const base = buildSectionPerformancePayload(filteredRows, {
     timeframes: windows,
     benchmarkReturnsByTimeframe,
     mode: sampleStatus,
   });
   const windowPayloads = windows.map((w) => {
     const dates = opts.datesByTimeframe?.[w] || {};
-    const sections = base.sections
+    const sections = markDuplicateCohortEligibility(base.sections
       .map((s) => toWindowSection(s, w, sampleStatus, dates))
       .filter(Boolean)
-      .sort((a, b) => (b.alphaPct ?? -Infinity) - (a.alphaPct ?? -Infinity));
+    ).sort(candidateSort);
     const bestSection = chooseBestWindowSection(sections);
     return {
       window: w,
@@ -513,6 +651,7 @@ export function buildSectionPerformanceApiPayload(rows, opts = {}) {
   return {
     schema_version: SECTION_PERFORMANCE_SCHEMA_VERSION,
     mode: sampleStatus,
+    cohorts,
     windows: windowPayloads,
     bestOverall: chooseBestWindowSection(overallCandidates),
     generatedAt: new Date().toISOString(),
@@ -528,6 +667,7 @@ export async function snapshotSectionPerformanceFromPicks(picksData, opts = {}) 
 
 export async function buildLatestSamplePayloadFromPicks(picksData, opts = {}) {
   const windows = normalizeSectionPerformanceWindows(opts.windows || opts.timeframes);
+  const cohorts = normalizeSectionPerformanceCohorts(opts.cohorts ?? opts.cohortSizes);
   const benchmarkInfo = opts.benchmarkInfo || await getLatestBenchmarkReturns(windows).catch(() => ({}));
   const benchmarkReturnsByTimeframe = Object.fromEntries(
     windows.map((w) => [w, benchmarkInfo[w]?.benchmarkReturnPct ?? null])
@@ -538,9 +678,10 @@ export async function buildLatestSamplePayloadFromPicks(picksData, opts = {}) {
       toDate: benchmarkInfo[w]?.toDate || (picksData?.scanned_at ? dateKeyFromIso(picksData.scanned_at) : null),
     }])
   );
-  const rows = buildDailySectionCohortRows(picksData, opts);
+  const rows = buildDailySectionCohortRows(picksData, { ...opts, cohorts });
   return buildSectionPerformanceApiPayload(rows, {
     windows,
+    cohorts,
     sampleStatus: "latest_available",
     benchmarkReturnsByTimeframe,
     datesByTimeframe,
@@ -574,7 +715,8 @@ function benchmarkReturnBetween(series, fromDate, toDate) {
 }
 
 function buildResolvedSectionForWindow(row, timeframe, targetDate, exitPrices, benchmarkReturnPct) {
-  const constituents = (row.constituents || []).map((c) => {
+  const cohortRow = normalizeCohortRow(row);
+  const constituents = (cohortRow.constituents || []).map((c) => {
     const symbol = c?.symbol || canonicalSymbol(c?.ticker);
     const entry = num(c?.price_inr ?? c?.snapshotPrice);
     const exit = symbol ? num(exitPrices?.get(symbol)) : null;
@@ -587,16 +729,32 @@ function buildResolvedSectionForWindow(row, timeframe, targetDate, exitPrices, b
       exit_price_inr: exit,
     };
   });
-  const temp = { ...row, constituents };
+  const temp = { ...cohortRow, constituents };
   const perf = computeSectionPerformanceForTimeframe(temp, timeframe, benchmarkReturnPct);
+  const requestedCohortSize = cohortRow.requested_cohort_size || SECTION_PERFORMANCE_TOP_N;
+  const actualCohortSize = cohortRow.actual_cohort_size || constituents.length;
+  const label = cohortRow.cohort_label || cohortLabel(requestedCohortSize, actualCohortSize);
+  const eligibleForBanner =
+    perf.beat_benchmark === true &&
+    Number.isFinite(perf.alpha_pct) &&
+    perf.alpha_pct > 0 &&
+    (perf.n_with_return || 0) >= 3 &&
+    Number.isFinite(perf.coverage_pct) &&
+    perf.coverage_pct >= 80;
   return {
-    type: row.type,
-    sectionKey: row.sectionKey,
-    label: row.label,
-    side: row.side,
+    type: cohortRow.type,
+    sectionKey: cohortRow.sectionKey,
+    label: cohortRow.label,
+    side: cohortRow.side,
+    requestedCohortSize,
+    actualCohortSize,
+    cohortLabel: label,
+    cohortKey: cohortRow.cohort_key || cohortKeyForConstituents(cohortRow.constituents),
+    eligibleForBanner,
     sampleSize: perf.n_with_return,
-    weighting: "equal_top10",
-    fromDate: row.dateKey,
+    coveragePct: perf.coverage_pct,
+    weighting: `equal_${label.replace(/\s+/g, "_")}`,
+    fromDate: cohortRow.dateKey,
     toDate: targetDate,
     sectionReturnPct: perf.return_pct,
     underlyingReturnPct: perf.underlying_return_pct,
@@ -605,7 +763,7 @@ function buildResolvedSectionForWindow(row, timeframe, targetDate, exitPrices, b
     outperformed: perf.beat_benchmark === true,
     status: "resolved",
     qualityFlags: perf.data_quality_flags,
-    constituents: constituents.slice(0, row.top_n || SECTION_PERFORMANCE_TOP_N).map((c) => ({
+    constituents: constituents.slice(0, requestedCohortSize).map((c) => ({
       rank: c.rank,
       ticker: c.ticker,
       symbol: c.symbol,
@@ -620,7 +778,10 @@ function buildResolvedSectionForWindow(row, timeframe, targetDate, exitPrices, b
 
 export async function buildStoredResolvedSectionPerformancePayload(rows, opts = {}) {
   const windows = normalizeSectionPerformanceWindows(opts.windows || opts.timeframes);
-  const allRows = Array.isArray(rows) ? rows.filter((r) => r?.dateKey && Array.isArray(r.constituents)) : [];
+  const cohorts = normalizeSectionPerformanceCohorts(opts.cohorts ?? opts.cohortSizes);
+  const cohortSet = new Set(cohorts);
+  const allRows = dedupeRowsByCohort(rows)
+    .filter((r) => r?.dateKey && Array.isArray(r.constituents) && cohortSet.has(r.requested_cohort_size));
   const dates = [...new Set(allRows.map((r) => r.dateKey))].sort();
   const priceMaps = buildPriceMapsByDate(allRows);
   const benchmarkSeries = opts.benchmarkSeries || await fetchBenchmarkSeries().catch(() => null);
@@ -642,6 +803,7 @@ export async function buildStoredResolvedSectionPerformancePayload(rows, opts = 
         toDate: null,
         benchmarkReturnPct: null,
         sampleStatus: "insufficient_history",
+        cohorts,
         outperformed: false,
         bestSection: null,
         sections: [],
@@ -651,9 +813,9 @@ export async function buildStoredResolvedSectionPerformancePayload(rows, opts = 
     const targetDate = firstDateOnOrAfter(dates, latest.dueDate);
     const exitPrices = priceMaps.get(targetDate);
     const benchmarkReturnPct = benchmarkReturnBetween(benchmarkSeries, latest.dateKey, targetDate);
-    const sections = (rowsByDate.get(latest.dateKey) || [])
+    const sections = markDuplicateCohortEligibility((rowsByDate.get(latest.dateKey) || [])
       .map((row) => buildResolvedSectionForWindow(row, w, targetDate, exitPrices, benchmarkReturnPct))
-      .sort((a, b) => (b.alphaPct ?? -Infinity) - (a.alphaPct ?? -Infinity));
+    ).sort(candidateSort);
     const bestSection = chooseBestWindowSection(sections);
     return {
       window: w,
@@ -661,6 +823,7 @@ export async function buildStoredResolvedSectionPerformancePayload(rows, opts = 
       toDate: targetDate,
       benchmarkReturnPct,
       sampleStatus: "resolved",
+      cohorts,
       outperformed: !!bestSection?.outperformed,
       bestSection,
       sections,
@@ -672,6 +835,7 @@ export async function buildStoredResolvedSectionPerformancePayload(rows, opts = 
   return {
     schema_version: SECTION_PERFORMANCE_SCHEMA_VERSION,
     mode: "resolved",
+    cohorts,
     windows: windowPayloads,
     bestOverall: chooseBestWindowSection(overallCandidates),
     generatedAt: new Date().toISOString(),
@@ -680,17 +844,20 @@ export async function buildStoredResolvedSectionPerformancePayload(rows, opts = 
 
 export async function getSectionPerformancePayload(opts = {}) {
   const windows = normalizeSectionPerformanceWindows(opts.windows || opts.timeframes);
+  const cohorts = normalizeSectionPerformanceCohorts(opts.cohorts ?? opts.cohortSizes);
   const rows = await readAllSectionPerformanceRows();
   const resolved = await buildStoredResolvedSectionPerformancePayload(rows, {
     windows,
+    cohorts,
     benchmarkSeries: opts.benchmarkSeries,
   });
   if (resolved.bestOverall) return resolved;
   if (opts.picksData) {
-    return buildLatestSamplePayloadFromPicks(opts.picksData, { windows });
+    return buildLatestSamplePayloadFromPicks(opts.picksData, { windows, cohorts });
   }
   return buildSectionPerformanceApiPayload(rows, {
     windows,
+    cohorts,
     sampleStatus: rows.length ? "latest_available" : "insufficient_history",
     benchmarkReturnsByTimeframe: {},
   });
