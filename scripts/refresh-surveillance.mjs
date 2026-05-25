@@ -22,6 +22,14 @@ async function main() {
 
   const counts = snap.counts || { ASM: 0, GSM: 0 };
   const total = Object.keys(snap.flagged || {}).length;
+  if (result.skipped) {
+    console.log(
+      `✓ Preserved existing snapshot (${result.existingCount} flagged from ${result.priorDate})`
+    );
+    console.log(`  Reason: ${result.reason}`);
+    return;
+  }
+
   console.log(
     `✓ Wrote ${result.target}${result.path ? " → " + result.path : ""}`
   );

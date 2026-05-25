@@ -95,6 +95,11 @@ portfolio analyzer.
   info-icon sizing fix.
 
 ### Pipeline / infra reliability (May 2026)
+- **This PR** — NSE Surveillance (ASM/GSM) freshness hardening: root
+  `surveillance.json` is bundled into Vercel, runtime snapshot selection picks
+  the best populated/fresh value across KV/cache and disk, and zero-row NSE
+  outages preserve the last-good populated snapshot. Manual refresh landed a
+  2026-05-25 snapshot with 169 flagged names.
 - **#345** — Decommission Neon Postgres; full JSON-only DAL.
 - **#357 / #358 / #402** — macroRegime single-writer hardening (no stash/pop
   clobber; backup macro refresh via PR not push-to-main; single-writer rule
