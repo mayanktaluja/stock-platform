@@ -1,14 +1,12 @@
 // 5x Lab — info-icon tooltips on trajectory metrics + pipeline table headers.
 //
-// The tab is gated behind window.__starbhai_isAdmin, so we force the flag
-// and unhide the button (mirrors 5x-lab-01-trajectory.spec.mjs). Verifies the
+// Verifies the
 // platform tooltip system (#starbhaiTooltip + .info-icon + data-term-id):
 //   1. Visible ⓘ icons on the trajectory metrics + the Score / Verdict headers.
 //   2. Hovering an ⓘ surfaces the glossary tooltip with the right term.
 //   3. Escape closes the tooltip.
 //
-// Self-skips when the multibagger scores snapshot is missing or the API is 404
-// (non-personal session in CI).
+// Self-skips when the multibagger scores snapshot is missing or the API is unavailable.
 
 import { test, expect } from "@playwright/test";
 import { gotoApp } from "./helpers/app.mjs";
@@ -20,19 +18,14 @@ const SCORES_PATH = path.join(process.cwd(), "data", "strategy", "multibagger-sc
 
 async function loadFiveXLab(page) {
   await gotoApp(page);
-  // Force the personal-use flag so the gated tab is reachable.
-  await page.evaluate(() => {
-    window.__starbhai_isAdmin = true;
-    const btn = document.getElementById("multibaggerLabTabBtn");
-    if (btn) btn.hidden = false;
-  });
+  await expect(page.locator("#multibaggerLabTabBtn")).toBeVisible({ timeout: 10_000 });
   await page.evaluate(() => window.switchTab && window.switchTab("multibaggerLab"));
   await expect(page.locator("#multibaggerLabContent")).toBeVisible({ timeout: 10_000 });
   const apiOk = await page.evaluate(async () => {
     const r = await fetch("/api/multibagger/overview");
     return r.ok;
   });
-  if (!apiOk) test.skip(true, "multibagger API not personal-open in this env");
+  if (!apiOk) test.skip(true, "multibagger API unavailable in this env");
 }
 
 test.describe("5x Lab — tooltips", () => {

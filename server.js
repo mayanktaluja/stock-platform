@@ -22,7 +22,6 @@ import { buildSizingDecision } from "./services/riskLab/positionSizing.js";
 import { loadHitRateSummary } from "./services/earnings/hitRateSummary.js";
 import { loadCompounderLatest, loadCompounderPaperTrades } from "./services/compounder/compounderService.js";
 import { loadEdgeLatest, loadEdgePaperTrades } from "./services/earningsEdge/edgeService.js";
-import { createAdminGate } from "./services/auth/adminGate.js";
 import { narrateCandidate, buildStrategyExplainer } from "./services/multibagger/rationaleNarrator.js";
 
 // External-API circuit breaker for /api/sector-heatmap (Yahoo Finance batch
@@ -858,8 +857,7 @@ app.get("/api/auth/me", async (req, res) => {
     name: record.name,
     picture: record.picture,
     // Recompute admin status from the canonical owner email rather than
-    // trusting the persisted flag. The former personal-use tier was folded
-    // into admin under the two-tier model.
+    // trusting the persisted flag.
     isAdmin: computeIsAdmin(record.email),
   });
 });
@@ -2868,14 +2866,11 @@ function readEarningsHealthSlim() {
 
 // ──────────────────────────────────────────────────────────────────────
 // Compounder Lab routes — SAFE sleeve from the 2026-05-19 alpha-strategy
-// plan (~/.claude/plans/sws-alpha-strategy-2026-05-19.md). Admin-only:
-// every route is gated by createAdminGate, which 404s any authenticated
-// user who is not the owner admin. The 404 (vs 403) is deliberate - the
-// routes are invisible to non-admin users, no admin-discovery surface.
+// plan. The global auth middleware keeps these signed-in-only; no per-route
+// owner-only tier applies.
 // ──────────────────────────────────────────────────────────────────────
-const adminGate = createAdminGate({ authEnabled: AUTH_ENABLED });
 
-app.get("/api/compounder/latest", adminGate, (req, res) => {
+app.get("/api/compounder/latest", (req, res) => {
   try {
     const data = loadCompounderLatest();
     if (!data) return res.status(404).json({ error: "compounder-not-built" });
@@ -2886,7 +2881,7 @@ app.get("/api/compounder/latest", adminGate, (req, res) => {
   }
 });
 
-app.get("/api/compounder/paper-trades", adminGate, (req, res) => {
+app.get("/api/compounder/paper-trades", (req, res) => {
   try {
     res.json(loadCompounderPaperTrades());
   } catch (err) {
@@ -2895,8 +2890,8 @@ app.get("/api/compounder/paper-trades", adminGate, (req, res) => {
   }
 });
 
-// Earnings Edge — AGGRESSIVE sleeve. Same personal-use gate.
-app.get("/api/earnings-edge/latest", adminGate, (req, res) => {
+// Earnings Edge — AGGRESSIVE sleeve. Signed-in read surface.
+app.get("/api/earnings-edge/latest", (req, res) => {
   try {
     const data = loadEdgeLatest();
     if (!data) return res.status(404).json({ error: "earnings-edge-not-built" });
@@ -2907,7 +2902,7 @@ app.get("/api/earnings-edge/latest", adminGate, (req, res) => {
   }
 });
 
-app.get("/api/earnings-edge/paper-trades", adminGate, (req, res) => {
+app.get("/api/earnings-edge/paper-trades", (req, res) => {
   try {
     res.json(loadEdgePaperTrades());
   } catch (err) {
@@ -2970,8 +2965,7 @@ app.get("/api/earnings/upcoming", async (req, res) => {
 });
 
 // 5x Lab API — read-only joins over the JSON outputs produced by
-// scripts/refresh-5x-strategy.mjs. All routes are personal-use gated:
-// non-allowlisted users get 404 (matches Compounder Lab / Earnings Edge).
+// scripts/refresh-5x-strategy.mjs. Signed-in read surface.
 function loadMultibaggerJsonSafe(rel) {
   try {
     const p = path.join(__dirname, rel);
@@ -2983,7 +2977,7 @@ function loadMultibaggerJsonSafe(rel) {
   }
 }
 
-app.get("/api/multibagger/overview", adminGate, async (req, res) => {
+app.get("/api/multibagger/overview", async (req, res) => {
   try {
     const scores = loadMultibaggerJsonSafe("data/strategy/multibagger-scores-latest.json");
     const slate = loadMultibaggerJsonSafe("data/strategy/catalyst-slate-latest.json");
@@ -3027,7 +3021,7 @@ app.get("/api/multibagger/overview", adminGate, async (req, res) => {
   }
 });
 
-app.get("/api/multibagger/candidates", adminGate, async (req, res) => {
+app.get("/api/multibagger/candidates", async (req, res) => {
   try {
     const scores = loadMultibaggerJsonSafe("data/strategy/multibagger-scores-latest.json");
     if (!scores) return res.json({ candidates: [], built_at: null });
@@ -3046,7 +3040,7 @@ app.get("/api/multibagger/candidates", adminGate, async (req, res) => {
   }
 });
 
-app.get("/api/multibagger/portfolio", adminGate, async (req, res) => {
+app.get("/api/multibagger/portfolio", async (req, res) => {
   try {
     const portfolio = loadMultibaggerJsonSafe("data/strategy/multibagger-portfolio.json");
     res.json(portfolio || { schema_version: "multibagger-portfolio-v1", cash_inr: 100_000, positions: [], closed_positions: [] });
