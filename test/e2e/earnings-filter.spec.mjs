@@ -29,11 +29,11 @@ test.describe("Earnings Watch filters", () => {
     const daysFilter = page.locator("#earningsDaysFilter");
     await expect(daysFilter).toBeVisible({ timeout: 10_000 });
 
-    await daysFilter.selectOption("30");
-    await expect(daysFilter).toHaveValue("30");
+    await daysFilter.selectOption("60");
+    await expect(daysFilter).toHaveValue("60");
 
     await switchTab(page, "picks");
     await switchTab(page, "earnings");
-    await expect(page.locator("#earningsDaysFilter")).toHaveValue("30");
+    await expect(page.locator("#earningsDaysFilter")).toHaveValue("60");
   });
 });

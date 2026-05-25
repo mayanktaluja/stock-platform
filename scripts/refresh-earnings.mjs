@@ -24,7 +24,7 @@
  *
  * Usage:
  *   node scripts/refresh-earnings.mjs
- *   node scripts/refresh-earnings.mjs --window 60   (override 30d window)
+ *   node scripts/refresh-earnings.mjs --window 60   (override 60d window)
  *
  * Exit codes:
  *   0   success
@@ -105,9 +105,9 @@ function warnIfFundamentalsStale() {
 
 function parseArgs(argv) {
   const out = {
-    windowDays: 30,
+    windowDays: 60,
     skipLlm: false,
-    pastWindowDays: 7,
+    pastWindowDays: 14,
     purgeHeuristicCache: false,
     yes: false,
   };
@@ -231,9 +231,9 @@ function loadEventsPayload() {
  * Milestone-A stats are simple counts; later milestones will add
  * data_quality breakdown (HIGH/MED/LOW) and predicted-verdict counts.
  */
-function buildStats(snapshot, llmStats) {
+export function buildStats(snapshot, llmStats) {
   const events = snapshot.events || [];
-  const byDays = { d0: 0, d1to3: 0, d4to7: 0, d8to14: 0, d15to30: 0 };
+  const byDays = { d0: 0, d1to3: 0, d4to7: 0, d8to14: 0, d15to30: 0, d31to60: 0 };
   for (const e of events) {
     const d = e.days_until;
     if (d === 0) byDays.d0 += 1;
@@ -241,6 +241,7 @@ function buildStats(snapshot, llmStats) {
     else if (d >= 4 && d <= 7) byDays.d4to7 += 1;
     else if (d >= 8 && d <= 14) byDays.d8to14 += 1;
     else if (d >= 15 && d <= 30) byDays.d15to30 += 1;
+    else if (d >= 31 && d <= 60) byDays.d31to60 += 1;
   }
   // Milestone B adds the signal rollup. The earningsCalendar (M-A
   // events have no `signals`) still produces a valid stats blob —
@@ -390,9 +391,10 @@ async function main() {
   console.log(`[earnings-watch] attaching reaction playbooks...`);
   const fullEvents = attachPlaybooksToCalendar(narratedEvents);
 
-  // Past-7-days resolved results. Built from the history archive — the
+  // Recent/status tracker rows. Built from the history archive — the
   // current calendar's `events` array is upcoming-only by construction,
-  // so the recent_results field is the only way the UI sees past rows.
+  // so the recent_results field is the only way the UI sees due rows that
+  // are pending or resolved.
   // companyByEventKey lets the slim recent records carry the company
   // name (history rows only know the symbol). Two-source fallback:
   //   1) current calendar events — exact (symbol, event_iso_date) match
@@ -426,7 +428,7 @@ async function main() {
     companyBySymbol,
   });
   console.log(
-    `[earnings-watch] recent_results: ${recentResults.length} resolved past events ` +
+    `[earnings-watch] recent_results: ${recentResults.length} status rows ` +
       `(window ${args.pastWindowDays}d back from ${calendar.today_iso})`,
   );
 
@@ -461,7 +463,9 @@ async function main() {
   );
 }
 
-main().catch((err) => {
-  console.error(`[earnings-watch] FAILED:`, err.stack || err.message);
-  process.exitCode = 1;
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
+  main().catch((err) => {
+    console.error(`[earnings-watch] FAILED:`, err.stack || err.message);
+    process.exitCode = 1;
+  });
+}

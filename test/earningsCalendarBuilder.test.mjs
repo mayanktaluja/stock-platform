@@ -130,6 +130,18 @@ function assert(name, cond, got) {
   assert("includePast=true keeps past events", with_.length === 1 && with_[0].days_until === -2, with_);
 }
 
+// ──── buildEarningsCalendar: default rolling window ────
+{
+  const now = Date.UTC(2026, 4, 9, 4, 0, 0);
+  const rows = [
+    { symbol: "D45", company: "Inside default", purpose: "Financial Results", date: "23-Jun-2026", description: "" },
+    { symbol: "D61", company: "Outside default", purpose: "Financial Results", date: "09-Jul-2026", description: "" },
+  ];
+  const cal = buildEarningsCalendar(rows, { nowMs: now });
+  assert("default calendar window includes day-45 events", cal.some((e) => e.symbol === "D45"), cal.map((e) => e.symbol));
+  assert("default calendar window excludes day-61 events", !cal.some((e) => e.symbol === "D61"), cal.map((e) => e.symbol));
+}
+
 // ──── buildEarningsCalendarFromPayload: meta block ────
 {
   const payload = {
@@ -142,6 +154,18 @@ function assert(name, cond, got) {
   assert("payload wrapper schema_version", out.schema_version === "earnings-calendar-v1", out.schema_version);
   assert("payload wrapper preserves upstream_fetched_at", out.upstream_fetched_at === payload.fetched_at, out.upstream_fetched_at);
   assert("payload wrapper event_count = 1", out.event_count === 1, out.event_count);
+}
+
+{
+  const payload = {
+    schemaVersion: "catalysts-events-v1",
+    fetched_at: "2026-05-05T23:42:31Z",
+    event_count: 1,
+    events: [{ symbol: "D45", company: "Inside default", purpose: "Financial Results", date: "23-Jun-2026", description: "" }],
+  };
+  const out = buildEarningsCalendarFromPayload(payload, { nowMs: Date.UTC(2026, 4, 9, 4, 0, 0) });
+  assert("payload wrapper default window_days = 60", out.window_days === 60, out.window_days);
+  assert("payload wrapper default includes day-45 event", out.event_count === 1 && out.events[0].symbol === "D45", out.events);
 }
 
 // ──── Empty / malformed input safety ────

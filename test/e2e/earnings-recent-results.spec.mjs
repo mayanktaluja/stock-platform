@@ -1,4 +1,4 @@
-// Earnings Watch — past-7-days "Recent results" section.
+// Earnings Watch — 14-day "Recent / status tracker" section.
 //
 // Verifies the new vertical slice end-to-end:
 //   • refresh-earnings.mjs writes a `recent_results` array (built by
@@ -6,11 +6,11 @@
 //     data/catalysts/earnings-watch-latest.json.
 //   • GET /api/earnings/upcoming returns it alongside the upcoming
 //     events array + a recomputed today_iso that matches IST-now.
-//   • The gated SPA renders a "Recent results · past N days" section
+//   • The gated SPA renders a "Recent / status tracker · today + past N days" section
 //     above the upcoming card grid, with predicted/actual chip pairs
-//     and an accuracy badge per card.
+//     and a HIT/MISS/PENDING badge per card.
 //
-// Skips the UI assertions when no resolved past events exist in the
+// Skips the UI assertions when no status rows exist in the
 // committed snapshot (project convention: data preconditions gate, not
 // fail). The unit test test/recentResultsBuilder.test.mjs covers the
 // builder shape against synthetic fixtures, so the merge logic stays
@@ -18,9 +18,30 @@
 
 import { test, expect } from "@playwright/test";
 
-test.describe("Earnings Watch — recent results (past 7 days)", () => {
+test.describe("Earnings Watch — recent/status tracker (today + past 14 days)", () => {
+  test("pending status rows render a neutral PENDING chip", async ({ page }) => {
+    await page.goto("/");
+    await page.waitForFunction(() => window.__earnings && typeof window.__earnings.renderRecentResultCard === "function", { timeout: 15000 });
+    const html = await page.evaluate(() => window.__earnings.renderRecentResultCard({
+      symbol: "TCS",
+      company: "Tata Consultancy Services",
+      fiscal_quarter: "Q4 FY26",
+      event_iso_date: "2026-05-26",
+      days_until: 0,
+      sector: "Software",
+      predicted_verdict: "BEAT",
+      confidence_pct: 62,
+      actual_verdict: null,
+      actual_status: "PENDING",
+      prediction_accuracy: "pending",
+    }));
+    expect(html).toContain("PENDING");
+    expect(html).toContain("STATUS");
+    expect(html).toContain('data-accuracy="pending"');
+  });
+
   test("/api/earnings/upcoming returns the recent_results contract", async ({ request }) => {
-    const res = await request.get("/api/earnings/upcoming?days=30");
+    const res = await request.get("/api/earnings/upcoming?days=60");
     expect(res.ok()).toBe(true);
     const body = await res.json();
 
@@ -36,6 +57,12 @@ test.describe("Earnings Watch — recent results (past 7 days)", () => {
     expect(body).toHaveProperty("recent_results");
     expect(Array.isArray(body.recent_results)).toBe(true);
     expect(body).toHaveProperty("past_window_days");
+    test.skip(
+      body.window_days !== 60 || body.past_window_days !== 14,
+      "committed earnings snapshot has not been refreshed with the 60d/14d defaults yet",
+    );
+    expect(body.window_days).toBe(60);
+    expect(body.past_window_days).toBe(14);
 
     // today_iso must equal current IST midnight (not the snapshot's
     // stale build date). The server's recomputeDaysUntil rewrites it
@@ -52,16 +79,20 @@ test.describe("Earnings Watch — recent results (past 7 days)", () => {
       expect(e.days_until).toBeGreaterThanOrEqual(0);
     }
 
-    // recent_results[] must be past-only and slim — no signals /
-    // playbook / rationale leak.
+    // recent_results[] must be due-only and slim — no signals /
+    // playbook / rationale leak. Today is allowed because it becomes
+    // trackable before actuals resolve.
     for (const r of body.recent_results) {
       expect(typeof r.days_until).toBe("number");
-      expect(r.days_until).toBeLessThan(0);
+      expect(r.days_until).toBeLessThanOrEqual(0);
       expect(r).toHaveProperty("predicted_verdict");
       expect(r).toHaveProperty("actual_verdict");
-      expect(r.actual_verdict).toBeTruthy();
+      expect(r).toHaveProperty("actual_status");
+      expect(["PENDING", "RESOLVED"]).toContain(r.actual_status);
+      if (r.actual_status === "RESOLVED") expect(r.actual_verdict).toBeTruthy();
+      if (r.actual_status === "PENDING") expect(r.actual_verdict).toBeFalsy();
       expect(r).toHaveProperty("prediction_accuracy");
-      expect(["hit", "miss"]).toContain(r.prediction_accuracy);
+      expect(["hit", "miss", "pending"]).toContain(r.prediction_accuracy);
       expect(r.signals).toBeUndefined();
       expect(r.playbook).toBeUndefined();
       expect(r.rationale).toBeUndefined();
@@ -69,20 +100,18 @@ test.describe("Earnings Watch — recent results (past 7 days)", () => {
     }
   });
 
-  test("Earnings Watch tab renders the Recent results section above the upcoming grid", async ({
+  test("Earnings Watch tab renders the Recent/status tracker above the upcoming grid", async ({
     page,
     request,
   }) => {
-    // Self-skip when the committed snapshot has no resolved past events
+    // Self-skip when the committed snapshot has no status rows
     // — the unit test covers the rendering logic against fixtures, so
     // this spec only adds value when real data exercises the path.
-    const apiRes = await request.get("/api/earnings/upcoming?days=30");
+    const apiRes = await request.get("/api/earnings/upcoming?days=60");
     const apiBody = await apiRes.json();
     test.skip(
       !apiBody.recent_results || apiBody.recent_results.length === 0,
-      "no resolved past events in the committed snapshot — run " +
-        "scripts/resolve-earnings-actuals.mjs locally to populate actuals, " +
-        "then re-run scripts/refresh-earnings.mjs",
+      "no due status rows in the committed snapshot — run scripts/refresh-earnings.mjs",
     );
 
     await page.goto("/");
@@ -158,8 +187,8 @@ test.describe("Earnings Watch — recent results (past 7 days)", () => {
     expect(expanded.caretText).toBe("▾");
     expect(expanded.persisted).toBe("0");
 
-    // At least one card with both a predicted+actual chip and a
-    // hit/miss accuracy badge. (innerText now works because the body is
+    // At least one card with a predicted chip and either an actual or
+    // pending status chip. (innerText now works because the body is
     // visible after the expand above.)
     const firstCard = await page.evaluate(() => {
       const card = document.querySelector(".earnings-recent-card");
@@ -168,14 +197,14 @@ test.describe("Earnings Watch — recent results (past 7 days)", () => {
         symbol: card.getAttribute("data-symbol"),
         accuracy: card.getAttribute("data-accuracy"),
         hasPredictedChip: card.innerText.includes("PREDICTED"),
-        hasActualChip: card.innerText.includes("ACTUAL"),
+        hasActualOrStatusChip: card.innerText.includes("ACTUAL") || card.innerText.includes("STATUS"),
         text: card.innerText.slice(0, 200),
       };
     });
     expect(firstCard).not.toBeNull();
     expect(firstCard.symbol).toBeTruthy();
-    expect(["hit", "miss"]).toContain(firstCard.accuracy);
+    expect(["hit", "miss", "pending"]).toContain(firstCard.accuracy);
     expect(firstCard.hasPredictedChip).toBe(true);
-    expect(firstCard.hasActualChip).toBe(true);
+    expect(firstCard.hasActualOrStatusChip).toBe(true);
   });
 });

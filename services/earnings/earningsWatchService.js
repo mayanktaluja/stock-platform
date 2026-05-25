@@ -45,10 +45,12 @@ export function loadEarningsSnapshot() {
       built_at: null,
       upstream_fetched_at: null,
       upstream_event_count: 0,
-      window_days: 14,
+      window_days: 60,
+      past_window_days: 14,
       today_iso: null,
       event_count: 0,
       events: [],
+      recent_results: [],
       _missing: true,
     };
   }
@@ -62,9 +64,10 @@ export function loadEarningsStats() {
       schema_version: "earnings-watch-stats-v1",
       built_at: null,
       today_iso: null,
-      window_days: 14,
+      window_days: 60,
+      past_window_days: 14,
       event_count: 0,
-      bucket_by_days: { d0: 0, d1to3: 0, d4to7: 0, d8to14: 0 },
+      bucket_by_days: { d0: 0, d1to3: 0, d4to7: 0, d8to14: 0, d15to30: 0, d31to60: 0 },
       _missing: true,
     };
   }
