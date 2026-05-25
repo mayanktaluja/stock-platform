@@ -19,6 +19,7 @@ function baseApi({
   includeIndustryApi = true,
   includePrimaryIndustryPe = true,
   includeFiscal = false,
+  priceData = [{ date: "2026-05-24", close: 100 }],
 } = {}) {
   const statementRows = statementDescription ? [{
     name: "IsGoodValueComparingPreferredMultipleToIndustry",
@@ -83,7 +84,7 @@ function baseApi({
       },
     },
     rest: {
-      price: { data: [{ date: "2026-05-24", close: 100 }] },
+      price: { data: priceData },
       statements: { data: { statements: { data: statementRows } } },
       industry: {
         data: {
@@ -120,7 +121,7 @@ check("Groww P/E is canonical over stale SWS primaryIndustry benchmark", () => {
   assert.equal(parsed.overview.pe_benchmark_audit.sws_primary_industry.industry_pe, 22.616750576);
 });
 
-check("Groww stock cache overrides fresh fundamentals and records source_map", () => {
+check("Groww stock cache enriches fundamentals but SWS remains canonical for price", () => {
   const parsed = parseStock(baseApi({ includeFiscal: true }), {
     growwStockMap: new Map([["JSLL", {
       searchId: "jeena-sikho-lifecare-ltd",
@@ -164,10 +165,10 @@ check("Groww stock cache overrides fresh fundamentals and records source_map", (
     growwPeMap: new Map(),
     internalIndustryPeMap: new Map(),
   });
-  assert.equal(parsed.overview.current_price_inr, 125);
+  assert.equal(parsed.overview.current_price_inr, 100);
   assert.equal(parsed.overview.market_cap_inr, 2500_00_00_000);
   assert.deepEqual(parsed.overview.fifty_two_week, { low: 80, high: 140 });
-  assert.equal(parsed.overview.upside_pct, 44);
+  assert.equal(parsed.overview.upside_pct, 80);
   assert.equal(parsed.overview.multiples.pe, 39.58);
   assert.equal(parsed.overview.multiples.pb, 4.4);
   assert.equal(parsed.overview.multiples.ps, 5.5);
@@ -176,7 +177,7 @@ check("Groww stock cache overrides fresh fundamentals and records source_map", (
   assert.equal(parsed.overview.latest_eps, 3.16);
   assert.equal(parsed.overview.roe_pct, 18.5);
   assert.equal(parsed.overview.debt_to_equity_pct, 24);
-  assert.equal(parsed.overview.source_map.current_price_inr.provider, "groww_refinitiv");
+  assert.equal(parsed.overview.source_map.current_price_inr.provider, "sws_price");
   assert.equal(parsed.overview.source_map["multiples.pb"].provider, "groww_refinitiv");
   assert.equal(parsed.ownership.promoter_pct, 55);
   assert.equal(parsed.ownership.insider_ownership_pct, null);
@@ -184,6 +185,28 @@ check("Groww stock cache overrides fresh fundamentals and records source_map", (
   assert.equal(parsed.events.groww[0].type, "DIVIDEND");
   assert.equal(parsed.groww.news[0].title, "JSLL expands");
   assert.ok(parsed.overview.recent_news_count >= 1);
+});
+
+check("SWS return horizons use the previous trading bar for 1D across weekends", () => {
+  const parsed = parseStock(baseApi({
+    includeFiscal: true,
+    priceData: [
+      { date: "2026-05-25", close: 730.95 },
+      { date: "2026-05-22", close: 724.45 },
+      { date: "2026-05-18", close: 685.95 },
+      { date: "2026-04-24", close: 714.5 },
+      { date: "2026-02-24", close: 699.5 },
+      { date: "2025-11-26", close: 761.5 },
+      { date: "2025-05-26", close: 807.2 },
+    ],
+  }), {
+    growwPeMap: new Map(),
+    internalIndustryPeMap: new Map(),
+  });
+  assert.equal(parsed.overview.current_price_inr, 730.95);
+  assert.equal(Number(parsed.overview.returns_pct["1D"].toFixed(3)), 0.897);
+  assert.equal(Number(parsed.overview.returns_pct["7D"].toFixed(3)), 6.56);
+  assert.equal(Number(parsed.overview.returns_pct["1Y"].toFixed(3)), -9.446);
 });
 
 check("SWS visible statement is the first fallback when Groww is missing", () => {
