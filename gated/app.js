@@ -4992,29 +4992,84 @@ function _sampleCopy(windowPayload) {
   return `Waiting for ${windowPayload.window} history to mature`;
 }
 
+function _sectionPerformanceDays(windowKey) {
+  return windowKey === "30d" ? "30 days" : "7 days";
+}
+
+function _spotlightLabel(windowPayload) {
+  if (windowPayload?.sampleStatus === "latest_available") return "Track Record Spotlight · latest available sample";
+  return "Track Record Spotlight";
+}
+
+function _credibilityBannerCopy(best, windowPayload, label) {
+  const alpha = Number(best?.alphaPct);
+  const hasPositiveAlpha = Number.isFinite(alpha) && alpha > 0 && best?.outperformed !== false;
+  const isResolved = windowPayload?.sampleStatus === "resolved";
+  const isLatestSample = windowPayload?.sampleStatus === "latest_available";
+  const windowText = _sectionPerformanceDays(best?.window || windowPayload?.window);
+
+  if (!best || !Number.isFinite(alpha)) {
+    return {
+      tone: "neutral",
+      headline: "Track Record is building 7d/30d evidence vs Nifty 500",
+      evidence: "Section alpha will appear here once enough daily cohorts and benchmark data are available.",
+      showAlpha: false,
+    };
+  }
+
+  if (!hasPositiveAlpha) {
+    return {
+      tone: "neutral",
+      headline: "No section is currently ahead of Nifty 500",
+      evidence: `${label} is the strongest relative section in the current track sample, but it has not produced positive alpha.`,
+      showAlpha: false,
+    };
+  }
+
+  if (isResolved) {
+    return {
+      tone: "positive",
+      headline: `${label} top 10 beat Nifty 500 by ${_fmtSignedPct(alpha)} over ${windowText}`,
+      evidenceSuffix: "",
+      showAlpha: true,
+    };
+  }
+
+  if (isLatestSample) {
+    return {
+      tone: "positive",
+      headline: `Latest ${label} sample shows ${_fmtSignedPct(alpha)} alpha vs Nifty 500`,
+      evidenceSuffix: " Closed-window cohorts will replace this as history matures.",
+      showAlpha: true,
+    };
+  }
+
+  return {
+    tone: "neutral",
+    headline: `${label} is the strongest section in the current track sample`,
+    evidence: "Closed-window 7d/30d evidence is still maturing.",
+    showAlpha: false,
+  };
+}
+
 function renderPicksCredibilityBanner(payload) {
   const host = document.getElementById("picksCredibilityBanner");
   if (!host) return;
   const best = payload?.bestOverall;
-  if (!best) {
-    host.style.display = "none";
-    host.innerHTML = "";
-    return;
-  }
-  const windowPayload = _sectionPerformanceWindow(payload, best.window) || _sectionPerformanceWindow(payload, "7d") || {};
-  const label = _plainSectionLabel(best.label);
-  const alpha = Number(best.alphaPct);
-  const sectionReturn = Number(best.sectionReturnPct);
-  const benchmark = Number(best.benchmarkReturnPct ?? windowPayload.benchmarkReturnPct);
-  const alphaColor = Number.isFinite(alpha) && alpha >= 0 ? "var(--green)" : "var(--red)";
-  const statusText = _sampleCopy(windowPayload);
-  const outperformText = best.outperformed
-    ? `${label} top 10 beat Nifty 500 by`
-    : `${label} top 10 is the best relative performer at`;
+  const fallbackWindow = _sectionPerformanceWindow(payload, "7d") || _sectionPerformanceWindow(payload, "30d") || {};
+  const windowPayload = _sectionPerformanceWindow(payload, best?.window) || fallbackWindow;
+  const label = _plainSectionLabel(best?.label || windowPayload?.bestSection?.label || "Track Record");
+  const alpha = Number(best?.alphaPct);
+  const sectionReturn = Number(best?.sectionReturnPct);
+  const benchmark = Number(best?.benchmarkReturnPct ?? windowPayload.benchmarkReturnPct);
+  const copy = _credibilityBannerCopy(best, windowPayload, label);
+  const alphaColor = copy.tone === "positive" ? "var(--green)" : "var(--gold)";
+  const statusText = _spotlightLabel(windowPayload);
+  const evidence = copy.evidence || `Equal-weight top 10: ${_fmtSignedPct(sectionReturn)} vs Nifty 500 ${_fmtSignedPct(benchmark)}.${copy.evidenceSuffix || ""}`;
   const chipHtml = ["7d", "30d"].map((w) => {
     const wp = _sectionPerformanceWindow(payload, w);
     const b = wp?.bestSection;
-    const active = w === best.window;
+    const active = w === best?.window;
     const bg = active ? "rgba(224,176,96,0.16)" : "rgba(255,255,255,0.04)";
     const border = active ? "rgba(224,176,96,0.45)" : "var(--border)";
     return `<button type="button" onclick="window.__picksCredibilitySelect && window.__picksCredibilitySelect('${w}')"
@@ -5024,19 +5079,27 @@ function renderPicksCredibilityBanner(payload) {
   }).join("");
   host.style.display = "block";
   host.innerHTML = `
-    <div style="border:1px solid rgba(224,176,96,0.26);background:linear-gradient(180deg, rgba(224,176,96,0.10), rgba(96,165,250,0.05));border-radius:8px;padding:14px 16px;display:flex;gap:14px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;">
-      <div style="min-width:260px;flex:1;">
-        <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;font-weight:800;">${escapeHtml(statusText)}</div>
-        <div data-testid="picks-credibility-headline" style="font-size:18px;font-weight:800;color:var(--text-primary);margin-top:4px;line-height:1.3;">
-          ${escapeHtml(outperformText)} <span data-testid="picks-credibility-alpha" style="color:${alphaColor};">${_fmtSignedPct(alpha)}</span> alpha
-        </div>
-        <div style="font-size:12px;color:var(--text-secondary);margin-top:5px;line-height:1.45;">
-          <span data-testid="picks-credibility-section">${escapeHtml(label)}</span> equal-weight top 10 returned ${_fmtSignedPct(sectionReturn)} vs
-          <span data-testid="picks-credibility-benchmark">Nifty 500 ${_fmtSignedPct(benchmark)}</span>.
-          <button type="button" onclick="window.switchTab && window.switchTab('track')" style="border:0;background:transparent;color:var(--gold);text-decoration:underline;cursor:pointer;padding:0;font:inherit;">Methodology</button>
+    <div style="border:1px solid rgba(224,176,96,0.28);background:linear-gradient(135deg, rgba(224,176,96,0.12), rgba(46,204,113,0.06) 48%, rgba(96,165,250,0.05));border-radius:8px;padding:15px 16px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;">
+      <div style="display:flex;gap:14px;align-items:flex-start;min-width:280px;flex:1;">
+        <div aria-hidden="true" style="width:4px;align-self:stretch;min-height:62px;border-radius:999px;background:${alphaColor};box-shadow:0 0 18px rgba(46,204,113,0.16);"></div>
+        <div style="min-width:0;flex:1;">
+          <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;font-weight:800;">${escapeHtml(statusText)}</div>
+          <div data-testid="picks-credibility-headline" style="font-size:18px;font-weight:850;color:var(--text-primary);margin-top:4px;line-height:1.28;">
+            ${escapeHtml(copy.headline)}
+          </div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.45;">
+            <span data-testid="picks-credibility-section">${escapeHtml(label)}</span> ·
+            <span data-testid="picks-credibility-evidence">${escapeHtml(evidence)}</span>
+            <button type="button" onclick="window.switchTab && window.switchTab('track')" style="border:0;background:transparent;color:var(--gold);text-decoration:underline;cursor:pointer;padding:0 0 0 4px;font:inherit;">Methodology</button>
+          </div>
         </div>
       </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;">${chipHtml}</div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end;">
+        ${copy.showAlpha ? `<div data-testid="picks-credibility-alpha" style="font-size:24px;font-weight:900;line-height:1;color:${alphaColor};">${_fmtSignedPct(alpha)}</div>` : ""}
+        <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
+          ${chipHtml}
+        </div>
+      </div>
     </div>`;
 }
 
