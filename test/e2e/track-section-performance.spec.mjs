@@ -31,15 +31,35 @@ test.describe("India Market credibility banner and section alpha", () => {
   test("India Market renders first-screen credibility banner above filters", async ({ page, request }) => {
     const picks = await request.get("/api/sws-picks");
     test.skip(picks.status() === 404, "no SWS scan committed yet — credibility banner has no sample source");
+    const probe = await probeSectionPerformance(request);
+    const best = probe.data?.bestOverall;
+    const bestWindow = probe.data?.windows?.find((w) => w.window === best?.window);
+    const hasPositiveAlpha = Number.isFinite(Number(best?.alphaPct)) && Number(best.alphaPct) > 0 && best.outperformed !== false;
 
     await gotoApp(page, { tab: "picks" });
     await waitForPicksLoaded(page);
 
     const banner = page.locator("#picksCredibilityBanner");
     await expect(banner).toBeVisible({ timeout: 20_000 });
+    await expect(banner).toContainText(/Track Record Spotlight/i);
     await expect(banner).toContainText(/Nifty 500/i);
-    await expect(banner).toContainText(/top 10/i);
-    await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toContainText(/[+-]\d/);
+    await expect(banner).toContainText(/Methodology/i);
+    await expect(banner).toContainText(/7d/i);
+    await expect(banner).toContainText(/30d/i);
+    await expect(banner).not.toContainText(/Latest available track sample \(/i);
+    if (hasPositiveAlpha) {
+      await expect(banner).toContainText(/top 10/i);
+      await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toContainText(/[+-]\d/);
+      if (bestWindow?.sampleStatus === "latest_available") {
+        await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/sample shows/i);
+        await expect(banner).toContainText(/Closed-window cohorts will replace this as history matures/i);
+      }
+      if (bestWindow?.sampleStatus === "resolved") {
+        await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/beat Nifty 500/i);
+      }
+    } else {
+      await expect(banner.locator('[data-testid="picks-credibility-headline"]')).not.toContainText(/beat Nifty 500/i);
+    }
 
     const order = await page.evaluate(() => {
       const status = document.getElementById("picksStatusBanner");
@@ -57,6 +77,62 @@ test.describe("India Market credibility banner and section alpha", () => {
     });
     expect(order.status).toBeLessThan(order.banner);
     expect(order.banner).toBeLessThan(order.filters);
+  });
+
+  test("India Market uses neutral banner copy when no section has positive alpha", async ({ page, request }) => {
+    const picks = await request.get("/api/sws-picks");
+    test.skip(picks.status() === 404, "no SWS scan committed yet — credibility banner has no sample source");
+
+    await page.route("**/api/track/section-performance?**", async (route) => {
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          schema_version: "sws-section-performance-v1",
+          mode: "latest_available",
+          generatedAt: "2026-05-25T00:00:00.000Z",
+          bestOverall: {
+            window: "7d",
+            sampleStatus: "latest_available",
+            label: "SWS - Quality Growth",
+            alphaPct: -0.5,
+            sectionReturnPct: -1.1,
+            benchmarkReturnPct: -0.6,
+            outperformed: false,
+          },
+          windows: [
+            {
+              window: "7d",
+              sampleStatus: "latest_available",
+              benchmarkReturnPct: -0.6,
+              bestSection: {
+                label: "SWS - Quality Growth",
+                alphaPct: -0.5,
+                sectionReturnPct: -1.1,
+                benchmarkReturnPct: -0.6,
+                outperformed: false,
+              },
+              sections: [],
+            },
+            {
+              window: "30d",
+              sampleStatus: "insufficient_history",
+              benchmarkReturnPct: null,
+              bestSection: null,
+              sections: [],
+            },
+          ],
+        }),
+      });
+    });
+
+    await gotoApp(page, { tab: "picks" });
+    await waitForPicksLoaded(page);
+
+    const banner = page.locator("#picksCredibilityBanner");
+    await expect(banner).toBeVisible({ timeout: 20_000 });
+    await expect(banner).toContainText(/No section is currently ahead of Nifty 500/i);
+    await expect(banner.locator('[data-testid="picks-credibility-headline"]')).not.toContainText(/beat Nifty 500/i);
+    await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toHaveCount(0);
   });
 
   test("Track Record shows 7d/30d section alpha leaderboard with Best Fundamentals", async ({ page, request }) => {
