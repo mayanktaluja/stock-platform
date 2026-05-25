@@ -1,7 +1,7 @@
 // services/earnings/recentResultsBuilder.js — unit tests.
 //
-// The recent-results builder powers the new "Recent results · past 7
-// days" section in the Earnings Watch tab. It reads the per-refresh
+// The recent-results builder powers the "Recent / status tracker · today
+// + past 14 days" section in the Earnings Watch tab. It reads the per-refresh
 // history archive (loadAllHistory keys files by REFRESH date — the
 // same event lives in every snapshot until it passes) and emits a
 // slim projection per (symbol, event_iso_date).
@@ -122,14 +122,17 @@ it("returns [] when history dir does not exist", () => {
   } finally { cleanup(dir); }
 });
 
-it("returns [] when no rows have actual_verdict populated", () => {
+it("keeps unresolved rows as pending status rows", () => {
   const dir = freshTempDir();
   try {
     seedHistoryFile(dir, "2026-05-16", [
       pred({ symbol: "TCS", event_iso_date: "2026-05-14", actual_verdict: null }),
     ]);
     const result = runBuilder(dir, { todayIso: "2026-05-17", pastWindowDays: 7 });
-    assert.deepEqual(result, []);
+    assert.equal(result.length, 1);
+    assert.equal(result[0].actual_status, "PENDING");
+    assert.equal(result[0].prediction_accuracy, "pending");
+    assert.equal(result[0].actual_verdict, null);
   } finally { cleanup(dir); }
 });
 
@@ -148,6 +151,23 @@ it("includes events inside the past N days, excludes ones older", () => {
     const result = runBuilder(dir, { todayIso: "2026-05-17", pastWindowDays: 7 });
     const syms = result.map((r) => r.symbol).sort();
     assert.deepEqual(syms, ["TCS", "WIPRO"]);
+  } finally { cleanup(dir); }
+});
+
+it("default 14-day tracker includes today and excludes older-than-14d rows", () => {
+  const dir = freshTempDir();
+  try {
+    seedHistoryFile(dir, "2026-05-17", [
+      pred({ symbol: "TODAY", event_iso_date: "2026-05-17", actual_verdict: null }),
+      pred({ symbol: "BOUNDARY", event_iso_date: "2026-05-03", actual_verdict: "BEAT" }),
+      pred({ symbol: "TOO_OLD", event_iso_date: "2026-05-02", actual_verdict: "BEAT" }),
+    ]);
+    const result = runBuilder(dir, { todayIso: "2026-05-17" });
+    const bySymbol = Object.fromEntries(result.map((r) => [r.symbol, r]));
+    assert.deepEqual(result.map((r) => r.symbol).sort(), ["BOUNDARY", "TODAY"]);
+    assert.equal(bySymbol.TODAY.actual_status, "PENDING");
+    assert.equal(bySymbol.TODAY.prediction_accuracy, "pending");
+    assert.equal(bySymbol.BOUNDARY.actual_status, "RESOLVED");
   } finally { cleanup(dir); }
 });
 
@@ -179,19 +199,21 @@ it("same (symbol, event_iso_date) across 3 snapshots → 1 row, freshest resolve
 });
 
 console.log("[4] prediction_accuracy derivation");
-it("hit when predicted == actual, miss when predicted != actual", () => {
+it("hit when predicted == actual, miss when predicted != actual, pending before actual", () => {
   const dir = freshTempDir();
   try {
     seedHistoryFile(dir, "2026-05-16", [
       pred({ symbol: "HIT", event_iso_date: "2026-05-14", predicted_verdict: "BEAT", actual_verdict: "BEAT" }),
       pred({ symbol: "MISS_PRED", event_iso_date: "2026-05-15", predicted_verdict: "BEAT", actual_verdict: "MISS" }),
       pred({ symbol: "INLINE_HIT", event_iso_date: "2026-05-13", predicted_verdict: "INLINE", actual_verdict: "INLINE" }),
+      pred({ symbol: "PENDING", event_iso_date: "2026-05-16", predicted_verdict: "BEAT", actual_verdict: null }),
     ]);
     const result = runBuilder(dir, { todayIso: "2026-05-17", pastWindowDays: 7 });
     const byKey = Object.fromEntries(result.map((r) => [r.symbol, r.prediction_accuracy]));
     assert.equal(byKey.HIT, "hit");
     assert.equal(byKey.MISS_PRED, "miss");
     assert.equal(byKey.INLINE_HIT, "hit");
+    assert.equal(byKey.PENDING, "pending");
   } finally { cleanup(dir); }
 });
 
@@ -223,7 +245,7 @@ it("emits exactly the documented fields — no signals/playbook/rationale leak",
       "predicted_verdict", "confidence_pct", "score_100",
       "actual_verdict", "actual_t1_close_inr", "actual_t1_open_gap_pct",
       "actual_source", "actual_evidence", "actual_resolved_at",
-      "prediction_accuracy",
+      "actual_status", "prediction_accuracy",
     ]);
     const actualKeys = new Set(Object.keys(row));
     for (const k of expectedKeys) {

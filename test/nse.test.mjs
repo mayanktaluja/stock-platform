@@ -309,6 +309,25 @@ console.log("\nfetchNseEventCalendar()");
   assert("returns [] when upstream fails (no .data)", Array.isArray(out) && out.length === 0, out);
 }
 
+{
+  installFetch(() => ({
+    body: [
+      { symbol: "TCS", company: "Tata Consultancy Services", purpose: "Financial Results", date: "16-May-2026" },
+    ],
+  }));
+  const out = await fetchNseEventCalendar({
+    index: "equities",
+    fromDate: "2026-05-25",
+    toDate: "2026-07-24",
+  });
+  assert("date-range call still parses rows", out.length === 1 && out[0].symbol === "TCS", out);
+  const url = new URL(calls[0].url);
+  assert("date-range call hits event-calendar", url.pathname === "/api/event-calendar", calls[0].url);
+  assert("date-range call sends index=equities", url.searchParams.get("index") === "equities", calls[0].url);
+  assert("date-range call sends NSE from_date", url.searchParams.get("from_date") === "25-05-2026", calls[0].url);
+  assert("date-range call sends NSE to_date", url.searchParams.get("to_date") === "24-07-2026", calls[0].url);
+}
+
 // ──────────────────── fetchGiftNifty ────────────────────
 
 console.log("\nfetchGiftNifty()");

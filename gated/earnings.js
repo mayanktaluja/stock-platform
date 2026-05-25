@@ -29,8 +29,8 @@
   // card → tab back). Symbol search resets per-session (`symbol` excluded
   // from save) because it's transient — keeping a stale ticker filter
   // across days would hide the calendar.
-  const EARNINGS_FILTERS_KEY = "earnings.filters.v1";
-  const _EARNINGS_DEFAULTS = { days: 30, symbol: "", quality: "ALL", runup: "ALL", verdict: "ALL", sector: "ALL" };
+  const EARNINGS_FILTERS_KEY = "earnings.filters.v2";
+  const _EARNINGS_DEFAULTS = { days: 60, symbol: "", quality: "ALL", runup: "ALL", verdict: "ALL", sector: "ALL" };
   function loadEarningsFilters() {
     try {
       const raw = JSON.parse(localStorage.getItem(EARNINGS_FILTERS_KEY) || "{}");
@@ -64,9 +64,9 @@
     try { localStorage.setItem(EARNINGS_COLLAPSED_KEY, JSON.stringify(state)); } catch {}
   }
 
-  // Single-boolean collapse state for the "Recent results" section.
+  // Single-boolean collapse state for the "Recent / status tracker" section.
   // Default = collapsed: the upcoming calendar is the primary affordance of
-  // the tab; past-week results are reference. User's explicit toggle wins
+  // the tab; due-event status rows are reference. User's explicit toggle wins
   // on reload (same persistence shape as the per-date map above).
   const EARNINGS_RECENT_COLLAPSED_KEY = "earningsRecentResultsCollapsed";
 
@@ -156,6 +156,7 @@
       { label: "4–7d", value: buckets.d4to7 || 0, accent: "#facc15" },
       { label: "8–14d", value: buckets.d8to14 || 0, accent: "#94a3b8" },
       { label: "15–30d", value: buckets.d15to30 || 0, accent: "#94a3b8" },
+      { label: "31–60d", value: buckets.d31to60 || 0, accent: "#94a3b8" },
       { label: "Total", value: stats.event_count || 0, accent: "#60a5fa" },
     ];
     const verdictCells = [
@@ -477,7 +478,7 @@
     el.innerHTML = `
       <div style="padding:18px 22px; border:1px dashed #2a3349; border-radius:10px; background:rgba(15,20,34,0.5); display:flex; flex-direction:column; gap:6px;">
         <div style="font-size:13px; color:#e2e8f0; font-weight:500;">
-          <span style="color:#fbbf24; font-weight:600;">${escHtml(query)}</span> — no earnings in the next 30 days or past 7 days.
+          <span style="color:#fbbf24; font-weight:600;">${escHtml(query)}</span> — no earnings in the next ${escHtml(_earningsSnapshot?.window_days ?? 60)} days or status tracker today + past ${escHtml(_earningsSnapshot?.past_window_days ?? 14)} days.
         </div>
         <div style="font-size:12px; color:var(--text-muted);">
           Try a different ticker, or use the search bar at the top of the page to look up the full NSE / BSE stock universe.
@@ -499,7 +500,8 @@
           <option value="3">3 days</option>
           <option value="7">7 days</option>
           <option value="14">14 days</option>
-          <option value="30" selected>30 days</option>
+          <option value="30">30 days</option>
+          <option value="60" selected>60 days</option>
         </select>
       </label>
       <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
@@ -611,7 +613,7 @@
     }
     if (clearBtn) {
       clearBtn.addEventListener("click", () => {
-        _earningsFilters = { days: 30, symbol: "", quality: "ALL", runup: "ALL", verdict: "ALL", sector: "ALL" };
+        _earningsFilters = { ..._EARNINGS_DEFAULTS };
         renderEarningsFilterBar();
         applyEarningsFilters();
       });
@@ -664,7 +666,7 @@
       return true;
     });
 
-    // Recent results section: symbol + sector filters apply; the days /
+    // Recent/status tracker section: symbol + sector filters apply; the days /
     // verdict / quality / runup filters intentionally don't (past rows
     // have no signals block, and "Within N days" is forward-only).
     const filteredRecent = applyRecentFilters(_earningsSnapshot.recent_results);
@@ -1447,13 +1449,12 @@
     }
   }
 
-  // ────────── Recent results (past N days) ──────────
+  // ────────── Recent / status tracker (today + past N days) ──────────
   //
-  // Renders a "Recent results · past N days" section above the upcoming
-  // card grid. Each card shows the original predicted verdict next to
-  // the actual result + a hit/miss accuracy badge. Slim variant — no
-  // signals/playbook/rationale expanders, since those were prediction-
-  // time noise and the actual result either confirmed or refuted them.
+  // Renders due archived events above the upcoming card grid. Each card
+  // shows the original prediction next to either a resolved actual verdict
+  // or a neutral PENDING status. Slim variant — no signals/playbook/
+  // rationale expanders.
 
   function applyRecentFilters(rows) {
     if (!Array.isArray(rows)) return [];
@@ -1474,14 +1475,16 @@
     const dayPill = dayPillClass(row.days_until);
 
     const predTone = predictedVerdictTone(row.predicted_verdict);
-    const actualTone = predictedVerdictTone(row.actual_verdict);
+    const actualStatus = row.actual_status || (row.actual_verdict ? "RESOLVED" : "PENDING");
+    const isPending = actualStatus !== "RESOLVED";
+    const actualTone = isPending ? predictedVerdictTone("INSUFFICIENT_DATA") : predictedVerdictTone(row.actual_verdict);
     const acc = row.prediction_accuracy;
     const accBadge =
       acc === "hit"
         ? `<span title="Predicted verdict matched actual outcome" style="display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:10px; background:rgba(34,197,94,0.18); border:1px solid rgba(34,197,94,0.4); color:#86efac; font-size:10px; font-weight:700; letter-spacing:0.06em;">✓ HIT</span>`
         : acc === "miss"
           ? `<span title="Predicted verdict did not match actual outcome" style="display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:10px; background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.4); color:#fca5a5; font-size:10px; font-weight:700; letter-spacing:0.06em;">✗ MISS</span>`
-          : "";
+          : `<span title="Actual result not resolved yet" style="display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:10px; background:rgba(148,163,184,0.12); border:1px solid rgba(148,163,184,0.25); color:#cbd5e1; font-size:10px; font-weight:700; letter-spacing:0.06em;">PENDING</span>`;
 
     const conf = typeof row.confidence_pct === "number" ? `${row.confidence_pct}%` : "—";
     const closeStr =
@@ -1527,8 +1530,8 @@
             <span style="font-size:10px; opacity:0.85;">${escHtml(conf)}</span>
           </div>
           <div style="display:inline-flex; align-items:center; gap:6px; padding:3px 9px; border-radius:12px; background:${actualTone.bg}; border:1px solid ${actualTone.border}; color:${actualTone.color};">
-            <span style="font-size:9px; opacity:0.7; font-weight:600; letter-spacing:0.06em;">ACTUAL</span>
-            <span style="font-size:11px; font-weight:700; letter-spacing:0.04em;">${escHtml(row.actual_verdict || "—")}</span>
+            <span style="font-size:9px; opacity:0.7; font-weight:600; letter-spacing:0.06em;">${isPending ? "STATUS" : "ACTUAL"}</span>
+            <span style="font-size:11px; font-weight:700; letter-spacing:0.04em;">${escHtml(isPending ? "PENDING" : row.actual_verdict || "—")}</span>
           </div>
         </div>
         ${
@@ -1571,12 +1574,14 @@
       return;
     }
     el.style.display = "block";
-    const pastWindow = _earningsSnapshot?.past_window_days ?? 7;
+    const pastWindow = _earningsSnapshot?.past_window_days ?? 14;
     const hits = rows.filter((r) => r.prediction_accuracy === "hit").length;
     const misses = rows.filter((r) => r.prediction_accuracy === "miss").length;
+    const resolved = rows.filter((r) => (r.actual_status || (r.actual_verdict ? "RESOLVED" : "PENDING")) === "RESOLVED").length;
+    const pending = Math.max(0, rows.length - resolved);
     const accuracyChip =
       hits + misses > 0
-        ? `<span style="font-size:11px; color:var(--text-muted); letter-spacing:0.04em;">${hits}/${hits + misses} predictions correct</span>`
+        ? `<span style="font-size:11px; color:var(--text-muted); letter-spacing:0.04em;">${hits}/${hits + misses} resolved predictions correct</span>`
         : "";
     const llmPill = renderLlmOfflinePill(_earningsSnapshot);
     const isCollapsed = loadRecentResultsCollapsed();
@@ -1584,8 +1589,8 @@
     el.innerHTML = `
       <div class="earnings-date-header" style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid #1a2233; flex-wrap:wrap; cursor:pointer; user-select:none;">
         <span class="earnings-date-caret" style="font-size:11px; color:var(--text-muted); width:10px; display:inline-block;">${isCollapsed ? "▸" : "▾"}</span>
-        <span style="font-size:13px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">Recent results</span>
-        <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">past ${pastWindow}d · ${rows.length} ${rows.length === 1 ? "result" : "results"}</span>
+        <span style="font-size:13px; font-weight:600; color:#e2e8f0; letter-spacing:-0.01em;">Recent / status tracker</span>
+        <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">today + past ${pastWindow}d · ${resolved} resolved · ${pending} pending</span>
         ${accuracyChip}
         ${llmPill}
       </div>
@@ -1656,10 +1661,14 @@
         const built = snap?.built_at ? new Date(snap.built_at).toLocaleString() : "?";
         const upstream = snap?.upstream_fetched_at ? new Date(snap.upstream_fetched_at).toLocaleString() : "?";
         const total = snap?.total_event_count ?? snap?.event_count ?? 0;
-        const recent = Array.isArray(snap?.recent_results) ? snap.recent_results.length : 0;
-        const pastN = snap?.past_window_days ?? 7;
-        const recentLabel = recent > 0 ? ` · ${recent} resolved in past ${pastN}d` : "";
-        meta.textContent = `${total} upcoming result events in next ${snap?.window_days ?? 30}d${recentLabel} · built ${built} · NSE feed fetched ${upstream}`;
+        const recentRows = Array.isArray(snap?.recent_results) ? snap.recent_results : [];
+        const pastN = snap?.past_window_days ?? 14;
+        const resolved = recentRows.filter((r) => (r.actual_status || (r.actual_verdict ? "RESOLVED" : "PENDING")) === "RESOLVED").length;
+        const pending = Math.max(0, recentRows.length - resolved);
+        const recentLabel = recentRows.length > 0
+          ? ` · status tracker today + past ${pastN}d: ${resolved} resolved / ${pending} pending`
+          : ` · status tracker today + past ${pastN}d`;
+        meta.textContent = `${total} upcoming result events in next ${snap?.window_days ?? 60}d${recentLabel} · built ${built} · NSE feed fetched ${upstream}`;
       }
     } catch (err) {
       console.error("loadEarningsWatch failed:", err);
@@ -2087,6 +2096,7 @@
     renderEarningsPreviewPanel,
     renderPredictionBuildExpander,
     renderPriceBand,
+    renderRecentResultCard,
     matchesSearchQuery,
     buildSymbolSuggestions,
     renderSymbolSuggestions,

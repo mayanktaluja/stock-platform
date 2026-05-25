@@ -58,6 +58,7 @@ START_EPOCH="$(date +%s)"
 # catches the 2026-05-18 22:37 IST failure mode where picks-latest.json was
 # silently reverted to a previous run's value between scoring and the gate.
 RUN_STARTED_ISO="$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")"
+RUN_STARTED_IST_HHMM="$(TZ=Asia/Kolkata date +%H%M)"
 
 # Mail summary helper. Sends via Resend (scripts/sws-mail-summary.mjs).
 # Gated by SWS_MAIL_ENABLED (set =0 to silence). Silent no-op if helper
@@ -243,12 +244,12 @@ fi
 # network pass is intentionally restricted to the 16:30 IST launchd window; the
 # 02:00 run validates and reuses the last good cache. The script writes both
 # groww-stock-latest.json and the legacy groww-pe-latest.json alias.
-IST_HHMM="$(TZ=Asia/Kolkata date +%H%M)"
-if [ "${SWS_GROWW_FORCE_REFRESH:-0}" = "1" ] || { [ "${IST_HHMM}" -ge 1600 ] && [ "${IST_HHMM}" -lt 1800 ]; }; then
-  echo "[refresh-api] refreshing Groww/Refinitiv stock cache (16:30 IST full pass; hhmm=${IST_HHMM})..."
+GROWW_STEP_IST_HHMM="$(TZ=Asia/Kolkata date +%H%M)"
+if [ "${SWS_GROWW_FORCE_REFRESH:-0}" = "1" ] || { [ "${RUN_STARTED_IST_HHMM}" -ge 1600 ] && [ "${RUN_STARTED_IST_HHMM}" -lt 1800 ]; }; then
+  echo "[refresh-api] refreshing Groww/Refinitiv stock cache (16:30 IST full pass; run_hhmm=${RUN_STARTED_IST_HHMM}, step_hhmm=${GROWW_STEP_IST_HHMM})..."
   GROWW_CMD=(node scripts/groww-pe-refresh.mjs --force --max-age-days 1 --stale-grace-days 3)
 else
-  echo "[refresh-api] validating Groww/Refinitiv stock cache (reuse outside 16:30 IST; hhmm=${IST_HHMM})..."
+  echo "[refresh-api] validating Groww/Refinitiv stock cache (reuse outside 16:30 IST; run_hhmm=${RUN_STARTED_IST_HHMM}, step_hhmm=${GROWW_STEP_IST_HHMM})..."
   GROWW_CMD=(node scripts/groww-pe-refresh.mjs --validate-only --max-age-days 1 --stale-grace-days 3)
 fi
 if GROWW_OUT="$("${GROWW_CMD[@]}" 2>&1)"; then

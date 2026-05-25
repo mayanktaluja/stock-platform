@@ -426,8 +426,31 @@ export async function fetchNiftyNext50() {
  * We only care about "Financial Results" events (which are the board meetings
  * that approve earnings), plus dividend and bonus announcements.
  */
-export async function fetchNseEventCalendar() {
-  const data = await nseGet("/api/event-calendar");
+function formatNseDateParam(value) {
+  if (!value) return null;
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    const dd = String(value.getDate()).padStart(2, "0");
+    const mm = String(value.getMonth() + 1).padStart(2, "0");
+    const yyyy = String(value.getFullYear());
+    return `${dd}-${mm}-${yyyy}`;
+  }
+  const raw = String(value).trim();
+  const iso = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (iso) return `${iso[3]}-${iso[2]}-${iso[1]}`;
+  const nse = raw.match(/^(\d{2})-(\d{2})-(\d{4})$/);
+  if (nse) return raw;
+  return null;
+}
+
+export async function fetchNseEventCalendar(opts = {}) {
+  const params = new URLSearchParams();
+  if (opts.index) params.set("index", String(opts.index));
+  const fromDate = formatNseDateParam(opts.fromDate);
+  const toDate = formatNseDateParam(opts.toDate);
+  if (fromDate) params.set("from_date", fromDate);
+  if (toDate) params.set("to_date", toDate);
+  const query = params.toString();
+  const data = await nseGet(`/api/event-calendar${query ? `?${query}` : ""}`);
   if (!data) return [];
   // NSE returns the data as an array OR as an object with numeric keys — normalise
   const arr = Array.isArray(data) ? data : Object.values(data);

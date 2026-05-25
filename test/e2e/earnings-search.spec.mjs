@@ -4,7 +4,7 @@
 //   • matches symbol-prefix OR company-name substring
 //   • shows an autocomplete dropdown drawn from the in-memory snapshot
 //     (upcoming + recent_results, deduped by symbol)
-//   • renders an explicit "not found in next 30d or past 7d" banner when
+//   • renders an explicit "not found in next 60d or status tracker" banner when
 //     the typed query has zero matches in either array
 //   • overrides the sibling filters (days / verdict / quality / runup /
 //     sector) so a stock surfaces if it's in the snapshot regardless of
@@ -20,6 +20,8 @@ import { test, expect } from "@playwright/test";
 import { gotoApp, switchTab } from "./helpers/app.mjs";
 
 const SYNTHETIC_SNAPSHOT = {
+  window_days: 60,
+  past_window_days: 14,
   events: [
     { symbol: "AARTIPHARM", company: "Aarti Pharmalabs Limited", days_until: 1, event_iso_date: "2026-05-18" },
     { symbol: "TMCV",       company: "Tata Motors",              days_until: 3, event_iso_date: "2026-05-20" },
@@ -105,7 +107,7 @@ test.describe("Earnings Watch — symbol/company search", () => {
       renderSearchEmptyState({ query: "REL", hasUpcomingMatches: true, hasRecentMatches: false });
       reads.push({ when: "has-upcoming", hidden: el.hidden, hasText: el.textContent.trim().length > 0 });
       renderSearchEmptyState({ query: "GOOGL", hasUpcomingMatches: false, hasRecentMatches: false });
-      reads.push({ when: "no-matches", hidden: el.hidden, includesQuery: el.textContent.includes("GOOGL"), includesNotFound: el.textContent.includes("no earnings in the next 30 days or past 7 days") });
+      reads.push({ when: "no-matches", hidden: el.hidden, includesQuery: el.textContent.includes("GOOGL"), includesNotFound: el.textContent.includes("no earnings in the next 60 days or status tracker today + past 14 days") });
       return reads;
     });
     expect(emptyState).toEqual([
@@ -160,7 +162,7 @@ test.describe("Earnings Watch — symbol/company search", () => {
     await expect(dropdown).toBeHidden();
     await expect(emptyState).toBeVisible();
     await expect(emptyState).toContainText("ZZZUNKNOWN");
-    await expect(emptyState).toContainText("no earnings in the next 30 days or past 7 days");
+    await expect(emptyState).toContainText("no earnings in the next 60 days or status tracker today + past 14 days");
 
     // 3. Lowercase company-name query — matches TWO TATA rows (upcoming
     //    TMCV "Tata Motors" + recent TATAPOWER "Tata Power"). Click the

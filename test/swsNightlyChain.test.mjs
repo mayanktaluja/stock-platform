@@ -41,6 +41,24 @@ console.log("\nsws-nightly.sh step-3c chain — surveillance + governance wiring
 assert("refresh-surveillance.mjs is invoked", /node scripts\/refresh-surveillance\.mjs/.test(nightly), null);
 assert("refresh-governance.mjs is invoked", /node scripts\/refresh-governance\.mjs/.test(nightly), null);
 
+const catalystInvocations = nightly.match(/node scripts\/refresh-catalysts\.mjs/g) || [];
+const nseCorpInvocations = nightly.match(/node scripts\/refresh-nse-corporate\.mjs/g) || [];
+assert(
+  "refresh-catalysts.mjs is invoked once from the parallel NSE catalyst branch",
+  catalystInvocations.length === 1 && /run_nse_catalyst_branch[\s\S]*?node scripts\/refresh-catalysts\.mjs/.test(nightly),
+  { count: catalystInvocations.length },
+);
+assert(
+  "refresh-nse-corporate.mjs is invoked once from the parallel NSE catalyst branch",
+  nseCorpInvocations.length === 1 && /run_nse_catalyst_branch[\s\S]*?node scripts\/refresh-nse-corporate\.mjs/.test(nightly),
+  { count: nseCorpInvocations.length },
+);
+assert(
+  "SWS and NSE catalyst branches are launched before a shared wait barrier",
+  /run_sws_primary_branch[\s\S]*?SWS_BRANCH_PID=\$![\s\S]*?run_nse_catalyst_branch[\s\S]*?NSE_BRANCH_PID=\$![\s\S]*?wait "\$\{SWS_BRANCH_PID\}"[\s\S]*?wait "\$\{NSE_BRANCH_PID\}"/.test(nightly),
+  null,
+);
+
 // Governance is gated — quarterly-cadence data, a daily refresh is pure waste.
 assert("governance has a GOV_AGE_HOURS freshness gate", /GOV_AGE_HOURS[\s\S]*?-lt\s+\d+/.test(nightly), null);
 
@@ -85,6 +103,12 @@ assert(
   "fundamentalsHistory refresh runs before refresh-earnings.mjs",
   fhIdx > -1 && earningsIdx > -1 && fhIdx < earningsIdx,
   { fhIdx, earningsIdx },
+);
+const barrierIdx = nightly.indexOf("parallel refresh barrier complete");
+assert(
+  "refresh-earnings.mjs runs after the parallel branch barrier",
+  barrierIdx > -1 && earningsIdx > barrierIdx,
+  { barrierIdx, earningsIdx },
 );
 assert(
   "fundamentalsHistory still has its 18h freshness gate",
@@ -166,7 +190,9 @@ assert(
 );
 assert(
   "sws-refresh-api.sh gates full Groww refresh to the 16:30 IST launchd window",
-  /IST_HHMM=.*Asia\/Kolkata/.test(refreshApi) &&
+  /RUN_STARTED_IST_HHMM=.*Asia\/Kolkata/.test(refreshApi) &&
+    /GROWW_STEP_IST_HHMM=.*Asia\/Kolkata/.test(refreshApi) &&
+    /\[ "\$\{RUN_STARTED_IST_HHMM\}" -ge 1600 \]/.test(refreshApi) &&
     /--validate-only/.test(refreshApi) &&
     /--force --max-age-days 1 --stale-grace-days 3/.test(refreshApi),
   null,

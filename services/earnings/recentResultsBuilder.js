@@ -3,9 +3,9 @@
  *
  * Builds the `recent_results` field carried alongside `events` in
  * data/catalysts/earnings-watch-latest.json. The Earnings Watch tab
- * renders this as a "Recent results · past N days" section above the
- * upcoming card grid, showing original prediction + resolved actual
- * verdict + T+1 close + accuracy badge.
+ * renders this as a "Recent / status tracker · today + past N days" section
+ * above the upcoming card grid, showing original prediction plus either
+ * resolved actual verdict + accuracy, or a PENDING status until actuals land.
  *
  * Design notes:
  *   - The history files at data/catalysts/earnings-history/<refresh-
@@ -18,9 +18,9 @@
  *     snapshot lean (~150KB saved vs merging into events[]) and avoids
  *     verdict-filter ambiguity on the UI (the upcoming "Verdict: BEAT"
  *     filter only ever applies to upcoming).
- *   - Orphans without actual_verdict drop off the UI via the
- *     pastWindowDays cutoff — the archive retains them for the
- *     backtest harness regardless.
+ *   - Rows without actual_verdict stay visible as PENDING through the
+ *     pastWindowDays cutoff so a tomorrow event becomes trackable the
+ *     next day even before actuals resolve.
  *
  * Pure module — no FS side effects beyond what loadAllHistory does.
  */
@@ -48,7 +48,7 @@ function daysBetween(aIso, bIso) {
  *
  * @param {object} opts
  * @param {string} [opts.todayIso]        IST date the lookback anchors to (defaults to IST today)
- * @param {number} [opts.pastWindowDays]  How many calendar days back to include (default 7)
+ * @param {number} [opts.pastWindowDays]  How many calendar days back to include (default 14)
  * @param {Map<string,string>} [opts.companyByEventKey]  Optional `${symbol}|${event_iso_date}` → company.
  *                                                       Sourced from the current calendar — exact match wins.
  * @param {Map<string,string>} [opts.companyBySymbol]    Optional symbol → company fallback used when the
@@ -59,7 +59,7 @@ function daysBetween(aIso, bIso) {
  */
 export function buildRecentResults(opts = {}) {
   const todayIso = opts.todayIso || istTodayIso();
-  const pastWindowDays = Number.isFinite(opts.pastWindowDays) ? opts.pastWindowDays : 7;
+  const pastWindowDays = Number.isFinite(opts.pastWindowDays) ? opts.pastWindowDays : 14;
   const companyByEventKey = opts.companyByEventKey || new Map();
   const companyBySymbol = opts.companyBySymbol || new Map();
 
@@ -71,14 +71,14 @@ export function buildRecentResults(opts = {}) {
   const out = [];
   for (const r of deduped) {
     if (!r || !r.symbol || !r.event_iso_date) continue;
-    if (!r.actual_verdict) continue;
     if (r.event_iso_date < earliestIso) continue;
     if (r.event_iso_date > todayIso) continue;
 
+    const actualStatus = r.actual_verdict ? "RESOLVED" : "PENDING";
     const accuracy =
       r.predicted_verdict && r.actual_verdict
         ? r.predicted_verdict === r.actual_verdict ? "hit" : "miss"
-        : "unknown";
+        : "pending";
 
     const key = `${r.symbol}|${r.event_iso_date}`;
     const company = companyByEventKey.get(key) || companyBySymbol.get(r.symbol) || null;
@@ -99,6 +99,7 @@ export function buildRecentResults(opts = {}) {
       actual_source: r.actual_source || null,
       actual_evidence: r.actual_evidence || null,
       actual_resolved_at: r.resolved_at_iso || null,
+      actual_status: actualStatus,
       prediction_accuracy: accuracy,
     });
   }
