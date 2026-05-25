@@ -15,6 +15,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { mtimeCached, mtimeCachedByKey } from "./swsDal/cache.js";
 import { makeDeepFileResolver } from "./swsDal/deepTarball.js";
+import {
+  MARKET_FUNDAMENTALS_FILE,
+  createMarketFundamentalsFallbackReader,
+} from "./swsMarketFundamentals.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
@@ -27,6 +31,7 @@ const PICKS_LATEST_PATH = path.join(DATA_DIR, "picks-latest.json");
 const SCORED_UNIVERSE_PATH = path.join(DATA_DIR, "sws-scored-universe.json");
 const LAST_REFRESH_PATH = path.join(DATA_DIR, "last-refresh.json");
 const V3_UNIVERSE_PATH = path.join(DATA_DIR, "v3-universe-stats.json");
+const FUNDAMENTALS_LATEST_PATH = path.join(DATA_DIR, MARKET_FUNDAMENTALS_FILE);
 
 export const US_PATHS = {
   dataDir: DATA_DIR,
@@ -42,6 +47,7 @@ const readPicks = mtimeCached(PICKS_LATEST_PATH, readJson);
 const readScoredUniverse = mtimeCached(SCORED_UNIVERSE_PATH, readJson);
 const readLastRefresh = mtimeCached(LAST_REFRESH_PATH, readJson);
 const readV3 = mtimeCached(V3_UNIVERSE_PATH, readJson);
+const readFundamentalsFallback = createMarketFundamentalsFallbackReader(FUNDAMENTALS_LATEST_PATH);
 
 // US tickers are alphabetic + dotted share classes (BRK.B). Uppercase + trim;
 // keep the dot. No .NS/.BO stripping — that's an India concern.
@@ -87,6 +93,11 @@ export function getUsStockByTicker(ticker) {
   const key = normaliseTickerKey(ticker);
   if (!key) return null;
   return readDeepByKey(key);
+}
+
+export function getUsFundamentalsFallback(ticker) {
+  const key = normaliseTickerKey(ticker);
+  return key ? readFundamentalsFallback(key) : null;
 }
 
 let _universeIndexCache = null; // { source, map }

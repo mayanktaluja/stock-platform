@@ -39,6 +39,15 @@ async function expectTotalReturnsHasPercentValues(bodyLocator) {
   return returnsText;
 }
 
+async function quickStatsText(bodyLocator) {
+  const section = bodyLocator
+    .locator("h4")
+    .filter({ hasText: /Quick stats/i })
+    .locator("xpath=..");
+  await expect(section).toBeVisible();
+  return section.innerText();
+}
+
 test.describe("US Picks tab", () => {
   test.skip(!HAS_FIXTURE, "no data/sws-us/picks-latest.json fixture present");
 
@@ -82,6 +91,14 @@ test.describe("US Picks tab", () => {
     await expectTotalReturnsHasPercentValues(page.locator("#usModalBody"));
     expect(txt).toMatch(/Snowflake/i);
     expect(txt).toMatch(/Quick stats/i);
+    const quick = await quickStatsText(page.locator("#usModalBody"));
+    if (/SWS \+ Yahoo|Yahoo fallback/i.test(quick)) {
+      for (const value of ["Forward P/E", "24.6x", "ROE", "28.4%", "D/E", "42.0%", "Current ratio", "2.15x", "Gross margin", "45.6%", "Beta", "1.26"]) {
+        expect(quick.toLowerCase()).toContain(value.toLowerCase());
+      }
+    } else {
+      expect(quick).toContain("SWS");
+    }
     // The reported bug left the header blank (Price —, Mcap —) because the modal
     // only read the deep brief. Assert the deep-sourced price actually surfaced.
     const hero = await page.locator("#usModalBody .sws-modal-hero").innerText();
@@ -114,6 +131,35 @@ test.describe("US Picks tab", () => {
             snowflake_total: 20,
             returns_pct: { "1D": 1.2, "7D": -2.3, "1M": 3.4, "3M": -4.5, "1Y": 12.6 },
           },
+          fundamentals_fallback: {
+            source: "yahoo-finance2",
+            yahoo_symbol: "AAPL",
+            fetched_at: "2026-05-25T00:00:00.000Z",
+            pe: 31.2,
+            forward_pe: 24.6,
+            pb: 6.4,
+            ps: 7.8,
+            ev_ebitda: 18.4,
+            peg_ratio: 1.91,
+            eps: 7.25,
+            roe_pct: 28.4,
+            roa_pct: 13.7,
+            debt_to_equity_pct: 42.0,
+            current_ratio: 2.15,
+            gross_margin_pct: 45.6,
+            operating_margin_pct: 29.7,
+            net_margin_pct: 21.5,
+            beta: 1.26,
+            dividend_yield_pct: 0.72,
+            payout_pct: 18,
+            annual_dividend: 1.04,
+            latest_revenue: 1.2e11,
+            latest_net_income: 2.6e10,
+            total_debt: 9.0e10,
+            net_cash: -3.0e10,
+            week52_low_inr: 180,
+            week52_high_inr: 260,
+          },
           in_sections: ["top_ranked_30_v3"],
           currency: "USD",
         }),
@@ -131,6 +177,11 @@ test.describe("US Picks tab", () => {
     // Snowflake hex falls back to card.snowflake (20/30 here).
     expect(txt).toMatch(/Snowflake/i);
     expect(txt).toContain("20/30");
+    const quick = await quickStatsText(page.locator("#usModalBody"));
+    expect(quick).toMatch(/Yahoo fallback/i);
+    for (const value of ["P/E", "31.2x", "P/B", "6.40x", "EPS", "$7.25", "ROE", "28.4%", "D/E", "42.0%", "Net margin", "21.5%"]) {
+      expect(quick.toLowerCase()).toContain(value.toLowerCase());
+    }
     const returnsText = await expectTotalReturnsHasPercentValues(page.locator("#usModalBody"));
     for (const label of ["1D", "7D", "1M", "3M", "1Y"]) expect(returnsText).toContain(label);
     for (const value of ["+1.2%", "-2.3%", "+3.4%", "-4.5%", "+12.6%"]) expect(returnsText).toContain(value);

@@ -48,6 +48,26 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       const sb = await s.json();
       expect(sb.ticker).toBe(ticker);
       expect(sb.currency).toBe(cfg.currency);
+      if (sb.fundamentals_fallback) {
+        expect(sb.fundamentals_fallback).toMatchObject({
+          source: "yahoo-finance2",
+          yahoo_symbol: ticker,
+          pe: expect.any(Number),
+          forward_pe: expect.any(Number),
+          pb: expect.any(Number),
+          eps: expect.any(Number),
+          roe_pct: expect.any(Number),
+          roa_pct: expect.any(Number),
+          debt_to_equity_pct: expect.any(Number),
+          current_ratio: expect.any(Number),
+          gross_margin_pct: expect.any(Number),
+          operating_margin_pct: expect.any(Number),
+          net_margin_pct: expect.any(Number),
+          beta: expect.any(Number),
+        });
+      } else {
+        expect(sb.fundamentals_fallback).toBeNull();
+      }
     });
 
     test(`GET /api/${code}-stock/BAD!! → 400 invalid_ticker`, async ({ request }) => {

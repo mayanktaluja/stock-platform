@@ -70,6 +70,10 @@ portfolio analyzer.
 - **This PR** — US/KR/TW stock modals now render Total Returns from full deep
   briefs or compact card fallback data, and the regional DAL prefers fresher
   packed deep tarballs with a Node extraction fallback when shell `tar` fails.
+- **This PR** — US/KR/TW stock modals also accept an offline
+  `fundamentals-latest.json` Yahoo enrichment snapshot, so sparse SWS briefs can
+  still show India-style valuation, profitability, balance-sheet, dividend, and
+  ownership metrics without fetching anything at modal-open time.
 
 ### New experimental surfaces (May 2026)
 - **#347** — Sector Outlook tab (SWS news themes × macro regime; no named picks v1).
