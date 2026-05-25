@@ -65,7 +65,7 @@ test.describe("US Picks tab", () => {
 
   test("open to all signed-in users: tab renders without the admin flag", async ({ page }) => {
     await gotoApp(page);
-    await page.evaluate(() => { window.__starbhai_isAdmin = false; window.__starbhai_isPersonal = false; });
+    await page.evaluate(() => { window.__starbhai_isAdmin = false; });
     await page.evaluate(() => window.switchTab("usPicks"));
     await expect(page.locator("#usPicksTab")).toBeVisible({ timeout: 10_000 });
   });

@@ -140,20 +140,12 @@ const auth = {
     if (emailEl) emailEl.textContent = me.email || "";
     menu.hidden = false;
 
-    // Expose admin + personal status. Public sections stay in the main tab bar;
+    // Expose admin status. Public sections stay in the main tab bar;
     // only Users remains hidden until the owner/admin identity resolves.
     window.__starbhai_isAdmin = !!me.isAdmin;
-    window.__starbhai_isPersonal = !!me.isPersonal;
 
     const usersTabBtn = document.getElementById("usersTabBtn");
     if (usersTabBtn) usersTabBtn.hidden = !window.__starbhai_isAdmin;
-
-    if (window.__starbhai_isPersonal) {
-      ["compounder", "earningsEdge", "multibaggerLab"].forEach((id) => {
-        const b = document.getElementById(`${id}TabBtn`);
-        if (b) b.hidden = false;
-      });
-    }
 
     // Deep-link recovery: boot ran before this async auth resolved, so a
     // guarded deep-link (#tab=users) may have been deferred to picks. Enter it
@@ -2656,31 +2648,25 @@ const TAB_CONFIG = {
     label: "Risk Lab",
     enter: () => { if (typeof loadRiskLab === "function") loadRiskLab(); },
   },
-  // Compounder Lab — SAFE sleeve. Personal-use only; the tab button is
-  // hidden by default and unhidden by the personal-use bootstrap below
-  // (mirroring the admin pattern at usersTabBtn).
+  // Compounder Lab — SAFE sleeve, open to every signed-in user.
   compounder: {
     elId: "compounderTab",
-    guard: () => !!window.__starbhai_isPersonal,
     enter: () => { if (typeof loadCompounderLab === "function") loadCompounderLab(); },
   },
-  // Earnings Edge — AGGRESSIVE sleeve. Same personal-use gate.
+  // Earnings Edge — AGGRESSIVE sleeve, open to every signed-in user.
   earningsEdge: {
     elId: "earningsEdgeTab",
-    guard: () => !!window.__starbhai_isPersonal,
     enter: () => { if (typeof loadEarningsEdge === "function") loadEarningsEdge(); },
   },
   // 5x Lab — concentrated multibagger strategy targeting ₹1L → ₹5L
-  // net in 12 months. Personal-use only — paper-book + actions are
-  // visible to the starbhai owner only.
+  // net in 12 months. Open to every signed-in user.
   multibaggerLab: {
     elId: "multibaggerLabTab",
     label: "5x Lab",
-    guard: () => !!window.__starbhai_isPersonal,
     enter: () => { if (typeof loadMultibaggerLab === "function") loadMultibaggerLab(); },
   },
   // Sector Outlook — EXPERIMENTAL bottom-up SWS news + macro cross-check.
-  // Visible to ALL signed-in users (no personal-use gate); the EXPERIMENTAL
+  // Visible to ALL signed-in users; the EXPERIMENTAL
   // pulsing-dot badge in the tab button + caveats array in the API payload
   // make the v1 scope explicit. Per-user opt-out via localStorage.
   sectorOutlook: {

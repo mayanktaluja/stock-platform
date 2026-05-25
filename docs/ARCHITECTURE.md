@@ -249,18 +249,15 @@ PROJECT_STATUS):
 | Tier | Mechanism | Gates |
 |---|---|---|
 | **Public** | session-gate exempt list | `/`, `/login.html`, `/healthz`, `/api/auth/*`, `/api/logout`, `/api/macro/regime/health`, all `/api/cron/*`, `/api/track/migrate` + `/api/track/snapshot-sws-now` (own `MACRO_OVERRIDE_TOKEN` gate) |
-| **Signed-in** | session gate (any valid Google session) | Everything not listed elsewhere. India Market, Earnings Watch, Risk Lab, Macro, Sector Outlook, News, Track Record, Portfolio Analyzer. `requireSignedInRead` also guards US/KR/TW read routes (opened from admin-only in the parity work). |
-| **Admin** | in-handler `isAdmin` check (reads user record); `ADMIN_EMAILS` env allowlist (#395) | `/api/admin/*`; SWS write/refresh routes via `requireAdminForSwsRefresh` (`/api/sws-refresh/*`, `/api/sws-scan/initial-start`). |
-| **Personal** | `createPersonalUseGate` (`services/auth/personalUseGate.js`) — email allowlist | Experimental sleeves: `/api/compounder/*`, `/api/earnings-edge/*`, `/api/multibagger/*`. |
+| **Signed-in** | session gate (any valid Google session) | Everything not listed elsewhere. India Market, Earnings Watch, Risk Lab, Macro, Sector Outlook, News, Track Record, Portfolio Analyzer, US/KR/TW read routes, Compounder Lab, Earnings Edge, and 5x Lab. |
+| **Admin** | in-handler `isAdmin` check recomputed from hard-coded owner email `mtaluja11@gmail.com` | `/api/admin/*`; SWS write/refresh routes via `requireAdminForSwsRefresh` (`/api/sws-refresh/*`, `/api/sws-scan/initial-start`). |
 
 **Rate limiting:** `apiLimiter` (60/min) + `stockDetailLimiter` (30/min), key from
 `services/apiLimiterKey.js` (`req.user.sub` → else IP). Both `skip` when `NODE_ENV=test` so the
 Playwright harness doesn't trip them.
 
-> **Auth is unsettled.** Two-tier auth shipped in #395 (`ADMIN_EMAILS` live allowlist) but the
-> direction has wobbled (a personal-use-gate reversal has been parked uncommitted on the working
-> branch at points). Treat the table above as "what the code on this branch currently does" and
-> re-read `server.js` + `services/auth/` before changing auth.
+> **Auth summary.** Users/admin and SWS write routes are owner-only; read-only research tabs are
+> signed-in surfaces. Re-read `server.js` before changing auth-sensitive routes.
 
 ---
 
@@ -321,17 +318,16 @@ document embedding every tab panel as a hidden `<div>` (`display:none`, toggled 
 
 > **`gated/app.js` is a 13,040-LOC monolith — DO NOT parallelise edits to it.** Concurrent edits
 > collide. Edit sequentially, one logical section per commit. Its major sections (marked by
-> `// ===`): init+telemetry, auth header menu (`auth.init()` sets `window.__starbhai_isAdmin` /
-> `__starbhai_isPersonal`), snapshot/LLM health banners, glossary tooltips, market data, search,
+> `// ===`): init+telemetry, auth header menu (`auth.init()` sets `window.__starbhai_isAdmin`),
+> snapshot/LLM health banners, glossary tooltips, market data, search,
 > stock detail, dashboard, tabs (`TAB_CONFIG` + `switchTab()` + `LABS_MENU_TABS` "More" dropdown),
 > Users, Portfolio, Market News, Track Record, Watchlist, price chart, Portfolio Analyzer,
 > India Market, US Market, the SWS deep-brief modal, the action-list modal, the universal stock modal, and
 > the hash router (`#tab=<name>`).
 
-**Tab visibility:** the tab bar keeps India/US/Korea/Taiwan Markets in the main row for signed-in
-users. Users remains owner-admin-only, while personal-use sleeves stay hidden until the signed-in
-account is allowlisted. Risk Lab and Sector Outlook are visible but locally toggleable via
-`localStorage`.
+**Tab visibility:** the tab bar keeps every read-only research tab in the main row for signed-in
+users, including Compounder Lab, Earnings Edge, and 5x Lab. Users remains owner-admin-only. Risk Lab
+and Sector Outlook are visible but locally toggleable via `localStorage`.
 
 **Client-side caches (the "why am I seeing stale data" list):**
 
@@ -640,8 +636,8 @@ bodies, joins to holdings, computes hold-by date / ₹ payout / yield-on-cost. R
 
 ### 11.5 Compounder Lab + Earnings Edge (two-sleeve paper-trade book, #337)
 
-Experimental sleeves, personal-use-gated, with a shared paper-trade harness — isolated from the main
-picks so their hit-rate is judged separately before any promotion.
+Experimental sleeves with a shared paper-trade harness — isolated from the main picks so their
+hit-rate is judged separately before any promotion. They are visible to all signed-in users.
 
 - **Compounder Lab (safe sleeve, `services/compounder/`):** Marcellus-style quality screen
   (Snowflake `past≥5`, `health≥4`, `dividend≥4`, mcap ≥ ₹500Cr, no debt/dilution keywords, valid FV)
@@ -687,9 +683,8 @@ picks so their hit-rate is judged separately before any promotion.
 - **Unit:** Node's built-in test runner. **153** `test/*.test.mjs` files on disk; `npm test` runs a
   long `&&`-chained list (no glob) + 2 bash tests + 2 scripts-level tests. Self-skip on missing
   fixtures.
-  > ⚠️ **Known breakage:** `npm test` references `test/adminGate.test.mjs`, which no longer exists
-  > (renamed to `test/personalUseGate.test.mjs`). The `&&` chain fails at that link until the path is
-  > corrected in `package.json`.
+  The owner/admin identity contract is covered by `test/adminOwner.test.mjs`; signed-in lab route
+  access is covered by `test/labRoutesSignedIn.test.mjs`.
 - **E2E:** Playwright, **100** specs in `test/e2e/`. `npm run test:e2e` pre-builds the analyzer XLSX
   fixture + US/KR/TW picks fixtures, runs on **port 4011** via `webServer`, with `AUTH_ENABLED=false`
   and `NODE_ENV=test` (rate-limits off). Specs self-skip when data preconditions (admin auth, live

@@ -22,7 +22,6 @@ test.describe("5x Lab — risk + health", () => {
 
   test("overview includes health.alerts array (possibly empty)", async ({ request }) => {
     const res = await request.get("/api/multibagger/overview");
-    if (res.status() === 404) test.skip(true, "not a personal-use account");
     expect(res.ok()).toBe(true);
     const body = await res.json();
     expect(body.health).toBeTruthy();
@@ -31,15 +30,10 @@ test.describe("5x Lab — risk + health", () => {
 
   test("health section renders either 'clean' or alert list", async ({ page }) => {
     await gotoApp(page);
-    await page.evaluate(() => {
-      window.__starbhai_isAdmin = true;
-      const btn = document.getElementById("multibaggerLabTabBtn");
-      if (btn) btn.hidden = false;
-    });
     await page.evaluate(() => window.switchTab && window.switchTab("multibaggerLab"));
 
     const apiOk = await page.evaluate(async () => (await fetch("/api/multibagger/overview")).ok);
-    if (!apiOk) test.skip(true, "API not personal-gated open");
+    if (!apiOk) test.skip(true, "multibagger API unavailable");
 
     // Wait for content render
     await page.waitForSelector("#multibaggerLabContent section", { timeout: 10000 });
@@ -54,15 +48,10 @@ test.describe("5x Lab — risk + health", () => {
 
   test("trajectory regime pill shows the macro regime label", async ({ page }) => {
     await gotoApp(page);
-    await page.evaluate(() => {
-      window.__starbhai_isAdmin = true;
-      const btn = document.getElementById("multibaggerLabTabBtn");
-      if (btn) btn.hidden = false;
-    });
     await page.evaluate(() => window.switchTab && window.switchTab("multibaggerLab"));
 
     const apiOk = await page.evaluate(async () => (await fetch("/api/multibagger/overview")).ok);
-    if (!apiOk) test.skip(true, "API not personal-gated open");
+    if (!apiOk) test.skip(true, "multibagger API unavailable");
 
     const regimePill = page.locator("[data-test='multibagger-macro-regime']");
     await expect(regimePill).toBeVisible({ timeout: 10000 });

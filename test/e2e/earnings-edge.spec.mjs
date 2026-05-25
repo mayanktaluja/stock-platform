@@ -2,8 +2,8 @@
 // plan. Verifies:
 //   1. /api/earnings-edge/latest serves the expected schema
 //   2. /api/earnings-edge/paper-trades serves the ledger
-//   3. UI renders the open-trades table when personal flag is on
-//   4. Tab is guarded when personal flag is off
+//   3. UI renders from the public signed-in tab
+//   4. Tab is visible without admin-only flags
 //
 // Self-skips when data/earnings-edge/latest.json is missing.
 
@@ -36,16 +36,12 @@ test.describe("Earnings Edge (AGGRESSIVE sleeve)", () => {
     expect(Array.isArray(body.trades)).toBe(true);
   });
 
-  test("UI renders the open-trades table when admin flag is on", async ({ page, request }) => {
+  test("UI renders the open-trades table from the public signed-in tab", async ({ page, request }) => {
     const apiRes = await request.get("/api/earnings-edge/latest");
     test.skip(apiRes.status() === 404, "no earnings-edge snapshot");
 
     await gotoApp(page);
-    await page.evaluate(() => {
-      window.__starbhai_isAdmin = true;
-      const btn = document.getElementById("earningsEdgeTabBtn");
-      if (btn) btn.hidden = false;
-    });
+    await expect(page.locator("#earningsEdgeTabBtn")).toBeVisible({ timeout: 10_000 });
     await page.evaluate(() => window.switchTab("earningsEdge"));
     await expect(page.locator("#earningsEdgeTab")).toBeVisible({ timeout: 10_000 });
     await expect(page.locator("#earningsEdgeTab")).toContainText("Earnings Edge", {
@@ -53,9 +49,11 @@ test.describe("Earnings Edge (AGGRESSIVE sleeve)", () => {
     });
   });
 
-  test("tab guard rejects when admin flag is off", async ({ page }) => {
+  test("tab is visible without admin-only flags", async ({ page }) => {
     await gotoApp(page);
+    await page.evaluate(() => { window.__starbhai_isAdmin = false; });
     await page.evaluate(() => window.switchTab("earningsEdge"));
-    await expect(page.locator("#earningsEdgeTab")).toBeHidden();
+    await expect(page.locator("#earningsEdgeTabBtn")).toBeVisible({ timeout: 10_000 });
+    await expect(page.locator("#earningsEdgeTab")).toBeVisible({ timeout: 10_000 });
   });
 });

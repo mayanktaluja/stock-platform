@@ -23,13 +23,16 @@ const PUBLIC_MAIN_TABS = [
   "krPicksTabBtn",
   "twPicksTabBtn",
   "riskLabTabBtn",
-  "sectorOutlookTabBtn",
-];
-
-const PERSONAL_TABS = [
   "compounderTabBtn",
   "earningsEdgeTabBtn",
   "multibaggerLabTabBtn",
+  "sectorOutlookTabBtn",
+];
+
+const PUBLIC_DEEP_LINKS = [
+  ["compounder", "#compounderTab", "#compounderTabBtn"],
+  ["earningsEdge", "#earningsEdgeTab", "#earningsEdgeTabBtn"],
+  ["multibaggerLab", "#multibaggerLabTab", "#multibaggerLabTabBtn"],
 ];
 
 async function mockAdmin(page) {
@@ -49,9 +52,6 @@ test.describe("Main tab visibility", () => {
 
     await expect(page.locator("#labsMenu")).toBeHidden();
     await expect(page.locator("#usersTabBtn")).toBeHidden();
-    for (const id of PERSONAL_TABS) {
-      await expect(page.locator(`#${id}`)).toHaveJSProperty("hidden", true);
-    }
     for (const id of PUBLIC_MAIN_TABS) {
       await expect(page.locator(`#${id}`)).toBeVisible();
     }
@@ -63,9 +63,6 @@ test.describe("Main tab visibility", () => {
 
     await expect(page.locator("#usersTabBtn")).toBeVisible({ timeout: 10_000 });
     await expect(page.locator("#labsMenu")).toBeHidden();
-    for (const id of PERSONAL_TABS) {
-      await expect(page.locator(`#${id}`)).toHaveJSProperty("hidden", true);
-    }
     for (const id of PUBLIC_MAIN_TABS) {
       await expect(page.locator(`#${id}`)).toBeVisible();
     }
@@ -79,6 +76,17 @@ test.describe("Main tab visibility", () => {
     await expect(page.locator("#usersTab")).toBeVisible({ timeout: 10_000 });
     await expect(page.locator("#usersTabBtn")).toHaveClass(/active/);
   });
+
+  for (const [tab, panel, button] of PUBLIC_DEEP_LINKS) {
+    test(`normal user: #tab=${tab} deep link opens the public lab tab`, async ({ page }) => {
+      await page.goto(`/index.html#tab=${tab}`, { waitUntil: "domcontentloaded" });
+
+      await expect(page.locator(button)).toBeVisible({ timeout: 10_000 });
+      await expect(page.locator(panel)).toBeVisible({ timeout: 10_000 });
+      await expect(page.locator(button)).toHaveClass(/active/);
+      await expect(page.locator("#usersTabBtn")).toBeHidden();
+    });
+  }
 
   test("clicking a promoted public tab activates its main-bar button", async ({ page }) => {
     await gotoApp(page);

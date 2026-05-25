@@ -22,7 +22,6 @@ test.describe("5x Lab — candidate pipeline", () => {
 
   test("/api/multibagger/candidates respects verdict filter + limit", async ({ request }) => {
     const res = await request.get("/api/multibagger/candidates?verdict=HIGH_CONVICTION&limit=10");
-    if (res.status() === 404) test.skip(true, "not a personal-use account");
     expect(res.ok()).toBe(true);
     const body = await res.json();
     expect(body).toHaveProperty("candidates");
@@ -35,15 +34,10 @@ test.describe("5x Lab — candidate pipeline", () => {
 
   test("candidate table renders with ticker + score + verdict columns", async ({ page }) => {
     await gotoApp(page);
-    await page.evaluate(() => {
-      window.__starbhai_isAdmin = true;
-      const btn = document.getElementById("multibaggerLabTabBtn");
-      if (btn) btn.hidden = false;
-    });
     await page.evaluate(() => window.switchTab && window.switchTab("multibaggerLab"));
 
     const apiOk = await page.evaluate(async () => (await fetch("/api/multibagger/overview")).ok);
-    if (!apiOk) test.skip(true, "API not personal-gated open");
+    if (!apiOk) test.skip(true, "multibagger API unavailable");
 
     const table = page.locator("[data-test='multibagger-candidate-table']");
     await expect(table).toBeVisible({ timeout: 10000 });
@@ -53,15 +47,10 @@ test.describe("5x Lab — candidate pipeline", () => {
 
   test("verdict pill colour distinguishes 5X_CANDIDATE from HIGH_CONVICTION", async ({ page }) => {
     await gotoApp(page);
-    await page.evaluate(() => {
-      window.__starbhai_isAdmin = true;
-      const btn = document.getElementById("multibaggerLabTabBtn");
-      if (btn) btn.hidden = false;
-    });
     await page.evaluate(() => window.switchTab && window.switchTab("multibaggerLab"));
 
     const apiOk = await page.evaluate(async () => (await fetch("/api/multibagger/overview")).ok);
-    if (!apiOk) test.skip(true, "API not personal-gated open");
+    if (!apiOk) test.skip(true, "multibagger API unavailable");
 
     // Wait for table render
     await page.waitForSelector("[data-test='multibagger-candidate-table']", { timeout: 10000 });
@@ -79,15 +68,10 @@ test.describe("5x Lab — candidate pipeline", () => {
 
   test("each candidate carries a why/bear-case rationale", async ({ page }) => {
     await gotoApp(page);
-    await page.evaluate(() => {
-      window.__starbhai_isAdmin = true;
-      const btn = document.getElementById("multibaggerLabTabBtn");
-      if (btn) btn.hidden = false;
-    });
     await page.evaluate(() => window.switchTab && window.switchTab("multibaggerLab"));
 
     const apiOk = await page.evaluate(async () => (await fetch("/api/multibagger/overview")).ok);
-    if (!apiOk) test.skip(true, "API not personal-gated open");
+    if (!apiOk) test.skip(true, "multibagger API unavailable");
 
     await page.waitForSelector("[data-test='multibagger-candidate-table']", { timeout: 10000 });
     const rationaleRows = await page.locator("[data-test='candidate-rationale-row']").count();

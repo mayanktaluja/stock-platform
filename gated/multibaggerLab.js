@@ -42,7 +42,7 @@ async function loadMultibaggerLab() {
   try {
     const res = await fetch("/api/multibagger/overview");
     if (res.status === 404) {
-      target.innerHTML = '<div style="padding:24px; color:var(--text-muted); text-align:center;">5x Lab is personal-use only. This account does not have access.</div>';
+      target.innerHTML = '<div style="padding:24px; color:var(--text-muted); text-align:center;">5x Lab data is not available yet.</div>';
       return;
     }
     if (!res.ok) throw new Error(`HTTP ${res.status}`);

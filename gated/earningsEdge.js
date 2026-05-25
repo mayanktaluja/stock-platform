@@ -96,7 +96,7 @@
         fetch("/api/earnings-edge/paper-trades"),
       ]);
       if (latestRes.status === 404) {
-        el.innerHTML = '<div style="padding:32px; text-align:center; color:var(--text-muted);">Earnings Edge is personal-use only.</div>';
+        el.innerHTML = '<div style="padding:32px; text-align:center; color:var(--text-muted);">Earnings Edge data is not available yet.</div>';
         return;
       }
       if (!latestRes.ok) throw new Error(`HTTP ${latestRes.status}`);

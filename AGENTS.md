@@ -40,12 +40,10 @@ allow-list of signed-in Google OAuth accounts. Production lives at
 - **Auth:** Google OAuth (`google-auth-library`), session-gated on every
   route except a small public set. `AUTH_ENABLED=false` bypasses auth for
   local dev and Playwright tests.
-- **Tests:** Node's built-in test runner for unit tests (153 `test/*.test.mjs`
+- **Tests:** Node's built-in test runner for unit tests (154 `test/*.test.mjs`
   files; ~130 wired into `npm test`). Playwright for e2e (100 specs,
   `npm run test:e2e`, port 4011 via `webServer` config). Both self-skip on
-  missing fixtures. ⚠️ `npm test` currently references `test/adminGate.test.mjs`
-  which was renamed to `test/personalUseGate.test.mjs` — the `&&` chain breaks
-  there until the path is fixed in `package.json`.
+  missing fixtures.
 - **AI keys (optional, all graceful-degrade):** Anthropic, OpenAI, Groq, Gemini.
 
 ## Repository layout
@@ -119,9 +117,9 @@ graceful-degrades. They're only needed if you're refreshing data.
 | **Watchlist** | User-curated list, persists in `.watchlist.json`. | `gated/app.js`, `.watchlist.json` |
 | **News digest** (`news` tab) | Daily catalyst/news roundup with LLM-flagged disagreements. | `gated/app.js`, `services/catalystsService.js` |
 | **Sector Outlook** (experimental) | Bottom-up SWS news themes × current macro regime. No named stock picks in v1. Visible to all signed-in users. | `gated/sectorOutlook.js`, `data/sectorOutlook/` |
-| **5x Lab** (`multibagger`, personal-use) | Concentrated multibagger strategy (₹1L→₹5L/12m) with per-pick rationale + live pre-mortem. UI states a <10% base rate. | `gated/multibaggerLab.js`, `services/multibagger/`, `scripts/refresh-5x-strategy.mjs` |
-| **Compounder Lab** (personal-use) | "Safe" sleeve — Marcellus-style quality screen, top-20 by upside, paper-traded. | `gated/compounderLab.js`, `services/compounder/`, `data/compounder/latest.json` |
-| **Earnings Edge** (personal-use) | "Aggressive" sleeve — post-BEAT names through 5 KEC-post-mortem gates, paper-traded. Shares the compounder paper-trade harness. | `gated/earningsEdge.js`, `services/earningsEdge/`, `data/earnings-edge/latest.json` |
+| **5x Lab** (`multibagger`) | Concentrated multibagger strategy (₹1L→₹5L/12m) with per-pick rationale + live pre-mortem. UI states a <10% base rate. Visible to all signed-in users. | `gated/multibaggerLab.js`, `services/multibagger/`, `scripts/refresh-5x-strategy.mjs` |
+| **Compounder Lab** | "Safe" sleeve — Marcellus-style quality screen, top-20 by upside, paper-traded. Visible to all signed-in users. | `gated/compounderLab.js`, `services/compounder/`, `data/compounder/latest.json` |
+| **Earnings Edge** | "Aggressive" sleeve — post-BEAT names through 5 KEC-post-mortem gates, paper-traded. Shares the compounder paper-trade harness. Visible to all signed-in users. | `gated/earningsEdge.js`, `services/earningsEdge/`, `data/earnings-edge/latest.json` |
 
 ## Data pipelines (refresh cadences)
 
@@ -158,17 +156,10 @@ Every signal that ships should have a backtest harness. Conventions:
 
 - **Public routes:** `/`, `/healthz`, `/api/healthz`, `/login`, `/auth/google/*`.
 - **Everything else:** session-gated. Reject without a Google OAuth session.
-- **Admin tier (#395):** an `ADMIN_EMAILS` env allowlist + an in-handler
-  `isAdmin` check. Gates `/api/admin/*` and the SWS write/refresh routes
-  (`requireAdminForSwsRefresh`). US/KR/TW picks *reads* were opened from
-  admin-only to any signed-in user (`requireSignedInRead`).
-- **Personal tier:** `createPersonalUseGate` (`services/auth/personalUseGate.js`),
-  an email allowlist gating the experimental sleeves (`/api/compounder/*`,
-  `/api/earnings-edge/*`, `/api/multibagger/*`).
-- ⚠️ **Auth is in flux** — the two-tier model has wobbled; a personal-use-gate
-  reversal has been parked uncommitted on the working branch at points.
-  Re-read `server.js` + `services/auth/` before changing auth. (See
-  PROJECT_STATUS.md and ARCHITECTURE.md §5.)
+- **Admin tier:** hard-coded owner email `mtaluja11@gmail.com` via
+  `computeIsAdmin()`. Gates `/api/admin/*` and the SWS write/refresh routes
+  (`requireAdminForSwsRefresh`). All read-only market and lab tabs are open to
+  any signed-in user.
 - **Test bypass:** `AUTH_ENABLED=false` skips the session check. Used in
   local dev and Playwright. Don't ship a release with this set in prod env.
 - **Rate limits:** `express-rate-limit`. `NODE_ENV=test` disables limits so

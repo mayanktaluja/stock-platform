@@ -77,7 +77,7 @@ portfolio analyzer.
 
 ### New experimental surfaces (May 2026)
 - **#347** — Sector Outlook tab (SWS news themes × macro regime; no named picks v1).
-- **#348 / #354** — 5x Lab (concentrated multibagger, personal-use) + per-pick
+- **#348 / #354** — 5x Lab (concentrated multibagger) + per-pick
   Strategy & Reasoning with a live pre-mortem. **#350** — prod gate/data fix.
 - **#337** — Compounder Lab + Earnings Edge two-sleeve paper-trade book + NSE PIT
   promoter-transaction feed.
@@ -87,8 +87,9 @@ portfolio analyzer.
   Sector Outlook stay visible in the main tab bar for signed-in users; only
   Users remains owner-admin-only. Admin authority is now hard-coded to
   `mtaluja11@gmail.com` via `computeIsAdmin()` rather than `ADMIN_EMAILS`.
-- **#395** — Two-tier access: `ADMIN_EMAILS` live allowlist; personal-use folded
-  into the admin tier. (Direction still settling — see Active themes.)
+- **#395 / #467 / current** — Owner-admin access is hard-coded to
+  `mtaluja11@gmail.com`; all read-only market and lab tabs are visible to
+  signed-in users, and only Users/admin/write routes stay owner-only.
 - **#361** — "More" dropdown for privileged tabs. **#370** — Avoid List section
   removed from India Market. **#360** — density toggle removed. **#380** — mobile
   info-icon sizing fix.
@@ -135,8 +136,8 @@ portfolio analyzer.
   events. The KEC false-positive post-mortem (BEAT predicted, −11% actual) is now
   baked into Earnings Edge's 5 on-disk gates rather than an LLM fix.
 - **Two-sleeve trading book.** Compounder Lab + Earnings Edge (#337) accrue
-  walk-forward paper-trade performance separate from the main picks. Promotion to
-  a first-class surface depends on hit-rate over the next 1–2 quarters.
+  walk-forward paper-trade performance separate from the main picks while
+  remaining visible to signed-in users.
 
 ## Known production gotchas (also in AGENTS.md / ARCHITECTURE.md, repeated for emphasis)
 
