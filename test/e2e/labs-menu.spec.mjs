@@ -16,11 +16,20 @@ const ADMIN_ME = {
 };
 
 const PUBLIC_MAIN_TABS = [
+  "picksTabBtn",
+  "analyzerTabBtn",
+  "earningsTabBtn",
   "usPicksTabBtn",
   "krPicksTabBtn",
   "twPicksTabBtn",
   "riskLabTabBtn",
   "sectorOutlookTabBtn",
+];
+
+const PERSONAL_TABS = [
+  "compounderTabBtn",
+  "earningsEdgeTabBtn",
+  "multibaggerLabTabBtn",
 ];
 
 async function mockAdmin(page) {
@@ -40,6 +49,9 @@ test.describe("Main tab visibility", () => {
 
     await expect(page.locator("#labsMenu")).toBeHidden();
     await expect(page.locator("#usersTabBtn")).toBeHidden();
+    for (const id of PERSONAL_TABS) {
+      await expect(page.locator(`#${id}`)).toHaveJSProperty("hidden", true);
+    }
     for (const id of PUBLIC_MAIN_TABS) {
       await expect(page.locator(`#${id}`)).toBeVisible();
     }
@@ -51,6 +63,9 @@ test.describe("Main tab visibility", () => {
 
     await expect(page.locator("#usersTabBtn")).toBeVisible({ timeout: 10_000 });
     await expect(page.locator("#labsMenu")).toBeHidden();
+    for (const id of PERSONAL_TABS) {
+      await expect(page.locator(`#${id}`)).toHaveJSProperty("hidden", true);
+    }
     for (const id of PUBLIC_MAIN_TABS) {
       await expect(page.locator(`#${id}`)).toBeVisible();
     }

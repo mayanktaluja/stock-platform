@@ -18,6 +18,25 @@ import { gotoApp } from "./helpers/app.mjs";
 
 const SEARCH_DEBOUNCE_MS = 200; // riskLab.js debounce is 150ms — pad a bit for CI
 
+function matchesRiskLabSearch(stock, query) {
+  const q = String(query || "").trim().toLowerCase();
+  if (!q) return true;
+  return [
+    stock.ticker,
+    stock.name,
+    stock.original_verdict,
+    stock.macro_adjusted_verdict,
+    stock.quality_adjusted_verdict,
+    stock.quality_verdict,
+    stock.sector_used,
+    ...(stock.quality_flags || []).flatMap((f) => [f.category, f.type, f.overlay]),
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase()
+    .includes(q);
+}
+
 async function loadRiskLab(page, request) {
   const apiRes = await request.get("/api/risk-lab/picks-adjusted");
   if (apiRes.status() === 404 || apiRes.status() === 503) {
@@ -40,25 +59,25 @@ async function loadRiskLab(page, request) {
 test.describe("Risk Lab — search filter", () => {
   test("Typing a ticker prefix narrows the visible row set", async ({ page, request }) => {
     const { stocks } = await loadRiskLab(page, request);
-    // Pick a ticker prefix that should match at least 1 row but fewer than the
-    // total. Use the first 3 chars of an arbitrary ticker from the data set.
+    // Use a full ticker so the test exercises ticker search without colliding
+    // with broad sectors like "Chemicals" (which also match substrings such as
+    // "che" by design).
     const sample = stocks.find((s) => (s.ticker || "").length >= 4);
     if (!sample) test.skip(true, "no ticker with ≥4 chars in payload");
-    const prefix = sample.ticker.slice(0, 3);
-    const expectedMatches = stocks.filter((s) => (s.ticker || "").toLowerCase().startsWith(prefix.toLowerCase())).length;
+    const query = sample.ticker;
+    const expectedMatches = stocks.filter((s) => matchesRiskLabSearch(s, query)).length;
     // Cap at 100 (Show-all not clicked).
     const expectedVisible = Math.min(expectedMatches, 100);
 
     const input = page.getByTestId("risk-lab-search-input");
-    await input.fill(prefix);
+    await input.fill(query);
     await page.waitForTimeout(SEARCH_DEBOUNCE_MS);
-    // After narrowing, every visible ticker starts with the prefix (case-insensitive).
+    // After narrowing, the visible set is bounded by the same search contract
+    // the UI applies across ticker/name/verdict/flag text.
     const tickerCells = await page.locator('[data-testid="risk-lab-row"] > div:first-child').allTextContents();
     expect(tickerCells.length).toBeGreaterThan(0);
     expect(tickerCells.length).toBeLessThanOrEqual(expectedVisible);
-    for (const t of tickerCells) {
-      expect(t.toLowerCase()).toContain(prefix.toLowerCase());
-    }
+    expect(tickerCells.map((t) => t.trim())).toContain(sample.ticker);
   });
 
   test("Search matches flag-category text, not just ticker", async ({ page, request }) => {

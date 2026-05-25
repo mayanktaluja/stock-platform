@@ -1,0 +1,82 @@
+// Cross-market SWS data-health smoke.
+//
+// India requires strict list/detail consistency because India cards open the
+// rich /api/sws-stock modal. Regional markets may legitimately fall back from
+// deep brief to card/universe data, but each served card must still have a
+// resolvable market-specific detail endpoint and currency contract.
+
+import { test, expect } from "@playwright/test";
+
+const SAMPLE_PER_MARKET = 5;
+
+function sampleTickersFromSections(sections, limit = SAMPLE_PER_MARKET) {
+  const out = [];
+  const seen = new Set();
+  for (const [sectionKey, items] of Object.entries(sections || {})) {
+    if (!Array.isArray(items)) continue;
+    for (const it of items) {
+      if (!it?.ticker || seen.has(it.ticker)) continue;
+      seen.add(it.ticker);
+      out.push({ ticker: it.ticker, section: sectionKey });
+      if (out.length >= limit) return out;
+    }
+  }
+  return out;
+}
+
+test.describe("SWS data health", () => {
+  test("India picks only serve cards with rich deep data", async ({ request }) => {
+    const picksRes = await request.get("/api/sws-picks");
+    if (picksRes.status() === 404) return;
+    expect(picksRes.status()).toBe(200);
+    const picks = await picksRes.json();
+    expect(typeof picks?._meta?.missing_deep_count).toBe("number");
+
+    const sampled = sampleTickersFromSections(picks.sections);
+    test.skip(sampled.length === 0, "no India SWS cards in current fixture");
+
+    const failures = [];
+    for (const item of sampled) {
+      const detailRes = await request.get(`/api/sws-stock/${encodeURIComponent(item.ticker)}`);
+      if (detailRes.status() !== 200) {
+        failures.push({ ...item, status: detailRes.status() });
+        continue;
+      }
+      const detail = await detailRes.json();
+      if (!detail?.deep) failures.push({ ...item, status: 200, error: "missing deep payload" });
+    }
+    expect(failures, `India card/detail drift: ${JSON.stringify(failures)}`).toEqual([]);
+  });
+
+  for (const market of [
+    { code: "us", label: "US", currency: "USD" },
+    { code: "kr", label: "Korea", currency: "KRW" },
+    { code: "tw", label: "Taiwan", currency: "TWD" },
+  ]) {
+    test(`${market.label} picks resolve via regional detail fallback contract`, async ({ request }) => {
+      const picksRes = await request.get(`/api/${market.code}-picks`);
+      if (picksRes.status() === 404) return;
+      expect(picksRes.status()).toBe(200);
+      const picks = await picksRes.json();
+      const sampled = sampleTickersFromSections(picks.sections);
+      test.skip(sampled.length === 0, `no ${market.label} cards in current fixture`);
+
+      const failures = [];
+      for (const item of sampled) {
+        const detailRes = await request.get(`/api/${market.code}-stock/${encodeURIComponent(item.ticker)}`);
+        if (detailRes.status() !== 200) {
+          failures.push({ ...item, status: detailRes.status() });
+          continue;
+        }
+        const detail = await detailRes.json();
+        if (detail.currency !== market.currency) {
+          failures.push({ ...item, status: 200, error: `currency ${detail.currency}` });
+        }
+        if (!detail.deep && !detail.card) {
+          failures.push({ ...item, status: 200, error: "no deep or card fallback" });
+        }
+      }
+      expect(failures, `${market.label} card/detail drift: ${JSON.stringify(failures)}`).toEqual([]);
+    });
+  }
+});

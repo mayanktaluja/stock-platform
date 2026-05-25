@@ -10,7 +10,7 @@
 
 import { test, expect } from "@playwright/test";
 import { fileURLToPath } from "node:url";
-import { dirname, resolve } from "node:path";
+import { basename, dirname, resolve } from "node:path";
 import { existsSync } from "node:fs";
 import { gotoApp } from "./helpers/app.mjs";
 
@@ -27,13 +27,21 @@ const FIXTURE_TOTAL_CURRENT_BROKER = 113_135;
 const FIXTURE_TOTAL_PNL_BROKER = 10_730;
 
 async function uploadAndWaitForReport(page, fixturePath) {
+  const expectedSourceFile = basename(fixturePath);
   await page.locator("#analyzerFileInput").setInputFiles(fixturePath);
   await page.waitForFunction(
-    () => {
+    (sourceFile) => {
       const r = document.getElementById("analyzerReport");
-      return r && r.style.display !== "none" && r.innerHTML.length > 0;
+      const cache = typeof _analyzerCache !== "undefined" ? _analyzerCache : null;
+      return (
+        r &&
+        r.style.display !== "none" &&
+        r.innerHTML.length > 0 &&
+        cache?.sourceFile === sourceFile &&
+        cache?.report?.banner?.snapshot_at
+      );
     },
-    null,
+    expectedSourceFile,
     { timeout: 30_000 },
   );
 }

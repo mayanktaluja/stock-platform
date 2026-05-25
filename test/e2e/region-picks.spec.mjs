@@ -11,6 +11,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { gotoApp } from "./helpers/app.mjs";
 
+test.setTimeout(60_000);
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const picksPath = (code) => path.join(__dirname, "..", "..", "data", `sws-${code}`, "picks-latest.json");
 

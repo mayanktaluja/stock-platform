@@ -3929,10 +3929,8 @@ function timeAgo(dateStr) {
 }
 
 function escapeHtml(str) {
-  if (!str) return "";
-  const div = document.createElement("div");
-  div.textContent = str;
-  return div.innerHTML;
+  if (str == null) return "";
+  return String(str).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
 }
 
 function getRecClass(rec) {
@@ -5407,6 +5405,7 @@ function renderPriceChart(historical, quote) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 let _analyzerWired = false;
+let _analyzerRunSeq = 0;
 
 // XIRR Optimizer state — keeps the latest analyze session so preset / tax-slab
 // chips can re-run the optimizer instantly via /api/portfolio/optimize without
@@ -5473,11 +5472,14 @@ function setAnalyzerState(state) {
 }
 
 function resetAnalyzer() {
+  _analyzerRunSeq++;
   setAnalyzerState("upload");
   const errEl = document.getElementById("analyzerUploadError");
   if (errEl) errEl.style.display = "none";
   const input = document.getElementById("analyzerFileInput");
   if (input) input.value = "";
+  const report = document.getElementById("analyzerReport");
+  if (report) report.innerHTML = "";
   // Drop the in-memory analyzer cache so a tab-switch before a new file is
   // picked can't re-render the pre-reset report from loadAnalyzerOnTabOpen's
   // 60s cache window.
@@ -5485,6 +5487,7 @@ function resetAnalyzer() {
 }
 
 async function analyzePortfolioFile(file) {
+  const runSeq = ++_analyzerRunSeq;
   const errEl = document.getElementById("analyzerUploadError");
   errEl.style.display = "none";
 
@@ -5495,6 +5498,9 @@ async function analyzePortfolioFile(file) {
   }
 
   setAnalyzerState("analyzing");
+  _analyzerCache = null;
+  const reportEl = document.getElementById("analyzerReport");
+  if (reportEl) reportEl.innerHTML = "";
   document.getElementById("analyzerProgressText").textContent = `Scoring ${file.name} via SWS Engine…`;
 
   try {
@@ -5507,6 +5513,7 @@ async function analyzePortfolioFile(file) {
     const res = await fetch("/api/portfolio/analyze", { method: "POST", body: fd });
 
     const data = await res.json();
+    if (runSeq !== _analyzerRunSeq) return;
     if (res.status === 412 && data?.code === "RISK_PROFILE_REQUIRED") {
       setAnalyzerState("upload");
       renderRiskProfileGate({ context: "analyzer", onComplete: () => analyzePortfolioFile(file) });
@@ -5529,6 +5536,7 @@ async function analyzePortfolioFile(file) {
       cachedAt: Date.now(),
     };
   } catch (err) {
+    if (runSeq !== _analyzerRunSeq) return;
     setAnalyzerState("upload");
     errEl.textContent = err.message;
     errEl.style.display = "block";
@@ -5553,6 +5561,7 @@ async function loadAnalyzerOnTabOpen() {
     return;
   }
 
+  const runSeq = ++_analyzerRunSeq;
   setAnalyzerState("analyzing");
   const progressEl = document.getElementById("analyzerProgressText");
   if (progressEl) progressEl.textContent = "Analyzing your portfolio with fresh SWS data…";
@@ -5568,6 +5577,7 @@ async function loadAnalyzerOnTabOpen() {
       }),
     });
 
+    if (runSeq !== _analyzerRunSeq) return;
     if (res.status === 404) {
       // No stored portfolio yet — show the upload zone as today.
       _analyzerCache = null;
@@ -5586,6 +5596,7 @@ async function loadAnalyzerOnTabOpen() {
     }
 
     const data = await res.json();
+    if (runSeq !== _analyzerRunSeq) return;
     if (res.status === 412 && data?.code === "RISK_PROFILE_REQUIRED") {
       _analyzerCache = null;
       setAnalyzerState("upload");
@@ -5608,6 +5619,7 @@ async function loadAnalyzerOnTabOpen() {
       cachedAt: Date.now(),
     };
   } catch (err) {
+    if (runSeq !== _analyzerRunSeq) return;
     setAnalyzerState("upload");
     const errEl = document.getElementById("analyzerUploadError");
     if (errEl) {
@@ -12835,10 +12847,6 @@ function renderSwsModal(data) {
   return renderSwsModalCore(data, INDIA_MODAL_OPTS);
 }
 
-function escapeHtml(s) {
-  if (s == null) return "";
-  return String(s).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
-}
 function escapeAttr(s) {
   if (s == null) return "";
   return String(s).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));

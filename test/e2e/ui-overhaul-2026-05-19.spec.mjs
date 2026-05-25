@@ -11,7 +11,7 @@
 // suite does NOT exercise specific data — it walks the shell.
 
 import { test, expect } from "@playwright/test";
-import { gotoApp, switchTab } from "./helpers/app.mjs";
+import { gotoApp } from "./helpers/app.mjs";
 
 test.describe("UI/UX overhaul 2026-05-19", () => {
   test("main landmark + sr-only h1 + tab WAI-ARIA wiring", async ({ page }) => {
@@ -40,7 +40,13 @@ test.describe("UI/UX overhaul 2026-05-19", () => {
   test("h1 text updates on tab switch", async ({ page }) => {
     await gotoApp(page);
     await expect(page.locator("h1#liveTabHeading")).toHaveText(/India Market/);
-    await switchTab(page, "track");
+    await expect(page.locator("#picksTabBtn")).toHaveText("India Market");
+    await expect(page.locator("#usPicksTabBtn")).toHaveText("US Market");
+    await expect(page.locator("#krPicksTabBtn")).toHaveText("Korea Market");
+    await expect(page.locator("#twPicksTabBtn")).toHaveText("Taiwan Market");
+    await page.evaluate(() => { void window.switchTab("usPicks"); });
+    await expect(page).toHaveTitle(/US Market/);
+    await page.evaluate(() => { void window.switchTab("track"); });
     await expect(page.locator("h1#liveTabHeading")).toHaveText(/Track Record/);
   });
 

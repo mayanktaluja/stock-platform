@@ -34,6 +34,38 @@ test.describe("/api/sws-picks Fair-Value consistency vs /api/sws-stock/:t", () =
     expect(body).toHaveProperty("_meta");
     expect(typeof body._meta.fv_drift_count).toBe("number");
     expect(body._meta.fv_drift_count).toBeGreaterThanOrEqual(0);
+    expect(typeof body._meta.missing_deep_count).toBe("number");
+    expect(Array.isArray(body._meta.missing_deep_sample)).toBe(true);
+  });
+
+  test("served cards always resolve through /api/sws-stock/:ticker", async ({ request }) => {
+    const picksRes = await request.get("/api/sws-picks");
+    if (picksRes.status() === 404) return; // empty fixture
+    expect(picksRes.status()).toBe(200);
+    const picks = await picksRes.json();
+    if (!picks?.sections || typeof picks.sections !== "object") return;
+
+    const sampled = [];
+    const seen = new Set();
+    for (const [sectionKey, items] of Object.entries(picks.sections)) {
+      if (!Array.isArray(items)) continue;
+      for (const it of items.slice(0, SAMPLE_PER_SECTION)) {
+        if (!it?.ticker || seen.has(it.ticker)) continue;
+        seen.add(it.ticker);
+        sampled.push({ ticker: it.ticker, section: sectionKey });
+      }
+    }
+    if (sampled.length === 0) return;
+
+    const missing = [];
+    for (const item of sampled) {
+      const sr = await request.get(`/api/sws-stock/${encodeURIComponent(item.ticker)}`);
+      if (sr.status() !== 200) missing.push({ ...item, status: sr.status() });
+    }
+    expect(
+      missing,
+      `/api/sws-picks served cards without deep data: ${JSON.stringify(missing.slice(0, 10))}`,
+    ).toEqual([]);
   });
 
   test("every card's fair_value_inr equals the snapshot's overview.fair_value_inr", async ({ request }) => {
