@@ -90,7 +90,8 @@ for (const f of ["surveillance.json", "governance.json"]) {
 // refresh-earnings.mjs. Earnings reads fundamentalsHistory.json for the
 // YoY-EPS-trajectory predictor component — running earnings first leaves
 // it on yesterday's snapshot for up to 22h (the gap between fires).
-const earningsIdx = nightly.indexOf("scripts/refresh-earnings.mjs 2>&1");
+const earningsInvocation = "scripts/refresh-earnings.mjs --window 60 --past-window-days 14 2>&1";
+const earningsIdx = nightly.indexOf(earningsInvocation);
 const fhIdx = (() => {
   // The script picks between refresh-fundamentals-history.mjs (preferred)
   // and fetch-fundamentals-history.mjs (fallback) — match either invocation.
@@ -109,6 +110,11 @@ assert(
   "refresh-earnings.mjs runs after the parallel branch barrier",
   barrierIdx > -1 && earningsIdx > barrierIdx,
   { barrierIdx, earningsIdx },
+);
+assert(
+  "refresh-earnings.mjs explicitly refreshes the 60-day watch window",
+  earningsIdx > -1,
+  null,
 );
 assert(
   "fundamentalsHistory still has its 18h freshness gate",
