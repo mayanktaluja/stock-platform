@@ -75,10 +75,12 @@ function loadFunctionConfig(pathname) {
   return (vercel.functions || {})[pathname];
 }
 
-function loadExcludeFilesRaw() {
-  const entry = loadFunctionConfig("api/index.js");
-  assert.ok(entry && typeof entry.excludeFiles === "string", "vercel.json functions['api/index.js'].excludeFiles must be a string");
-  return entry.excludeFiles;
+function loadVercelIgnorePatterns() {
+  const raw = fs.readFileSync(path.join(REPO_ROOT, ".vercelignore"), "utf-8");
+  return raw
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith("#"));
 }
 
 // Split the brace-list into individual patterns. None of the patterns contain a
@@ -91,18 +93,6 @@ function splitBraceGlob(glob) {
 
 function loadIncludePatterns() {
   return splitBraceGlob(loadIncludeFilesRaw());
-}
-
-function loadExcludePatterns() {
-  return splitBraceGlob(loadExcludeFilesRaw());
-}
-
-function loadVercelIgnoreLines() {
-  return fs
-    .readFileSync(path.join(REPO_ROOT, ".vercelignore"), "utf-8")
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter((line) => line && !line.startsWith("#"));
 }
 
 // The committed (git-tracked) artifacts the prod runtime must be able to read:
@@ -120,11 +110,11 @@ console.log("\nvercel.json includeFiles — regional deep tarballs + picks must 
 
 const patterns = loadIncludePatterns();
 const regexes = patterns.map(globToRegExp);
-const excludePatterns = loadExcludePatterns();
-const excludeRegexes = excludePatterns.map(globToRegExp);
 const required = requiredBundledFiles();
 const isCovered = (file) => regexes.some((re) => re.test(file));
-const isExcluded = (file) => excludeRegexes.some((re) => re.test(file));
+const ignoredPatterns = loadVercelIgnorePatterns();
+const ignoredRegexes = ignoredPatterns.map(globToRegExp);
+const isIgnored = (file) => ignoredRegexes.some((re) => re.test(file));
 
 check("includeFiles stays within Vercel's 256-char schema limit", () => {
   const raw = loadIncludeFilesRaw();
@@ -135,33 +125,25 @@ check("includeFiles stays within Vercel's 256-char schema limit", () => {
   );
 });
 
-check("excludeFiles trims non-runtime trace bloat without hiding packed deep briefs", () => {
-  const raw = loadExcludeFilesRaw();
-  assert.ok(
-    raw.length <= 256,
-    `excludeFiles is ${raw.length} chars; keep the brace-list compact enough for Vercel's schema.`,
-  );
-  assert.ok(!isExcluded("data/sws/deep.tar.gz"), "India deep.tar.gz must stay bundled for lazy /tmp extraction");
-  assert.ok(!isExcluded("data/sws-us/deep-us.tar.gz"), "regional packed deep tarballs must stay bundled");
-  assert.ok(isExcluded("test/e2e/stock-detail-modal.spec.mjs"), "tests should not be traced into the production Lambda");
-});
-
-check(".vercelignore removes loose India deep JSONs before remote build", () => {
-  const ignored = loadVercelIgnoreLines();
-  assert.ok(
-    ignored.includes("data/sws/deep/*.json"),
-    ".vercelignore must keep loose India deep JSON files out of Vercel source uploads",
-  );
-  assert.ok(
-    !ignored.includes("data/sws/deep.tar.gz"),
-    ".vercelignore must not remove the packed India deep tarball",
-  );
-});
-
 check("framework auto-detection stays disabled so Vercel builds only api/index.js", () => {
   const vercel = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "vercel.json"), "utf-8"));
   assert.equal(vercel.framework, null);
   assert.equal(loadFunctionConfig("server.js"), undefined);
+});
+
+check(".vercelignore excludes loose SWS deep trees but not packed tarballs", () => {
+  for (const pattern of [
+    "data/sws/deep/**",
+    "data/sws-us/deep/**",
+    "data/sws-kr/deep/**",
+    "data/sws-tw/deep/**",
+  ]) {
+    assert.ok(ignoredPatterns.includes(pattern), `${pattern} must be excluded from Vercel source uploads`);
+  }
+  assert.ok(isIgnored("data/sws/deep/20MICRONS.json"), "loose India deep files must not be uploaded to Vercel");
+  assert.ok(isIgnored("data/sws-us/deep/AAPL.json"), "loose US deep files must not be uploaded to Vercel");
+  assert.ok(!isIgnored("data/sws/deep.tar.gz"), "India deep tarball must remain deployable");
+  assert.ok(!isIgnored("data/sws-us/deep-us.tar.gz"), "US deep tarball must remain deployable");
 });
 
 check("discovery sanity: found the India + US deep tarballs (else git/glob is broken)", () => {

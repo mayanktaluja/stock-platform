@@ -12502,7 +12502,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     : (quickStatsHasGroww ? growwSource?.fetched_at : null);
   const quickStatsSourceText = hasYahooFallback
     ? `${hasSwsQuickMetrics ? "SWS + Yahoo" : "Yahoo fallback"}${quickStatsSourceDate ? ` · ${String(quickStatsSourceDate).slice(0, 10)}` : ""}`
-    : `SWS${quickStatsSourceDate ? ` · ${String(quickStatsSourceDate).slice(0, 10)}` : ""}`;
+    : `${quickStatsHasGroww ? "Groww/Refinitiv" : "SWS"}${quickStatsSourceDate ? ` · ${String(quickStatsSourceDate).slice(0, 10)}` : ""}`;
   const sane = (v, lo, hi) => (v == null || !Number.isFinite(Number(v)) || Number(v) < lo || Number(v) > hi) ? null : Number(v);
   const pickVal = (...vals) => { for (const v of vals) { if (v != null && Number.isFinite(Number(v))) return Number(v); } return null; };
   const peVal = pickVal(sane(mult.pe, -500, 500), sane(fb.pe, -500, 500));
