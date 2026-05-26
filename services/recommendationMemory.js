@@ -638,12 +638,10 @@ function isoDateAfter(baseIso, days) {
 export function detectMaterialChange({ candidate, executedEvent, direction }) {
   if (!candidate || !executedEvent) return null;
 
-  const scoreNow = Number.isFinite(candidate.combinedScore) ? Number(candidate.combinedScore)
-                 : Number.isFinite(candidate.score) ? Number(candidate.score)
-                 : null;
+  const scoreNow = candidateScore(candidate);
   const scoreAtExec = Number.isFinite(executedEvent.scoreAtExecution)
                     ? Number(executedEvent.scoreAtExecution) : null;
-  const severityNow = Number.isFinite(candidate.severity) ? Number(candidate.severity) : null;
+  const severityNow = candidateSeverity(candidate);
   const severityAtExec = Number.isFinite(executedEvent.severityAtExecution)
                        ? Number(executedEvent.severityAtExecution) : null;
 
@@ -659,10 +657,11 @@ export function detectMaterialChange({ candidate, executedEvent, direction }) {
     if (scoreNow != null && scoreAtExec != null && scoreAtExec - scoreNow >= MATERIAL_V3_DROP_PTS) {
       return `v3_drop_${(scoreAtExec - scoreNow).toFixed(0)}pt`;
     }
-    const newSurv = candidate.surveillance?.list || null;
+    const currentSurv = candidateSurveillance(candidate);
+    const newSurv = currentSurv?.list || null;
     const oldSurv = executedEvent.surveillanceAtExecution?.list || null;
     if (newSurv && !oldSurv) return `new_surveillance_${newSurv}`;
-    const newStage = Number(candidate.surveillance?.stage) || 0;
+    const newStage = Number(currentSurv?.stage) || 0;
     const oldStage = Number(executedEvent.surveillanceAtExecution?.stage) || 0;
     if (newSurv && newSurv === oldSurv && newStage > oldStage) {
       return `surveillance_stage_${oldStage}_to_${newStage}`;
@@ -752,9 +751,8 @@ export function applyCooldownGate({ candidate, mostRecentExecuted, direction, no
                          ? Number(mostRecentExecuted.severityAtExecution) : null,
       scoreAtExecution: Number.isFinite(mostRecentExecuted.scoreAtExecution)
                       ? Number(mostRecentExecuted.scoreAtExecution) : null,
-      severityNow: Number.isFinite(candidate.severity) ? Number(candidate.severity) : null,
-      scoreNow: Number.isFinite(candidate.combinedScore) ? Number(candidate.combinedScore)
-              : Number.isFinite(candidate.score) ? Number(candidate.score) : null,
+      severityNow: candidateSeverity(candidate),
+      scoreNow: candidateScore(candidate),
     },
   };
 }
@@ -807,6 +805,23 @@ export function applyCooldownDemotion(scoredHoldings, cooldownEntries) {
 }
 
 // ────────────────────── Issued-events builder + suppression ──────────────────────
+
+function candidateScore(candidate) {
+  return Number.isFinite(candidate?.combinedScore) ? Number(candidate.combinedScore)
+       : Number.isFinite(candidate?.score) ? Number(candidate.score)
+       : Number.isFinite(candidate?.sws?.v4_score) ? Number(candidate.sws.v4_score)
+       : null;
+}
+
+function candidateSeverity(candidate) {
+  return Number.isFinite(candidate?.severity) ? Number(candidate.severity)
+       : Number.isFinite(candidate?.ladderSeverity) ? Number(candidate.ladderSeverity)
+       : null;
+}
+
+function candidateSurveillance(candidate) {
+  return candidate?.surveillance || candidate?.sws?.surveillance || null;
+}
 
 /**
  * Apply suppression rules and build the ISSUED events for the current
@@ -967,7 +982,7 @@ export function buildIssuedEvents({
       action,
       reductionPct,
       addPct,
-      severity: Number.isFinite(h.severity) ? Number(h.severity) : null,
+      severity: candidateSeverity(h),
       trimRupees: Number.isFinite(h.trimRupees) ? Number(h.trimRupees) : null,
       topUpRupees: Number.isFinite(h.topUpRupees) ? Number(h.topUpRupees) : null,
       factors,
@@ -975,16 +990,14 @@ export function buildIssuedEvents({
       sourceSnapshot,
       qtyAtIssue,
       weightAtIssue: Number(h.positionWeight) || 0,
-      scoreAtIssue: Number.isFinite(h.combinedScore) ? Number(h.combinedScore)
-                   : Number.isFinite(h.score) ? Number(h.score)
-                   : null,
+      scoreAtIssue: candidateScore(h),
       // Captured for the cooldown gate's material-change detector. The
       // EXECUTED event forwards these unchanged so a later analyzer run
       // can compare "current factor stack" vs "factor stack at execution"
       // without re-deriving from snapshots.
       convictionAtIssue: typeof h.conviction === "string" ? h.conviction : null,
-      surveillanceAtIssue: h.surveillance && (h.surveillance.list || h.surveillance.stage)
-        ? { list: h.surveillance.list || null, stage: Number(h.surveillance.stage) || 0 }
+      surveillanceAtIssue: candidateSurveillance(h) && (candidateSurveillance(h).list || candidateSurveillance(h).stage)
+        ? { list: candidateSurveillance(h).list || null, stage: Number(candidateSurveillance(h).stage) || 0 }
         : null,
       // Non-null when the cooldown gate detected a material change since
       // the prior execution and let the candidate through. The UI keys off

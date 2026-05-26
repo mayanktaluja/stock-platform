@@ -87,10 +87,32 @@ export function isSWSPriceStale(deep, thresholdHours = 24) {
 //   • If FV is missing or implausibly off price → the FV is junk, fall back
 //     to the SWS-quoted upside only if it's in [-95%, +500%] — otherwise null.
 //
-// Returns { upside_pct, fair_value_inr } — both possibly null. The caller
-// should overwrite `sws.upside_pct` and `sws.fair_value_inr` with these so
-// the rest of the report (Tier-B classifier, basket rows, reason text) sees
-// the same reconciled view.
+function valuationBandFromUpside(upside) {
+  if (!Number.isFinite(upside)) return "UNKNOWN";
+  if (upside >= 25) return "DEEP_DISCOUNT";
+  if (upside >= 12) return "DISCOUNT";
+  if (upside >= -5) return "FAIR";
+  if (upside >= -20) return "PREMIUM";
+  return "OVERVALUED";
+}
+
+function reconciledFvResult({ upside_pct, fair_value_inr, confidence, source }) {
+  const roundedUpside = Number.isFinite(upside_pct) ? Math.round(upside_pct * 10) / 10 : null;
+  return {
+    upside_pct: roundedUpside,
+    fair_value_inr: Number.isFinite(fair_value_inr) ? fair_value_inr : null,
+    confidence,
+    source,
+    valuation_band: valuationBandFromUpside(roundedUpside),
+  };
+}
+
+// Returns { upside_pct, fair_value_inr, confidence, source, valuation_band }.
+// The caller should overwrite `sws.upside_pct` and `sws.fair_value_inr` with
+// these so the rest of the report sees the same reconciled view. The extra
+// confidence fields are consumed only by the budget-aware construction layer:
+// raw quoted upside from placeholder FV can still inform research, but it is
+// not fundable capital.
 export function _reconcileFVUpside(ov) {
   const price = num(ov?.current_price_inr, null);
   const rawFv = num(ov?.fair_value_inr, null);
@@ -106,21 +128,38 @@ export function _reconcileFVUpside(ov) {
       const computed = ((rawFv - price) / price) * 100;
       // FV ≈ price (placeholder) → trust the SWS-quoted upside if sane.
       if (Math.abs(computed) <= 1 && inSaneRange(rawUp)) {
-        return { upside_pct: Math.round(rawUp * 10) / 10, fair_value_inr: rawFv };
+        return reconciledFvResult({
+          upside_pct: rawUp,
+          fair_value_inr: rawFv,
+          confidence: "MEDIUM_QUOTED",
+          source: "quoted_upside_placeholder_fv",
+        });
       }
       // Otherwise prefer the math.
-      return { upside_pct: Math.round(computed * 10) / 10, fair_value_inr: rawFv };
+      return reconciledFvResult({
+        upside_pct: computed,
+        fair_value_inr: rawFv,
+        confidence: "HIGH",
+        source: "computed_fv_price",
+      });
     }
     // Implausible ratio → FV is junk; both fields nulled so the UI doesn't
     // surface "(₹2 vs ₹548)" garbage.
-    return { upside_pct: null, fair_value_inr: null };
+    return reconciledFvResult({
+      upside_pct: null,
+      fair_value_inr: null,
+      confidence: "LOW",
+      source: "implausible_fv",
+    });
   }
 
   // Case B: only one (or neither) present. Trust the SWS-quoted upside iff sane.
-  return {
-    upside_pct: inSaneRange(rawUp) ? Math.round(rawUp * 10) / 10 : null,
+  return reconciledFvResult({
+    upside_pct: inSaneRange(rawUp) ? rawUp : null,
     fair_value_inr: rawFv,
-  };
+    confidence: inSaneRange(rawUp) ? "MEDIUM_QUOTED" : "NONE",
+    source: inSaneRange(rawUp) ? "quoted_upside_no_fv" : "missing",
+  });
 }
 
 const NARRATIVE_RED = /declin|structurally\s*weak|promoter\s*(exit|pledge|stake)|governance|tax-loss|fraud|sebi/i;
@@ -736,6 +775,9 @@ export function scoreHolding(holding, portfolioContext = {}) {
       current_price_inr: ov.current_price_inr,
       fair_value_inr: reconciled.fair_value_inr,
       upside_pct: reconciled.upside_pct,
+      valuation_confidence: reconciled.confidence,
+      valuation_source: reconciled.source,
+      valuation_band: reconciled.valuation_band,
       market_cap_inr: ov.market_cap_inr,
       multiples: ov.multiples || null,
       dividend_yield_pct: ov.dividend?.yield_pct ?? ov.dividend_yield_pct ?? null,

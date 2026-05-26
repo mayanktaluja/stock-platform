@@ -110,7 +110,8 @@ import {
   availableMarketIndexKeys,
 } from "./services/regionIndexConstituents.js";
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
-import { buildSWSReport, surfaceOutsidePicks, rebuildTierAggregates } from "./services/swsPortfolioAggregate.js";
+import { buildSWSReport, rebuildTierAggregates } from "./services/swsPortfolioAggregate.js";
+import { buildPortfolioConstructionPlan } from "./services/portfolioConstructionPlan.js";
 import { getPortfolioHistoryStorage } from "./portfolioHistoryStorage.js";
 import { getRecommendationLedgerStorage } from "./recommendationLedgerStorage.js";
 import {
@@ -6484,7 +6485,36 @@ async function runSWSAnalysis({
 // On a rerun (isRerun=true): no reconciliation, no writes. Just apply the
 // open-rec map to the report so suppression badges / pending markers render
 // correctly without re-emitting acks the user has already seen.
-async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sourceFile, isRerun }) {
+function attachConstructionPlanToAnalyzerReport(swsResult, {
+  freshCapitalInr = 0,
+  confirmedFreedCapitalInr = 0,
+  asOfDateIso = null,
+} = {}) {
+  if (!swsResult?.report) return null;
+  const report = swsResult.report;
+  const plan = buildPortfolioConstructionPlan({
+    scoredHoldings: swsResult._scoredHoldings || [],
+    baskets: report.tiers?.B?.baskets || null,
+    outsidePicks: report.outsidePicks || null,
+    freshCapitalInr,
+    confirmedFreedCapitalInr,
+    asOfDateIso: asOfDateIso || report.asOfDate || report.banner?.statement_as_of || null,
+  });
+  report.constructionPlan = plan;
+  report.snapshot = {
+    ...(report.snapshot || {}),
+    fundedActionMix: {
+      BUY: plan.summary?.fundedBuyCount || 0,
+      SELL: plan.summary?.fundedSellCount || 0,
+    },
+    fundedBuyRupees: plan.summary?.totalBuyRupees || 0,
+    fundedSellRupees: plan.summary?.totalSellRupees || 0,
+    eligibleUnfundedAdds: plan.summary?.eligibleUnfundedCount || 0,
+  };
+  return plan;
+}
+
+async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sourceFile, isRerun, freshCapitalInr = 0 }) {
   const historyStore = getPortfolioHistoryStorage();
   const ledgerStore = getRecommendationLedgerStorage();
   let history, ledger;
@@ -6546,6 +6576,11 @@ async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sour
       isBackdated: newSnap.backdated,
       historySnapshots: history.snapshots,
     });
+    attachConstructionPlanToAnalyzerReport(swsResult, {
+      freshCapitalInr,
+      confirmedFreedCapitalInr: swsResult.report.freedCapital?.totalRupeesFreed || 0,
+      asOfDateIso,
+    });
     return { newSnap, persisted: false };
   }
 
@@ -6562,6 +6597,11 @@ async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sour
       supersedeMap: new Map(),
       isBackdated: true,
       historySnapshots: history.snapshots,
+    });
+    attachConstructionPlanToAnalyzerReport(swsResult, {
+      freshCapitalInr,
+      confirmedFreedCapitalInr: 0,
+      asOfDateIso,
     });
     try { await historyStore.appendSnapshot(sub, newSnap); }
     catch (e) { console.warn("[MEMORY] history append (backdated) failed:", e.message); }
@@ -6610,21 +6650,11 @@ async function applyAnalyzerMemory({ sub, parsed, swsResult, uploadedAtIso, sour
     historySnapshots: history.snapshots,
   });
 
-  // Freed-capital deployment basket. Bypasses the OUTSIDE_PICKS env gate
-  // because for executed-trim flows the user has actual rupees to redeploy.
-  try {
-    if (swsResult.report.freedCapital?.significant) {
-      const picks = surfaceOutsidePicks({
-        scoredHoldings: swsResult._scoredHoldings || [],
-        freshCapitalInr: swsResult.report.freedCapital.totalRupeesFreed,
-        limit: 6,
-        forceEnabled: true,
-      });
-      swsResult.report.freedCapitalPicks = picks;
-    }
-  } catch (e) {
-    console.warn("[MEMORY] freed-capital picks failed:", e.message);
-  }
+  attachConstructionPlanToAnalyzerReport(swsResult, {
+    freshCapitalInr,
+    confirmedFreedCapitalInr: swsResult.report.freedCapital?.totalRupeesFreed || 0,
+    asOfDateIso,
+  });
 
   // Atomic order: snapshot before ledger. If ledger append fails after a
   // successful snapshot, the next upload's reconciler re-derives the same
@@ -6892,9 +6922,17 @@ app.post("/api/portfolio/analyze", requireUploadQuota, requireRiskProfile, portf
         uploadedAtIso: savable.parsedAt,
         sourceFile: req.file.originalname || null,
         isRerun: false,
+        freshCapitalInr,
       });
     } catch (e) {
       console.warn("[ANALYZE] memory pipeline failed:", e.message);
+    }
+    if (!swsResult.report?.constructionPlan) {
+      attachConstructionPlanToAnalyzerReport(swsResult, {
+        freshCapitalInr,
+        confirmedFreedCapitalInr: 0,
+        asOfDateIso: parsed.summary?.asOfDate ?? null,
+      });
     }
 
     // Populate the per-user stance cache so the stock-detail modal's
@@ -7017,9 +7055,17 @@ app.post("/api/portfolio/analyze/rerun", requireRiskProfile, express.json(), asy
         uploadedAtIso: stored.uploadedAt || new Date().toISOString(),
         sourceFile: stored.sourceFile || null,
         isRerun: true,
+        freshCapitalInr,
       });
     } catch (e) {
       console.warn("[RERUN] memory pipeline failed:", e.message);
+    }
+    if (!swsResult.report?.constructionPlan) {
+      attachConstructionPlanToAnalyzerReport(swsResult, {
+        freshCapitalInr,
+        confirmedFreedCapitalInr: 0,
+        asOfDateIso: parsed.summary?.asOfDate ?? null,
+      });
     }
 
     // Refresh the stance cache on every rerun so the modal pill stays in
