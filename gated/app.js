@@ -369,23 +369,9 @@ async function loadSnapshotHealth() {
     `);
   }
 
-  // Amber chip — file is fresh but classifier degraded. Distinct remediation
-  // (rotate LLM keys / wait out throttle) vs the stale chip (fix refresh).
-  if (health.anyDegraded && Array.isArray(health.degradedKeys) && health.degradedKeys.includes("macro_regime")) {
-    const ph = health.snapshots.macro_regime?.llmProviderHealth || {};
-    const authBroken = ph.groq === "auth_error" || ph.gemini === "auth_error";
-    const notWired = ph.groq === "not_configured" && ph.gemini === "not_configured";
-    const copy = authBroken
-      ? "Macro regime — LLM keys need rotation (running on keyword fallback)."
-      : notWired
-      ? "Macro regime — LLM keys not configured (running on keyword fallback)."
-      : "Macro regime — keyword-only (LLM unavailable, will recover on next quota window).";
-    chips.push(`
-      <div style="color:#C8A06A; padding:2px 0;">
-        <span style="font-weight:600;">ℹ ${copy}</span>
-      </div>
-    `);
-  }
+  // Macro classifier degradation is intentionally not shown as an end-user
+  // warning here. The macro card already exposes regime, confidence, and
+  // fallback sources without making the dashboard look broken.
 
   banner.innerHTML = chips.join("");
   banner.hidden = chips.length === 0;
