@@ -274,6 +274,138 @@ export function extractRewardsRisks(api) {
   return { rewards: pick("Rewards", "pass"), risks: pick("Risks", "fail") };
 }
 
+const SNOWFLAKE_DATA_PILLARS = ["Value", "Future", "Past", "Health", "Dividends"];
+const SNOWFLAKE_UI_CHECK_COUNT = SNOWFLAKE_DATA_PILLARS.length * 6;
+const SNOWFLAKE_UI_CHECKS = {
+  Value: [
+    "IsUndervaluedBasedOnPEG",
+    "IsUndervaluedBasedOnDCF",
+    "IsUndervaluedOnPERelativeToMarket",
+    "IsUndervaluedBasedOnPB",
+    "IsUndervaluedOnPERelativeToPeers",
+    "IsHighlyUndervaluedBasedOnDCF",
+  ],
+  Future: [
+    "IsReturnOnEquityForecastAboveBenchmark",
+    "IsExpectedAnnualProfitGrowthHigh",
+    "IsExpectedAnnualProfitGrowthAboveMarket",
+    "IsExpectedRevenueGrowthHigh",
+    "IsExpectedProfitGrowthAboveRiskFreeRate",
+    "IsExpectedRevenueGrowthAboveMarket",
+  ],
+  Past: [
+    "HasProfitGrowthAccelerated",
+    "HasPastNetProfitMarginImprovedOverLastYear",
+    "HasGrownProfitsOverPast5Years",
+    "IsGrowingFasterThanIndustry",
+    "HasHighQualityPastEarnings",
+    "IsReturnOnEquityAboveThreshold",
+  ],
+  Health: [
+    "IsInterestCoveredByProfit",
+    "IsDebtLevelAppropriate",
+    "HasDebtReducedOverTime",
+    "AreShortTermLiabilitiesCovered",
+    "IsDebtCoveredByCashflow",
+    "AreLongTermLiabilitiesCovered",
+  ],
+  BankHealth: [
+    "HasAppropriateBadLoanAllowance",
+    "HasAppropriateNonPerformingLoans",
+    "HasPrimarilyLowRiskFunding",
+    "HasAppropriateLoanLevel",
+    "HasPrimarilyDepositFunding",
+    "HasAnAppropriateLevelOfAssets",
+  ],
+  Dividends: [
+    "IsDividendGrowing",
+    "IsDividendSignificant",
+    "IsDividendStable",
+    "IsDividendCovered",
+    "IsDividendCoveredByFreeCashFlow",
+    "IsDividendYieldTopTier",
+  ],
+  BankDividends: [
+    "IsDividendCoveredIn3Years",
+  ],
+};
+const INSUFFICIENT_DATA_TEXT_RE = /\b(insufficient data|not enough data|data is not available|no data)\b/i;
+
+function compactText(value, maxLen = 80) {
+  if (value == null) return null;
+  const text = String(value).replace(/\s+/g, " ").trim();
+  if (!text) return null;
+  return text.length > maxLen ? `${text.slice(0, maxLen - 3)}...` : text;
+}
+
+function isInsufficientStatement(row) {
+  if (!row || typeof row !== "object") return false;
+  if (row.state === "no_data") return true;
+  if (row.outcome_name === "OUTCOME_NULL") return true;
+  return INSUFFICIENT_DATA_TEXT_RE.test(String(row.description || ""));
+}
+
+export function extractSnowflakeDataQuality(api) {
+  const list = api?.rest?.statements?.data?.statements?.data;
+  if (!Array.isArray(list)) return null;
+
+  const byPillar = Object.fromEntries(
+    SNOWFLAKE_DATA_PILLARS.map((pillar) => [pillar, { checked: 6, insufficient: 0 }]),
+  );
+  const rowsByName = new Map();
+  for (const row of list) {
+    if (row && typeof row === "object" && typeof row.name === "string" && row.public === true) {
+      rowsByName.set(row.name, row);
+    }
+  }
+  const healthChecks = SNOWFLAKE_UI_CHECKS.BankHealth.some((name) => rowsByName.has(name))
+    ? SNOWFLAKE_UI_CHECKS.BankHealth
+    : SNOWFLAKE_UI_CHECKS.Health;
+  const dividendChecks = [
+    ...SNOWFLAKE_UI_CHECKS.Dividends.filter((name) => rowsByName.has(name)),
+    ...SNOWFLAKE_UI_CHECKS.BankDividends.filter((name) => rowsByName.has(name)),
+  ].slice(0, 6);
+  const checksByPillar = {
+    Value: SNOWFLAKE_UI_CHECKS.Value,
+    Future: SNOWFLAKE_UI_CHECKS.Future,
+    Past: SNOWFLAKE_UI_CHECKS.Past,
+    Health: healthChecks,
+    Dividends: dividendChecks.length ? dividendChecks : SNOWFLAKE_UI_CHECKS.Dividends,
+  };
+  const samples = [];
+  let insufficientCount = 0;
+
+  for (const pillar of SNOWFLAKE_DATA_PILLARS) {
+    for (const name of checksByPillar[pillar]) {
+      const row = rowsByName.get(name);
+      if (!isInsufficientStatement(row)) continue;
+      insufficientCount++;
+      byPillar[pillar].insufficient++;
+      if (samples.length < 3) {
+        samples.push({
+          pillar,
+          title: compactText(row.title || row.name, 64),
+          reason_code: compactText(row.outcome_name || row.state || row.name, 64),
+        });
+      }
+    }
+  }
+
+  if (insufficientCount === 0) return null;
+
+  const affectedPillars = SNOWFLAKE_DATA_PILLARS
+    .filter((pillar) => byPillar[pillar].insufficient > 0);
+
+  return {
+    insufficient: true,
+    insufficient_count: insufficientCount,
+    checked_count: SNOWFLAKE_UI_CHECK_COUNT,
+    affected_pillars: affectedPillars,
+    by_pillar: byPillar,
+    samples,
+  };
+}
+
 function extractDividendInfo(api) {
   // Structure scoring expects: ov.dividend = { yield_pct, payout_pct, ... }
   const div = api?.graphql?.getCompanyDividends?.Company;
@@ -1016,6 +1148,7 @@ export function parseStock(api, opts = {}) {
   const info = extractInfo(api);
   const sf = extractSnowflake(api);
   const sfTotal = snowflakeTotal(sf);
+  const snowflakeDataQuality = extractSnowflakeDataQuality(api);
   const fv = extractAnalystFairValue(api);
   const fvRange = extractFairValueRange(api);
   const { rewards, risks } = extractRewardsRisks(api);
@@ -1139,6 +1272,7 @@ export function parseStock(api, opts = {}) {
     overview: {
       snowflake: sf,
       snowflake_total: sfTotal,
+      ...(snowflakeDataQuality ? { snowflake_data_quality: snowflakeDataQuality } : {}),
       current_price_inr: price,
       market_cap_inr: marketCap,
       market_cap_usd: extractMarketCapUSD(api),

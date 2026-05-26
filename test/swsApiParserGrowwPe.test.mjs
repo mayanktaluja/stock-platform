@@ -5,7 +5,11 @@
  */
 
 import assert from "node:assert/strict";
-import { parseStock } from "../scripts/sws-api-parser.mjs";
+import fs from "node:fs";
+import { parseStock, extractSnowflakeDataQuality } from "../scripts/sws-api-parser.mjs";
+import { parseStockUS } from "../scripts/sws-api-parser-us.mjs";
+import { parseStockRegion } from "../scripts/sws-api-parser-region.mjs";
+import { getRegion } from "../scripts/sws-regions.mjs";
 
 let pass = 0, fail = 0;
 function check(name, fn) {
@@ -20,8 +24,9 @@ function baseApi({
   includePrimaryIndustryPe = true,
   includeFiscal = false,
   priceData = [{ date: "2026-05-24", close: 100 }],
+  statementRows = null,
 } = {}) {
-  const statementRows = statementDescription ? [{
+  const rows = Array.isArray(statementRows) ? statementRows : statementDescription ? [{
     name: "IsGoodValueComparingPreferredMultipleToIndustry",
     title: "Price-To-Earnings vs Industry",
     area: "Value",
@@ -85,7 +90,7 @@ function baseApi({
     },
     rest: {
       price: { data: priceData },
-      statements: { data: { statements: { data: statementRows } } },
+      statements: { data: { statements: { data: rows } } },
       industry: {
         data: {
           company: {
@@ -267,6 +272,111 @@ check("missing benchmark drops the P/E leg instead of retaining stale primaryInd
   assert.equal(parsed.overview.multiples.pe, null);
   assert.equal(parsed.overview.industry_benchmarks?.pe, undefined);
   assert.equal(parsed.overview.pe_benchmark_source.provider, "degraded");
+});
+
+console.log("\nsnowflake data-quality metadata\n");
+
+const insufficientRows = [
+  {
+    name: "IsExpectedRevenueGrowthAboveMarket",
+    title: "Revenue vs Market",
+    area: "Future",
+    public: true,
+    state: "no_data",
+    outcome_name: "OUTCOME_NULL",
+    description: "Insufficient data to determine if revenue is forecast to grow faster than market.",
+  },
+  {
+    name: "IsUndervaluedBasedOnPEG",
+    title: "PEG Ratio",
+    area: "Value",
+    public: true,
+    outcome_name: "OUTCOME_NULL",
+    description: "Not enough data to determine if the stock is good value.",
+  },
+  {
+    name: "IsGoodValueComparingRatioToFairRatio",
+    title: "Price-To-Earnings vs Fair Ratio",
+    area: "Value",
+    public: false,
+    outcome_name: "OUTCOME_NULL",
+    description: "Insufficient data in a non-UI valuation row should not count.",
+  },
+  {
+    name: "HasSufficientFinancialData",
+    title: "Has Sufficient Financial Data",
+    area: "Risks",
+    state: "pass",
+    outcome_name: "OUTCOME_TRUE",
+    description: "At least 3 years of financial data is available.",
+  },
+];
+
+check("extractSnowflakeDataQuality returns compact pillar metadata for insufficient rows", () => {
+  const dq = extractSnowflakeDataQuality(baseApi({ statementRows: insufficientRows }));
+  assert.equal(dq.insufficient, true);
+  assert.equal(dq.insufficient_count, 2);
+  assert.equal(dq.checked_count, 30);
+  assert.deepEqual(dq.affected_pillars, ["Value", "Future"]);
+  assert.equal(dq.by_pillar.Future.insufficient, 1);
+  assert.equal(dq.by_pillar.Future.checked, 6);
+  assert.equal(dq.by_pillar.Value.insufficient, 1);
+  assert.equal(dq.by_pillar.Value.checked, 6);
+  assert.equal(dq.by_pillar.Past.insufficient, 0);
+  assert.equal(dq.samples.length, 2);
+  assert.ok(!("description" in dq.samples[0]), "samples must not persist long descriptions");
+});
+
+check("parseStock persists snowflake_data_quality only when insufficient data exists", () => {
+  const thin = parseStock(baseApi({ statementRows: insufficientRows }), {
+    growwPeMap: new Map(),
+    internalIndustryPeMap: new Map(),
+  });
+  assert.equal(thin.overview.snowflake_data_quality.insufficient, true);
+  const normal = parseStock(baseApi({
+    statementRows: [{
+      name: "IsExpectedRevenueGrowthAboveMarket",
+      title: "Revenue vs Market",
+      area: "Future",
+      public: true,
+      state: "pass",
+      outcome_name: "OUTCOME_TRUE",
+      description: "Revenue is forecast to grow faster than market.",
+    }],
+  }), {
+    growwPeMap: new Map(),
+    internalIndustryPeMap: new Map(),
+  });
+  assert.equal(normal.overview.snowflake_data_quality, undefined);
+});
+
+check("extractSnowflakeDataQuality is null-safe for missing or malformed statements", () => {
+  assert.equal(extractSnowflakeDataQuality({ ticker: "X" }), null);
+  assert.equal(extractSnowflakeDataQuality({ rest: { statements: { data: { statements: { data: { bad: true } } } } } }), null);
+});
+
+check("US and region parser wrappers inherit compact snowflake data-quality metadata", () => {
+  const us = parseStockUS(baseApi({ ticker: "AAPL", statementRows: insufficientRows }), {});
+  assert.equal(us.currency, "USD");
+  assert.equal(us.overview.snowflake_data_quality.insufficient, true);
+  const kr = parseStockRegion(baseApi({ ticker: "005930.KS", statementRows: insufficientRows }), getRegion("kr"), {});
+  assert.equal(kr.currency, "KRW");
+  assert.equal(kr.overview.snowflake_data_quality.insufficient, true);
+});
+
+check("UMESLTD real SWS payload counts only the 30 visible Snowflake checks", () => {
+  const fixturePath = "data/sws/deep-api/UMESLTD.json";
+  if (!fs.existsSync(fixturePath)) return;
+  const api = JSON.parse(fs.readFileSync(fixturePath, "utf8"));
+  const dq = extractSnowflakeDataQuality(api);
+  assert.equal(dq.insufficient, true);
+  assert.equal(dq.insufficient_count, 10);
+  assert.equal(dq.checked_count, 30);
+  assert.deepEqual(dq.affected_pillars, ["Value", "Future", "Dividends"]);
+  assert.equal(dq.by_pillar.Value.insufficient, 1);
+  assert.equal(dq.by_pillar.Future.insufficient, 6);
+  assert.equal(dq.by_pillar.Health.insufficient, 0);
+  assert.equal(dq.by_pillar.Dividends.insufficient, 3);
 });
 
 console.log(`\n${pass} pass, ${fail} fail`);

@@ -21,7 +21,89 @@
 import { test, expect } from "@playwright/test";
 import { gotoApp, waitForPicksLoaded } from "./helpers/app.mjs";
 
+async function mockThinSwsStock(page, dataQuality) {
+  const overview = {
+    snowflake: { valuation: 4, future_growth: 0, future: 0, past_performance: 3, past: 3, financial_health: 5, dividends: 2 },
+    snowflake_total: 14,
+    current_price_inr: 100,
+    fair_value_inr: 125,
+    upside_pct: 25,
+    market_cap_inr: 1000_00_00_000,
+    returns_pct: { "1D": 1.1, "7D": 2.2, "1M": 3.3, "3M": 4.4, "1Y": 5.5 },
+    multiples: { pe: 22 },
+    rewards: [],
+    risks: [],
+  };
+  if (dataQuality !== undefined) overview.snowflake_data_quality = dataQuality;
+  await page.route("**/api/sws-stock/THINTEST", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        ticker: "THINTEST",
+        deep: {
+          ticker: "THINTEST",
+          name: "Thin Test Ltd",
+          sector: "Test",
+          parsed_at: "2026-05-26T00:00:00.000Z",
+          sws_url: "https://simplywall.st/stocks/in/test/thintest",
+          overview,
+        },
+        card: {
+          ticker: "THINTEST",
+          name: "Thin Test Ltd",
+          sector: "Test",
+          v4_score_100: 41,
+          v4_verdict: "ACCEPTABLE",
+          composite_verdict: "ACCEPTABLE",
+          current_price_inr: 100,
+          fair_value_inr: 125,
+          upside_pct: 25,
+          market_cap_inr: 1000_00_00_000,
+          snowflake: overview.snowflake,
+          snowflake_total: overview.snowflake_total,
+          v4_breakdown: {
+            pts_health: 18,
+            pts_future: 0,
+            pts_valuation: 12,
+            pts_past: 8,
+            pts_fv_total: 8,
+            pts_mom_1y: 3.5,
+            pts_mom_3m: 1.5,
+            pts_mom_1m: 1,
+            pts_overlay: 0,
+            fv_imputed: false,
+            momentum_imputed: true,
+          },
+        },
+        surveillance: null,
+        file_mtime: "2026-05-26T00:00:00.000Z",
+        section_memberships: ["top_ranked_30_v3"],
+        fundamentals_fallback: null,
+      }),
+    }),
+  );
+  await page.route("**/api/track/history?symbol=THINTEST", (route) =>
+    route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ trades: [] }) }),
+  );
+}
+
 test.describe("Stock detail modal (SWS)", () => {
+  test("/api/sws-picks cards do not carry per-stock Snowflake data-quality metadata", async ({ request }) => {
+    const res = await request.get("/api/sws-picks?limit=1");
+    test.skip(!res.ok(), "/api/sws-picks unavailable in this fixture");
+    const body = await res.json();
+    const buckets = Object.values(body?.sections || {}).filter(Array.isArray);
+    test.skip(buckets.length === 0, "no SWS picks sections available in this fixture");
+    for (const bucket of buckets) {
+      for (const card of bucket) {
+        expect(card).not.toHaveProperty("snowflake_data_quality");
+        expect(card?.overview).toBeUndefined();
+        expect(card?.audit_trail?.inputs_used?.snowflake_data_quality).toBeUndefined();
+      }
+    }
+  });
+
   test("clicking a pick card opens, populates body sections, and Escape closes", async ({ page }) => {
     await gotoApp(page, { tab: "picks" });
     await waitForPicksLoaded(page);
@@ -58,6 +140,49 @@ test.describe("Stock detail modal (SWS)", () => {
     // Escape closes — original guard.
     await page.keyboard.press("Escape");
     await expect(backdrop).not.toHaveClass(/open/, { timeout: 5_000 });
+  });
+
+  test("renders Snowflake insufficient-data warning only when metadata explicitly flags it", async ({ page }) => {
+    await mockThinSwsStock(page, {
+      insufficient: true,
+      insufficient_count: 2,
+      checked_count: 30,
+      affected_pillars: ["Future", "Value"],
+      by_pillar: {
+        Future: { checked: 6, insufficient: 1 },
+        Value: { checked: 6, insufficient: 1 },
+      },
+      samples: [
+        { pillar: "Future", title: "Revenue vs Market", reason_code: "OUTCOME_NULL" },
+        { pillar: "Value", title: "PEG Ratio", reason_code: "OUTCOME_NULL" },
+      ],
+    });
+    await gotoApp(page, { tab: "picks" });
+    await page.evaluate(() => window.openSwsModal("THINTEST"));
+
+    const body = page.locator("#swsModalBody");
+    await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
+    const warning = body.locator('[data-testid="sws-snowflake-data-warning"]');
+    await expect(warning).toBeVisible();
+    await expect(warning).toContainText("SWS data warning");
+    await expect(warning).toContainText("2 of 30 SWS checks");
+    await expect(warning).toContainText("Future, Value");
+    await expect(warning).toContainText("Revenue vs Market");
+  });
+
+  test("does not render Snowflake warning for old deep files or non-insufficient metadata", async ({ page }) => {
+    await mockThinSwsStock(page, undefined);
+    await gotoApp(page, { tab: "picks" });
+    await page.evaluate(() => window.openSwsModal("THINTEST"));
+    const body = page.locator("#swsModalBody");
+    await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
+    await expect(body.locator('[data-testid="sws-snowflake-data-warning"]')).toHaveCount(0);
+
+    await page.unroute("**/api/sws-stock/THINTEST");
+    await mockThinSwsStock(page, { insufficient: false, insufficient_count: 0, checked_count: 30, affected_pillars: [] });
+    await page.evaluate(() => window.openSwsModal("THINTEST"));
+    await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
+    await expect(body.locator('[data-testid="sws-snowflake-data-warning"]')).toHaveCount(0);
   });
 
   test("cached quick stats render ownership metrics when available", async ({ page, request }) => {

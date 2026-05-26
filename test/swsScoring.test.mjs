@@ -296,6 +296,47 @@ check("pickCardFields drops invalid returns_pct values", () => {
   assert.deepEqual(card.returns_pct, {});
 });
 
+check("snowflake_data_quality metadata does not affect scores, categories, or card shape", () => {
+  const base = {
+    ticker: "DQ",
+    name: "Data Quality Ltd",
+    sector: "Tech",
+    overview: {
+      snowflake: { financial_health: 5, future: 4, valuation: 5, past: 4, dividends: 2 },
+      snowflake_total: 20,
+      current_price_inr: 100,
+      fair_value_inr: 125,
+      upside_pct: 25,
+      market_cap_inr: 1e12,
+      net_margin_pct: 18,
+      returns_pct: { "1M": 3, "3M": 8, "1Y": 15 },
+      multiples: { pe: 18 },
+      dividend: { yield_pct: 1.2 },
+      risks: [],
+    },
+  };
+  const withMetadata = JSON.parse(JSON.stringify(base));
+  withMetadata.overview.snowflake_data_quality = {
+    insufficient: true,
+    insufficient_count: 2,
+    checked_count: 30,
+    affected_pillars: ["Future"],
+    by_pillar: { Future: { checked: 6, insufficient: 2 } },
+    samples: [{ pillar: "Future", title: "Revenue vs Market", reason_code: "OUTCOME_NULL" }],
+  };
+  const a = scoreStock(JSON.parse(JSON.stringify(base)));
+  const b = scoreStock(withMetadata);
+  assert.equal(b.overview.snowflake_data_quality.insufficient, true);
+  assert.equal(a.v4_score_100, b.v4_score_100);
+  assert.equal(a.v4_verdict, b.v4_verdict);
+  assert.deepEqual(a.categories, b.categories);
+  const cardA = pickCardFields(a);
+  const cardB = pickCardFields(b);
+  assert.deepEqual(cardA, cardB);
+  assert.equal(cardB.snowflake_data_quality, undefined);
+  assert.equal(cardB.audit_trail.inputs_used.snowflake_data_quality, undefined);
+});
+
 console.log("\ncategoriseStock — branches not in swsCategorise.test.mjs\n");
 
 check("deep_value requires TOP_PICK + valSnow>=4 + upside>=20", () => {
