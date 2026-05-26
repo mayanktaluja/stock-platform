@@ -28,6 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 4,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 14,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 9.97,
     "market_cap_inr": 75100000,
     "market_cap_usd": 127196762990.178,
@@ -81,6 +132,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 74.71695232760163,
+      "net_income_margin_1y": 0.06956157108,
+      "future_revenue_growth_3y": 0.3764863668,
       "sector_pe": 74.71695232760163
     },
     "industry_benchmarks_meta": {
@@ -96,6 +149,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 21.59,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 74.71695232760163,
       "industry_name": "Trading",
       "industry_id": 64,
@@ -185,6 +240,24 @@
         "value": -0.06066666666666667,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/omega-agseeds-punjab-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 74.71695232760163,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/omega-agseeds-punjab-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.06956157108,
+        "fetched_at": "2026-05-25T21:32:07.686Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-519479/omega-seeds-punjab-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.3764863668,
+        "fetched_at": "2026-05-25T21:32:07.686Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-519479/omega-seeds-punjab-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

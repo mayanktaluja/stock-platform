@@ -28,6 +28,54 @@
       "dividend": 0
     },
     "snowflake_total": 7,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 3,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Growing Dividend",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Stable Dividend",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 403.5,
     "market_cap_inr": 124191300000,
     "market_cap_usd": 127196762990.178,
@@ -52,12 +100,12 @@
       "peg": 0
     },
     "multiples_meta": {
-      "pe_source": "sws_industry_api",
-      "pe_source_label": "SWS industry API",
+      "pe_source": "sws_computed",
+      "pe_source_label": "SWS computed",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-25T20:41:06.755Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/materials/nse-indiacem/india-cements-shares"
     },
     "rewards": [
       "Earnings are forecast to grow 114.68% per year"
@@ -167,29 +215,32 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 32.828246624,
+      "pe": 32.991094760617976,
       "net_income_margin_1y": 0.09549132974,
-      "pe": 25.370274266,
+      "future_revenue_growth_3y": 32.828246624,
       "sector_pe": 32.991094760617976
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_industry_api",
-      "pe_source_label": "SWS industry API",
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Materials",
-      "pe_industry_id": null,
-      "pe_source_url": null
+      "pe_industry_name": "Cement",
+      "pe_industry_id": 11,
+      "pe_source_url": "https://groww.in/stocks/the-india-cements-ltd"
     },
     "pe_benchmark_source": {
-      "provider": "sws_industry_api",
-      "label": "SWS industry API",
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
       "company_pe": 388.1169551291204,
-      "industry_pe": 25.370274266,
-      "industry_name": "Materials",
-      "industry_code": "2030000",
-      "sample_count": 46,
-      "statistic": "median_profitable"
+      "company_pe_source": "sws_computed",
+      "company_pe_source_label": "SWS computed",
+      "industry_pe": 32.991094760617976,
+      "industry_name": "Cement",
+      "industry_id": 11,
+      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "url": "https://groww.in/stocks/the-india-cements-ltd",
+      "search_id": "the-india-cements-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
@@ -248,6 +299,12 @@
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/the-india-cements-ltd"
       },
+      "multiples.pe": {
+        "provider": "sws_computed",
+        "value": 388.1169551291204,
+        "fetched_at": "2026-05-25T20:41:06.755Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-indiacem/india-cements-shares"
+      },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 2.57,
@@ -271,6 +328,24 @@
         "value": 0,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/the-india-cements-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 32.991094760617976,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/the-india-cements-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_primary_industry",
+        "value": 0.09549132974,
+        "fetched_at": "2026-05-25T20:41:06.755Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-indiacem/india-cements-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_primary_industry",
+        "value": 32.828246624,
+        "fetched_at": "2026-05-25T20:41:06.755Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-indiacem/india-cements-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

@@ -28,6 +28,54 @@
       "dividend": 2
     },
     "snowflake_total": 12,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 3350,
     "market_cap_inr": 1990600000,
     "market_cap_usd": 121304781320.862,
@@ -238,6 +286,8 @@
     "dividend_yield_pct": 0.93,
     "industry_benchmarks": {
       "pe": 60.389839216634435,
+      "net_income_margin_1y": 0.06652508975,
+      "future_revenue_growth_3y": 0.3741519657,
       "sector_pe": 60.389839216634435
     },
     "industry_benchmarks_meta": {
@@ -253,6 +303,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 7.46,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 60.389839216634435,
       "industry_name": "Plantation & Plantation Products",
       "industry_id": 47,
@@ -342,6 +394,24 @@
         "value": -0.2147565258400472,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/neelamalai-agro-industries-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 60.389839216634435,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/neelamalai-agro-industries-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.06652508975,
+        "fetched_at": "2026-05-21T21:02:25.160Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-508670/neelamalai-agro-industries-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.3741519657,
+        "fetched_at": "2026-05-21T21:02:25.160Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-508670/neelamalai-agro-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

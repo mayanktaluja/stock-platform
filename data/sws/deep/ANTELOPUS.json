@@ -28,6 +28,56 @@
       "dividend": 0
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 14,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 2
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 730.35,
     "market_cap_inr": 24525700000,
     "market_cap_usd": 127196762990.178,
@@ -78,6 +128,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 12.148678581936176,
+      "net_income_margin_1y": 0.07622308649,
+      "future_revenue_growth_3y": 0.2215698236,
       "sector_pe": 12.148678581936176
     },
     "industry_benchmarks_meta": {
@@ -93,6 +145,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 27.37,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 12.148678581936176,
       "industry_name": "Crude Oil & Natural Gas",
       "industry_id": 19,
@@ -182,6 +236,24 @@
         "value": 0.09162241061555472,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/selan-exploration-technology-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 12.148678581936176,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/selan-exploration-technology-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.07622308649,
+        "fetched_at": "2026-05-25T21:38:50.869Z",
+        "url": "https://simplywall.st/stocks/in/energy/nse-antelopus/antelopus-selan-energy-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.2215698236,
+        "fetched_at": "2026-05-25T21:38:50.869Z",
+        "url": "https://simplywall.st/stocks/in/energy/nse-antelopus/antelopus-selan-energy-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

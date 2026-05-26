@@ -28,6 +28,55 @@
       "dividend": 3
     },
     "snowflake_total": 11,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 154.9,
     "market_cap_inr": 1345500000,
     "market_cap_usd": 127196762990.178,
@@ -160,6 +209,8 @@
     "dividend_yield_pct": 1,
     "industry_benchmarks": {
       "pe": 60.52986131741991,
+      "net_income_margin_1y": 0.05940434707,
+      "future_revenue_growth_3y": 0.4038345092,
       "sector_pe": 60.52986131741991
     },
     "industry_benchmarks_meta": {
@@ -175,6 +226,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 10.63,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 60.52986131741991,
       "industry_name": "Plantation & Plantation Products",
       "industry_id": 47,
@@ -264,6 +317,24 @@
         "value": -0.0006259815601367451,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/bengal-tea-fabrics-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 60.52986131741991,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/bengal-tea-fabrics-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.05940434707,
+        "fetched_at": "2026-05-25T23:00:12.508Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/bse-532230/bengal-tea-fabrics-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.4038345092,
+        "fetched_at": "2026-05-25T23:00:12.508Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/bse-532230/bengal-tea-fabrics-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

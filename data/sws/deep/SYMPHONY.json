@@ -28,6 +28,43 @@
       "dividend": 2
     },
     "snowflake_total": 11,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 1,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 721.95,
     "market_cap_inr": 48818500000,
     "market_cap_usd": 127196762990.178,
@@ -233,6 +270,8 @@
     "dividend_yield_pct": 1.29,
     "industry_benchmarks": {
       "pe": 50.063055479526334,
+      "net_income_margin_1y": 0.06219994848,
+      "future_revenue_growth_3y": 0.6131744635,
       "sector_pe": 50.063055479526334
     },
     "industry_benchmarks_meta": {
@@ -248,6 +287,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 33.67,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 50.063055479526334,
       "industry_name": "Consumer Durables",
       "industry_id": 17,
@@ -337,6 +378,24 @@
         "value": 0.8204135163674764,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/symphony-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 50.063055479526334,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/symphony-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.06219994848,
+        "fetched_at": "2026-05-25T23:20:46.876Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-symphony/symphony-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.6131744635,
+        "fetched_at": "2026-05-25T23:20:46.876Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-symphony/symphony-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

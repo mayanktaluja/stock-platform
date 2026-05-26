@@ -21,6 +21,54 @@
       "dividend": 1
     },
     "snowflake_total": 13,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 642.9,
     "market_cap_inr": 15909781179.425993,
     "market_cap_usd": 127196762990.178,
@@ -44,9 +92,9 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-25T20:53:52.738Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/consumer-durables/bse-543953/khazanchi-jewellers-shares"
     },
     "rewards": [
       "Price-To-Earnings ratio (17.5x) is below the Indian market (23.3x)",
@@ -94,23 +142,30 @@
     },
     "dividend_yield_pct": 0.1470554812,
     "industry_benchmarks": {
-      "pe": 18.8
+      "pe": 18.188196269,
+      "net_income_margin_1y": 0.05940434707,
+      "future_revenue_growth_3y": 0.4038345092
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Indian Luxury",
+      "pe_industry_name": "Consumer Durables",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "sws_statement",
-      "label": "SWS visible statement",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": 17.5,
-      "industry_pe": 18.8,
-      "industry_name": "Indian Luxury"
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 18.188196269,
+      "industry_name": "Consumer Durables",
+      "industry_code": "4130000",
+      "sample_count": 296,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -149,6 +204,30 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 642.9,
+        "fetched_at": "2026-05-25T20:53:52.738Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/bse-543953/khazanchi-jewellers-shares"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 17.5,
+        "fetched_at": "2026-05-25T20:53:52.738Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/bse-543953/khazanchi-jewellers-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 18.188196269,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.05940434707,
+        "fetched_at": "2026-05-25T20:53:52.738Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/bse-543953/khazanchi-jewellers-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.4038345092,
         "fetched_at": "2026-05-25T20:53:52.738Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-543953/khazanchi-jewellers-shares"
       }

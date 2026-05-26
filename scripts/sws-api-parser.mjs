@@ -556,9 +556,12 @@ function sanePe(value) {
   return n != null && n > 0 && n < 500 ? n : null;
 }
 
+function finitePe(value) {
+  return asNumber(value);
+}
+
 function parsePeText(value) {
-  const n = asNumber(value);
-  return sanePe(n);
+  return finitePe(value);
 }
 
 // Visible SWS valuation statement, e.g.
@@ -576,10 +579,10 @@ export function extractSwsStatementPe(api) {
   const desc = String(row?.description || "");
   if (!desc) return null;
   const companyPe = parsePeText(
-    desc.match(/Price-To-Earnings Ratio\s*\(([\d,.]+)\s*x\)/i)?.[1],
+    desc.match(/Price-To-Earnings Ratio\s*\(([-+]?[\d,.]+)\s*x\)/i)?.[1],
   );
   const industryPe = parsePeText(
-    desc.match(/industry average\s*\(([\d,.]+)\s*x\)/i)?.[1],
+    desc.match(/industry average\s*\(([-+]?[\d,.]+)\s*x\)/i)?.[1],
   );
   const industryName =
     desc.match(/compared to the\s+(.+?)\s+industry average\s*\(/i)?.[1] ||
@@ -598,14 +601,14 @@ export function extractSwsStatementPe(api) {
 export function extractSwsIndustryApiPe(api) {
   const rows = api?.rest?.industry?.data?.company?.data;
   if (!Array.isArray(rows)) return null;
-  const peRows = rows.filter((r) => r?.name === "pe" && sanePe(r.value) != null);
+  const peRows = rows.filter((r) => r?.name === "pe" && finitePe(r.value) != null);
   if (!peRows.length) return null;
   const preferred =
     peRows.find((r) => r.type === "median_profitable") ||
     peRows.find((r) => /median/i.test(String(r.type || ""))) ||
     peRows[0];
   return {
-    industry_pe: sanePe(preferred.value),
+    industry_pe: finitePe(preferred.value),
     industry_code: preferred.industry != null ? String(preferred.industry) : null,
     type: preferred.type || null,
     count: preferred.count ?? null,
@@ -697,7 +700,7 @@ export function buildSectorCodeMap(srcDir) {
 // raw shape is an array of { name, value } pairs; flatten into a flat object
 // keyed by snake_case for easy downstream lookup. Values are in fractions
 // (e.g. 0.32 not 32) — we keep them in fractions and let renderers format.
-function extractIndustryBenchmarks(api) {
+function extractPrimaryIndustryBenchmarks(api) {
   const node = api?.graphql?.CompanyNarrativesWithHistogram?.narratives?.edges?.[0]?.node;
   const arr = node?.company?.primaryIndustry?.industryAverages;
   if (!Array.isArray(arr) || arr.length === 0) return null;
@@ -708,6 +711,31 @@ function extractIndustryBenchmarks(api) {
     }
   }
   return Object.keys(out).length ? out : null;
+}
+
+function extractSwsIndustryApiBenchmarks(api) {
+  const rows = api?.rest?.industry?.data?.company?.data;
+  if (!Array.isArray(rows)) return null;
+  const pick = (name) => {
+    const matches = rows.filter((r) => r?.name === name && finiteNumber(r.value) != null);
+    if (!matches.length) return null;
+    return matches.find((r) => /median/i.test(String(r.type || ""))) || matches[0];
+  };
+  const out = {};
+  const peRow = pick("pe");
+  if (peRow) out.pe = finiteNumber(peRow.value);
+  const netMarginRow = pick("net_income_margin_1y");
+  if (netMarginRow) out.net_income_margin_1y = finiteNumber(netMarginRow.value);
+  const futureRevenueRow = pick("future_revenue_growth_3y");
+  if (futureRevenueRow) out.future_revenue_growth_3y = finiteNumber(futureRevenueRow.value);
+  return Object.keys(out).length ? out : null;
+}
+
+function extractIndustryBenchmarks(api) {
+  return {
+    primary: extractPrimaryIndustryBenchmarks(api) || {},
+    rest: extractSwsIndustryApiBenchmarks(api) || {},
+  };
 }
 
 export function buildInternalIndustryPeMap(srcDir, sectorMap = null) {
@@ -836,7 +864,7 @@ function resolvePeBenchmark({
     : null;
   const swsPrimary = swsIndustryBenchmarks?.pe != null
     ? {
-        industry_pe: sanePe(swsIndustryBenchmarks.pe),
+        industry_pe: finitePe(swsIndustryBenchmarks.pe),
         industry_name: extractIndustry(api, sectorMap),
         source_path: "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe",
       }
@@ -844,8 +872,8 @@ function resolvePeBenchmark({
 
   const audit = {
     groww_refinitiv: growwEntry ? {
-      company_pe: sanePe(growwEntry.peRatio),
-      industry_pe: sanePe(growwEntry.industryPe),
+      company_pe: finitePe(growwEntry.peRatio),
+      industry_pe: finitePe(growwEntry.industryPe),
       industry_name: growwEntry.industryName || null,
       industry_id: growwEntry.industryId ?? null,
       fetched_at: growwEntry.fetchedAt || null,
@@ -855,23 +883,60 @@ function resolvePeBenchmark({
     sws_industry_api: swsIndustryApi,
     internal_median: internalMedian,
     sws_primary_industry: swsPrimary,
-    sws_computed: { company_pe: sanePe(swsMultiples?.pe) },
+    sws_computed: { company_pe: finitePe(swsMultiples?.pe) },
   };
 
-  const sourceFrom = (provider, label, companyPe, industryPe, extra = {}) => ({
+  const companySource = (() => {
+    const growwPe = finitePe(growwEntry?.peRatio);
+    if (growwPe != null) {
+      return {
+        provider: "groww_refinitiv",
+        label: "Groww/Refinitiv",
+        company_pe: growwPe,
+        fetched_at: growwEntry.fetchedAt || null,
+        url: growwEntry.url || null,
+        search_id: growwEntry.searchId || null,
+      };
+    }
+    const statementPe = finitePe(swsStatement?.company_pe);
+    if (statementPe != null) {
+      return {
+        provider: "sws_statement",
+        label: "SWS visible statement",
+        company_pe: statementPe,
+        fetched_at: api?.fetchedAt || null,
+        url: api?.canonicalUrl ? `https://simplywall.st${api.canonicalUrl}` : null,
+      };
+    }
+    const computedPe = finitePe(swsMultiples?.pe);
+    if (computedPe != null) {
+      return {
+        provider: "sws_computed",
+        label: "SWS computed",
+        company_pe: computedPe,
+        fetched_at: api?.fetchedAt || null,
+        url: api?.canonicalUrl ? `https://simplywall.st${api.canonicalUrl}` : null,
+      };
+    }
+    return null;
+  })();
+  const companyOnly = companySource?.company_pe ?? null;
+
+  const sourceFrom = (provider, label, industryPe, extra = {}) => ({
     provider,
     label,
-    company_pe: sanePe(companyPe),
-    industry_pe: sanePe(industryPe),
+    company_pe: companyOnly,
+    company_pe_source: companySource?.provider || null,
+    company_pe_source_label: companySource?.label || null,
+    industry_pe: finitePe(industryPe),
     ...extra,
   });
 
   let selected = null;
-  if (sanePe(growwEntry?.peRatio) != null && sanePe(growwEntry?.industryPe) != null) {
+  if (finitePe(growwEntry?.industryPe) != null) {
     selected = sourceFrom(
       "groww_refinitiv",
       "Groww/Refinitiv",
-      growwEntry.peRatio,
       growwEntry.industryPe,
       {
         industry_name: growwEntry.industryName || null,
@@ -881,59 +946,49 @@ function resolvePeBenchmark({
         search_id: growwEntry.searchId || null,
       },
     );
-  } else if (sanePe(swsStatement?.company_pe) != null && sanePe(swsStatement?.industry_pe) != null) {
+  } else if (finitePe(swsIndustryApi?.industry_pe) != null) {
+    selected = sourceFrom(
+      "sws_industry_api",
+      "SWS industry API",
+      swsIndustryApi.industry_pe,
+      {
+        industry_name: extractIndustry(api, sectorMap) || swsIndustryApi?.source?.name || null,
+        industry_code: swsIndustryApi.industry_code,
+        sample_count: swsIndustryApi.count ?? null,
+        statistic: swsIndustryApi.type || null,
+      },
+    );
+  } else if (finitePe(swsStatement?.industry_pe) != null) {
     selected = sourceFrom(
       "sws_statement",
       "SWS visible statement",
-      swsStatement.company_pe,
       swsStatement.industry_pe,
       { industry_name: swsStatement.industry_name || extractIndustry(api, sectorMap) || null },
     );
-  } else if (sanePe(swsIndustryApi?.industry_pe) != null) {
-    const companyPe = sanePe(swsStatement?.company_pe) ?? sanePe(swsMultiples?.pe);
-    if (companyPe != null) {
-      selected = sourceFrom(
-        "sws_industry_api",
-        "SWS industry API",
-        companyPe,
-        swsIndustryApi.industry_pe,
-        {
-          industry_name: extractIndustry(api, sectorMap) || swsIndustryApi?.source?.name || null,
-          industry_code: swsIndustryApi.industry_code,
-          sample_count: swsIndustryApi.count ?? null,
-          statistic: swsIndustryApi.type || null,
-        },
-      );
-    }
   } else if (sanePe(internalMedian?.industry_pe) != null) {
-    const companyPe = sanePe(swsStatement?.company_pe) ?? sanePe(swsMultiples?.pe);
-    if (companyPe != null) {
-      selected = sourceFrom(
-        "internal_industry_median",
-        "Internal industry median",
-        companyPe,
-        internalMedian.industry_pe,
-        {
-          industry_name: internalMedian.industry_name || extractIndustry(api, sectorMap) || null,
-          industry_code: internalMedian.industry_code || industryCode || null,
-          sample_count: internalMedian.sample_count ?? null,
-        },
-      );
-    }
+    selected = sourceFrom(
+      "internal_industry_median",
+      "Internal industry median",
+      internalMedian.industry_pe,
+      {
+        industry_name: internalMedian.industry_name || extractIndustry(api, sectorMap) || null,
+        industry_code: internalMedian.industry_code || industryCode || null,
+        sample_count: internalMedian.sample_count ?? null,
+      },
+    );
   }
 
-  const companyOnly =
-    sanePe(growwEntry?.peRatio) ??
-    sanePe(swsStatement?.company_pe) ??
-    sanePe(swsMultiples?.pe);
   if (!selected) {
     return {
       company_pe: companyOnly,
       industry_pe: null,
+      company_source: companySource,
       source: {
         provider: "degraded",
         label: "No usable P/E benchmark",
         company_pe: companyOnly,
+        company_pe_source: companySource?.provider || null,
+        company_pe_source_label: companySource?.label || null,
         industry_pe: null,
         reason: "groww_sws_and_internal_benchmarks_missing",
       },
@@ -943,6 +998,7 @@ function resolvePeBenchmark({
   return {
     company_pe: selected.company_pe,
     industry_pe: selected.industry_pe,
+    company_source: companySource,
     source: selected,
     audit,
   };
@@ -1161,7 +1217,10 @@ export function parseStock(api, opts = {}) {
   const ticker = api.ticker || info.ticker_symbol;
   const tickerKey = normalizeTicker(ticker);
   const swsMultiples = extractMultiples(api);
-  const swsIndustryBenchmarks = extractIndustryBenchmarks(api) || {};
+  const industryBenchmarkSources = extractIndustryBenchmarks(api);
+  const swsPrimaryIndustryBenchmarks = industryBenchmarkSources.primary || {};
+  const swsRestIndustryBenchmarks = industryBenchmarkSources.rest || {};
+  const swsIndustryBenchmarks = { ...swsRestIndustryBenchmarks, ...swsPrimaryIndustryBenchmarks };
   const growwStockEntry = tickerKey && growwStockMap?.get ? growwStockMap.get(tickerKey) : null;
   const growwPeEntry = tickerKey && growwPeMap?.get ? growwPeMap.get(tickerKey) : null;
   const growwEntry = growwStockEntry || growwPeEntry;
@@ -1189,7 +1248,7 @@ export function parseStock(api, opts = {}) {
     api,
     growwEntry,
     swsMultiples,
-    swsIndustryBenchmarks,
+    swsIndustryBenchmarks: swsPrimaryIndustryBenchmarks,
     internalIndustryPeMap,
     sectorMap,
   });
@@ -1202,8 +1261,13 @@ export function parseStock(api, opts = {}) {
   };
   const peg = growwFinite(growwStockEntry, "pegRatio", { min: -500, max: 500 });
   if (peg != null) multiples.peg = peg;
+  if (peResolution.company_source?.company_pe != null) {
+    setSource(sourceMap, "multiples.pe", peResolution.company_source.provider, peResolution.company_source.company_pe, {
+      fetched_at: peResolution.company_source.fetched_at || null,
+      url: peResolution.company_source.url || null,
+    });
+  }
   for (const [field, sourceValue, swsValue] of [
-    ["multiples.pe", peResolution.source.provider === "groww_refinitiv" ? multiples.pe : null, swsMultiples.pe],
     ["multiples.pb", growwStockEntry ? multiples.pb : null, swsMultiples.pb],
     ["multiples.ps", growwStockEntry ? multiples.ps : null, swsMultiples.ps],
     ["multiples.ev_ebitda", growwStockEntry ? multiples.ev_ebitda : null, swsMultiples.ev_ebitda],
@@ -1212,8 +1276,23 @@ export function parseStock(api, opts = {}) {
     if (sourceValue != null) setSource(sourceMap, field, "groww_refinitiv", sourceValue, growwMeta);
   }
   const industryBenchmarks = { ...swsIndustryBenchmarks };
-  if (peResolution.industry_pe != null) industryBenchmarks.pe = peResolution.industry_pe;
-  else delete industryBenchmarks.pe;
+  if (peResolution.industry_pe != null) {
+    industryBenchmarks.pe = peResolution.industry_pe;
+    setSource(sourceMap, "industry_benchmarks.pe", peResolution.source.provider, peResolution.industry_pe, {
+      fetched_at: peResolution.source.fetched_at || null,
+      url: peResolution.source.url || null,
+    });
+  } else {
+    delete industryBenchmarks.pe;
+  }
+  for (const key of ["net_income_margin_1y", "future_revenue_growth_3y"]) {
+    if (industryBenchmarks[key] == null) continue;
+    const provider = swsPrimaryIndustryBenchmarks[key] != null ? "sws_primary_industry" : "sws_industry_api";
+    setSource(sourceMap, `industry_benchmarks.${key}`, provider, industryBenchmarks[key], {
+      fetched_at: api.fetchedAt || null,
+      url: api.canonicalUrl ? `https://simplywall.st${api.canonicalUrl}` : null,
+    });
+  }
   const sectorPe = growwFinite(growwStockEntry, "sectorPe", { min: 0, max: 500 });
   if (sectorPe != null) {
     industryBenchmarks.sector_pe = sectorPe;
@@ -1284,14 +1363,14 @@ export function parseStock(api, opts = {}) {
       upside_pct: upsidePct,
       multiples,
       multiples_meta: {
-        pe_source: peResolution.source.provider,
-        pe_source_label: peResolution.source.label,
-        pe_source_text: peResolution.source.provider === "groww_refinitiv"
+        pe_source: peResolution.company_source?.provider || null,
+        pe_source_label: peResolution.company_source?.label || null,
+        pe_source_text: peResolution.company_source?.provider === "groww_refinitiv"
           ? "Trailing P/E as shown by Groww; underlying data attributed to Refinitiv."
           : null,
-        pe_as_of: peResolution.source.fetched_at || null,
+        pe_as_of: peResolution.company_source?.fetched_at || null,
         pe_basis: "trailing_ttm",
-        pe_source_url: peResolution.source.url || null,
+        pe_source_url: peResolution.company_source?.url || null,
       },
       rewards,
       risks,

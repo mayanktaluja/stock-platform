@@ -28,6 +28,57 @@
       "dividend": 0
     },
     "snowflake_total": 0,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 22,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Past",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 4
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "PE vs Market",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 63.18,
     "market_cap_inr": 404100000,
     "market_cap_usd": 127196762990.178,
@@ -102,6 +153,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 56.05914496503882,
+      "net_income_margin_1y": 0.05009994868,
+      "future_revenue_growth_3y": 0.1609628151,
       "sector_pe": 56.05914496503882
     },
     "industry_benchmarks_meta": {
@@ -117,6 +170,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 2.27,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 56.05914496503882,
       "industry_name": "Trading",
       "industry_id": 64,
@@ -199,6 +254,24 @@
         "value": -0.012721496646664313,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/rose-merc-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 56.05914496503882,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/rose-merc-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.05009994868,
+        "fetched_at": "2026-05-25T21:10:12.858Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-512115/rose-merc-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.1609628151,
+        "fetched_at": "2026-05-25T21:10:12.858Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-512115/rose-merc-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

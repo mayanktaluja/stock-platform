@@ -28,6 +28,55 @@
       "dividend": 0
     },
     "snowflake_total": 4,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 57.41,
     "market_cap_inr": 12872600000,
     "market_cap_usd": 127196762990.178,
@@ -77,6 +126,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 23.17786687749416,
+      "net_income_margin_1y": 0.06882117621,
+      "future_revenue_growth_3y": 0.448884466,
       "sector_pe": 23.17786687749416
     },
     "industry_benchmarks_meta": {
@@ -92,6 +143,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 118.96,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 23.17786687749416,
       "industry_name": "Construction",
       "industry_id": 16,
@@ -181,6 +234,24 @@
         "value": -0.8839306306306306,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/bl-kashyap-sons-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 23.17786687749416,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/bl-kashyap-sons-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.06882117621,
+        "fetched_at": "2026-05-25T22:07:07.016Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-blkashyap/bl-kashyap-and-sons-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.448884466,
+        "fetched_at": "2026-05-25T22:07:07.016Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-blkashyap/bl-kashyap-and-sons-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -320,7 +391,7 @@
       "5Y": null
     },
     "next_earnings_date": "2026-05-28",
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

@@ -28,6 +28,55 @@
       "dividend": 2
     },
     "snowflake_total": 5,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 8,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 246.8,
     "market_cap_inr": 2559100000,
     "market_cap_usd": 127196762990.178,
@@ -52,8 +101,8 @@
       "peg": -1.3803999999999998
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -129,23 +178,32 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
+      "pe": 40.392941562985385,
+      "net_income_margin_1y": 0.104653149,
+      "future_revenue_growth_3y": 0.483798988,
       "sector_pe": 40.392941562985385
     },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
-      "pe_industry_id": null,
-      "pe_source_url": null
+      "pe_industry_name": "Chemicals",
+      "pe_industry_id": 14,
+      "pe_source_url": "https://groww.in/stocks/diamines-chemicals-ltd"
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 40.392941562985385,
+      "industry_name": "Chemicals",
+      "industry_id": 14,
+      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "url": "https://groww.in/stocks/diamines-chemicals-ltd",
+      "search_id": "diamines-chemicals-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
@@ -223,6 +281,24 @@
         "value": -1.3803999999999998,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/diamines-chemicals-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 40.392941562985385,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/diamines-chemicals-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.104653149,
+        "fetched_at": "2026-05-25T23:10:07.472Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-diaminesq/diamines-and-chemicals-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.483798988,
+        "fetched_at": "2026-05-25T23:10:07.472Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-diaminesq/diamines-and-chemicals-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

@@ -28,6 +28,55 @@
       "dividend": 0
     },
     "snowflake_total": 5,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 171.31,
     "market_cap_inr": 1928700000,
     "market_cap_usd": 127196762990.178,
@@ -76,6 +125,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 51.004825493896476,
+      "net_income_margin_1y": 0.1177158388,
+      "future_revenue_growth_3y": 0.4969583576,
       "sector_pe": 51.004825493896476
     },
     "industry_benchmarks_meta": {
@@ -91,6 +142,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 42.98,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 51.004825493896476,
       "industry_name": "Engineering",
       "industry_id": 72,
@@ -180,6 +233,24 @@
         "value": 0.13136791044776122,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/affordable-robotic-automation-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 51.004825493896476,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/affordable-robotic-automation-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.1177158388,
+        "fetched_at": "2026-05-25T21:27:43.688Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-affordable/affordable-robotic-automation-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.4969583576,
+        "fetched_at": "2026-05-25T21:27:43.688Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-affordable/affordable-robotic-automation-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -319,7 +390,7 @@
       "5Y": null
     },
     "next_earnings_date": "2026-05-30",
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

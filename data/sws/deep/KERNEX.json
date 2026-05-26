@@ -28,6 +28,55 @@
       "dividend": 0
     },
     "snowflake_total": 10,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 1464,
     "market_cap_inr": 22706000000,
     "market_cap_usd": 127196762990.178,
@@ -74,6 +123,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 73.22058092111806,
+      "net_income_margin_1y": 0.07373093212,
+      "future_revenue_growth_3y": 1.000356322,
       "sector_pe": 73.22058092111806
     },
     "industry_benchmarks_meta": {
@@ -89,6 +140,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 43.23,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 73.22058092111806,
       "industry_name": "Electronics",
       "industry_id": 76,
@@ -178,6 +231,24 @@
         "value": -0.09010624454148472,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/kernex-microsystems-india-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 73.22058092111806,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/kernex-microsystems-india-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.07373093212,
+        "fetched_at": "2026-05-25T21:06:10.080Z",
+        "url": "https://simplywall.st/stocks/in/tech/nse-kernex/kernex-microsystems-india-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 1.000356322,
+        "fetched_at": "2026-05-25T21:06:10.080Z",
+        "url": "https://simplywall.st/stocks/in/tech/nse-kernex/kernex-microsystems-india-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

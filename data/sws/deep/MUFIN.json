@@ -28,6 +28,56 @@
       "dividend": 0
     },
     "snowflake_total": 6,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 10,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 123.44,
     "market_cap_inr": 21090900000,
     "market_cap_usd": 127196762990.178,
@@ -78,6 +128,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.400881901895076,
+      "net_income_margin_1y": 0.4629887388,
+      "future_revenue_growth_3y": 0.5097486535,
       "sector_pe": 18.400881901895076
     },
     "industry_benchmarks_meta": {
@@ -93,6 +145,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 74.69,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 18.400881901895076,
       "industry_name": "Finance",
       "industry_id": 26,
@@ -182,6 +236,24 @@
         "value": 3.055973684210527,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/apm-finvest-ltd-1568950220978"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 18.400881901895076,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/apm-finvest-ltd-1568950220978"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.4629887388,
+        "fetched_at": "2026-05-25T21:40:43.793Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-mufin/mufin-green-finance-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.5097486535,
+        "fetched_at": "2026-05-25T21:40:43.793Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-mufin/mufin-green-finance-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -321,7 +393,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

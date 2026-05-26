@@ -181,6 +181,8 @@
     "dividend_yield_pct": 0.05,
     "industry_benchmarks": {
       "pe": 40.392941562985385,
+      "net_income_margin_1y": 0.104653149,
+      "future_revenue_growth_3y": 0.483798988,
       "sector_pe": 40.392941562985385
     },
     "industry_benchmarks_meta": {
@@ -196,6 +198,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 29.27,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 40.392941562985385,
       "industry_name": "Chemicals",
       "industry_id": 14,
@@ -285,6 +289,24 @@
         "value": 1.1106860946745565,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/vishnu-chemicals-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 40.392941562985385,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/vishnu-chemicals-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.104653149,
+        "fetched_at": "2026-05-25T23:53:05.792Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-vishnu/vishnu-chemicals-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.483798988,
+        "fetched_at": "2026-05-25T23:53:05.792Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-vishnu/vishnu-chemicals-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -424,7 +446,7 @@
       "5Y": null
     },
     "next_earnings_date": "2026-05-30",
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

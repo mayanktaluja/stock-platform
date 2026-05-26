@@ -28,6 +28,55 @@
       "dividend": 0
     },
     "snowflake_total": 14,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 4,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "title": "Interest Coverage",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Growing Dividend",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 381.95,
     "market_cap_inr": 35028600000,
     "market_cap_usd": 127196762990.178,
@@ -183,9 +232,9 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 0.275795045,
-      "net_income_margin_1y": 0.1791169576,
       "pe": 31.6218471625948,
+      "net_income_margin_1y": 0.1791169576,
+      "future_revenue_growth_3y": 0.275795045,
       "sector_pe": 31.6218471625948
     },
     "industry_benchmarks_meta": {
@@ -201,6 +250,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 82.46,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 31.6218471625948,
       "industry_name": "Realty",
       "industry_id": 51,
@@ -294,6 +345,24 @@
         "value": -0.0881131070047271,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/kolte-patil-developers-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 31.6218471625948,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/kolte-patil-developers-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_primary_industry",
+        "value": 0.1791169576,
+        "fetched_at": "2026-05-25T21:08:41.447Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-koltepatil/kolte-patil-developers-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_primary_industry",
+        "value": 0.275795045,
+        "fetched_at": "2026-05-25T21:08:41.447Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-koltepatil/kolte-patil-developers-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

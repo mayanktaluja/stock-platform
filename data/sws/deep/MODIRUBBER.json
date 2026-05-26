@@ -28,6 +28,56 @@
       "dividend": 0
     },
     "snowflake_total": 6,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 13,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 133.15,
     "market_cap_inr": 3223600000,
     "market_cap_usd": 127196762990.178,
@@ -81,6 +131,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 35.65827264919344,
+      "net_income_margin_1y": 0.06791655765,
+      "future_revenue_growth_3y": 2.045603875,
       "sector_pe": 35.65827264919344
     },
     "industry_benchmarks_meta": {
@@ -96,6 +148,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 20.57,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 35.65827264919344,
       "industry_name": "Miscellaneous",
       "industry_id": 39,
@@ -185,6 +239,24 @@
         "value": 0.4067863636363638,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/modi-rubber-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 35.65827264919344,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/modi-rubber-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.06791655765,
+        "fetched_at": "2026-05-25T21:37:56.214Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-modirubber/modi-rubber-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 2.045603875,
+        "fetched_at": "2026-05-25T21:37:56.214Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-modirubber/modi-rubber-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

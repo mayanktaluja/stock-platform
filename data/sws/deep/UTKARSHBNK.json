@@ -28,6 +28,55 @@
       "dividend": 0
     },
     "snowflake_total": 13,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 4,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Health",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 2
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "title": "Allowance for Bad Loans",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Growing Dividend",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 13.42,
     "market_cap_inr": 23471900000,
     "market_cap_usd": 127196762990.178,
@@ -52,8 +101,8 @@
       "peg": -1.0519900232018562
     },
     "multiples_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -92,25 +141,32 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 0.2732363123,
+      "pe": 13.201131047130747,
       "net_income_margin_1y": 0.317409376,
+      "future_revenue_growth_3y": 0.2732363123,
       "sector_pe": 13.201131047130747
     },
     "industry_benchmarks_meta": {
-      "pe_source": "degraded",
-      "pe_source_label": "No usable P/E benchmark",
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": null,
-      "pe_industry_id": null,
-      "pe_source_url": null
+      "pe_industry_name": "Banks",
+      "pe_industry_id": 6,
+      "pe_source_url": "https://groww.in/stocks/utkarsh-small-finance-bank-ltd"
     },
     "pe_benchmark_source": {
-      "provider": "degraded",
-      "label": "No usable P/E benchmark",
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
       "company_pe": null,
-      "industry_pe": null,
-      "reason": "groww_sws_and_internal_benchmarks_missing"
+      "company_pe_source": null,
+      "company_pe_source_label": null,
+      "industry_pe": 13.201131047130747,
+      "industry_name": "Banks",
+      "industry_id": 6,
+      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "url": "https://groww.in/stocks/utkarsh-small-finance-bank-ltd",
+      "search_id": "utkarsh-small-finance-bank-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
@@ -192,6 +248,24 @@
         "value": -1.0519900232018562,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/utkarsh-small-finance-bank-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 13.201131047130747,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/utkarsh-small-finance-bank-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_primary_industry",
+        "value": 0.317409376,
+        "fetched_at": "2026-05-25T23:43:59.401Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-utkarshbnk/utkarsh-small-finance-bank-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_primary_industry",
+        "value": 0.2732363123,
+        "fetched_at": "2026-05-25T23:43:59.401Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-utkarshbnk/utkarsh-small-finance-bank-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

@@ -28,6 +28,53 @@
       "dividend": 0
     },
     "snowflake_total": 17,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 3,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Dividends",
+          "title": "Growing Dividend",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Stable Dividend",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Earnings Coverage",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 209.69,
     "market_cap_inr": 32859200000,
     "market_cap_usd": 127196762990.178,
@@ -81,6 +128,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 22.73287436584585,
+      "net_income_margin_1y": 0.06882117621,
+      "future_revenue_growth_3y": 0.448884466,
       "sector_pe": 22.73287436584585
     },
     "industry_benchmarks_meta": {
@@ -96,6 +145,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 15.78,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 22.73287436584585,
       "industry_name": "Infrastructure Developers & Operators",
       "industry_id": 32,
@@ -185,6 +236,24 @@
         "value": 0.74398354978355,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/enviro-infra-engineers-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 22.73287436584585,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/enviro-infra-engineers-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.06882117621,
+        "fetched_at": "2026-05-25T23:17:43.339Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-eiel/enviro-infra-engineers-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.448884466,
+        "fetched_at": "2026-05-25T23:17:43.339Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-eiel/enviro-infra-engineers-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

@@ -28,6 +28,43 @@
       "dividend": 2
     },
     "snowflake_total": 14,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 1,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 1
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Dividends",
+          "title": "Earnings Coverage",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 467,
     "market_cap_inr": 73648700000,
     "market_cap_usd": 127196762990.178,
@@ -109,6 +146,8 @@
     "dividend_yield_pct": 15.25,
     "industry_benchmarks": {
       "pe": 54.04007586882036,
+      "net_income_margin_1y": 0.16452845,
+      "future_revenue_growth_3y": 1.244034556,
       "sector_pe": 54.04007586882036
     },
     "industry_benchmarks_meta": {
@@ -124,6 +163,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 228.16,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 54.04007586882036,
       "industry_name": "Quick Service Restaurant",
       "industry_id": 84,
@@ -213,6 +254,24 @@
         "value": -10.844154098360656,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/westlife-development-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 54.04007586882036,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/westlife-development-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.16452845,
+        "fetched_at": "2026-05-25T23:59:27.944Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-westlife/westlife-foodworld-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 1.244034556,
+        "fetched_at": "2026-05-25T23:59:27.944Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-westlife/westlife-foodworld-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

@@ -21,7 +21,10 @@
 import { test, expect } from "@playwright/test";
 import { gotoApp, waitForPicksLoaded } from "./helpers/app.mjs";
 
-async function mockThinSwsStock(page, dataQuality) {
+async function mockThinSwsStock(page, dataQuality, overrides = {}) {
+  const ticker = overrides.ticker || "THINTEST";
+  const name = overrides.name || "Thin Test Ltd";
+  const sector = overrides.sector || "Test";
   const overview = {
     snowflake: { valuation: 4, future_growth: 0, future: 0, past_performance: 3, past: 3, financial_health: 5, dividends: 2 },
     snowflake_total: 14,
@@ -34,25 +37,26 @@ async function mockThinSwsStock(page, dataQuality) {
     rewards: [],
     risks: [],
   };
+  Object.assign(overview, overrides.overview || {});
   if (dataQuality !== undefined) overview.snowflake_data_quality = dataQuality;
-  await page.route("**/api/sws-stock/THINTEST", (route) =>
+  await page.route(`**/api/sws-stock/${ticker}`, (route) =>
     route.fulfill({
       status: 200,
       contentType: "application/json",
       body: JSON.stringify({
-        ticker: "THINTEST",
+        ticker,
         deep: {
-          ticker: "THINTEST",
-          name: "Thin Test Ltd",
-          sector: "Test",
+          ticker,
+          name,
+          sector,
           parsed_at: "2026-05-26T00:00:00.000Z",
           sws_url: "https://simplywall.st/stocks/in/test/thintest",
           overview,
         },
         card: {
-          ticker: "THINTEST",
-          name: "Thin Test Ltd",
-          sector: "Test",
+          ticker,
+          name,
+          sector,
           v4_score_100: 41,
           v4_verdict: "ACCEPTABLE",
           composite_verdict: "ACCEPTABLE",
@@ -83,7 +87,7 @@ async function mockThinSwsStock(page, dataQuality) {
       }),
     }),
   );
-  await page.route("**/api/track/history?symbol=THINTEST", (route) =>
+  await page.route(`**/api/track/history?symbol=${ticker}`, (route) =>
     route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ trades: [] }) }),
   );
 }
@@ -183,6 +187,68 @@ test.describe("Stock detail modal (SWS)", () => {
     await page.evaluate(() => window.openSwsModal("THINTEST"));
     await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
     await expect(body.locator('[data-testid="sws-snowflake-data-warning"]')).toHaveCount(0);
+  });
+
+  test("renders raw zero and negative own P/E values in stock modal", async ({ page }) => {
+    await mockThinSwsStock(page, undefined, {
+      ticker: "PENEG",
+      name: "Negative P/E Ltd",
+      overview: {
+        multiples: { pe: -12.3 },
+        industry_benchmarks: { pe: 20 },
+        pe_benchmark_source: { provider: "groww_refinitiv", label: "Groww/Refinitiv", industry_name: "Test", industry_pe: 20, company_pe: -12.3 },
+        multiples_meta: { pe_source: "groww_refinitiv", pe_source_label: "Groww/Refinitiv" },
+      },
+    });
+    await mockThinSwsStock(page, undefined, {
+      ticker: "PEZERO",
+      name: "Zero P/E Ltd",
+      overview: {
+        multiples: { pe: 0 },
+        industry_benchmarks: { pe: 20 },
+        pe_benchmark_source: { provider: "groww_refinitiv", label: "Groww/Refinitiv", industry_name: "Test", industry_pe: 20, company_pe: 0 },
+        multiples_meta: { pe_source: "groww_refinitiv", pe_source_label: "Groww/Refinitiv" },
+      },
+    });
+    await gotoApp(page, { tab: "picks" });
+
+    await page.evaluate(() => window.openSwsModal("PENEG"));
+    const body = page.locator("#swsModalBody");
+    await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
+    await expect(body).toContainText("-12.3x");
+
+    await page.evaluate(() => window.openSwsModal("PEZERO"));
+    await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
+    await expect(body).toContainText("0.0x");
+  });
+
+  test("renders WALCHANNAG-shaped peer benchmarks when own P/E is unavailable", async ({ page }) => {
+    await mockThinSwsStock(page, undefined, {
+      ticker: "WALCHANNAG",
+      name: "Walchandnagar Industries Limited",
+      sector: "Capital Goods",
+      overview: {
+        multiples: { pe: null, pb: 4.38, ps: 5.7, ev_ebitda: 0 },
+        net_margin_pct: 0,
+        industry_benchmarks: {
+          pe: 44.85265749196877,
+          net_income_margin_1y: 0.1061182964,
+          future_revenue_growth_3y: 0.5701956747,
+        },
+        pe_benchmark_source: { provider: "groww_refinitiv", label: "Groww/Refinitiv", industry_name: "Capital Goods", industry_pe: 44.85265749196877, company_pe: null },
+      },
+    });
+    await gotoApp(page, { tab: "picks" });
+    await page.evaluate(() => window.openSwsModal("WALCHANNAG"));
+
+    const body = page.locator("#swsModalBody");
+    await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
+    await expect(body).toContainText("P/E");
+    await expect(body).toContainText("vs Groww Capital Goods 44.9x");
+    await expect(body).toContainText("Net margin (1Y)");
+    await expect(body).toContainText("10.6%");
+    await expect(body).toContainText("Future rev growth (3Y)");
+    await expect(body).toContainText("57.0%");
   });
 
   test("cached quick stats render ownership metrics when available", async ({ page, request }) => {

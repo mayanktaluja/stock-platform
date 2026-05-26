@@ -28,6 +28,55 @@
       "dividend": 0
     },
     "snowflake_total": 7,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 1.28,
     "market_cap_inr": 675500000,
     "market_cap_usd": 127196762990.178,
@@ -80,6 +129,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 56.05914496503882,
+      "net_income_margin_1y": 0.05009994868,
+      "future_revenue_growth_3y": 0.1609628151,
       "sector_pe": 56.05914496503882
     },
     "industry_benchmarks_meta": {
@@ -95,6 +146,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 122,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 56.05914496503882,
       "industry_name": "Trading",
       "industry_id": 64,
@@ -184,6 +237,24 @@
         "value": 0,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/generic-pharmasec-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 56.05914496503882,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/generic-pharmasec-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.05009994868,
+        "fetched_at": "2026-05-25T22:43:54.893Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-531592/genpharmasec-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.1609628151,
+        "fetched_at": "2026-05-25T22:43:54.893Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-531592/genpharmasec-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

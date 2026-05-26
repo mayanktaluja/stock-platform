@@ -28,6 +28,43 @@
       "dividend": 4
     },
     "snowflake_total": 16,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 1,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Health"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Health",
+          "title": "Interest Coverage",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 308.55,
     "market_cap_inr": 416296400000,
     "market_cap_usd": 127196762990.178,
@@ -212,9 +249,9 @@
     },
     "dividend_yield_pct": 2.5,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 0.3290993459,
-      "net_income_margin_1y": 0.2556997109,
       "pe": 18.400881901895076,
+      "net_income_margin_1y": 0.2556997109,
+      "future_revenue_growth_3y": 0.3290993459,
       "sector_pe": 18.400881901895076
     },
     "industry_benchmarks_meta": {
@@ -230,6 +267,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 14.55,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 18.400881901895076,
       "industry_name": "Finance",
       "industry_id": 26,
@@ -323,6 +362,24 @@
         "value": 0.9456249027237359,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/mahindra-mahindra-financial-services-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 18.400881901895076,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/mahindra-mahindra-financial-services-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_primary_industry",
+        "value": 0.2556997109,
+        "fetched_at": "2026-05-25T21:23:25.261Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-m-mfin/mahindra-mahindra-financial-services-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_primary_industry",
+        "value": 0.3290993459,
+        "fetched_at": "2026-05-25T21:23:25.261Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-m-mfin/mahindra-mahindra-financial-services-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
@@ -462,7 +519,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

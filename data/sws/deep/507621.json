@@ -28,6 +28,54 @@
       "dividend": 1
     },
     "snowflake_total": 11,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 68.6,
     "market_cap_inr": 1668000000,
     "market_cap_usd": 127196762990.178,
@@ -55,9 +103,9 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-25T20:55:01.758Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-507621/milkfood-shares"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
@@ -121,24 +169,32 @@
     },
     "dividend_yield_pct": 1.83,
     "industry_benchmarks": {
-      "pe": 19.2,
+      "pe": 47.95404921040772,
+      "net_income_margin_1y": 0.06956157108,
+      "future_revenue_growth_3y": 0.3764863668,
       "sector_pe": 47.95404921040772
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
-      "pe_as_of": null,
+      "pe_source": "groww_refinitiv",
+      "pe_source_label": "Groww/Refinitiv",
+      "pe_as_of": "2026-05-24T18:33:37.371Z",
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Indian Food",
-      "pe_industry_id": null,
-      "pe_source_url": null
+      "pe_industry_name": "FMCG",
+      "pe_industry_id": 27,
+      "pe_source_url": "https://groww.in/stocks/milkfood-ltd"
     },
     "pe_benchmark_source": {
-      "provider": "sws_statement",
-      "label": "SWS visible statement",
+      "provider": "groww_refinitiv",
+      "label": "Groww/Refinitiv",
       "company_pe": 3.8,
-      "industry_pe": 19.2,
-      "industry_name": "Indian Food"
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 47.95404921040772,
+      "industry_name": "FMCG",
+      "industry_id": 27,
+      "fetched_at": "2026-05-24T18:33:37.371Z",
+      "url": "https://groww.in/stocks/milkfood-ltd",
+      "search_id": "milkfood-ltd"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
@@ -193,6 +249,12 @@
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/milkfood-ltd"
       },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 3.8,
+        "fetched_at": "2026-05-25T20:55:01.758Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-507621/milkfood-shares"
+      },
       "multiples.pb": {
         "provider": "groww_refinitiv",
         "value": 0.99,
@@ -216,6 +278,24 @@
         "value": -0.39551654197838737,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/milkfood-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 47.95404921040772,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/milkfood-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.06956157108,
+        "fetched_at": "2026-05-25T20:55:01.758Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-507621/milkfood-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.3764863668,
+        "fetched_at": "2026-05-25T20:55:01.758Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-507621/milkfood-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

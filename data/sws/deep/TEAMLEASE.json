@@ -28,6 +28,53 @@
       "dividend": 0
     },
     "snowflake_total": 17,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 3,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Dividends",
+          "title": "Growing Dividend",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Stable Dividend",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "title": "Earnings Coverage",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 1394.4,
     "market_cap_inr": 23199800000,
     "market_cap_usd": 127196762990.178,
@@ -79,9 +126,9 @@
     },
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
-      "future_revenue_growth_3y": 0.3719090533,
-      "net_income_margin_1y": 0.07200008838,
       "pe": 35.65827264919344,
+      "net_income_margin_1y": 0.07200008838,
+      "future_revenue_growth_3y": 0.3719090533,
       "sector_pe": 35.65827264919344
     },
     "industry_benchmarks_meta": {
@@ -97,6 +144,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 16.41,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 35.65827264919344,
       "industry_name": "Miscellaneous",
       "industry_id": 39,
@@ -190,6 +239,24 @@
         "value": -14.318058015267153,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/teamlease-services-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 35.65827264919344,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/teamlease-services-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_primary_industry",
+        "value": 0.07200008838,
+        "fetched_at": "2026-05-25T23:26:35.892Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-teamlease/teamlease-services-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_primary_industry",
+        "value": 0.3719090533,
+        "fetched_at": "2026-05-25T23:26:35.892Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-teamlease/teamlease-services-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

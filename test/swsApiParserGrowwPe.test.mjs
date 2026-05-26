@@ -126,6 +126,60 @@ check("Groww P/E is canonical over stale SWS primaryIndustry benchmark", () => {
   assert.equal(parsed.overview.pe_benchmark_audit.sws_primary_industry.industry_pe, 22.616750576);
 });
 
+check("Groww negative own P/E is retained for display while peer P/E still comes from Groww", () => {
+  const parsed = parseStock(baseApi(), {
+    growwPeMap: new Map([["JSLL", {
+      searchId: "jeena-sikho-lifecare-ltd",
+      industryName: "Pharmaceuticals",
+      peRatio: -12.3,
+      industryPe: 45.29762059479049,
+      fetchedAt: "2026-05-24T12:00:00.000Z",
+      url: "https://groww.in/stocks/jeena-sikho-lifecare-ltd",
+    }]]),
+    internalIndustryPeMap: new Map(),
+  });
+  assert.equal(parsed.overview.multiples.pe, -12.3);
+  assert.equal(parsed.overview.industry_benchmarks.pe, 45.29762059479049);
+  assert.equal(parsed.overview.multiples_meta.pe_source, "groww_refinitiv");
+  assert.equal(parsed.overview.pe_benchmark_source.provider, "groww_refinitiv");
+});
+
+check("Groww zero own P/E is retained for display", () => {
+  const parsed = parseStock(baseApi(), {
+    growwPeMap: new Map([["JSLL", {
+      searchId: "jeena-sikho-lifecare-ltd",
+      industryName: "Pharmaceuticals",
+      peRatio: 0,
+      industryPe: 45.29762059479049,
+      fetchedAt: "2026-05-24T12:00:00.000Z",
+      url: "https://groww.in/stocks/jeena-sikho-lifecare-ltd",
+    }]]),
+    internalIndustryPeMap: new Map(),
+  });
+  assert.equal(parsed.overview.multiples.pe, 0);
+  assert.equal(parsed.overview.industry_benchmarks.pe, 45.29762059479049);
+  assert.equal(parsed.overview.source_map["multiples.pe"].provider, "groww_refinitiv");
+});
+
+check("Groww null own P/E remains unavailable while Groww industry P/E still populates the peer benchmark", () => {
+  const parsed = parseStock(baseApi({ ticker: "WALCHANNAG", statementDescription: null, includeIndustryApi: false, includePrimaryIndustryPe: false }), {
+    growwPeMap: new Map([["WALCHANNAG", {
+      searchId: "walchandnagar-industries-ltd",
+      industryName: "Capital Goods",
+      peRatio: null,
+      industryPe: 44.85265749196877,
+      epsTtm: -2.16,
+      fetchedAt: "2026-05-24T12:00:00.000Z",
+      url: "https://groww.in/stocks/walchandnagar-industries-ltd",
+    }]]),
+    internalIndustryPeMap: new Map(),
+  });
+  assert.equal(parsed.overview.multiples.pe, null);
+  assert.equal(parsed.overview.industry_benchmarks.pe, 44.85265749196877);
+  assert.equal(parsed.overview.multiples_meta.pe_source, null);
+  assert.equal(parsed.overview.pe_benchmark_source.provider, "groww_refinitiv");
+});
+
 check("Groww stock cache enriches fundamentals but SWS remains canonical for price", () => {
   const parsed = parseStock(baseApi({ includeFiscal: true }), {
     growwStockMap: new Map([["JSLL", {
@@ -214,14 +268,38 @@ check("SWS return horizons use the previous trading bar for 1D across weekends",
   assert.equal(Number(parsed.overview.returns_pct["1Y"].toFixed(3)), -9.446);
 });
 
-check("SWS visible statement is the first fallback when Groww is missing", () => {
-  const parsed = parseStock(baseApi(), {
+check("SWS visible statement is the fallback when Groww and SWS REST benchmarks are missing", () => {
+  const parsed = parseStock(baseApi({ includeIndustryApi: false }), {
     growwPeMap: new Map(),
     internalIndustryPeMap: new Map(),
   });
   assert.equal(parsed.overview.multiples.pe, 37.9);
   assert.equal(parsed.overview.industry_benchmarks.pe, 38.7);
   assert.equal(parsed.overview.pe_benchmark_source.provider, "sws_statement");
+});
+
+check("SWS REST fills peer net margin and future revenue growth when primary industry averages are absent", () => {
+  const api = baseApi({
+    statementDescription: null,
+    includeIndustryApi: true,
+    includePrimaryIndustryPe: false,
+    includeFiscal: true,
+  });
+  api.rest.industry.data.company.data = [
+    { industry: 3070000 },
+    { name: "pe", value: 26.36236382, count: 216, industry: 3070000, type: "median_profitable", source: { name: "India" } },
+    { name: "net_income_margin_1y", value: 0.1061182964, count: 44, industry: 3070000, type: "median_profitable", source: { name: "India" } },
+    { name: "future_revenue_growth_3y", value: 0.5701956747, count: 29, industry: 3070000, type: "avg_weighted_market_cap", source: { name: "India" } },
+  ];
+  const parsed = parseStock(api, {
+    growwPeMap: new Map(),
+    internalIndustryPeMap: new Map(),
+  });
+  assert.equal(parsed.overview.industry_benchmarks.pe, 26.36236382);
+  assert.equal(parsed.overview.industry_benchmarks.net_income_margin_1y, 0.1061182964);
+  assert.equal(parsed.overview.industry_benchmarks.future_revenue_growth_3y, 0.5701956747);
+  assert.equal(parsed.overview.source_map["industry_benchmarks.net_income_margin_1y"].provider, "sws_industry_api");
+  assert.equal(parsed.overview.source_map["industry_benchmarks.future_revenue_growth_3y"].provider, "sws_industry_api");
 });
 
 check("SWS industry API fallback uses computed company P/E plus industry median", () => {

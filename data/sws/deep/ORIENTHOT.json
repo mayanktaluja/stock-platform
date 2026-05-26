@@ -28,6 +28,54 @@
       "dividend": 4
     },
     "snowflake_total": 14,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 99.69,
     "market_cap_inr": 17597400000,
     "market_cap_usd": 127196762990.178,
@@ -157,6 +205,8 @@
     "dividend_yield_pct": 0.66,
     "industry_benchmarks": {
       "pe": 34.96977353291087,
+      "net_income_margin_1y": 0.16452845,
+      "future_revenue_growth_3y": 1.244034556,
       "sector_pe": 34.96977353291087
     },
     "industry_benchmarks_meta": {
@@ -172,6 +222,8 @@
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
       "company_pe": 25.93,
+      "company_pe_source": "groww_refinitiv",
+      "company_pe_source_label": "Groww/Refinitiv",
       "industry_pe": 34.96977353291087,
       "industry_name": "Hotels & Restaurants",
       "industry_id": 31,
@@ -261,6 +313,24 @@
         "value": -4.131909090909091,
         "fetched_at": "2026-05-24T18:33:37.371Z",
         "url": "https://groww.in/stocks/oriental-hotels-ltd"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "groww_refinitiv",
+        "value": 34.96977353291087,
+        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "url": "https://groww.in/stocks/oriental-hotels-ltd"
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.16452845,
+        "fetched_at": "2026-05-25T21:58:44.711Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-orienthot/oriental-hotels-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 1.244034556,
+        "fetched_at": "2026-05-25T21:58:44.711Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-orienthot/oriental-hotels-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",

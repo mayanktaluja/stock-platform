@@ -12781,12 +12781,10 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const sectorLabel = card_.sector || deep?.sector || null;
   const benchHtml = (ib && sectorLabel) ? (() => {
     const fmtFrac = (v) => v != null ? `${(v * 100).toFixed(1)}%` : "—";
-    const fmtMult = (v) => v != null ? `${v.toFixed(1)}x` : "—";
-    const clampMult = (v) => (v == null || !Number.isFinite(Number(v)) || v < -500 || v > 500) ? null : v;
+    const fmtMult = (v) => v != null && Number.isFinite(Number(v)) ? `${Number(v).toFixed(1)}x` : "—";
+    const finiteMult = (v) => (v == null || !Number.isFinite(Number(v))) ? null : Number(v);
     const ownNetMargin = ov.net_margin_pct != null ? ov.net_margin_pct / 100 : null;
-    // Sanity-clamp P/E (SWS occasionally publishes a stale 4-digit value, e.g.
-    // INFY = 1440x). Falls back to the fundamentals.json snapshot.
-    const ownPe = clampMult(mult.pe) ?? clampMult(fb.pe);
+    const ownPe = finiteMult(mult.pe) ?? finiteMult(fb.pe);
     const peMeta = ov.pe_benchmark_source || ov.industry_benchmarks_meta || {};
     const peProvider = (peMeta.provider || peMeta.pe_source) === "groww_refinitiv"
       ? "Groww"
@@ -12853,7 +12851,8 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     : `${quickStatsHasGroww ? "Groww/Refinitiv" : "SWS"}${quickStatsSourceDate ? ` · ${String(quickStatsSourceDate).slice(0, 10)}` : ""}`;
   const sane = (v, lo, hi) => (v == null || !Number.isFinite(Number(v)) || Number(v) < lo || Number(v) > hi) ? null : Number(v);
   const pickVal = (...vals) => { for (const v of vals) { if (v != null && Number.isFinite(Number(v))) return Number(v); } return null; };
-  const peVal = pickVal(sane(mult.pe, -500, 500), sane(fb.pe, -500, 500));
+  const finiteVal = (v) => (v == null || !Number.isFinite(Number(v))) ? null : Number(v);
+  const peVal = pickVal(finiteVal(mult.pe), finiteVal(fb.pe));
   const forwardPeVal = pickVal(sane(mult.forward_pe, -500, 500), sane(fb.forward_pe, -500, 500));
   const pbVal = pickVal(sane(mult.pb, 0, 100), sane(fb.pb, 0, 100));
   const psVal = pickVal(sane(mult.ps, 0, 100), sane(fb.ps, 0, 100));

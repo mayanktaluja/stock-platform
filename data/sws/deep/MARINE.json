@@ -21,6 +21,54 @@
       "dividend": 0
     },
     "snowflake_total": 11,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 238.02,
     "market_cap_inr": 32833525965.93638,
     "market_cap_usd": 127196762990.178,
@@ -44,9 +92,9 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-25T21:29:00.084Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/nse-marine/marine-electricals-india-shares"
     },
     "rewards": [
       "Earnings grew by 41.2% over the past year"
@@ -102,23 +150,30 @@
     },
     "dividend_yield_pct": 0.1486244197,
     "industry_benchmarks": {
-      "pe": 27.7
+      "pe": 27.744552369,
+      "net_income_margin_1y": 0.11408802,
+      "future_revenue_growth_3y": 0.8424484321
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Indian Electrical",
+      "pe_industry_name": "Capital Goods",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "sws_statement",
-      "label": "SWS visible statement",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": 60.4,
-      "industry_pe": 27.7,
-      "industry_name": "Indian Electrical"
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 27.744552369,
+      "industry_name": "Capital Goods",
+      "industry_code": "3050000",
+      "sample_count": 126,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -157,6 +212,30 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 238.02,
+        "fetched_at": "2026-05-25T21:29:00.084Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-marine/marine-electricals-india-shares"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 60.4,
+        "fetched_at": "2026-05-25T21:29:00.084Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-marine/marine-electricals-india-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 27.744552369,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.11408802,
+        "fetched_at": "2026-05-25T21:29:00.084Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-marine/marine-electricals-india-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.8424484321,
         "fetched_at": "2026-05-25T21:29:00.084Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-marine/marine-electricals-india-shares"
       }

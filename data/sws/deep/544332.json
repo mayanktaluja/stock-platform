@@ -21,6 +21,54 @@
       "dividend": 2
     },
     "snowflake_total": 8,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 7,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 1
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 0
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "Future ROE",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "title": "High Growth Earnings",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 356.5,
     "market_cap_inr": 4391852461.78934,
     "market_cap_usd": 127196762990.178,
@@ -44,9 +92,9 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-25T21:03:18.657Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/bse-544332/fabtech-technologies-cleanrooms-shares"
     },
     "rewards": [
       "Price-To-Earnings ratio (25.4x) is below the Building industry average (28.5x)",
@@ -83,23 +131,30 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 28.5
+      "pe": 28.525912627,
+      "net_income_margin_1y": 0.09023432364,
+      "future_revenue_growth_3y": 0.4909729808
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Indian Building",
+      "pe_industry_name": "Capital Goods",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "sws_statement",
-      "label": "SWS visible statement",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": 25.4,
-      "industry_pe": 28.5,
-      "industry_name": "Indian Building"
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 28.525912627,
+      "industry_name": "Capital Goods",
+      "industry_code": "3030000",
+      "sample_count": 55,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -138,6 +193,30 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 356.5,
+        "fetched_at": "2026-05-25T21:03:18.657Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-544332/fabtech-technologies-cleanrooms-shares"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 25.4,
+        "fetched_at": "2026-05-25T21:03:18.657Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-544332/fabtech-technologies-cleanrooms-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 28.525912627,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.09023432364,
+        "fetched_at": "2026-05-25T21:03:18.657Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-544332/fabtech-technologies-cleanrooms-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.4909729808,
         "fetched_at": "2026-05-25T21:03:18.657Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544332/fabtech-technologies-cleanrooms-shares"
       }

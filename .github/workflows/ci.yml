@@ -8,6 +8,7 @@ name: CI
 # reproduces that exact check by `import()`ing every prod entry point.
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
   pull_request:

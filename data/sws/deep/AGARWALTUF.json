@@ -21,6 +21,55 @@
       "dividend": 0
     },
     "snowflake_total": 12,
+    "snowflake_data_quality": {
+      "insufficient": true,
+      "insufficient_count": 12,
+      "checked_count": 30,
+      "affected_pillars": [
+        "Value",
+        "Future",
+        "Dividends"
+      ],
+      "by_pillar": {
+        "Value": {
+          "checked": 6,
+          "insufficient": 3
+        },
+        "Future": {
+          "checked": 6,
+          "insufficient": 6
+        },
+        "Past": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Health": {
+          "checked": 6,
+          "insufficient": 0
+        },
+        "Dividends": {
+          "checked": 6,
+          "insufficient": 3
+        }
+      },
+      "samples": [
+        {
+          "pillar": "Value",
+          "title": "PEG Ratio",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
+          "reason_code": "OUTCOME_NULL"
+        }
+      ]
+    },
     "current_price_inr": 123.25,
     "market_cap_inr": 2178394583.8957887,
     "market_cap_usd": 127196762990.178,
@@ -44,9 +93,9 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-05-25T21:28:10.456Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/nse-agarwaltuf/agarwal-toughened-glass-india-shares"
     },
     "rewards": [
       "Price-To-Earnings ratio (9.5x) is below the Indian market (23.4x)",
@@ -68,23 +117,30 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 26.6
+      "pe": 26.636350048,
+      "net_income_margin_1y": 0.09023432364,
+      "future_revenue_growth_3y": 0.4909729808
     },
     "industry_benchmarks_meta": {
-      "pe_source": "sws_statement",
-      "pe_source_label": "SWS visible statement",
+      "pe_source": "sws_industry_api",
+      "pe_source_label": "SWS industry API",
       "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Indian Building",
+      "pe_industry_name": "Capital Goods",
       "pe_industry_id": null,
       "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "sws_statement",
-      "label": "SWS visible statement",
+      "provider": "sws_industry_api",
+      "label": "SWS industry API",
       "company_pe": 9.5,
-      "industry_pe": 26.6,
-      "industry_name": "Indian Building"
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 26.636350048,
+      "industry_name": "Capital Goods",
+      "industry_code": "3030000",
+      "sample_count": 55,
+      "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
@@ -123,6 +179,30 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 123.25,
+        "fetched_at": "2026-05-25T21:28:10.456Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-agarwaltuf/agarwal-toughened-glass-india-shares"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 9.5,
+        "fetched_at": "2026-05-25T21:28:10.456Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-agarwaltuf/agarwal-toughened-glass-india-shares"
+      },
+      "industry_benchmarks.pe": {
+        "provider": "sws_industry_api",
+        "value": 26.636350048,
+        "fetched_at": null,
+        "url": null
+      },
+      "industry_benchmarks.net_income_margin_1y": {
+        "provider": "sws_industry_api",
+        "value": 0.09023432364,
+        "fetched_at": "2026-05-25T21:28:10.456Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-agarwaltuf/agarwal-toughened-glass-india-shares"
+      },
+      "industry_benchmarks.future_revenue_growth_3y": {
+        "provider": "sws_industry_api",
+        "value": 0.4909729808,
         "fetched_at": "2026-05-25T21:28:10.456Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-agarwaltuf/agarwal-toughened-glass-india-shares"
       }
