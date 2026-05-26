@@ -3,12 +3,12 @@
   "name": "The Lakshmi Mills Company Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-502958/lakshmi-mills-shares",
-  "parsed_at": "2026-05-25T20:42:22.078Z",
+  "parsed_at": "2026-05-26T11:10:02.893Z",
   "company_id": "B3267A9E-2F9B-4B7B-8794-0687E90CB4D2",
   "classification_status": "Active",
   "groww_source": {
     "provider": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/lakshmi-mills-company-ltd",
     "search_id": "lakshmi-mills-company-ltd",
     "company_id": "GSTK502958",
@@ -30,17 +30,16 @@
     "snowflake_total": 6,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 11,
+      "insufficient_count": 7,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
-        "Future",
-        "Dividends"
+        "Future"
       ],
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 3
+          "insufficient": 1
         },
         "Future": {
           "checked": 6,
@@ -56,7 +55,7 @@
         },
         "Dividends": {
           "checked": 6,
-          "insufficient": 2
+          "insufficient": 0
         }
       },
       "samples": [
@@ -66,19 +65,19 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "Future ROE",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Significantly Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "High Growth Earnings",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
-    "current_price_inr": 7503.35,
-    "market_cap_inr": 5320900000,
+    "current_price_inr": 7531,
+    "market_cap_inr": 5222300000,
     "market_cap_usd": 127196762990.178,
     "market_cap_band": null,
     "shares_outstanding": null,
@@ -92,17 +91,17 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -99.27217444208254,
+    "upside_pct": -99.27484664719161,
     "multiples": {
       "pe": null,
       "ps": 2.2,
-      "pb": 0.75,
+      "pb": 0.73,
       "ev_ebitda": 20.76,
       "peg": 0
     },
     "multiples_meta": {
-      "pe_source": null,
-      "pe_source_label": null,
+      "pe_source": "degraded",
+      "pe_source_label": "No usable P/E benchmark",
       "pe_source_text": null,
       "pe_as_of": null,
       "pe_basis": "trailing_ttm",
@@ -215,40 +214,31 @@
     },
     "dividend_yield_pct": 0.13,
     "industry_benchmarks": {
-      "pe": 53.672860099337726,
-      "net_income_margin_1y": 0.05940434707,
-      "future_revenue_growth_3y": 0.4038345092,
-      "sector_pe": 53.672860099337726
+      "sector_pe": 53.669972228315494
     },
     "industry_benchmarks_meta": {
-      "pe_source": "groww_refinitiv",
-      "pe_source_label": "Groww/Refinitiv",
-      "pe_as_of": "2026-05-24T18:33:37.371Z",
+      "pe_source": "degraded",
+      "pe_source_label": "No usable P/E benchmark",
+      "pe_as_of": null,
       "pe_basis": "provider_per_stock_benchmark",
-      "pe_industry_name": "Textiles",
-      "pe_industry_id": 62,
-      "pe_source_url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
+      "pe_industry_name": null,
+      "pe_industry_id": null,
+      "pe_source_url": null
     },
     "pe_benchmark_source": {
-      "provider": "groww_refinitiv",
-      "label": "Groww/Refinitiv",
+      "provider": "degraded",
+      "label": "No usable P/E benchmark",
       "company_pe": null,
-      "company_pe_source": null,
-      "company_pe_source_label": null,
-      "industry_pe": 53.672860099337726,
-      "industry_name": "Textiles",
-      "industry_id": 62,
-      "fetched_at": "2026-05-24T18:33:37.371Z",
-      "url": "https://groww.in/stocks/lakshmi-mills-company-ltd",
-      "search_id": "lakshmi-mills-company-ltd"
+      "industry_pe": null,
+      "reason": "groww_sws_and_internal_benchmarks_missing"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": {
         "company_pe": null,
-        "industry_pe": 53.672860099337726,
+        "industry_pe": 53.669972228315494,
         "industry_name": "Textiles",
         "industry_id": 62,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "sws_statement": {
@@ -272,7 +262,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.5,
+        "industry_pe": 17,
         "sample_count": 295,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
@@ -285,68 +275,50 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 7503.35,
-        "fetched_at": "2026-05-25T20:42:22.078Z",
+        "value": 7531,
+        "fetched_at": "2026-05-26T11:10:02.893Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-502958/lakshmi-mills-shares"
       },
       "market_cap_inr": {
         "provider": "groww_refinitiv",
-        "value": 5320900000,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 5222300000,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
-        "value": 0.75,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 0.73,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "multiples.ps": {
         "provider": "groww_refinitiv",
         "value": 2.2,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "multiples.ev_ebitda": {
         "provider": "groww_refinitiv",
         "value": 20.76,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "multiples.peg": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
-      },
-      "industry_benchmarks.pe": {
-        "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
-        "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
-      },
-      "industry_benchmarks.net_income_margin_1y": {
-        "provider": "sws_industry_api",
-        "value": 0.05940434707,
-        "fetched_at": "2026-05-25T20:42:22.078Z",
-        "url": "https://simplywall.st/stocks/in/consumer-durables/bse-502958/lakshmi-mills-shares"
-      },
-      "industry_benchmarks.future_revenue_growth_3y": {
-        "provider": "sws_industry_api",
-        "value": 0.4038345092,
-        "fetched_at": "2026-05-25T20:42:22.078Z",
-        "url": "https://simplywall.st/stocks/in/consumer-durables/bse-502958/lakshmi-mills-shares"
       },
       "industry_benchmarks.sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "dividend.yield_pct": {
         "provider": "groww_refinitiv",
         "value": 0.13,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "fifty_two_week": {
@@ -355,85 +327,85 @@
           "low": 5756.95,
           "high": 10059
         },
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "book_value": {
         "provider": "groww_refinitiv",
         "value": 10234.4827586,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "face_value": {
         "provider": "groww_refinitiv",
         "value": 100,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "sector_pe": {
         "provider": "groww_refinitiv",
-        "value": 53.672860099337726,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "value": 53.669972228315494,
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "roe_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "roa_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "roic_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "net_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 0,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "operating_margin_pct": {
         "provider": "groww_refinitiv",
         "value": 12.950711214025803,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "debt_to_equity_pct": {
         "provider": "groww_refinitiv",
         "value": 11.41,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "debt_to_asset_pct": {
         "provider": "groww_refinitiv",
         "value": 9.048308103294746,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "current_ratio": {
         "provider": "groww_refinitiv",
         "value": 2.0492,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "quick_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.49485142689026185,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       },
       "cash_ratio": {
         "provider": "groww_refinitiv",
         "value": 0.04457193292144748,
-        "fetched_at": "2026-05-24T18:33:37.371Z",
+        "fetched_at": "2026-05-26T16:13:44.842Z",
         "url": "https://groww.in/stocks/lakshmi-mills-company-ltd"
       }
     },
@@ -444,11 +416,11 @@
     "latest_net_income": null,
     "latest_eps": null,
     "most_recent_reported_date": null,
-    "pb": 0.75,
+    "pb": 0.73,
     "ps": 2.2,
     "book_value": 10234.4827586,
     "face_value": 100,
-    "sector_pe": 53.672860099337726,
+    "sector_pe": 53.669972228315494,
     "roe_pct": 0,
     "roa_pct": 0,
     "roic_pct": 0,
@@ -460,12 +432,12 @@
     "quick_ratio": 0.49485142689026185,
     "cash_ratio": 0.04457193292144748,
     "returns_pct": {
-      "1D": -1.8528449967298841,
-      "7D": -1.3547801851072687,
-      "1M": -0.3982292074575056,
-      "3M": -0.25324364564499724,
-      "6M": -9.576403952759696,
-      "1Y": 26.850771753647447,
+      "1D": 0.36850206907580796,
+      "7D": 0.18557811907596486,
+      "1M": -0.03119462125084277,
+      "3M": -0.9658818191979673,
+      "6M": -9.020072121918657,
+      "1Y": 27.318219472198262,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -766,7 +738,7 @@
   },
   "groww": {
     "source": "groww_refinitiv",
-    "fetched_at": "2026-05-24T18:33:37.371Z",
+    "fetched_at": "2026-05-26T16:13:44.842Z",
     "url": "https://groww.in/stocks/lakshmi-mills-company-ltd",
     "news": [
       {
@@ -841,7 +813,7 @@
         "ticker": "SANATHAN",
         "name": "Sanathan Textiles",
         "searchId": "sanathan-textiles-ltd",
-        "market_cap_inr": 34420000000,
+        "market_cap_inr": 34010600000,
         "pe": 44.52,
         "pb": 1.84
       },
@@ -849,17 +821,17 @@
         "ticker": "NITINSPIN",
         "name": "Nitin Spinners",
         "searchId": "nitin-spinners-ltd",
-        "market_cap_inr": 28025700000,
-        "pe": 15.79,
-        "pb": 1.91
+        "market_cap_inr": 28200000000,
+        "pe": 15.88,
+        "pb": 1.92
       },
       {
-        "ticker": "GANECOS",
-        "name": "Ganesha Ecosphere",
-        "searchId": "ganesha-ecosphere-ltd",
-        "market_cap_inr": 25558000000,
-        "pe": 66.89,
-        "pb": 2
+        "ticker": "SANGAMIND",
+        "name": "Sangam (India)",
+        "searchId": "sangam-india-ltd",
+        "market_cap_inr": 25726200000,
+        "pe": 30.23,
+        "pb": 2.32
       }
     ],
     "details": {
